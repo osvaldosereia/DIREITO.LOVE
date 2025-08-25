@@ -1,0 +1,34 @@
+name: Pages HTTPS Check
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  check-pages-https:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check GitHub Pages HTTPS enforcement
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            try {
+              const res = await github.rest.repos.getPages({ owner, repo });
+              const https = res.data.https_enforced;
+              const cname = res.data.custom_domain || "(none)";
+              const status = res.data.status || "(unknown)";
+              core.info(`Pages status: ${status}`);
+              core.info(`Custom domain: ${cname}`);
+              if (https) {
+                core.info("GitHub Pages: HTTPS is enforced ✅");
+              } else {
+                core.warning("GitHub Pages: HTTPS is NOT enforced ❌. Ative em Settings → Pages → Enforce HTTPS.");
+              }
+            } catch (err) {
+              core.warning("Não foi possível ler as configurações do Pages. Ele está configurado? Detalhes: " + err.message);
+            }
