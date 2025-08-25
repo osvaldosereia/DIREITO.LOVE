@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <title>APOSTILA DIREITO — Gerador de Prompt</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+  <style>
+    :root{ --bg:#000; --surface:#121212; --line:#2d2d2d; --text:#fff; --accent:#6ea8fe; --ok:#3ddc84; --radius:18px; --mono:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; --shadow:0 8px 32px rgba(0,0,0,.45); --t1:#1b2e6b; --t2:#0f5f3b; --t3:#7a3b10; --t4:#6b1b6f; }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html, body{width:100%;max-width:100%;overflow-x:hidden;background:var(--bg);color:var(--text)}
+    body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.55;display:flex;flex-direction:column;min-height:100vh;overscroll-behavior-y:none;touch-action:manipulation}
+    .wrap{max-width:900px;margin:0 auto;padding:24px 24px 110px;width:100%;flex:1}
+    header{text-align:center;margin-bottom:16px}
+    h1{font-size:26px;font-weight:800}
+
+    .stepbar{display:flex;gap:10px;justify-content:center;margin:8px 0 18px}
+    .chip{min-width:40px;padding:8px 10px;border-radius:12px;border:1px solid var(--line);background:#151515;color:#fff;box-shadow:var(--shadow);font-weight:700;opacity:.95;cursor:pointer;text-align:center}
+    .chip.active{background:var(--accent);border-color:transparent}
+    .chip.done{background:var(--ok);color:#062}
+
+    .panel{border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden}
+    .panel .inner{padding:20px}
+    .tone-1{background:linear-gradient(0deg,rgba(255,255,255,.06),rgba(255,255,255,.06)), var(--t1)}
+    .tone-2{background:linear-gradient(0deg,rgba(255,255,255,.06),rgba(255,255,255,.06)), var(--t2)}
+    .tone-3{background:linear-gradient(0deg,rgba(255,255,255,.06),rgba(255,255,255,.06)), var(--t3)}
+    .tone-4{background:linear-gradient(0deg,rgba(255,255,255,.06),rgba(255,255,255,.06)), var(--t4)}
+
+    .grid{display:grid;gap:14px}
+    @media(min-width:700px){.grid{grid-template-columns:1fr 1fr}}
+
+    label{display:block;font-size:13px;color:#e7e7ef;margin:0 0 6px 2px}
+    input[type="text"],select,textarea{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--line);color:#fff;border-radius:14px;padding:12px;outline:none}
+    textarea{min-height:160px;resize:vertical}
+
+    .actions{margin-top:14px;display:flex;gap:10px;justify-content:space-between}
+    .actions .left{display:flex;gap:10px}
+    .actions .right{display:flex;gap:10px}
+    button{border:none;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}
+    button.primary{background:#2f6bff;color:#fff}
+    button.secondary{background:#2a2a2a;color:#fff}
+
+    .mono{font-family:var(--mono);white-space:pre-wrap;background:#0f0f0f;border:1px solid var(--line);padding:14px;border-radius:12px;color:#fff}
+
+    .step{max-height:0;opacity:0;transform:translateY(-4px);transition:max-height .35s ease, opacity .35s ease, transform .35s ease}
+    .step.open{max-height:2000px;opacity:1;transform:translateY(0)}
+    .hint{font-size:12px;color:#ffe6a6;margin-top:6px}
+    .desc{font-size:12px;color:#d0d7ff;margin:8px 2px 0 2px}
+
+    #toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);z-index:9999}
+    .toast{background:#0f0f0f;border:1px solid var(--line);padding:10px 14px;border-radius:12px;box-shadow:var(--shadow);color:#fff;margin-top:8px;opacity:0;transform:translateY(8px);transition:opacity .2s, transform .2s}
+    .toast.show{opacity:1;transform:translateY(0)}
+
+    /* Barra fixa inferior (não usada no layout atual, mas mantida por compatibilidade visual) */
+    .fabbar{position:fixed;left:0;right:0;bottom:0;background:rgba(18,18,18,.96);backdrop-filter:blur(6px);border-top:1px solid var(--line);padding:10px 12px;padding-bottom:calc(10px + env(safe-area-inset-bottom));display:flex;gap:10px;z-index:10000}
+    .fabbar button{flex:1}
+    .fabbar button:disabled{opacity:.5;cursor:not-allowed}
+
+    footer{text-align:center;padding:16px;color:#aaa;font-size:13px;margin-bottom:64px}
+    footer a{color:#6ea8fe;text-decoration:none}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>APOSTILA DIREITO</h1>
+    </header>
+
+    <div class="stepbar">
+      <div class="chip" data-step="1">1</div>
+      <div class="chip" data-step="2">2</div>
+      <div class="chip" data-step="3">3</div>
+      <div class="chip" data-step="4">4</div>
+    </div>
+
+    <!-- 1. Estratégia -->
+    <section class="panel tone-1 step" data-step="1"><div class="inner">
+      <label for="estrategia">Estratégia</label>
+      <select id="estrategia">
+        <option selected>Apostila Didática</option>
+        <option>Artigo Acadêmico</option>
+        <option>Perguntas e Respostas</option>
+        <option>Casos</option>
+      </select>
+      <div id="estrategia-desc" class="desc"></div>
+      <div class="actions"><div></div><div class="right"><button class="primary" data-next>Próximo</button></div></div>
+    </div></section>
+
+    <!-- 2. Tema & Matéria -->
+    <section class="panel tone-2 step" data-step="2"><div class="inner">
+      <div class="grid">
+        <div>
+          <label for="tema">Tema <span class="hint">(obrigatório)</span></label>
+          <input id="tema" type="text" placeholder="Ex.: Estelionato / Tutela Provisória" />
+        </div>
+        <div>
+          <label for="materia">Matéria</label>
+          <select id="materia">
+            <option>Direito Administrativo</option>
+            <option>Direito Agrário</option>
+            <option>Direito Ambiental</option>
+            <option>Direito Civil</option>
+            <option>Direito Comercial</option>
+            <option>Direito Constitucional</option>
+            <option>Direito do Consumidor</option>
+            <option>Direito do Trabalho</option>
+            <option>Direito Eleitoral</option>
+            <option>Direito Financeiro</option>
+            <option>Direito Internacional</option>
+            <option>Direito Militar</option>
+            <option>Direito Penal</option>
+            <option>Direito Previdenciário</option>
+            <option>Direito Processual Civil</option>
+            <option>Direito Processual Militar</option>
+            <option>Direito Processual Penal</option>
+            <option>Direito Processual do Trabalho</option>
+            <option>Direito Tributário</option>
+            <option>Direitos Humanos</option>
+            <option>Filosofia do Direito</option>
+            <option>Sociologia Jurídica</option>
+            <option>Teoria Geral do Direito</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions"><div class="left"><button class="secondary" data-prev>Voltar</button></div><div class="right"><button class="primary" data-next>Próximo</button></div></div>
+    </div></section>
+
+    <!-- 3. Nível, Linguagem, Versão, Foco -->
+    <section class="panel tone-3 step" data-step="3"><div class="inner">
+      <div class="grid">
+        <div>
+          <label for="nivel">Nível</label>
+          <select id="nivel">
+            <option>iniciante</option>
+            <option selected>intermediário</option>
+            <option>avançado</option>
+          </select>
+        </div>
+        <div>
+          <label for="linguagem">Linguagem</label>
+          <select id="linguagem">
+            <option>simples, sem juridiquês, com analogias</option>
+            <option selected>equilibrada, com termos técnicos moderados</option>
+            <option>técnica, com precisão acadêmica</option>
+          </select>
+        </div>
+        <div>
+          <label for="versao">Versão</label>
+          <select id="versao">
+            <option>Express</option>
+            <option selected>Completa</option>
+            <option>Avançada</option>
+          </select>
+          <div id="hint-versao" class="hint" style="display:none"></div>
+        </div>
+        <div>
+          <label for="foco">Foco</label>
+          <select id="foco">
+            <option>equilibrado</option>
+            <option>material</option>
+            <option>processual</option>
+            <option>doutrinário</option>
+            <option>prático</option>
+            <option>interdisciplinar</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions"><div class="left"><button class="secondary" data-prev>Voltar</button></div><div class="right"><button class="primary" data-next>Próximo</button></div></div>
+    </div></section>
+
+    <!-- 4. Revisão & Geração -->
+    <section class="panel tone-4 step" data-step="4"><div class="inner">
+      <!-- TOPO: Gerar & Copiar -->
+      <div class="actions">
+        <div class="left"></div>
+        <div class="right">
+          <button class="primary" id="btn-gerar">Gerar Prompt</button>
+          <button class="secondary" id="btn-copiar">Copiar</button>
+        </div>
+      </div>
+      <!-- Campo de saída -->
+      <div class="out" style="margin-top:12px">
+        <textarea id="saida" class="mono" spellcheck="false" placeholder="O prompt aparecerá aqui..."></textarea>
+        <div class="hint" id="charinfo">0 caracteres</div>
+      </div>
+      <!-- RODAPÉ: Voltar & Início -->
+      <div class="actions">
+        <div class="left"><button class="secondary" data-prev>Voltar</button></div>
+        <div class="right"><button class="secondary" id="btn-inicio">Início</button></div>
+      </div>
+    </div></section>
+  </div>
+
+  <footer>
+    Indicado para uso no Gemini<br>
+    Siga: <a href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener noreferrer">@osvaldosereiajr</a>
+  </footer>
+
+  <!-- Barra fixa removida por solicitação -->
+
+  <div id="toast"></div>
+
+<script>
+(function(){
+  const $ = (id)=>document.getElementById(id);
+  const q = (sel,root=document)=>root.querySelector(sel);
+  const qa=(sel,root=document)=>Array.from(root.querySelectorAll(sel));
+
+  function showToast(msg){
+    const host = $('toast');
+    const div = document.createElement('div');
+    div.className = 'toast';
+    div.textContent = msg;
+    host.appendChild(div);
+    requestAnimationFrame(()=>div.classList.add('show'));
+    setTimeout(()=>{ div.classList.remove('show'); setTimeout(()=>div.remove(),200); }, 2200);
+  }
+
+  function hint(elId, text){
+    const el = $(elId==='versao'?'hint-versao':'hint-'+elId);
+    if(!el) return;
+    el.textContent=text;
+    el.style.display='block';
+    clearTimeout(el._t);
+    el._t=setTimeout(()=>{el.style.display='none';},3500);
+  }
+
+  function openUntil(step){
+    qa('.step').forEach(sec=>{ const n=+sec.dataset.step; sec.classList.toggle('open', n<=step); });
+    qa('.chip').forEach(c=>{ const n=+c.dataset.step; c.classList.toggle('active', n===step); c.classList.toggle('done', n<step); });
+  }
+
+  function next(){
+    const opened = qa('.step.open');
+    const curr = opened.length? +opened[opened.length-1].dataset.step : 1;
+    if(curr===2 && !$('tema').value.trim()){ hint('tema','Tema é obrigatório.'); return; }
+    const ns=Math.min(curr+1,4);
+    openUntil(ns);
+    q(`.step[data-step="${ns}"]`).scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  function prev(){
+    const opened = qa('.step.open');
+    const curr = opened.length? +opened[opened.length-1].dataset.step : 1;
+    const ps=Math.max(curr-1,1);
+    openUntil(ps);
+    q(`.step[data-step="${ps}"]`).scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  qa('[data-next]').forEach(b=> b.addEventListener('click', next));
+  qa('[data-prev]').forEach(b=> b.addEventListener('click', prev));
+  qa('.chip').forEach(c=> c.addEventListener('click', ()=>{ const s=+c.dataset.step; openUntil(s); q(`.step[data-step="${s}"]`).scrollIntoView({behavior:'smooth', block:'start'}); }));
+
+  const descMap = {
+    'Apostila Didática': 'Estrutura pedagógica, linguagem simples e exemplos práticos. Ideal para estudo guiado.',
+    'Artigo Acadêmico': 'Tom acadêmico, referências e análise crítica. Foco em fundamentação teórica e debate doutrinário.',
+    'Perguntas e Respostas': 'Crie 10 perguntas-chave e respostas objetivas, cobrindo o essencial do tema.',
+    'Casos': 'Crie 5 casos práticos distintos e explique passo a passo as soluções.'
+  };
+  function updateEstratDesc(){
+    const e = $('estrategia').value; $('estrategia-desc').textContent = descMap[e] || '';
+  }
+
+  function applyLevelLocks(){
+    const N = $('nivel').value; const V = q('#versao');
+    const optEx = [...V.options].find(o=>o.value==='Express');
+    const optAv = [...V.options].find(o=>o.value==='Avançada');
+    if(optEx) optEx.disabled = (N==='avançado');
+    if(optAv) optAv.disabled = (N==='iniciante');
+    if(N==='iniciante' && V.value==='Avançada'){ V.value='Completa'; hint('versao','Para iniciante, use "Completa" ou "Express".'); }
+    if(N==='avançado' && V.value==='Express'){ V.value='Completa'; hint('versao','Para avançado, prefira "Completa" ou "Avançada".'); }
+  }
+
+  async function safeCopy(text, opts={}){
+    if(!opts.forceFallback && navigator.clipboard && window.isSecureContext){
+      try{ await navigator.clipboard.writeText(text); return true; } catch(e){}
+    }
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly','');
+    ta.style.position='fixed'; ta.style.opacity='0'; ta.style.left='-9999px';
+    document.body.appendChild(ta);
+    ta.focus(); ta.select(); ta.setSelectionRange(0, ta.value.length);
+    let ok = false; try{ ok = document.execCommand('copy'); } catch(e){ ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  function buildPrompt(){
+    const estrategia=$('estrategia').value; const tema=$('tema').value.trim(); if(!tema){ hint('tema','Tema é obrigatório.'); return ''; }
+    const materia=$('materia').value; const nivel=$('nivel').value; const linguagem=$('linguagem').value; const versao=$('versao').value; const foco=$('foco').value;
+
+    const mapEstrategia={
+      'Apostila Didática':'APOSTILA DIDÁTICA: Estruture por seções (H1–H4). Abra com um resumo do que será aprendido. Em cada seção: conceito → exemplo prático → mini-checklist (lista simples). Finalize com 5 exercícios/questões rápidas comentadas. Seja EXPLICATIVO e EXEMPLIFICATIVO (use analogias claras).',
+      'Artigo Acadêmico':'ARTIGO ACADÊMICO: Introdução (problema e hipótese), breve revisão de literatura, desenvolvimento com análise crítica e comparação de correntes, conclusão com síntese e proposta. Inclua referências essenciais (autor, título, ano).',
+      'Perguntas e Respostas':'FAQ: Produza 10 perguntas essenciais em ordem lógica (básico → avançado). Para cada pergunta, responda objetivamente em 3–6 linhas. Encerre com “Erros comuns & Dicas rápidas” (5 itens).',
+      'Casos':'CASOS PRÁTICOS: Apresente 5 casos distintos. Para cada caso: enunciado → identificação do problema → normas aplicáveis → solução passo a passo → observações práticas.'
+    };
+
+    const mapVersao={
+      'Express':'VERSÃO EXPRESS: síntese objetiva (≈400–700 palavras). Foque em: o que é, quando/como aplicar, requisitos essenciais e 3 alertas/pegadinhas. Evite aprofundamentos longos.',
+      'Completa':'VERSÃO COMPLETA: estrutura didática integral com: (1) definição e contexto; (2) requisitos/elementos; (3) fundamentos legais aplicáveis; (4) visão processual quando couber; (5) posições doutrinárias relevantes; (6) exemplos práticos; (7) 1–2 mini casos comentados; (8) 5 questões objetivas com gabarito comentado. Clareza e progressão pedagógica.',
+      'Avançada':'VERSÃO AVANÇADA: análise crítica profunda; contraste de correntes; destaque controvérsias; fundamentos teóricos e observações críticas; descreva tendências jurisprudenciais sem nº de processo; feche com síntese crítica e critérios de aplicação.'
+    };
+
+    const mapNivel={
+      'iniciante':'NÍVEL INICIANTE: defina termos com simplicidade; evite jargões; quando inevitáveis, explique em 1 linha; use analogias cotidianas; parágrafos curtos (2–3 linhas).',
+      'intermediário':'NÍVEL INTERMEDIÁRIO: termos técnicos moderados e explicados; conecte teoria e prática; traga exemplos de aplicação e consequências.',
+      'avançado':'NÍVEL AVANÇADO: linguagem técnica e precisa; problematize; contraste entendimentos; cite autores (sobrenome, ano) quando pertinente.'
+    };
+
+    const mapLinguagem={
+      'simples, sem juridiquês, com analogias':'LINGUAGEM: simples, direta, voz ativa; frases curtas; inclua 1 analogia por seção quando útil.',
+      'equilibrada, com termos técnicos moderados':'LINGUAGEM: equilibrada; termos técnicos moderados e sempre explicados brevemente quando surgirem.',
+      'técnica, com precisão acadêmica':'LINGUAGEM: técnica, com precisão terminológica; evite redundâncias; mantenha rigor conceitual.'
+    };
+
+    const mapFoco={
+      'equilibrado':'FOCO: balanceie material e processual (≈50/50) conforme o tema.',
+      'material':'FOCO MATERIAL: priorize conceitos, elementos, princípios e causas excludentes/agravantes; procedimento só quando indispensável.',
+      'processual':'FOCO PROCESSUAL: destaque competência, legitimidade, ônus da prova, requisitos, prazos e recursos; material apenas como suporte.',
+      'doutrinário':'FOCO DOUTRINÁRIO: compare 2–3 correntes; apresente argumentos prós/contras e critérios de preferência.',
+      'prático':'FOCO PRÁTICO: passo a passo aplicável, erros comuns, checklist de verificação e boas práticas.',
+      'interdisciplinar':'FOCO INTERDISCIPLINAR: conecte com Economia, Sociologia, Tecnologia, Direitos Humanos etc. quando pertinente.'
+    };
+
+    const prompt=`Você é professor de **Direito** no Brasil, especialista na disciplina de **${materia}** e deve gerar uma **${estrategia}** sobre **${tema}**, escrita para um estudante de nível **${nivel}**.
+
+### Parâmetros selecionados (interpretação para o modelo)
+- Estratégia: ${mapEstrategia[estrategia]||estrategia}
+- Nível: ${mapNivel[nivel]||nivel}
+- Linguagem: ${mapLinguagem[linguagem]||linguagem}
+- Versão: ${mapVersao[versao]||versao}
+- Foco: ${mapFoco[foco]||foco}
+
+### Estratégia de conteúdo
+- Estruture em seções com hierarquia (H1–H4).
+- Parágrafos curtos (máx. 2–3 linhas).
+- Diferenciação por nível.
+- **Não use tabelas, gráficos, quadros ou mapas mentais.**
+
+### Saída
+- Em Markdown, com títulos claros (H1–H4).
+- Texto ajustado a **${nivel}** e à linguagem **${linguagem}**.`;
+    return prompt;
+  }
+
+  function updateChar(){ $('charinfo').textContent = ($('saida').value.length||0)+" caracteres"; }
+
+  function handleGerar(){
+    applyLevelLocks(); updateEstratDesc();
+    const txt=buildPrompt(); if(!txt){ showToast('Informe um tema.'); return; }
+    $('saida').value=txt; updateChar();
+    q('.step[data-step="4"]').scrollIntoView({behavior:'smooth', block:'start'});
+    showToast('Prompt gerado!');
+  }
+  function handleCopiar(){
+    const txt=$('saida').value; if(!txt){ showToast('Nada para copiar.'); return; }
+    safeCopy(txt).then(ok=>showToast(ok?'Copiado.':'Não foi possível copiar.'));
+  }
+  function handleInicio(){
+    $('estrategia').value='Apostila Didática'; $('tema').value=''; $('materia').selectedIndex=0; $('nivel').value='intermediário'; $('linguagem').value='equilibrada, com termos técnicos moderados'; $('versao').value='Completa'; $('foco').value='equilibrado'; $('saida').value=''; updateEstratDesc(); updateChar(); openUntil(1); q('.step[data-step="1"]').scrollIntoView({behavior:'smooth',block:'start'}); showToast('Reiniciado.');
+  }
+
+  $('btn-gerar').addEventListener('click', handleGerar);
+  $('btn-copiar').addEventListener('click', handleCopiar);
+  $('btn-inicio').addEventListener('click', handleInicio);
+
+  // (Opcional) – funções para barra fixa removida, mantidas caso decida reativar
+  async function handleCopyOpen(target){
+    const txt = $('saida').value.trim();
+    if(!txt){ showToast('Gere o prompt primeiro.'); return; }
+    await safeCopy(txt);
+    const labels = { gemini:'Gemini', chatgpt:'ChatGPT', nlm:'NotebookLM' };
+    const urls   = {
+      gemini:'https://gemini.google.com/app?hl=pt-BR',
+      chatgpt:'https://chatgpt.com/',
+      nlm:'https://notebooklm.google.com/'
+    };
+    const label = labels[target]||'app';
+    const go = confirm(`Seu prompt foi copiado. Deseja abrir o ${label}?`);
+    if(go){ window.open(urls[target], '_blank','noopener'); showToast('Aba aberta. Cole o prompt e envie.'); }
+    else { showToast('Beleza! O prompt ficou copiado.'); }
+  }
+
+  updateEstratDesc(); applyLevelLocks(); openUntil(1);
+})();
+</script>
+</body>
+</html>
