@@ -1,0 +1,39 @@
+name: Mixed Content Guard
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  check-mixed-content:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan for http:// (mixed content)
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          # Arquivos-alvo
+          FILES=$(git ls-files '*.*' | grep -E '\.(html?|css|js|md|json|xml|svg|yml|yaml)$' || true)
+          BAD=0
+          TMP=$(mktemp)
+
+          for f in $FILES; do
+            # Ignora apenas o xmlns padrão do SVG
+            if grep -n --color=never -E 'http://(?!www\.w3\.org/2000/svg)' "$f" > "$TMP"; then
+              echo "::error file=$f::Conteúdo misto detectado (http://)."
+              cat "$TMP"
+              BAD=1
+            fi
+          done
+
+          rm -f "$TMP"
+          if [ $BAD -ne 0 ]; then
+            echo "Falhou por conteúdo misto."
+            exit 1
+          fi
+
+      - name: Success
+        run: echo "Sem conteúdo misto 🚀"
