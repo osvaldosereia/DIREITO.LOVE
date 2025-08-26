@@ -1,7 +1,7 @@
-// sw.js – cache básico com caminhos relativos
-const CACHE = "ad-cache-v1";
+// sw.js – cache básico para PWA
+const CACHE = "ad-cache-v2"; // mudou a versão para garantir atualização
 const ASSETS = [
-  "./",              // index
+  "./",
   "./manifest.json",
   "./icons/icon-192.png",
   "./icons/icon-512.png"
@@ -20,7 +20,5 @@ self.addEventListener("activate", (e) => {
 });
 
 self.addEventListener("fetch", (e) => {
-  e.respondWith(
-    caches.match(e.request).then((r) => r || fetch(e.request))
-  );
+  e.respondWith(caches.match(e.request).then((r) => r || fetch(e.request)));
 });
