@@ -1,6 +1,6 @@
 {
-  "name": "AD - Gerador de Prompt",
-  "short_name": "Apostila Direito",
+  "name": "direito.love",
+  "short_name": "direito.love",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
