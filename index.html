@@ -3,8 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0a3a4a" />
+  <meta name="theme-color" content="#0c4160" />
   <title>AD - Gerador de Prompt</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+
   <style>
     :root{
       --ink:#0b2f3b;
@@ -15,29 +22,32 @@
       --btn-copy:#6b7785;
       --btn-reset:#4b5563;
       --border:#d8e2e7;
-      --topbar:#63d1c3; /* NOVO: cor do menu fixo no topo */
+      --topbar:#0c4160; /* cor do menu fixo no topo */
     }
     *{box-sizing:border-box}
     body{margin:0;font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;background:var(--bg);color:var(--ink);padding-top:64px}
 
-    /* Topbar atualizada */
+    /* Topbar */
     .topbar{
       position:fixed;top:0;left:0;right:0;height:64px;
       display:flex;align-items:center;justify-content:space-between;
       padding:0 18px;background:var(--topbar);z-index:1000;
       border-bottom:1px solid var(--border)
     }
-    .topbar .brand{font-weight:900;letter-spacing:.2px;color:var(--ink)}
+    .brand-wrap{display:flex;align-items:center;gap:10px}
+    .brand-logo{display:block;width:32px;height:32px} /* logo substitui o nome */
     .topbar .right{display:flex;align-items:center;gap:12px}
 
-    /* Botão/ícone Instagram */
-    .insta-link{
-      display:inline-flex;align-items:center;justify-content:center;
-      width:28px;height:28px;border-radius:6px;text-decoration:none;
-      transition:transform .12s ease;
-    }
+    /* Instagram */
+    .insta-link{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;text-decoration:none;transition:transform .12s ease}
     .insta-link:hover{transform:translateY(-1px)}
     .insta-link svg{display:block;width:100%;height:100%}
+
+    /* Banner PWA (abaixo da topbar) */
+    #pwa-banner{display:none;position:fixed;top:64px;left:0;right:0;background:#06343e;color:#fff;z-index:1001;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    #pwa-banner .actions{display:flex;gap:8px}
+    .pwa-btn{all:unset;background:#63d1c3;color:#06343e;font-weight:800;padding:8px 12px;border-radius:999px;cursor:pointer}
+    .pwa-btn.secondary{background:#6b7785;color:#fff;font-weight:700}
 
     .hero{display:grid;gap:8px;max-width:960px;margin:0 auto;padding:40px 20px 24px;align-items:start}
     .quote{font-weight:800;line-height:1.05;color:var(--ink);font-size:clamp(28px,6vw,64px)}
@@ -86,9 +96,11 @@
   </style>
 </head>
 <body>
-  <!-- Topbar com Instagram à direita -->
-  <nav class="topbar">
-    <div class="brand">AD - Gerador de Prompt</div>
+  <!-- Topbar com logo à esquerda e Instagram à direita -->
+  <nav class="topbar" aria-label="Barra superior">
+    <a class="brand-wrap" href="/" aria-label="Página inicial">
+      <img class="brand-logo" src="/icons/logo-menu.png" alt="AD">
+    </a>
     <div class="right">
       <a class="insta-link" href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener" aria-label="Abrir Instagram @osvaldosereiajr" title="@osvaldosereiajr">
         <!-- SVG Instagram colorido -->
@@ -110,6 +122,15 @@
       </a>
     </div>
   </nav>
+
+  <!-- Banner PWA -->
+  <div id="pwa-banner">
+    <div id="pwa-msg" style="font-weight:700;">Instale o app para acesso rápido.</div>
+    <div class="actions">
+      <button id="pwa-install" class="pwa-btn">Instalar</button>
+      <button id="pwa-close" class="pwa-btn secondary">Fechar</button>
+    </div>
+  </div>
 
   <header class="hero"><div id="quote" class="quote">—</div><div id="author" class="author"></div></header>
 
@@ -134,8 +155,7 @@
           <option value="debate">Debate/Reflexão</option>
           <option value="atualizacao">Contexto Atualizado</option>
           <option value="plano">Plano de Estudo</option>
-          <option value="apresentacao">Apresentação Oral</option>
-          <option value="slide">Slide</option>
+          <option value="sustentacao">Apresentação em Sala</option>
           <option value="jurisprudencia">Jurisprudência</option>
         </select>
       </div>
@@ -167,7 +187,8 @@
   <section id="tab-dicas" class="tab-content">
     <main class="panel">
       <h2 class="label">Dicas de Uso — como cada objetivo gera a resposta</h2>
-      <div class="field" style="white-space:pre-wrap"><b>Explicação Básica</b> — definição curta, 2–3 analogias e 3 pontos-chave, mais 2 erros comuns e um mini-exemplo. 
+      <div class="field" style="white-space:pre-wrap">
+<b>Explicação Básica</b> — definição curta, 2–3 analogias e 3 pontos-chave, mais 2 erros comuns e um mini-exemplo. 
 
 <b>Resumo Objetivo</b> — conceito em 2 linhas, base legal, estrutura, 3 diferenças fáceis de confundir, tendências, 3 pegadinhas e 2 mini-cases.
 
@@ -188,8 +209,6 @@
 <b>Apresentação em Sala</b> — discurso de ~4 min: abertura, contexto, base legal/doutrina/jurisprudência segura, caso ilustrativo, argumentação, fechamento forte.
 
 <b>Jurisprudência (Radar)</b> — 15 itens verificados (tribunal, nº, ano, tese resumida, impacto prático).
-
-💡 Escreva o tema de forma específica (ex.: “tutela de urgência, art. 300, CPC/2015”), dando contexto e objetivo. Rode também no <b>Gemini</b>.
       </div>
     </main>
   </section>
@@ -217,158 +236,127 @@
     const TEMPLATES = {
       explicacao: (tema) => `Você é um **tutor de Direito** no Brasil, especialista em didática jurídica.  
 Persona: professor paciente e criativo, que explica para iniciantes.  
-Linguagem: simples, clara, sem juridiquês; use exemplos práticos e analogias do cotidiano.  
+Linguagem: simples, clara, sem juridiquês; use analogias.  
 
-Tarefa: Explique o tema **${tema}** de forma **muito didática e acessível**, como se estivesse pegando na mão do estudante iniciante.  
+Tarefa: Explique o tema **${tema}**.  
 Estrutura:  
 1) Definição essencial (até 3 linhas).  
 2) 2–3 analogias do cotidiano.  
-3) Explicação passo a passo (do básico ao detalhe, sempre explicando o porquê).  
-4) Mini-exemplo prático (caso simples e realista).  
-5) Resumo executivo (3 a 5 frases curtas com pontos-chave).  
-6) Checklist para o estudante (3 a 5 perguntas de autoavaliação).  
+3) 3 pontos-chave (o que é, para que serve, onde se aplica).  
+4) 2 erros comuns dos alunos + forma correta.  
+5) Mini-exemplo prático.  
 
-Recursos: headings (H2–H3), listas, parágrafos curtos, termos-chave em **negrito**, metáforas e histórias curtas quando útil.  
+Recursos: headings (H2–H3), listas, parágrafos curtos.  
 Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.  
 
-Fecho: frase motivacional final + síntese em 2 frases.`,
-      resumo: (tema) => `Você é um **resumidor jurídico** no Brasil, especialista em síntese clara e objetiva.  
-Persona: professor prático e direto, que entrega apenas o essencial para uma leitura rápida.  
-Linguagem: concisa, sem enrolação, sem juridiquês exagerado.  
+Fecho: síntese (2 frases) + fontes (até 5).`,
+      resumo: (tema) => `Você é um **professor universitário de Direito** no Brasil, especialista em provas da OAB e concursos.  
+Persona: objetivo e estratégico, como quem monta checklists.  
+Linguagem: direta, sem floreios.  
 
-Tarefa: Produza um **resumo rápido e estruturado** sobre **${tema}**, destacando só o que realmente importa para fixar o conteúdo.  
+Tarefa: Resuma **${tema}** em formato RAIO-X.  
+Inclua:  
+1) Conceito-chave (até 2 linhas);  
+2) Base legal essencial (artigos);  
+3) Estrutura/elementos;  
+4) Diferenças fáceis de confundir (3 pares);  
+5) Tendências jurisprudenciais (sem nº se não houver certeza);  
+6) 3 pegadinhas de prova;  
+7) 2 mini-cases resolvidos.  
+
+Recursos: tópicos numerados, negrito nos termos centrais.  
+Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.    
+
+Fecho: resumo de bolso (2 frases) + fontes (até 5).`,
+      artigo: (tema) => `Você é um **jurista pesquisador**, especialista em produção acadêmica.  
+Persona: acadêmico crítico, mas acessível.  
+Linguagem: técnica, formal, sem excesso; parágrafos curtos.  
+
+Tarefa: Produza artigo acadêmico sobre **${tema}**.  
 Estrutura:  
-1) Definição objetiva (1–2 linhas).  
-2) Pontos-chave (3 a 5 tópicos curtos e numerados).  
-3) Aplicações práticas mais comuns (até 3 itens).  
-4) Armadilhas ou erros frequentes (até 2).  
-5) Fecho em formato “lembrete” (1–2 frases curtas).  
+# Introdução: problema, relevância prática e hipótese.  
+# Desenvolvimento: conceitos centrais, evolução histórica, correntes doutrinárias (prós/contrás), análise crítica, tendências jurisprudenciais, (opcional: direito comparado).  
+# Conclusão: síntese crítica + proposta prática.  
 
-Recursos: headings (H2–H3), listas, palavras-chave em **negrito**, frases curtas.  
+Recursos: headings H1–H4, listas quando cabíveis, destaques em **negrito**.  
+Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.    
+
+Fecho: resumo final (2 frases) + referências (até 5).`,
+      aplicacao: (tema) => `Você é um **advogado experiente e professor de prática jurídica**.  
+Persona: prático, direto, como quem treina estagiários.  
+Linguagem: clara, com exemplos.  
+
+Tarefa: Mostre como aplicar **${tema}** na prática.  
+Estrutura:  
+1) Caso fictício realista.  
+2) Enquadramento jurídico (fundamentos e raciocínio).  
+3) Solução provável (e alternativas).  
+4) Mini-modelo de peça (endereçamento, fatos, fundamentos, pedidos).  
+5) Checklist (3–5 pontos).  
+
+Recursos: listas, blocos de texto para peças.  
+Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.    
+
+Fecho: resumo executivo (2 frases) + fontes (até 5).`,
+      simulado: (tema) => `Você é um **examinador da OAB** montando questões sobre ${tema}.  
+Persona: avaliador exigente, mas didático no comentário.  
+Linguagem: objetiva, estilo prova.  
+
+Tarefa: Crie 5 questões sobre **${tema}**.  
+Estrutura:  
+- 2 fáceis, 2 médias, 1 difícil.  
+- Estilo múltipla escolha ou discursiva curta.  
+- Gabarito comentado logo após cada questão.  
+
+Recursos: blocos por questão; resposta correta em **negrito**.  
+Regras: sem links; jurisprudência só se 100% segura.  
+
+Fecho: 3 dicas práticas de estudo + fontes (até 5).`,
+      faq: (tema) => `Você é um **monitor de Direito** explicando conceitos básicos.  
+Persona: colega didático, rápido e claro.  
+Linguagem: simples, sem juridiquês.  
+
+Tarefa: Responda dúvidas rápidas sobre **${tema}**.  
+Estrutura:  
+- 15 perguntas essenciais.  
+- Respostas em até 3 linhas.  
+- 2 confusões comuns + a forma correta.  
+
+Recursos: pergunta em **negrito**, resposta em texto normal.  
 Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.  
 
-Fecho: síntese final em 2 frases (estilo “flashcard”).`,
-      artigo: (tema) => `Você é um **jurista pesquisador** no Brasil, especialista em produção acadêmica aplicada ao ensino jurídico.  
-Persona: acadêmico crítico, mas acessível, que conecta teoria, jurisprudência e prática forense.  
-Linguagem: técnica e clara, mas envolvente; parágrafos curtos (2–3 linhas); uso moderado de termos técnicos explicados de forma simples.  
+Fecho: resumo de bolso (2 frases) + fontes (até 5).`,
+      debate: (tema) => `Você é um **professor de Filosofia do Direito** mediando debate sobre ${tema}.  
+Persona: provocador crítico, mas neutro.  
+Linguagem: reflexiva e clara.  
 
-Tarefa: Produza um **artigo acadêmico abrangente e memorável** sobre **${tema}**, que aprofunde o conhecimento do estudante e o surpreenda pela riqueza de conteúdo.  
+Tarefa: Promova um debate sobre **${tema}**.  
 Estrutura:  
-1) **Introdução**: relevância prática, problema central e hipótese.  
-2) **Desenvolvimento**:  
-   - Conceitos essenciais e evolução histórica.  
-   - Correntes doutrinárias (principais posições, prós e contras).  
-   - Entendimentos jurisprudenciais majoritários (STJ, STF ou tribunais relevantes).  
-   - **Casos concretos**: apresente 1–2 julgados paradigmáticos ou situações realistas para análise prática.  
-   - Reflexos na prática processual (como o tema aparece em petições, decisões, audiências ou julgamentos).  
-   - Pontos de tensão ou controvérsias atuais.  
-3) **Conclusão**: síntese crítica + tendências jurisprudenciais e propostas de aplicação prática.  
+1) Problema central (até 4 linhas).  
+2) 3 argumentos pró.  
+3) 3 argumentos contra.  
+4) 1 dilema ético ou prático.  
+5) Perguntas-guia para discussão.  
 
-Recursos: headings (H2–H3), listas sempre que possível, termos-chave em **negrito**, exemplos e comparações para fixar a ideia.  
+Recursos: listas; destaques em **negrito**.  
 Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.  
 
-Fecho: resumo executivo (2–3 frases) + referências essenciais (até 5, com autor, título e ano).`,
-      aplicacao: (tema) => `Você é um **advogado experiente e professor de prática jurídica** no Brasil.  
-Persona: prático, direto, como quem treina estagiários e jovens advogados.  
-Linguagem: objetiva, mas explicativa; conectando teoria mínima à prática forense real.  
+Fecho: síntese imparcial (2 frases) + fontes (até 5).`,
+      atualizacao: (tema) => { const d=new Date(); const data=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; return `Você é um **jurista analista de legislação e jurisprudência**.  
+Persona: atualizado, conecta norma e impacto prático.  
+Linguagem: clara, objetiva.  
 
-Tarefa: Explique **${tema}** de forma **abrangente e aplicada**, cobrindo todos os ângulos possíveis da prática jurídica.  
+Tarefa: Traga panorama atualizado sobre **${tema}** (até ${data}).  
 Estrutura:  
-1) Contextualização inicial: relevância do tema no dia a dia forense.  
-2) Enquadramento jurídico: dispositivos legais e fundamentos principais.  
-3) Prática processual:  
-   - Como o tema aparece em petições iniciais, defesas, recursos ou sustentações.  
-   - Estratégias práticas adotadas por advogados e procuradores.  
-   - Orientações para atuação em audiência e fase recursal.  
-4) Jurisprudência aplicada: entendimentos majoritários que impactam a prática.  
-5) Casos concretos: 1–2 exemplos realistas com análise da solução jurídica.  
-6) Erros comuns na atuação prática e como evitá-los.  
-7) Checklist profissional: lista de pontos de atenção para quem atua com o tema.  
+1) Alterações legislativas recentes.  
+2) Tendências jurisprudenciais atuais.  
+3) Impactos práticos (provas e advocacia).  
+4) Pontos controversos e cuidados.  
 
-Recursos: headings (H2–H3), listas, termos-chave em **negrito**, exemplos narrados em forma de caso.  
+Recursos: subtítulos H3; destaque artigos em **negrito**.  
 Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.  
 
-Fecho: resumo executivo em 2–3 frases com recomendações práticas finais.`,
-      simulado: (tema) => `Você é um **professor de Direito** no Brasil, especialista em preparação para provas da OAB e concursos.  
-Persona: avaliador exigente, mas didático, que usa o simulado como forma de ensino.  
-Linguagem: objetiva, clara, sem juridiquês excessivo; explicações sempre conectadas à prática jurídica.  
-
-Tarefa: Elabore um **simulado de 10 questões de múltipla escolha** sobre **${tema}**, no estilo OAB/concurso, com gabarito comentado.  
-Estrutura:  
-1) Cada questão deve ter enunciado claro e 4 alternativas (A–D).  
-2) Indicar a alternativa correta logo após cada questão.  
-3) Explicar em até 5 linhas:  
-   - Por que a correta está certa.  
-   - Por que as outras estão erradas.  
-4) Variar os tipos de questão: conceitual, jurisprudencial, prática processual e casos concretos.  
-5) Ao final, incluir um **quadro-resumo** com os principais pontos cobrados no simulado.  
-
-Recursos: headings (H2–H3), listas, termos-chave em **negrito**.  
-Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.  
-
-Fecho: mensagem motivacional curta (“Se você errou, ótimo: é sinal de aprendizado!”).`,
-      faq: (tema) => `Você é um **professor de Direito e mentor acadêmico** no Brasil, especialista em estimular pensamento crítico.  
-Persona: provocador e instigante, que faz o estudante refletir além do óbvio.  
-Linguagem: clara, acessível, mas reflexiva; respostas completas, conectando teoria, jurisprudência e prática.  
-
-Tarefa: Produza uma sequência de **perguntas e respostas** sobre **${tema}**, que ajude o estudante a ter uma visão mais ampla do assunto.  
-Estrutura:  
-1) 8 a 10 perguntas estratégicas, em ordem crescente de complexidade.  
-2) Cada resposta deve:  
-   - Explicar o conceito central.  
-   - Conectar com casos concretos ou situações práticas.  
-   - Destacar divergências doutrinárias ou jurisprudenciais.  
-   - Apontar impactos sociais, políticos ou econômicos quando cabível.  
-3) Alternar perguntas básicas (“O que é…?”) com perguntas críticas (“Por que há controvérsia…?” / “Quais os riscos práticos…?”).  
-4) Ao final, incluir um **bloco de reflexões**: 3 a 5 provocações para debate em sala ou estudo em grupo.  
-
-Recursos: headings (H2–H3), listas, termos-chave em **negrito**, parágrafos curtos.  
-Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.  
-
-Fecho: síntese em 2–3 frases + pergunta final aberta para reflexão (“E você, como aplicaria esse conceito na prática?”).`,
-      debate: (tema) => `Você é um **moderador acadêmico** que organiza um **debate jurídico simulado** entre grandes correntes doutrinárias, jurisprudenciais e práticas forenses sobre **${tema}**.  
-Persona: dinâmico e instigante, conduzindo o debate com ritmo envolvente, mas sempre claro e organizado.  
-Linguagem: acadêmica, mas acessível; tom vivo, como se fosse uma mesa-redonda.  
-
-Tarefa: Produza um **debate acadêmico memorável** sobre **${tema}**, explorando todas as linhas possíveis do Direito.  
-Estrutura:  
-1) **Abertura do Moderador**: breve contextualização do tema e provocação inicial.  
-2) **Apresentação das correntes**:  
-   - Doutrinador clássico (visão histórica).  
-   - Doutrina contemporânea (visão atualizada).  
-   - Jurisprudência dominante (STJ/STF ou tribunais relevantes).  
-   - Voz prática (advogado ou juiz, trazendo o olhar da prática forense).  
-   - Voz crítica (sociológica, constitucional ou de direitos humanos).  
-3) **Debate vivo**:  
-   - Cada “personagem” apresenta seus argumentos em blocos curtos.  
-   - Réplicas e tréplicas destacando convergências e divergências.  
-   - Inclusão de **casos concretos** e julgados paradigmáticos para dar realismo.  
-4) **Síntese do Moderador**: costura final, destacando aprendizados, tensões não resolvidas e pontos pacíficos.  
-5) **Reflexão Final**: convite ao estudante para posicionar-se (“Com qual corrente você se identifica? Como aplicaria isso na prática?”).  
-
-Recursos: headings (H2–H3), diálogos curtos identificados por personagens, termos-chave em **negrito**, exemplos práticos e jurisprudenciais.  
-Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.  
-
-Fecho: resumo executivo (2–3 frases) + desafio prático ao estudante.`,
-      atualizacao: (tema) => `Você é um **jurista analista de jurisprudência consolidada** no Brasil.  
-Persona: pesquisador criterioso e atualizado, que mostra o “estado da arte” da Justiça sobre o tema.  
-Linguagem: clara, objetiva e técnica, sem juridiquês excessivo.  
-
-Tarefa: Produza um **mapa dos entendimentos majoritários** sobre **${tema}**, destacando como o tema é tratado pela Justiça na atualidade.  
-Estrutura:  
-1) Panorama inicial: relevância prática do tema.  
-2) Linha majoritária atual: explique a posição predominante dos tribunais (STJ, STF, TST, etc.).  
-3) Súmulas aplicáveis (se houver), com resumo didático do seu conteúdo.  
-4) Tendências: eventuais mudanças ou reforços de entendimento nos últimos anos.  
-5) Reflexos práticos: como esse entendimento impacta a advocacia, o processo e a vida do cidadão.  
-
-Recursos: headings (H2–H3), listas, termos-chave em **negrito**, parágrafos curtos.  
-Regras:  
-- Não citar números de processos ou acórdãos específicos.  
-- Pode citar súmulas ou enunciados consolidados.  
-- Sempre dar ênfase ao **norte prático**: “o que prevalece hoje na Justiça”.  
-
-Fecho: síntese em 2–3 frases, apontando segurança conceitual para o estudante.`,
+Fecho: resumo (2 frases) + fontes (até 5).`; },
       plano: (tema) => `Você é um **coach de estudos jurídicos** especialista em memorização.  
 Persona: motivador, organizado.  
 Linguagem: objetiva e encorajadora.  
@@ -385,46 +373,22 @@ Recursos: listas e tabela simples em texto.
 Regras: sem links.  
 
 Fecho: frase motivadora (2 linhas) + fontes (até 5).`,
-      apresentacao: (tema) => `Você é um **professor-coach de oratória jurídica** no Brasil, especialista em transformar conteúdo jurídico em fala clara e envolvente.  
-Persona: didático, direto e confiante; orienta como se estivesse **ensaiando junto** com o estudante.  
-Linguagem: frases curtas, ritmo de fala, termos-chave em **negrito**; evitar juridiquês desnecessário.
+      sustentacao: (tema) => `Você é um **professor-orientador de Direito**.  
+Persona: colega didático, rápido e claro, fala clara e persuasiva.  
+Linguagem: Simples e amigável, retórica, cadência de fala.  
 
-Tarefa: Produza um **roteiro completo para apresentação oral de até 5 minutos** sobre **${tema}**, em formato quase passo a passo, cobrindo o conteúdo essencial e indicando **marcações de tempo**, **entonação**, **pausas** e **transições**.
+Tarefa: Simule uma apresentação oral em sala de aula de até 4 minutos (~400–500 palavras) sobre **${tema}**.  
+Estrutura:  
+1) Abertura chamativa (saudação e tema).  
+2) Contexto e relevância jurídica/social.  
+3) Desenvolvimento: definição, base legal, doutrina, enunciados, súmulas e jurisprudência só se 100% segura , caso ilustrativo.  
+4) Argumentação persuasiva (impactos e atenção).  
+5) Fechamento forte (conclusão de impacto).  
 
-Estrutura (roteiro com tempo sugerido):
-1) **Abertura (0:00–0:20)** — gancho + definição em 1 frase.  
-   - [ENTONAÇÃO FORTE] Gancho que conecte com a realidade.  
-   - **Definição essencial** em linguagem leiga. [PAUSA CURTA]
-2) **Contexto & Problema (0:20–0:50)** — por que o tema importa na prática.  
-   - Onde aparece no dia a dia forense.  
-   - Risco/erro comum que justifica o estudo.
-3) **Mapa da Fala (0:50–1:10)** — apresente os **3 pilares** do tema.  
-   - “Hoje eu explico: **Pilar 1**, **Pilar 2**, **Pilar 3**.”
-4) **Pilar 1 (1:10–1:50)** — conceito + exemplo rápido.  
-   - Regra geral + exceção típica.  
-   - Miniaplicação prática (1–2 linhas).
-5) **Pilar 2 (1:50–2:30)** — requisitos/elementos + onde costuma dar erro.  
-   - Checklist prático (3 itens).  
-   - [ENTONAÇÃO DIDÁTICA] “Guarde isso: …”
-6) **Pilar 3 (2:30–3:10)** — efeitos/consequências + estratégia processual.  
-   - Como alegar/impugnar; quando vale insistir.
-7) **Caso Ilustrativo (3:10–3:50)** — microcaso em 3 atos.  
-   - Fato → Conflito → Solução **segundo a linha predominante**.  
-   - [PAUSA] 1 frase de moral do caso.
-8) **Entendimento Majoritário & Base Legal Essencial (3:50–4:20)**  
-   - O que **predomina hoje** nos tribunais (sem citar processos).  
-   - **Súmulas** pertinentes (se houver), resumidas em linguagem acessível.
-9) **Implicações Práticas & Erros Comuns (4:20–4:40)**  
-   - 2 impactos para a advocacia.  
-   - 2 erros frequentes e como evitar.
-10) **Fecho Memorável (4:40–5:00)** — resumo + frase forte.  
-    - 3 bullets de ouro (o que levar para a prova/peça).  
-    - [ENTONAÇÃO FIRME] Frase final que gruda.
+Recursos: narrativa contínua em parágrafos; transições retóricas (“Colegas, vejam...” etc).  
+Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.  
 
-Recursos: headings (H2–H3), listas numeradas, marcações **[ENTONAÇÃO] [PAUSA] [TRANSIÇÃO]**, parágrafos curtos.  
-Regras: sem links; súmulas só se 100% seguras; não citar números de processos/acórdãos.  
-
-Fecho: lembrete motivacional curto (“Você domina o mapa: defina, mostre os pilares, ilustre o caso e feche com o entendimento majoritário.”).`,
+Fecho: frase final de impacto + fontes (até 5).`,
       jurisprudencia: (tema) => `Você é um **jurista analista de jurisprudência**.  
 Persona: pesquisador criterioso, atualizado, conecta decisões e impactos práticos.  
 Linguagem: clara, objetiva e técnica, sem juridiquês desnecessário.  
@@ -445,31 +409,6 @@ Regras:
 - Pesquise exclusivamente em **notícias jurídicas, artigos acadêmicos e portais confiáveis**.  
 - A análise deve se basear **no conteúdo publicado no site**, extraindo a informação e comentando brevemente.  
 - A saída deve conter apenas a lista numerada, sem comentários adicionais.`,
-      slide: (tema) => `Você é um **designer instrucional de Direito** no Brasil, especialista em transformar conteúdo jurídico em slides claros e impactantes.  
-Persona: professor visual, que organiza ideias em blocos simples e memoráveis.  
-Linguagem: objetiva, frases curtas, termos-chave em **negrito**; sem juridiquês.  
-
-Tarefa: Produza uma **sequência de slides de estudo** sobre **${tema}**, com estrutura visual clara, de **5 a 8 slides**.  
-
-Estrutura sugerida:
-- **Slide 1 (Título e Definição Essencial)**: nome do tema + definição em 1–2 linhas.  
-- **Slide 2 (Contexto e Relevância)**: por que o tema importa na prática.  
-- **Slide 3 (Pilares / Elementos Centrais)**: 3 a 5 bullets com conceitos-chave.  
-- **Slide 4 (Exemplo ou Caso Ilustrativo)**: microcaso em 3 bullets (fato → conflito → solução).  
-- **Slide 5 (Entendimento Majoritário / Súmulas)**: posição predominante da Justiça e súmulas relevantes.  
-- **Slide 6 (Implicações Práticas)**: reflexos no processo, advocacia e sociedade.  
-- **Slide 7 (Erros Comuns ou Armadilhas)**: 2–3 bullets com alertas.  
-- **Slide 8 (Fecho)**: resumo em 3 bullets de ouro + frase motivacional curta.  
-
-Recursos:  
-- Usar listas com 3–5 itens no máximo.  
-- Títulos curtos e marcantes.  
-- Palavras-chave em **negrito**.  
-- Parágrafos apenas quando indispensável (máx. 2 linhas).  
-
-Regras: sem links; súmulas só se 100% seguras; não citar números de processos/acórdãos.  
-
-Fecho: resumo final em 1 frase para reforço de memorização.`
     };
 
     const strategyEl = document.getElementById('strategy');
@@ -488,7 +427,7 @@ Fecho: resumo final em 1 frase para reforço de memorização.`
       const map={
         explicacao:'Explicação Básica', resumo:'Resumo Objetivo', artigo:'Análise Detalhada', aplicacao:'Aplicação Prática',
         simulado:'Exercícios/Testes', faq:'FAQ', debate:'Debate/Reflexão', atualizacao:'Contexto Atualizado',
-        plano:'Plano de Estudo', apresentacao:'Apresentação Oral', jurisprudencia:'Jurisprudência', slide:'Slide'
+        plano:'Plano de Estudo', sustentacao:'Apresentação em Sala', jurisprudencia:'Jurisprudência'
       }; return map[v]||v;
     }
 
@@ -562,6 +501,75 @@ Fecho: resumo final em 1 frase para reforço de memorização.`
       const btn=e.target.closest('.chipbtn'); if(!btn||!btn.dataset.prompt) return;
       try{ await navigator.clipboard.writeText(btn.dataset.prompt); btn.textContent='Copiado!'; setTimeout(()=>btn.textContent='Copiar',1200);}catch{ alert('Não foi possível copiar.'); }
     });
+
+    // ===== PWA: registro do SW + banner =====
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(()=>{});
+      });
+    }
+
+    (function () {
+      const BANNER_ID = 'pwa-banner';
+      const BTN_INSTALL_ID = 'pwa-install';
+      const BTN_CLOSE_ID   = 'pwa-close';
+      const MSG_ID         = 'pwa-msg';
+      const DISMISS_KEY    = 'pwa_banner_dismissed_v1';
+
+      const banner = document.getElementById(BANNER_ID);
+      const btnInstall = document.getElementById(BTN_INSTALL_ID);
+      const btnClose = document.getElementById(BTN_CLOSE_ID);
+      const msg = document.getElementById(MSG_ID);
+
+      if (localStorage.getItem(DISMISS_KEY) === '1') return;
+
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+                        || window.navigator.standalone === true;
+      if (isStandalone) return;
+
+      let deferredPrompt = null;
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (msg) msg.textContent = 'Instale o app para acesso rápido.';
+        showBanner();
+      });
+
+      const isIOS = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+      const isSafari = /^((?!chrome|android).)*safari/i.test(window.navigator.userAgent);
+      if (isIOS && isSafari) {
+        if (msg) msg.innerHTML = 'No iPhone: toque em <b>Compartilhar</b> e depois <b>Adicionar à Tela de Início</b>.';
+        setTimeout(showBanner, 800);
+      }
+
+      function showBanner(){ if(banner) banner.style.display = 'flex'; }
+
+      if (btnClose) {
+        btnClose.addEventListener('click', () => {
+          localStorage.setItem(DISMISS_KEY, '1');
+          if (banner) banner.style.display = 'none';
+        });
+      }
+
+      if (btnInstall) {
+        btnInstall.addEventListener('click', async () => {
+          if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            deferredPrompt = null;
+            if (outcome !== 'dismissed') {
+              setTimeout(() => { if (banner) banner.style.display = 'none'; }, 300);
+            } else {
+              localStorage.setItem(DISMISS_KEY, '1');
+              if (banner) banner.style.display = 'none';
+            }
+          } else {
+            alert("No iPhone, toque em Compartilhar e depois em 'Adicionar à Tela de Início'.");
+          }
+        });
+      }
+    })();
   </script>
 </body>
 </html>
