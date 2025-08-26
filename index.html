@@ -1,478 +1,375 @@
-<!doctype html>
-<html lang="pt-BR">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0c4160" />
-  <title>direito.love</title>
+<script>
+  // ===== Frase aleatória =====
+  const QUOTES=['Não há liberdade sem lei. — Montesquieu','A justiça sem força é impotente; a força sem justiça é tirana. — Pascal'];
+  function loadRandomQuote(){
+    const pick=QUOTES[Math.floor(Math.random()*QUOTES.length)];
+    const parts=pick.split('—');
+    document.getElementById('quote').textContent=(parts[0]||pick).trim();
+    document.getElementById('author').textContent=parts[1]?'— '+parts[1].trim():'';
+  }
+  loadRandomQuote();
 
-  <!-- PWA -->
-  <link rel="manifest" href="./manifest.json">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
-
-  <style>
-    :root{
-      --ink:#0b2f3b;
-      --bg:#ffffff;
-      --panel:#63cfc1;
-      --panel-2:#e9f2f5;
-      --btn:#0b3b4a;
-      --btn-copy:#6b7785;
-      --btn-reset:#4b5563;
-      --border:#d8e2e7;
-      --topbar:#0c4160;
-      --topbar-h:52px;     /* altura da barra do topo */
-      --logo-h:30px;       /* altura da logo (ajuste livre) */
+  // ===== Tabs =====
+  const tabIds=['gerador','book','dicas'];
+  function activateTab(id){
+    for(const t of tabIds){
+      document.getElementById('tab-'+t).classList.toggle('is-active',t===id);
+      document.getElementById('tabbtn-'+t)?.setAttribute('aria-selected',String(t===id));
+      document.getElementById('m-tabbtn-'+t)?.setAttribute('aria-selected',String(t===id));
     }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;background:var(--bg);color:var(--ink);padding-top:var(--topbar-h)}
+  }
+  for(const t of tabIds){
+    document.getElementById('tabbtn-'+t)?.addEventListener('click',()=>activateTab(t));
+    document.getElementById('m-tabbtn-'+t)?.addEventListener('click',()=>activateTab(t));
+  }
 
-    /* Topbar (estreita e discreta) */
-    .topbar{position:fixed;top:0;left:0;right:0;height:var(--topbar-h);display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:var(--topbar);z-index:1000;border-bottom:1px solid var(--border)}
-    .brand-wrap{display:flex;align-items:center;gap:8px;min-width:0}
-    /* Logo retangular: altura fixa, largura automática (não corta) */
-    .brand-logo{display:block;height:var(--logo-h);width:auto;max-width:min(220px,60vw);object-fit:contain;object-position:left center}
-    .topbar .right{display:flex;align-items:center;gap:10px}
+  // ===== PWA: Service Worker =====
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').catch(()=>{});
+    });
+  }
 
-    /* Instagram */
-    .insta-link{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;text-decoration:none;transition:transform .12s ease}
-    .insta-link:hover{transform:translateY(-1px)}
-    .insta-link svg{display:block;width:100%;height:100%}
+  // ===== PWA: POPUP (sem barra fixa) =====
+  (function () {
+    const popup = document.getElementById('pwa-popup');
+    const btnInstall = document.getElementById('pwa-install');
+    const btnClose = document.getElementById('pwa-close');
+    const btnX = document.getElementById('pwa-x');
+    const msg = document.getElementById('pwa-msg');
 
-    /* Banner PWA (robusto) */
-    #pwa-banner{display:none;position:fixed;top:var(--topbar-h);left:0;right:0;background:#0b2f3b;color:#fff;z-index:10010;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,.15);pointer-events:auto}
-    #pwa-banner .actions{display:flex;gap:8px}
-    .pwa-btn{display:inline-flex;align-items:center;justify-content:center;border:0;outline:0;cursor:pointer;background:#63d1c3;color:#06343e;font-weight:800;padding:8px 14px;border-radius:999px;user-select:none;-webkit-tap-highlight-color:transparent}
-    .pwa-btn.secondary{background:#6b7785;color:#fff;font-weight:700}
+    const REAPPEAR_DAYS = 7, MS = 86400000;
+    const KEY_DISMISSED_AT = 'pwa_popup_dismissed_at';
+    const KEY_INSTALLED = 'pwa_popup_installed';
 
-    /* Conteúdo */
-    .hero{display:grid;gap:8px;max-width:960px;margin:0 auto;padding:28px 16px 16px;align-items:start}
-    .quote{font-weight:800;line-height:1.05;color:var(--ink);font-size:clamp(24px,6vw,56px)}
-    .author{font-style:italic;font-size:clamp(13px,2.2vw,20px);opacity:.85}
+    const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+    if (standalone) { localStorage.setItem(KEY_INSTALLED,'1'); return; }
+    if (localStorage.getItem(KEY_INSTALLED)==='1') return;
 
-    .panel{background:var(--panel);border-radius:24px;padding:20px;max-width:960px;margin:0 auto}
-    @media (min-width:861px){.panel{padding:28px;box-shadow:0 10px 28px rgba(0,0,0,.06)}}
+    const lastDismiss = Number(localStorage.getItem(KEY_DISMISSED_AT) || 0);
+    const blocked = lastDismiss && (Date.now() - lastDismiss) < (REAPPEAR_DAYS * MS);
+    if (blocked) return;
 
-    .field-wrap{margin:14px 0 16px}
-    .label{font-weight:900;font-size:clamp(15px,2.3vw,22px);color:#08333e;margin:0 0 10px}
-    .field{width:100%;background:var(--panel-2);border:1px solid var(--border);border-radius:16px;padding:14px;color:#11323c;outline:none}
-    textarea.field{min-height:110px;resize:vertical}
+    let deferredPrompt = null;
+    let shown = false;
 
-    .actions-out{display:flex;flex-direction:column;gap:12px}
-    .actions-buttons{display:flex;gap:10px;flex-wrap:wrap}
-    .btn{border:none;border-radius:999px;padding:9px 16px;font-weight:800;letter-spacing:.3px;color:#fff;cursor:pointer}
-    .btn-primary{background:var(--btn)}
-    .btn-copy{background:var(--btn-copy);font-size:14px;padding:7px 12px}
-    .btn-reset{background:var(--btn-reset)}
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (!shown){ popup.style.display='block'; shown=true; }
+    });
 
-    .output{background:var(--panel-2);border:1px solid var(--border);border-radius:16px;min-height:150px;padding:14px;color:#16333b;width:100%;resize:vertical}
-
-    /* Book */
-    .chipbtn{border:1px solid var(--border);background:#fff;color:var(--ink);border-radius:999px;padding:6px 10px;font-weight:700;cursor:pointer;font-size:12px}
-    .chipbtn:active{transform:translateY(1px)}
-    .book-list{max-height:60vh;overflow:auto;border:1px solid var(--border);border-radius:16px;background:#fff}
-    .book-item{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:10px 12px;border-bottom:1px solid var(--border)}
-    .book-item:last-child{border-bottom:none}
-    .book-meta{min-width:220px;max-width:calc(100% - 120px)}
-    .book-obj{font-weight:800;color:#08333e}
-    .book-tema{opacity:.9;margin-top:4px;font-size:14px}
-
-    .tabs{max-width:960px;margin:12px auto;padding:0 16px;display:none;gap:8px}
-    .tab-btn{border:1px solid var(--border);background:#fff;color:#000;padding:7px 12px;border-radius:999px;font-weight:700;cursor:pointer;font-size:14px}
-    .tab-btn[aria-selected="true"]{background:var(--ink);color:#fff;border-color:transparent}
-
-    /* Tabbar (mais estreita e discreta) */
-    .tabbar{position:fixed;bottom:0;left:0;right:0;height:44px;background:#ffffff;border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;z-index:1000}
-    .tabbar button{all:unset;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 8px;border-radius:8px}
-    .tabbar button[aria-selected="true"]{background:#e7fbf8}
-    .tabbar .lbl{font-size:15px;font-weight:700;color:#0b2f3b}
-
-    .tab-content{display:none;padding-bottom:56px}
-    .tab-content.is-active{display:block}
-    @media (min-width:861px){.tabbar{display:none}.tabs{display:flex}.tab-content{padding-bottom:16px}}
-  </style>
-</head>
-<body>
-  <!-- Topbar -->
-  <nav class="topbar" aria-label="Barra superior">
-    <a class="brand-wrap" href="./" aria-label="direito.love — início">
-      <img class="brand-logo" src="./icons/logo-menu.png"
-           onerror="this.onerror=null; this.src='./icons/icon-192.png';"
-           alt="direito.love">
-    </a>
-    <div class="right">
-      <a class="insta-link" href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener" aria-label="Abrir Instagram @osvaldosereiajr" title="@osvaldosereiajr">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <defs>
-            <linearGradient id="igGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#f58529"/>
-              <stop offset="30%" stop-color="#feda77"/>
-              <stop offset="60%" stop-color="#dd2a7b"/>
-              <stop offset="80%" stop-color="#8134af"/>
-              <stop offset="100%" stop-color="#515bd4"/>
-            </linearGradient>
-          </defs>
-          <rect x="0" y="0" width="24" height="24" rx="6" fill="url(#igGrad)"/>
-          <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="#ffffff" stroke-width="2"/>
-          <circle cx="12" cy="12" r="4.5" fill="none" stroke="#ffffff" stroke-width="2"/>
-          <circle cx="17.2" cy="6.8" r="1.3" fill="#ffffff"/>
-        </svg>
-      </a>
-    </div>
-  </nav>
-
-  <!-- Banner PWA -->
-  <div id="pwa-banner" role="region" aria-label="Instalar aplicativo">
-    <div id="pwa-msg" style="font-weight:700;">Instale o app para acesso rápido.</div>
-    <div class="actions">
-      <button id="pwa-install" class="pwa-btn" type="button">Instalar</button>
-      <button id="pwa-close" class="pwa-btn secondary" type="button">Fechar</button>
-    </div>
-  </div>
-
-  <header class="hero"><div id="quote" class="quote">—</div><div id="author" class="author"></div></header>
-
-  <nav class="tabs" role="tablist">
-    <button class="tab-btn" aria-selected="true" aria-controls="tab-gerador" id="tabbtn-gerador">Gerador</button>
-    <button class="tab-btn" aria-selected="false" aria-controls="tab-book" id="tabbtn-book">Arquivo</button>
-    <button class="tab-btn" aria-selected="false" aria-controls="tab-dicas" id="tabbtn-dicas">Dicas</button>
-  </nav>
-
-  <!-- Gerador -->
-  <section id="tab-gerador" class="tab-content is-active">
-    <main class="panel">
-      <div class="field-wrap">
-        <h3 class="label">Qual seu objetivo?</h3>
-        <select id="strategy" class="field">
-          <option value="explicacao">Explicação Básica</option>
-          <option value="resumo">Resumo Objetivo</option>
-          <option value="artigo">Análise Detalhada</option>
-          <option value="aplicacao">Aplicação Prática</option>
-          <option value="simulado">Exercícios/Testes</option>
-          <option value="faq">Perguntas Frequentes</option>
-          <option value="debate">Debate/Reflexão</option>
-          <option value="atualizacao">Contexto Atualizado</option>
-          <option value="plano">Plano de Estudo</option>
-          <option value="sustentacao">Apresentação em Sala</option>
-          <option value="jurisprudencia">Jurisprudência</option>
-        </select>
-      </div>
-      <div class="field-wrap">
-        <h3 class="label">Vamos falar sobre o quê?</h3>
-        <textarea id="theme" class="field" placeholder="Digite o tema"></textarea>
-      </div>
-      <div class="actions-out">
-        <div class="actions-buttons">
-          <button id="generate" class="btn btn-primary">Gerar</button>
-          <button id="copy" class="btn btn-copy">Copiar</button>
-          <button id="reset" class="btn btn-reset">Reiniciar</button>
-        </div>
-        <textarea id="result" class="output" placeholder="Prompt gerado aqui..." readonly></textarea>
-      </div>
-    </main>
-  </section>
-
-  <!-- Book -->
-  <section id="tab-book" class="tab-content">
-    <main class="panel">
-      <h2 class="label">Arquivo – Suas últimas 500 gerações</h2>
-      <p class="field" style="min-height:0;margin-top:0">Carrega automaticamente de 10 em 10 enquanto você rola.</p>
-      <div id="book-list" class="book-list"></div>
-    </main>
-  </section>
-
-  <!-- Dicas -->
-  <section id="tab-dicas" class="tab-content">
-    <main class="panel">
-      <h2 class="label">Dicas de Uso — como cada objetivo gera a resposta</h2>
-      <div class="field" style="white-space:pre-wrap">
-<b>Explicação Básica</b> — definição curta, 2–3 analogias e 3 pontos-chave, mais 2 erros comuns e um mini-exemplo. 
-
-<b>Resumo Objetivo</b> — conceito em 2 linhas, base legal, estrutura, 3 diferenças fáceis de confundir, tendências, 3 pegadinhas e 2 mini-cases.
-
-<b>Análise Detalhada</b> — artigo acadêmico: introdução (problema, relevância, hipótese), desenvolvimento (conceitos, correntes, análise crítica, jurisprudência), conclusão (síntese + proposta).
-
-<b>Aplicação Prática</b> — caso fictício, enquadramento jurídico, solução provável, mini-modelo de peça e checklist.
-
-<b>Exercícios/Testes</b> — 5 questões (2 fáceis, 2 médias, 1 difícil) com gabarito comentado.
-
-<b>FAQ</b> — 15 perguntas essenciais respondidas em até 3 linhas, mais 2 confusões comuns corrigidas.
-
-<b>Debate/Reflexão</b> — problema central, 3 argumentos pró e 3 contra, 1 dilema prático, perguntas-guia.
-
-<b>Contexto Atualizado</b> — panorama legislativo e jurisprudencial recente, impactos práticos, pontos controversos.
-
-<b>Plano de Estudo</b> — cronograma de 4 semanas, rotina de revisão espaçada, exercícios e erros comuns.
-
-<b>Apresentação em Sala</b> — discurso de ~4 min: abertura, contexto, base legal/doutrina/jurisprudência segura, caso ilustrativo, argumentação, fechamento forte.
-
-<b>Jurisprudência (Radar)</b> — 15 itens verificados (tribunal, nº, ano, tese resumida, impacto prático).
-      </div>
-    </main>
-  </section>
-
-  <div class="footer"></div>
-
-  <!-- Tabbar (mobile) -->
-  <nav class="tabbar" role="tablist">
-    <button aria-selected="true" aria-controls="tab-gerador" id="m-tabbtn-gerador"><span class="lbl">Gerar</span></button>
-    <button aria-selected="false" aria-controls="tab-book" id="m-tabbtn-book"><span class="lbl">Arquivo</span></button>
-    <button aria-selected="false" aria-controls="tab-dicas" id="m-tabbtn-dicas"><span class="lbl">Dicas</span></button>
-  </nav>
-
-  <script>
-    // Frase aleatória
-    const QUOTES=['Não há liberdade sem lei. — Montesquieu','A justiça sem força é impotente; a força sem justiça é tirana. — Pascal'];
-    function loadRandomQuote(){const pick=QUOTES[Math.floor(Math.random()*QUOTES.length)];const parts=pick.split('—');document.getElementById('quote').textContent=(parts[0]||pick).trim();document.getElementById('author').textContent=parts[1]?'— '+parts[1].trim():'';}
-    loadRandomQuote();
-
-    // Tabs
-    const tabIds=['gerador','book','dicas'];
-    function activateTab(id){for(const t of tabIds){document.getElementById('tab-'+t).classList.toggle('is-active',t===id);document.getElementById('tabbtn-'+t)?.setAttribute('aria-selected',String(t===id));document.getElementById('m-tabbtn-'+t)?.setAttribute('aria-selected',String(t===id));}}
-    for(const t of tabIds){document.getElementById('tabbtn-'+t)?.addEventListener('click',()=>activateTab(t));document.getElementById('m-tabbtn-'+t)?.addEventListener('click',()=>activateTab(t));}
-
-    // ===== PWA: registra SW =====
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(()=>{});
-      });
+    const ua = navigator.userAgent;
+    const isIOS = /iphone|ipad|ipod/i.test(ua);
+    const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+    if (isIOS && isSafari) {
+      setTimeout(()=>{ msg.innerHTML='No iPhone: toque em <b>Compartilhar</b> → <b>Adicionar à Tela de Início</b>.'; popup.style.display='block'; shown=true; }, 400);
     }
 
-    // ===== PWA: Banner com retorno em 7 dias se fechar =====
-    (function () {
-      const banner = document.getElementById('pwa-banner');
-      const btnInstall = document.getElementById('pwa-install');
-      const btnClose = document.getElementById('pwa-close');
-      const msg = document.getElementById('pwa-msg');
+    setTimeout(()=>{ 
+      if (!shown){ msg.innerHTML='No Android: três pontinhos do Chrome → <b>Adicionar à tela inicial</b>.'; popup.style.display='block'; shown=true; }
+    }, 6000);
 
-      // Config: quantos dias até reaparecer após "Fechar"
-      const REAPPEAR_DAYS = 7;
-      const MS = 24*60*60*1000;
-      const KEY_DISMISSED_AT = 'pwa_banner_dismissed_at';
-      const KEY_INSTALLED = 'pwa_banner_installed';
+    function closePopup(){
+      localStorage.setItem(KEY_DISMISSED_AT, String(Date.now()));
+      popup.style.display='none';
+    }
+    btnClose.addEventListener('click', (e)=>{ e.preventDefault(); e.stopPropagation(); closePopup(); });
+    btnX.addEventListener('click', (e)=>{ e.preventDefault(); e.stopPropagation(); closePopup(); });
 
-      // Não mostra se já está em modo app
-      const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
-      if (standalone) { localStorage.setItem(KEY_INSTALLED,'1'); return; }
-
-      // Respeita o "fechar" por 7 dias
-      const lastDismiss = Number(localStorage.getItem(KEY_DISMISSED_AT) || 0);
-      const blocked = lastDismiss && (Date.now() - lastDismiss) < (REAPPEAR_DAYS * MS);
-      if (blocked || localStorage.getItem(KEY_INSTALLED)==='1') return;
-
-      let deferredPrompt = null;
-
-      // Android/Chrome: só mostra quando o evento chegar
-      window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        if (msg) msg.textContent = 'Instale o app para acesso rápido.';
-        banner.style.display = 'flex';
-      });
-
-      // iOS/Safari: sem evento → mostra instrução
-      const ua = navigator.userAgent;
-      const isIOS = /iphone|ipad|ipod/i.test(ua);
-      const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
-      if (isIOS && isSafari) {
-        if (msg) msg.innerHTML = 'No iPhone: toque em <b>Compartilhar</b> → <b>Adicionar à Tela de Início</b>.';
-        setTimeout(()=>{ banner.style.display = 'flex'; }, 400);
+    btnInstall.addEventListener('click', async (e) => {
+      e.preventDefault(); e.stopPropagation();
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        await deferredPrompt.userChoice.catch(()=>{});
+        deferredPrompt = null;
+        closePopup();
+        return;
       }
+      alert('No Android/Chrome: toque nos três pontinhos → "Adicionar à tela inicial".');
+    });
 
-      // Fechar → grava timestamp para reaparecer em 7 dias
-      btnClose.addEventListener('click', (ev) => {
-        ev.preventDefault(); ev.stopPropagation();
-        localStorage.setItem(KEY_DISMISSED_AT, String(Date.now()));
-        banner.style.display = 'none';
-      });
+    window.addEventListener('appinstalled', () => {
+      localStorage.setItem(KEY_INSTALLED,'1');
+      popup.style.display='none';
+    });
+  })();
 
-      // Instalar (Android/Chrome)
-      btnInstall.addEventListener('click', async (ev) => {
-        ev.preventDefault(); ev.stopPropagation();
+  // ====== GERADOR: TEMPLATES COMPLETOS ======
+  const TEMPLATES = {
+    explicacao: (tema) => `Você é um **tutor de Direito** no Brasil, especialista em didática jurídica.
+Persona: professor paciente e criativo, que explica para iniciantes.
+Linguagem: simples, clara, sem juridiquês; use analogias.
 
-        if (deferredPrompt) {
-          deferredPrompt.prompt();
-          await deferredPrompt.userChoice.catch(()=>{});
-          deferredPrompt = null;
-          // seja qual for a escolha, não insistir agora
-          localStorage.setItem(KEY_DISMISSED_AT, String(Date.now()));
-          banner.style.display = 'none';
-          return;
-        }
+Tarefa: Explique o tema **${tema}**.
+Estrutura:
+1) Definição essencial (até 3 linhas).
+2) 2–3 analogias do cotidiano.
+3) 3 pontos-chave (o que é, para que serve, onde se aplica).
+4) 2 erros comuns dos alunos + forma correta.
+5) Mini-exemplo prático.
 
-        if (isIOS && isSafari) {
-          alert("No iPhone, toque em Compartilhar e depois em 'Adicionar à Tela de Início'.");
-          return;
-        }
-
-        alert('Instalação não disponível agora. Abra no Chrome/Android e navegue um pouco na página.');
-      });
-
-      // Instalado → não mostrar nunca mais
-      window.addEventListener('appinstalled', () => {
-        localStorage.setItem(KEY_INSTALLED,'1');
-        banner.style.display = 'none';
-      });
-    })();
-
-    // ===== Restante do app (templates, book, etc.) =====
-    const TEMPLATES = {
-      explicacao: (tema) => `Você é um **tutor de Direito** no Brasil, especialista em didática jurídica.  
-Persona: professor paciente e criativo, que explica para iniciantes.  
-Linguagem: simples, clara, sem juridiquês; use analogias.  
-
-Tarefa: Explique o tema **${tema}**.  
-Estrutura:  
-1) Definição essencial (até 3 linhas).  
-2) 2–3 analogias do cotidiano.  
-3) 3 pontos-chave (o que é, para que serve, onde se aplica).  
-4) 2 erros comuns dos alunos + forma correta.  
-5) Mini-exemplo prático.  
-
-Recursos: headings (H2–H3), listas, parágrafos curtos.  
-Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.  
+Recursos: headings (H2–H3), listas, parágrafos curtos.
+Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.
 
 Fecho: síntese (2 frases) + fontes (até 5).`,
-      resumo: (tema) => `Você é um **professor universitário de Direito** no Brasil, especialista em provas da OAB e concursos.  
-Persona: objetivo e estratégico, como quem monta checklists.  
-Linguagem: direta, sem floreios.  
 
-Tarefa: Resuma **${tema}** em formato RAIO-X.  
-Inclua:  
-1) Conceito-chave (até 2 linhas);  
-2) Base legal essencial (artigos);  
-3) Estrutura/elementos;  
-4) Diferenças fáceis de confundir (3 pares);  
-5) Tendências jurisprudenciais (sem nº se não houver certeza);  
-6) 3 pegadinhas de prova;  
-7) 2 mini-cases resolvidos.  
+    resumo: (tema) => `Você é um **professor universitário de Direito** no Brasil, especialista em provas da OAB e concursos.
+Persona: objetivo e estratégico, como quem monta checklists.
+Linguagem: direta, sem floreios.
 
-Recursos: tópicos numerados, negrito nos termos centrais.  
-Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.    
+Tarefa: Resuma **${tema}** em formato RAIO-X.
+Inclua:
+1) Conceito-chave (até 2 linhas);
+2) Base legal essencial (artigos);
+3) Estrutura/elementos;
+4) Diferenças fáceis de confundir (3 pares);
+5) Tendências jurisprudenciais;
+6) 3 pegadinhas de prova;
+7) 2 mini-cases resolvidos.
+
+Recursos: tópicos numerados, negrito nos termos centrais.
+Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.
 
 Fecho: resumo de bolso (2 frases) + fontes (até 5).`,
-      artigo: (tema) => `Você é um **jurista pesquisador**, especialista em produção acadêmica.  
-Persona: acadêmico crítico, mas acessível.  
-Linguagem: técnica, formal, sem excesso; parágrafos curtos.  
 
-Tarefa: Produza artigo acadêmico sobre **${tema}**.  
-Estrutura:  
-# Introdução: problema, relevância prática e hipótese.  
-# Desenvolvimento: conceitos centrais, evolução histórica, correntes doutrinárias (prós/contrás), análise crítica, tendências jurisprudenciais, (opcional: direito comparado).  
-# Conclusão: síntese crítica + proposta prática.  
+    artigo: (tema) => `Você é um **jurista pesquisador**, especialista em produção acadêmica.
+Persona: acadêmico crítico, mas acessível.
+Linguagem: técnica, formal, sem excesso; parágrafos curtos.
 
-Recursos: headings H1–H4, listas quando cabíveis, destaques em **negrito**.  
-Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.    
+Tarefa: Produza artigo acadêmico sobre **${tema}**.
+Estrutura:
+# Introdução: problema, relevância prática e hipótese.
+# Desenvolvimento: conceitos centrais, evolução histórica, correntes doutrinárias (prós/contrás), análise crítica, tendências jurisprudenciais, (opcional: direito comparado).
+# Conclusão: síntese crítica + proposta prática.
+
+Recursos: headings H1–H4, listas quando cabíveis, destaques em **negrito**.
+Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.
 
 Fecho: resumo final (2 frases) + referências (até 5).`,
-      aplicacao: (tema) => `Você é um **advogado experiente e professor de prática jurídica**.  
-Persona: prático, direto, como quem treina estagiários.  
-Linguagem: clara, com exemplos.  
 
-Tarefa: Mostre como aplicar **${tema}** na prática.  
-Estrutura:  
-1) Caso fictício realista.  
-2) Enquadramento jurídico (fundamentos e raciocínio).  
-3) Solução provável (e alternativas).  
-4) Mini-modelo de peça (endereçamento, fatos, fundamentos, pedidos).  
-5) Checklist (3–5 pontos).  
+    aplicacao: (tema) => `Você é um **advogado experiente e professor de prática jurídica**.
+Persona: prático, direto, como quem treina estagiários.
+Linguagem: clara, com exemplos.
 
-Recursos: listas, blocos de texto para peças.  
-Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.    
+Tarefa: Mostre como aplicar **${tema}** na prática.
+Estrutura:
+1) Caso fictício realista.
+2) Enquadramento jurídico (fundamentos e raciocínio).
+3) Solução provável (e alternativas).
+4) Mini-modelo de peça (endereçamento, fatos, fundamentos, pedidos).
+5) Checklist (3–5 pontos).
+
+Recursos: listas, blocos de texto para peças.
+Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.
 
 Fecho: resumo executivo (2 frases) + fontes (até 5).`,
-      simulado: (tema) => `Você é um **examinador da OAB** montando questões sobre ${tema}.  
-Persona: avaliador exigente, mas didático no comentário.  
-Linguagem: objetiva, estilo prova.  
 
-Tarefa: Crie 5 questões sobre **${tema}**.  
-Estrutura:  
-- 2 fáceis, 2 médias, 1 difícil.  
-- Estilo múltipla escolha ou discursiva curta.  
-- Gabarito comentado logo após cada questão.  
+    simulado: (tema) => `Você é um **examinador da OAB** montando questões sobre ${tema}.
+Persona: avaliador exigente, mas didático no comentário.
+Linguagem: objetiva, estilo prova.
 
-Recursos: blocos por questão; resposta correta em **negrito**.  
-Regras: sem links; jurisprudência só se 100% segura.  
+Tarefa: Crie 5 questões sobre **${tema}**.
+Estrutura:
+- 2 fáceis, 2 médias, 1 difícil.
+- Estilo múltipla escolha ou discursiva curta.
+- Gabarito comentado logo após cada questão.
+
+Recursos: blocos por questão; resposta correta em **negrito**.
+Regras: sem links; jurisprudência só se 100% segura.
 
 Fecho: 3 dicas práticas de estudo + fontes (até 5).`,
-      faq: (tema) => `Você é um **monitor de Direito** explicando conceitos básicos.  
-Persona: colega didático, rápido e claro.  
-Linguagem: simples, sem juridiquês.  
 
-Tarefa: Responda dúvidas rápidas sobre **${tema}**.  
-Estrutura:  
-- 15 perguntas essenciais.  
-- Respostas em até 3 linhas.  
-- 2 confusões comuns + a forma correta.  
+    faq: (tema) => `Você é um **monitor de Direito** explicando conceitos básicos.
+Persona: colega didático, rápido e claro.
+Linguagem: simples, sem juridiquês.
 
-Recursos: pergunta em **negrito**, resposta em texto normal.  
-Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.  
+Tarefa: Responda dúvidas rápidas sobre **${tema}**.
+Estrutura:
+- 15 perguntas essenciais.
+- Respostas em até 3 linhas.
+- 2 confusões comuns + a forma correta.
+
+Recursos: pergunta em **negrito**, resposta em texto normal.
+Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.
 
 Fecho: resumo de bolso (2 frases) + fontes (até 5).`,
-      debate: (tema) => `Você é um **professor de Filosofia do Direito** mediando debate sobre ${tema}.  
-Persona: provocador crítico, mas neutro.  
-Linguagem: reflexiva e clara.  
 
-Tarefa: Promova um debate sobre **${tema}**.  
-Estrutura:  
-1) Problema central (até 4 linhas).  
-2) 3 argumentos pró.  
-3) 3 argumentos contra.  
-4) 1 dilema ético ou prático.  
-5) Perguntas-guia para discussão.  
+    debate: (tema) => `Você é um **professor de Filosofia do Direito** mediando debate sobre ${tema}.
+Persona: provocador crítico, mas neutro.
+Linguagem: reflexiva e clara.
 
-Recursos: listas; destaques em **negrito**.  
-Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.  
+Tarefa: Promova um debate sobre **${tema}**.
+Estrutura:
+1) Problema central (até 4 linhas).
+2) 3 argumentos pró.
+3) 3 argumentos contra.
+4) 1 dilema ético ou prático.
+5) Perguntas-guia para discussão.
+
+Recursos: listas; destaques em **negrito**.
+Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.
 
 Fecho: síntese imparcial (2 frases) + fontes (até 5).`,
-    };
 
-    const strategyEl=document.getElementById('strategy');
-    const themeEl=document.getElementById('theme');
-    const resultEl=document.getElementById('result');
-    const btnGen=document.getElementById('generate');
-    const btnCopy=document.getElementById('copy');
-    const btnReset=document.getElementById('reset');
+    atualizacao: (tema) => {
+      const d=new Date();
+      const data=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      return `Você é um **jurista analista de legislação e jurisprudência**.
+Persona: atualizado, conecta norma e impacto prático.
+Linguagem: clara, objetiva.
 
-    btnGen.addEventListener('click', generate);
-    btnCopy.addEventListener('click', copyOut);
-    btnReset.addEventListener('click', resetAll);
-    themeEl.addEventListener('keydown',(e)=>{ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='enter'){generate();}});
+Tarefa: Traga panorama atualizado sobre **${tema}** (até ${data}).
+Estrutura:
+1) Alterações legislativas recentes.
+2) Tendências jurisprudenciais atuais.
+3) Impactos práticos (provas e advocacia).
+4) Pontos controversos e cuidados.
 
-    function strategyHumanName(v){const map={explicacao:'Explicação Básica',resumo:'Resumo Objetivo',artigo:'Análise Detalhada',aplicacao:'Aplicação Prática',simulado:'Exercícios/Testes',faq:'FAQ',debate:'Debate/Reflexão',atualizacao:'Contexto Atualizado',plano:'Plano de Estudo',sustentacao:'Apresentação em Sala'};return map[v]||v;}
-    function generate(){
-      const s=strategyEl.value; const t=(themeEl.value||'').trim();
-      if(!s){alert('Selecione o objetivo.');return;}
-      if(!t){alert('Digite o tema.');themeEl.focus();return;}
-      const tpl=TEMPLATES[s]; if(!tpl){alert('Estratégia inválida.');return;}
-      const out=tpl(t); resultEl.value=out;
+Recursos: subtítulos H3; destaque artigos em **negrito**.
+Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.
 
-      let bookData=[]; try{bookData=JSON.parse(localStorage.getItem('book_data_v1')||'[]'); if(!Array.isArray(bookData)) bookData=[];}catch{}
-      const entry={objetivo:strategyHumanName(s),tema:t,prompt:out,ts:Date.now()};
-      bookData.unshift(entry); if(bookData.length>500) bookData=bookData.slice(0,500);
-      try{localStorage.setItem('book_data_v1',JSON.stringify(bookData));}catch{}
-      if(document.getElementById('tab-book').classList.contains('is-active')){clearBookUI();renderBatch();}
-      window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+Fecho: resumo (2 frases) + fontes (até 5).`;
+    },
+
+    plano: (tema) => `Você é um **coach de estudos jurídicos** especialista em memorização.
+Persona: motivador, organizado.
+Linguagem: objetiva e encorajadora.
+
+Tarefa: Crie plano de estudo sobre **${tema}** para 4 semanas.
+Estrutura:
+1) Objetivo do ciclo.
+2) Cronograma semanal (Semana 1–4).
+3) Rotina de revisão espaçada (1-1-7-15).
+4) Exercícios práticos.
+5) Erros comuns e como evitar.
+
+Recursos: listas e tabela simples em texto.
+Regras: sem links.
+
+Fecho: frase motivadora (2 linhas) + fontes (até 5).`,
+
+    sustentacao: (tema) => `Você é um **professor-orientador de Direito**.
+Persona: colega didático, rápido e claro.
+Linguagem: simples e persuasiva.
+
+Tarefa: Simule uma apresentação oral de até 4 minutos (~400–500 palavras) sobre **${tema}**.
+Estrutura:
+1) Abertura chamativa.
+2) Contexto e relevância jurídica/social.
+3) Desenvolvimento: definição, base legal, doutrina e jurisprudência segura, caso ilustrativo.
+4) Argumentação persuasiva.
+5) Fechamento forte.
+
+Regras: sem links; cite enunciados/súmulas só se 100% seguro.
+
+Fecho: frase de impacto + fontes (até 5).`,
+
+    jurisprudencia: (tema) => `Você é um **jurista analista de jurisprudência**.
+Persona: pesquisador criterioso, atualizado.
+Linguagem: clara e técnica.
+
+Tarefa: Monte um radar de **jurisprudência** sobre **${tema}** com 15 itens verificados (tribunal, nº/ano, tese resumida e impacto prático).
+Regras:
+- Não invente decisões.
+- Use apenas fontes confiáveis.
+- Sem links se não tiver certeza absoluta.
+Saída: lista numerada de 15 itens.`
+  };
+
+  // ====== GERADOR: handlers ======
+  const strategyEl=document.getElementById('strategy');
+  const themeEl=document.getElementById('theme');
+  const resultEl=document.getElementById('result');
+  const btnGen=document.getElementById('generate');
+  const btnCopy=document.getElementById('copy');
+  const btnReset=document.getElementById('reset');
+
+  function strategyHumanName(v){
+    const map={
+      explicacao:'Explicação Básica',
+      resumo:'Resumo Objetivo',
+      artigo:'Análise Detalhada',
+      aplicacao:'Aplicação Prática',
+      simulado:'Exercícios/Testes',
+      faq:'FAQ',
+      debate:'Debate/Reflexão',
+      atualizacao:'Contexto Atualizado',
+      plano:'Plano de Estudo',
+      sustentacao:'Apresentação em Sala',
+      jurisprudencia:'Jurisprudência'
+    }; return map[v]||v;
+  }
+
+  function generate(){
+    const s = strategyEl.value; const t = (themeEl.value||'').trim();
+    if(!s){ alert('Selecione o objetivo.'); return; }
+    if(!t){ alert('Digite o tema.'); themeEl.focus(); return; }
+    const tpl = TEMPLATES[s];
+    if(!tpl){ alert('Estratégia inválida. Atualize a página.'); return; }
+    const out = tpl(t);
+    resultEl.value = out;
+
+    // Book local
+    let bookData=[]; 
+    try{ bookData = JSON.parse(localStorage.getItem('book_data_v1')||'[]'); if(!Array.isArray(bookData)) bookData=[]; }catch{ bookData=[]; }
+    const entry = { objetivo: strategyHumanName(s), tema: t, prompt: out, ts: Date.now() };
+    bookData.unshift(entry);
+    if(bookData.length>500) bookData = bookData.slice(0,500);
+    try{ localStorage.setItem('book_data_v1', JSON.stringify(bookData)); }catch{}
+
+    // Se Book estiver aberto, re-renderiza
+    if(document.getElementById('tab-book').classList.contains('is-active')){ clearBookUI(); renderBatch(); }
+
+    window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'});
+  }
+
+  async function copyOut(){
+    if(!resultEl.value) return alert('Nada para copiar.');
+    try{
+      await navigator.clipboard.writeText(resultEl.value);
+      const old = btnCopy.textContent; btnCopy.textContent='COPIADO'; btnCopy.disabled=true;
+      setTimeout(()=>{ btnCopy.textContent=old; btnCopy.disabled=false; }, 1200);
+    }catch{
+      const ta = document.createElement('textarea'); ta.value = resultEl.value; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      try{ document.execCommand('copy'); const old = btnCopy.textContent; btnCopy.textContent='COPIADO'; btnCopy.disabled=true; setTimeout(()=>{ btnCopy.textContent=old; btnCopy.disabled=false; }, 1200); }
+      catch{ alert('Não foi possível copiar.'); }
+      finally{ document.body.removeChild(ta); }
     }
-    async function copyOut(){
-      if(!resultEl.value) return alert('Nada para copiar.');
-      try{await navigator.clipboard.writeText(resultEl.value); const old=btnCopy.textContent; btnCopy.textContent='COPIADO'; btnCopy.disabled=true; setTimeout(()=>{btnCopy.textContent=old; btnCopy.disabled=false;},1200);}
-      catch{const ta=document.createElement('textarea'); ta.value=resultEl.value; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.focus(); ta.select(); try{document.execCommand('copy'); const old=btnCopy.textContent; btnCopy.textContent='COPIADO'; btnCopy.disabled=true; setTimeout(()=>{btnCopy.textContent=old; btnCopy.disabled=false;},1200);}catch{ alert('Não foi possível copiar.'); } finally{ document.body.removeChild(ta);}}
-    }
-    function resetAll(){strategyEl.value=''; themeEl.value=''; resultEl.value=''; window.scrollTo({top:0,behavior:'smooth'});}
+  }
+  function resetAll(){ strategyEl.value=''; themeEl.value=''; resultEl.value=''; window.scrollTo({top:0,behavior:'smooth'}); }
 
-    // Book
-    const BOOK_KEY='book_data_v1'; const PAGE_SIZE=10; let bookData=[]; let bookCursor=0; const bookWrap=document.getElementById('book-list');
-    function loadBook(){ try{bookData=JSON.parse(localStorage.getItem(BOOK_KEY)||'[]'); if(!Array.isArray(bookData)) bookData=[];}catch{bookData=[];} }
-    function truncate150(s){return (s||'').length>150?s.slice(0,150)+'…':s}
-    function clearBookUI(){ if(bookWrap){bookWrap.innerHTML=''; bookCursor=0;} }
-    function renderBatch(){ if(!bookWrap) return; const end=Math.min(bookCursor+PAGE_SIZE,bookData.length); const frag=document.createDocumentFragment(); for(let i=bookCursor;i<end;i++){ const {objetivo,tema,prompt}=bookData[i]; const el=document.createElement('div'); el.className='book-item'; el.innerHTML=`<div class="book-meta"><div class="book-obj">${objetivo||'—'}</div><div class="book-tema">${truncate150(tema||'')}</div></div><div><button class="chipbtn" data-prompt="${String(prompt||'').replace(/"/g,'&quot;')}">Copiar</button></div>`; frag.appendChild(el);} bookWrap.appendChild(frag); bookCursor=end; }
-    function onScroll(){ if(!bookWrap) return; const near=bookWrap.scrollTop+bookWrap.clientHeight>=bookWrap.scrollHeight-8; if(near && bookCursor<bookData.length) renderBatch(); }
-    bookWrap?.addEventListener('scroll', onScroll);
-    const _activate=activateTab; activateTab=function(id){ _activate(id); if(id==='book'){ if(!bookData.length){ loadBook(); } if(bookCursor===0){ renderBatch(); } } }
-    document.addEventListener('click',async e=>{ const btn=e.target.closest('.chipbtn'); if(!btn||!btn.dataset.prompt) return; try{ await navigator.clipboard.writeText(btn.dataset.prompt); btn.textContent='Copiado!'; setTimeout(()=>btn.textContent='Copiar',1000);}catch{ alert('Não foi possível copiar.'); }});
-  </script>
-</body>
-</html>
+  btnGen?.addEventListener('click', generate);
+  btnCopy?.addEventListener('click', copyOut);
+  btnReset?.addEventListener('click', resetAll);
+  themeEl?.addEventListener('keydown', (e)=>{ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='enter'){generate();}});
+
+  // ===== Book (persistência local) =====
+  const BOOK_KEY='book_data_v1';
+  const PAGE_SIZE=10;
+  let bookData=[]; let bookCursor=0; const bookWrap=document.getElementById('book-list');
+
+  function loadBook(){ try{ bookData = JSON.parse(localStorage.getItem(BOOK_KEY)||'[]'); if(!Array.isArray(bookData)) bookData=[]; }catch{ bookData=[]; } }
+  function truncate150(s){return (s||'').length>150?s.slice(0,150)+'…':s}
+  function clearBookUI(){ if(bookWrap){ bookWrap.innerHTML=''; bookCursor=0; } }
+  function renderBatch(){
+    if(!bookWrap) return; const end=Math.min(bookCursor+PAGE_SIZE, bookData.length); const frag=document.createDocumentFragment();
+    for(let i=bookCursor;i<end;i++){
+      const {objetivo,tema,prompt}=bookData[i];
+      const el=document.createElement('div'); el.className='book-item';
+      el.innerHTML=`<div class="book-meta"><div class="book-obj">${objetivo||'—'}</div><div class="book-tema">${truncate150(tema||'')}</div></div><div><button class="chipbtn" data-prompt="${String(prompt||'').replace(/"/g,'&quot;')}">Copiar</button></div>`;
+      frag.appendChild(el);
+    }
+    bookWrap.appendChild(frag); bookCursor=end;
+  }
+  function onScroll(){ if(!bookWrap) return; const near=bookWrap.scrollTop+bookWrap.clientHeight>=bookWrap.scrollHeight-8; if(near && bookCursor<bookData.length) renderBatch(); }
+  bookWrap?.addEventListener('scroll', onScroll);
+  const _activate=activateTab; activateTab=function(id){ _activate(id); if(id==='book'){ if(!bookData.length){ loadBook(); } if(bookCursor===0){ renderBatch(); } } }
+
+  // Delegação: copiar item do book
+  document.addEventListener('click',async e=>{
+    const btn=e.target.closest('.chipbtn'); if(!btn||!btn.dataset.prompt) return;
+    try{ await navigator.clipboard.writeText(btn.dataset.prompt); btn.textContent='Copiado!'; setTimeout(()=>btn.textContent='Copiar',1000);}catch{ alert('Não foi possível copiar.'); }
+  });
+</script>
