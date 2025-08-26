@@ -4,13 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0c4160" />
-  <title>AD - Gerador de Prompt</title>
+  <title>direito.love</title>
 
-  <!-- PWA (use caminhos relativos p/ GitHub Pages em repositório de projeto) -->
+  <!-- PWA -->
   <link rel="manifest" href="./manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
 
   <style>
     :root{
@@ -22,25 +22,18 @@
       --btn-copy:#6b7785;
       --btn-reset:#4b5563;
       --border:#d8e2e7;
-      --topbar:#0c4160; /* cor do menu fixo no topo */
+      --topbar:#0c4160;
+      --topbar-h:52px;     /* altura da barra do topo */
+      --logo-h:30px;       /* altura da logo (ajuste livre) */
     }
     *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      background:var(--bg);color:var(--ink);
-      padding-top:52px; /* acompanha altura da topbar */
-    }
+    body{margin:0;font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;background:var(--bg);color:var(--ink);padding-top:var(--topbar-h)}
 
-    /* Topbar (mais estreita e discreta) */
-    .topbar{
-      position:fixed;top:0;left:0;right:0;height:52px;
-      display:flex;align-items:center;justify-content:space-between;
-      padding:0 14px;background:var(--topbar);z-index:1000;
-      border-bottom:1px solid var(--border)
-    }
-    .brand-wrap{display:flex;align-items:center;gap:8px}
-    .brand-logo{display:block;width:28px;height:28px} /* logo substitui o nome */
+    /* Topbar (estreita e discreta) */
+    .topbar{position:fixed;top:0;left:0;right:0;height:var(--topbar-h);display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:var(--topbar);z-index:1000;border-bottom:1px solid var(--border)}
+    .brand-wrap{display:flex;align-items:center;gap:8px;min-width:0}
+    /* Logo retangular: altura fixa, largura automática (não corta) */
+    .brand-logo{display:block;height:var(--logo-h);width:auto;max-width:min(220px,60vw);object-fit:contain;object-position:left center}
     .topbar .right{display:flex;align-items:center;gap:10px}
 
     /* Instagram */
@@ -48,16 +41,10 @@
     .insta-link:hover{transform:translateY(-1px)}
     .insta-link svg{display:block;width:100%;height:100%}
 
-    /* Banner PWA (logo abaixo da topbar) */
-    #pwa-banner{
-      display:none;position:fixed;top:52px;left:0;right:0;
-      background:#0b2f3b;color:#fff;z-index:1001;
-      padding:8px 12px;
-      display:flex;align-items:center;justify-content:space-between;gap:8px;
-      font-size:14px
-    }
-    #pwa-banner .actions{display:flex;gap:6px}
-    .pwa-btn{all:unset;background:#63d1c3;color:#06343e;font-weight:800;padding:6px 10px;border-radius:999px;cursor:pointer}
+    /* Banner PWA (robusto) */
+    #pwa-banner{display:none;position:fixed;top:var(--topbar-h);left:0;right:0;background:#0b2f3b;color:#fff;z-index:10010;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,.15);pointer-events:auto}
+    #pwa-banner .actions{display:flex;gap:8px}
+    .pwa-btn{display:inline-flex;align-items:center;justify-content:center;border:0;outline:0;cursor:pointer;background:#63d1c3;color:#06343e;font-weight:800;padding:8px 14px;border-radius:999px;user-select:none;-webkit-tap-highlight-color:transparent}
     .pwa-btn.secondary{background:#6b7785;color:#fff;font-weight:700}
 
     /* Conteúdo */
@@ -97,29 +84,26 @@
     .tab-btn[aria-selected="true"]{background:var(--ink);color:#fff;border-color:transparent}
 
     /* Tabbar (mais estreita e discreta) */
-    .tabbar{
-      position:fixed;bottom:0;left:0;right:0;height:44px;background:#ffffff;
-      border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;z-index:1000
-    }
+    .tabbar{position:fixed;bottom:0;left:0;right:0;height:44px;background:#ffffff;border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;z-index:1000}
     .tabbar button{all:unset;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 8px;border-radius:8px}
     .tabbar button[aria-selected="true"]{background:#e7fbf8}
     .tabbar .lbl{font-size:15px;font-weight:700;color:#0b2f3b}
 
     .tab-content{display:none;padding-bottom:56px}
     .tab-content.is-active{display:block}
-
     @media (min-width:861px){.tabbar{display:none}.tabs{display:flex}.tab-content{padding-bottom:16px}}
   </style>
 </head>
 <body>
-  <!-- Topbar com logo à esquerda e Instagram à direita -->
+  <!-- Topbar -->
   <nav class="topbar" aria-label="Barra superior">
-    <a class="brand-wrap" href="./" aria-label="Página inicial">
-      <img class="brand-logo" src="./icons/logo-menu.png" alt="AD">
+    <a class="brand-wrap" href="./" aria-label="direito.love — início">
+      <img class="brand-logo" src="./icons/logo-menu.png"
+           onerror="this.onerror=null; this.src='./icons/icon-192.png';"
+           alt="direito.love">
     </a>
     <div class="right">
       <a class="insta-link" href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener" aria-label="Abrir Instagram @osvaldosereiajr" title="@osvaldosereiajr">
-        <!-- SVG Instagram colorido -->
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <defs>
             <linearGradient id="igGrad" x1="0" y1="0" x2="1" y2="1">
@@ -143,8 +127,8 @@
   <div id="pwa-banner" role="region" aria-label="Instalar aplicativo">
     <div id="pwa-msg" style="font-weight:700;">Instale o app para acesso rápido.</div>
     <div class="actions">
-      <button id="pwa-install" class="pwa-btn">Instalar</button>
-      <button id="pwa-close" class="pwa-btn secondary">Fechar</button>
+      <button id="pwa-install" class="pwa-btn" type="button">Instalar</button>
+      <button id="pwa-close" class="pwa-btn secondary" type="button">Fechar</button>
     </div>
   </div>
 
@@ -249,7 +233,91 @@
     function activateTab(id){for(const t of tabIds){document.getElementById('tab-'+t).classList.toggle('is-active',t===id);document.getElementById('tabbtn-'+t)?.setAttribute('aria-selected',String(t===id));document.getElementById('m-tabbtn-'+t)?.setAttribute('aria-selected',String(t===id));}}
     for(const t of tabIds){document.getElementById('tabbtn-'+t)?.addEventListener('click',()=>activateTab(t));document.getElementById('m-tabbtn-'+t)?.addEventListener('click',()=>activateTab(t));}
 
-    // ===== Gerador: Templates + handlers =====
+    // ===== PWA: registra SW =====
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(()=>{});
+      });
+    }
+
+    // ===== PWA: Banner com retorno em 7 dias se fechar =====
+    (function () {
+      const banner = document.getElementById('pwa-banner');
+      const btnInstall = document.getElementById('pwa-install');
+      const btnClose = document.getElementById('pwa-close');
+      const msg = document.getElementById('pwa-msg');
+
+      // Config: quantos dias até reaparecer após "Fechar"
+      const REAPPEAR_DAYS = 7;
+      const MS = 24*60*60*1000;
+      const KEY_DISMISSED_AT = 'pwa_banner_dismissed_at';
+      const KEY_INSTALLED = 'pwa_banner_installed';
+
+      // Não mostra se já está em modo app
+      const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+      if (standalone) { localStorage.setItem(KEY_INSTALLED,'1'); return; }
+
+      // Respeita o "fechar" por 7 dias
+      const lastDismiss = Number(localStorage.getItem(KEY_DISMISSED_AT) || 0);
+      const blocked = lastDismiss && (Date.now() - lastDismiss) < (REAPPEAR_DAYS * MS);
+      if (blocked || localStorage.getItem(KEY_INSTALLED)==='1') return;
+
+      let deferredPrompt = null;
+
+      // Android/Chrome: só mostra quando o evento chegar
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (msg) msg.textContent = 'Instale o app para acesso rápido.';
+        banner.style.display = 'flex';
+      });
+
+      // iOS/Safari: sem evento → mostra instrução
+      const ua = navigator.userAgent;
+      const isIOS = /iphone|ipad|ipod/i.test(ua);
+      const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+      if (isIOS && isSafari) {
+        if (msg) msg.innerHTML = 'No iPhone: toque em <b>Compartilhar</b> → <b>Adicionar à Tela de Início</b>.';
+        setTimeout(()=>{ banner.style.display = 'flex'; }, 400);
+      }
+
+      // Fechar → grava timestamp para reaparecer em 7 dias
+      btnClose.addEventListener('click', (ev) => {
+        ev.preventDefault(); ev.stopPropagation();
+        localStorage.setItem(KEY_DISMISSED_AT, String(Date.now()));
+        banner.style.display = 'none';
+      });
+
+      // Instalar (Android/Chrome)
+      btnInstall.addEventListener('click', async (ev) => {
+        ev.preventDefault(); ev.stopPropagation();
+
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          await deferredPrompt.userChoice.catch(()=>{});
+          deferredPrompt = null;
+          // seja qual for a escolha, não insistir agora
+          localStorage.setItem(KEY_DISMISSED_AT, String(Date.now()));
+          banner.style.display = 'none';
+          return;
+        }
+
+        if (isIOS && isSafari) {
+          alert("No iPhone, toque em Compartilhar e depois em 'Adicionar à Tela de Início'.");
+          return;
+        }
+
+        alert('Instalação não disponível agora. Abra no Chrome/Android e navegue um pouco na página.');
+      });
+
+      // Instalado → não mostrar nunca mais
+      window.addEventListener('appinstalled', () => {
+        localStorage.setItem(KEY_INSTALLED,'1');
+        banner.style.display = 'none';
+      });
+    })();
+
+    // ===== Restante do app (templates, book, etc.) =====
     const TEMPLATES = {
       explicacao: (tema) => `Você é um **tutor de Direito** no Brasil, especialista em didática jurídica.  
 Persona: professor paciente e criativo, que explica para iniciantes.  
@@ -331,7 +399,7 @@ Regras: sem links; jurisprudência só se 100% segura.
 Fecho: 3 dicas práticas de estudo + fontes (até 5).`,
       faq: (tema) => `Você é um **monitor de Direito** explicando conceitos básicos.  
 Persona: colega didático, rápido e claro.  
-Linguagem: simple, sem juridiquês.  
+Linguagem: simples, sem juridiquês.  
 
 Tarefa: Responda dúvidas rápidas sobre **${tema}**.  
 Estrutura:  
@@ -359,231 +427,52 @@ Recursos: listas; destaques em **negrito**.
 Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.  
 
 Fecho: síntese imparcial (2 frases) + fontes (até 5).`,
-      atualizacao: (tema) => { const d=new Date(); const data=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; return `Você é um **jurista analista de legislação e jurisprudência**.  
-Persona: atualizado, conecta norma e impacto prático.  
-Linguagem: clara, objetiva.  
-
-Tarefa: Traga panorama atualizado sobre **${tema}** (até ${data}).  
-Estrutura:  
-1) Alterações legislativas recentes.  
-2) Tendências jurisprudenciais atuais.  
-3) Impactos práticos (provas e advocacia).  
-4) Pontos controversos e cuidados.  
-
-Recursos: subtítulos H3; destaque artigos em **negrito**.  
-Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.  
-
-Fecho: resumo (2 frases) + fontes (até 5).`; },
-      plano: (tema) => `Você é um **coach de estudos jurídicos** especialista em memorização.  
-Persona: motivador, organizado.  
-Linguagem: objetiva e encorajadora.  
-
-Tarefa: Crie plano de estudo sobre **${tema}** para 4 semanas.  
-Estrutura:  
-1) Objetivo do ciclo.  
-2) Cronograma semanal (Semana 1–4).  
-3) Rotina de revisão espaçada (1-1-7-15).  
-4) Exercícios práticos.  
-5) Erros comuns e como evitar.  
-
-Recursos: listas e tabela simples em texto.  
-Regras: sem links.  
-
-Fecho: frase motivadora (2 linhas) + fontes (até 5).`,
-      sustentacao: (tema) => `Você é um **professor-orientador de Direito**.  
-Persona: colega didático, rápido e claro, fala clara e persuasiva.  
-Linguagem: Simples e amigável, retórica, cadência de fala.  
-
-Tarefa: Simule uma apresentação oral em sala de aula de até 4 minutos (~400–500 palavras) sobre **${tema}**.  
-Estrutura:  
-1) Abertura chamativa (saudação e tema).  
-2) Contexto e relevância jurídica/social.  
-3) Desenvolvimento: definição, base legal, doutrina, enunciados, súmulas e jurisprudência só se 100% segura , caso ilustrativo.  
-4) Argumentação persuasiva (impactos e atenção).  
-5) Fechamento forte (conclusão de impacto).  
-
-Recursos: narrativa contínua em parágrafos; transições retóricas (“Colegas, vejam...” etc).  
-Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.  
-
-Fecho: frase final de impacto + fontes (até 5).`,
-      jurisprudencia: (tema) => `Você é um **jurista analista de jurisprudência**.  
-Persona: pesquisador criterioso, atualizado, conecta decisões e impactos práticos.  
-Linguagem: clara, objetiva e técnica, sem juridiquês desnecessário.  
-
-Tarefa: Faça um **levantamento em notícias jurídicas e artigos acadêmicos/jurídicos disponíveis na web** sobre **${tema}**, entregando exatamente **15 itens numerados (não mais, não menos)** que contenham citações a julgados, jurisprudências, acórdãos, repetitivos ou súmulas relacionadas ao tema.  
-
-Estrutura de cada item:  
-- Tribunal / Súmula / Órgão (se houver).  
-- Número do processo ou da súmula (se houver).  
-- Ano do julgamento/publicação (se houver).  
-- Fonte (**com link completo, link direto do portal original, nunca do Google Notícias ou agregadores**).  
-- Tese central resumida em 2–3 linhas.  
-- Impacto prático (na advocacia, doutrina ou jurisprudência).  
-
-Regras:  
-- Não invente decisões.  
-- Enunciados, súmulas e jurisprudências só se 100% confirmados.  
-- Pesquise exclusivamente em **notícias jurídicas, artigos acadêmicos e portais confiáveis**.  
-- A análise deve se basear **no conteúdo publicado no site**, extraindo a informação e comentando brevemente.  
-- A saída deve conter apenas a lista numerada, sem comentários adicionais.`,
     };
 
-    const strategyEl = document.getElementById('strategy');
-    const themeEl = document.getElementById('theme');
-    const resultEl = document.getElementById('result');
-    const btnGen = document.getElementById('generate');
-    const btnCopy = document.getElementById('copy');
-    const btnReset = document.getElementById('reset');
+    const strategyEl=document.getElementById('strategy');
+    const themeEl=document.getElementById('theme');
+    const resultEl=document.getElementById('result');
+    const btnGen=document.getElementById('generate');
+    const btnCopy=document.getElementById('copy');
+    const btnReset=document.getElementById('reset');
 
     btnGen.addEventListener('click', generate);
     btnCopy.addEventListener('click', copyOut);
     btnReset.addEventListener('click', resetAll);
-    themeEl.addEventListener('keydown', (e)=>{ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='enter'){generate();}});
+    themeEl.addEventListener('keydown',(e)=>{ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='enter'){generate();}});
 
-    function strategyHumanName(v){
-      const map={
-        explicacao:'Explicação Básica', resumo:'Resumo Objetivo', artigo:'Análise Detalhada', aplicacao:'Aplicação Prática',
-        simulado:'Exercícios/Testes', faq:'FAQ', debate:'Debate/Reflexão', atualizacao:'Contexto Atualizado',
-        plano:'Plano de Estudo', sustentacao:'Apresentação em Sala', jurisprudencia:'Jurisprudência'
-      }; return map[v]||v;
-    }
-
+    function strategyHumanName(v){const map={explicacao:'Explicação Básica',resumo:'Resumo Objetivo',artigo:'Análise Detalhada',aplicacao:'Aplicação Prática',simulado:'Exercícios/Testes',faq:'FAQ',debate:'Debate/Reflexão',atualizacao:'Contexto Atualizado',plano:'Plano de Estudo',sustentacao:'Apresentação em Sala'};return map[v]||v;}
     function generate(){
-      const s = strategyEl.value; const t = (themeEl.value||'').trim();
-      if(!s){ alert('Selecione o objetivo.'); return; }
-      if(!t){ alert('Digite o tema.'); themeEl.focus(); return; }
-      const tpl = TEMPLATES[s]; if(!tpl){ alert('Estratégia inválida.'); return; }
-      const out = tpl(t);
-      resultEl.value = out;
+      const s=strategyEl.value; const t=(themeEl.value||'').trim();
+      if(!s){alert('Selecione o objetivo.');return;}
+      if(!t){alert('Digite o tema.');themeEl.focus();return;}
+      const tpl=TEMPLATES[s]; if(!tpl){alert('Estratégia inválida.');return;}
+      const out=tpl(t); resultEl.value=out;
 
-      // Atualiza Book local automaticamente (máx. 500)
-      let bookData=[]; 
-      try{ bookData = JSON.parse(localStorage.getItem('book_data_v1')||'[]'); if(!Array.isArray(bookData)) bookData=[]; }catch{ bookData=[]; }
-      const entry = { objetivo: strategyHumanName(s), tema: t, prompt: out, ts: Date.now() };
-      bookData.unshift(entry);
-      if(bookData.length>500) bookData = bookData.slice(0,500);
-      try{ localStorage.setItem('book_data_v1', JSON.stringify(bookData)); }catch{}
-
-      if(document.getElementById('tab-book').classList.contains('is-active')){ clearBookUI(); renderBatch(); }
-      window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'});
+      let bookData=[]; try{bookData=JSON.parse(localStorage.getItem('book_data_v1')||'[]'); if(!Array.isArray(bookData)) bookData=[];}catch{}
+      const entry={objetivo:strategyHumanName(s),tema:t,prompt:out,ts:Date.now()};
+      bookData.unshift(entry); if(bookData.length>500) bookData=bookData.slice(0,500);
+      try{localStorage.setItem('book_data_v1',JSON.stringify(bookData));}catch{}
+      if(document.getElementById('tab-book').classList.contains('is-active')){clearBookUI();renderBatch();}
+      window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
     }
-
     async function copyOut(){
       if(!resultEl.value) return alert('Nada para copiar.');
-      try{
-        await navigator.clipboard.writeText(resultEl.value);
-        const old = btnCopy.textContent; btnCopy.textContent='COPIADO'; btnCopy.disabled=true;
-        setTimeout(()=>{ btnCopy.textContent=old; btnCopy.disabled=false; }, 1200);
-      }catch{
-        const ta = document.createElement('textarea'); ta.value = resultEl.value; ta.style.position='fixed'; ta.style.opacity='0';
-        document.body.appendChild(ta); ta.focus(); ta.select();
-        try{ document.execCommand('copy'); const old = btnCopy.textContent; btnCopy.textContent='COPIADO'; btnCopy.disabled=true; setTimeout(()=>{ btnCopy.textContent=old; btnCopy.disabled=false; }, 1200); }
-        catch{ alert('Não foi possível copiar. Selecione e use Ctrl/Cmd+C.'); }
-        finally{ document.body.removeChild(ta); }
-      }
+      try{await navigator.clipboard.writeText(resultEl.value); const old=btnCopy.textContent; btnCopy.textContent='COPIADO'; btnCopy.disabled=true; setTimeout(()=>{btnCopy.textContent=old; btnCopy.disabled=false;},1200);}
+      catch{const ta=document.createElement('textarea'); ta.value=resultEl.value; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.focus(); ta.select(); try{document.execCommand('copy'); const old=btnCopy.textContent; btnCopy.textContent='COPIADO'; btnCopy.disabled=true; setTimeout(()=>{btnCopy.textContent=old; btnCopy.disabled=false;},1200);}catch{ alert('Não foi possível copiar.'); } finally{ document.body.removeChild(ta);}}
     }
+    function resetAll(){strategyEl.value=''; themeEl.value=''; resultEl.value=''; window.scrollTo({top:0,behavior:'smooth'});}
 
-    function resetAll(){ strategyEl.value=''; themeEl.value=''; resultEl.value=''; window.scrollTo({top:0,behavior:'smooth'}); }
-
-    // ===== Book — persistência local =====
-    const BOOK_KEY='book_data_v1';
-    const PAGE_SIZE=10;
-    let bookData=[]; let bookCursor=0; const bookWrap=document.getElementById('book-list');
-
-    function loadBook(){ try{ bookData = JSON.parse(localStorage.getItem(BOOK_KEY)||'[]'); if(!Array.isArray(bookData)) bookData=[]; }catch{ bookData=[]; } }
+    // Book
+    const BOOK_KEY='book_data_v1'; const PAGE_SIZE=10; let bookData=[]; let bookCursor=0; const bookWrap=document.getElementById('book-list');
+    function loadBook(){ try{bookData=JSON.parse(localStorage.getItem(BOOK_KEY)||'[]'); if(!Array.isArray(bookData)) bookData=[];}catch{bookData=[];} }
     function truncate150(s){return (s||'').length>150?s.slice(0,150)+'…':s}
-
-    function clearBookUI(){ if(bookWrap){ bookWrap.innerHTML=''; bookCursor=0; } }
-    function renderBatch(){
-      if(!bookWrap) return; const end=Math.min(bookCursor+PAGE_SIZE, bookData.length); const frag=document.createDocumentFragment();
-      for(let i=bookCursor;i<end;i++){
-        const {objetivo,tema,prompt}=bookData[i];
-        const el=document.createElement('div'); el.className='book-item';
-        el.innerHTML=`<div class="book-meta"><div class="book-obj">${objetivo||'—'}</div><div class="book-tema">${truncate150(tema||'')}</div></div><div><button class="chipbtn" data-prompt="${String(prompt||'').replace(/"/g,'&quot;')}">Copiar</button></div>`;
-        frag.appendChild(el);
-      }
-      bookWrap.appendChild(frag); bookCursor=end;
-    }
+    function clearBookUI(){ if(bookWrap){bookWrap.innerHTML=''; bookCursor=0;} }
+    function renderBatch(){ if(!bookWrap) return; const end=Math.min(bookCursor+PAGE_SIZE,bookData.length); const frag=document.createDocumentFragment(); for(let i=bookCursor;i<end;i++){ const {objetivo,tema,prompt}=bookData[i]; const el=document.createElement('div'); el.className='book-item'; el.innerHTML=`<div class="book-meta"><div class="book-obj">${objetivo||'—'}</div><div class="book-tema">${truncate150(tema||'')}</div></div><div><button class="chipbtn" data-prompt="${String(prompt||'').replace(/"/g,'&quot;')}">Copiar</button></div>`; frag.appendChild(el);} bookWrap.appendChild(frag); bookCursor=end; }
     function onScroll(){ if(!bookWrap) return; const near=bookWrap.scrollTop+bookWrap.clientHeight>=bookWrap.scrollHeight-8; if(near && bookCursor<bookData.length) renderBatch(); }
     bookWrap?.addEventListener('scroll', onScroll);
-
-    // carrega quando abrir a aba Book
     const _activate=activateTab; activateTab=function(id){ _activate(id); if(id==='book'){ if(!bookData.length){ loadBook(); } if(bookCursor===0){ renderBatch(); } } }
-
-    // Copiar (delegação Book)
-    document.addEventListener('click',async e=>{
-      const btn=e.target.closest('.chipbtn'); if(!btn||!btn.dataset.prompt) return;
-      try{ await navigator.clipboard.writeText(btn.dataset.prompt); btn.textContent='Copiado!'; setTimeout(()=>btn.textContent='Copiar',1000);}catch{ alert('Não foi possível copiar.'); }
-    });
-
-    // ===== PWA: registro do SW + banner (corrigido p/ Android/iOS) =====
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        // IMPORTANTE: caminho relativo para escopo correto no GitHub Pages
-        navigator.serviceWorker.register('./sw.js').catch(()=>{});
-      });
-    }
-
-    (function () {
-      const banner = document.getElementById('pwa-banner');
-      const btnInstall = document.getElementById('pwa-install');
-      const btnClose = document.getElementById('pwa-close');
-      const msg = document.getElementById('pwa-msg');
-      const DISMISS_KEY = 'pwa_banner_dismissed_v1';
-
-      if (!banner) return;
-      if (localStorage.getItem(DISMISS_KEY) === '1') return;
-
-      const ua = navigator.userAgent;
-      const isIOS = /iphone|ipad|ipod/i.test(ua);
-      const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
-      const isStandalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
-      if (isStandalone) return;
-
-      let deferredPrompt = null;
-
-      // ANDROID/CHROME: só mostra quando o evento chegar
-      window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        if (msg) msg.textContent = 'Instale o app para acesso rápido.';
-        banner.style.display = 'flex';
-      });
-
-      // iOS/Safari: sem evento -> mostrar instruções
-      if (isIOS && isSafari) {
-        if (msg) msg.innerHTML = 'No iPhone: toque em <b>Compartilhar</b> e depois <b>Adicionar à Tela de Início</b>.';
-        setTimeout(() => { banner.style.display = 'flex'; }, 500);
-      }
-
-      // Fechar banner
-      btnClose?.addEventListener('click', () => {
-        localStorage.setItem(DISMISS_KEY, '1');
-        banner.style.display = 'none';
-      });
-
-      // Instalar (Android/Chrome)
-      btnInstall?.addEventListener('click', async () => {
-        if (deferredPrompt) {
-          deferredPrompt.prompt();
-          await deferredPrompt.userChoice;
-          localStorage.setItem(DISMISS_KEY, '1');
-          banner.style.display = 'none';
-          return;
-        }
-        if (isIOS && isSafari) {
-          alert("No iPhone, toque em Compartilhar e depois em 'Adicionar à Tela de Início'.");
-          return;
-        }
-        alert('Instalação não disponível agora. Abra no Chrome Android e navegue um pouco na página.');
-      });
-
-      // Se instalar, some o banner
-      window.addEventListener('appinstalled', () => {
-        localStorage.setItem(DISMISS_KEY, '1');
-        banner.style.display = 'none';
-      });
-    })();
+    document.addEventListener('click',async e=>{ const btn=e.target.closest('.chipbtn'); if(!btn||!btn.dataset.prompt) return; try{ await navigator.clipboard.writeText(btn.dataset.prompt); btn.textContent='Copiado!'; setTimeout(()=>btn.textContent='Copiar',1000);}catch{ alert('Não foi possível copiar.'); }});
   </script>
 </body>
 </html>
