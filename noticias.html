@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a3a4a" />
+  <title>AD - Notícias</title>
+  <style>
+    :root{ --ink:#0b2f3b; --bg:#ffffff; --panel:#63cfc1; --panel-2:#e9f2f5; --btn:#0b3b4a; --border:#d8e2e7; --radius:28px; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;background:var(--bg);color:var(--ink);padding-top:64px}
+    .topbar{position:fixed;inset:0 0 auto 0;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:#ffffff;z-index:1000;border-bottom:1px solid var(--border)}
+    .topbar .brand{font-weight:900;letter-spacing:.2px;color:var(--ink);text-decoration:none}
+    .topbar .right{display:flex;gap:10px;align-items:center}
+    .topbar .icon-btn{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;border:1px solid transparent}
+    .topbar .icon-btn[aria-current="page"]{border-color:var(--border);background:var(--panel-2)}
+    .topbar .icon-btn svg{width:22px;height:22px}
+    .hero{display:grid;grid-template-columns:1fr;gap:8px;max-width:1100px;margin:0 auto;padding:24px 20px 8px;align-items:start}
+    .hero h1{margin:0;font-weight:900;letter-spacing:.2px;color:var(--ink);font-size:clamp(22px,4.8vw,42px)}
+    .sub{opacity:.85;font-size:clamp(13px,2vw,18px)}
+    .panel{background:var(--panel);border-top-left-radius:42px;border-top-right-radius:42px;padding:28px 20px 40px}
+    .section{max-width:1100px;margin:0 auto}
+    .field-wrap{margin:16px 0 18px}
+    .label{font-weight:900;font-size:clamp(16px,2.6vw,26px);color:#08333e;margin:0 0 12px}
+    .field{width:100%;background:var(--panel-2);border:1px solid var(--border);border-radius:22px;padding:12px 14px;color:#11323c;outline:none}
+    .news-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    @media (max-width:960px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:640px){.grid{grid-template-columns:1fr}}
+    .card{background:#fff;border:1px solid var(--border);border-radius:22px;padding:14px 14px 12px;display:flex;flex-direction:column;gap:8px}
+    .site{font-size:12px;opacity:.8}
+    .title{font-weight:800;line-height:1.18}
+    .meta{font-size:12px;opacity:.75}
+    .btn{display:inline-block;border:none;border-radius:999px;padding:12px 18px;font-weight:900;letter-spacing:.3px;color:#fff;cursor:pointer}
+    .btn-primary{background:var(--btn)}
+    .footer{max-width:1100px;margin:20px auto 36px;padding:0 20px;text-align:center;color:#204855}
+  </style>
+</head>
+<body>
+  <nav class="topbar" role="navigation" aria-label="Menu principal">
+    <a class="brand" href="./">AD - Gerador de Prompt</a>
+    <div class="right">
+      <a class="icon-btn" href="./" aria-label="Gerador de Prompt" title="Gerador de Prompt">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 3l1.2 2.9L16 7.2l-2.8 1.3L12 11l-1.2-2.5L8 7.2l2.8-1.3L12 3z" stroke="#0b2f3b" stroke-width="1.3" fill="none"/>
+          <rect x="4.5" y="14.5" width="9" height="2.2" rx="1.1" transform="rotate(-45 4.5 14.5)" fill="#0b2f3b"/>
+          <circle cx="18.5" cy="5.8" r="1" fill="#0b2f3b"/>
+          <circle cx="20.2" cy="8.6" r=".7" fill="#0b2f3b"/>
+        </svg>
+      </a>
+      <a class="icon-btn" href="#" aria-label="Notícias" aria-current="page" title="Notícias">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="3" y="4" width="14" height="16" rx="2" stroke="#0b2f3b" stroke-width="1.6"/>
+          <path d="M19 7v10a3 3 0 0 1-3 3H7" stroke="#0b2f3b" stroke-width="1.6"/>
+          <rect x="6" y="7" width="8" height="2.2" rx="1" fill="#0b2f3b"/>
+          <rect x="6" y="10.5" width="8" height="1.8" rx="0.9" fill="#0b2f3b" opacity=".8"/>
+          <rect x="6" y="13.5" width="6" height="1.8" rx="0.9" fill="#0b2f3b" opacity=".6"/>
+        </svg>
+      </a>
+      <a class="icon-btn" href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener" aria-label="Instagram @osvaldosereiajr" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" stroke="#0b2f3b" stroke-width="1.6"/>
+          <circle cx="12" cy="12" r="4.2" stroke="#0b2f3b" stroke-width="1.6"/>
+          <circle cx="17.5" cy="6.5" r="1.2" fill="#0b2f3b"/>
+        </svg>
+      </a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <h1>Notícias jurídicas</h1>
+    <div class="sub">Atualizado até 3x ao dia via GitHub Actions.</div>
+  </header>
+
+  <main class="panel">
+    <div class="section">
+      <div class="field-wrap">
+        <h2 class="label">Filtrar</h2>
+        <div class="news-controls">
+          <input id="q" class="field" type="search" placeholder="Filtrar por título..." />
+          <select id="source" class="field" style="min-width:220px">
+            <option value="">Todas as fontes</option>
+          </select>
+          <button id="refresh" class="btn btn-primary" type="button">Atualizar</button>
+          <span id="badge" style="margin-left:auto;font-weight:800;color:#08333e"></span>
+        </div>
+      </div>
+
+      <div id="list" class="grid" role="list"></div>
+    </div>
+  </main>
+
+  <div class="footer">
+    <a href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener">@osvaldosereiajr</a>
+  </div>
+
+  <script>
+    const LIST = document.getElementById('list');
+    const BADGE = document.getElementById('badge');
+    const Q = document.getElementById('q');
+    const SOURCE = document.getElementById('source');
+    const REFRESH = document.getElementById('refresh');
+
+    let ALL = [];
+    let FILTERED = [];
+    const PAGE_SIZE = 10;
+    let page = 0;
+    let loading = false;
+
+    async function loadNews(){
+      try{
+        const res = await fetch('./news.json?ts=' + Date.now(), { cache: 'no-store' });
+        if(!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        ALL = Array.isArray(data.items) ? data.items : [];
+        const sources = [...new Set(ALL.map(x=>x.source).filter(Boolean))].sort();
+        SOURCE.innerHTML = '<option value="">Todas as fontes</option>' + sources.map(s=>`<option>${s}</option>`).join('');
+        BADGE.textContent = `${ALL.length} itens • ${new Date(data.generatedAt).toLocaleString('pt-BR')}`;
+        applyFilters(true);
+      }catch(e){
+        BADGE.textContent = 'Erro ao carregar notícias';
+        LIST.innerHTML = '<div style="opacity:.8">Não foi possível carregar o news.json.</div>';
+      }
+    }
+
+    function applyFilters(reset){
+      const term = (Q.value||'').toLowerCase();
+      const src = SOURCE.value;
+      FILTERED = ALL.filter(x=>{
+        const okTerm = !term || (x.title||'').toLowerCase().includes(term);
+        const okSrc = !src || x.source === src;
+        return okTerm && okSrc;
+      });
+      if(reset){
+        page = 0;
+        LIST.innerHTML = '';
+      }
+      renderNext();
+    }
+
+    function renderNext(){
+      if(loading) return;
+      loading = true;
+      const start = page * PAGE_SIZE;
+      const end = start + PAGE_SIZE;
+      const slice = FILTERED.slice(start, end);
+      const html = slice.map(it=>{
+        const d = it.publishedAt ? new Date(it.publishedAt) : null;
+        const when = d ? d.toLocaleString('pt-BR', {dateStyle:'short', timeStyle:'short'}) : '';
+        return `
+        <article class="card" role="listitem">
+          <div class="site">${it.source||'—'}</div>
+          <a class="title" href="${it.url}" target="_blank" rel="noopener">${escapeHtml(it.title||'(sem título)')}</a>
+          <div class="meta">${when}</div>
+        </article>`;
+      }).join('');
+      LIST.insertAdjacentHTML('beforeend', html);
+      page++;
+      loading = false;
+    }
+
+    function onScroll(){
+      const nearBottom = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 200);
+      if(nearBottom && page * PAGE_SIZE < FILTERED.length){
+        renderNext();
+      }
+    }
+
+    function escapeHtml(s){ return (s||'').replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#039;' }[m])); }
+
+    Q.addEventListener('input', ()=>applyFilters(true));
+    SOURCE.addEventListener('change', ()=>applyFilters(true));
+    REFRESH.addEventListener('click', ()=>loadNews());
+    window.addEventListener('scroll', onScroll, {passive:true});
+
+    loadNews();
+  </script>
+</body>
+</html>

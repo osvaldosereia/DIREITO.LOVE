@@ -1,0 +1,32 @@
+{
+  "feeds": [
+    {
+      "name": "Google News - Direito",
+      "url": "https://news.google.com/rss/search?q=Direito+OR+jur%C3%ADdico&hl=pt-BR&gl=BR&ceid=BR:pt-419"
+    },
+    {
+      "name": "STF Notícias",
+      "url": "https://portal.stf.jus.br/noticias/feed"
+    },
+    {
+      "name": "STJ Notícias",
+      "url": "https://www.stj.jus.br/sites/portalp/Comunicacao/Noticia/rss"
+    },
+    {
+      "name": "CNJ",
+      "url": "https://www.cnj.jus.br/feed/"
+    },
+    {
+      "name": "ConJur",
+      "url": "https://www.conjur.com.br/feed/"
+    },
+    {
+      "name": "Migalhas",
+      "url": "https://www.migalhas.com.br/rss/RSS.xml"
+    },
+    {
+      "name": "JOTA",
+      "url": "https://www.jota.info/feed"
+    }
+  ]
+}

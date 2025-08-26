@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a3a4a" />
+  <title>AD - Gerador de Prompt</title>
+  <style>
+    :root{
+      --ink:#0b2f3b; --bg:#ffffff; --panel:#63cfc1; --panel-2:#e9f2f5;
+      --btn:#0b3b4a; --btn-copy:#6b7785; --btn-reset:#4b5563;
+      --border:#d8e2e7; --radius:28px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;background:var(--bg);color:var(--ink);padding-top:64px}
+    .topbar{position:fixed;inset:0 0 auto 0;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:#ffffff;z-index:1000;border-bottom:1px solid var(--border)}
+    .topbar .brand{font-weight:900;letter-spacing:.2px;color:var(--ink);text-decoration:none}
+    .topbar .right{display:flex;gap:10px;align-items:center}
+    .topbar .icon-btn{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;border:1px solid transparent}
+    .topbar .icon-btn[aria-current="page"]{border-color:var(--border);background:var(--panel-2)}
+    .topbar .icon-btn svg{width:22px;height:22px}
+    .hero{display:grid;grid-template-columns:1fr;gap:8px;max-width:1100px;margin:0 auto;padding:40px 20px 24px;align-items:start}
+    .quote{font-weight:800;line-height:1.05;letter-spacing:.2px;color:var(--ink);font-size:clamp(28px,6vw,64px)}
+    .author{font-style:italic;font-size:clamp(14px,2.2vw,22px);opacity:.85}
+    @media (max-width:600px){ .quote{font-size:clamp(36px,7.8vw,83px)} }
+    .panel{background:var(--panel);border-top-left-radius:42px;border-top-right-radius:42px;padding:28px 20px 40px}
+    .section{max-width:1100px;margin:0 auto}
+    .field-wrap{margin:16px 0 26px}
+    .label{font-weight:900;font-size:clamp(16px,2.6vw,26px);color:#08333e;margin:0 0 12px}
+    .field{width:100%;background:var(--panel-2);border:1px solid var(--border);border-radius:22px;padding:18px 20px;color:#11323c;outline:none}
+    select.field{appearance:none;cursor:pointer}
+    textarea.field{min-height:140px;resize:vertical}
+    .actions-out{display:grid;grid-template-columns:220px 1fr;gap:24px;align-items:start}
+    .btn{display:inline-block;border:none;border-radius:999px;padding:14px 28px;font-weight:900;letter-spacing:.3px;color:#fff;cursor:pointer;width:100%}
+    .btn + .btn{margin-top:14px}
+    .btn-primary{background:var(--btn)}
+    .btn-copy{background:var(--btn-copy)}
+    .btn-reset{background:var(--btn-reset)}
+    .output{background:var(--panel-2);border:1px solid var(--border);border-radius:22px;min-height:190px;padding:18px 20px;color:#16333b;width:100%;resize:vertical}
+    .footer{max-width:1100px;margin:20px auto 36px;padding:0 20px;text-align:center;color:#204855}
+    .footer a{color:#204855;text-decoration:none;border-bottom:1px dashed #98b0ba}
+  </style>
+</head>
+<body>
+  <nav class="topbar" role="navigation" aria-label="Menu principal">
+    <a class="brand" href="./">AD - Gerador de Prompt</a>
+    <div class="right">
+      <a class="icon-btn" href="./" aria-label="Gerador de Prompt" aria-current="page" title="Gerador de Prompt">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 3l1.2 2.9L16 7.2l-2.8 1.3L12 11l-1.2-2.5L8 7.2l2.8-1.3L12 3z" stroke="#0b2f3b" stroke-width="1.3" fill="none"/>
+          <rect x="4.5" y="14.5" width="9" height="2.2" rx="1.1" transform="rotate(-45 4.5 14.5)" fill="#0b2f3b"/>
+          <circle cx="18.5" cy="5.8" r="1" fill="#0b2f3b"/>
+          <circle cx="20.2" cy="8.6" r=".7" fill="#0b2f3b"/>
+        </svg>
+      </a>
+      <a class="icon-btn" href="./noticias.html" aria-label="Notícias" title="Notícias">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="3" y="4" width="14" height="16" rx="2" stroke="#0b2f3b" stroke-width="1.6"/>
+          <path d="M19 7v10a3 3 0 0 1-3 3H7" stroke="#0b2f3b" stroke-width="1.6"/>
+          <rect x="6" y="7" width="8" height="2.2" rx="1" fill="#0b2f3b"/>
+          <rect x="6" y="10.5" width="8" height="1.8" rx="0.9" fill="#0b2f3b" opacity=".8"/>
+          <rect x="6" y="13.5" width="6" height="1.8" rx="0.9" fill="#0b2f3b" opacity=".6"/>
+        </svg>
+      </a>
+      <a class="icon-btn" href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener" aria-label="Instagram @osvaldosereiajr" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" stroke="#0b2f3b" stroke-width="1.6"/>
+          <circle cx="12" cy="12" r="4.2" stroke="#0b2f3b" stroke-width="1.6"/>
+          <circle cx="17.5" cy="6.5" r="1.2" fill="#0b2f3b"/>
+        </svg>
+      </a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div id="quote" class="quote">—</div>
+    <div id="author" class="author"></div>
+  </header>
+
+  <main class="panel">
+    <div class="section">
+      <div class="field-wrap">
+        <h2 class="label">Qual seu objetivo?</h2>
+        <select id="strategy" class="field">
+          <option value="" selected>SELETOR</option>
+          <option value="explicacao">Explicação Básica</option>
+          <option value="resumo">Resumo Objetivo</option>
+          <option value="artigo">Análise Detalhada</option>
+          <option value="aplicacao">Aplicação Prática</option>
+          <option value="simulado">Exercícios/Testes</option>
+          <option value="faq">FAQ</option>
+          <option value="debate">Debate/Reflexão</option>
+          <option value="atualizacao">Contexto Atualizado</option>
+          <option value="plano">Plano de Estudo</option>
+          <option value="sustentacao">Sustentação Oral</option>
+        </select>
+      </div>
+
+      <div class="field-wrap">
+        <h2 class="label">Vamos falar sobre o quê?</h2>
+        <textarea id="theme" class="field" placeholder="Digite o tema, exemplo: 'Princípio da Legalidade no Direito Penal'"></textarea>
+      </div>
+
+      <div class="actions-out">
+        <div>
+          <button id="generate" class="btn btn-primary" type="button">GERAR</button>
+          <button id="copy" class="btn btn-copy" type="button">COPIAR</button>
+          <button id="reset" class="btn btn-reset" type="button">REINICIAR</button>
+        </div>
+        <textarea id="result" class="output" placeholder="Prompt gerado aqui..." readonly></textarea>
+      </div>
+    </div>
+  </main>
+
+  <div class="footer">
+    <a href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener">@osvaldosereiajr</a>
+  </div>
+
+  <script>
+    const FALLBACK_QUOTES = [
+      'Não há liberdade sem lei. — Montesquieu',
+      'A justiça sem força é impotente; a força sem justiça é tirana. — Pascal',
+      'Nenhum homem é acima da lei e nenhum abaixo dela. — Roosevelt',
+      'O direito não socorre aos que dormem. — Brocardo',
+      'A lei deve ser como a morte, que não poupa ninguém. — Montesquieu',
+      'Dura lex, sed lex. — Máxima romana',
+      'Todo poder emana do povo. — CF/88',
+      'A verdade é filha do tempo. — Sófocles',
+      'O costume é o melhor intérprete das leis. — Plínio',
+      'Ubi societas, ibi jus. — Onde há sociedade, há direito.'
+    ];
+    async function loadRandomQuote(){
+      let lines = [];
+      try{
+        const res = await fetch('./frases.txt', {cache:'no-store'});
+        if(res.ok){
+          const txt = await res.text();
+          lines = (txt.split(/\r?\n/)||[]).map(s=>s.trim()).filter(Boolean);
+        }
+      }catch{}
+      if(!lines.length) lines = FALLBACK_QUOTES;
+      const pick = lines[Math.floor(Math.random() * lines.length)];
+      const parts = pick.split('—');
+      document.getElementById('quote').textContent = (parts[0]||pick).trim();
+      document.getElementById('author').textContent = parts[1] ? '— ' + parts[1].trim() : '';
+    }
+
+    const TEMPLATES = {
+      explicacao: (tema) => `Explicação básica sobre **${tema}** ...`,
+      resumo: (tema) => `Resumo objetivo de **${tema}** ...`,
+      artigo: (tema) => `Artigo sobre **${tema}** ...`,
+      aplicacao: (tema) => `Aplicação prática de **${tema}** ...`,
+      simulado: (tema) => `Simulado de **${tema}** ...`,
+      faq: (tema) => `FAQ de **${tema}** ...`,
+      debate: (tema) => `Debate sobre **${tema}** ...`,
+      atualizacao: (tema) => `Atualização sobre **${tema}** ...`,
+      plano: (tema) => `Plano de estudo de **${tema}** ...`,
+      sustentacao: (tema) => `Sustentação oral sobre **${tema}** ...`,
+    };
+
+    const strategy = document.getElementById('strategy');
+    const theme = document.getElementById('theme');
+    const result = document.getElementById('result');
+    const btnGen = document.getElementById('generate');
+    const btnCopy = document.getElementById('copy');
+    const btnReset = document.getElementById('reset');
+
+    btnGen.addEventListener('click', generate);
+    btnCopy.addEventListener('click', copyOut);
+    btnReset.addEventListener('click', resetAll);
+    theme.addEventListener('keydown', (e)=>{ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='enter'){generate();}});
+
+    function generate(){
+      const s = strategy.value; const t = (theme.value||'').trim();
+      if(!s){ alert('Selecione o objetivo.'); return; }
+      if(!t){ alert('Digite o tema.'); theme.focus(); return; }
+      const tpl = TEMPLATES[s]; if(!tpl){ alert('Estratégia inválida.'); return; }
+      result.value = tpl(t);
+      window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'});
+    }
+
+    async function copyOut(){
+      if(!result.value) return alert('Nada para copiar.');
+      try{
+        await navigator.clipboard.writeText(result.value);
+        const old = btnCopy.textContent;
+        btnCopy.textContent = 'COPIADO';
+        btnCopy.disabled = true;
+        setTimeout(()=>{ btnCopy.textContent = old; btnCopy.disabled = false; }, 1600);
+      }catch(err){
+        const ta = document.createElement('textarea');
+        ta.value = result.value; ta.style.position='fixed'; ta.style.opacity='0';
+        document.body.appendChild(ta); ta.focus(); ta.select();
+        try{ document.execCommand('copy'); const old = btnCopy.textContent; btnCopy.textContent='COPIADO'; btnCopy.disabled=true; setTimeout(()=>{btnCopy.textContent=old; btnCopy.disabled=false;},1600);}catch{ alert('Não foi possível copiar.'); }finally{ document.body.removeChild(ta); }
+      }
+    }
+
+    function resetAll(){ strategy.value=''; theme.value=''; result.value=''; window.scrollTo({top:0,behavior:'smooth'}); }
+    loadRandomQuote();
+  </script>
+</body>
+</html>
