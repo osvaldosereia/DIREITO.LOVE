@@ -21,7 +21,7 @@
     *{box-sizing:border-box}
     body{margin:0;font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;background:var(--bg);color:var(--ink);padding-top:var(--topbar-h)}
 
-    /* Topbar enxuta */
+    /* Topbar */
     .topbar{position:fixed;top:0;left:0;right:0;height:var(--topbar-h);display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:var(--topbar);z-index:1000;border-bottom:1px solid var(--border)}
     .brand-wrap{display:flex;align-items:center;gap:8px;min-width:0}
     .brand-logo{display:block;height:var(--logo-h);width:auto;max-width:min(220px,60vw);object-fit:contain;object-position:left center}
@@ -42,7 +42,7 @@
     .pwa-btn.secondary{background:#6b7785;color:#fff}
     .pwa-close-x{appearance:none;border:0;background:transparent;color:#fff;font-size:18px;line-height:1;cursor:pointer;padding:2px 6px}
 
-    /* Conteúdo */
+    /* Conteúdo base */
     .hero{display:grid;gap:8px;max-width:960px;margin:0 auto;padding:28px 16px 16px;align-items:start}
     .quote{font-weight:800;line-height:1.05;color:var(--ink);font-size:clamp(24px,6vw,56px)}
     .author{font-style:italic;font-size:clamp(13px,2.2vw,20px);opacity:.85}
@@ -63,10 +63,10 @@
     .btn-reset{background:var(--btn-reset)}
     .output{background:var(--panel-2);border:1px solid var(--border);border-radius:16px;min-height:150px;padding:14px;color:#16333b;width:100%;resize:vertical}
 
+    /* Abas */
     .tabs{max-width:960px;margin:12px auto;padding:0 16px;display:none;gap:8px}
     .tab-btn{border:1px solid var(--border);background:#fff;color:#000;padding:7px 12px;border-radius:999px;font-weight:700;cursor:pointer;font-size:14px}
     .tab-btn[aria-selected="true"]{background:var(--ink);color:#fff;border-color:transparent}
-
     .tabbar{position:fixed;bottom:0;left:0;right:0;height:44px;background:#ffffff;border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;z-index:1000}
     .tabbar button{all:unset;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 8px;border-radius:8px}
     .tabbar button[aria-selected="true"]{background:#e7fbf8}
@@ -74,6 +74,45 @@
     .tab-content{display:none;padding-bottom:56px}
     .tab-content.is-active{display:block}
     @media (min-width:861px){.tabbar{display:none}.tabs{display:flex}.tab-content{padding-bottom:16px}}
+
+    /* ===== ARQUIVO (book) — ESTILOS NOVOS ===== */
+    .book-list{
+      display:grid;
+      gap:12px;
+      /* altura própria com rolagem só dentro da lista */
+      max-height:60vh;
+      overflow:auto;
+      padding-right:6px;
+      scroll-behavior:smooth;
+    }
+    .book-item{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      background:var(--panel-2);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:12px 14px;
+    }
+    .book-meta{display:grid;gap:4px;min-width:0}
+    .book-obj{font-weight:900;color:#08333e}
+    .book-tema{color:#16333b;word-break:break-word}
+    .chipbtn{
+      border:1px solid var(--border);
+      background:#ffffff;
+      color:#0b2f3b;
+      font-weight:800;
+      padding:7px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .chipbtn:active{transform:translateY(1px)}
+    @media (max-width:480px){
+      .book-item{flex-direction:column;align-items:stretch}
+      .chipbtn{align-self:flex-start}
+    }
   </style>
 </head>
 <body>
@@ -154,7 +193,7 @@
     </main>
   </section>
 
-  <!-- Book -->
+  <!-- Arquivo -->
   <section id="tab-book" class="tab-content">
     <main class="panel">
       <h2 class="label">Arquivo – Suas últimas 500 gerações</h2>
@@ -166,29 +205,95 @@
   <!-- Dicas -->
   <section id="tab-dicas" class="tab-content">
     <main class="panel">
-      <h2 class="label">Dicas de Uso — como cada objetivo gera a resposta</h2>
+      <h2 class="label">📘 Estruturas de Resposta</h2>
       <div class="field" style="white-space:pre-wrap">
-<b>Explicação Básica</b> — definição curta, 2–3 analogias e 3 pontos-chave, mais 2 erros comuns e um mini-exemplo. 
+1. <b>Explicação Básica</b>
 
-<b>Resumo Objetivo</b> — conceito em 2 linhas, base legal, estrutura, 3 diferenças fáceis de confundir, tendências, 3 pegadinhas e 2 mini-cases.
+<b>Objetivo:</b> oferecer ao estudante uma introdução simples e acessível.
+- Definição curta (1–2 linhas).
+- 2 a 3 analogias do cotidiano para facilitar a compreensão.
+- 3 pontos-chave que resumem a essência do tema.
+- 2 erros comuns que os iniciantes costumam cometer.
+- Mini-exemplo prático para fixar o conteúdo.
 
-<b>Análise Detalhada</b> — artigo acadêmico: introdução (problema, relevância, hipótese), desenvolvimento (conceitos, correntes, análise crítica, jurisprudência), conclusão (síntese + proposta).
+2. <b>Resumo Objetivo</b>
 
-<b>Aplicação Prática</b> — caso fictício, enquadramento jurídico, solução provável, mini-modelo de peça e checklist.
+<b>Objetivo:</b> condensar o tema em uma síntese rápida, mas completa.
+- Conceito em até 2 linhas.
+- Base legal principal.
+- Estrutura essencial (elementos que compõem o instituto).
+- 3 diferenças em relação a temas que normalmente geram confusão.
+- Tendências atuais na doutrina e jurisprudência.
+- 3 pegadinhas recorrentes em provas.
+- 2 mini-casos ilustrativos para aplicação imediata.
 
-<b>Exercícios/Testes</b> — 5 questões (2 fáceis, 2 médias, 1 difícil) com gabarito comentado.
+3. <b>Análise Detalhada (Artigo Acadêmico)</b>
 
-<b>FAQ</b> — 15 perguntas essenciais respondidas em até 3 linhas, mais 2 confusões comuns corrigidas.
+<b>Objetivo:</b> aprofundar o estudo em formato científico.
+- Introdução: problema, relevância prática e hipótese de trabalho.
+- Desenvolvimento: conceitos centrais, correntes doutrinárias, análise crítica e jurisprudência selecionada.
+- Conclusão: síntese do debate, posicionamento fundamentado e proposta de solução ou tendência.
 
-<b>Debate/Reflexão</b> — problema central, 3 argumentos pró e 3 contra, 1 dilema prático, perguntas-guia.
+4. <b>Aplicação Prática</b>
 
-<b>Contexto Atualizado</b> — panorama legislativo e jurisprudencial recente, impactos práticos, pontos controversos.
+<b>Objetivo:</b> mostrar como o tema se traduz no dia a dia do Direito.
+- Caso fictício realista.
+- Enquadramento jurídico passo a passo.
+- Solução provável (e alternativas).
+- Mini-modelo de peça processual (endereçamento, fundamentos, pedidos).
+- Checklist final com os pontos que não podem ser esquecidos.
 
-<b>Plano de Estudo</b> — cronograma de 4 semanas, rotina de revisão espaçada, exercícios e erros comuns.
+5. <b>Exercícios/Testes</b>
 
-<b>Apresentação em Sala</b> — discurso de ~4 min: abertura, contexto, base legal/doutrina/jurisprudência segura, caso ilustrativo, argumentação, fechamento forte.
+<b>Objetivo:</b> avaliar o aprendizado com diferentes níveis de dificuldade.
+- 5 questões no total: 2 fáceis, 2 intermediárias e 1 avançada.
+- Gabarito comentado, explicando o porquê de cada resposta.
 
-<b>Jurisprudência (Radar)</b> — 15 itens verificados (tribunal, nº, ano, tese resumida, impacto prático).
+6. <b>FAQ (Perguntas Frequentes)</b>
+
+<b>Objetivo:</b> resolver as principais dúvidas em pouco tempo.
+- 15 perguntas essenciais respondidas em até 3 linhas cada.
+- 2 confusões comuns corrigidas para evitar erros.
+
+7. <b>Debate/Reflexão</b>
+
+<b>Objetivo:</b> estimular pensamento crítico e discussão acadêmica.
+- Problema central bem delimitado.
+- 3 argumentos a favor e 3 contra.
+- 1 dilema prático para reflexão.
+- Perguntas-guia para incentivar debate em sala ou estudo em grupo.
+
+8. <b>Contexto Atualizado</b>
+
+<b>Objetivo:</b> conectar o tema à realidade atual.
+- Panorama legislativo recente.
+- Jurisprudência mais atualizada.
+- Impactos práticos no cotidiano do Direito.
+- Pontos ainda controversos ou em evolução.
+
+9. <b>Plano de Estudo</b>
+
+<b>Objetivo:</b> ajudar o estudante a organizar a preparação.
+- Cronograma de 4 semanas.
+- Rotina de revisão espaçada para fixação.
+- Exercícios recomendados.
+- Erros mais comuns a monitorar.
+
+10. <b>Apresentação em Sala</b>
+
+<b>Objetivo:</b> estruturar um discurso oral de impacto (4 min).
+- Abertura envolvente.
+- Contextualização do tema.
+- Base legal, doutrina e jurisprudência segura.
+- Caso ilustrativo que prenda a atenção.
+- Argumentação bem construída.
+- Fechamento marcante com síntese.
+
+11. <b>Jurisprudência (Radar)</b>
+
+<b>Objetivo:</b> oferecer panorama prático de decisões.
+- 15 itens verificados e confiáveis.
+- Cada item deve conter: tribunal, número, ano, tese resumida (2–3 linhas) e impacto prático.
       </div>
     </main>
   </section>
@@ -202,7 +307,7 @@
   </nav>
 
   <script>
-    // ===== Frases (carrega de frases.txt na raiz) =====
+    // ===== Frases (frases.txt na raiz) =====
     async function loadRandomQuoteFromFile(){
       const fallback = ['Não há liberdade sem lei. — Montesquieu','A justiça sem força é impotente; a força sem justiça é tirana. — Pascal'];
       try{
@@ -245,7 +350,7 @@
       });
     }
 
-    // ===== PWA: POPUP (sem barra fixa) =====
+    // ===== PWA: POPUP =====
     (function () {
       const popup = document.getElementById('pwa-popup');
       const btnInstall = document.getElementById('pwa-install');
@@ -310,7 +415,7 @@
       });
     })();
 
-    // ====== GERADOR: TEMPLATES COMPLETOS ======
+    // ====== GERADOR: TEMPLATES ======
     const TEMPLATES = {
       explicacao: (tema) => `Você é um **tutor de Direito** no Brasil, especialista em didática jurídica.
 Persona: professor paciente e criativo, que explica para iniciantes.
@@ -571,18 +676,39 @@ Saída: lista numerada de 15 itens.`
       for(let i=bookCursor;i<end;i++){
         const {objetivo,tema,prompt}=bookData[i];
         const el=document.createElement('div'); el.className='book-item';
-        el.innerHTML=`<div class="book-meta"><div class="book-obj">${objetivo||'—'}</div><div class="book-tema">${truncate150(tema||'')}</div></div><div><button class="chipbtn" data-prompt="${String(prompt||'').replace(/"/g,'&quot;')}">Copiar</button></div>`;
+        el.innerHTML=`
+          <div class="book-meta">
+            <div class="book-obj">${objetivo||'—'}</div>
+            <div class="book-tema">${truncate150(tema||'')}</div>
+          </div>
+          <div><button class="chipbtn" data-prompt="${String(prompt||'').replace(/"/g,'&quot;')}">Copiar</button></div>`;
         frag.appendChild(el);
       }
       bookWrap.appendChild(frag); bookCursor=end;
     }
-    function onScroll(){ if(!bookWrap) return; const near=bookWrap.scrollTop+bookWrap.clientHeight>=bookWrap.scrollHeight-8; if(near && bookCursor<bookData.length) renderBatch(); }
+    function onScroll(){
+      if(!bookWrap) return;
+      const near=bookWrap.scrollTop+bookWrap.clientHeight>=bookWrap.scrollHeight-8;
+      if(near && bookCursor<bookData.length) renderBatch();
+    }
     bookWrap?.addEventListener('scroll', onScroll);
-    const _activate=activateTab; activateTab=function(id){ _activate(id); if(id==='book'){ if(!bookData.length){ loadBook(); } if(bookCursor===0){ renderBatch(); } } }
 
+    const _activate=activateTab;
+    activateTab=function(id){
+      _activate(id);
+      if(id==='book'){
+        if(!bookData.length){ loadBook(); }
+        if(bookCursor===0){ renderBatch(); }
+      }
+    };
+
+    // Botão copiar dos cards
     document.addEventListener('click',async e=>{
       const btn=e.target.closest('.chipbtn'); if(!btn||!btn.dataset.prompt) return;
-      try{ await navigator.clipboard.writeText(btn.dataset.prompt); btn.textContent='Copiado!'; setTimeout(()=>btn.textContent='Copiar',1000);}catch{ alert('Não foi possível copiar.'); }
+      try{
+        await navigator.clipboard.writeText(btn.dataset.prompt);
+        const old=btn.textContent; btn.textContent='Copiado!'; setTimeout(()=>btn.textContent=old,1000);
+      }catch{ alert('Não foi possível copiar.'); }
     });
   </script>
 </body>
