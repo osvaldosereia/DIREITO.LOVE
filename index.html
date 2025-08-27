@@ -21,15 +21,29 @@
     *{box-sizing:border-box}
     body{margin:0;font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;background:var(--bg);color:var(--ink);padding-top:var(--topbar-h)}
 
-    /* Topbar */
-    .topbar{position:fixed;top:0;left:0;right:0;height:var(--topbar-h);display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:var(--topbar);z-index:1000;border-bottom:1px solid var(--border)}
+    /* Topbar fixa */
+    .topbar{position:fixed;top:0;left:0;right:0;height:var(--topbar-h);background:var(--topbar);z-index:1000;border-bottom:1px solid var(--border)}
     .brand-wrap{display:flex;align-items:center;gap:8px;min-width:0}
     .brand-logo{display:block;height:var(--logo-h);width:auto;max-width:min(220px,60vw);object-fit:contain;object-position:left center}
-    .topbar .right{display:flex;align-items:center;gap:10px}
-
     .insta-link{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;text-decoration:none;transition:transform .12s ease}
     .insta-link:hover{transform:translateY(-1px)}
     .insta-link svg{display:block;width:100%;height:100%}
+
+    /* NOVO: container interno para limitar a largura no desktop */
+    .topbar-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      width:100%;
+      padding:0 14px;      /* respiro lateral no mobile */
+      margin:0 auto;
+    }
+    @media (min-width:861px){
+      .topbar-inner{
+        max-width:960px;   /* mesmo limite dos painéis */
+        padding:0 8px;     /* respiro leve no desktop */
+      }
+    }
 
     /* ===== POPUP PWA (flutuante) ===== */
     #pwa-popup{display:none;position:fixed;left:50%;top:12px;transform:translateX(-50%);
@@ -75,12 +89,11 @@
     .tab-content.is-active{display:block}
     @media (min-width:861px){.tabbar{display:none}.tabs{display:flex}.tab-content{padding-bottom:16px}}
 
-    /* ===== ARQUIVO (book) — ESTILOS NOVOS ===== */
+    /* ===== ARQUIVO (book) — ESTILOS ===== */
     .book-list{
       display:grid;
       gap:12px;
-      /* altura própria com rolagem só dentro da lista */
-      max-height:60vh;
+      max-height:60vh;     /* rolagem só dentro da lista */
       overflow:auto;
       padding-right:6px;
       scroll-behavior:smooth;
@@ -118,21 +131,23 @@
 <body>
   <!-- Topbar -->
   <nav class="topbar" aria-label="Barra superior">
-    <a class="brand-wrap" href="./" aria-label="direito.love — início">
-      <img class="brand-logo" src="./icons/logo-menu.png"
-           onerror="this.onerror=null; this.src='./icons/icon-192.png';"
-           alt="direito.love">
-    </a>
-    <div class="right">
-      <a class="insta-link" href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener" aria-label="Abrir Instagram @osvaldosereiajr" title="@osvaldosereiajr">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <defs><linearGradient id="igGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f58529"/><stop offset="30%" stop-color="#feda77"/><stop offset="60%" stop-color="#dd2a7b"/><stop offset="80%" stop-color="#8134af"/><stop offset="100%" stop-color="#515bd4"/></linearGradient></defs>
-          <rect x="0" y="0" width="24" height="24" rx="6" fill="url(#igGrad)"/>
-          <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="#ffffff" stroke-width="2"/>
-          <circle cx="12" cy="12" r="4.5" fill="none" stroke="#ffffff" stroke-width="2"/>
-          <circle cx="17.2" cy="6.8" r="1.3" fill="#ffffff"/>
-        </svg>
+    <div class="topbar-inner">
+      <a class="brand-wrap" href="./" aria-label="direito.love — início">
+        <img class="brand-logo" src="./icons/logo-menu.png"
+             onerror="this.onerror=null; this.src='./icons/icon-192.png';"
+             alt="direito.love">
       </a>
+      <div class="right">
+        <a class="insta-link" href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener" aria-label="Abrir Instagram @osvaldosereiajr" title="@osvaldosereiajr">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <defs><linearGradient id="igGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f58529"/><stop offset="30%" stop-color="#feda77"/><stop offset="60%" stop-color="#dd2a7b"/><stop offset="80%" stop-color="#8134af"/><stop offset="100%" stop-color="#515bd4"/></linearGradient></defs>
+            <rect x="0" y="0" width="24" height="24" rx="6" fill="url(#igGrad)"/>
+            <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="#ffffff" stroke-width="2"/>
+            <circle cx="12" cy="12" r="4.5" fill="none" stroke="#ffffff" stroke-width="2"/>
+            <circle cx="17.2" cy="6.8" r="1.3" fill="#ffffff"/>
+          </svg>
+        </a>
+      </div>
     </div>
   </nav>
 
