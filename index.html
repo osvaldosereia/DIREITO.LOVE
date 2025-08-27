@@ -17,9 +17,10 @@
        DESIGN TOKENS + THEME
        ====================== */
     :root{
-      /* Cores base */
-      --ink:#0b2f3b;          /* texto primário */
-      --ink-2:#2a4a56;        /* texto secundário */
+      /* Cores base (alto contraste) */
+      --ink:#0a2a32;          /* texto primário */
+      --ink-2:#1f3f49;        /* texto secundário */
+      --muted:#5b6b73;        /* textos fracos */
       --bg:#ffffff;           /* canvas */
       --bg-gradient: radial-gradient(1200px 800px at 10% -10%, #eaf7f5 0%, transparent 60%),
                      radial-gradient(800px 600px at 110% 10%, #f1f6fb 0%, transparent 55%);
@@ -27,10 +28,15 @@
       --surface-2:#e9f2f5;    /* campos/áreas */
 
       --btn:#0b3b4a;          /* CTA */
-      --btn-copy:#6b7785;     /* secundário */
-      --btn-reset:#4b5563;    /* perigo leve */
-      --border:#d8e2e7;       /* linhas sutis */
+      --btn-copy:#47535e;     /* secundário mais escuro */
+      --btn-reset:#3b434a;    /* perigo leve */
+      --border:#cbd8de;       /* linhas sutis */
       --topbar:#0c4160;       /* app bar */
+
+      /* Barras inferiores — tons diferentes e mais escuros que o fundo */
+      --bar-recent-bg:#0f2230f2; /* barra de últimas pesquisas (mais escura) */
+      --bar-tab-bg:#113244e6;    /* tabbar (um tom acima) */
+      --bar-border:#0f2a3b;      /* borda para separar do conteúdo */
 
       /* Dimensões */
       --topbar-h:56px;        /* respiro */
@@ -70,9 +76,10 @@
        TOP BAR
        ========= */
     .topbar{position:fixed;top:0;left:0;right:0;height:var(--topbar-h);background:var(--topbar);z-index:1000;border-bottom:1px solid var(--border)}
-    .topbar-inner{display:flex;align-items:center;justify-content:space-between;width:100%;padding:0 14px;margin:0 auto;max-width:960px}
-    .brand-wrap{display:flex;align-items:center;gap:8px;min-width:0}
+    .topbar-inner{display:flex;align-items:center;justify-content:space-between;width:100%;padding:0 14px;margin:0 auto;max-width:960px;height:100%}
+    .brand-wrap{display:flex;align-items:center;gap:8px;min-width:0;height:100%}
     .brand-logo{display:block;height:var(--logo-h);width:auto;max-width:min(220px,60vw);object-fit:contain;object-position:left center}
+    .right{display:flex;align-items:center;height:100%}
     .insta-link{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;text-decoration:none;transition:transform .12s ease}
     .insta-link:hover{transform:translateY(-1px)}
     .insta-link svg{display:block;width:100%;height:100%}
@@ -81,8 +88,8 @@
        HERO
        ======== */
     .hero{display:grid;gap:8px;max-width:960px;margin:0 auto;padding:28px 16px 16px;align-items:start}
-    .quote{font-weight:800;line-height:1.05;color:var(--ink);font-size:var(--fs-h1)}
-    .author{font-style:italic;font-size:clamp(13px,2.2vw,20px);opacity:.85}
+    .quote{font-weight:800;line-height:1.05;color:#08232a;font-size:var(--fs-h1)}
+    .author{font-style:italic;font-size:clamp(13px,2.2vw,20px);color:#15313a}
 
     /* ========
        PANEL
@@ -92,10 +99,10 @@
 
     /* Campos */
     .field-wrap{margin:14px 0 16px}
-    .label{font-weight:900;font-size:var(--fs-label);color:#08333e;margin:0 0 10px}
+    .label{font-weight:900;font-size:var(--fs-label);color:#06222a;margin:0 0 10px}
     .help{color:var(--ink-2);font-size:.95em;margin-top:6px}
-    .field{width:100%;background:var(--surface-2);border:1px solid var(--border);border-radius:16px;padding:14px;color:#11323c;outline:none;transition:box-shadow .15s,border-color .15s}
-    .field:focus{border-color:#0b3b4a;box-shadow:0 0 0 3px rgba(11,59,74,.15)}
+    .field{width:100%;background:var(--surface-2);border:1px solid var(--border);border-radius:16px;padding:14px;color:#0b2c36;outline:none;transition:box-shadow .15s,border-color .15s}
+    .field:focus{border-color:#0b3b4a;box-shadow:0 0 0 3px rgba(11,59,74,.18)}
     textarea.field{min-height:110px;resize:vertical}
 
     /* Ações */
@@ -106,41 +113,52 @@
     .btn-primary{background:var(--btn);flex:1}
     .btn-copy{background:var(--btn-copy);font-size:14px;padding:10px 12px}
     .btn-reset{background:var(--btn-reset)}
-    .output{background:var(--surface-2);border:1px solid var(--border);border-radius:16px;min-height:150px;padding:14px;color:#16333b;width:100%;resize:vertical}
+    .output{background:var(--surface-2);border:1px solid var(--border);border-radius:16px;min-height:150px;padding:14px;color:#0b2c36;width:100%;resize:vertical}
 
     /* Abas (desktop) */
     .tabs{max-width:960px;margin:12px auto;padding:0 16px;display:none;gap:8px}
-    .tab-btn{border:1px solid var(--border);background:#fff;color:#000;padding:9px 14px;border-radius:999px;font-weight:700;cursor:pointer;font-size:14px}
-    .tab-btn[aria-selected="true"]{background:var(--ink);color:#fff;border-color:transparent}
+    .tab-btn{border:1px solid var(--border);background:#fff;color:#0a2a32;padding:9px 14px;border-radius:999px;font-weight:700;cursor:pointer;font-size:14px}
+    .tab-btn[aria-selected="true"]{background:#0a2a32;color:#fff;border-color:transparent}
 
     /* Conteúdo das abas */
     .tab-content{display:none;padding:0 16px 72px}
     .tab-content.is-active{display:block}
 
-    /* Tabbar (mobile) */
-    .tabbar{position:fixed;bottom:var(--recent-h);left:0;right:0;height:56px;background:#ffffffcc;backdrop-filter:saturate(120%) blur(8px);border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;z-index:1000;padding-bottom:env(safe-area-inset-bottom)}
-    .tabbar button{all:unset;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 10px;border-radius:10px}
-    .tabbar button[aria-selected="true"]{background:#e7fbf8;border:1px solid #bdebe3}
-    .tabbar .lbl{font-size:15px;font-weight:700;color:#0b2f3b}
+    /* Tabbar (mobile) — tom diferente e mais escura que fundo */
+    .tabbar{position:fixed;bottom:var(--recent-h);left:0;right:0;height:56px;background:var(--bar-tab-bg);color:#eaf2f4;border-top:1px solid var(--bar-border);display:flex;justify-content:space-around;align-items:center;z-index:1000;padding-bottom:env(safe-area-inset-bottom)}
+    .tabbar button{all:unset;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 10px;border-radius:10px;color:inherit}
+    .tabbar button[aria-selected="true"]{background:#0f2a3b;border:1px solid #0d2230}
+    .tabbar .lbl{font-size:15px;font-weight:700}
     @media (min-width:861px){.tabbar{display:none}.tabs{display:flex}.tab-content{padding-bottom:16px}}
 
-    /* ARQUIVO (book) */
-    .book-list{display:grid;gap:12px;max-height:60vh;overflow:auto;padding-right:6px;scroll-behavior:smooth}
+    /* ARQUIVO (book) — sem frame e sem rolagem infinita */
+    .book-list{display:grid;gap:12px}
     .book-item{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:16px;padding:12px 14px}
     .book-meta{display:grid;gap:4px;min-width:0}
-    .book-obj{font-weight:900;color:#08333e}
-    .book-tema{color:#16333b;word-break:break-word}
-    .chipbtn{border:1px solid var(--border);background:#ffffff;color:#0b2f3b;font-weight:800;padding:7px 12px;border-radius:999px;cursor:pointer;white-space:nowrap}
+    .book-obj{font-weight:900;color:#06222a}
+    .book-tema{color:#0b2c36;word-break:break-word}
+    .chipbtn{border:1px solid var(--border);background:#0a2a32;color:#fff;font-weight:800;padding:7px 12px;border-radius:999px;cursor:pointer;white-space:nowrap}
     .chipbtn:active{transform:translateY(1px)}
-    @media (max-width:480px){.book-item{flex-direction:column;align-items:stretch}.chipbtn{align-self:flex-start}}
+    @media (min-width:861px){.book-list{grid-template-columns:1fr 1fr}}
 
-    /* Barra de últimas pesquisas (fixa na base) */
-    .recent-bar{position:fixed;left:0;right:0;bottom:0;z-index:1001;background:#ffffffcc;backdrop-filter:saturate(120%) blur(8px);border-top:1px solid var(--border);padding:8px 10px calc(8px + env(safe-area-inset-bottom));height:var(--recent-h)}
+    /* Barra de últimas pesquisas (fixa na base) — mais escura que tabbar */
+    .recent-bar{position:fixed;left:0;right:0;bottom:0;z-index:1001;background:var(--bar-recent-bg);color:#eaf2f4;border-top:1px solid var(--bar-border);padding:8px 10px calc(8px + env(safe-area-inset-bottom));height:var(--recent-h)}
     .recent-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;gap:10px;overflow:auto;scrollbar-width:none;height:100%}
     .recent-inner::-webkit-scrollbar{display:none}
-    .recent-title{font-weight:800;color:var(--ink-2);white-space:nowrap}
-    .recent-chip{border:1px solid var(--border);background:#fff;color:#0b2f3b;font-weight:700;padding:8px 12px;border-radius:999px;cursor:pointer;white-space:nowrap}
-    .recent-empty{color:var(--ink-2)}
+    .recent-title{font-weight:800;white-space:nowrap}
+    .recent-chip{border:1px solid #1a3d52;background:#0e2431;color:#eaf2f4;font-weight:700;padding:8px 12px;border-radius:999px;cursor:pointer;white-space:nowrap}
+    .recent-empty{color:#cfe0e6}
+
+    /* Acessibilidade de foco */
+    .recent-chip:focus,.chipbtn:focus,.tabbar button:focus,.tab-btn:focus,.btn:focus,.field:focus{outline:3px solid rgba(255,255,255,.25);outline-offset:2px}
+
+    /* Ajustes mobile extras (contraste de textos) */
+    @media (max-width:860px){
+      .quote{color:#071e24}
+      .author{color:#0d2a32}
+      .label{color:#061a20}
+      .tab-btn{color:#08232a}
+    }
 
     /* DARK MODE refinado */
     @media (prefers-color-scheme: dark){
@@ -152,13 +170,16 @@
         --surface-2:#0f2328;
         --ink:#eaf2f4;
         --ink-2:#b2c8cf;
+        --muted:#96aeb6;
         --border:#21353c;
+        --bar-recent-bg:#06151c; /* ainda mais escura no dark */
+        --bar-tab-bg:#0b1f27;
+        --bar-border:#0e2a33;
       }
       .label{color:#e6f6f8}
       .tab-btn{background:#0f2328;color:#dbe9ed;border-color:#21353c}
       .tab-btn[aria-selected="true"]{background:#1e444b}
-      .tabbar{background:#0f1a1fcc;border-top-color:#21353c}
-      .recent-bar{background:#0f1a1fcc;border-top-color:#21353c}
+      .tabbar{color:#dbe9ed}
       .recent-chip{background:#0f2328;color:#eaf2f4;border-color:#21353c}
       .btn-primary{background:#146f81}
     }
@@ -245,11 +266,11 @@
     </main>
   </section>
 
-  <!-- Arquivo -->
+  <!-- Arquivo (sem frame/rolagem infinita) -->
   <section id="tab-book" class="tab-content" aria-labelledby="tabbtn-book">
     <main class="panel">
       <h2 class="label">Arquivo – Suas últimas 500 gerações</h2>
-      <p class="field" style="min-height:0;margin-top:0">Carrega automaticamente de 10 em 10 enquanto você rola.</p>
+      <p class="help" style="margin:6px 0 14px">Clique em "Copiar" para enviar o prompt ao clipboard.</p>
       <div id="book-list" class="book-list"></div>
     </main>
   </section>
@@ -283,7 +304,7 @@
     <button aria-selected="false" aria-controls="tab-dicas" id="m-tabbtn-dicas"><span class="lbl">Dicas</span></button>
   </nav>
 
-  <!-- Barra fixa com as últimas pesquisas -->
+  <!-- Barra fixa com as últimas pesquisas (tom diferente e mais escura) -->
   <div id="recent-bar" class="recent-bar" aria-live="polite">
     <div class="recent-inner" id="recent-inner">
       <span class="recent-title">Últimas pesquisas:</span>
@@ -468,39 +489,33 @@ Ao concluir cada capítulo, pergunte: **“Continuo para o próximo capítulo?�
 
     // ===== BOOK (persistência local) =====
     const BOOK_KEY='book_data_v1';
-    const PAGE_SIZE=10;
-    let bookData=[]; let bookCursor=0; const bookWrap=document.getElementById('book-list');
+    function loadBook(){ try{ return JSON.parse(localStorage.getItem(BOOK_KEY)||'[]')||[]; }catch{ return []; } }
 
-    function loadBook(){ try{ bookData = JSON.parse(localStorage.getItem(BOOK_KEY)||'[]'); if(!Array.isArray(bookData)) bookData=[]; }catch{ bookData=[]; } }
-    function truncate150(s){return (s||'').length>150?s.slice(0,150)+'…':s}
-    function clearBookUI(){ if(bookWrap){ bookWrap.innerHTML=''; bookCursor=0; } }
-    function renderBatch(){
-      if(!bookWrap) return; const end=Math.min(bookCursor+PAGE_SIZE, bookData.length); const frag=document.createDocumentFragment();
-      for(let i=bookCursor;i<end;i++){
-        const {objetivo,tema,prompt}=bookData[i];
+    // ===== Render do ARQUIVO (sem rolagem infinita) =====
+    const bookWrap=document.getElementById('book-list');
+    function renderBookAll(){
+      const data=loadBook();
+      bookWrap.innerHTML='';
+      if(!data.length){ bookWrap.innerHTML='<div class="book-item"><div class="book-meta"><div class="book-obj">Arquivo vazio</div><div class="book-tema">Você ainda não gerou nenhum prompt.</div></div></div>'; return; }
+      const frag=document.createDocumentFragment();
+      data.slice(0,500).forEach(({objetivo,tema,prompt})=>{
         const el=document.createElement('div'); el.className='book-item';
         el.innerHTML=`
           <div class="book-meta">
             <div class="book-obj">${objetivo||'—'}</div>
-            <div class="book-tema">${truncate150(tema||'')}</div>
+            <div class="book-tema">${(tema||'').slice(0,300)}</div>
           </div>
           <div><button class="chipbtn" data-prompt="${String(prompt||'').replace(/"/g,'&quot;')}">Copiar</button></div>`;
         frag.appendChild(el);
-      }
-      bookWrap.appendChild(frag); bookCursor=end;
+      });
+      bookWrap.appendChild(frag);
     }
-    function onScroll(){
-      if(!bookWrap) return;
-      const near=bookWrap.scrollTop+bookWrap.clientHeight>=bookWrap.scrollHeight-8;
-      if(near && bookCursor<bookData.length) renderBatch();
-    }
-    bookWrap?.addEventListener('scroll', onScroll);
 
     // ===== Recentes (6 últimos únicos) =====
     const recentWrap=document.getElementById('recent-inner');
     const recentEmpty=document.getElementById('recent-empty');
     function updateRecentBar(){
-      let data=[]; try{ data=JSON.parse(localStorage.getItem(BOOK_KEY)||'[]'); if(!Array.isArray(data)) data=[]; }catch{}
+      let data=loadBook();
       const recent=[];
       for(const it of data){
         const tema=(it?.tema||'').trim(); if(!tema) continue;
@@ -538,17 +553,16 @@ Ao concluir cada capítulo, pergunte: **“Continuo para o próximo capítulo?�
       }
       resultEl.value = out;
 
-      // Book local (salva no histórico)
+      // Salva no histórico
       try{
-        let bd=JSON.parse(localStorage.getItem(BOOK_KEY)||'[]'); if(!Array.isArray(bd)) bd=[];
+        let bd=loadBook(); if(!Array.isArray(bd)) bd=[];
         bd.unshift({ objetivo: strategyHumanName(s), tema: t, prompt: out, ts: Date.now() });
         if(bd.length>500) bd = bd.slice(0,500);
         localStorage.setItem(BOOK_KEY, JSON.stringify(bd));
       }catch{}
 
-      // Se estiver na aba Arquivo, atualiza a lista
-      if(document.getElementById('tab-book').classList.contains('is-active')){ clearBookUI(); loadBook(); renderBatch(); }
-      // Atualiza barra de recentes (6 últimos, 30 chars)
+      // Atualiza Arquivo e barra de recentes
+      if(document.getElementById('tab-book').classList.contains('is-active')){ renderBookAll(); }
       updateRecentBar();
 
       window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'});
@@ -582,14 +596,10 @@ Ao concluir cada capítulo, pergunte: **“Continuo para o próximo capítulo?�
     themeEl?.addEventListener('keydown', (e)=>{ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='enter'){generate();}});
 
     // ===== Inicializações =====
-    // Carrega book ao abrir aba
     const _activate=activateTab;
     activateTab=function(id){
       _activate(id);
-      if(id==='book'){
-        if(!bookData.length){ loadBook(); }
-        if(bookCursor===0){ renderBatch(); }
-      }
+      if(id==='book'){ renderBookAll(); }
     };
 
     // Copiar direto dos cards do Arquivo
@@ -601,7 +611,8 @@ Ao concluir cada capítulo, pergunte: **“Continuo para o próximo capítulo?�
       }catch{ alert('Não foi possível copiar.'); }
     });
 
-    // Primeira renderização da barra de recentes
+    // Primeira renderização
+    renderBookAll();
     updateRecentBar();
   </script>
 </body>
