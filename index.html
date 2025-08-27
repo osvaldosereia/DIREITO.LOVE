@@ -29,23 +29,16 @@
     .insta-link:hover{transform:translateY(-1px)}
     .insta-link svg{display:block;width:100%;height:100%}
 
-    /* NOVO: container interno para limitar a largura no desktop */
+    /* Container interno da topbar */
     .topbar-inner{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      width:100%;
-      padding:0 14px;      /* respiro lateral no mobile */
-      margin:0 auto;
+      display:flex; align-items:center; justify-content:space-between;
+      width:100%; padding:0 14px; margin:0 auto;
     }
     @media (min-width:861px){
-      .topbar-inner{
-        max-width:960px;   /* mesmo limite dos painéis */
-        padding:0 8px;     /* respiro leve no desktop */
-      }
+      .topbar-inner{ max-width:960px; padding:0 8px; }
     }
 
-    /* ===== POPUP PWA (flutuante) ===== */
+    /* POPUP PWA */
     #pwa-popup{display:none;position:fixed;left:50%;top:12px;transform:translateX(-50%);
       max-width:560px;width:calc(100% - 24px);background:#0b2f3b;color:#fff;border-radius:14px;
       box-shadow:0 10px 28px rgba(0,0,0,.25);padding:12px;z-index:10010}
@@ -89,43 +82,20 @@
     .tab-content.is-active{display:block}
     @media (min-width:861px){.tabbar{display:none}.tabs{display:flex}.tab-content{padding-bottom:16px}}
 
-    /* ===== ARQUIVO (book) — ESTILOS ===== */
-    .book-list{
-      display:grid;
-      gap:12px;
-      max-height:60vh;     /* rolagem só dentro da lista */
-      overflow:auto;
-      padding-right:6px;
-      scroll-behavior:smooth;
-    }
-    .book-item{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:12px;
-      background:var(--panel-2);
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:12px 14px;
-    }
+    /* ARQUIVO (book) */
+    .book-list{display:grid;gap:12px;max-height:60vh;overflow:auto;padding-right:6px;scroll-behavior:smooth}
+    .book-item{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;background:var(--panel-2);border:1px solid var(--border);border-radius:16px;padding:12px 14px}
     .book-meta{display:grid;gap:4px;min-width:0}
     .book-obj{font-weight:900;color:#08333e}
     .book-tema{color:#16333b;word-break:break-word}
-    .chipbtn{
-      border:1px solid var(--border);
-      background:#ffffff;
-      color:#0b2f3b;
-      font-weight:800;
-      padding:7px 12px;
-      border-radius:999px;
-      cursor:pointer;
-      white-space:nowrap;
-    }
+    .chipbtn{border:1px solid var(--border);background:#ffffff;color:#0b2f3b;font-weight:800;padding:7px 12px;border-radius:999px;cursor:pointer;white-space:nowrap}
     .chipbtn:active{transform:translateY(1px)}
-    @media (max-width:480px){
-      .book-item{flex-direction:column;align-items:stretch}
-      .chipbtn{align-self:flex-start}
-    }
+    @media (max-width:480px){.book-item{flex-direction:column;align-items:stretch}.chipbtn{align-self:flex-start}}
+
+    /* Campos extras (só para VAMOS TREINAR) */
+    .extras{display:none;gap:12px;flex-wrap:wrap}
+    .extras .field{max-width:260px}
+    .extras.is-visible{display:flex}
   </style>
 </head>
 <body>
@@ -180,23 +150,33 @@
       <div class="field-wrap">
         <h3 class="label">Qual seu objetivo?</h3>
         <select id="strategy" class="field">
-          <option value="explicacao">Explicação Básica</option>
-          <option value="resumo">Resumo Objetivo</option>
-          <option value="artigo">Análise Detalhada</option>
-          <option value="aplicacao">Aplicação Prática</option>
-          <option value="simulado">Exercícios/Testes</option>
-          <option value="faq">Perguntas Frequentes</option>
-          <option value="debate">Debate/Reflexão</option>
-          <option value="atualizacao">Contexto Atualizado</option>
-          <option value="plano">Plano de Estudo</option>
-          <option value="sustentacao">Apresentação em Sala</option>
-          <option value="jurisprudencia">Jurisprudência</option>
+          <option value="entendo">AGORA EU ENTENDO</option>
+          <option value="treinar">VAMOS TREINAR</option>
+          <option value="raiox">RAIO-X</option>
         </select>
       </div>
+
+      <!-- Campos extras (só para VAMOS TREINAR) -->
+      <div id="extra-fields" class="extras">
+        <div>
+          <label class="label" for="nivel">Nível</label>
+          <select id="nivel" class="field">
+            <option>Iniciante</option>
+            <option>Intermediário</option>
+            <option>Avançado</option>
+          </select>
+        </div>
+        <div>
+          <label class="label" for="quant">Quantidade (5–30)</label>
+          <input id="quant" class="field" type="number" min="5" max="30" step="1" value="10" />
+        </div>
+      </div>
+
       <div class="field-wrap">
         <h3 class="label">Vamos falar sobre o quê?</h3>
         <textarea id="theme" class="field" placeholder="Digite o tema"></textarea>
       </div>
+
       <div class="actions-out">
         <div class="actions-buttons">
           <button id="generate" class="btn btn-primary">Gerar</button>
@@ -217,99 +197,25 @@
     </main>
   </section>
 
-  <!-- Dicas -->
+  <!-- Dicas (atualizado para só 3 estruturas) -->
   <section id="tab-dicas" class="tab-content">
     <main class="panel">
-      <h2 class="label">📘 Estruturas de Resposta</h2>
+      <h2 class="label">📘 Estruturas de Resposta (3 modos)</h2>
       <div class="field" style="white-space:pre-wrap">
-1. <b>Explicação Básica</b>
+1) <b>AGORA EU ENTENDO</b>
+- Explicação didática, simples, sem metáforas.
+- Sempre que possível: listas, passos numerados e QUADROS/TABELAS comparativas.
+- Se tiver aspecto processual: legitimidade, competência, prazos, rito e recursos.
 
-<b>Objetivo:</b> oferecer ao estudante uma introdução simples e acessível.
-- Definição curta (1–2 linhas).
-- 2 a 3 analogias do cotidiano para facilitar a compreensão.
-- 3 pontos-chave que resumem a essência do tema.
-- 2 erros comuns que os iniciantes costumam cometer.
-- Mini-exemplo prático para fixar o conteúdo.
+2) <b>VAMOS TREINAR</b>
+- Questões objetivas A–D, variação de dificuldade.
+- Primeiro todas as questões; depois <b>Gabarito Comentado</b>.
+- Campos extras no gerador: <i>Nível</i> e <i>Quantidade</i>.
 
-2. <b>Resumo Objetivo</b>
-
-<b>Objetivo:</b> condensar o tema em uma síntese rápida, mas completa.
-- Conceito em até 2 linhas.
-- Base legal principal.
-- Estrutura essencial (elementos que compõem o instituto).
-- 3 diferenças em relação a temas que normalmente geram confusão.
-- Tendências atuais na doutrina e jurisprudência.
-- 3 pegadinhas recorrentes em provas.
-- 2 mini-casos ilustrativos para aplicação imediata.
-
-3. <b>Análise Detalhada (Artigo Acadêmico)</b>
-
-<b>Objetivo:</b> aprofundar o estudo em formato científico.
-- Introdução: problema, relevância prática e hipótese de trabalho.
-- Desenvolvimento: conceitos centrais, correntes doutrinárias, análise crítica e jurisprudência selecionada.
-- Conclusão: síntese do debate, posicionamento fundamentado e proposta de solução ou tendência.
-
-4. <b>Aplicação Prática</b>
-
-<b>Objetivo:</b> mostrar como o tema se traduz no dia a dia do Direito.
-- Caso fictício realista.
-- Enquadramento jurídico passo a passo.
-- Solução provável (e alternativas).
-- Mini-modelo de peça processual (endereçamento, fundamentos, pedidos).
-- Checklist final com os pontos que não podem ser esquecidos.
-
-5. <b>Exercícios/Testes</b>
-
-<b>Objetivo:</b> avaliar o aprendizado com diferentes níveis de dificuldade.
-- 5 questões no total: 2 fáceis, 2 intermediárias e 1 avançada.
-- Gabarito comentado, explicando o porquê de cada resposta.
-
-6. <b>FAQ (Perguntas Frequentes)</b>
-
-<b>Objetivo:</b> resolver as principais dúvidas em pouco tempo.
-- 15 perguntas essenciais respondidas em até 3 linhas cada.
-- 2 confusões comuns corrigidas para evitar erros.
-
-7. <b>Debate/Reflexão</b>
-
-<b>Objetivo:</b> estimular pensamento crítico e discussão acadêmica.
-- Problema central bem delimitado.
-- 3 argumentos a favor e 3 contra.
-- 1 dilema prático para reflexão.
-- Perguntas-guia para incentivar debate em sala ou estudo em grupo.
-
-8. <b>Contexto Atualizado</b>
-
-<b>Objetivo:</b> conectar o tema à realidade atual.
-- Panorama legislativo recente.
-- Jurisprudência mais atualizada.
-- Impactos práticos no cotidiano do Direito.
-- Pontos ainda controversos ou em evolução.
-
-9. <b>Plano de Estudo</b>
-
-<b>Objetivo:</b> ajudar o estudante a organizar a preparação.
-- Cronograma de 4 semanas.
-- Rotina de revisão espaçada para fixação.
-- Exercícios recomendados.
-- Erros mais comuns a monitorar.
-
-10. <b>Apresentação em Sala</b>
-
-<b>Objetivo:</b> estruturar um discurso oral de impacto (4 min).
-- Abertura envolvente.
-- Contextualização do tema.
-- Base legal, doutrina e jurisprudência segura.
-- Caso ilustrativo que prenda a atenção.
-- Argumentação bem construída.
-- Fechamento marcante com síntese.
-
-11. <b>Jurisprudência (Radar)</b>
-
-<b>Objetivo:</b> oferecer panorama prático de decisões.
-- 15 itens verificados e confiáveis.
-- Cada item deve conter: tribunal, número, ano, tese resumida (2–3 linhas) e impacto prático.
-      </div>
+3) <b>RAIO-X</b>
+- Capítulos sequenciais com autorização capítulo a capítulo.
+- <b>Links obrigatórios</b> (sites jurídicos/notícias, artigos acadêmicos e universitários; exceções: Planalto e JusBrasil).
+- Entrega: Sumário → Capítulo 1 → "Continuo?"</div>
     </main>
   </section>
 
@@ -430,186 +336,103 @@
       });
     })();
 
-    // ====== GERADOR: TEMPLATES ======
+    // ====== GERADOR: TEMPLATES (apenas 3) ======
     const TEMPLATES = {
-      explicacao: (tema) => `Você é um **tutor de Direito** no Brasil, especialista em didática jurídica.
-Persona: professor paciente e criativo, que explica para iniciantes.
-Linguagem: simples, clara, sem juridiquês; use analogias.
+      entendo: (tema) => `Você é um tutor de Direito para iniciantes. Linguagem simples, objetiva e sem metáforas.
 
-Tarefa: Explique o tema **${tema}**.
-Estrutura:
-1) Definição essencial (até 3 linhas).
-2) 2–3 analogias do cotidiano.
-3) 3 pontos-chave (o que é, para que serve, onde se aplica).
-4) 2 erros comuns dos alunos + forma correta.
-5) Mini-exemplo prático.
+Objetivo: explicar **${tema}** de forma clara e aplicável.
 
-Recursos: headings (H2–H3), listas, parágrafos curtos.
-Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.
+Regras:
+- Frases curtas. Sem jargão desnecessário.
+- Sempre que possível, use listas, passos numerados e QUADROS/TABELAS comparativas.
+- Se o tema tiver aspecto processual, inclua: legitimidade, competência, prazos, rito e recursos.
 
-Fecho: síntese (2 frases) + fontes (até 5).`,
+Formato (Markdown):
+# Conceito em até 4 linhas
+# Base legal essencial (artigos/leis)
+# Quadro comparativo (tabela): Instituto | Quando se aplica | Exemplo rápido
+# Passo a passo de raciocínio (4–6 passos práticos)
+# Exemplos práticos (3 mini-casos resolvidos)
+# Erros comuns (3) e Pegadinhas de prova (2)
+# Checklist de prova (5 itens objetivos)
+# Mini glossário (5 termos-chave)`,
 
-      resumo: (tema) => `Você é um **professor universitário de Direito** no Brasil, especialista em provas da OAB e concursos.
-Persona: objetivo e estratégico, como quem monta checklists.
-Linguagem: direta, sem floreios.
+      treinar: (tema, nivel='Iniciante', quantidade=10) => {
+        const q = Math.min(30, Math.max(5, Number(quantidade)||10));
+        return `Você é um elaborador de questões de Direito para treino universitário e OAB.
 
-Tarefa: Resuma **${tema}** em formato RAIO-X.
-Inclua:
-1) Conceito-chave (até 2 linhas);
-2) Base legal essencial (artigos);
-3) Estrutura/elementos;
-4) Diferenças fáceis de confundir (3 pares);
-5) Tendências jurisprudenciais;
-6) 3 pegadinhas de prova;
-7) 2 mini-cases resolvidos.
+Parâmetros do treino:
+- Nível: **${nivel}**
+- Quantidade: **${q}** questões
 
-Recursos: tópicos numerados, negrito nos termos centrais.
-Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.
+Regras:
+- Questões de múltipla escolha (A–D), 1 correta + 3 alternativas plausíveis.
+- Misture: conceito, aplicação prática e interpretação.
+- Varie a dificuldade dentro do nível. Marque [F], [M] ou [D] no fim de cada enunciado.
+- Primeiro liste TODAS as questões → depois traga o **GABARITO COMENTADO**.
+- Cada justificativa: 1–2 linhas, explicando por que a correta está certa e as outras não.
 
-Fecho: resumo de bolso (2 frases) + fontes (até 5).`,
+Tema: **${tema}**
 
-      artigo: (tema) => `Você é um **jurista pesquisador**, especialista em produção acadêmica.
-Persona: acadêmico crítico, mas acessível.
-Linguagem: técnica, formal, sem excesso; parágrafos curtos.
-
-Tarefa: Produza artigo acadêmico sobre **${tema}**.
-Estrutura:
-# Introdução: problema, relevância prática e hipótese.
-# Desenvolvimento: conceitos centrais, evolução histórica, correntes doutrinárias (prós/contrás), análise crítica, tendências jurisprudenciais, (opcional: direito comparado).
-# Conclusão: síntese crítica + proposta prática.
-
-Recursos: headings H1–H4, listas quando cabíveis, destaques em **negrito**.
-Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.
-
-Fecho: resumo final (2 frases) + referências (até 5).`,
-
-      aplicacao: (tema) => `Você é um **advogado experiente e professor de prática jurídica**.
-Persona: prático, direto, como quem treina estagiários.
-Linguagem: clara, com exemplos.
-
-Tarefa: Mostre como aplicar **${tema}** na prática.
-Estrutura:
-1) Caso fictício realista.
-2) Enquadramento jurídico (fundamentos e raciocínio).
-3) Solução provável (e alternativas).
-4) Mini-modelo de peça (endereçamento, fatos, fundamentos, pedidos).
-5) Checklist (3–5 pontos).
-
-Recursos: listas, blocos de texto para peças.
-Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.
-
-Fecho: resumo executivo (2 frases) + fontes (até 5).`,
-
-      simulado: (tema) => `Você é um **examinador da OAB** montando questões sobre ${tema}.
-Persona: avaliador exigente, mas didático no comentário.
-Linguagem: objetiva, estilo prova.
-
-Tarefa: Crie 5 questões sobre **${tema}**.
-Estrutura:
-- 2 fáceis, 2 médias, 1 difícil.
-- Estilo múltipla escolha ou discursiva curta.
-- Gabarito comentado logo após cada questão.
-
-Recursos: blocos por questão; resposta correta em **negrito**.
-Regras: sem links; jurisprudência só se 100% segura.
-
-Fecho: 3 dicas práticas de estudo + fontes (até 5).`,
-
-      faq: (tema) => `Você é um **monitor de Direito** explicando conceitos básicos.
-Persona: colega didático, rápido e claro.
-Linguagem: simples, sem juridiquês.
-
-Tarefa: Responda dúvidas rápidas sobre **${tema}**.
-Estrutura:
-- 15 perguntas essenciais.
-- Respostas em até 3 linhas.
-- 2 confusões comuns + a forma correta.
-
-Recursos: pergunta em **negrito**, resposta em texto normal.
-Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.
-
-Fecho: resumo de bolso (2 frases) + fontes (até 5).`,
-
-      debate: (tema) => `Você é um **professor de Filosofia do Direito** mediando debate sobre ${tema}.
-Persona: provocador crítico, mas neutro.
-Linguagem: reflexiva e clara.
-
-Tarefa: Promova um debate sobre **${tema}**.
-Estrutura:
-1) Problema central (até 4 linhas).
-2) 3 argumentos pró.
-3) 3 argumentos contra.
-4) 1 dilema ético ou prático.
-5) Perguntas-guia para discussão.
-
-Recursos: listas; destaques em **negrito**.
-Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.
-
-Fecho: síntese imparcial (2 frases) + fontes (até 5).`,
-
-      atualizacao: (tema) => {
-        const d=new Date();
-        const data=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-        return `Você é um **jurista analista de legislação e jurisprudência**.
-Persona: atualizado, conecta norma e impacto prático.
-Linguagem: clara, objetiva.
-
-Tarefa: Traga panorama atualizado sobre **${tema}** (até ${data}).
-Estrutura:
-1) Alterações legislativas recentes.
-2) Tendências jurisprudenciais atuais.
-3) Impactos práticos (provas e advocacia).
-4) Pontos controversos e cuidados.
-
-Recursos: subtítulos H3; destaque artigos em **negrito**.
-Regras: sem links; enunciados, súmulas e jurisprudência só se 100% segura.
-
-Fecho: resumo (2 frases) + fontes (até 5).`;
+Formato (Markdown):
+# Questões (1..N)
+- Q1) ...
+- ...
+# Gabarito Comentado
+- Q1) Letra X — justificativa curta
+- ...
+# Próximos passos sugeridos (3 tópicos rápidos)`;
       },
 
-      plano: (tema) => `Você é um **coach de estudos jurídicos** especialista em memorização.
-Persona: motivador, organizado.
-Linguagem: objetiva e encorajadora.
+      raiox: (tema) => `Você é um analista jurídico. Produza um **RAIO-X** completo em capítulos sequenciais sobre **${tema}**, avançando apenas com minha autorização.
 
-Tarefa: Crie plano de estudo sobre **${tema}** para 4 semanas.
-Estrutura:
-1) Objetivo do ciclo.
-2) Cronograma semanal (Semana 1–4).
-3) Rotina de revisão espaçada (1-1-7-15).
-4) Exercícios práticos.
-5) Erros comuns e como evitar.
+FONTES PERMITIDAS (estritamente):
+- Sites de notícias jurídicas;
+- Artigos acadêmicos e sites universitários;
+- EXCEÇÕES oficiais: Planalto e JusBrasil.
+(Não use outros sites governamentais. Não use blogs pessoais sem afiliação acadêmica/jurídica.)
 
-Recursos: listas e tabela simples em texto.
-Regras: sem links.
+POLÍTICA DE LINKS (OBRIGATÓRIA):
+- Toda afirmação relevante deve vir com link CLICÁVEL para a fonte.
+- Use a URL CANÔNICA do conteúdo (evite Google/encurtadores).
+- Para cada citação, informe: **[Título] (Site/Instituição — Data)** e o **link** em Markdown.
+- Se a confirmação ainda não for 100% segura, marque **[verificar]** sem inventar dados.
 
-Fecho: frase motivadora (2 linhas) + fontes (até 5).`,
+ESTILO:
+- Linguagem clara, objetiva e profissional.
+- Listas, tópicos e quadros/tabelas quando úteis.
+- Se citar jurisprudência/súmula/enunciado/acórdão: traga a **tese em 1–2 linhas** + link para a notícia/artigo acadêmico ou JusBrasil/Planalto.
 
-      sustentacao: (tema) => `Você é um **professor-orientador de Direito**.
-Persona: colega didático, rápido e claro.
-Linguagem: simples e persuasiva.
+FLUXO DE ENTREGA (obrigatório):
+1) Mostrar **SUMÁRIO** dos capítulos (títulos curtos) — com 1 linha de objetivo para cada capítulo.
+2) Entregar **apenas o CAPÍTULO 1**.
+3) Perguntar: **“Continuo para o próximo capítulo? (sim/não) — ou ‘pular para: [nº]’.”**
+4) Só avançar após minha resposta.
 
-Tarefa: Simule uma apresentação oral de até 4 minutos (~400–500 palavras) sobre **${tema}**.
-Estrutura:
-1) Abertura chamativa.
-2) Contexto e relevância jurídica/social.
-3) Desenvolvimento: definição, base legal, doutrina e jurisprudência segura, caso ilustrativo.
-4) Argumentação persuasiva.
-5) Fechamento forte.
+ESTRUTURA SUGERIDA DE CAPÍTULOS:
+1. Conceito e Base legal
+2. Doutrina (corrente majoritária × minoritária + autores)
+3. Panorama acadêmico (artigos universitários, debates e tendências)
+4. Notícias jurídicas recentes (sínteses)
+5. Jurisprudência e Súmulas (STF/STJ; enunciados — teses em 1–2 linhas)
+6. Aspectos processuais: legitimidade | competência | prazos | rito | recursos | ônus da prova
+7. Prática profissional: mini-peça (esqueleto), teses usuais, riscos e cuidados
+8. Casos típicos e como resolver (3 cenários curtos, passo a passo)
+9. Divergências e controvérsias atuais (3–5 pontos)
+10. Pegadinhas de prova (3) e Dúvidas frequentes (5)
+11. Checklist final (5 itens objetivos)
+12. Referências consolidadas (todas as fontes citadas, organizadas)
 
-Regras: sem links; cite enunciados/súmulas só se 100% seguro.
+FORMATO (Markdown) DE CADA CAPÍTULO:
+# Título do capítulo
+**Objetivo:** (1 linha)
+## Conteúdo
+- Tópicos claros, quadros/tabelas quando couber.
+## Fontes do capítulo
+- [Título] (Site/Instituição — Data). Link: https://...
+- [Título] (Site/Instituição — Data). Link: https://...
 
-Fecho: frase de impacto + fontes (até 5).`,
-
-      jurisprudencia: (tema) => `Você é um **jurista analista de jurisprudência**.
-Persona: pesquisador criterioso, atualizado.
-Linguagem: clara e técnica.
-
-Tarefa: Monte um radar de **jurisprudência** sobre **${tema}** com 15 itens verificados (tribunal, nº/ano, tese resumida e impacto prático).
-Regras:
-- Não invente decisões.
-- Use apenas fontes confiáveis.
-- Sem links se não tiver certeza absoluta.
-Saída: lista numerada de 15 itens.`
+Ao concluir cada capítulo, pergunte: **“Continuo para o próximo capítulo?”**`
     };
 
     // ====== GERADOR: handlers ======
@@ -620,38 +443,49 @@ Saída: lista numerada de 15 itens.`
     const btnCopy=document.getElementById('copy');
     const btnReset=document.getElementById('reset');
 
+    // Extras (somente para VAMOS TREINAR)
+    const extrasWrap = document.getElementById('extra-fields');
+    const nivelEl = document.getElementById('nivel');
+    const quantEl = document.getElementById('quant');
+
+    function toggleExtras(){
+      const isTreinar = strategyEl.value === 'treinar';
+      extrasWrap.classList.toggle('is-visible', isTreinar);
+    }
+    toggleExtras();
+    strategyEl.addEventListener('change', toggleExtras);
+
     function strategyHumanName(v){
-      const map={
-        explicacao:'Explicação Básica',
-        resumo:'Resumo Objetivo',
-        artigo:'Análise Detalhada',
-        aplicacao:'Aplicação Prática',
-        simulado:'Exercícios/Testes',
-        faq:'FAQ',
-        debate:'Debate/Reflexão',
-        atualizacao:'Contexto Atualizado',
-        plano:'Plano de Estudo',
-        sustentacao:'Apresentação em Sala',
-        jurisprudencia:'Jurisprudência'
-      }; return map[v]||v;
+      const map={ entendo:'AGORA EU ENTENDO', treinar:'VAMOS TREINAR', raiox:'RAIO-X' };
+      return map[v]||v;
     }
 
     function generate(){
-      const s = strategyEl.value; const t = (themeEl.value||'').trim();
+      const s = strategyEl.value;
+      const t = (themeEl.value||'').trim();
       if(!s){ alert('Selecione o objetivo.'); return; }
       if(!t){ alert('Digite o tema.'); themeEl.focus(); return; }
       const tpl = TEMPLATES[s];
       if(!tpl){ alert('Estratégia inválida. Atualize a página.'); return; }
-      const out = tpl(t);
+
+      let out;
+      if(s==='treinar'){
+        const nivel = (nivelEl?.value)||'Iniciante';
+        let q = Number(quantEl?.value)||10; q = Math.min(30, Math.max(5, q));
+        out = tpl(t, nivel, q);
+      } else {
+        out = tpl(t);
+      }
       resultEl.value = out;
 
       // Book local
-      let bookData=[]; 
-      try{ bookData = JSON.parse(localStorage.getItem('book_data_v1')||'[]'); if(!Array.isArray(bookData)) bookData=[]; }catch{ bookData=[]; }
+      const BOOK_KEY='book_data_v1';
+      let bookData=[];
+      try{ bookData = JSON.parse(localStorage.getItem(BOOK_KEY)||'[]'); if(!Array.isArray(bookData)) bookData=[]; }catch{ bookData=[]; }
       const entry = { objetivo: strategyHumanName(s), tema: t, prompt: out, ts: Date.now() };
       bookData.unshift(entry);
       if(bookData.length>500) bookData = bookData.slice(0,500);
-      try{ localStorage.setItem('book_data_v1', JSON.stringify(bookData)); }catch{}
+      try{ localStorage.setItem(BOOK_KEY, JSON.stringify(bookData)); }catch{}
 
       if(document.getElementById('tab-book').classList.contains('is-active')){ clearBookUI(); renderBatch(); }
       window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'});
@@ -671,7 +505,13 @@ Saída: lista numerada de 15 itens.`
         finally{ document.body.removeChild(ta); }
       }
     }
-    function resetAll(){ strategyEl.value=''; themeEl.value=''; resultEl.value=''; window.scrollTo({top:0,behavior:'smooth'}); }
+    function resetAll(){
+      strategyEl.value='entendo';
+      themeEl.value=''; resultEl.value='';
+      nivelEl.value='Iniciante'; quantEl.value='10';
+      toggleExtras();
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
 
     btnGen?.addEventListener('click', generate);
     btnCopy?.addEventListener('click', copyOut);
