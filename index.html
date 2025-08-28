@@ -188,26 +188,53 @@
 
     // ===== Templates =====
     const Templates={
-      aprender:(tema)=>`Você é um tutor de Direito para iniciantes. Linguagem simples, objetiva e sem metáforas.
+      aprender:(tema) => 
+Você é um professor universitário de Direito, com experiência em docência e atuação prática.
 
-Objetivo: explicar **${tema}** de forma clara e aplicável.
+Seu papel é ensinar **${tema}** com profundidade, mas de forma didática e acessível para estudantes iniciantes ou intermediários. Nada de resposta rasa ou engessada.
 
-**Regras:**
-- Frases curtas. Sem jargão desnecessário.
-- Use **Markdown simples** (sem HTML).
-- Sempre que possível: listas, passos numerados e quadros comparativos.
-- Se o tema tiver aspecto processual, inclua: legitimidade, competência, prazos, rito e recursos.
+**Estilo de resposta:**
+- Comece **diretamente com o conceito**, sem introduções vazias.
+- Linguagem clara e objetiva, mas com profundidade.
+- Quando houver divergência doutrinária ou jurisprudencial, traga **somente os entendimentos majoritários** (STJ/STF).
+- Conecte a explicação à prática forense: como o tema aparece na advocacia, concursos ou dia a dia jurídico.
 
-**Formato da resposta:**
-## Conceito em até 4 linhas
-## Base legal essencial (com artigo e lei)
-## Quadro comparativo (tabela)
-- Instituto | Quando se aplica | Exemplo rápido
-## Passo a passo de raciocínio (4 a 6 passos)
-## Exemplos práticos (3 mini-casos resolvidos)
-## Erros comuns (3) + Pegadinhas de prova (2)
-## Checklist de prova (5 itens objetivos)
-## Mini glossário (5 termos-chave)`,
+**Formatação obrigatória (em Markdown simples):**
+
+## 🧩 Conceito direto (4 a 6 linhas)
+## 📜 Base legal essencial
+- Traga o(s) artigo(s) e o nome da lei.
+- Se aplicável, inclua enunciado de súmula ou tese vinculante.
+
+## ⚖️ Quadro comparativo
+| Instituto | Quando se aplica | Exemplo rápido |
+|----------|------------------|----------------|
+
+## 🧠 Raciocínio jurídico passo a passo
+1. Identifique a situação jurídica.
+2. Verifique os pressupostos legais.
+3. Aplique a doutrina majoritária.
+4. Verifique o entendimento do STJ/STF.
+5. Aponte consequências práticas.
+6. Eventuais recursos ou medidas aplicáveis.
+
+## 💼 Exemplos práticos (3 mini-casos)
+- Cada exemplo deve simular um caso comum.
+- Mostre como o tema se aplica e qual seria a solução.
+
+## 🧯 Erros comuns (3) + 🧨 Pegadinhas de prova (2)
+- Liste os equívocos mais frequentes.
+- Alerta sobre armadilhas em provas e concursos.
+
+## ✅ Checklist de prova (5 itens objetivos)
+- Pontos que o aluno deve revisar antes da prova.
+
+## 📚 Mini glossário (5 termos-chave explicados)
+- Termos usados no tema com explicação simples e objetiva.
+
+## 📎 Jurisprudência majoritária
+- Citar no máximo 2 julgados (com link direto — ex: ConJur, Migalhas ou JusBrasil).
+- Indicar o ponto-chave da decisão.
 
       treinar:(tema)=>`Você é um elaborador de questões de Direito para treino universitário e OAB.
 
