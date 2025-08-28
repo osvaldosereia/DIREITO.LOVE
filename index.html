@@ -223,6 +223,7 @@
     tabArq.addEventListener('click', () => selectTab('arquivo'));
 
     // ===== Templates =====
+    const CTA = `\n\n**Gere um novo prompt em [direito.love](https://direito.love)**`;
     const Templates = {
       aprender: (tema) => `Você é um professor universitário de Direito, com experiência em docência e atuação prática.
 
@@ -273,7 +274,7 @@ Seu papel é ensinar **${tema}** com profundidade, mas de forma didática e aces
 ---
 
 **Sugestões de temas para novas pesquisas no direito.love**
-- Relacione 3 variações do tema "${tema}" com foco em: (a) processo, (b) jurisprudência e (c) prática forense.`,
+- Relacione 3 variações do tema "${tema}" com foco em: (a) processo, (b) jurisprudência e (c) prática forense.` + CTA,
       
       treinar: (tema) => `Você é um elaborador de questões de Direito para treino universitário e OAB.
 
@@ -307,9 +308,8 @@ Parâmetros do treino:
 - ...
 ---
 
-**Sugestões de temas para novas pesquisas no direito.love** 
-- Liste 3 temas correlatos a "${tema}" para treinar (nível Intermediário).`
-**Gere um novo prompt em [direito.love](https://direito.love)**` ,
+**Sugestões de temas para novas pesquisas no direito.love**
+- Liste 3 temas correlatos a "${tema}" para treinar (nível Intermediário).` + CTA,
       
       noticias: (tema) => `Você é um curador de notícias e artigos jurídicos. Pesquise conteúdos dos **últimos 36 meses** relacionados a **${tema}** em **sites jurídicos** (notícias, revistas especializadas, portais acadêmicos/universitários). Evite blogs pessoais sem afiliação.
 
@@ -338,7 +338,7 @@ Objetivo: entregar **10 achados** de alta relevância, sem duplicatas, com link 
 10) ...
 
 **Sugestões de temas para novas pesquisas no direito.love**
-- Traga 3 ganchos de pauta derivados de "${tema}" (ex.: decisão recente, tendência doutrinária, impacto prático).`,
+- Traga 3 ganchos de pauta derivados de "${tema}" (ex.: decisão recente, tendência doutrinária, impacto prático).` + CTA,
       
       casoreal: (tema) => `Você é um analista jurídico. Encontre até **5 casos concretos reais** relacionados ao tema **${tema}**, publicados nos **últimos 36 meses** em sites jurídicos confiáveis (notícias, portais especializados ou acadêmicos).
 
@@ -366,7 +366,7 @@ Objetivo: entregar **10 achados** de alta relevância, sem duplicatas, com link 
 - Se não encontrar 3 casos, entregue 1 ou 2 e diga [casos adicionais não localizados].
 
 **Sugestões de temas para novas pesquisas no direito.love**
-- Proponha 3 recortes práticos de "${tema}" (petições, recursos, provas).`
+- Proponha 3 recortes práticos de "${tema}" (petições, recursos, provas).` + CTA
     };
 
     // ===== Estado e elementos =====
