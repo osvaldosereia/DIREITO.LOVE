@@ -201,7 +201,7 @@
       <a class="ai-link" href="https://www.perplexity.ai/" target="_blank" rel="noopener" aria-label="Abrir Perplexity">Perplexity</a>
       <a class="ai-link" href="https://www.phind.com/" target="_blank" rel="noopener" aria-label="Abrir Phind">Phind</a>
       <a class="ai-link" href="https://notebooklm.google.com/" target="_blank" rel="noopener" aria-label="Abrir NotebookLM">NotebookLM</a>
-      <a class="ai-link" href="https://consensus.app/" target="_blank" rel="noopener" aria-label="Abrir Consensus.app">Consensus</a>
+      <a class="ai-link" href="https://consensus.app/" target="_blank" rel="noopener" aria-label="Abrir Consensus">Consensus</a>
     </div>
   </footer>
 
@@ -224,7 +224,7 @@
 
     // ===== Templates =====
     const Templates = {
-      aprender:(tema)=>`Você é um professor universitário de Direito, com experiência em docência e atuação prática.
+      aprender: (tema) => `Você é um professor universitário de Direito, com experiência em docência e atuação prática.
 
 Seu papel é ensinar **${tema}** com profundidade, mas de forma didática e acessível para estudantes iniciantes ou intermediários. Nada de resposta rasa ou engessada.
 
@@ -269,17 +269,13 @@ Seu papel é ensinar **${tema}** com profundidade, mas de forma didática e aces
 
 ## 📎 Jurisprudência majoritária
 - Citar no máximo 2 julgados (com link direto — ex: ConJur, Migalhas ou JusBrasil).
-- Indicar o ponto-chave da decisão.`,
-- pular linha
-- separador
-- pular linha
-**Sugestões de temas para novas pesquisas**
-- Item 1
-- Item 2
-- Item 3`
-Clique para abrir o **direito.love** (linkar o site https://direito.love),
 
-      treinar:(tema)=>`Você é um elaborador de questões de Direito para treino universitário e OAB.
+---
+
+**Sugestões de temas para novas pesquisas no direito.love**
+- Relacione 3 variações do tema "${tema}" com foco em: (a) processo, (b) jurisprudência e (c) prática forense.`,
+      
+      treinar: (tema) => `Você é um elaborador de questões de Direito para treino universitário e OAB.
 
 Parâmetros do treino:
 - Nível: **Intermediário**
@@ -298,63 +294,52 @@ Parâmetros do treino:
 **Formato da resposta:**
 ## Questões (1 a 10)
 1. **Q1) Enunciado...**
-- pular linha
-- separador
+- (linhas em branco)
+---
 2. **Q2) Enunciado...**
-- pular linha
-- separador
-...
+- (linhas em branco)
+---
+... (até Q10)
 
 ## Gabarito Comentado
 - Q1) Letra C — justificativa breve
 - Q2) Letra A — justificativa breve
-...
-- pular linha
-- separador
-- pular linha
-**Sugestões de temas para novas pesquisas**
-- Item 1
-- Item 2
-- Item 3`
-Clique para abrir o **direito.love** (linkar o site https://direito.love),
+- ...
+---
 
-      noticias:(tema)=>`Você é um curador de notícias e artigos jurídicos. Pesquise conteúdos dos **últimos 36 meses** relacionados a **${tema}** em **sites jurídicos** (notícias, revistas especializadas, portais acadêmicos/universitários). Evite blogs pessoais sem afiliação.
+**Sugestões de temas para novas pesquisas no direito.love**
+- Liste 3 temas correlatos a "${tema}" para treinar (nível Intermediário).`,
+      
+      noticias: (tema) => `Você é um curador de notícias e artigos jurídicos. Pesquise conteúdos dos **últimos 36 meses** relacionados a **${tema}** em **sites jurídicos** (notícias, revistas especializadas, portais acadêmicos/universitários). Evite blogs pessoais sem afiliação.
 
 Objetivo: entregar **10 achados** de alta relevância, sem duplicatas, com link canônico.
 
 **Regras de formatação (obrigatórias):**
-- Saída em **Markdown simples**. **Não use HTML** (nada de <i>, <b>, etc.).
+- Saída em **Markdown simples**. **Não use HTML**.
 - Datas no formato **DD/MM/AAAA**.
-- Nome do site **sem negrito/itálico**.
+- Nome do site sem destaque.
 - Um item por linha principal + subitens com hífen.
 
 **Instruções de busca:**
 - Priorize: ConJur, Migalhas, JOTA, Âmbito Jurídico, Consultor Jurídico, portais universitários e institucionais.
-- Filtre por data de publicação: últimos 36 meses.
+- Filtre por data: últimos 36 meses.
 - Evite PDFs atrás de paywall; se inevitável, marque [acesso restrito].
-- Se algum material mais antigo for indispensável, inclua com a etiqueta [clássico].
+- Se algo mais antigo for indispensável, acrescente [clássico].
 
 **Formato da resposta (Markdown):**
 # Achados (até 10)
-1) **Título** — Data: DD/MM/AAAA | Site: NOME DO SITE
-   - Resumo: 2–3 linhas com o núcleo do conteúdo e impacto prático.
+1) Título — Data: DD/MM/AAAA | Site: NOME
+   - Resumo: 2–3 linhas com o núcleo e impacto prático.
    - Link: URL canônica
-- pular linha
-- separador
+---
 2) ...
-- pular linha
-- separador
+---
 10) ...
-- pular linha
-- separador
-- pular linha
-**Sugestões de temas para novas pesquisas**
-- Item 1
-- Item 2
-- Item 3`
-Clique para abrir o **direito.love** (linkar o site https://direito.love),
 
-      casoreal:(tema)=>`Você é um analista jurídico. Encontre até **5 casos concretos reais** relacionados ao tema **${tema}**, publicados nos **últimos 36 meses** em sites jurídicos confiáveis (notícias, portais especializados ou acadêmicos).
+**Sugestões de temas para novas pesquisas no direito.love**
+- Traga 3 ganchos de pauta derivados de "${tema}" (ex.: decisão recente, tendência doutrinária, impacto prático).`,
+      
+      casoreal: (tema) => `Você é um analista jurídico. Encontre até **5 casos concretos reais** relacionados ao tema **${tema}**, publicados nos **últimos 36 meses** em sites jurídicos confiáveis (notícias, portais especializados ou acadêmicos).
 
 **Objetivo:** mostrar o tema em ação, a partir de decisões, julgamentos, repercussões ou polêmicas públicas reais.
 
@@ -365,11 +350,11 @@ Clique para abrir o **direito.love** (linkar o site https://direito.love),
 
 **Fontes permitidas:** ConJur, Migalhas, JOTA, Âmbito Jurídico, Consultor Jurídico, revistas acadêmicas ou institucionais.
 
-**Formato da resposta (Markdown):**
+**Formato (Markdown):**
 # Casos reais encontrados (até 5)
-1. Título do caso — Data: DD/MM/AAAA | Site: NOME DO SITE
-   - Resumo factual: explique o que aconteceu (3–4 linhas).
-   - Comentário jurídico: relacione com o tema "${tema}" (5–6 linhas).
+1. Título — Data: DD/MM/AAAA | Site: NOME
+   - Resumo factual (3–4 linhas).
+   - Comentário jurídico: relacione com "${tema}" (5–6 linhas).
    - Link: URL canônica
 2. ...
 3. ...
@@ -377,16 +362,10 @@ Clique para abrir o **direito.love** (linkar o site https://direito.love),
 5. ...
 
 **Notas finais:**
-- Se não encontrar 3 casos, entregue 1 ou 2, e diga [casos adicionais não localizados].
-- Dê preferência a casos com impacto público, doutrinário ou jurisprudencial.`
-- pular linha
-- separador
-- pular linha
-**Sugestões de temas para novas pesquisas**
-- Item 1
-- Item 2
-- Item 3`
-Clique para abrir o **direito.love** (linkar o site https://direito.love),
+- Se não encontrar 3 casos, entregue 1 ou 2 e diga [casos adicionais não localizados].
+
+**Sugestões de temas para novas pesquisas no direito.love**
+- Proponha 3 recortes práticos de "${tema}" (petições, recursos, provas).`
     };
 
     // ===== Estado e elementos =====
@@ -465,15 +444,16 @@ Clique para abrir o **direito.love** (linkar o site https://direito.love),
         current.prompts.casoreal  = Templates.casoreal(tema);
 
         // Guarda 4 entradas (limite 50)
-        pushEntry({ objetivo: strategyHumanName('aprender'), tema, prompt: current.prompts.aprender,  ts: Date.now() });
-        pushEntry({ objetivo: strategyHumanName('treinar'),  tema, prompt: current.prompts.treinar,   ts: Date.now() });
-        pushEntry({ objetivo: strategyHumanName('noticias'), tema, prompt: current.prompts.noticias,  ts: Date.now() });
-        pushEntry({ objetivo: strategyHumanName('casoreal'), tema, prompt: current.prompts.casoreal,  ts: Date.now() });
+        const ts = Date.now();
+        pushEntry({ objetivo: strategyHumanName('aprender'), tema, prompt: current.prompts.aprender,  ts });
+        pushEntry({ objetivo: strategyHumanName('treinar'),  tema, prompt: current.prompts.treinar,   ts });
+        pushEntry({ objetivo: strategyHumanName('noticias'), tema, prompt: current.prompts.noticias,  ts });
+        pushEntry({ objetivo: strategyHumanName('casoreal'), tema, prompt: current.prompts.casoreal,  ts });
 
         el.thinking.style.display = 'none';
         el.result.style.display = 'block';
         el.gerar.disabled = false;
-      }, 3000);
+      }, 600);
     }
 
     async function copy(text, btn){
