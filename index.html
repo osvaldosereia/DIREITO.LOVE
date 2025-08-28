@@ -1,507 +1,421 @@
+aqui está o HTML completo, prontinho:
+
+```html
 <!doctype html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>direito.love — Gerar Prompts</title>
   <meta name="theme-color" content="#0c4160" />
-  <title>direito.love</title>
-
   <!-- PWA -->
   <link rel="manifest" href="./manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="apple-touch-icon" href="./icons/icon-192.png" />
-
   <style>
     :root{
-      --ink:#0a2a32; --ink-2:#1f3f49; --muted:#5b6b73; --bg:#ffffff;
-      --bg-gradient: radial-gradient(1200px 800px at 10% -10%, #eaf7f5 0%, transparent 60%),
-                     radial-gradient(800px 600px at 110% 10%, #f1f6fb 0%, transparent 55%);
-      --surface:#ffffff; --surface-2:#e9f2f5;
-      --btn:#0b3b4a; --btn-copy:#47535e; --btn-reset:#3b434a; --border:#cbd8de; --topbar:#0c4160;
-      --bar-recent-bg:#0f2230f2; --bar-tab-bg:#113244e6; --bar-border:#0f2a3b;
-      --topbar-h:56px; --logo-h:30px;
-      --fs-body: clamp(14px, 1.8vw, 16px); --fs-h1: clamp(24px, 6vw, 56px); --fs-h2: clamp(18px, 2.6vw, 24px); --fs-label: clamp(15px, 2.2vw, 20px);
-      --elev-1: 0 2px 8px rgba(0,0,0,.06); --elev-2: 0 10px 28px rgba(0,0,0,.08);
-      --recent-h:64px; color-scheme: light dark;
+      --bg:#f6f7fb; --surface:#ffffff; --ink:#0f172a; --muted:#6b7280; --border:#e5e7eb;
+      --primary:#0c4160; --primary-2:#0e567c; --chip:#eef6ff; --success:#0ea5e9;
+      --radius:22px; --elev-1:0 8px 30px rgba(15,23,42,.08);
+      --fs-h:clamp(22px,4vw,42px); --fs-b:clamp(14px,1.8vw,16px);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{
-      margin:0; font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      font-size:var(--fs-body); line-height:1.45; background:var(--bg); background-image: var(--bg-gradient); color:var(--ink);
-      padding-top: calc(var(--topbar-h) + max(0px, env(safe-area-inset-top)));
-      padding-bottom: calc(var(--recent-h) + max(16px, env(safe-area-inset-bottom)));
-    }
+    body{margin:0;background:radial-gradient(1200px 800px at 0% -20%,#eaf7f5 0%,transparent 60%),
+                         radial-gradient(800px 600px at 110% 10%,#f1f6fb 0%,transparent 55%),var(--bg);
+         color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;font-size:var(--fs-b)}
 
-    .topbar{position:fixed;top:0;left:0;right:0;height:var(--topbar-h);background:var(--topbar);z-index:1000;border-bottom:1px solid var(--border)}
-    .topbar-inner{display:flex;align-items:center;justify-content:space-between;width:100%;padding:0 14px;margin:0 auto;max-width:960px;height:100%}
-    .brand-wrap{display:flex;align-items:center;gap:8px;min-width:0;height:100%}
-    .brand-logo{display:block;height:var(--logo-h);width:auto;max-width:min(220px,60vw);object-fit:contain;object-position:left center}
-    .right{display:flex;align-items:center;height:100%}
-    .insta-link{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;text-decoration:none;transition:transform .12s ease}
-    .insta-link:hover{transform:translateY(-1px)}
-    .insta-link svg{display:block;width:100%;height:100%}
+    .wrap{max-width:960px;margin:0 auto;padding:28px 16px 96px}
 
-    .hero{display:grid;gap:8px;max-width:960px;margin:0 auto;padding:28px 16px 16px;align-items:start}
-    .quote{font-weight:800;line-height:1.05;color:#08232a;font-size:var(--fs-h1)}
-    .author{font-style:italic;font-size:clamp(13px,2.2vw,20px);color:#15313a}
+    .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+    .brand{display:flex;align-items:center;gap:10px}
+    .logo{width:auto;height:28px;border-radius:10px}
 
-    .panel{background:var(--surface);border-radius:24px;padding:20px;max-width:960px;margin:0 auto;box-shadow:var(--elev-1)}
-    @media (min-width:861px){.panel{padding:28px;box-shadow:var(--elev-2)}}
+    /* Tabs */
+    .tabs{display:flex;gap:8px;margin:8px 0 18px}
+    .tab{all:unset;border:1px solid var(--border);background:#fff;padding:8px 14px;border-radius:999px;cursor:pointer;font-weight:800}
+    .tab[aria-selected="true"]{background:var(--primary);color:#fff;border-color:transparent}
 
-    .field-wrap{margin:14px 0 16px}
-    .label{font-weight:900;font-size:var(--fs-label);color:#06222a;margin:0 0 10px}
-    .help{color:var(--ink-2);font-size:.95em;margin-top:6px}
-    .field{width:100%;background:var(--surface-2);border:1px solid var(--border);border-radius:16px;padding:14px;color:#0b2c36;outline:none;transition:box-shadow .15s,border-color .15s}
-    .field:focus{border-color:#0b3b4a;box-shadow:0 0 0 3px rgba(11,59,74,.18)}
-    textarea.field{min-height:110px;resize:vertical}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--elev-1);padding:22px}
+    .title{font-weight:900;font-size:var(--fs-h);line-height:1.05;margin:0 0 6px}
+    .subtitle{color:var(--muted);margin:0 0 16px}
 
-    .actions-out{display:grid;gap:12px}
-    .actions-buttons{display:flex;gap:10px;flex-wrap:wrap}
-    .btn{border:none;border-radius:14px;padding:12px 16px;font-weight:800;letter-spacing:.3px;color:#fff;cursor:pointer;transition:transform .06s ease, opacity .2s}
-    .btn:active{transform:translateY(1px)}
-    .btn-primary{background:var(--btn);flex:1}
-    .btn-copy{background:var(--btn-copy);font-size:14px;padding:10px 12px}
-    .btn-reset{background:var(--btn-reset)}
-    .output{background:var(--surface-2);border:1px solid var(--border);border-radius:16px;min-height:150px;padding:14px;color:#0b2c36;width:100%;resize:vertical}
+    .row{display:grid;gap:12px;grid-template-columns:1fr}
+    .field{width:100%;border:1px solid var(--border);background:#f4f7fb;border-radius:16px;padding:14px 16px;outline:none;color:var(--ink)}
+    .field:focus{border-color:#b9c6d1;box-shadow:0 0 0 3px rgba(14,86,124,.12)}
 
-    .tabs{max-width:960px;margin:12px auto;padding:0 16px;display:none;gap:8px}
-    .tab-btn{border:1px solid var(--border);background:#fff;color:#0a2a32;padding:9px 14px;border-radius:999px;font-weight:700;cursor:pointer;font-size:14px}
-    .tab-btn[aria-selected="true"]{background:#0a2a32;color:#fff;border-color:transparent}
+    .btn{all:unset;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:14px;font-weight:800;cursor:pointer}
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-primary:hover{background:var(--primary-2)}
+    .btn-ghost{border:1px solid var(--border);background:#fff;color:var(--ink)}
 
-    .tab-content{display:none;padding:0 16px 72px}
-    .tab-content.is-active{display:block}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
 
-    .tabbar{position:fixed;bottom:var(--recent-h);left:0;right:0;height:56px;background:var(--bar-tab-bg);color:#eaf2f4;border-top:1px solid var(--bar-border);display:flex;justify-content:space-around;align-items:center;z-index:1000;padding-bottom:env(safe-area-inset-bottom)}
-    .tabbar button{all:unset;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 10px;border-radius:10px;color:inherit}
-    .tabbar button[aria-selected="true"]{background:#0f2a3b;border:1px solid #0d2230}
-    .tabbar .lbl{font-size:15px;font-weight:700}
-    @media (min-width:861px){.tabbar{display:none}.tabs{display:flex}.tab-content{padding-bottom:16px}}
+    .thinking{display:none;align-items:center;gap:10px;margin-top:16px;color:#0a2430}
+    .dot{width:8px;height:8px;border-radius:999px;background:var(--primary);opacity:.6;animation:bounce .9s infinite}
+    .dot:nth-child(2){animation-delay:.15s}
+    .dot:nth-child(3){animation-delay:.3s}
+    @keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.3}40%{transform:translateY(-6px);opacity:1}}
 
-    .book-list{display:grid;gap:12px}
-    .book-item{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:16px;padding:12px 14px}
-    .book-meta{display:grid;gap:4px;min-width:0}
-    .book-obj{font-weight:900;color:#06222a}
-    .book-tema{color:#0b2c36;word-break:break-word}
-    .chipbtn{border:1px solid var(--border);background:#0a2a32;color:#fff;font-weight:800;padding:7px 12px;border-radius:999px;cursor:pointer;white-space:nowrap}
-    .chipbtn:active{transform:translateY(1px)}
-    @media (min-width:861px){.book-list{grid-template-columns:1fr 1fr}}
+    .result{display:none;margin-top:18px}
+    .lead{font-weight:800;margin:0 0 10px}
+    .copygrid{display:grid;gap:10px;grid-template-columns:1fr}
+    .copy-btn{all:unset;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:1px solid var(--border);border-radius:14px;background:#fff;cursor:pointer}
+    .copy-btn .lbl{font-weight:900}
+    .copy-btn .hint{color:var(--muted);font-size:.95em}
+    .copy-btn:active{transform:translateY(1px)}
 
-    .recent-bar{position:fixed;left:0;right:0;bottom:0;z-index:1001;background:var(--bar-recent-bg);color:#eaf2f4;border-top:1px solid var(--bar-border);padding:8px 10px calc(8px + env(safe-area-inset-bottom));height:var(--recent-h)}
-    .recent-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;gap:10px;overflow:auto;scrollbar-width:none;height:100%}
-    .recent-inner::-webkit-scrollbar{display:none}
-    .recent-title{font-weight:800;white-space:nowrap}
-    .recent-chip{border:1px solid #1a3d52;background:#0e2431;color:#eaf2f4;font-weight:700;padding:8px 12px;border-radius:999px;cursor:pointer;white-space:nowrap}
-    .recent-empty{color:#cfe0e6}
+    .divider{height:1px;background:var(--border);margin:18px 0}
+    .again{display:flex;justify-content:center;margin-top:16px}
 
-    .recent-chip:focus,.chipbtn:focus,.tabbar button:focus,.tab-btn:focus,.btn:focus,.field:focus{outline:3px solid rgba(255,255,255,.25);outline-offset:2px}
+    /* Arquivo */
+    .list{display:grid;gap:10px}
+    .item{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;border:1px solid var(--border);background:#fff;border-radius:14px;padding:12px 14px}
+    .meta{display:grid;gap:4px;min-width:0}
+    .obj{font-weight:900}
+    .tema{color:var(--ink)}
 
-    @media (max-width:860px){
-      .quote{color:#071e24}
-      .author{color:#0d2a32}
-      .label{color:#061a20}
-      .tab-btn{color:#08232a}
-    }
+    .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-    @media (prefers-color-scheme: dark){
-      :root{
-        --bg:#0f1518;
-        --bg-gradient: radial-gradient(1200px 800px at 10% -10%, #0f2a2a 0%, transparent 60%),
-                       radial-gradient(800px 600px at 110% 10%, #0f1d2a 0%, transparent 55%);
-        --surface:#101b1f; --surface-2:#0f2328; --ink:#eaf2f4; --ink-2:#b2c8cf; --muted:#96aeb6; --border:#21353c;
-        --bar-recent-bg:#06151c; --bar-tab-bg:#0b1f27; --bar-border:#0e2a33;
-      }
-      .label{color:#e6f6f8}
-      .tab-btn{background:#0f2328;color:#dbe9ed;border-color:#21353c}
-      .tab-btn[aria-selected="true"]{background:#1e444b}
-      .tabbar{color:#dbe9ed}
-      .recent-chip{background:#0f2328;color:#eaf2f4;border-color:#21353c}
-      .btn-primary{background:#146f81}
+    @media (min-width:880px){
+      .row{grid-template-columns:1fr auto}
+      .btn-primary{padding-left:22px;padding-right:22px}
+      .copygrid{grid-template-columns:1fr 1fr}
     }
   </style>
+  <link rel="apple-touch-icon" sizes="192x192" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="./icons/icon-512.png">
 </head>
 <body>
-  <!-- Topbar -->
-  <nav class="topbar" aria-label="Barra superior">
-    <div class="topbar-inner">
-      <a class="brand-wrap" href="./" aria-label="direito.love — início">
-        <img class="brand-logo" src="./icons/logo-menu.png"
-             onerror="this.onerror=null; this.src='./icons/icon-192.png';"
-             alt="direito.love" />
-      </a>
-      <div class="right">
-        <a class="insta-link" href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener" aria-label="Abrir Instagram @osvaldosereiajr" title="@osvaldosereiajr">
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <defs><linearGradient id="igGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f58529"/><stop offset="30%" stop-color="#feda77"/><stop offset="60%" stop-color="#dd2a7b"/><stop offset="80%" stop-color="#8134af"/><stop offset="100%" stop-color="#515bd4"/></linearGradient></defs>
-            <rect x="0" y="0" width="24" height="24" rx="6" fill="url(#igGrad)"/>
-            <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="#ffffff" stroke-width="2"/>
-            <circle cx="12" cy="12" r="4.5" fill="none" stroke="#ffffff" stroke-width="2"/>
-            <circle cx="17.2" cy="6.8" r="1.3" fill="#ffffff"/>
-          </svg>
-        </a>
+  <div class="wrap">
+    <header class="top">
+      <div class="brand">
+        <img class="logo" src="./icons/logo-menu.png" onerror="this.onerror=null;this.src='./icons/icon-192.png'" alt="direito.love" />
+        <strong>direito.love</strong>
       </div>
-    </div>
-  </nav>
+      <a class="btn btn-ghost" href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener" aria-label="Abrir Instagram do autor">Instagram</a>
+    </header>
+      <button id="btn-install" class="btn btn-ghost" style="display:none;margin-bottom:10px">Instalar app</button>
 
-  <!-- HERO escondido -->
-  <header class="hero" style="display:none">
-    <div id="quote" class="quote">—</div>
-    <div id="author" class="author"></div>
-  </header>
+    <nav class="tabs" role="tablist" aria-label="Navegação">
+      <button class="tab" id="tab-gerar" aria-controls="panel-gerar" aria-selected="true">Gerar</button>
+      <button class="tab" id="tab-arquivo" aria-controls="panel-arquivo" aria-selected="false">Arquivo</button>
+    </nav>
 
-  <!-- Tabs (desktop) -->
-  <nav class="tabs" role="tablist" aria-label="Navegação de seções (desktop)">
-    <button class="tab-btn" aria-selected="true" aria-controls="tab-gerador" id="tabbtn-gerador">Gerador</button>
-    <button class="tab-btn" aria-selected="false" aria-controls="tab-book" id="tabbtn-book">Arquivo</button>
-    <button class="tab-btn" aria-selected="false" aria-controls="tab-dicas" id="tabbtn-dicas">Dicas</button>
-  </nav>
+    <!-- Painel: Gerar -->
+    <section id="panel-gerar" class="card" role="tabpanel" aria-labelledby="tab-gerar">
+      <h1 class="title">Gerar Prompts</h1>
+      <p class="subtitle">Digite apenas o tema e eu preparo 4 estratégias: <b>Aprender</b>, <b>Treinar</b>, <b>Notícias</b> e <b>Caso Real</b>.</p>
 
-  <!-- Gerador -->
-  <section id="tab-gerador" class="tab-content is-active" aria-labelledby="tabbtn-gerador">
-    <main class="panel">
-      <div class="field-wrap">
-        <h3 class="label">Qual seu objetivo?</h3>
-        <select id="strategy" class="field" aria-label="Escolher objetivo">
-          <option value="entendo">ENTENDER</option>
-          <option value="treinar">TREINAR</option>
-          <option value="raiox">APROFUNDAR</option>
-        </select>
-        <div class="help">Escolha o formato de estudo.</div>
+      <div class="row">
+        <input id="tema" class="field" type="text" placeholder="Ex.: Critérios do STJ para fixar dano moral por negativação indevida" aria-label="Tema" />
+        <button id="gerar" class="btn btn-primary">GERAR PROMPTS</button>
       </div>
 
-      <div id="extra-fields" class="extras" aria-live="polite" style="display:none;gap:12px;flex-wrap:wrap">
-        <div>
-          <label class="label" for="nivel">Nível</label>
-          <select id="nivel" class="field">
-            <option>Iniciante</option>
-            <option>Intermediário</option>
-            <option>Avançado</option>
-          </select>
+      <div id="thinking" class="thinking" aria-live="polite">
+        <span class="sr-only">Processando…</span>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <span>pensando…</span>
+      </div>
+
+      <section id="result" class="result">
+        <p class="lead">Criei 4 prompts para que você tenha um resultado ainda melhor nos seus estudos.</p>
+        <div class="copygrid">
+          <button class="copy-btn" id="copy-aprender"><span class="lbl">APRENDER</span> <span class="hint">copiar</span></button>
+          <button class="copy-btn" id="copy-treinar"><span class="lbl">TREINAR</span> <span class="hint">copiar</span></button>
+          <button class="copy-btn" id="copy-noticias"><span class="lbl">NOTÍCIAS</span> <span class="hint">copiar</span></button>
+          <button class="copy-btn" id="copy-casoreal"><span class="lbl">CASO REAL</span> <span class="hint">copiar</span></button>
         </div>
-        <div>
-          <label class="label" for="quant">Quantidade (5–30)</label>
-          <input id="quant" class="field" type="number" min="5" max="30" step="1" value="10" />
+        <div class="divider"></div>
+        <div class="again">
+          <button id="reset" class="btn btn-ghost">Nova Pesquisa</button>
         </div>
-      </div>
+      </section>
+    </section>
 
-      <div class="field-wrap">
-        <h3 class="label">Vamos falar sobre o quê?</h3>
-        <textarea id="theme" class="field" placeholder="Ex.: Seja específico. Ex: Critérios do STJ para fixar dano moral por negativação indevida."></textarea>
-      </div>
-
-      <div class="actions-out">
-        <div class="actions-buttons">
-          <button id="generate" class="btn btn-primary">Gerar</button>
-          <button id="copy" class="btn btn-copy" aria-label="Copiar resultado">Copiar</button>
-          <button id="reset" class="btn btn-reset">Reiniciar</button>
-        </div>
-        <textarea id="result" class="output" placeholder="Prompt gerado aqui..." readonly aria-label="Resultado"></textarea>
-      </div>
-    </main>
-  </section>
-
-  <!-- Arquivo -->
-  <section id="tab-book" class="tab-content" aria-labelledby="tabbtn-book">
-    <main class="panel">
-      <h2 class="label">Arquivo – Suas últimas 500 gerações</h2>
-      <p class="help" style="margin:6px 0 14px">Clique em "Copiar" para enviar o prompt ao clipboard.</p>
-      <div id="book-list" class="book-list"></div>
-    </main>
-  </section>
-
-  <!-- Dicas -->
-  <section id="tab-dicas" class="tab-content" aria-labelledby="tabbtn-dicas">
-    <main class="panel">
-      <h2 class="label">📘 Estruturas de Resposta (3 modos)</h2>
-      <div class="field" style="white-space:pre-wrap">
-1) <b>ENTENDER</b>
-- Explicação didática, simples, sem metáforas.
-- Sempre que possível: listas, passos numerados e QUADROS/TABELAS comparativas.
-- Se tiver aspecto processual: legitimidade, competência, prazos, rito e recursos.
-
-2) <b>TREINAR</b>
-- Questões objetivas A–D, variação de dificuldade.
-- Primeiro todas as questões; depois <b>Gabarito Comentado</b>.
-- Campos extras no gerador: <i>Nível</i> e <i>Quantidade</i>.
-
-3) <b>APROFUNDAR</b>
-- Capítulos sequenciais com autorização capítulo a capítulo.
-- <b>Links obrigatórios</b> (sites jurídicos/notícias, artigos acadêmicos e universitários; exceções: Planalto e JusBrasil).
-- Entrega: Sumário → Capítulo 1 → "Continuo?"</div>
-    </main>
-  </section>
-
-  <!-- Tabbar (mobile) -->
-  <nav class="tabbar" role="tablist" aria-label="Navegação (mobile)">
-    <button aria-selected="true" aria-controls="tab-gerador" id="m-tabbtn-gerador"><span class="lbl">Gerar</span></button>
-    <button aria-selected="false" aria-controls="tab-book" id="m-tabbtn-book"><span class="lbl">Arquivo</span></button>
-    <button aria-selected="false" aria-controls="tab-dicas" id="m-tabbtn-dicas"><span class="lbl">Dicas</span></button>
-  </nav>
-
-  <!-- Barra de últimas pesquisas -->
-  <div id="recent-bar" class="recent-bar" aria-live="polite">
-    <div class="recent-inner" id="recent-inner">
-      <span class="recent-title">Últimas pesquisas:</span>
-      <span class="recent-empty" id="recent-empty">(vazio)</span>
-    </div>
+    <!-- Painel: Arquivo -->
+    <section id="panel-arquivo" class="card" role="tabpanel" aria-labelledby="tab-arquivo" hidden>
+      <h2 class="title" style="font-size:26px">Arquivo — últimas 50 pesquisas</h2>
+      <p class="subtitle">Clique em "Copiar" para enviar o prompt ao clipboard.</p>
+      <div id="book-list" class="list"></div>
+    </section>
   </div>
 
   <script>
-    // ===== Frases (desligado) =====
-    async function loadRandomQuoteFromFile(){/* mantido para compatibilidade, mas não usado */}
-    // loadRandomQuoteFromFile(); // desativado
+    // ===== Navegação de abas =====
+    const tabGerar=document.getElementById('tab-gerar');
+    const tabArq=document.getElementById('tab-arquivo');
+    const panelGerar=document.getElementById('panel-gerar');
+    const panelArq=document.getElementById('panel-arquivo');
+    function selectTab(which){
+      const gerar= which==='gerar';
+      tabGerar.setAttribute('aria-selected', gerar);
+      tabArq.setAttribute('aria-selected', !gerar);
+      panelGerar.hidden = !gerar;
+      panelArq.hidden = gerar;
+      if(!gerar) renderBookAll();
+    }
+    tabGerar.addEventListener('click',()=>selectTab('gerar'));
+    tabArq.addEventListener('click',()=>selectTab('arquivo'));
 
-    // ===== Tabs =====
-    const tabIds=['gerador','book','dicas'];
-    function activateTab(id){
-      for(const t of tabIds){
-        document.getElementById('tab-'+t).classList.toggle('is-active',t===id);
-        document.getElementById('tabbtn-'+t)?.setAttribute('aria-selected',String(t===id));
-        document.getElementById('m-tabbtn-'+t)?.setAttribute('aria-selected',String(t===id));
+    // ===== Templates =====
+    const Templates={
+      aprender:(tema)=>`Você é um tutor de Direito para iniciantes. Linguagem simples, objetiva e sem metáforas.
+
+Objetivo: explicar **${tema}** de forma clara e aplicável.
+
+**Regras:**
+- Frases curtas. Sem jargão desnecessário.
+- Use **Markdown simples** (sem HTML).
+- Sempre que possível: listas, passos numerados e quadros comparativos.
+- Se o tema tiver aspecto processual, inclua: legitimidade, competência, prazos, rito e recursos.
+
+**Formato da resposta:**
+## Conceito em até 4 linhas
+## Base legal essencial (com artigo e lei)
+## Quadro comparativo (tabela)
+- Instituto | Quando se aplica | Exemplo rápido
+## Passo a passo de raciocínio (4 a 6 passos)
+## Exemplos práticos (3 mini-casos resolvidos)
+## Erros comuns (3) + Pegadinhas de prova (2)
+## Checklist de prova (5 itens objetivos)
+## Mini glossário (5 termos-chave)`,
+
+      treinar:(tema)=>`Você é um elaborador de questões de Direito para treino universitário e OAB.
+
+Parâmetros do treino:
+- Nível: **Intermediário**
+- Quantidade: **10** questões
+
+**Regras:**
+- Use **Markdown simples** (sem HTML).
+- Questões de múltipla escolha (A–D), 1 correta + 3 alternativas plausíveis.
+- Misture: conceito, aplicação prática e interpretação.
+- Varie a dificuldade dentro do nível. Marque [F], [M] ou [D] no fim de cada enunciado.
+- Primeiro, liste todas as questões → depois traga o **Gabarito Comentado**.
+- Cada justificativa: 1–2 linhas, explicando por que a correta está certa e as outras não.
+
+**Tema:** ${tema}
+
+**Formato da resposta:**
+## Questões (1 a 10)
+1. Q1) Enunciado... [F]
+2. Q2) Enunciado... [M]
+...
+
+## Gabarito Comentado
+- Q1) Letra C — justificativa breve
+- Q2) Letra A — justificativa breve
+...
+
+## Próximos passos sugeridos
+- Item 1
+- Item 2
+- Item 3`,
+
+      noticias:(tema)=>`Você é um curador de notícias e artigos jurídicos. Pesquise conteúdos dos **últimos 12 meses** relacionados a **${tema}** em **sites jurídicos** (notícias, revistas especializadas, portais acadêmicos/universitários). Evite blogs pessoais sem afiliação.
+
+Objetivo: entregar **10 achados** de alta relevância, sem duplicatas, com link canônico.
+
+**Regras de formatação (obrigatórias):**
+- Saída em **Markdown simples**. **Não use HTML** (nada de <i>, <b>, etc.).
+- Datas no formato **DD/MM/AAAA**.
+- Nome do site **sem negrito/itálico**.
+- Um item por linha principal + subitens com hífen.
+
+**Instruções de busca:**
+- Priorize: ConJur, Migalhas, JOTA, Âmbito Jurídico, Consultor Jurídico, portais universitários e institucionais.
+- Filtre por data de publicação: últimos 12 meses.
+- Evite PDFs atrás de paywall; se inevitável, marque [acesso restrito].
+- Se algum material mais antigo for indispensável, inclua com a etiqueta [clássico].
+
+**Formato da resposta (Markdown):**
+# Achados (até 10)
+1) Título — Data: DD/MM/AAAA | Site: NOME DO SITE
+   - Resumo: 2–3 linhas com o núcleo do conteúdo e impacto prático.
+   - Link: URL canônica
+2) ...
+10) ...
+
+# Observações
+- Critérios de seleção (3 bullets)
+- Lacunas / pontos a verificar (até 3)
+
+Notas:
+- Use a data do próprio site e remova duplicatas (syndication).`,
+
+      casoreal:(tema)=>`Você é um analista jurídico. Encontre até **3 casos concretos reais** relacionados ao tema **${tema}**, publicados nos **últimos 12 meses** em sites jurídicos confiáveis (notícias, portais especializados ou acadêmicos).
+
+**Objetivo:** mostrar o tema em ação, a partir de decisões, julgamentos, repercussões ou polêmicas públicas reais.
+
+**Regras obrigatórias:**
+- Use apenas **Markdown simples** (sem HTML).
+- Cada caso deve conter: Título, Data, Site, Link, Resumo e Análise.
+- Relacione explicitamente o caso com o **tema pesquisado**.
+
+**Fontes permitidas:** ConJur, Migalhas, JOTA, Âmbito Jurídico, Consultor Jurídico, revistas acadêmicas ou institucionais.
+
+**Formato da resposta (Markdown):**
+# Casos reais encontrados (até 3)
+1. Título do caso — Data: DD/MM/AAAA | Site: NOME DO SITE
+   - Resumo factual: explique o que aconteceu (3–4 linhas).
+   - Comentário jurídico: relacione com o tema "${tema}" (3–4 linhas).
+   - Link: URL canônica
+2. ...
+3. ...
+
+**Notas finais:**
+- Se não encontrar 3 casos, entregue 1 ou 2, e diga [casos adicionais não localizados].
+- Dê preferência a casos com impacto público, doutrinário ou jurisprudencial.`
+    };
+
+    // ===== Estado e elementos =====
+    let current={tema:"", prompts:{aprender:"", treinar:"", noticias:"", casoreal:""}};
+    const el={
+      tema:document.getElementById('tema'),
+      gerar:document.getElementById('gerar'),
+      thinking:document.getElementById('thinking'),
+      result:document.getElementById('result'),
+      copyA:document.getElementById('copy-aprender'),
+      copyT:document.getElementById('copy-treinar'),
+      copyN:document.getElementById('copy-noticias'),
+      copyC:document.getElementById('copy-casoreal'),
+      reset:document.getElementById('reset'),
+      book:document.getElementById('book-list')
+    };
+
+    // ===== Persistência (até 50 entradas) =====
+    const BOOK_KEY='book_data_v2';
+    function loadBook(){ try{ return JSON.parse(localStorage.getItem(BOOK_KEY)||'[]')||[]; }catch{ return []; } }
+    function saveBook(arr){ try{ localStorage.setItem(BOOK_KEY, JSON.stringify(arr)); }catch{} }
+    function pushEntry(obj){
+      let data=loadBook();
+      if(!Array.isArray(data)) data=[];
+      data.unshift(obj);
+      if(data.length>50) data=data.slice(0,50);
+      saveBook(data);
+    }
+
+    function renderBookAll(){
+      const data=loadBook();
+      el.book.innerHTML='';
+      if(!data.length){
+        el.book.innerHTML='<div class="item"><div class="meta"><div class="obj">Arquivo vazio</div><div class="tema">Você ainda não gerou nenhum prompt.</div></div></div>';
+        return;
+      }
+      const frag=document.createDocumentFragment();
+      data.forEach(({objetivo,tema,prompt})=>{
+        const div=document.createElement('div');
+        div.className='item';
+        div.innerHTML=`<div class="meta"><div class="obj">${objetivo||'—'}</div><div class="tema">${(tema||'').slice(0,300)}</div></div>
+        <button class="btn btn-ghost" data-prompt>Copiar</button>`;
+        const btn=div.querySelector('[data-prompt]');
+        btn.addEventListener('click',async()=>{
+          try{ await navigator.clipboard.writeText(String(prompt||'')); btn.textContent='Copiado!'; setTimeout(()=>btn.textContent='Copiar',1000);}catch{ alert('Não foi possível copiar.'); }
+        });
+        frag.appendChild(div);
+      });
+      el.book.appendChild(frag);
+    }
+
+    function strategyHumanName(k){
+      const map={aprender:'APRENDER', treinar:'TREINAR', noticias:'NOTÍCIAS', casoreal:'CASO REAL'};
+      return map[k]||k;
+    }
+
+    // ===== Geração =====
+    function genAll(){
+      const tema=(el.tema.value||'').trim();
+      if(!tema){ alert('Digite o tema.'); el.tema.focus(); return; }
+      current.tema=tema;
+      el.result.style.display='none';
+      el.thinking.style.display='flex';
+      el.gerar.disabled=true;
+
+      setTimeout(()=>{
+        current.prompts.aprender=Templates.aprender(tema);
+        current.prompts.treinar=Templates.treinar(tema);
+        current.prompts.noticias=Templates.noticias(tema);
+        current.prompts.casoreal=Templates.casoreal(tema);
+
+        // Salva 4 entradas (mesma estratégia anterior), com limite 50
+        pushEntry({objetivo:strategyHumanName('aprender'), tema, prompt:current.prompts.aprender, ts:Date.now()});
+        pushEntry({objetivo:strategyHumanName('treinar'), tema, prompt:current.prompts.treinar, ts:Date.now()});
+        pushEntry({objetivo:strategyHumanName('noticias'), tema, prompt:current.prompts.noticias, ts:Date.now()});
+        pushEntry({objetivo:strategyHumanName('casoreal'), tema, prompt:current.prompts.casoreal, ts:Date.now()});
+
+        el.thinking.style.display='none';
+        el.result.style.display='block';
+        el.gerar.disabled=false;
+      },3000);
+    }
+
+    async function copy(text, btn){
+      try{
+        await navigator.clipboard.writeText(text);
+        const old=btn.querySelector('.hint');
+        const oldTxt=old.textContent; old.textContent='copiado!';
+        btn.disabled=true; setTimeout(()=>{old.textContent=oldTxt;btn.disabled=false;},1200);
+      }catch{
+        const ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+        document.body.appendChild(ta); ta.select();
+        try{ document.execCommand('copy'); const old=btn.querySelector('.hint'); const t=old.textContent; old.textContent='copiado!'; setTimeout(()=>old.textContent=t,1200);}catch{ alert('Não foi possível copiar.'); }
+        finally{ document.body.removeChild(ta); }
       }
     }
-    for(const t of tabIds){
-      document.getElementById('tabbtn-'+t)?.addEventListener('click',()=>activateTab(t));
-      document.getElementById('m-tabbtn-'+t)?.addEventListener('click',()=>activateTab(t));
+
+    function resetAll(){
+      el.tema.value=''; el.tema.focus();
+      el.result.style.display='none';
+      el.thinking.style.display='none';
     }
 
-    // ===== PWA =====
+    // Listeners
+    document.getElementById('gerar').addEventListener('click', genAll);
+    document.getElementById('tema').addEventListener('keydown', (e)=>{ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='enter') genAll(); });
+    document.getElementById('copy-aprender').addEventListener('click',()=>copy(current.prompts.aprender, document.getElementById('copy-aprender')));
+    document.getElementById('copy-treinar').addEventListener('click',()=>copy(current.prompts.treinar, document.getElementById('copy-treinar')));
+    document.getElementById('copy-noticias').addEventListener('click',()=>copy(current.prompts.noticias, document.getElementById('copy-noticias')));
+    document.getElementById('copy-casoreal').addEventListener('click',()=>copy(current.prompts.casoreal, document.getElementById('copy-casoreal')));
+    document.getElementById('reset').addEventListener('click', resetAll);
+
+    // Inicializa
+    selectTab('gerar');
+
+    // ===== PWA: Service Worker + Instalação =====
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').catch(()=>{});
       });
     }
 
-    // ===== Templates =====
-    const TEMPLATES = {
-      entendo: (tema) => `Você é um tutor de Direito para iniciantes. Linguagem simples, objetiva e sem metáforas.
+    let deferredPrompt=null;
+    const installBtn=document.getElementById('btn-install');
 
-Objetivo: explicar **${tema}** de forma clara e aplicável.
-
-Regras:
-- Frases curtas. Sem jargão desnecessário.
-- Sempre que possível, use listas, passos numerados e QUADROS/TABELAS comparativas.
-- Se o tema tiver aspecto processual, inclua: legitimidade, competência, prazos, rito e recursos.
-
-Formato (Markdown):
-# Conceito em até 4 linhas
-# Base legal essencial (artigos/leis)
-# Quadro comparativo (tabela): Instituto | Quando se aplica | Exemplo rápido
-# Passo a passo de raciocínio (4–6 passos práticos)
-# Exemplos práticos (3 mini-casos resolvidos)
-# Erros comuns (3) e Pegadinhas de prova (2)
-# Checklist de prova (5 itens objetivos)
-# Mini glossário (5 termos-chave)`,
-
-      treinar: (tema, nivel='Iniciante', quantidade=10) => {
-        const q = Math.min(30, Math.max(5, Number(quantidade)||10));
-        return `Você é um elaborador de questões de Direito para treino universitário e OAB.
-
-Parâmetros do treino:
-- Nível: **${nivel}**
-- Quantidade: **${q}** questões
-
-Regras:
-- Questões de múltipla escolha (A–D), 1 correta + 3 alternativas plausíveis.
-- Misture: conceito, aplicação prática e interpretação.
-- Varie a dificuldade dentro do nível. Marque [F], [M] ou [D] no fim de cada enunciado.
-- Primeiro liste TODAS as questões → depois traga o **GABARITO COMENTADO**.
-- Cada justificativa: 1–2 linhas, explicando por que a correta está certa e as outras não.
-
-Tema: **${tema}**
-
-Formato (Markdown):
-# Questões (1..N)
-- Q1) ...
-- ...
-# Gabarito Comentado
-- Q1) Letra X — justificativa curta
-- ...
-# Próximos passos sugeridos (3 tópicos rápidos)`;
-      },
-
-      raiox: (tema) => `Você é um analista jurídico. Produza um **RAIO-X** completo em capítulos sequenciais sobre **${tema}**, avançando apenas com minha autorização.
-
-FONTES PERMITIDAS (estritamente):
-- Sites de notícias jurídicas;
-- Artigos acadêmicos e sites universitários;
-- EXCEÇÕES oficiais: Planalto e JusBrasil.
-(Não use outros sites governamentais. Não use blogs pessoais sem afiliação acadêmica/jurídica.)
-
-POLÍTICA DE LINKS (OBRIGATÓRIA):
-- Toda afirmação relevante deve vir com link CLICÁVEL para a fonte.
-- Use a URL CANÔNICA do conteúdo (evite Google/encurtadores).
-- Para cada citação, informe: **[Título] (Site/Instituição — Data)** e o **link** em Markdown.
-- Se a confirmação ainda não for 100% segura, marque **[verificar]**.
-
-ESTILO:
-- Linguagem clara, objetiva e profissional.
-- Listas, tópicos e quadros/tabelas quando úteis.
-- Se citar jurisprudência/súmula/enunciado/acórdão: traga a **tese em 1–2 linhas** + link.
-
-FLUXO:
-1) Sumário dos capítulos (títulos + 1 linha) → 2) Capítulo 1 → 3) “Continuo?”`
-
-    };
-
-    // ===== Elements (uma vez só!) =====
-    const strategyEl=document.getElementById('strategy');
-    const themeEl=document.getElementById('theme');
-    const resultEl=document.getElementById('result');
-    const btnGen=document.getElementById('generate');
-    const btnCopy=document.getElementById('copy');
-    const btnReset=document.getElementById('reset');
-    const extrasWrap = document.getElementById('extra-fields');
-    const nivelEl = document.getElementById('nivel');
-    const quantEl = document.getElementById('quant');
-
-    // ===== Helpers =====
-    function toggleExtras(){
-      const isTreinar = strategyEl.value === 'treinar';
-      extrasWrap.style.display = isTreinar ? 'flex' : 'none';
-    }
-    toggleExtras();
-    strategyEl.addEventListener('change', toggleExtras);
-
-    function strategyHumanName(v){
-      const map={ entendo:'AGORA EU ENTENDO', treinar:'VAMOS TREINAR', raiox:'RAIO-X' };
-      return map[v]||v;
-    }
-
-    function truncate30(s){
-      const str=(s||'').trim();
-      if(str.length<=30) return str;
-      return str.slice(0,30).replace(/[\s\.,;:!-]+$/,'')+'…';
-    }
-
-    const BOOK_KEY='book_data_v1';
-    function loadBook(){ try{ return JSON.parse(localStorage.getItem(BOOK_KEY)||'[]')||[]; }catch{ return []; } }
-
-    const bookWrap=document.getElementById('book-list');
-    function renderBookAll(){
-      const data=loadBook();
-      bookWrap.innerHTML='';
-      if(!data.length){
-        bookWrap.innerHTML='<div class="book-item"><div class="book-meta"><div class="book-obj">Arquivo vazio</div><div class="book-tema">Você ainda não gerou nenhum prompt.</div></div></div>';
-        return;
-      }
-      const frag=document.createDocumentFragment();
-      data.slice(0,500).forEach(({objetivo,tema,prompt})=>{
-        const el=document.createElement('div'); el.className='book-item';
-        el.innerHTML=`
-          <div class="book-meta">
-            <div class="book-obj">${objetivo||'—'}</div>
-            <div class="book-tema">${(tema||'').slice(0,300)}</div>
-          </div>
-          <div><button class="chipbtn" data-prompt="${String(prompt||'').replace(/"/g,'&quot;')}">Copiar</button></div>`;
-        frag.appendChild(el);
-      });
-      bookWrap.appendChild(frag);
-    }
-
-    const recentWrap=document.getElementById('recent-inner');
-    const recentEmpty=document.getElementById('recent-empty');
-    function updateRecentBar(){
-      let data=loadBook();
-      const recent=[];
-      for(const it of data){
-        const tema=(it?.tema||'').trim(); if(!tema) continue;
-        if(!recent.includes(tema)) recent.push(tema);
-        if(recent.length>=6) break;
-      }
-      Array.from(recentWrap.querySelectorAll('button.recent-chip')).forEach(n=>n.remove());
-      if(recent.length===0){ recentEmpty.style.display='inline'; return; }
-      recentEmpty.style.display='none';
-      recent.forEach(tema=>{
-        const b=document.createElement('button');
-        b.className='recent-chip'; b.type='button'; b.title=tema; b.textContent=truncate30(tema);
-        b.addEventListener('click',()=>{ themeEl.value=tema; themeEl.focus(); });
-        recentWrap.appendChild(b);
-      });
-    }
-
-    // ===== Actions =====
-    function generate(){
-      const s = strategyEl.value;
-      const t = (themeEl.value||'').trim();
-      if(!s){ alert('Selecione o objetivo.'); return; }
-      if(!t){ alert('Digite o tema.'); themeEl.focus(); return; }
-      const tpl = TEMPLATES[s];
-      if(!tpl){ alert('Estratégia inválida. Atualize a página.'); return; }
-
-      let out;
-      if(s==='treinar'){
-        const nivel = (nivelEl?.value)||'Iniciante';
-        let q = Number(quantEl?.value)||10; q = Math.min(30, Math.max(5, q));
-        out = tpl(t, nivel, q);
-      } else {
-        out = tpl(t);
-      }
-      resultEl.value = out;
-
-      try{
-        let bd=loadBook(); if(!Array.isArray(bd)) bd=[];
-        bd.unshift({ objetivo: strategyHumanName(s), tema: t, prompt: out, ts: Date.now() });
-        if(bd.length>500) bd = bd.slice(0,500);
-        localStorage.setItem(BOOK_KEY, JSON.stringify(bd));
-      }catch{}
-
-      if(document.getElementById('tab-book').classList.contains('is-active')){ renderBookAll(); }
-      updateRecentBar();
-
-      window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'});
-    }
-
-    async function copyOut(){
-      if(!resultEl.value) return alert('Nada para copiar.');
-      try{
-        await navigator.clipboard.writeText(resultEl.value);
-        const old = btnCopy.textContent; btnCopy.textContent='COPIADO'; btnCopy.disabled=true;
-        setTimeout(()=>{ btnCopy.textContent=old; btnCopy.disabled=false; }, 1200);
-      }catch{
-        const ta = document.createElement('textarea'); ta.value = resultEl.value; ta.style.position='fixed'; ta.style.opacity='0';
-        document.body.appendChild(ta); ta.focus(); ta.select();
-        try{
-          document.execCommand('copy');
-          const old = btnCopy.textContent; btnCopy.textContent='COPIADO'; btnCopy.disabled=true;
-          setTimeout(()=>{ btnCopy.textContent=old; btnCopy.disabled=false; }, 1200);
-        }catch{ alert('Não foi possível copiar.'); }
-        finally{ document.body.removeChild(ta); }
-      }
-    }
-
-    function resetAll(){
-      strategyEl.value='entendo';
-      themeEl.value=''; resultEl.value='';
-      if(nivelEl) nivelEl.value='Iniciante'; if(quantEl) quantEl.value='10';
-      toggleExtras();
-      window.scrollTo({top:0,behavior:'smooth'});
-    }
-
-    // Listeners
-    btnGen?.addEventListener('click', generate);
-    btnCopy?.addEventListener('click', copyOut);
-    btnReset?.addEventListener('click', resetAll);
-    themeEl?.addEventListener('keydown', (e)=>{ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='enter'){generate();}});
-
-    // Inicializações extras
-    const _activate=activateTab;
-    activateTab=function(id){
-      _activate(id);
-      if(id==='book'){ renderBookAll(); }
-    };
-
-    document.addEventListener('click',async e=>{
-      const btn=e.target.closest('.chipbtn'); if(!btn||!btn.dataset.prompt) return;
-      try{
-        await navigator.clipboard.writeText(btn.dataset.prompt);
-        const old=btn.textContent; btn.textContent='Copiado!'; setTimeout(()=>btn.textContent=old,1000);
-      }catch{ alert('Não foi possível copiar.'); }
+    window.addEventListener('beforeinstallprompt', (e)=>{
+      e.preventDefault();
+      deferredPrompt=e;
+      if(installBtn) installBtn.style.display='inline-flex';
     });
 
-    renderBookAll();
-    updateRecentBar();
+    installBtn?.addEventListener('click', async ()=>{
+      try{
+        if(!deferredPrompt) return;
+        installBtn.disabled=true;
+        deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        deferredPrompt=null;
+      }finally{
+        installBtn.disabled=false;
+        installBtn.style.display='none';
+      }
+    });
+
+    window.addEventListener('appinstalled', ()=>{
+      if(installBtn) installBtn.style.display='none';
+    });
   </script>
 </body>
 </html>
+```
