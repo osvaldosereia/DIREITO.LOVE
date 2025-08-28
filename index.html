@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, vizewport-fit=cover" />
   <title>direito.love — Gerar Prompts</title>
   <meta name="theme-color" content="#0c4160" />
   <!-- PWA -->
@@ -241,7 +241,7 @@ Parâmetros do treino:
 - Item 2
 - Item 3`,
 
-      noticias:(tema)=>`Você é um curador de notícias e artigos jurídicos. Pesquise conteúdos dos **últimos 12 meses** relacionados a **${tema}** em **sites jurídicos** (notícias, revistas especializadas, portais acadêmicos/universitários). Evite blogs pessoais sem afiliação.
+      noticias:(tema)=>`Você é um curador de notícias e artigos jurídicos. Pesquise conteúdos dos **últimos 36 meses** relacionados a **${tema}** em **sites jurídicos** (notícias, revistas especializadas, portais acadêmicos/universitários). Evite blogs pessoais sem afiliação.
 
 Objetivo: entregar **10 achados** de alta relevância, sem duplicatas, com link canônico.
 
@@ -253,7 +253,7 @@ Objetivo: entregar **10 achados** de alta relevância, sem duplicatas, com link 
 
 **Instruções de busca:**
 - Priorize: ConJur, Migalhas, JOTA, Âmbito Jurídico, Consultor Jurídico, portais universitários e institucionais.
-- Filtre por data de publicação: últimos 12 meses.
+- Filtre por data de publicação: últimos 36 meses.
 - Evite PDFs atrás de paywall; se inevitável, marque [acesso restrito].
 - Se algum material mais antigo for indispensável, inclua com a etiqueta [clássico].
 
@@ -272,7 +272,7 @@ Objetivo: entregar **10 achados** de alta relevância, sem duplicatas, com link 
 Notas:
 - Use a data do próprio site e remova duplicatas (syndication).`,
 
-      casoreal:(tema)=>`Você é um analista jurídico. Encontre até **5 casos concretos reais** relacionados ao tema **${tema}**, publicados nos **últimos 12 meses** em sites jurídicos confiáveis (notícias, portais especializados ou acadêmicos).
+      casoreal:(tema)=>`Você é um analista jurídico. Encontre até **5 casos concretos reais** relacionados ao tema **${tema}**, publicados nos **últimos 36 meses** em sites jurídicos confiáveis (notícias, portais especializados ou acadêmicos).
 
 **Objetivo:** mostrar o tema em ação, a partir de decisões, julgamentos, repercussões ou polêmicas públicas reais.
 
