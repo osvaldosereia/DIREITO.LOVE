@@ -208,8 +208,8 @@
     </div>
   </nav>
 
-  <!-- HERO (frase) -->
-  <header class="hero">
+  <!-- HERO (frase) — apenas escondido -->
+  <header class="hero" style="display:none">
     <div id="quote" class="quote">—</div>
     <div id="author" class="author"></div>
   </header>
@@ -334,7 +334,8 @@
         document.getElementById('author').textContent = parts[1] ? '— '+parts[1].trim() : '';
       }
     }
-    loadRandomQuoteFromFile();
+    // <<< Desativado para não carregar frases >>>
+    // loadRandomQuoteFromFile();
 
     // ===== Tabs =====
     const tabIds=['gerador','book','dicas'];
@@ -589,6 +590,13 @@ Ao concluir cada capítulo, pergunte: **“Continuo para o próximo capítulo?�
       toggleExtras();
       window.scrollTo({top:0,behavior:'smooth'});
     }
+
+    const strategyEl=document.getElementById('strategy');
+    const themeEl=document.getElementById('theme');
+    const resultEl=document.getElementById('result');
+    const btnGen=document.getElementById('generate');
+    const btnCopy=document.getElementById('copy');
+    const btnReset=document.getElementById('reset');
 
     btnGen?.addEventListener('click', generate);
     btnCopy?.addEventListener('click', copyOut);
