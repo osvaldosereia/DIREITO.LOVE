@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, vizewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>direito.love — Gerar Prompts</title>
   <meta name="theme-color" content="#0c4160" />
   <!-- PWA -->
@@ -10,93 +10,128 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="apple-touch-icon" href="./icons/icon-192.png" />
-  <style>
-    :root{
-      --bg:#f6f7fb; --surface:#ffffff; --ink:#0f172a; --muted:#6b7280; --border:#e5e7eb;
-      --primary:#0c4160; --primary-2:#0e567c; --chip:#eef6ff; --success:#0ea5e9;
-      --radius:22px; --elev-1:0 8px 30px rgba(15,23,42,.08);
-      --fs-h:clamp(22px,4vw,42px); --fs-b:clamp(14px,1.8vw,16px);
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0;background:radial-gradient(1200px 800px at 0% -20%,#eaf7f5 0%,transparent 60%),
-                         radial-gradient(800px 600px at 110% 10%,#f1f6fb 0%,transparent 55%),var(--bg);
-         color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;font-size:var(--fs-b)}
-
-    .wrap{max-width:960px;margin:0 auto;padding:28px 16px 96px}
-
-    .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo{display:block;width:auto;height:40px;border-radius:10px}
-    @media (min-width:880px){ .logo{height:48px} }
-
-    /* Tabs */
-    .tabs{display:flex;gap:8px;margin:8px 0 18px}
-    .tab{all:unset;border:1px solid var(--border);background:#fff;padding:8px 14px;border-radius:999px;cursor:pointer;font-weight:700}
-    .tab[aria-selected="true"]{background:var(--primary);color:#fff;border-color:transparent}
-
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--elev-1);padding:22px}
-    .title{font-weight:700;font-size:var(--fs-h);line-height:1.05;margin:0 0 6px}
-    .subtitle{color:var(--muted);margin:0 0 16px}
-
-    .row{display:grid;gap:12px;grid-template-columns:1fr}
-    .field{width:100%;border:1px solid var(--border);background:#f4f7fb;border-radius:16px;padding:14px 16px;outline:none;color:var(--ink)}
-    .field:focus{border-color:#b9c6d1;box-shadow:0 0 0 3px rgba(14,86,124,.12)}
-
-    .btn{all:unset;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:14px;font-weight:700;cursor:pointer}
-    .btn-primary{background:var(--primary);color:#fff}
-    .btn-primary:hover{background:var(--primary-2)}
-    .btn-ghost{border:1px solid var(--border);background:#fff;color:var(--ink)}
-
-    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
-
-    .thinking{display:none;align-items:center;gap:10px;margin-top:16px;color:#0a2430}
-    .dot{width:8px;height:8px;border-radius:999px;background:var(--primary);opacity:.6;animation:bounce .9s infinite}
-    .dot:nth-child(2){animation-delay:.15s}
-    .dot:nth-child(3){animation-delay:.3s}
-    @keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.3}40%{transform:translateY(-6px);opacity:1}}
-
-    .result{display:none;margin-top:18px}
-    .lead{font-weight:600;margin:0 0 10px}
-    .copygrid{display:grid;gap:10px;grid-template-columns:1fr}
-    .copy-btn{all:unset;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:1px solid var(--border);border-radius:14px;background:#fff;cursor:pointer}
-    .copy-btn .lbl{font-weight:700}
-    .copy-btn .hint{color:var(--muted);font-size:.95em}
-    .copy-btn:active{transform:translateY(1px)}
-
-    .divider{height:1px;background:var(--border);margin:18px 0}
-    .again{display:flex;justify-content:center;margin-top:16px}
-
-    .install-wrap{display:flex;justify-content:center;margin:22px 0 8px}
-    .install-cta{background:var(--primary);color:#fff;border-radius:18px;padding:16px 22px;font-size:18px;font-weight:700;box-shadow:0 10px 30px rgba(12,65,96,.18)}
-    .install-cta:hover{background:var(--primary-2)}
-    .install-cta-wrap{display:flex;flex-direction:column;align-items:center;gap:6px}
-    .install-note{color:var(--muted);font-size:14px;text-align:center}
-
-    /* IA footer */
-    .ai-footer{padding:18px 0 28px}
-    .ai-links{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
-    .ai-link{all:unset;display:inline-flex;align-items:center;justify-content:center;background:var(--primary);color:#fff;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:600;opacity:.95;cursor:pointer;transition:opacity .2s}
-    .ai-link:hover{opacity:1}
-    @media (min-width:880px){ .ai-link{font-size:12.5px} }
-
-    /* Arquivo */
-    .list{display:grid;gap:10px}
-    .item{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;border:1px solid var(--border);background:#fff;border-radius:14px;padding:12px 14px}
-    .meta{display:grid;gap:4px;min-width:0}
-    .obj{font-weight:700}
-    .tema{color:var(--ink)}
-
-    .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-
-    @media (min-width:880px){
-      .row{grid-template-columns:1fr auto}
-      .btn-primary{padding-left:22px;padding-right:22px}
-      .copygrid{grid-template-columns:1fr 1fr}
-    }
-  </style>
   <link rel="apple-touch-icon" sizes="192x192" href="./icons/icon-192.png">
   <link rel="apple-touch-icon" sizes="512x512" href="./icons/icon-512.png">
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --surface: #ffffff;
+      --ink: #0f172a;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --primary: #0c4160;
+      --primary-2: #0e567c;
+      --chip: #eef6ff;
+      --success: #0ea5e9;
+      --radius: 22px;
+      --elev-1: 0 8px 30px rgba(15, 23, 42, .08);
+      --fs-h: clamp(22px, 4vw, 42px);
+      --fs-b: clamp(14px, 1.8vw, 16px);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(1200px 800px at 0% -20%, #eaf7f5 0%, transparent 60%),
+        radial-gradient(800px 600px at 110% 10%, #f1f6fb 0%, transparent 55%),
+        var(--bg);
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      font-size: var(--fs-b);
+    }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 28px 16px 96px; }
+    .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .logo { display: block; width: auto; height: 40px; border-radius: 10px; }
+    @media (min-width: 880px) { .logo { height: 48px; } }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 8px; margin: 8px 0 18px; }
+    .tab {
+      all: unset; border: 1px solid var(--border); background: #fff;
+      padding: 8px 14px; border-radius: 999px; cursor: pointer; font-weight: 700;
+    }
+    .tab[aria-selected="true"]{ background: var(--primary); color: #fff; border-color: transparent; }
+
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--elev-1); padding: 22px; }
+    .title { font-weight: 700; font-size: var(--fs-h); line-height: 1.05; margin: 0 0 6px; }
+    .subtitle { color: var(--muted); margin: 0 0 16px; }
+
+    .row { display: grid; gap: 12px; grid-template-columns: 1fr; }
+    .field {
+      width: 100%; border: 1px solid var(--border); background: #f4f7fb;
+      border-radius: 16px; padding: 14px 16px; outline: none; color: var(--ink);
+    }
+    .field:focus { border-color: #b9c6d1; box-shadow: 0 0 0 3px rgba(14, 86, 124, .12); }
+
+    .btn {
+      all: unset; display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 12px 16px; border-radius: 14px; font-weight: 700; cursor: pointer;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-2); }
+    .btn-ghost { border: 1px solid var(--border); background: #fff; color: var(--ink); }
+
+    .thinking { display: none; align-items: center; gap: 10px; margin-top: 16px; color: #0a2430; }
+    .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--primary); opacity: .6; animation: bounce .9s infinite; }
+    .dot:nth-child(2){ animation-delay: .15s; }
+    .dot:nth-child(3){ animation-delay: .3s; }
+    @keyframes bounce{ 0%,80%,100%{ transform: translateY(0); opacity: .3 } 40%{ transform: translateY(-6px); opacity:1 } }
+
+    .result { display: none; margin-top: 18px; }
+    .lead { font-weight: 600; margin: 0 0 10px; }
+    .copygrid { display: grid; gap: 10px; grid-template-columns: 1fr; }
+    .copy-btn {
+      all: unset; display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px; border: 1px solid var(--border); border-radius: 14px; background: #fff; cursor: pointer;
+    }
+    .copy-btn .lbl{ font-weight: 700; }
+    .copy-btn .hint{ color: var(--muted); font-size: .95em; }
+    .copy-btn:active{ transform: translateY(1px); }
+
+    .divider { height: 1px; background: var(--border); margin: 18px 0; }
+    .again { display: flex; justify-content: center; margin-top: 16px; }
+
+    /* PWA CTA */
+    .install-wrap{ display: flex; justify-content: center; margin: 22px 0 8px; }
+    .install-cta{
+      background: var(--primary); color: #fff; border-radius: 18px; padding: 16px 22px;
+      font-size: 18px; font-weight: 700; box-shadow: 0 10px 30px rgba(12,65,96,.18)
+    }
+    .install-cta:hover{ background: var(--primary-2); }
+    .install-cta-wrap{ display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .install-note{ color: var(--muted); font-size: 14px; text-align: center; }
+
+    /* IA footer */
+    .ai-footer{ padding: 18px 0 28px; }
+    .ai-links{ display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    .ai-link{
+      all: unset; display: inline-flex; align-items: center; justify-content: center;
+      background: var(--primary); color: #fff; padding: 6px 10px; border-radius: 999px;
+      font-size: 12px; font-weight: 600; opacity: .95; cursor: pointer; transition: opacity .2s;
+    }
+    .ai-link:hover{ opacity: 1; }
+    @media (min-width: 880px){ .ai-link{ font-size: 12.5px; } }
+
+    /* Arquivo */
+    .list{ display: grid; gap: 10px; }
+    .item{ display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; border: 1px solid var(--border); background: #fff; border-radius: 14px; padding: 12px 14px; }
+    .meta{ display: grid; gap: 4px; min-width: 0; }
+    .obj{ font-weight: 700; }
+    .tema{ color: var(--ink); }
+
+    .sr-only{
+      position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    @media (min-width: 880px){
+      .row{ grid-template-columns: 1fr auto; }
+      .btn-primary{ padding-left: 22px; padding-right: 22px; }
+      .copygrid{ grid-template-columns: 1fr 1fr; }
+    }
+  </style>
 </head>
 <body>
   <div class="wrap">
@@ -106,7 +141,7 @@
       </div>
       <a class="btn btn-ghost" href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener" aria-label="Abrir Instagram do autor">Instagram</a>
     </header>
-      
+
     <nav class="tabs" role="tablist" aria-label="Navegação">
       <button class="tab" id="tab-gerar" aria-controls="panel-gerar" aria-selected="true">Gerar</button>
       <button class="tab" id="tab-arquivo" aria-controls="panel-arquivo" aria-selected="false">Arquivo</button>
@@ -143,6 +178,7 @@
       </section>
     </section>
 
+    <!-- CTA de instalação -->
     <div class="install-wrap">
       <div class="install-cta-wrap">
         <button id="btn-install" class="btn install-cta" style="display:none">Instalar app</button>
@@ -171,25 +207,24 @@
 
   <script>
     // ===== Navegação de abas =====
-    const tabGerar=document.getElementById('tab-gerar');
-    const tabArq=document.getElementById('tab-arquivo');
-    const panelGerar=document.getElementById('panel-gerar');
-    const panelArq=document.getElementById('panel-arquivo');
+    const tabGerar = document.getElementById('tab-gerar');
+    const tabArq = document.getElementById('tab-arquivo');
+    const panelGerar = document.getElementById('panel-gerar');
+    const panelArq = document.getElementById('panel-arquivo');
     function selectTab(which){
-      const gerar= which==='gerar';
+      const gerar = which === 'gerar';
       tabGerar.setAttribute('aria-selected', gerar);
       tabArq.setAttribute('aria-selected', !gerar);
       panelGerar.hidden = !gerar;
       panelArq.hidden = gerar;
       if(!gerar) renderBookAll();
     }
-    tabGerar.addEventListener('click',()=>selectTab('gerar'));
-    tabArq.addEventListener('click',()=>selectTab('arquivo'));
+    tabGerar.addEventListener('click', () => selectTab('gerar'));
+    tabArq.addEventListener('click', () => selectTab('arquivo'));
 
     // ===== Templates =====
-    const Templates={
-      aprender:(tema) => 
-Você é um professor universitário de Direito, com experiência em docência e atuação prática.
+    const Templates = {
+      aprender:(tema)=>`Você é um professor universitário de Direito, com experiência em docência e atuação prática.
 
 Seu papel é ensinar **${tema}** com profundidade, mas de forma didática e acessível para estudantes iniciantes ou intermediários. Nada de resposta rasa ou engessada.
 
@@ -234,7 +269,7 @@ Seu papel é ensinar **${tema}** com profundidade, mas de forma didática e aces
 
 ## 📎 Jurisprudência majoritária
 - Citar no máximo 2 julgados (com link direto — ex: ConJur, Migalhas ou JusBrasil).
-- Indicar o ponto-chave da decisão.
+- Indicar o ponto-chave da decisão.`,
 
       treinar:(tema)=>`Você é um elaborador de questões de Direito para treino universitário e OAB.
 
@@ -327,48 +362,54 @@ Notas:
     };
 
     // ===== Estado e elementos =====
-    let current={tema:"", prompts:{aprender:"", treinar:"", noticias:"", casoreal:""}};
-    const el={
-      tema:document.getElementById('tema'),
-      gerar:document.getElementById('gerar'),
-      thinking:document.getElementById('thinking'),
-      result:document.getElementById('result'),
-      copyA:document.getElementById('copy-aprender'),
-      copyT:document.getElementById('copy-treinar'),
-      copyN:document.getElementById('copy-noticias'),
-      copyC:document.getElementById('copy-casoreal'),
-      reset:document.getElementById('reset'),
-      book:document.getElementById('book-list')
+    let current = { tema: "", prompts: { aprender: "", treinar: "", noticias: "", casoreal: "" } };
+    const el = {
+      tema: document.getElementById('tema'),
+      gerar: document.getElementById('gerar'),
+      thinking: document.getElementById('thinking'),
+      result: document.getElementById('result'),
+      copyA: document.getElementById('copy-aprender'),
+      copyT: document.getElementById('copy-treinar'),
+      copyN: document.getElementById('copy-noticias'),
+      copyC: document.getElementById('copy-casoreal'),
+      reset: document.getElementById('reset'),
+      book: document.getElementById('book-list')
     };
 
     // ===== Persistência (até 50 entradas) =====
-    const BOOK_KEY='book_data_v2';
-    function loadBook(){ try{ return JSON.parse(localStorage.getItem(BOOK_KEY)||'[]')||[]; }catch{ return []; } }
-    function saveBook(arr){ try{ localStorage.setItem(BOOK_KEY, JSON.stringify(arr)); }catch{} }
+    const BOOK_KEY = 'book_data_v2';
+    function loadBook(){ try { return JSON.parse(localStorage.getItem(BOOK_KEY) || '[]') || []; } catch { return []; } }
+    function saveBook(arr){ try { localStorage.setItem(BOOK_KEY, JSON.stringify(arr)); } catch {} }
     function pushEntry(obj){
-      let data=loadBook();
-      if(!Array.isArray(data)) data=[];
+      let data = loadBook();
+      if(!Array.isArray(data)) data = [];
       data.unshift(obj);
-      if(data.length>50) data=data.slice(0,50);
+      if(data.length > 50) data = data.slice(0,50);
       saveBook(data);
     }
 
     function renderBookAll(){
-      const data=loadBook();
-      el.book.innerHTML='';
+      const data = loadBook();
+      el.book.innerHTML = '';
       if(!data.length){
-        el.book.innerHTML='<div class="item"><div class="meta"><div class="obj">Arquivo vazio</div><div class="tema">Você ainda não gerou nenhum prompt.</div></div></div>';
+        el.book.innerHTML = '<div class="item"><div class="meta"><div class="obj">Arquivo vazio</div><div class="tema">Você ainda não gerou nenhum prompt.</div></div></div>';
         return;
       }
-      const frag=document.createDocumentFragment();
-      data.forEach(({objetivo,tema,prompt})=>{
-        const div=document.createElement('div');
-        div.className='item';
-        div.innerHTML=`<div class="meta"><div class="obj">${objetivo||'—'}</div><div class="tema">${(tema||'').slice(0,300)}</div></div>
+      const frag = document.createDocumentFragment();
+      data.forEach(({objetivo, tema, prompt})=>{
+        const div = document.createElement('div');
+        div.className = 'item';
+        div.innerHTML = `<div class="meta"><div class="obj">${objetivo||'—'}</div><div class="tema">${(tema||'').slice(0,300)}</div></div>
         <button class="btn btn-ghost" data-prompt>Copiar</button>`;
-        const btn=div.querySelector('[data-prompt]');
-        btn.addEventListener('click',async()=>{
-          try{ await navigator.clipboard.writeText(String(prompt||'')); btn.textContent='Copiado!'; setTimeout(()=>btn.textContent='Copiar',1000);}catch{ alert('Não foi possível copiar.'); }
+        const btn = div.querySelector('[data-prompt]');
+        btn.addEventListener('click', async ()=>{
+          try{
+            await navigator.clipboard.writeText(String(prompt||''));
+            btn.textContent = 'Copiado!';
+            setTimeout(()=>btn.textContent='Copiar',1000);
+          }catch{
+            alert('Não foi possível copiar.');
+          }
         });
         frag.appendChild(div);
       });
@@ -376,64 +417,73 @@ Notas:
     }
 
     function strategyHumanName(k){
-      const map={aprender:'APRENDER', treinar:'TREINAR', noticias:'NOTÍCIAS', casoreal:'CASO REAL'};
-      return map[k]||k;
+      const map = { aprender:'APRENDER', treinar:'TREINAR', noticias:'NOTÍCIAS', casoreal:'CASO REAL' };
+      return map[k] || k;
     }
 
     // ===== Geração =====
     function genAll(){
-      const tema=(el.tema.value||'').trim();
+      const tema = (el.tema.value || '').trim();
       if(!tema){ alert('Digite o tema.'); el.tema.focus(); return; }
-      current.tema=tema;
-      el.result.style.display='none';
-      el.thinking.style.display='flex';
-      el.gerar.disabled=true;
+      current.tema = tema;
+      el.result.style.display = 'none';
+      el.thinking.style.display = 'flex';
+      el.gerar.disabled = true;
 
       setTimeout(()=>{
-        current.prompts.aprender=Templates.aprender(tema);
-        current.prompts.treinar=Templates.treinar(tema);
-        current.prompts.noticias=Templates.noticias(tema);
-        current.prompts.casoreal=Templates.casoreal(tema);
+        current.prompts.aprender  = Templates.aprender(tema);
+        current.prompts.treinar   = Templates.treinar(tema);
+        current.prompts.noticias  = Templates.noticias(tema);
+        current.prompts.casoreal  = Templates.casoreal(tema);
 
-        // Salva 4 entradas (mesma estratégia anterior), com limite 50
-        pushEntry({objetivo:strategyHumanName('aprender'), tema, prompt:current.prompts.aprender, ts:Date.now()});
-        pushEntry({objetivo:strategyHumanName('treinar'), tema, prompt:current.prompts.treinar, ts:Date.now()});
-        pushEntry({objetivo:strategyHumanName('noticias'), tema, prompt:current.prompts.noticias, ts:Date.now()});
-        pushEntry({objetivo:strategyHumanName('casoreal'), tema, prompt:current.prompts.casoreal, ts:Date.now()});
+        // Guarda 4 entradas (limite 50)
+        pushEntry({ objetivo: strategyHumanName('aprender'), tema, prompt: current.prompts.aprender,  ts: Date.now() });
+        pushEntry({ objetivo: strategyHumanName('treinar'),  tema, prompt: current.prompts.treinar,   ts: Date.now() });
+        pushEntry({ objetivo: strategyHumanName('noticias'), tema, prompt: current.prompts.noticias,  ts: Date.now() });
+        pushEntry({ objetivo: strategyHumanName('casoreal'), tema, prompt: current.prompts.casoreal,  ts: Date.now() });
 
-        el.thinking.style.display='none';
-        el.result.style.display='block';
-        el.gerar.disabled=false;
-      },3000);
+        el.thinking.style.display = 'none';
+        el.result.style.display = 'block';
+        el.gerar.disabled = false;
+      }, 3000);
     }
 
     async function copy(text, btn){
       try{
         await navigator.clipboard.writeText(text);
-        const old=btn.querySelector('.hint');
-        const oldTxt=old.textContent; old.textContent='copiado!';
-        btn.disabled=true; setTimeout(()=>{old.textContent=oldTxt;btn.disabled=false;},1200);
+        const hint = btn.querySelector('.hint');
+        const old = hint.textContent;
+        hint.textContent = 'copiado!';
+        btn.disabled = true;
+        setTimeout(()=>{ hint.textContent = old; btn.disabled = false; }, 1200);
       }catch{
-        const ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+        const ta = document.createElement('textarea'); ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
         document.body.appendChild(ta); ta.select();
-        try{ document.execCommand('copy'); const old=btn.querySelector('.hint'); const t=old.textContent; old.textContent='copiado!'; setTimeout(()=>old.textContent=t,1200);}catch{ alert('Não foi possível copiar.'); }
-        finally{ document.body.removeChild(ta); }
+        try {
+          document.execCommand('copy');
+          const hint = btn.querySelector('.hint'); const old = hint.textContent;
+          hint.textContent = 'copiado!'; setTimeout(()=>hint.textContent=old,1200);
+        } catch {
+          alert('Não foi possível copiar.');
+        } finally {
+          document.body.removeChild(ta);
+        }
       }
     }
 
     function resetAll(){
-      el.tema.value=''; el.tema.focus();
-      el.result.style.display='none';
-      el.thinking.style.display='none';
+      el.tema.value = ''; el.tema.focus();
+      el.result.style.display = 'none';
+      el.thinking.style.display = 'none';
     }
 
     // Listeners
     document.getElementById('gerar').addEventListener('click', genAll);
-    document.getElementById('tema').addEventListener('keydown', (e)=>{ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='enter') genAll(); });
-    document.getElementById('copy-aprender').addEventListener('click',()=>copy(current.prompts.aprender, document.getElementById('copy-aprender')));
-    document.getElementById('copy-treinar').addEventListener('click',()=>copy(current.prompts.treinar, document.getElementById('copy-treinar')));
-    document.getElementById('copy-noticias').addEventListener('click',()=>copy(current.prompts.noticias, document.getElementById('copy-noticias')));
-    document.getElementById('copy-casoreal').addEventListener('click',()=>copy(current.prompts.casoreal, document.getElementById('copy-casoreal')));
+    document.getElementById('tema').addEventListener('keydown', (e)=>{ if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='enter') genAll(); });
+    document.getElementById('copy-aprender').addEventListener('click', ()=>copy(current.prompts.aprender,  document.getElementById('copy-aprender')));
+    document.getElementById('copy-treinar').addEventListener('click', ()=>copy(current.prompts.treinar,   document.getElementById('copy-treinar')));
+    document.getElementById('copy-noticias').addEventListener('click',()=>copy(current.prompts.noticias,  document.getElementById('copy-noticias')));
+    document.getElementById('copy-casoreal').addEventListener('click',()=>copy(current.prompts.casoreal,  document.getElementById('copy-casoreal')));
     document.getElementById('reset').addEventListener('click', resetAll);
 
     // Inicializa
@@ -445,35 +495,34 @@ Notas:
         navigator.serviceWorker.register('./sw.js').catch(()=>{});
       });
     }
-
-    let deferredPrompt=null;
-    const installBtn=document.getElementById('btn-install');
-    const installNote=document.getElementById('install-note');
+    let deferredPrompt = null;
+    const installBtn = document.getElementById('btn-install');
+    const installNote = document.getElementById('install-note');
 
     window.addEventListener('beforeinstallprompt', (e)=>{
       e.preventDefault();
-      deferredPrompt=e;
-      if(installBtn) installBtn.style.display='inline-flex';
-      if(installNote) installNote.style.display='block';
+      deferredPrompt = e;
+      if(installBtn) installBtn.style.display = 'inline-flex';
+      if(installNote) installNote.style.display = 'block';
     });
 
     installBtn?.addEventListener('click', async ()=>{
       try{
         if(!deferredPrompt) return;
-        installBtn.disabled=true;
+        installBtn.disabled = true;
         deferredPrompt.prompt();
         await deferredPrompt.userChoice;
-        deferredPrompt=null;
-      }finally{
-        installBtn.disabled=false;
-        installBtn.style.display='none';
-        if(installNote) installNote.style.display='none';
+        deferredPrompt = null;
+      } finally {
+        installBtn.disabled = false;
+        installBtn.style.display = 'none';
+        if(installNote) installNote.style.display = 'none';
       }
     });
 
     window.addEventListener('appinstalled', ()=>{
-      if(installBtn) installBtn.style.display='none';
-      if(installNote) installNote.style.display='none';
+      if(installBtn) installBtn.style.display = 'none';
+      if(installNote) installNote.style.display = 'none';
     });
   </script>
 </body>
