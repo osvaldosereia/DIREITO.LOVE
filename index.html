@@ -27,7 +27,8 @@
 
     .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
     .brand{display:flex;align-items:center;gap:12px}
-    .logo{display:block;width:auto;height:40px;border-radius:10px} @media (min-width:880px){ .logo{height:48px} }
+    .logo{display:block;width:auto;height:40px;border-radius:10px}
+    @media (min-width:880px){ .logo{height:48px} }
 
     /* Tabs */
     .tabs{display:flex;gap:8px;margin:8px 0 18px}
@@ -75,10 +76,9 @@
     /* IA footer */
     .ai-footer{padding:18px 0 28px}
     .ai-links{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
-    .ai-link{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;color:var(--muted);opacity:.8;transition:opacity .2s}
+    .ai-link{all:unset;display:inline-flex;align-items:center;justify-content:center;background:var(--primary);color:#fff;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:600;opacity:.95;cursor:pointer;transition:opacity .2s}
     .ai-link:hover{opacity:1}
-    .ai-link svg{display:block;width:100%;height:100%}
-    @media (min-width:880px){ .ai-link{width:30px;height:30px} }
+    @media (min-width:880px){ .ai-link{font-size:12.5px} }
 
     /* Arquivo */
     .list{display:grid;gap:10px}
@@ -103,7 +103,6 @@
     <header class="top">
       <div class="brand">
         <img class="logo" src="./icons/logo-menu.png" onerror="this.onerror=null;this.src='./icons/icon-192.png'" alt="direito.love" />
-        
       </div>
       <a class="btn btn-ghost" href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener" aria-label="Abrir Instagram do autor">Instagram</a>
     </header>
@@ -139,7 +138,7 @@
         </div>
         <div class="divider"></div>
         <div class="again">
-          <button id="reset" class="btn btn-ghost">Nova Pesquisa</button>
+          <button id="reset" class="btn btn-primary">Nova Pesquisa</button>
         </div>
       </section>
     </section>
@@ -161,27 +160,12 @@
 
   <footer class="ai-footer" aria-label="Ferramentas de IA">
     <div class="ai-links">
-      <a class="ai-link" href="https://chat.openai.com/" target="_blank" rel="noopener" aria-label="Abrir ChatGPT">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" fill="currentColor" opacity=".12"/><text x="12" y="16" text-anchor="middle" font-size="11" fill="currentColor">GPT</text></svg>
-      </a>
-      <a class="ai-link" href="https://gemini.google.com/" target="_blank" rel="noopener" aria-label="Abrir Gemini">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" fill="currentColor" opacity=".12"/><text x="12" y="16" text-anchor="middle" font-size="10" fill="currentColor">G</text></svg>
-      </a>
-      <a class="ai-link" href="https://www.perplexity.ai/" target="_blank" rel="noopener" aria-label="Abrir Perplexity">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" fill="currentColor" opacity=".12"/><text x="12" y="16" text-anchor="middle" font-size="9" fill="currentColor">Px</text></svg>
-      </a>
-      <a class="ai-link" href="https://you.com/" target="_blank" rel="noopener" aria-label="Abrir You.com">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" fill="currentColor" opacity=".12"/><text x="12" y="16" text-anchor="middle" font-size="10" fill="currentColor">You</text></svg>
-      </a>
-      <a class="ai-link" href="https://www.phind.com/" target="_blank" rel="noopener" aria-label="Abrir Phind">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" fill="currentColor" opacity=".12"/><text x="12" y="16" text-anchor="middle" font-size="9" fill="currentColor">Ph</text></svg>
-      </a>
-      <a class="ai-link" href="https://notebooklm.google.com/" target="_blank" rel="noopener" aria-label="Abrir NotebookLM">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" fill="currentColor" opacity=".12"/><text x="12" y="16" text-anchor="middle" font-size="8.5" fill="currentColor">NLM</text></svg>
-      </a>
-      <a class="ai-link" href="https://consensus.app/" target="_blank" rel="noopener" aria-label="Abrir Consensus.app">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" fill="currentColor" opacity=".12"/><text x="12" y="16" text-anchor="middle" font-size="8.5" fill="currentColor">Cons</text></svg>
-      </a>
+      <a class="ai-link" href="https://chat.openai.com/" target="_blank" rel="noopener" aria-label="Abrir ChatGPT">GPT</a>
+      <a class="ai-link" href="https://gemini.google.com/" target="_blank" rel="noopener" aria-label="Abrir Gemini">Gemini</a>
+      <a class="ai-link" href="https://www.perplexity.ai/" target="_blank" rel="noopener" aria-label="Abrir Perplexity">Perplexity</a>
+      <a class="ai-link" href="https://www.phind.com/" target="_blank" rel="noopener" aria-label="Abrir Phind">Phind</a>
+      <a class="ai-link" href="https://notebooklm.google.com/" target="_blank" rel="noopener" aria-label="Abrir NotebookLM">NotebookLM</a>
+      <a class="ai-link" href="https://consensus.app/" target="_blank" rel="noopener" aria-label="Abrir Consensus.app">Consensus</a>
     </div>
   </footer>
 
