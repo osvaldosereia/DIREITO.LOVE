@@ -1,3 +1,6 @@
+aí está o **HTML completo** atualizado — é só copiar e colar:
+
+```html
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -19,19 +22,19 @@
     }
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{margin:0;background:radial-gradient(1200px 600px at 0% -20%,#eaf7f5 0%,transparent 60%),
-                         radial-gradient(600px 600px at 110% 10%,#f1f6fb 0%,transparent 55%),var(--bg);
+    body{margin:0;background:radial-gradient(1200px 800px at 0% -20%,#eaf7f5 0%,transparent 60%),
+                         radial-gradient(800px 600px at 110% 10%,#f1f6fb 0%,transparent 55%),var(--bg);
          color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;font-size:var(--fs-b)}
 
     .wrap{max-width:960px;margin:0 auto;padding:28px 16px 96px}
 
     .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-    .brand{display:flex;align-items:center;gap:10px}
-    .logo{width:auto;height:28px;border-radius:10px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{display:block;width:auto;height:40px;border-radius:10px} @media (min-width:880px){ .logo{height:48px} }
 
     /* Tabs */
     .tabs{display:flex;gap:8px;margin:8px 0 18px}
-    .tab{all:unset;border:1px solid var(--border);background:#fff;padding:8px 14px;border-radius:999px;cursor:pointer;font-weight:600}
+    .tab{all:unset;border:1px solid var(--border);background:#fff;padding:8px 14px;border-radius:999px;cursor:pointer;font-weight:700}
     .tab[aria-selected="true"]{background:var(--primary);color:#fff;border-color:transparent}
 
     .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--elev-1);padding:22px}
@@ -42,7 +45,7 @@
     .field{width:100%;border:1px solid var(--border);background:#f4f7fb;border-radius:16px;padding:14px 16px;outline:none;color:var(--ink)}
     .field:focus{border-color:#b9c6d1;box-shadow:0 0 0 3px rgba(14,86,124,.12)}
 
-    .btn{all:unset;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:14px;font-weight:600;cursor:pointer}
+    .btn{all:unset;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:14px;font-weight:700;cursor:pointer}
     .btn-primary{background:var(--primary);color:#fff}
     .btn-primary:hover{background:var(--primary-2)}
     .btn-ghost{border:1px solid var(--border);background:#fff;color:var(--ink)}
@@ -65,6 +68,20 @@
 
     .divider{height:1px;background:var(--border);margin:18px 0}
     .again{display:flex;justify-content:center;margin-top:16px}
+
+    .install-wrap{display:flex;justify-content:center;margin:22px 0 8px}
+    .install-cta{background:var(--primary);color:#fff;border-radius:18px;padding:16px 22px;font-size:18px;font-weight:700;box-shadow:0 10px 30px rgba(12,65,96,.18)}
+    .install-cta:hover{background:var(--primary-2)}
+    .install-cta-wrap{display:flex;flex-direction:column;align-items:center;gap:6px}
+    .install-note{color:var(--muted);font-size:14px;text-align:center}
+
+    /* IA footer */
+    .ai-footer{padding:18px 0 28px}
+    .ai-links{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+    .ai-link{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;color:var(--muted);opacity:.8;transition:opacity .2s}
+    .ai-link:hover{opacity:1}
+    .ai-link svg{display:block;width:100%;height:100%}
+    @media (min-width:880px){ .ai-link{width:30px;height:30px} }
 
     /* Arquivo */
     .list{display:grid;gap:10px}
@@ -89,12 +106,11 @@
     <header class="top">
       <div class="brand">
         <img class="logo" src="./icons/logo-menu.png" onerror="this.onerror=null;this.src='./icons/icon-192.png'" alt="direito.love" />
-        <strong></strong>
+        
       </div>
       <a class="btn btn-ghost" href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener" aria-label="Abrir Instagram do autor">Instagram</a>
     </header>
-      <button id="btn-install" class="btn btn-ghost" style="display:none;margin-bottom:10px">Instalar app</button>
-
+      
     <nav class="tabs" role="tablist" aria-label="Navegação">
       <button class="tab" id="tab-gerar" aria-controls="panel-gerar" aria-selected="true">Gerar</button>
       <button class="tab" id="tab-arquivo" aria-controls="panel-arquivo" aria-selected="false">Arquivo</button>
@@ -131,6 +147,13 @@
       </section>
     </section>
 
+    <div class="install-wrap">
+      <div class="install-cta-wrap">
+        <button id="btn-install" class="btn install-cta" style="display:none">Instalar app</button>
+        <div id="install-note" class="install-note" style="display:none">Instale para usar offline e abrir mais rápido</div>
+      </div>
+    </div>
+
     <!-- Painel: Arquivo -->
     <section id="panel-arquivo" class="card" role="tabpanel" aria-labelledby="tab-arquivo" hidden>
       <h2 class="title" style="font-size:26px">Arquivo — últimas 50 pesquisas</h2>
@@ -138,6 +161,32 @@
       <div id="book-list" class="list"></div>
     </section>
   </div>
+
+  <footer class="ai-footer" aria-label="Ferramentas de IA">
+    <div class="ai-links">
+      <a class="ai-link" href="https://chat.openai.com/" target="_blank" rel="noopener" aria-label="Abrir ChatGPT">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" fill="currentColor" opacity=".12"/><text x="12" y="16" text-anchor="middle" font-size="11" fill="currentColor">GPT</text></svg>
+      </a>
+      <a class="ai-link" href="https://gemini.google.com/" target="_blank" rel="noopener" aria-label="Abrir Gemini">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" fill="currentColor" opacity=".12"/><text x="12" y="16" text-anchor="middle" font-size="10" fill="currentColor">G</text></svg>
+      </a>
+      <a class="ai-link" href="https://www.perplexity.ai/" target="_blank" rel="noopener" aria-label="Abrir Perplexity">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" fill="currentColor" opacity=".12"/><text x="12" y="16" text-anchor="middle" font-size="9" fill="currentColor">Px</text></svg>
+      </a>
+      <a class="ai-link" href="https://you.com/" target="_blank" rel="noopener" aria-label="Abrir You.com">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" fill="currentColor" opacity=".12"/><text x="12" y="16" text-anchor="middle" font-size="10" fill="currentColor">You</text></svg>
+      </a>
+      <a class="ai-link" href="https://www.phind.com/" target="_blank" rel="noopener" aria-label="Abrir Phind">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" fill="currentColor" opacity=".12"/><text x="12" y="16" text-anchor="middle" font-size="9" fill="currentColor">Ph</text></svg>
+      </a>
+      <a class="ai-link" href="https://notebooklm.google.com/" target="_blank" rel="noopener" aria-label="Abrir NotebookLM">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" fill="currentColor" opacity=".12"/><text x="12" y="16" text-anchor="middle" font-size="8.5" fill="currentColor">NLM</text></svg>
+      </a>
+      <a class="ai-link" href="https://consensus.app/" target="_blank" rel="noopener" aria-label="Abrir Consensus.app">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" fill="currentColor" opacity=".12"/><text x="12" y="16" text-anchor="middle" font-size="8.5" fill="currentColor">Cons</text></svg>
+      </a>
+    </div>
+  </footer>
 
   <script>
     // ===== Navegação de abas =====
@@ -389,11 +438,13 @@ Notas:
 
     let deferredPrompt=null;
     const installBtn=document.getElementById('btn-install');
+    const installNote=document.getElementById('install-note');
 
     window.addEventListener('beforeinstallprompt', (e)=>{
       e.preventDefault();
       deferredPrompt=e;
       if(installBtn) installBtn.style.display='inline-flex';
+      if(installNote) installNote.style.display='block';
     });
 
     installBtn?.addEventListener('click', async ()=>{
@@ -406,11 +457,13 @@ Notas:
       }finally{
         installBtn.disabled=false;
         installBtn.style.display='none';
+        if(installNote) installNote.style.display='none';
       }
     });
 
     window.addEventListener('appinstalled', ()=>{
       if(installBtn) installBtn.style.display='none';
+      if(installNote) installNote.style.display='none';
     });
   </script>
 </body>
