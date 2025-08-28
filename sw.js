@@ -1,38 +1,48 @@
-// sw.js – cache básico para PWA (inclui frases.txt)
-const CACHE = "ad-cache-v3"; // bump de versão
+// sw.js — PWA mínimo com atualização simples
+const CACHE = "dlove-v1";
 const ASSETS = [
   "./",
   "./index.html",
   "./manifest.json",
-  "./frases.txt",
   "./icons/icon-192.png",
-  "./icons/icon-512.png",
-  "./icons/logo-menu.png"
+  "./icons/icon-512.png"
 ];
 
+// instala e faz cache básico
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)));
+  self.skipWaiting();
 });
 
+// ativa e limpa caches antigos
 self.addEventListener("activate", (e) => {
   e.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
     )
   );
+  self.clients.claim();
 });
 
+// network-first com fallback ao cache para html; cache-first p/ estáticos
 self.addEventListener("fetch", (e) => {
-  // Network-first para frases.txt (atualiza quando online), cache-first pro resto
-  if (new URL(e.request.url).pathname.endsWith('/frases.txt')) {
+  const { request } = e;
+  const isHTML = request.destination === "document" || request.headers.get("accept")?.includes("text/html");
+  if (isHTML) {
     e.respondWith(
-      fetch(e.request).then(resp => {
-        const copy = resp.clone();
-        caches.open(CACHE).then(c => c.put(e.request, copy));
-        return resp;
-      }).catch(() => caches.match(e.request))
+      fetch(request).then((res) => {
+        const clone = res.clone();
+        caches.open(CACHE).then((c) => c.put(request, clone));
+        return res;
+      }).catch(() => caches.match(request).then((res) => res || caches.match("./")))
     );
-    return;
+  } else {
+    e.respondWith(
+      caches.match(request).then((res) => res || fetch(request).then((res) => {
+        const clone = res.clone();
+        caches.open(CACHE).then((c) => c.put(request, clone));
+        return res;
+      }))
+    );
   }
-  e.respondWith(caches.match(e.request).then((r) => r || fetch(e.request)));
 });
