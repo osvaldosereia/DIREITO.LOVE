@@ -223,7 +223,14 @@
     tabArq.addEventListener('click', () => selectTab('arquivo'));
 
     // ===== Templates =====
-    const CTA = `\n\n**💚 [direito.love](https://direito.love)**`;
+    const CTA = `\n\nGere um novo prompt em [direito.love](https://direito.love)`;
+
+    const RegrasGlobais = `
+**Regras obrigatórias adicionais (valem para todo o projeto):**
+- **Leis/artigos**: sempre que citar uma lei específica ou artigo de código, **priorize buscar e linkar a fonte oficial no Portal da Legislação do Planalto**: https://www.planalto.gov.br/.
+- **Jurisprudência / súmulas / julgados / repetitivos**: a informação deve vir de **artigo ou notícia jurídica de site não-governamental** (ex.: ConJur, Migalhas, JOTA, Âmbito Jurídico, portais universitários). **Procedimento**: (1) localizar pelo **título relacionado ao tema**; (2) **acessar o conteúdo**; (3) **confirmar** no corpo do texto se a informação específica (ementa, processo, tese etc.) está presente; **só citar se confirmado**.
+`;
+
     const Templates = {
       aprender: (tema) => `Você é um professor universitário de Direito, com experiência em docência e atuação prática.
 
@@ -233,15 +240,15 @@ Seu papel é ensinar **${tema}** com profundidade, mas de forma didática e aces
 - Comece **diretamente com o conceito**, sem introduções vazias.
 - Linguagem clara e objetiva, mas com profundidade.
 - Quando houver divergência doutrinária ou jurisprudencial, traga **somente os entendimentos majoritários** (STJ/STF).
-- Pesquise jurisprudencia, julgados, súmula, entendimentos majoritários ou decisões recentes somente em  artigos ou notícias sobre o assunto que tenham em seu conteúdo menções a elas.
 - Conecte a explicação à prática forense: como o tema aparece na advocacia, concursos ou dia a dia jurídico.
+${RegrasGlobais}
 
 **Formatação obrigatória (em Markdown simples):**
 
 ## 🧩 Conceito direto (4 a 6 linhas)
 ## 📜 Base legal essencial
-- Traga o(s) artigo(s) e o nome da lei.
-- Se aplicável, inclua enunciado de súmula ou tese vinculante.
+- Traga o(s) artigo(s) e o nome da lei (link priorizando o Portal do Planalto).
+- Se aplicável, inclua enunciado de súmula ou tese vinculante (validado via artigo/notícia jurídica).
 
 ## ⚖️ Quadro comparativo
 | Instituto | Quando se aplica | Exemplo rápido |
@@ -251,7 +258,7 @@ Seu papel é ensinar **${tema}** com profundidade, mas de forma didática e aces
 1. Identifique a situação jurídica.
 2. Verifique os pressupostos legais.
 3. Aplique a doutrina majoritária.
-4. Verifique o entendimento do STJ/STF.
+4. Verifique o entendimento do STJ/STF (fonte validada conforme regras globais).
 5. Aponte consequências práticas.
 6. Eventuais recursos ou medidas aplicáveis.
 
@@ -270,13 +277,9 @@ Seu papel é ensinar **${tema}** com profundidade, mas de forma didática e aces
 - Termos usados no tema com explicação simples e objetiva.
 
 ## 📎 Jurisprudência majoritária
-- Encontre artigos ou notícias sobre o assunto que tenham em seu conteúdo menções a jurisprudencia, julgados, súmula, entendimentos majoritários ou decisões recentes. Citar no máximo 2. (com link direto — ex: ConJur, Migalhas ou JusBrasil).
+- Cite no máximo 2 referências extraídas de **artigos/notícias jurídicas** (não-governamentais) que **confirmem no corpo do texto** a jurisprudência/súmula/decisão citada. (ex.: ConJur, Migalhas, JOTA).
+${CTA}`,
 
----
-
-**Sugestões de temas para novas pesquisas no direito.love**
-- Relacione 3 variações do tema "${tema}" com foco em: (a) processo, (b) entendimentos majoritários e (c) prática forense.` + CTA,
-      
       treinar: (tema) => `Você é um elaborador de questões de Direito para treino universitário e OAB.
 
 Parâmetros do treino:
@@ -290,6 +293,7 @@ Parâmetros do treino:
 - Pesquise questões de provas da OAB e Concursos.
 - Primeiro, liste todas as questões → depois traga o **Gabarito Comentado**.
 - Cada justificativa: 1–2 linhas, explicando por que a correta está certa e as outras não.
+${RegrasGlobais}
 
 **Tema:** ${tema}
 
@@ -304,14 +308,11 @@ Parâmetros do treino:
 ... (até Q10)
 
 ## Gabarito Comentado
-- Q1) Letra C — justificativa breve
+- Q1) Letra C — justificativa breve (se citar lei, link do Planalto; se citar súmula/precedente, confirmar via artigo/notícia jurídica).
 - Q2) Letra A — justificativa breve
 - ...
----
+${CTA}`,
 
-**Sugestões de temas para novas pesquisas no direito.love**
-- Liste 3 temas correlatos a "${tema}" para treinar (nível Intermediário).` + CTA,
-      
       noticias: (tema) => `Você é um curador de notícias e artigos jurídicos. Pesquise conteúdos dos **últimos 36 meses** relacionados a **${tema}** em **sites jurídicos** (notícias, revistas especializadas, portais acadêmicos/universitários). Evite blogs pessoais sem afiliação.
 
 Objetivo: entregar **10 achados** de alta relevância, sem duplicatas, com link canônico.
@@ -329,21 +330,22 @@ Objetivo: entregar **10 achados** de alta relevância, sem duplicatas, com link 
 - Não invente nada.
 - Garanta uma resposta correta e com link exato para a fonte.
 - Evite PDFs atrás de paywall; se inevitável, marque [acesso restrito].
+${RegrasGlobais}
 
 **Formato da resposta (Markdown):**
 # Achados (até 10)
 1) **Título** — Data: DD/MM/AAAA | Site: NOME
    - Resumo: 2–3 linhas com o núcleo e impacto prático.
+   - Se citar lei/artigo, **link do Planalto**.
+   - Se citar jurisprudência/súmula/precedente, **validar via artigo/notícia** (confirmando a presença do dado no corpo do texto).
    - Link: URL canônica
    pule uma linha
 ---
 2) ...
 ---
 10) ...
+${CTA}`,
 
-**Sugestões de temas para novas pesquisas no direito.love**
-- Traga 3 ganchos de pauta derivados de "${tema}" (ex.: decisão recente, tendência doutrinária, impacto prático).` + CTA,
-      
       casoreal: (tema) => `Você é um analista jurídico. Encontre até **5 casos concretos reais** relacionados ao tema **${tema}**, publicados nos **últimos 36 meses** em sites jurídicos confiáveis (notícias, portais especializados ou acadêmicos).
 
 **Objetivo:** mostrar o tema em ação, a partir de decisões, julgamentos, repercussões ou polêmicas públicas reais.
@@ -352,6 +354,7 @@ Objetivo: entregar **10 achados** de alta relevância, sem duplicatas, com link 
 - Use apenas **Markdown simples** (sem HTML).
 - Cada caso deve conter: Título, Data, Site, Link, Resumo e Análise.
 - Relacione explicitamente o caso com o **tema pesquisado**.
+${RegrasGlobais}
 
 **Fontes permitidas:** ConJur, Migalhas, JOTA, Âmbito Jurídico, Consultor Jurídico, revistas acadêmicas ou institucionais.
 
@@ -360,6 +363,8 @@ Objetivo: entregar **10 achados** de alta relevância, sem duplicatas, com link 
 1. Título — Data: DD/MM/AAAA | Site: NOME
    - Resumo factual (3–4 linhas).
    - Comentário jurídico: relacione com "${tema}" (5–6 linhas).
+   - Se citar lei/artigo, **link do Planalto**.
+   - Se citar súmula/precedente, **validar via artigo/notícia** (confirmando no corpo do texto).
    - Link: URL canônica
 2. ...
 3. ...
@@ -368,9 +373,7 @@ Objetivo: entregar **10 achados** de alta relevância, sem duplicatas, com link 
 
 **Notas finais:**
 - Se não encontrar 3 casos, entregue 1 ou 2 e diga [casos adicionais não localizados].
-
-**Sugestões de temas para novas pesquisas no direito.love**
-- Proponha 3 recortes práticos de "${tema}" (petições, recursos, provas).` + CTA
+${CTA}`
     };
 
     // ===== Estado e elementos =====
