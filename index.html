@@ -4,78 +4,152 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>direito.love — Estudo 3-em-1</title>
-<meta name="theme-color" content="#343541" />
+<meta name="theme-color" content="#ffffff" />
 <link rel="manifest" href="./manifest.json">
 
 <style>
-  /* ===== ChatGPT-like Theme ===== */
+  /* ===== Tema claro estilo ChatGPT ===== */
   :root{
-    --bg:#343541; --panel:#444654; --input:#40414f;
-    --text:#ececf1; --muted:#acb1c3; --border:#565869;
-    --accent:#10a37f; --shadow:0 8px 24px rgba(0,0,0,.35); --radius:10px;
+    --bg:#ffffff;         /* fundo */
+    --panel:#f7f7f8;      /* cartões/painéis */
+    --input:#ffffff;      /* inputs */
+    --text:#0c0d0e;       /* texto principal */
+    --muted:#6b7280;      /* texto secundário */
+    --border:#d9d9e3;     /* bordas */
+    --accent:#10a37f;     /* verde ChatGPT */
+    --shadow:0 6px 18px rgba(0,0,0,.08);
+    --radius:12px;
   }
-  *{ box-sizing:border-box } html,body{ height:100% }
-  body{ margin:0; background:var(--bg); color:var(--text);
-        font:400 16px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; }
+  *{ box-sizing:border-box }
+  html,body{ height:100% }
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font: 400 16px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  }
 
-  .top{ position:sticky; top:0; z-index:10; background:linear-gradient(180deg,#353641,#2f3140);
-        border-bottom:1px solid var(--border); padding:10px 16px; display:flex; align-items:center; justify-content:space-between; }
-  .brand{ display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px }
-  .brand img{ height:28px; width:auto }
-  .right-icons a img{ height:22px; width:22px; opacity:.9 }
+  /* Topbar minimal, sem logo duplicada */
+  .top{
+    position:sticky; top:0; z-index:10;
+    background:linear-gradient(180deg,#ffffff,#f7f7f8);
+    border-bottom:1px solid var(--border);
+    padding:10px 16px; display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{ font-weight:800; letter-spacing:.2px }
+  .right-icons { display:flex; align-items:center; gap:12px }
+  /* Ícone Instagram 1 cor via CSS mask */
+  .icon{
+    width:22px; height:22px; display:inline-block;
+    background-color:#0c0d0e; /* cor sólida única */
+    -webkit-mask: url('/icons/instagram.png') no-repeat center / contain;
+            mask: url('/icons/instagram.png') no-repeat center / contain;
+  }
 
-  .wrap{ max-width:900px; margin:0 auto; padding:22px 16px 140px }
-  .card{ background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px; }
-  .title{ margin:0 0 14px; font-size:20px; font-weight:700 }
+  .wrap{ max-width:900px; margin:0 auto; padding:22px 16px 180px }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:18px;
+  }
+  .title{ margin:0 0 14px; font-size:20px; font-weight:800 }
 
+  /* Tabs */
   .tabs{ display:flex; gap:8px; margin:10px 0 18px }
-  .tab{ all:unset; cursor:pointer; letter-spacing:.2px; padding:10px 14px; border-radius:999px; color:var(--text); border:1px solid var(--border); font-weight:700; background:transparent }
-  .tab[aria-selected="true"]{ background:#3a3c4b }
+  .tab{
+    all:unset; cursor:pointer; letter-spacing:.2px;
+    padding:10px 14px; border-radius:999px;
+    color:var(--text); border:1px solid var(--border);
+    font-weight:700; background:#fff;
+  }
+  .tab[aria-selected="true"]{ background:#eef1f4; }
 
-  .row{ display:grid; gap:10px; grid-template-columns:1fr auto; align-items:center }
-  .field{ background:var(--input); color:var(--text); border:1px solid var(--border); outline:none; padding:12px 14px; border-radius:var(--radius); font-weight:500 }
-  .field::placeholder{ color:#cfd3df88 } .field:focus{ border-color:#8e909b }
+  /* Form coluna: botão embaixo do input */
+  .stack{ display:flex; flex-direction:column; gap:10px; align-items:stretch }
+  .field{
+    background:var(--input); color:var(--text);
+    border:1px solid var(--border); outline:none;
+    padding:12px 14px; border-radius:var(--radius); font-weight:500;
+  }
+  .field::placeholder{ color:#9aa0a6 }
+  .field:focus{ border-color:#b4b7c5 }
 
-  .btn{ all:unset; cursor:pointer; user-select:none; padding:12px 16px; border-radius:var(--radius);
-        display:inline-flex; align-items:center; justify-content:center; gap:8px; font-weight:600; transition:transform .08s ease, opacity .2s ease; }
+  .btn{
+    all:unset; cursor:pointer; user-select:none;
+    padding:12px 16px; border-radius:var(--radius);
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    font-weight:700; transition:transform .08s ease, opacity .2s ease;
+  }
   .btn:active{ transform:translateY(1px) }
-  .btn-primary{ background:var(--accent); color:#0c0c0d }
-  .btn-ghost{ background:transparent; color:var(--text); border:1px solid var(--border) }
+
+  .btn-primary{ background:var(--accent); color:#ffffff }
+  .btn-ghost{ background:#ffffff; color:var(--text); border:1px solid var(--border) }
   .btn-small{ padding:8px 10px; font-size:12px; border-radius:8px }
-  .btn-disabled{ opacity:.5; pointer-events:none }
+  .btn-disabled{ opacity:.55; pointer-events:none }
 
   .chips{ display:flex; gap:10px; flex-wrap:wrap; margin-top:6px }
-  .chip{ all:unset; padding:10px 14px; border-radius:999px; cursor:pointer; background:transparent; color:var(--text); border:1px solid var(--border); font-weight:600 }
-  .chip:hover{ background:#3a3c4b }
+  .chip{
+    all:unset; padding:10px 14px; border-radius:999px; cursor:pointer;
+    background:#ffffff; color:var(--text); border:1px solid var(--border);
+    font-weight:700;
+  }
+  .chip:hover{ background:#eef1f4 }
 
   .divider{ height:1px; background:var(--border); margin:18px 0 }
   .hidden{ display:none !important; }
 
+  /* Barra flutuante base (Abrir IA / Nova pesquisa) */
   .floatbar{ position:fixed; left:16px; right:16px; bottom:16px; z-index:50; display:flex; justify-content:flex-end; pointer-events:none }
-  .floatbar .inner{ pointer-events:auto; display:flex; gap:8px; padding:10px;
-    background:#2f3140e8; border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); }
+  .floatbar .inner{
+    pointer-events:auto; display:flex; gap:8px; padding:10px;
+    background:#ffffffcc; border:1px solid var(--border); border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    backdrop-filter:saturate(140%) blur(4px);
+  }
 
-  .toast{ position:fixed; z-index:60; right:16px; bottom:84px; background:var(--accent); color:#0b0c0d;
-    padding:10px 14px; border-radius:10px; display:none; font-weight:800 }
+  /* Banner instalar app (aparece no início, acima da floatbar) */
+  .install-banner{
+    position:fixed; left:16px; right:16px; bottom:86px; z-index:49;
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    background:#ffffff; border:1px solid var(--border); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:12px 14px;
+  }
+  .install-banner p{ margin:0; color:var(--text); font-weight:700 }
+  .install-actions{ display:flex; gap:8px; flex-wrap:wrap }
 
-  .sheet{ position:fixed; inset:0; display:none; place-items:center; z-index:80; background:rgba(0,0,0,.55); backdrop-filter:blur(2px) }
-  .sheet .box{ width:min(560px,92vw); background:#2f3140; color:var(--text); border:1px solid var(--border);
-    border-radius:var(--radius); box-shadow:var(--shadow); padding:20px; text-align:center; }
-  .sheet h4{ margin:0 0 10px; font-size:16px; font-weight:700 }
+  .toast{
+    position:fixed; z-index:60; right:16px; bottom:150px; background:var(--accent); color:#ffffff;
+    padding:10px 14px; border-radius:12px; display:none; font-weight:800
+  }
+
+  /* Modal (janela central já existente) */
+  .sheet{ position:fixed; inset:0; display:none; place-items:center; z-index:80; background:rgba(0,0,0,.35); backdrop-filter:blur(2px) }
+  .sheet .box{
+    width:min(560px,92vw);
+    background:#ffffff; color:var(--text);
+    border:1px solid var(--border);
+    border-radius:var(--radius); box-shadow:var(--shadow); padding:20px;
+    text-align:center;
+  }
+  .sheet h4{ margin:0 0 10px; font-size:16px; font-weight:800 }
   .sheet .actions{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:10px }
 
-  .thinking{ margin-top:14px; padding:12px 14px; border:1px dashed var(--border); border-radius:var(--radius); color:var(--muted); display:flex; align-items:center; gap:10px; }
-  .dot{ width:6px; height:6px; border-radius:50%; background:#cfd3df; opacity:.6; animation:blink 1.2s infinite ease-in-out }
+  /* Pensando (4s) */
+  .thinking{
+    margin-top:14px; padding:12px 14px; border:1px dashed var(--border);
+    border-radius:var(--radius); color:var(--muted); display:flex; align-items:center; gap:10px; background:#fff;
+  }
+  .dot{ width:6px; height:6px; border-radius:50%; background:#3c4043; opacity:.35; animation:blink 1.2s infinite ease-in-out }
   .dot:nth-child(2){ animation-delay:.2s } .dot:nth-child(3){ animation-delay:.4s }
   @keyframes blink{ 0%,80%,100%{ opacity:.2 } 40%{ opacity:1 } }
 </style>
 </head>
 <body>
   <header class="top">
-    <div class="brand"><img src="./icons/logo-heart.png" alt="direito.love" /> <span>direito.love</span></div>
+    <div class="brand">direito.love</div>
     <div class="right-icons">
-      <a href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener" title="Instagram">
-        <img src="./icons/instagram.png" alt="Instagram">
+      <a href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">
+        <i class="icon" aria-hidden="true"></i>
       </a>
     </div>
   </header>
@@ -89,7 +163,8 @@
     <section id="panel-inicio" class="card" role="tabpanel" aria-labelledby="tab-inicio">
       <h1 class="title">Sobre o que vamos falar?</h1>
 
-      <div class="row" id="step1">
+      <!-- Campo + botão em coluna -->
+      <div class="stack" id="step1">
         <input id="tema" class="field" type="text" placeholder="Ex.: Dano moral e dano estético na OAB" aria-label="Tema" />
         <button id="avancar" class="btn btn-primary">Começar a Mágica</button>
       </div>
@@ -99,6 +174,7 @@
         <span>pensando… preparando seus prompts</span>
       </div>
 
+      <!-- Step 2: aparece após 4s -->
       <div id="step2" class="hidden" hidden style="margin-top:18px">
         <h1 class="title" style="margin-top:0">Escolha sua IA</h1>
         <div class="chips" id="chips-ias"></div>
@@ -113,6 +189,16 @@
     </section>
   </main>
 
+  <!-- Banner de instalar app (fica acima da barra flutuante) -->
+  <div id="install-banner" class="install-banner">
+    <p>📲 Instale o app do direito.love</p>
+    <div class="install-actions">
+      <button id="install-btn" class="btn btn-primary btn-small" disabled>Instalar app</button>
+      <button id="install-close" class="btn btn-ghost btn-small">Fechar</button>
+    </div>
+  </div>
+
+  <!-- Barra flutuante: Abrir IA + Nova pesquisa -->
   <div class="floatbar" aria-label="Ações rápidas">
     <div class="inner">
       <a id="open-ia" class="btn btn-ghost btn-disabled" href="#" target="_blank" rel="noopener" aria-disabled="true">Abrir IA</a>
@@ -122,6 +208,7 @@
 
   <div id="toast" class="toast" role="status" aria-live="polite">Copiado!</div>
 
+  <!-- Janela central (mantida) -->
   <div id="sheet" class="sheet" aria-modal="true" role="dialog" aria-labelledby="sheet-title">
     <div class="box">
       <h4 id="sheet-title">Prompt Copiado</h4>
@@ -134,27 +221,21 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){
+
   /* ===== Tabs ===== */
   const tabInicio=document.getElementById('tab-inicio'), tabArq=document.getElementById('tab-arquivo');
   const panelInicio=document.getElementById('panel-inicio'), panelArq=document.getElementById('panel-arquivo');
-  const resetBtn=document.getElementById('reset');
 
   function selectTab(which){
     const ini=which==='inicio';
     tabInicio.setAttribute('aria-selected',ini);
     tabArq.setAttribute('aria-selected',!ini);
     panelInicio.hidden=!ini; panelArq.hidden=ini;
-    if(!ini){
-      renderBookGrouped();
-      resetBtn.classList.add('btn-disabled'); resetBtn.setAttribute('aria-disabled','true'); resetBtn.style.pointerEvents='none';
-    } else {
-      resetBtn.classList.remove('btn-disabled'); resetBtn.removeAttribute('aria-disabled'); resetBtn.style.pointerEvents='auto';
-    }
   }
   tabInicio.addEventListener('click',()=>selectTab('inicio'));
-  tabArq.addEventListener('click',()=>selectTab('arquivo'));
+  tabArq.addEventListener('click',()=>{ renderBookGrouped(); selectTab('arquivo'); });
 
-  /* ===== State ===== */
+  /* ===== State/refs ===== */
   let current={ tema:"", lastIA:null };
   const el={
     tema:document.getElementById('tema'),
@@ -168,10 +249,14 @@ document.addEventListener('DOMContentLoaded', function(){
     sheetClose:document.getElementById('sheet-close'),
     openIAModal:document.getElementById('open-ia-modal'),
     bookGrouped:document.getElementById('book-grouped'),
+    reset:document.getElementById('reset'),
+    installBanner:document.getElementById('install-banner'),
+    installBtn:document.getElementById('install-btn'),
+    installClose:document.getElementById('install-close'),
   };
 
   /* ===== Storage ===== */
-  const BOOK_KEY='book_data_v26';
+  const BOOK_KEY='book_data_v27';
   function load(k,fb){ try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(fb));}catch{return fb} }
   function save(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch{} }
   function pushEntry(e){ let d=load(BOOK_KEY,[]); d.unshift(e); if(d.length>300) d=d.slice(0,300); save(BOOK_KEY,d); }
@@ -209,7 +294,7 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 
   /* ===== Prompts 3-em-1 (foco prova/OAB/concurso) ===== */
-  function footer(){  }
+  function footer(){ return '**💚 [direito.love](https://direito.love)**\\nGere um novo prompt em [direito.love](https://direito.love)'; }
 
   function promptGPT(t){
     return (
@@ -354,7 +439,7 @@ ${footer()}`
   function toast(msg='Copiado!'){
     const t=document.getElementById('toast');
     t.textContent=msg; t.style.display='block';
-    setTimeout(()=> t.style.display='none', 1000);
+    setTimeout(()=> t.style.display='none', 1100);
   }
 
   function enableOpenIA(ia){
@@ -374,25 +459,41 @@ ${footer()}`
 
   function openSheet(){ el.sheet.style.display='grid'; }
   function closeSheet(){ el.sheet.style.display='none'; }
-  function updateModalIA(ia){ const url = IA_LINKS[ia] || '#'; el.openIAModal.textContent = 'Abrir '+ia; el.openIAModal.href = url; }
   document.getElementById('sheet-close').addEventListener('click', closeSheet);
   el.sheet.addEventListener('click', (e)=>{ if(e.target===el.sheet) closeSheet(); });
+  function updateModalIA(ia){ const url = IA_LINKS[ia] || '#'; el.openIAModal.textContent = 'Abrir '+ia; el.openIAModal.href = url; }
+
+  /* ===== Reset corrigido ===== */
+  el.reset.addEventListener('click', ()=>{
+    // volta para Início
+    selectTab('inicio');
+    // zera estado
+    current = { tema:"", lastIA:null };
+    // limpa UI
+    el.tema.value='';
+    el.step2.classList.add('hidden'); el.step2.setAttribute('hidden','');
+    el.chipsIAs.innerHTML='';
+    el.thinking.classList.add('hidden');
+    enableOpenIA(null);
+    closeSheet();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 
   /* ===== Arquivo render ===== */
   function renderBookGrouped(){
     const data = load(BOOK_KEY, []);
-    const box = document.getElementById('book-grouped');
+    const box = el.bookGrouped;
     if(!data.length){ box.innerHTML='<div style="color:var(--muted)">Arquivo vazio.</div>'; return; }
     const groups={};
     for(const it of data){ const k=(it.objetivo||'—').toUpperCase(); (groups[k]=groups[k]||[]).push(it); }
     box.innerHTML='';
     Object.keys(groups).forEach(k=>{
       const c=document.createElement('div'); c.className='card'; c.style.marginBottom='12px';
-      c.innerHTML='<h4 style="margin:0 0 8px; font-weight:700">'+k+'</h4>';
+      c.innerHTML='<h4 style="margin:0 0 8px; font-weight:800">'+k+'</h4>';
       groups[k].forEach(it=>{
         const row=document.createElement('div');
-        row.style.cssText='display:flex;justify-content:space-between;gap:8px;border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:8px;background:#3a3c4b';
-        row.innerHTML='<div><b style="font-weight:700">'+it.ia+'</b> • '+it.tema+'<br><span style="color:var(--muted)">'+new Date(it.ts).toLocaleString()+'</span></div><div style="display:flex;gap:8px"><button class="btn btn-ghost btn-small" data-copy>Copiar</button></div>';
+        row.style.cssText='display:flex;justify-content:space-between;gap:8px;border:1px solid var(--border);border-radius:12px;padding:10px;margin-bottom:8px;background:#fff';
+        row.innerHTML='<div><b style="font-weight:800">'+it.ia+'</b> • '+it.tema+'<br><span style="color:var(--muted)">'+new Date(it.ts).toLocaleString()+'</span></div><div style="display:flex;gap:8px"><button class="btn btn-ghost btn-small" data-copy>Copiar</button></div>';
         row.querySelector('[data-copy]').addEventListener('click', async ()=>{
           try{
             await navigator.clipboard.writeText(String(it.prompt||'')); toast('Copiado!');
@@ -410,64 +511,52 @@ ${footer()}`
     window.addEventListener('load', ()=> navigator.serviceWorker.register('./sw.js').catch(()=>{}));
   }
 
-  /* ===== PWA: Install banner (2 usos + 10s) ===== */
-  (function(){
-    const floatbar = document.querySelector('.floatbar .inner');
-    const installBtn = document.createElement('button');
-    installBtn.id='install-btn';
-    installBtn.className='btn btn-ghost';
-    installBtn.textContent='Instalar app';
-    installBtn.style.display='none';
-    floatbar.prepend(installBtn);
+  /* ===== PWA: Install banner fixado no início ===== */
+  let deferredPrompt=null;
+  window.addEventListener('beforeinstallprompt', (e)=>{
+    e.preventDefault();
+    deferredPrompt = e;
+    // habilita botão instalar
+    el.installBtn.disabled = false;
+  });
 
-    let deferredPrompt=null;
-    let usageCount = Number(localStorage.getItem('dl_usage')||'0');
-
-    window.addEventListener('beforeinstallprompt', (e)=>{
-      e.preventDefault();
-      deferredPrompt = e;
-      maybeShowInstall();
-    });
-
-    function maybeShowInstall(){
-      if(!deferredPrompt) return;
-      if(usageCount < 2) return;
-      setTimeout(()=>{ installBtn.style.display='inline-flex'; }, 10000);
+  el.installBtn.addEventListener('click', async ()=>{
+    if(!deferredPrompt){
+      toast('Aguarde… preparando instalação');
+      return;
     }
-
     try{
-      if(!sessionStorage.getItem('dl_seen')){
-        sessionStorage.setItem('dl_seen','1');
-        localStorage.setItem('dl_usage', String(usageCount+1));
-        usageCount++;
-      }
-    }catch{}
-
-    installBtn.addEventListener('click', async ()=>{
-      if(!deferredPrompt) return;
-      installBtn.disabled = true;
-      try{
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        toast(outcome === 'accepted' ? 'Instalação iniciada' : 'Instalação cancelada');
-        deferredPrompt = null;
-        installBtn.style.display='none';
-      }catch{ installBtn.disabled=false; }
-    });
-
-    window.addEventListener('appinstalled', ()=>{
-      toast('App instalado!');
-      installBtn.style.display='none';
-    });
-
-    function toast(msg='Copiado!'){
-      const t=document.getElementById('toast');
-      if(!t) return; t.textContent=msg; t.style.display='block';
-      setTimeout(()=> t.style.display='none', 1000);
+      el.installBtn.classList.add('btn-disabled');
+      deferredPrompt.prompt();
+      const choice = await deferredPrompt.userChoice;
+      toast(choice.outcome==='accepted'?'Instalação iniciada':'Instalação cancelada');
+      deferredPrompt = null;
+      // some com o banner após tentativa
+      el.installBanner.style.display='none';
+    }catch{
+      el.installBtn.classList.remove('btn-disabled');
     }
+  });
+  el.installClose.addEventListener('click', ()=> el.installBanner.style.display='none');
 
-    setTimeout(maybeShowInstall, 1000);
-  })();
+  window.addEventListener('appinstalled', ()=>{
+    toast('App instalado!');
+    el.installBanner.style.display='none';
+  });
+
+  /* ===== Util ===== */
+  function selectTab(which){
+    const ini=which==='inicio';
+    tabInicio.setAttribute('aria-selected',ini);
+    tabArq.setAttribute('aria-selected',!ini);
+    panelInicio.hidden=!ini; panelArq.hidden=ini;
+  }
+
+  // Chips handler global (delegation alternative)
+  function onIA(ia){ /* definido acima via addEventListener */ }
+
+  // Exibe IA chips se voltar de arquivo e já houver tema digitado
+  // (opcional, mantido simples)
 });
 </script>
 </body>
