@@ -1,7 +1,7 @@
 {
   "name": "direito.love — Gerar Prompts",
   "short_name": "direito.love",
-  "description": "Gerador de prompts jurídicos (Aprender, Treinar, Notícias, Casos Reais) — links via Google.",
+  "description": "Gerador de prompts jurídicos (Aprender, Treinar, Notícias, Casos Reais) — links via Google e buscas prontas.",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
