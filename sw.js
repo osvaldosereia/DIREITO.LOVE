@@ -1,12 +1,12 @@
-/* sw.js — PWA cache (stale-while-revalidate) + update simples */
-const CACHE_NAME = 'direito-love-v6-google-rand3-quicklinks';
+/* sw.js — PWA cache (stale-while-revalidate) alinhado à versão NOTÍCIAS=20 */
+const CACHE_NAME = 'direito-love-v10-news20';
 const CORE_ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './icons/icon-192.png',
-  './icons/icon-512.png'
-  // adicione aqui outros assets críticos se quiser (fonts, imgs, etc.)
+  './icons/icon-512.png',
+  './icons/logo.png' // usado no header
 ];
 
 self.addEventListener('install', (event) => {
@@ -33,13 +33,17 @@ self.addEventListener('fetch', (event) => {
     caches.match(req).then((cached) => {
       const fetchPromise = fetch(req)
         .then((networkRes) => {
-          // salva cópia (não bloqueia a resposta)
           const copy = networkRes.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(req, copy)).catch(()=>{});
+          caches.open(CACHE_NAME).then((cache) => cache.put(req, copy)).catch(() => {});
           return networkRes;
         })
-        .catch(() => cached); // offline -> usa cache se existir
+        .catch(() => cached);
       return cached || fetchPromise;
     })
   );
+});
+
+// opcional: permitir atualização imediata se você mandar mensagem 'SKIP_WAITING'
+self.addEventListener('message', (event) => {
+  if (event.data === 'SKIP_WAITING') self.skipWaiting();
 });
