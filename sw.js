@@ -1,49 +1,58 @@
-/* sw.js — PWA cache (stale-while-revalidate) alinhado à versão NOTÍCIAS=20 */
-const CACHE_NAME = 'direito-love-v10-news20';
+const CACHE_NAME = 'dlove-v1';
 const CORE_ASSETS = [
-  './',
-  './index.html',
-  './manifest.json',
-  './icons/icon-192.png',
-  './icons/icon-512.png',
-  './icons/logo.png' // usado no header
+  '/', '/index.html', '/manifest.json',
+  '/icons/logo-menu.png'
 ];
 
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ASSETS))
-  );
+self.addEventListener('install', (e) => {
+  e.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    await cache.addAll(CORE_ASSETS);
+  })());
   self.skipWaiting();
 });
 
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.map((k) => (k === CACHE_NAME ? null : caches.delete(k))))
-    )
-  );
+self.addEventListener('activate', (e) => {
+  e.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys.map(k => k !== CACHE_NAME && caches.delete(k)));
+  })());
   self.clients.claim();
 });
 
-self.addEventListener('fetch', (event) => {
-  const req = event.request;
+// Network-first para HTML; cache-first para estáticos
+self.addEventListener('fetch', (e) => {
+  const req = e.request;
+  const url = new URL(req.url);
   if (req.method !== 'GET') return;
 
-  event.respondWith(
-    caches.match(req).then((cached) => {
-      const fetchPromise = fetch(req)
-        .then((networkRes) => {
-          const copy = networkRes.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(req, copy)).catch(() => {});
-          return networkRes;
-        })
-        .catch(() => cached);
-      return cached || fetchPromise;
-    })
-  );
-});
+  // HTML
+  if (req.headers.get('accept')?.includes('text/html')) {
+    e.respondWith((async () => {
+      try {
+        const fresh = await fetch(req);
+        const cache = await caches.open(CACHE_NAME);
+        cache.put(req, fresh.clone());
+        return fresh;
+      } catch {
+        const cache = await caches.open(CACHE_NAME);
+        return (await cache.match(req)) || (await cache.match('/index.html'));
+      }
+    })());
+    return;
+  }
 
-// opcional: permitir atualização imediata se você mandar mensagem 'SKIP_WAITING'
-self.addEventListener('message', (event) => {
-  if (event.data === 'SKIP_WAITING') self.skipWaiting();
+  // Estáticos
+  e.respondWith((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    const cached = await cache.match(req);
+    if (cached) return cached;
+    try {
+      const fresh = await fetch(req);
+      cache.put(req, fresh.clone());
+      return fresh;
+    } catch {
+      return new Response('', {status: 504});
+    }
+  })());
 });
