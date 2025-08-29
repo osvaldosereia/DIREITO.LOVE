@@ -33,7 +33,7 @@
     .wrap{ max-width:960px; margin:0 auto; padding:28px 16px 96px }
     .top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:18px }
     .brand{ display:flex; align-items:center; gap:12px }
-    .logo{ display:block; width:auto; height:44px; border-radius:10px } /* UMA ÚNICA LOGO PNG */
+    .logo{ display:block; width:auto; height:44px; border-radius:10px } /* única logo PNG */
 
     .tabs{ display:flex; gap:8px; margin:8px 0 18px }
     .tab{ all:unset; border:1px solid var(--border); background:#fff; padding:8px 14px; border-radius:999px; cursor:pointer; font-weight:700 }
@@ -85,7 +85,7 @@
   <div class="wrap">
     <header class="top">
       <div class="brand">
-        <img class="logo" src="./icons/logo.png" alt="direito.love" />
+        <img class="logo" src="./icons/logo-menu.png" alt="direito.love" />
       </div>
       <a class="btn btn-ghost" href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener">Instagram</a>
     </header>
@@ -111,12 +111,11 @@
       </div>
 
       <section id="result" class="result" aria-live="polite">
-        <p class="lead">Criei 4 prompts com as novas regras (Planalto direto e Google News).</p>
+        <p class="lead">Criei 3 prompts com as regras novas (Planalto direto + Google News).</p>
         <div class="copygrid">
           <button class="copy-btn" id="copy-aprender"><span class="lbl">APRENDER</span> <span class="hint">copiar</span></button>
           <button class="copy-btn" id="copy-treinar"><span class="lbl">TREINAR</span> <span class="hint">copiar</span></button>
           <button class="copy-btn" id="copy-noticias"><span class="lbl">NOTÍCIAS</span> <span class="hint">copiar</span></button>
-          <button class="copy-btn" id="copy-casoreal"><span class="lbl">CASO REAL</span> <span class="hint">copiar</span></button>
         </div>
         <div class="divider"></div>
         <div class="again">
@@ -160,44 +159,28 @@
     tabGerar.addEventListener('click', () => selectTab('gerar'));
     tabArq.addEventListener('click', () => selectTab('arquivo'));
 
-    // ===== Helpers =====
+    // ===== Helpers: Google News (linka a própria frase, sem mostrar URL) =====
     const qPlus = (s) => encodeURIComponent(s).replace(/%20/g, '+');
     const makeNewsURL = (frase) => `https://news.google.com/search?q=${qPlus(frase)}`;
 
-    // Pesquisa Google geral (com 3 sites aleatórios — mantido)
-    const SITES_POOL = ['JusBrasil','Jus','JurisWay','Conjur','Âmbito Jurídico','Pergunte Direito','Dicionário Direito','Conteúdo Jurídico','Dicionário Informal','LegJur','Planalto'];
-    function pickSites(n = 3){
-      const arr = [...SITES_POOL];
-      for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; }
-      return arr.slice(0,n);
-    }
-    function makeSearchURL(tema, extras=[], picks=pickSites(3)){
-      const q = [tema, ...picks, ...extras].join(' ').trim();
-      return `https://www.google.com/search?q=${encodeURIComponent(q)}`;
-    }
+    // ===== CTA =====
+    const CTA = `\n\nGere um novo prompt em [direito.love](https://direito.love)`;
 
-    // CTA
-    const CTA = `\n\n**💚 [direito.love](https://direito.love)**`;
-
-    // Regras globais atualizadas
+    // ===== Regras globais =====
     const RegrasGlobais = `
 **Links — regra geral:**
-- Use **Google/Google News** para orientar o leitor às fontes.
+- Use **Google News** para orientar o leitor às fontes.
 - **Exceção obrigatória:** em **Base legal essencial**, traga **link direto do Planalto** para o **artigo/lei exata** (sem Google intermediário).
-- Em buscas do Google News, **a frase pesquisada deve aparecer linkada** (sem exibir URL longa).
+- Na News, **a frase pesquisada deve aparecer linkada** (não exibir URL longa).
 `;
 
     // ===== Templates =====
     const Templates = {
       aprender: (tema) => {
-        const mainSearch = makeSearchURL(tema, ['STJ','STF'], pickSites());
         return `Você é um professor universitário de Direito.
 
 **Objetivo:** explicar **${tema}** com profundidade, de forma didática.
 ${RegrasGlobais}
-
-**🔎 Pesquisa principal (Google):**
-${mainSearch}
 
 ## 🧩 Conceito direto (4–6 linhas)
 
@@ -223,7 +206,7 @@ ${mainSearch}
 
 ## 🔎 Buscas prontas (5)
 Após escrever **Exemplos práticos**, **extraia 5 palavras/expressões** desse trecho e **crie 5 buscas no Google News**, cada uma:
-- **título linkado** com a **própria frase** (não exiba a URL longa);
+- **título linkado** com a **própria frase** (sem exibir URL longa);
 - **objetivo da busca** em 1 linha.
 
 **Formato (exemplo):**
@@ -234,14 +217,10 @@ ${CTA}`;
       },
 
       treinar: (tema) => {
-        const mainSearch = makeSearchURL(tema, ['questões OAB','STJ','STF'], pickSites());
         return `Você é um elaborador de questões para OAB e graduação.
 
 **Tema:** ${tema}
 ${RegrasGlobais}
-
-**🔎 Pesquisa principal (Google):**
-${mainSearch}
 
 ## Questões (1 a 10)
 1. **Q1) Enunciado...**
@@ -257,7 +236,7 @@ ${mainSearch}
       noticias: (tema) => {
         return `Você é um curador de atualidades jurídicas.
 
-**Nova estratégia (NOTÍCIAS):** Com base no tema **${tema}**, **identifique os eixos informacionais mais recorrentes** (jurisprudência recente, PLs, decisões STF/STJ, estatísticas, impacto econômico/social, casos emblemáticos, posições de órgãos, tendências setoriais, etc.) e **crie 10 buscas específicas no Google News** — **todas altamente relevantes** ao tema.
+**Estratégia (NOTÍCIAS):** Com base no tema **${tema}**, **identifique os eixos informacionais mais recorrentes** (jurisprudência recente, PLs, decisões STF/STJ, estatísticas, impacto econômico/social, casos emblemáticos, posições de órgãos, tendências setoriais, etc.) e **crie 20 buscas específicas no Google News** — **todas altamente relevantes** ao tema.
 
 **Regras:**
 - Cada item deve trazer **título da busca linkado** (a **própria frase** linkada para o Google News) + **breve objetivo** (1 linha).
@@ -265,48 +244,17 @@ ${mainSearch}
 - **Não exibir** a URL longa; **linke a frase**.
 - Evite itens redundantes; varie recortes (jurídico, prático, setorial, regional, temporal).
 
-**Formato (10 itens):**
+**Formato (20 itens):**
 1) [<busca muito relevante 1>](https://news.google.com/search?q=<busca+1>) — objetivo em 1 linha.
 2) [<busca muito relevante 2>](https://news.google.com/search?q=<busca+2>) — objetivo em 1 linha.
 ...
-10) [<busca muito relevante 10>](https://news.google.com/search?q=<busca+10>) — objetivo em 1 linha.
-${CTA}`;
-      },
-
-      casoreal: (tema) => {
-        const mainSearch = makeSearchURL(tema, ['caso real','jurisprudência','decisão','2023..2025'], pickSites());
-        return `Você é um analista jurídico. Encontre **até 5 casos reais** sobre **${tema}** (últimos 36 meses).
-
-${RegrasGlobais}
-
-**🔎 Pesquisa principal (Google):**
-${mainSearch}
-
-# Casos reais (até 5)
-1. Título — Data | Site sugerido
-   - Resumo factual (3–4 linhas).
-   - Comentário jurídico (5–6 linhas).
-   - Link (Google — mesmo para todos): ${mainSearch}
-2. ...
-3. ...
-4. ...
-5. ...
-
-## 🔎 Buscas prontas (5)
-Após escrever os **Casos reais**, **extraia 5 palavras/expressões** usadas nesses casos e **crie 5 buscas no Google News**:
-- **título linkado** com a **própria frase** (sem mostrar URL longa);
-- **objetivo** (1 linha).
-
-**Formato (exemplo):**
-- [<frase do caso A>](${makeNewsURL('<frase do caso A>')}) — objetivo em 1 linha.
-- [<frase do caso B>](${makeNewsURL('<frase do caso B>')}) — objetivo em 1 linha.
-- (total 5 itens)
+20) [<busca muito relevante 20>](https://news.google.com/search?q=<busca+20>) — objetivo em 1 linha.
 ${CTA}`;
       }
     };
 
     // ===== Estado & elementos =====
-    let current = { tema:"", prompts:{ aprender:"", treinar:"", noticias:"", casoreal:"" } };
+    let current = { tema:"", prompts:{ aprender:"", treinar:"", noticias:"" } };
     const el = {
       tema: document.getElementById('tema'),
       gerar: document.getElementById('gerar'),
@@ -315,13 +263,12 @@ ${CTA}`;
       copyA: document.getElementById('copy-aprender'),
       copyT: document.getElementById('copy-treinar'),
       copyN: document.getElementById('copy-noticias'),
-      copyC: document.getElementById('copy-casoreal'),
       reset: document.getElementById('reset'),
       book: document.getElementById('book-list')
     };
 
     // ===== Persistência (até 50 entradas) =====
-    const BOOK_KEY = 'book_data_v7_btnreset_planalto_news10';
+    const BOOK_KEY = 'book_data_v9_news20_noCasoReal_noMainSearch';
     function loadBook(){ try { return JSON.parse(localStorage.getItem(BOOK_KEY) || '[]') || []; } catch { return []; } }
     function saveBook(arr){ try { localStorage.setItem(BOOK_KEY, JSON.stringify(arr)); } catch {} }
     function pushEntry(obj){
@@ -361,7 +308,7 @@ ${CTA}`;
     }
 
     function strategyHumanName(k){
-      const map = { aprender:'APRENDER', treinar:'TREINAR', noticias:'NOTÍCIAS', casoreal:'CASO REAL' };
+      const map = { aprender:'APRENDER', treinar:'TREINAR', noticias:'NOTÍCIAS' };
       return map[k] || k;
     }
 
@@ -378,13 +325,11 @@ ${CTA}`;
         current.prompts.aprender  = Templates.aprender(tema);
         current.prompts.treinar   = Templates.treinar(tema);
         current.prompts.noticias  = Templates.noticias(tema);
-        current.prompts.casoreal  = Templates.casoreal(tema);
 
         const ts = Date.now();
         pushEntry({ objetivo: strategyHumanName('aprender'), tema, prompt: current.prompts.aprender,  ts });
         pushEntry({ objetivo: strategyHumanName('treinar'),  tema, prompt: current.prompts.treinar,   ts });
         pushEntry({ objetivo: strategyHumanName('noticias'), tema, prompt: current.prompts.noticias,  ts });
-        pushEntry({ objetivo: strategyHumanName('casoreal'), tema, prompt: current.prompts.casoreal,  ts });
 
         el.thinking.style.display = 'none';
         el.result.style.display = 'block';
@@ -399,7 +344,7 @@ ${CTA}`;
         hint.textContent = 'copiado!'; btn.disabled = true;
         setTimeout(()=>{ hint.textContent = old; btn.disabled = false; }, 1200);
       }catch{
-        const ta = document.createElement('textarea'); ta.value = text; ta.style.position='fixed'; opacity='0';
+        const ta = document.createElement('textarea'); ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
         document.body.appendChild(ta); ta.select();
         try { document.execCommand('copy');
           const hint = btn.querySelector('.hint'); const old = hint.textContent;
@@ -411,7 +356,7 @@ ${CTA}`;
 
     function resetAll(){
       // limpa estado
-      current = { tema:"", prompts:{ aprender:"", treinar:"", noticias:"", casoreal:"" } };
+      current = { tema:"", prompts:{ aprender:"", treinar:"", noticias:"" } };
       el.tema.value = '';
       el.tema.focus();
       el.result.style.display = 'none';
@@ -425,8 +370,7 @@ ${CTA}`;
     document.getElementById('copy-aprender').addEventListener('click', ()=>copy(current.prompts.aprender,  document.getElementById('copy-aprender')));
     document.getElementById('copy-treinar').addEventListener('click', ()=>copy(current.prompts.treinar,   document.getElementById('copy-treinar')));
     document.getElementById('copy-noticias').addEventListener('click',()=>copy(current.prompts.noticias,  document.getElementById('copy-noticias')));
-    document.getElementById('copy-casoreal').addEventListener('click',()=>copy(current.prompts.casoreal,  document.getElementById('copy-casoreal')));
-    document.getElementById('reset').addEventListener('click', resetAll); // ✅ consertado
+    document.getElementById('reset').addEventListener('click', resetAll); // botão consertado
 
     // Inicializa
     selectTab('gerar');
