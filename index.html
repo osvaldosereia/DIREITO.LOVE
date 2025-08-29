@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>direito.love — Estudo 3-em-1</title>
+<meta name="theme-color" content="#ffffff" />
+<link rel="manifest" href="./manifest.json">
+<style>
+  :root{
+    --bg:#ffffff; --panel:#f7f7f8; --input:#ffffff;
+    --text:#0b0c0d; --muted:#6b7280; --border:#d9d9e3;
+    --shadow:0 6px 18px rgba(0,0,0,.08); --radius:14px;
+  }
+  *{ box-sizing:border-box } html,body{ height:100% }
+  body{ margin:0; background:var(--bg); color:var(--text);
+        font: 400 15px/1.6 "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial; }
+
+  /* Top bar: only logo PNG (left) + Instagram (right) */
+  .top{ position:sticky; top:0; z-index:20; background:linear-gradient(180deg,#fff,#f7f7f8);
+        border-bottom:1px solid var(--border); padding:10px 16px; display:flex; align-items:center; justify-content:space-between; }
+  .logo{ height:34px; width:auto; }
+  @media (min-width:520px){ .logo{ height:38px; } }
+  .right-icons{ display:flex; align-items:center; gap:12px }
+  .icon{ width:22px; height:22px; display:inline-block; background:#0b0c0d;
+         -webkit-mask:url('/icons/instagram.png') no-repeat center/contain; mask:url('/icons/instagram.png') no-repeat center/contain; }
+
+  .wrap{ max-width:880px; margin:0 auto; padding:22px 16px 190px }
+
+  /* Chat */
+  .chat{ display:flex; flex-direction:column; gap:10px; background:var(--panel); border:1px solid var(--border);
+         border-radius:var(--radius); padding:16px; box-shadow:var(--shadow); min-height:200px }
+  .msg{ max-width:86%; padding:10px 12px; border:1px solid var(--border);
+        border-radius:12px; background:#fff; }
+  .msg.bot{ align-self:flex-start }
+  .msg.user{ align-self:flex-end }
+  .meta{ color:var(--muted); font-size:12px; margin-top:4px }
+  .typing{ display:inline-flex; gap:4px; align-items:center }
+  .dot{ width:6px; height:6px; border-radius:50%; background:#0b0c0d; opacity:.25; animation:blink 1.2s infinite ease-in-out }
+  .dot:nth-child(2){ animation-delay:.2s } .dot:nth-child(3){ animation-delay:.4s }
+  @keyframes blink{ 0%,80%,100%{ opacity:.2 } 40%{ opacity:1 } }
+
+  /* Composer (only when needed) */
+  .composer{ display:flex; gap:8px; margin-top:8px; flex-wrap:wrap }
+  .field{ flex:1; min-width:200px; background:var(--input); color:var(--text); border:1px solid var(--border);
+          outline:none; padding:10px 12px; border-radius:12px; font-weight:500; }
+  .field::placeholder{ color:#9aa0a6 }
+  .btn{ all:unset; cursor:pointer; user-select:none; padding:10px 12px; border-radius:11px;
+        display:inline-flex; align-items:center; justify-content:center; gap:6px; font-weight:700;
+        transition:transform .08s ease, opacity .2s ease; border:1px solid var(--border); background:#fff; color:#0b0c0d; }
+  .btn:active{ transform:translateY(1px) }
+  .btn.small{ padding:8px 10px; font-size:12px; border-radius:10px }
+  .btn.primary{ background:#0b0c0d; color:#fff; }
+  .btn.ghost{ background:#fff; color:#0b0c0d; }
+
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top:4px }
+  .chip{ all:unset; cursor:pointer; border:1px solid var(--border); background:#fff; color:#0b0c0d;
+         padding:8px 10px; border-radius:999px; font-weight:700; font-size:13px }
+  .chip:active{ transform:translateY(1px) }
+
+  .tabs{ display:flex; gap:8px; margin:12px 0 16px }
+  .tab{ all:unset; cursor:pointer; padding:8px 12px; border:1px solid var(--border); border-radius:999px; font-weight:700; }
+  .tab[aria-selected="true"]{ background:#eef1f4 }
+
+  /* Bottom bar: wider, wraps on small screens */
+  .floatbar{ position:fixed; left:50%; bottom:16px; transform:translateX(-50%); z-index:30; pointer-events:none; width:100%; max-width:680px; }
+  .floatbar .inner{ pointer-events:auto; display:flex; gap:10px; padding:8px; background:#ffffffcc; border:1px solid var(--border);
+                    border-radius:12px; box-shadow:var(--shadow); align-items:center; justify-content:center; backdrop-filter:saturate(140%) blur(4px); flex-wrap:wrap; }
+  .floatbar .btn{ flex:1 1 220px; text-align:center; min-width:160px }
+
+  /* Modal */
+  .sheet{ position:fixed; inset:0; display:none; place-items:center; z-index:50; background:rgba(0,0,0,.35); backdrop-filter:blur(2px) }
+  .sheet .box{ width:min(560px,92vw); background:#fff; color:#0b0c0d; border:1px solid var(--border);
+               border-radius:14px; box-shadow:var(--shadow); padding:16px; text-align:center; }
+  .sheet h4{ margin:0 0 8px; font-size:16px; font-weight:800 }
+  .sheet .actions{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:8px }
+  .sheet .manual{ display:none; margin-top:10px }
+  .sheet textarea{ width:100%; height:160px; border:1px solid var(--border); border-radius:10px; padding:10px; resize:vertical }
+
+  /* Toast */
+  .toast{ position:fixed; z-index:60; left:50%; bottom:120px; transform:translateX(-50%);
+          background:#0b0c0d; color:#fff; padding:8px 10px; border-radius:10px; display:none; font-weight:800; font-size:12px }
+
+  /* Arquivo */
+  .card{ background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:14px; box-shadow:var(--shadow) }
+  .title{ margin:0 0 10px; font-size:18px; font-weight:800 }
+  .entry{ border:1px solid var(--border); border-radius:12px; padding:10px; background:#fff; display:flex; justify-content:space-between; gap:8px; margin-bottom:8px }
+  .muted{ color:var(--muted) }
+</style>
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><img class="logo" src="/icons/logo-heart.png" alt="direito.love" /></div>
+    <div class="right-icons">
+      <a href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram"><i class="icon" aria-hidden="true"></i></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <nav class="tabs" role="tablist" aria-label="Navegação">
+      <button class="tab" id="tab-inicio" aria-controls="panel-inicio" aria-selected="true">Início</button>
+      <button class="tab" id="tab-arquivo" aria-controls="panel-arquivo" aria-selected="false">Arquivo</button>
+    </nav>
+
+    <section id="panel-inicio" role="tabpanel" aria-labelledby="tab-inicio">
+      <div id="chat" class="chat" aria-live="polite"></div>
+    </section>
+
+    <section id="panel-arquivo" role="tabpanel" aria-labelledby="tab-arquivo" hidden>
+      <div class="card">
+        <h2 class="title">Arquivo — prompts copiados</h2>
+        <div id="book" class="muted" style="font-size:14px">Carregando…</div>
+      </div>
+    </section>
+  </main>
+
+  <div class="floatbar">
+    <div class="inner">
+      <button id="btn-arquivo" class="btn small ghost" aria-label="Abrir arquivo">Arquivo</button>
+      <button id="btn-reset" class="btn small primary" aria-label="Nova pesquisa">Nova pesquisa</button>
+    </div>
+  </div>
+
+  <div id="sheet" class="sheet" aria-modal="true" role="dialog" aria-labelledby="sheet-title" aria-describedby="sheet-desc">
+    <div class="box">
+      <h4 id="sheet-title">Prompt Copiado</h4>
+      <div id="sheet-desc" class="muted" style="font-size:13px">Abra a IA de sua preferência e cole o prompt.</div>
+      <div class="actions">
+        <a id="open-ia-modal" class="btn primary" href="#" target="_blank" rel="noopener">Ir para a IA</a>
+        <button id="sheet-close" class="btn ghost">Fechar</button>
+      </div>
+      <div id="manual-wrap" class="manual">
+        <p class="muted" style="margin:10px 0 6px">Falhou o copiar automático? Copie manualmente abaixo.</p>
+        <textarea id="manual-area" readonly></textarea>
+        <div class="actions" style="margin-top:8px">
+          <button id="btn-selectall" class="btn ghost small">Selecionar tudo</button>
+          <button id="btn-copyagain" class="btn primary small">Copiar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">copiei o prompt.</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  /* ===== Refs & state ===== */
+  const chat = document.getElementById('chat');
+  const panelInicio = document.getElementById('panel-inicio');
+  const panelArquivo = document.getElementById('panel-arquivo');
+  const tabInicio = document.getElementById('tab-inicio');
+  const tabArquivo = document.getElementById('tab-arquivo');
+  const btnArquivo = document.getElementById('btn-arquivo');
+  const btnReset = document.getElementById('btn-reset');
+  const sheet = document.getElementById('sheet');
+  const sheetClose = document.getElementById('sheet-close');
+  const openIAModal = document.getElementById('open-ia-modal');
+  const toastEl = document.getElementById('toast');
+  const manualWrap = document.getElementById('manual-wrap');
+  const manualArea = document.getElementById('manual-area');
+  const btnSelectAll = document.getElementById('btn-selectall');
+  const btnCopyAgain = document.getElementById('btn-copyagain');
+
+  let lastFocused = null;
+  let current = { tema:"", lastIA:null, lastPrompt:"" };
+  const BOOK_KEY = 'book_data_v31';
+  const IA_LINKS = { ChatGPT:'https://chatgpt.com/', Gemini:'https://gemini.google.com/', Perplexity:'https://www.perplexity.ai/' };
+
+  /* ===== Utilities ===== */
+  function toast(msg='copiei o prompt.'){ toastEl.textContent=msg; toastEl.style.display='block'; setTimeout(()=>toastEl.style.display='none', 1300); }
+  function escapeHtml(s){ return s.replace(/[&<>"]/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c])); }
+  function waitMs(ms){ return new Promise(res=>setTimeout(res, ms)); }
+  const delay = {
+    long: ()=> 1000 + Math.floor(Math.random()*700),       // 1.0–1.7s
+    mid:  ()=> 700 + Math.floor(Math.random()*500),        // 0.7–1.2s
+    short:()=> 500 + Math.floor(Math.random()*400)         // 0.5–0.9s
+  };
+
+  function addMsg(text, who='bot', html=false){
+    const wrap = document.createElement('div');
+    wrap.className = 'msg '+(who==='user'?'user':'bot');
+    wrap.innerHTML = html ? text : escapeHtml(text).replace(/\n/g,'<br>');
+    chat.appendChild(wrap); chat.scrollTop = chat.scrollHeight;
+    return wrap;
+  }
+  function addTyping(){ // returns remover
+    const wrap = document.createElement('div');
+    wrap.className = 'msg bot';
+    wrap.innerHTML = '<span class="typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>';
+    chat.appendChild(wrap); chat.scrollTop = chat.scrollHeight;
+    return ()=> wrap.remove();
+  }
+
+  function selectTab(which){
+    const ini = which==='inicio';
+    tabInicio.setAttribute('aria-selected', ini);
+    tabArquivo.setAttribute('aria-selected', !ini);
+    panelInicio.hidden = !ini;
+    panelArquivo.hidden = ini;
+    if (!ini) renderArquivo();
+  }
+
+  /* ===== Variations (20+ combos possíveis) ===== */
+  function greetByTime(){
+    const h = new Date().getHours();
+    return (h<6||h>=18)?'boa noite.':'bom '+(h<12?'dia.':'tarde.');
+  }
+  const greetV = [
+    "como você tá? tudo certo?", "vamos destravar seus estudos.", "bora focar no que cai em prova.",
+    "vou te guiar passo a passo.", "meta simples: acertar a prova.", "tô aqui pra acelerar.",
+    "sem rodeio: objetivo é passar.", "conte comigo pra clarear.", "vamo nessa sem enrolar.",
+    "pronto pra começar?"
+  ];
+  const askThemeV = [
+    "sobre o que vamos falar hoje?", "qual é o tema agora?", "manda o tema que eu preparo.",
+    "qual assunto você quer treinar?", "diga o tema com precisão."
+  ];
+  const beSpecificV = [
+    "seja específico: assunto + contexto de prova.", "dica: recorte claro ajuda a IA.",
+    "ex.: dano moral x dano estético na OAB.", "quanto mais preciso, melhor o resultado.",
+    "use formato: tópico + banca/área."
+  ];
+  const explainBeforeGenV = [
+    "você vai copiar um prompt e colar na IA que preferir.", "basta copiar o prompt e colar na sua IA.",
+    "copie o texto e cole na IA que você usa.", "é simples: copie e cole na IA.",
+    "copie aqui e cole na sua IA favorita."
+  ];
+  const explainThreeStagesV = [
+    "a resposta vem em 3 etapas: aprender, treinar e dicas.", "são 3 partes: conceito, questões e dicas.",
+    "estrutura: explicação, simulado e pegadinhas.", "3 passos: aprender, treinar, descobrir.",
+    "vem em três blocos: conteúdo, questões e memorização."
+  ];
+  const readyChooseV = [
+    "pronto. escolha a IA e clique pra copiar.", "feito. selecione a IA para copiar.",
+    "ok. clique na IA preferida pra copiar.", "terminei. toque na IA e copie.",
+    "acabou. escolha uma IA e copie."
+  ];
+
+  /* ===== Start flow with human typing ===== */
+  async function startFlow(){
+    chat.innerHTML=''; // blank screen
+    await waitMs(1000);
+    let rm = addTyping(); await waitMs(1000); rm();
+    addMsg(greetByTime(), 'bot');
+    await waitMs(delay.mid());
+    rm = addTyping(); await waitMs(900); rm();
+    addMsg(greetV[Math.floor(Math.random()*greetV.length)], 'bot');
+    await waitMs(delay.mid());
+    rm = addTyping(); await waitMs(900); rm();
+    addMsg(askThemeV[Math.floor(Math.random()*askThemeV.length)], 'bot');
+    await waitMs(delay.short());
+    rm = addTyping(); await waitMs(800); rm();
+    addMsg(beSpecificV[Math.floor(Math.random()*beSpecificV.length)], 'bot');
+    showComposer();
+  }
+
+  /* ===== Composer ===== */
+  let composerEl=null, inputEl=null, sendBtn=null;
+  function showComposer(){
+    if (composerEl) return;
+    composerEl = document.createElement('div');
+    composerEl.className = 'composer';
+    inputEl = document.createElement('input');
+    inputEl.className='field'; inputEl.placeholder='Digite o tema com precisão…'; inputEl.id='tema';
+    inputEl.setAttribute('enterkeyhint','send'); inputEl.setAttribute('autocomplete','off');
+    sendBtn = document.createElement('button');
+    sendBtn.className='btn primary'; sendBtn.textContent='Enviar'; sendBtn.setAttribute('aria-label','Enviar tema');
+    composerEl.appendChild(inputEl); composerEl.appendChild(sendBtn);
+    chat.appendChild(composerEl); inputEl.focus();
+    sendBtn.addEventListener('click', submitTema);
+    inputEl.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ submitTema(); } });
+    chat.scrollTop = chat.scrollHeight;
+  }
+  function hideComposer(){ if(!composerEl) return; composerEl.remove(); composerEl=null; inputEl=null; sendBtn=null; }
+
+  async function submitTema(){
+    const tema=(inputEl?.value||'').trim();
+    if(!tema){ inputEl?.focus(); return; }
+    addMsg(tema, 'user');
+    current.tema = tema;
+    hideComposer();
+
+    let rm = addTyping(); await waitMs(700); rm();
+    addMsg(explainBeforeGenV[Math.floor(Math.random()*explainBeforeGenV.length)], 'bot');
+    await waitMs(700);
+    rm = addTyping(); await waitMs(800); rm();
+    addMsg(explainThreeStagesV[Math.floor(Math.random()*explainThreeStagesV.length)], 'bot');
+
+    await waitMs(400);
+    rm = addTyping(); await waitMs(2500); rm();
+    addMsg(readyChooseV[Math.floor(Math.random()*readyChooseV.length)], 'bot');
+    renderIAChoices();
+  }
+
+  function renderIAChoices(){
+    const box = document.createElement('div');
+    box.className = 'msg bot';
+    const row = document.createElement('div'); row.className='chips';
+    ['ChatGPT','Gemini','Perplexity'].forEach(ia=>{
+      const b=document.createElement('button'); b.className='chip'; b.textContent=ia;
+      b.addEventListener('click', ()=>onIA(ia)); row.appendChild(b);
+    });
+    box.appendChild(row); chat.appendChild(box); chat.scrollTop = chat.scrollHeight;
+  }
+
+  /* ===== Prompts ===== */
+  function footer(){ return '**💚 [direito.love](https://direito.love)**\nGere um novo prompt em [direito.love](https://direito.love)'; }
+  function pGPT(t){return `Você é um **professor de Direito especializado em preparação para provas, OAB e concursos**, escolhido pelo projeto **direito.love**. Sua missão é conduzir o aluno por uma jornada completa sobre:
+
+**TEMA:**  
+**${t}**
+
+A jornada terá **3 etapas sequenciais**:
+1. Explicação didática (APRENDER)  
+2. Simulado com gabarito (TREINAR)  
+3. Dicas de prova e pegadinhas (DESCOBRIR)
+
+⚠️ Ao final de **cada etapa**, pare e pergunte:  
+➡️ “Quer continuar?”
+
+---
+
+# 📘 ETAPA 1 — APRENDER
+- Explique o conceito em até 6 linhas, focando no que cai na OAB/concursos.  
+- Dê 1–2 exemplos típicos de prova.  
+- Traga o entendimento consolidado do STJ/STF (sem números de processo).  
+- Liste 2–3 pegadinhas clássicas.
+
+👉 Encerrando a etapa:  
+➡️ *“Quer continuar para a etapa de treino?”*
+
+---
+
+# 📝 ETAPA 2 — TREINAR
+- Monte **5 questões objetivas** (4 alternativas, 1 correta).  
+- Linguagem de banca.  
+- **Gabarito comentado no final.**
+
+👉 Encerrando a etapa:  
+➡️ *“Quer ver agora 10 dicas práticas pra acertar mais questões?”*
+
+---
+
+# 🔎 ETAPA 3 — DESCOBRIR
+- Liste **10 dicas de prova**: diferenças sutis, confusões frequentes, palavras-chave e pegadinhas.
+
+${footer()}`;}
+  function pGemini(t){return `Você é um **professor jurídico experiente**, do projeto **direito.love**, e vai ensinar **${t}** em 3 etapas distintas para **provas, OAB e concursos**.
+
+⚠️ Regras de fluxo:
+- Responda **somente a etapa atual**.
+- Ao final de cada etapa, **pergunte se o aluno quer continuar** e **aguarde a resposta**.
+
+---
+
+## 📘 ETAPA 1 — APRENDER
+- Conceito em até 6 linhas (linguagem clara).  
+- Exemplo objetivo estilo OAB.  
+- Posição dominante do STJ/STF (sem REsp/AREsp/nº).  
+- 2 pegadinhas comuns de prova.
+
+👉 Final da etapa. Aguarde com:  
+➡️ *“Deseja continuar para a próxima etapa (treinar)?”*
+
+---
+
+## 📝 ETAPA 2 — TREINAR
+- 5 questões (4 alternativas, 1 correta), estilo banca.  
+- Ao final, **gabarito com comentários curtos**.
+
+👉 Final da etapa. Aguarde com:  
+➡️ *“Vamos para 10 dicas práticas de prova?”*
+
+---
+
+## 🔎 ETAPA 3 — DESCOBRIR
+- 10 dicas úteis para acertar questões (diferenças conceituais, confusões recorrentes, termos de enunciado, erros clássicos).
+
+${footer()}`;}
+  function pPerp(t){return `Você é um professor de Direito para preparar alunos para **OAB e concursos**.
+
+TEMA: **${t}**
+
+Responda por etapas.  
+⚠️ Ao final de cada etapa, pergunte se deseja continuar.  
+Não junte as 3 respostas de uma vez.
+
+---
+
+### 📘 ETAPA 1 — APRENDER
+- Conceito claro (até 6 linhas)  
+- Exemplo objetivo  
+- Entendimento atual do STJ/STF (sem REsp/AREsp)  
+- Pegadinhas comuns
+
+❓ *Quer passar para a próxima etapa (treinar)?*
+
+---
+
+### 📝 ETAPA 2 — TREINAR
+- 5 questões de múltipla escolha, estilo banca  
+- Gabarito no final **com justificativas curtas**
+
+❓ *Vamos para a última etapa (10 dicas de prova)?*
+
+---
+
+### 🔎 ETAPA 3 — DESCOBRIR
+- 10 dicas para acertar questões (erros comuns, confusões, atalhos de memorização).  
+- Seja direto: foco em **acertar a prova**.
+
+${footer()}`;}
+
+  function buildPrompt(ia, tema){
+    if(ia==='ChatGPT') return pGPT(tema);
+    if(ia==='Gemini') return pGemini(tema);
+    if(ia==='Perplexity') return pPerp(tema);
+    return '';
+  }
+
+  /* ===== IA click: copy + modal + chat echo ===== */
+  async function onIA(ia){
+    const prompt = buildPrompt(ia, current.tema);
+    current.lastIA = ia; current.lastPrompt = prompt;
+    try{
+      await navigator.clipboard.writeText(String(prompt||''));
+      pushEntry({ objetivo:'3-em-1', ia, tema: current.tema, prompt, ts: Date.now() });
+      toast('copiei o prompt.');
+      addMsg('✅ prompt copiado. abra a IA e cole.', 'bot');
+      openIAModal.textContent = 'Ir para '+ia;
+      openIAModal.href = IA_LINKS[ia] || '#';
+      openSheet(false);
+    }catch{
+      // Fallback manual
+      pushEntry({ objetivo:'3-em-1', ia, tema: current.tema, prompt, ts: Date.now() });
+      manualArea.value = String(prompt||'');
+      openIAModal.textContent = 'Ir para '+ia;
+      openIAModal.href = IA_LINKS[ia] || '#';
+      openSheet(true);
+    }
+  }
+
+  /* ===== Sheet with focus management & fallback ===== */
+  function openSheet(showManual=false){
+    lastFocused = document.activeElement;
+    manualWrap.style.display = showManual ? 'block' : 'none';
+    sheet.style.display='grid';
+    setTimeout(()=> openIAModal.focus(), 0);
+  }
+  function closeSheet(){
+    sheet.style.display='none';
+    if(lastFocused && lastFocused.focus) setTimeout(()=> lastFocused.focus(), 0);
+  }
+  sheetClose.addEventListener('click', closeSheet);
+  sheet.addEventListener('click', (e)=>{ if(e.target===sheet) closeSheet(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeSheet(); });
+
+  btnSelectAll.addEventListener('click', ()=>{ manualArea.focus(); manualArea.select(); });
+  btnCopyAgain.addEventListener('click', async ()=>{
+    try{ await navigator.clipboard.writeText(String(manualArea.value||'')); toast('copiei o prompt.'); }
+    catch{ /* noop */ }
+  });
+
+  /* ===== Storage / Arquivo ===== */
+  function load(k,fb){ try{ return JSON.parse(localStorage.getItem(k)||JSON.stringify(fb)); }catch{ return fb } }
+  function save(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch{} }
+  function pushEntry(e){ let d=load(BOOK_KEY,[]); d.unshift(e); if(d.length>300) d=d.slice(0,300); save(BOOK_KEY,d); }
+  function renderArquivo(){
+    const box = document.getElementById('book');
+    const data = load(BOOK_KEY, []);
+    if (!data.length){ box.innerHTML = '<span class="muted">Arquivo vazio.</span>'; return; }
+    const html = data.map((it,idx)=>{
+      const dt = new Date(it.ts).toLocaleString();
+      return `<div class="entry">
+        <div><b>${it.ia}</b> • ${escapeHtml(it.tema)}<br><span class="muted">${dt}</span></div>
+        <div style="display:flex;gap:6px">
+          <button class="btn small ghost" data-copy="${idx}">Copiar</button>
+        </div>
+      </div>`;
+    }).join('');
+    box.innerHTML = html;
+    // bind copiar -> mostra modal igual
+    box.querySelectorAll('[data-copy]').forEach(btn=>{
+      btn.addEventListener('click', async ()=>{
+        const i = Number(btn.getAttribute('data-copy'));
+        const it = data[i];
+        try{
+          await navigator.clipboard.writeText(String(it.prompt||''));
+          toast('copiei o prompt.');
+          addMsg('✅ prompt copiado do arquivo.', 'bot');
+          openIAModal.textContent = 'Ir para '+(it.ia||'IA');
+          openIAModal.href = IA_LINKS[it.ia] || '#';
+          manualWrap.style.display='none';
+          openSheet(false);
+        }catch{
+          manualArea.value = String(it.prompt||'');
+          openIAModal.textContent = 'Ir para '+(it.ia||'IA');
+          openIAModal.href = IA_LINKS[it.ia] || '#';
+          openSheet(true);
+        }
+      });
+    });
+  }
+
+  /* ===== Tabs + base buttons ===== */
+  function goInicio(){ selectTab('inicio'); }
+  function goArquivo(){ selectTab('arquivo'); }
+  tabInicio.addEventListener('click', goInicio);
+  tabArquivo.addEventListener('click', goArquivo);
+  btnArquivo.addEventListener('click', goArquivo);
+
+  btnReset.addEventListener('click', ()=>{
+    goInicio();
+    current = { tema:"", lastIA:null, lastPrompt:"" };
+    chat.innerHTML = ''; closeSheet();
+    startFlow();
+    window.scrollTo({ top:0, behavior:'smooth' });
+  });
+
+  /* ===== Offline/online hint ===== */
+  function netHint(){
+    if(!navigator.onLine){
+      addMsg('🛜 sem internet agora. o arquivo ainda funciona.', 'bot');
+    }
+  }
+  window.addEventListener('offline', netHint);
+  netHint();
+
+  /* ===== Start ===== */
+  startFlow();
+
+  /* ===== SW (optional) ===== */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', ()=> navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+  }
+});
+</script>
+</body>
+</html>
