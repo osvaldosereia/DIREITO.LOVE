@@ -10,14 +10,11 @@
   <link rel="manifest" href="./manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
-  <link rel="apple-touch-icon" sizes="192x192" href="./icons/icon-192.png">
-  <link rel="apple-touch-icon" sizes="512x512" href="./icons/icon-512.png">
 
   <style>
     :root{
       --bg:#f6f7fb; --surface:#ffffff; --ink:#0f172a; --muted:#6b7280; --border:#e5e7eb;
-      --primary:#0c4160; --primary-2:#0e567c; --chip:#eef6ff; --success:#0ea5e9;
+      --primary:#0c4160; --primary-2:#0e567c;
       --radius:22px; --elev-1:0 8px 30px rgba(15,23,42,.08);
       --fs-h:clamp(22px,4vw,42px); --fs-b:clamp(14px,1.8vw,16px);
     }
@@ -36,9 +33,7 @@
     .wrap{ max-width:960px; margin:0 auto; padding:28px 16px 96px }
     .top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:18px }
     .brand{ display:flex; align-items:center; gap:12px }
-    .logo{ display:block; width:auto; height:40px; border-radius:10px }
-    @media (min-width:880px){ .logo{ height:48px } }
-    .title-brand{ font-weight:900; letter-spacing:.2px; font-size:22px; line-height:1; color:var(--ink); }
+    .logo{ display:block; width:auto; height:44px; border-radius:10px }
 
     /* Tabs */
     .tabs{ display:flex; gap:8px; margin:8px 0 18px }
@@ -81,16 +76,6 @@
     .divider{ height:1px; background:var(--border); margin:18px 0 }
     .again{ display:flex; justify-content:center; margin-top:16px }
 
-    /* PWA CTA */
-    .install-wrap{ display:flex; justify-content:center; margin:22px 0 8px }
-    .install-cta{
-      background:var(--primary); color:#fff; border-radius:18px; padding:16px 22px;
-      font-size:18px; font-weight:700; box-shadow:0 10px 30px rgba(12,65,96,.18)
-    }
-    .install-cta:hover{ background:var(--primary-2) }
-    .install-cta-wrap{ display:flex; flex-direction:column; align-items:center; gap:6px }
-    .install-note{ color:var(--muted); font-size:14px; text-align:center }
-
     /* IA footer */
     .ai-footer{ padding:18px 0 28px }
     .ai-links{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center }
@@ -100,33 +85,14 @@
       font-size:12px; font-weight:600; opacity:.95; cursor:pointer; transition:opacity .2s
     }
     .ai-link:hover{ opacity:1 }
-    @media (min-width:880px){ .ai-link{ font-size:12.5px } }
-
-    /* Arquivo */
-    .list{ display:grid; gap:10px }
-    .item{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; border:1px solid var(--border); background:#fff; border-radius:14px; padding:12px 14px }
-    .meta{ display:grid; gap:4px; min-width:0 }
-    .obj{ font-weight:700 }
-    .tema{ color:var(--ink) }
-
-    .sr-only{
-      position:absolute !important; width:1px; height:1px; padding:0; margin:-1px;
-      overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
-    }
-
-    @media (min-width:880px){
-      .row{ grid-template-columns:1fr auto }
-      .btn-primary{ padding-left:22px; padding-right:22px }
-      .copygrid{ grid-template-columns:1fr 1fr }
-    }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header class="top">
       <div class="brand">
-        <img class="logo" src="./icons/logo-menu.png" onerror="this.onerror=null;this.src='./icons/icon-192.png'" alt="direito.love" />
-        <span class="title-brand">direito.love</span>
+        <!-- UMA ÚNICA LOGO PNG (sem duplicar nada) -->
+        <img class="logo" src="./icons/logo.png" alt="direito.love" />
       </div>
       <a class="btn btn-ghost" href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener" aria-label="Abrir Instagram do autor">Instagram</a>
     </header>
@@ -142,7 +108,7 @@
       <p class="subtitle">Digite apenas o tema que eu faço a mágica</p>
 
       <div class="row">
-        <input id="tema" class="field" type="text" placeholder="Ex.: Critérios do STJ para fixar dano moral por negativação indevida" aria-label="Tema" />
+        <input id="tema" class="field" type="text" placeholder="Ex.: Dano moral por negativação indevida" aria-label="Tema" />
         <button id="gerar" class="btn btn-primary">GERAR PROMPTS</button>
       </div>
 
@@ -153,7 +119,7 @@
       </div>
 
       <section id="result" class="result" aria-live="polite">
-        <p class="lead">Criei 4 prompts com a nova estratégia (Google com 3 sites sorteados).</p>
+        <p class="lead">Criei 4 prompts com as novas regras (Planalto direto + Google News).</p>
         <div class="copygrid">
           <button class="copy-btn" id="copy-aprender"><span class="lbl">APRENDER</span> <span class="hint">copiar</span></button>
           <button class="copy-btn" id="copy-treinar"><span class="lbl">TREINAR</span> <span class="hint">copiar</span></button>
@@ -167,14 +133,6 @@
       </section>
     </section>
 
-    <!-- CTA de instalação -->
-    <div class="install-wrap">
-      <div class="install-cta-wrap">
-        <button id="btn-install" class="btn install-cta" style="display:none">Instalar app</button>
-        <div id="install-note" class="install-note" style="display:none">Instale para usar offline e abrir mais rápido</div>
-      </div>
-    </div>
-
     <!-- Painel: Arquivo -->
     <section id="panel-arquivo" class="card" role="tabpanel" aria-labelledby="tab-arquivo" hidden>
       <h2 class="title" style="font-size:26px">Arquivo — últimas 50 pesquisas</h2>
@@ -185,17 +143,17 @@
 
   <footer class="ai-footer" aria-label="Ferramentas de IA">
     <div class="ai-links">
-      <a class="ai-link" href="https://chat.openai.com/" target="_blank" rel="noopener" aria-label="Abrir ChatGPT">GPT</a>
-      <a class="ai-link" href="https://gemini.google.com/" target="_blank" rel="noopener" aria-label="Abrir Gemini">Gemini</a>
-      <a class="ai-link" href="https://www.perplexity.ai/" target="_blank" rel="noopener" aria-label="Abrir Perplexity">Perplexity</a>
-      <a class="ai-link" href="https://www.phind.com/" target="_blank" rel="noopener" aria-label="Abrir Phind">Phind</a>
-      <a class="ai-link" href="https://notebooklm.google.com/" target="_blank" rel="noopener" aria-label="Abrir NotebookLM">NotebookLM</a>
-      <a class="ai-link" href="https://consensus.app/" target="_blank" rel="noopener" aria-label="Abrir Consensus">Consensus</a>
+      <a class="ai-link" href="https://chat.openai.com/" target="_blank" rel="noopener">GPT</a>
+      <a class="ai-link" href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a>
+      <a class="ai-link" href="https://www.perplexity.ai/" target="_blank" rel="noopener">Perplexity</a>
+      <a class="ai-link" href="https://www.phind.com/" target="_blank" rel="noopener">Phind</a>
+      <a class="ai-link" href="https://notebooklm.google.com/" target="_blank" rel="noopener">NotebookLM</a>
+      <a class="ai-link" href="https://consensus.app/" target="_blank" rel="noopener">Consensus</a>
     </div>
   </footer>
 
   <script>
-    // ===== Navegação de abas =====
+    // ===== Abas =====
     const tabGerar = document.getElementById('tab-gerar');
     const tabArq = document.getElementById('tab-arquivo');
     const panelGerar = document.getElementById('panel-gerar');
@@ -211,200 +169,169 @@
     tabGerar.addEventListener('click', () => selectTab('gerar'));
     tabArq.addEventListener('click', () => selectTab('arquivo'));
 
-    // ===== Pool fixo (10 sites) — ordem não importa, sortei diferente a cada prompt =====
-    const SITES_POOL = [
-      'JusBrasil',
-      'Jus',
-      'JurisWay',
-      'Conjur',
-      'Âmbito Jurídico',
-      'Pergunte Direito',
-      'Dicionário Direito',
-      'Conteúdo Jurídico',
-      'Dicionário Informal',
-      'LegJur',
-      'Planalto'
-    ];
+    // ===== Helpers de links =====
+    // Google News exige + para espaços (modelo: https://news.google.com/search?q=inteligência+artificial)
+    const qPlus = (s) => encodeURIComponent(s).replace(/%20/g, '+');
+    const makeNewsURL = (frase) => `https://news.google.com/search?q=${qPlus(frase)}`;
 
-    /** Sorteia n itens únicos do pool (Fisher–Yates) */
-    function pickSites(n = 3) {
+    // (mantido) Link de busca geral no Google com 3 sites sorteados — usado como link principal de cada prompt
+    const SITES_POOL = ['JusBrasil','Jus','JurisWay','Conjur','Âmbito Jurídico','Pergunte Direito','Dicionário Direito','Conteúdo Jurídico','Dicionário Informal','LegJur','Planalto'];
+    function pickSites(n = 3){
       const arr = [...SITES_POOL];
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr.slice(0, n);
+      for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; }
+      return arr.slice(0,n);
     }
-
-    /** Monta a URL de busca do Google com <tema> + sites sorteados + extras */
-    function makeSearchURL(tema, extras = [], picks = pickSites(3)) {
+    function makeSearchURL(tema, extras=[], picks=pickSites(3)){
       const q = [tema, ...picks, ...extras].join(' ').trim();
       return `https://www.google.com/search?q=${encodeURIComponent(q)}`;
     }
 
-    // ===== CTA padronizada (mantida) =====
-    const CTA = `\n\nGere um novo prompt em 💚 [direito.love](https://direito.love)`;
+    // 10 Buscas prontas (só para APRENDER e CASO REAL)
+    function makeQuickLinks(tema){
+      const items = [
+        { label:'notícias recentes', kw:'notícias recentes' },
+        { label:'casos famosos', kw:'casos famosos' },
+        { label:'jurisprudência', kw:'jurisprudência' },
+        { label:'acórdãos', kw:'acórdão' },
+        { label:'súmulas', kw:'súmulas' },
+        { label:'enunciados', kw:'enunciados' },
+        { label:'doutrina', kw:'doutrina' },
+        { label:'princípios aplicáveis', kw:'princípios' },
+        { label:'tese repetitiva / tema', kw:'tese repetitiva tema' },
+        { label:'modelos de peças e recursos', kw:'modelo peça recurso' }
+      ];
+      return items.map(({label,kw}) => `- [${label}](${makeNewsURL(`${tema} ${kw}`)})`).join('\n');
+    }
 
-    // ===== Regras Globais (Google-only) =====
+    // 5 buscas diferentes no Google News (para o prompt NOTÍCIAS)
+    function newsCombos(tema){
+      const combos = [
+        { t:`${tema} hoje`, goal:'panorama geral do que saiu agora' },
+        { t:`${tema} decisão STF OR STJ`, goal:'decisões de cortes superiores que impactam o tema' },
+        { t:`${tema} projeto de lei OR PL`, goal:'mudanças legislativas em discussão' },
+        { t:`${tema} caso famoso OR polêmico`, goal:'cobertura de casos de alto impacto' },
+        { t:`${tema} impacto econômico OR social`, goal:'repercussões práticas na sociedade' }
+      ];
+      return combos.map((c,i)=>`${i+1}) [${c.t}](${makeNewsURL(c.t)}) — ${c.goal}`).join('\n');
+    }
+
+    // CTA
+    const CTA = `\n\nGere um novo prompt em [direito.love](https://direito.love)`;
+
+    // Regras globais atualizadas
     const RegrasGlobais = `
-**Estratégia de links — regra geral (vale para TODOS os prompts):**
-- **Somente** utilizar **Google** para localizar conteúdos específicos.
-- O **único link** permitido em qualquer resposta é o **link de busca no Google** no formato:
-  \`https://www.google.com/search?q=tema+nomesite1+nomesite2+nomesite3\`.
-- **Nunca** incluir links diretos para artigos/notícias/leis. **Sempre** apontar para a busca.
-- Para leis (ex.: artigos do Código Civil), inclua **no texto** a orientação "priorize Planalto", mas o **link exibido continua sendo o da busca**.
-- Para jurisprudência/súmulas/precedentes, **valide lendo** o conteúdo localizado na mesma busca; ainda assim, **o link exibido** permanece o da busca.
-
-**Como montar a busca:**
-- Query = \`<tema>\` + **3 sites sorteados** do pool (abaixo) + eventuais termos extras (anos, “STJ/STF”, etc).
-- Pool de sites (10): JusBrasil, Jus, JurisWay, Conjur, Âmbito Jurídico, Pergunte Direito, Dicionário Direito, Conteúdo Jurídico, Dicionário Informal, LegJur, Planalto.
-
-**Validação e honestidade:**
-- Resultados variam por data/local. O leitor deve escolher a **primeira fonte confiável** exibida.
+**Links — regra geral:**
+- Use **Google**/Google News para orientar o leitor às fontes.
+- **Exceção (obrigatória):** em **Base legal essencial**, **link direto** para o **Planalto** no **artigo/lei específico** (sem Google intermediário).
+- Em **📰 Notícias recentes**, a **frase do tema** deve aparecer **linkada** para o **Google News** (modelo de link seguido).
 `;
 
-    // ===== Templates (cada um sorteia 3 sites) =====
+    // ===== Templates =====
     const Templates = {
       aprender: (tema) => {
-        const searchURL = makeSearchURL(tema, ['STJ', 'STF'], pickSites());
-        return `Você é um professor universitário de Direito, com experiência em docência e atuação prática.
+        const mainSearch = makeSearchURL(tema, ['STJ','STF'], pickSites());
+        const newsLink = `[${tema}](${makeNewsURL(tema)})`;
+        const quick = makeQuickLinks(tema);
+        return `Você é um professor universitário de Direito.
 
-Seu papel é ensinar **${tema}** com profundidade, mas de forma didática e acessível para estudantes iniciantes ou intermediários. Nada de resposta rasa ou engessada.
-
-**Estilo de resposta:**
-- Comece **diretamente com o conceito**, sem introduções vazias.
-- Linguagem clara e objetiva, mas com profundidade.
-- Quando houver divergência doutrinária ou jurisprudencial, traga **somente os entendimentos majoritários** (STJ/STF).
-- Conecte a explicação à prática forense: como o tema aparece na advocacia, concursos ou dia a dia jurídico.
+**Objetivo:** explicar **${tema}** com profundidade, didático para iniciantes/intermediários.
 ${RegrasGlobais}
 
-**🔎 Pesquisa no Google (use este link para abrir os resultados):**
-${searchURL}
+**🔎 Pesquisa principal (Google):**
+${mainSearch}
 
-**Formatação obrigatória (em Markdown simples):**
+## 🧩 Conceito direto (4–6 linhas)
 
-## 🧩 Conceito direto (4 a 6 linhas)
 ## 📜 Base legal essencial
-- Cite o(s) artigo(s) e a lei aplicável(s). **Para localizar o texto oficial, priorize “Planalto” na busca acima** (o link continua sendo o da busca do Google).
-- Se aplicável, mencione súmulas/teses (confirme a referência **lendo** um artigo/notícia jurídica encontrada pela mesma busca).
+- Liste o(s) **artigo(s)** e a **lei** pertinente(s) com **link direto do Planalto** ao ponto exato (ex.: art., inciso, parágrafo).
+- Explique conteúdo normativo e aplicação.
+- Ex.: \`art. X da Lei Y — (Planalto: link direto)\`
 
 ## ⚖️ Quadro comparativo
 | Instituto | Quando se aplica | Exemplo rápido |
 |----------|------------------|----------------|
 
-## 🧠 Raciocínio jurídico passo a passo (com exemplo)
-1. Identifique a situação jurídica.
-2. Verifique os pressupostos legais.
-3. Aplique a doutrina majoritária.
-4. Cheque o entendimento do STJ/STF (valide pelo conteúdo encontrado na **mesma busca**).
-5. Aponte consequências práticas.
-6. Indique medidas ou recursos cabíveis.
+## 🧠 Raciocínio jurídico passo a passo
+1. Situação | 2. Pressupostos | 3. Doutrina | 4. STJ/STF | 5. Consequências | 6. Medidas.
 
 ## 💼 Exemplos práticos (3 mini-casos)
-- Simule casos comuns e mostre a aplicação.
 
-## 🧯 Erros comuns (3) + 🧨 Pegadinhas de prova (2)
+## 🧯 Erros comuns (3) + 🧨 Pegadinhas (2)
 
-## ✅ Checklist de prova (5 itens objetivos)
+## ✅ Checklist (5 itens)
 
 ## 📚 Mini glossário (5 termos)
 
-## 📎 Observação sobre fontes
-- **Sempre** utilize a busca acima para localizar o texto do Planalto (leis) e artigos/notícias jurídicas (jurisprudência). **Todos os links exibidos** devem ser **exatamente** o link da busca:  
-${searchURL}
+## 📰 Notícias recentes
+Veja o que saiu agora sobre ${newsLink}.
+
+## 🔎 Buscas prontas
+${quick}
 ${CTA}`;
       },
 
       treinar: (tema) => {
-        const searchURL = makeSearchURL(tema, ['questões OAB', 'STJ', 'STF'], pickSites());
-        return `Você é um elaborador de questões de Direito para treino universitário e OAB.
-
-Parâmetros do treino:
-- Nível: **Intermediário**
-- Quantidade: **10** questões
-
-**Regras:**
-- Use **Markdown simples** (sem HTML).
-- Questões de múltipla escolha (A–D), 1 correta + 3 alternativas plausíveis.
-- Misture: conceito, aplicação prática e interpretação.
-- Pesquise padrões de cobrança e entendimentos **usando apenas a busca do Google abaixo**.
-${RegrasGlobais}
-
-**🔎 Pesquisa no Google (use este link para abrir os resultados):**
-${searchURL}
+        const mainSearch = makeSearchURL(tema, ['questões OAB','STJ','STF'], pickSites());
+        return `Você é um elaborador de questões para OAB e graduação.
 
 **Tema:** ${tema}
+${RegrasGlobais}
 
-**Formato da resposta:**
+**🔎 Pesquisa principal (Google):**
+${mainSearch}
+
 ## Questões (1 a 10)
 1. **Q1) Enunciado...**
-- (linhas em branco)
 ---
 2. **Q2) Enunciado...**
-- (linhas em branco)
 ---
 ... (até Q10)
 
 ## Gabarito Comentado
-- Q1) Letra C — justificativa breve (se mencionar lei ou precedente, valide pelo conteúdo aberto via **${searchURL}**).
-- Q2) Letra A — justificativa breve
-- ...
-
-**Link único para consulta:**  
-${searchURL}
-${CTA}`;
+- Q1) Letra C — justificativa breve (se citar lei/precedente, **link direto Planalto** em Base legal e valide o restante por leitura).${CTA}`;
       },
 
       noticias: (tema) => {
-        const searchURL = makeSearchURL(tema, ['últimos 36 meses'], pickSites());
-        return `Você é um curador de notícias e artigos jurídicos. Pesquise conteúdos dos **últimos 36 meses** relacionados a **${tema}** em **sites jurídicos** (notícias, revistas especializadas, portais acadêmicos/universitários). Evite blogs pessoais sem afiliação.
+        // 5 buscas diferentes no Google News, cada uma linkada e com objetivo
+        const combos = newsCombos(tema);
+        return `Você é um curador de atualidades jurídicas.
 
-Objetivo: entregar **10 achados** de alta relevância, sem duplicatas. **Todos os links exibidos devem ser o mesmo link de busca do Google**.
+**Tarefa:** pegar o tema **${tema}** e criar **5 buscas diferentes** no **Google News**, mudando o foco para achar novas informações. Entregue **título linkado da busca** + **breve objetivo**.
 ${RegrasGlobais}
 
-**🔎 Pesquisa no Google (use este link para abrir os resultados):**
-${searchURL}
+## 🔎 Combinações de busca (Google News)
+${combos}
 
-**Formato da resposta (Markdown):**
-# Achados (até 10)
-1) **Título aproximado** — Data: DD/MM/AAAA | Site sugerido: NOME
-   - Resumo: 2–3 linhas com o núcleo e impacto prático.
-   - Observação: selecione na busca acima a **primeira fonte confiável** (ConJur, Migalhas, JOTA, etc.).
-   - Link (Google — mesmo para todos): ${searchURL}
-
----
-2) ...
----
-10) ...
-
-**Link único para todos os itens:**  
-${searchURL}
-${CTA}`;
+**Formato do link (modelo fiel):** \`https://news.google.com/search?q=inteligência+artificial\`
+(Na resposta, **linke a frase da busca**, não exiba a URL longa.)${CTA}`;
       },
 
       casoreal: (tema) => {
-        const searchURL = makeSearchURL(tema, ['caso real', 'jurisprudência', 'decisão', '2023..2025'], pickSites());
-        return `Você é um analista jurídico. Encontre até **5 casos concretos reais** relacionados ao tema **${tema}**, publicados nos **últimos 36 meses** em sites jurídicos confiáveis (notícias, portais especializados ou acadêmicos). **Todos os links exibidos devem ser o mesmo link de busca do Google**.
+        const mainSearch = makeSearchURL(tema, ['caso real','jurisprudência','decisão','2023..2025'], pickSites());
+        const newsLink = `[${tema}](${makeNewsURL(tema)})`;
+        const quick = makeQuickLinks(tema);
+        return `Você é um analista jurídico. Encontre **até 5 casos reais** sobre **${tema}** (últimos 36 meses).
 
-**Objetivo:** mostrar o tema em ação, com decisões, julgamentos ou polêmicas reais.
 ${RegrasGlobais}
 
-**🔎 Pesquisa no Google (use este link para abrir os resultados):**
-${searchURL}
+**🔎 Pesquisa principal (Google):**
+${mainSearch}
 
-**Formato (Markdown):**
-# Casos reais encontrados (até 5)
-1. Título aproximado — Data: DD/MM/AAAA | Site sugerido: NOME
+# Casos reais (até 5)
+1. Título — Data | Site sugerido
    - Resumo factual (3–4 linhas).
-   - Comentário jurídico: relacione com "${tema}" (5–6 linhas).
-   - Link (Google — mesmo para todos): ${searchURL}
+   - Comentário jurídico (5–6 linhas).
+   - Link (Google — mesmo para todos): ${mainSearch}
 2. ...
 3. ...
 4. ...
 5. ...
 
-**Nota:** escolha na busca acima a **primeira fonte confiável** e valide as informações lendo o conteúdo.
-**Link único (para todos os casos):** ${searchURL}
+## 📰 Notícias recentes
+Veja o que saiu agora sobre ${newsLink}.
+
+## 🔎 Buscas prontas
+${quick}
 ${CTA}`;
       }
     };
@@ -425,7 +352,7 @@ ${CTA}`;
     };
 
     // ===== Persistência (até 50 entradas) =====
-    const BOOK_KEY = 'book_data_v4_google_random3';
+    const BOOK_KEY = 'book_data_v6_newslinks_planalto';
     function loadBook(){ try { return JSON.parse(localStorage.getItem(BOOK_KEY) || '[]') || []; } catch { return []; } }
     function saveBook(arr){ try { localStorage.setItem(BOOK_KEY, JSON.stringify(arr)); } catch {} }
     function pushEntry(obj){
@@ -499,23 +426,17 @@ ${CTA}`;
     async function copy(text, btn){
       try{
         await navigator.clipboard.writeText(text);
-        const hint = btn.querySelector('.hint');
-        const old = hint.textContent;
-        hint.textContent = 'copiado!';
-        btn.disabled = true;
+        const hint = btn.querySelector('.hint'); const old = hint.textContent;
+        hint.textContent = 'copiado!'; btn.disabled = true;
         setTimeout(()=>{ hint.textContent = old; btn.disabled = false; }, 1200);
       }catch{
         const ta = document.createElement('textarea'); ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
         document.body.appendChild(ta); ta.select();
-        try {
-          document.execCommand('copy');
+        try { document.execCommand('copy');
           const hint = btn.querySelector('.hint'); const old = hint.textContent;
           hint.textContent = 'copiado!'; setTimeout(()=>hint.textContent=old,1200);
-        } catch {
-          alert('Não foi possível copiar.');
-        } finally {
-          document.body.removeChild(ta);
-        }
+        } catch { alert('Não foi possível copiar.'); }
+        finally { document.body.removeChild(ta); }
       }
     }
 
@@ -532,46 +453,14 @@ ${CTA}`;
     document.getElementById('copy-treinar').addEventListener('click', ()=>copy(current.prompts.treinar,   document.getElementById('copy-treinar')));
     document.getElementById('copy-noticias').addEventListener('click',()=>copy(current.prompts.noticias,  document.getElementById('copy-noticias')));
     document.getElementById('copy-casoreal').addEventListener('click',()=>copy(current.prompts.casoreal,  document.getElementById('copy-casoreal')));
-    document.getElementById('reset').addEventListener('click', resetAll);
 
     // Inicializa
     selectTab('gerar');
 
-    // ===== PWA: Service Worker + Instalação =====
+    // PWA SW
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(()=>{});
-      });
+      window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(()=>{}); });
     }
-    let deferredPrompt = null;
-    const installBtn = document.getElementById('btn-install');
-    const installNote = document.getElementById('install-note');
-
-    window.addEventListener('beforeinstallprompt', (e)=>{
-      e.preventDefault();
-      deferredPrompt = e;
-      if(installBtn) installBtn.style.display = 'inline-flex';
-      if(installNote) installNote.style.display = 'block';
-    });
-
-    installBtn?.addEventListener('click', async ()=>{
-      try{
-        if(!deferredPrompt) return;
-        installBtn.disabled = true;
-        deferredPrompt.prompt();
-        await deferredPrompt.userChoice;
-        deferredPrompt = null;
-      } finally {
-        installBtn.disabled = false;
-        installBtn.style.display = 'none';
-        if(installNote) installNote.style.display = 'none';
-      }
-    });
-
-    window.addEventListener('appinstalled', ()=>{
-      if(installBtn) installBtn.style.display = 'none';
-      if(installNote) installNote.style.display = 'none';
-    });
   </script>
 </body>
 </html>
