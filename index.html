@@ -33,9 +33,8 @@
     .wrap{ max-width:960px; margin:0 auto; padding:28px 16px 96px }
     .top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:18px }
     .brand{ display:flex; align-items:center; gap:12px }
-    .logo{ display:block; width:auto; height:44px; border-radius:10px }
+    .logo{ display:block; width:auto; height:44px; border-radius:10px } /* UMA ÚNICA LOGO PNG */
 
-    /* Tabs */
     .tabs{ display:flex; gap:8px; margin:8px 0 18px }
     .tab{ all:unset; border:1px solid var(--border); background:#fff; padding:8px 14px; border-radius:999px; cursor:pointer; font-weight:700 }
     .tab[aria-selected="true"]{ background:var(--primary); color:#fff; border-color:transparent }
@@ -54,7 +53,7 @@
     .btn{ all:unset; display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 16px; border-radius:14px; font-weight:700; cursor:pointer }
     .btn-primary{ background:var(--primary); color:#fff }
     .btn-primary:hover{ background:var(--primary-2) }
-    .btn-ghost{ border:1px solid var(--border); background:#fff; color:var(--ink) }
+    .btn-ghost{ border:1px solid var(--border); background:#fff; color:#0f172a }
 
     .thinking{ display:none; align-items:center; gap:10px; margin-top:16px; color:#0a2430 }
     .dot{ width:8px; height:8px; border-radius:999px; background:var(--primary); opacity:.6; animation:bounce .9s infinite }
@@ -76,14 +75,9 @@
     .divider{ height:1px; background:var(--border); margin:18px 0 }
     .again{ display:flex; justify-content:center; margin-top:16px }
 
-    /* IA footer */
     .ai-footer{ padding:18px 0 28px }
     .ai-links{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center }
-    .ai-link{
-      all:unset; display:inline-flex; align-items:center; justify-content:center;
-      background:var(--primary); color:#fff; padding:6px 10px; border-radius:999px;
-      font-size:12px; font-weight:600; opacity:.95; cursor:pointer; transition:opacity .2s
-    }
+    .ai-link{ all:unset; display:inline-flex; align-items:center; justify-content:center; background:var(--primary); color:#fff; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:600; opacity:.95; cursor:pointer; transition:opacity .2s }
     .ai-link:hover{ opacity:1 }
   </style>
 </head>
@@ -91,10 +85,9 @@
   <div class="wrap">
     <header class="top">
       <div class="brand">
-        <!-- UMA ÚNICA LOGO PNG (sem duplicar nada) -->
-        <img class="logo" src="./icons/logo-menu.png" alt="direito.love" />
+        <img class="logo" src="./icons/logo.png" alt="direito.love" />
       </div>
-      <a class="btn btn-ghost" href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener" aria-label="Abrir Instagram do autor">Instagram</a>
+      <a class="btn btn-ghost" href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener">Instagram</a>
     </header>
 
     <nav class="tabs" role="tablist" aria-label="Navegação">
@@ -102,7 +95,6 @@
       <button class="tab" id="tab-arquivo" aria-controls="panel-arquivo" aria-selected="false">Arquivo</button>
     </nav>
 
-    <!-- Painel: Gerar -->
     <section id="panel-gerar" class="card" role="tabpanel" aria-labelledby="tab-gerar">
       <h1 class="title">Gerar Prompts</h1>
       <p class="subtitle">Digite apenas o tema que eu faço a mágica</p>
@@ -119,7 +111,7 @@
       </div>
 
       <section id="result" class="result" aria-live="polite">
-        <p class="lead">Criei 4 prompts com as novas regras (Planalto direto + Google News).</p>
+        <p class="lead">Criei 4 prompts com as novas regras (Planalto direto e Google News).</p>
         <div class="copygrid">
           <button class="copy-btn" id="copy-aprender"><span class="lbl">APRENDER</span> <span class="hint">copiar</span></button>
           <button class="copy-btn" id="copy-treinar"><span class="lbl">TREINAR</span> <span class="hint">copiar</span></button>
@@ -128,12 +120,11 @@
         </div>
         <div class="divider"></div>
         <div class="again">
-          <button id="reset" class="btn btn-primary">Nova Pesquisa</button>
+          <button id="reset" type="button" class="btn btn-primary">Nova Pesquisa</button>
         </div>
       </section>
     </section>
 
-    <!-- Painel: Arquivo -->
     <section id="panel-arquivo" class="card" role="tabpanel" aria-labelledby="tab-arquivo" hidden>
       <h2 class="title" style="font-size:26px">Arquivo — últimas 50 pesquisas</h2>
       <p class="subtitle">Clique em "Copiar" para enviar o prompt ao clipboard.</p>
@@ -169,12 +160,11 @@
     tabGerar.addEventListener('click', () => selectTab('gerar'));
     tabArq.addEventListener('click', () => selectTab('arquivo'));
 
-    // ===== Helpers de links =====
-    // Google News exige + para espaços (modelo: https://news.google.com/search?q=inteligência+artificial)
+    // ===== Helpers =====
     const qPlus = (s) => encodeURIComponent(s).replace(/%20/g, '+');
     const makeNewsURL = (frase) => `https://news.google.com/search?q=${qPlus(frase)}`;
 
-    // (mantido) Link de busca geral no Google com 3 sites sorteados — usado como link principal de cada prompt
+    // Pesquisa Google geral (com 3 sites aleatórios — mantido)
     const SITES_POOL = ['JusBrasil','Jus','JurisWay','Conjur','Âmbito Jurídico','Pergunte Direito','Dicionário Direito','Conteúdo Jurídico','Dicionário Informal','LegJur','Planalto'];
     function pickSites(n = 3){
       const arr = [...SITES_POOL];
@@ -186,55 +176,24 @@
       return `https://www.google.com/search?q=${encodeURIComponent(q)}`;
     }
 
-    // 10 Buscas prontas (só para APRENDER e CASO REAL)
-    function makeQuickLinks(tema){
-      const items = [
-        { label:'notícias recentes', kw:'notícias recentes' },
-        { label:'casos famosos', kw:'casos famosos' },
-        { label:'jurisprudência', kw:'jurisprudência' },
-        { label:'acórdãos', kw:'acórdão' },
-        { label:'súmulas', kw:'súmulas' },
-        { label:'enunciados', kw:'enunciados' },
-        { label:'doutrina', kw:'doutrina' },
-        { label:'princípios aplicáveis', kw:'princípios' },
-        { label:'tese repetitiva / tema', kw:'tese repetitiva tema' },
-        { label:'modelos de peças e recursos', kw:'modelo peça recurso' }
-      ];
-      return items.map(({label,kw}) => `- [${label}](${makeNewsURL(`${tema} ${kw}`)})`).join('\n');
-    }
-
-    // 5 buscas diferentes no Google News (para o prompt NOTÍCIAS)
-    function newsCombos(tema){
-      const combos = [
-        { t:`${tema} hoje`, goal:'panorama geral do que saiu agora' },
-        { t:`${tema} decisão STF OR STJ`, goal:'decisões de cortes superiores que impactam o tema' },
-        { t:`${tema} projeto de lei OR PL`, goal:'mudanças legislativas em discussão' },
-        { t:`${tema} caso famoso OR polêmico`, goal:'cobertura de casos de alto impacto' },
-        { t:`${tema} impacto econômico OR social`, goal:'repercussões práticas na sociedade' }
-      ];
-      return combos.map((c,i)=>`${i+1}) [${c.t}](${makeNewsURL(c.t)}) — ${c.goal}`).join('\n');
-    }
-
     // CTA
     const CTA = `\n\nGere um novo prompt em [direito.love](https://direito.love)`;
 
     // Regras globais atualizadas
     const RegrasGlobais = `
 **Links — regra geral:**
-- Use **Google**/Google News para orientar o leitor às fontes.
-- **Exceção (obrigatória):** em **Base legal essencial**, **link direto** para o **Planalto** no **artigo/lei específico** (sem Google intermediário).
-- Em **📰 Notícias recentes**, a **frase do tema** deve aparecer **linkada** para o **Google News** (modelo de link seguido).
+- Use **Google/Google News** para orientar o leitor às fontes.
+- **Exceção obrigatória:** em **Base legal essencial**, traga **link direto do Planalto** para o **artigo/lei exata** (sem Google intermediário).
+- Em buscas do Google News, **a frase pesquisada deve aparecer linkada** (sem exibir URL longa).
 `;
 
     // ===== Templates =====
     const Templates = {
       aprender: (tema) => {
         const mainSearch = makeSearchURL(tema, ['STJ','STF'], pickSites());
-        const newsLink = `[${tema}](${makeNewsURL(tema)})`;
-        const quick = makeQuickLinks(tema);
         return `Você é um professor universitário de Direito.
 
-**Objetivo:** explicar **${tema}** com profundidade, didático para iniciantes/intermediários.
+**Objetivo:** explicar **${tema}** com profundidade, de forma didática.
 ${RegrasGlobais}
 
 **🔎 Pesquisa principal (Google):**
@@ -243,9 +202,9 @@ ${mainSearch}
 ## 🧩 Conceito direto (4–6 linhas)
 
 ## 📜 Base legal essencial
-- Liste o(s) **artigo(s)** e a **lei** pertinente(s) com **link direto do Planalto** ao ponto exato (ex.: art., inciso, parágrafo).
+- Liste **artigo(s)** e **lei(s)** pertinentes com **link direto para o Planalto** na **seção exata** (artigo, inciso, §).
 - Explique conteúdo normativo e aplicação.
-- Ex.: \`art. X da Lei Y — (Planalto: link direto)\`
+- Formato esperado: \`art. X da Lei Y — (Planalto: link direto)\`
 
 ## ⚖️ Quadro comparativo
 | Instituto | Quando se aplica | Exemplo rápido |
@@ -262,11 +221,15 @@ ${mainSearch}
 
 ## 📚 Mini glossário (5 termos)
 
-## 📰 Notícias recentes
-Veja o que saiu agora sobre ${newsLink}.
+## 🔎 Buscas prontas (5)
+Após escrever **Exemplos práticos**, **extraia 5 palavras/expressões** desse trecho e **crie 5 buscas no Google News**, cada uma:
+- **título linkado** com a **própria frase** (não exiba a URL longa);
+- **objetivo da busca** em 1 linha.
 
-## 🔎 Buscas prontas
-${quick}
+**Formato (exemplo):**
+- [<frase extraída A>](${makeNewsURL('<frase extraída A>')}) — objetivo em 1 linha.
+- [<frase extraída B>](${makeNewsURL('<frase extraída B>')}) — objetivo em 1 linha.
+- (total 5 itens)
 ${CTA}`;
       },
 
@@ -288,28 +251,30 @@ ${mainSearch}
 ... (até Q10)
 
 ## Gabarito Comentado
-- Q1) Letra C — justificativa breve (se citar lei/precedente, **link direto Planalto** em Base legal e valide o restante por leitura).${CTA}`;
+- Q1) Letra C — justificativa breve (se citar lei/precedente, **use link direto do Planalto** em Base legal e valide o restante por leitura).${CTA}`;
       },
 
       noticias: (tema) => {
-        // 5 buscas diferentes no Google News, cada uma linkada e com objetivo
-        const combos = newsCombos(tema);
         return `Você é um curador de atualidades jurídicas.
 
-**Tarefa:** pegar o tema **${tema}** e criar **5 buscas diferentes** no **Google News**, mudando o foco para achar novas informações. Entregue **título linkado da busca** + **breve objetivo**.
-${RegrasGlobais}
+**Nova estratégia (NOTÍCIAS):** Com base no tema **${tema}**, **identifique os eixos informacionais mais recorrentes** (jurisprudência recente, PLs, decisões STF/STJ, estatísticas, impacto econômico/social, casos emblemáticos, posições de órgãos, tendências setoriais, etc.) e **crie 10 buscas específicas no Google News** — **todas altamente relevantes** ao tema.
 
-## 🔎 Combinações de busca (Google News)
-${combos}
+**Regras:**
+- Cada item deve trazer **título da busca linkado** (a **própria frase** linkada para o Google News) + **breve objetivo** (1 linha).
+- Siga o **modelo de link**: \`https://news.google.com/search?q=inteligência+artificial\`.
+- **Não exibir** a URL longa; **linke a frase**.
+- Evite itens redundantes; varie recortes (jurídico, prático, setorial, regional, temporal).
 
-**Formato do link (modelo fiel):** \`https://news.google.com/search?q=inteligência+artificial\`
-(Na resposta, **linke a frase da busca**, não exiba a URL longa.)${CTA}`;
+**Formato (10 itens):**
+1) [<busca muito relevante 1>](https://news.google.com/search?q=<busca+1>) — objetivo em 1 linha.
+2) [<busca muito relevante 2>](https://news.google.com/search?q=<busca+2>) — objetivo em 1 linha.
+...
+10) [<busca muito relevante 10>](https://news.google.com/search?q=<busca+10>) — objetivo em 1 linha.
+${CTA}`;
       },
 
       casoreal: (tema) => {
         const mainSearch = makeSearchURL(tema, ['caso real','jurisprudência','decisão','2023..2025'], pickSites());
-        const newsLink = `[${tema}](${makeNewsURL(tema)})`;
-        const quick = makeQuickLinks(tema);
         return `Você é um analista jurídico. Encontre **até 5 casos reais** sobre **${tema}** (últimos 36 meses).
 
 ${RegrasGlobais}
@@ -327,11 +292,15 @@ ${mainSearch}
 4. ...
 5. ...
 
-## 📰 Notícias recentes
-Veja o que saiu agora sobre ${newsLink}.
+## 🔎 Buscas prontas (5)
+Após escrever os **Casos reais**, **extraia 5 palavras/expressões** usadas nesses casos e **crie 5 buscas no Google News**:
+- **título linkado** com a **própria frase** (sem mostrar URL longa);
+- **objetivo** (1 linha).
 
-## 🔎 Buscas prontas
-${quick}
+**Formato (exemplo):**
+- [<frase do caso A>](${makeNewsURL('<frase do caso A>')}) — objetivo em 1 linha.
+- [<frase do caso B>](${makeNewsURL('<frase do caso B>')}) — objetivo em 1 linha.
+- (total 5 itens)
 ${CTA}`;
       }
     };
@@ -352,7 +321,7 @@ ${CTA}`;
     };
 
     // ===== Persistência (até 50 entradas) =====
-    const BOOK_KEY = 'book_data_v6_newslinks_planalto';
+    const BOOK_KEY = 'book_data_v7_btnreset_planalto_news10';
     function loadBook(){ try { return JSON.parse(localStorage.getItem(BOOK_KEY) || '[]') || []; } catch { return []; } }
     function saveBook(arr){ try { localStorage.setItem(BOOK_KEY, JSON.stringify(arr)); } catch {} }
     function pushEntry(obj){
@@ -430,7 +399,7 @@ ${CTA}`;
         hint.textContent = 'copiado!'; btn.disabled = true;
         setTimeout(()=>{ hint.textContent = old; btn.disabled = false; }, 1200);
       }catch{
-        const ta = document.createElement('textarea'); ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+        const ta = document.createElement('textarea'); ta.value = text; ta.style.position='fixed'; opacity='0';
         document.body.appendChild(ta); ta.select();
         try { document.execCommand('copy');
           const hint = btn.querySelector('.hint'); const old = hint.textContent;
@@ -441,18 +410,23 @@ ${CTA}`;
     }
 
     function resetAll(){
-      el.tema.value = ''; el.tema.focus();
+      // limpa estado
+      current = { tema:"", prompts:{ aprender:"", treinar:"", noticias:"", casoreal:"" } };
+      el.tema.value = '';
+      el.tema.focus();
       el.result.style.display = 'none';
       el.thinking.style.display = 'none';
+      el.gerar.disabled = false;
     }
 
-    // Listeners
+    // ===== Listeners =====
     document.getElementById('gerar').addEventListener('click', genAll);
     document.getElementById('tema').addEventListener('keydown', (e)=>{ if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='enter') genAll(); });
     document.getElementById('copy-aprender').addEventListener('click', ()=>copy(current.prompts.aprender,  document.getElementById('copy-aprender')));
     document.getElementById('copy-treinar').addEventListener('click', ()=>copy(current.prompts.treinar,   document.getElementById('copy-treinar')));
     document.getElementById('copy-noticias').addEventListener('click',()=>copy(current.prompts.noticias,  document.getElementById('copy-noticias')));
     document.getElementById('copy-casoreal').addEventListener('click',()=>copy(current.prompts.casoreal,  document.getElementById('copy-casoreal')));
+    document.getElementById('reset').addEventListener('click', resetAll); // ✅ consertado
 
     // Inicializa
     selectTab('gerar');
