@@ -1,48 +1,45 @@
-// sw.js — PWA mínimo com atualização simples
-const CACHE = "dlove-v1";
-const ASSETS = [
-  "./",
-  "./index.html",
-  "./manifest.json",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png"
+/* sw.js — cache básico com estratégia stale-while-revalidate */
+const CACHE_NAME = 'direito-love-v4-google-rand3';
+const CORE_ASSETS = [
+  './',
+  './index.html',
+  './manifest.json',
+  './icons/icon-192.png',
+  './icons/icon-512.png'
+  // se quiser, adicione aqui outros assets críticos (fonts, imagens, etc.)
 ];
 
-// instala e faz cache básico
-self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)));
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ASSETS))
+  );
   self.skipWaiting();
 });
 
-// ativa e limpa caches antigos
-self.addEventListener("activate", (e) => {
-  e.waitUntil(
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+      Promise.all(keys.map((k) => (k === CACHE_NAME ? null : caches.delete(k))))
     )
   );
   self.clients.claim();
 });
 
-// network-first com fallback ao cache para html; cache-first p/ estáticos
-self.addEventListener("fetch", (e) => {
-  const { request } = e;
-  const isHTML = request.destination === "document" || request.headers.get("accept")?.includes("text/html");
-  if (isHTML) {
-    e.respondWith(
-      fetch(request).then((res) => {
-        const clone = res.clone();
-        caches.open(CACHE).then((c) => c.put(request, clone));
-        return res;
-      }).catch(() => caches.match(request).then((res) => res || caches.match("./")))
-    );
-  } else {
-    e.respondWith(
-      caches.match(request).then((res) => res || fetch(request).then((res) => {
-        const clone = res.clone();
-        caches.open(CACHE).then((c) => c.put(request, clone));
-        return res;
-      }))
-    );
-  }
+self.addEventListener('fetch', (event) => {
+  const req = event.request;
+  if (req.method !== 'GET') return;
+
+  event.respondWith(
+    caches.match(req).then((cached) => {
+      const fetchPromise = fetch(req)
+        .then((networkRes) => {
+          // salva uma cópia em cache (não bloqueia resposta)
+          const copy = networkRes.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(req, copy)).catch(()=>{});
+          return networkRes;
+        })
+        .catch(() => cached); // offline → usa cache se existir
+      return cached || fetchPromise;
+    })
+  );
 });
