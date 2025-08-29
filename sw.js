@@ -1,31 +1,37 @@
-const CACHE_NAME = 'dlove-v7';
-const CORE_ASSETS = ['/', '/index.html', '/manifest.json',
-'/icons/icon-192.png','/icons/icon-512.png','/icons/logo-heart.png','/icons/instagram.png','/icons/info.png'];
+const CACHE = 'dl-v1';
+const STATIC = [
+  '/', '/index.html', '/manifest.json',
+  '/icons/logo-heart.png', '/icons/instagram.png'
+];
 
 self.addEventListener('install', e=>{
-  e.waitUntil((async()=>{ const c=await caches.open(CACHE_NAME); await c.addAll(CORE_ASSETS); })());
-  self.skipWaiting();
+  e.waitUntil(caches.open(CACHE).then(c=>c.addAll(STATIC)));
 });
 
 self.addEventListener('activate', e=>{
-  e.waitUntil((async()=>{
-    const ks=await caches.keys();
-    await Promise.all(ks.map(k=>k!==CACHE_NAME && caches.delete(k)));
-    const cls = await self.clients.matchAll({type:'window'});
-    cls.forEach(c=>c.postMessage({type:'SW_ACTIVATED'}));
-  })());
-  self.clients.claim();
+  e.waitUntil(caches.keys().then(keys=>Promise.all(
+    keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))
+  )));
 });
 
 self.addEventListener('fetch', e=>{
-  const r=e.request; if(r.method!=='GET') return;
-  const a=r.headers.get('accept')||''; const isHTML=a.includes('text/html');
-  if(isHTML){
-    e.respondWith((async()=>{
-      try{ const f=await fetch(r); const c=await caches.open(CACHE_NAME); c.put(r,f.clone()); return f; }
-      catch{ const c=await caches.open(CACHE_NAME); return (await c.match(r))||(await c.match('/index.html')); }
-    })());
-    return;
+  const req = e.request;
+  const isHTML = req.headers.get('accept')?.includes('text/html');
+  if (isHTML) {
+    e.respondWith(
+      fetch(req).then(res=>{
+        const copy = res.clone();
+        caches.open(CACHE).then(c=>c.put(req, copy));
+        return res;
+      }).catch(()=> caches.match(req).then(r=>r || caches.match('/index.html')))
+    );
+  } else {
+    e.respondWith(
+      caches.match(req).then(r=> r || fetch(req).then(res=>{
+        const copy = res.clone();
+        caches.open(CACHE).then(c=>c.put(req, copy));
+        return res;
+      }))
+    );
   }
-  e.respondWith((async()=>{ const c=await caches.open(CACHE_NAME); const m=await c.match(r); if(m) return m; try{ const f=await fetch(r); c.put(r,f.clone()); return f; }catch{ return new Response('',{status:504}); } })());
 });
