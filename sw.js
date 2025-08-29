@@ -1,7 +1,7 @@
-const CACHE_NAME = 'dlove-v1';
+const CACHE_NAME = 'dlove-v2';
 const CORE_ASSETS = [
   '/', '/index.html', '/manifest.json',
-  '/icons/logo-menu.png'
+  '/icons/icon-192.png', '/icons/icon-512.png', '/icons/logo-menu.png'
 ];
 
 self.addEventListener('install', (e) => {
@@ -20,14 +20,15 @@ self.addEventListener('activate', (e) => {
   self.clients.claim();
 });
 
-// Network-first para HTML; cache-first para estáticos
+// Network-first p/ HTML; cache-first p/ estáticos
 self.addEventListener('fetch', (e) => {
   const req = e.request;
-  const url = new URL(req.url);
   if (req.method !== 'GET') return;
 
-  // HTML
-  if (req.headers.get('accept')?.includes('text/html')) {
+  const accept = req.headers.get('accept') || '';
+  const isHTML = accept.includes('text/html');
+
+  if (isHTML) {
     e.respondWith((async () => {
       try {
         const fresh = await fetch(req);
@@ -42,7 +43,6 @@ self.addEventListener('fetch', (e) => {
     return;
   }
 
-  // Estáticos
   e.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
     const cached = await cache.match(req);
@@ -52,7 +52,7 @@ self.addEventListener('fetch', (e) => {
       cache.put(req, fresh.clone());
       return fresh;
     } catch {
-      return new Response('', {status: 504});
+      return new Response('', { status: 504 });
     }
   })());
 });
