@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>direito.love — Gerar Prompts</title>
   <meta name="theme-color" content="#0c4160" />
+
   <!-- PWA -->
   <link rel="manifest" href="./manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -12,124 +13,111 @@
   <link rel="apple-touch-icon" href="./icons/icon-192.png" />
   <link rel="apple-touch-icon" sizes="192x192" href="./icons/icon-192.png">
   <link rel="apple-touch-icon" sizes="512x512" href="./icons/icon-512.png">
+
   <style>
-    :root {
-      --bg: #f6f7fb;
-      --surface: #ffffff;
-      --ink: #0f172a;
-      --muted: #6b7280;
-      --border: #e5e7eb;
-      --primary: #0c4160;
-      --primary-2: #0e567c;
-      --chip: #eef6ff;
-      --success: #0ea5e9;
-      --radius: 22px;
-      --elev-1: 0 8px 30px rgba(15, 23, 42, .08);
-      --fs-h: clamp(22px, 4vw, 42px);
-      --fs-b: clamp(14px, 1.8vw, 16px);
+    :root{
+      --bg:#f6f7fb; --surface:#ffffff; --ink:#0f172a; --muted:#6b7280; --border:#e5e7eb;
+      --primary:#0c4160; --primary-2:#0e567c; --chip:#eef6ff; --success:#0ea5e9;
+      --radius:22px; --elev-1:0 8px 30px rgba(15,23,42,.08);
+      --fs-h:clamp(22px,4vw,42px); --fs-b:clamp(14px,1.8vw,16px);
     }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0;
+    *{ box-sizing:border-box }
+    html,body{ height:100% }
+    body{
+      margin:0;
       background:
         radial-gradient(1200px 800px at 0% -20%, #eaf7f5 0%, transparent 60%),
         radial-gradient(800px 600px at 110% 10%, #f1f6fb 0%, transparent 55%),
         var(--bg);
-      color: var(--ink);
+      color:var(--ink);
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      font-size: var(--fs-b);
+      font-size:var(--fs-b);
     }
-    .wrap { max-width: 960px; margin: 0 auto; padding: 28px 16px 96px; }
-    .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-    .brand { display: flex; align-items: center; gap: 12px; }
-    .logo { display: block; width: auto; height: 40px; border-radius: 10px; }
-    @media (min-width: 880px) { .logo { height: 48px; } }
+    .wrap{ max-width:960px; margin:0 auto; padding:28px 16px 96px }
+    .top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:18px }
+    .brand{ display:flex; align-items:center; gap:12px }
+    .logo{ display:block; width:auto; height:40px; border-radius:10px }
+    @media (min-width:880px){ .logo{ height:48px } }
+    .title-brand{ font-weight:900; letter-spacing:.2px; font-size:22px; line-height:1; color:var(--ink); }
 
     /* Tabs */
-    .tabs { display: flex; gap: 8px; margin: 8px 0 18px; }
-    .tab {
-      all: unset; border: 1px solid var(--border); background: #fff;
-      padding: 8px 14px; border-radius: 999px; cursor: pointer; font-weight: 700;
+    .tabs{ display:flex; gap:8px; margin:8px 0 18px }
+    .tab{ all:unset; border:1px solid var(--border); background:#fff; padding:8px 14px; border-radius:999px; cursor:pointer; font-weight:700 }
+    .tab[aria-selected="true"]{ background:var(--primary); color:#fff; border-color:transparent }
+
+    .card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--elev-1); padding:22px }
+    .title{ font-weight:700; font-size:var(--fs-h); line-height:1.05; margin:0 0 6px }
+    .subtitle{ color:var(--muted); margin:0 0 16px }
+
+    .row{ display:grid; gap:12px; grid-template-columns:1fr }
+    .field{
+      width:100%; border:1px solid var(--border); background:#f4f7fb;
+      border-radius:16px; padding:14px 16px; outline:none; color:var(--ink);
     }
-    .tab[aria-selected="true"]{ background: var(--primary); color: #fff; border-color: transparent; }
+    .field:focus{ border-color:#b9c6d1; box-shadow:0 0 0 3px rgba(14,86,124,.12) }
 
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--elev-1); padding: 22px; }
-    .title { font-weight: 700; font-size: var(--fs-h); line-height: 1.05; margin: 0 0 6px; }
-    .subtitle { color: var(--muted); margin: 0 0 16px; }
+    .btn{ all:unset; display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 16px; border-radius:14px; font-weight:700; cursor:pointer }
+    .btn-primary{ background:var(--primary); color:#fff }
+    .btn-primary:hover{ background:var(--primary-2) }
+    .btn-ghost{ border:1px solid var(--border); background:#fff; color:var(--ink) }
 
-    .row { display: grid; gap: 12px; grid-template-columns: 1fr; }
-    .field {
-      width: 100%; border: 1px solid var(--border); background: #f4f7fb;
-      border-radius: 16px; padding: 14px 16px; outline: none; color: var(--ink);
+    .thinking{ display:none; align-items:center; gap:10px; margin-top:16px; color:#0a2430 }
+    .dot{ width:8px; height:8px; border-radius:999px; background:var(--primary); opacity:.6; animation:bounce .9s infinite }
+    .dot:nth-child(2){ animation-delay:.15s }
+    .dot:nth-child(3){ animation-delay:.3s }
+    @keyframes bounce{ 0%,80%,100%{ transform:translateY(0); opacity:.3 } 40%{ transform:translateY(-6px); opacity:1 } }
+
+    .result{ display:none; margin-top:18px }
+    .lead{ font-weight:600; margin:0 0 10px }
+    .copygrid{ display:grid; gap:10px; grid-template-columns:1fr }
+    .copy-btn{
+      all:unset; display:flex; align-items:center; justify-content:space-between;
+      padding:14px 16px; border:1px solid var(--border); border-radius:14px; background:#fff; cursor:pointer
     }
-    .field:focus { border-color: #b9c6d1; box-shadow: 0 0 0 3px rgba(14, 86, 124, .12); }
+    .copy-btn .lbl{ font-weight:700 }
+    .copy-btn .hint{ color:var(--muted); font-size:.95em }
+    .copy-btn:active{ transform:translateY(1px) }
 
-    .btn {
-      all: unset; display: inline-flex; align-items: center; justify-content: center;
-      gap: 8px; padding: 12px 16px; border-radius: 14px; font-weight: 700; cursor: pointer;
-    }
-    .btn-primary { background: var(--primary); color: #fff; }
-    .btn-primary:hover { background: var(--primary-2); }
-    .btn-ghost { border: 1px solid var(--border); background: #fff; color: var(--ink); }
-
-    .thinking { display: none; align-items: center; gap: 10px; margin-top: 16px; color: #0a2430; }
-    .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--primary); opacity: .6; animation: bounce .9s infinite; }
-    .dot:nth-child(2){ animation-delay: .15s; }
-    .dot:nth-child(3){ animation-delay: .3s; }
-    @keyframes bounce{ 0%,80%,100%{ transform: translateY(0); opacity: .3 } 40%{ transform: translateY(-6px); opacity:1 } }
-
-    .result { display: none; margin-top: 18px; }
-    .lead { font-weight: 600; margin: 0 0 10px; }
-    .copygrid { display: grid; gap: 10px; grid-template-columns: 1fr; }
-    .copy-btn {
-      all: unset; display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 16px; border: 1px solid var(--border); border-radius: 14px; background: #fff; cursor: pointer;
-    }
-    .copy-btn .lbl{ font-weight: 700; }
-    .copy-btn .hint{ color: var(--muted); font-size: .95em; }
-    .copy-btn:active{ transform: translateY(1px); }
-
-    .divider { height: 1px; background: var(--border); margin: 18px 0; }
-    .again { display: flex; justify-content: center; margin-top: 16px; }
+    .divider{ height:1px; background:var(--border); margin:18px 0 }
+    .again{ display:flex; justify-content:center; margin-top:16px }
 
     /* PWA CTA */
-    .install-wrap{ display: flex; justify-content: center; margin: 22px 0 8px; }
+    .install-wrap{ display:flex; justify-content:center; margin:22px 0 8px }
     .install-cta{
-      background: var(--primary); color: #fff; border-radius: 18px; padding: 16px 22px;
-      font-size: 18px; font-weight: 700; box-shadow: 0 10px 30px rgba(12,65,96,.18)
+      background:var(--primary); color:#fff; border-radius:18px; padding:16px 22px;
+      font-size:18px; font-weight:700; box-shadow:0 10px 30px rgba(12,65,96,.18)
     }
-    .install-cta:hover{ background: var(--primary-2); }
-    .install-cta-wrap{ display: flex; flex-direction: column; align-items: center; gap: 6px; }
-    .install-note{ color: var(--muted); font-size: 14px; text-align: center; }
+    .install-cta:hover{ background:var(--primary-2) }
+    .install-cta-wrap{ display:flex; flex-direction:column; align-items:center; gap:6px }
+    .install-note{ color:var(--muted); font-size:14px; text-align:center }
 
     /* IA footer */
-    .ai-footer{ padding: 18px 0 28px; }
-    .ai-links{ display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    .ai-footer{ padding:18px 0 28px }
+    .ai-links{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center }
     .ai-link{
-      all: unset; display: inline-flex; align-items: center; justify-content: center;
-      background: var(--primary); color: #fff; padding: 6px 10px; border-radius: 999px;
-      font-size: 12px; font-weight: 600; opacity: .95; cursor: pointer; transition: opacity .2s;
+      all:unset; display:inline-flex; align-items:center; justify-content:center;
+      background:var(--primary); color:#fff; padding:6px 10px; border-radius:999px;
+      font-size:12px; font-weight:600; opacity:.95; cursor:pointer; transition:opacity .2s
     }
-    .ai-link:hover{ opacity: 1; }
-    @media (min-width: 880px){ .ai-link{ font-size: 12.5px; } }
+    .ai-link:hover{ opacity:1 }
+    @media (min-width:880px){ .ai-link{ font-size:12.5px } }
 
     /* Arquivo */
-    .list{ display: grid; gap: 10px; }
-    .item{ display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; border: 1px solid var(--border); background: #fff; border-radius: 14px; padding: 12px 14px; }
-    .meta{ display: grid; gap: 4px; min-width: 0; }
-    .obj{ font-weight: 700; }
-    .tema{ color: var(--ink); }
+    .list{ display:grid; gap:10px }
+    .item{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; border:1px solid var(--border); background:#fff; border-radius:14px; padding:12px 14px }
+    .meta{ display:grid; gap:4px; min-width:0 }
+    .obj{ font-weight:700 }
+    .tema{ color:var(--ink) }
 
     .sr-only{
-      position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
-      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+      position:absolute !important; width:1px; height:1px; padding:0; margin:-1px;
+      overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
     }
 
-    @media (min-width: 880px){
-      .row{ grid-template-columns: 1fr auto; }
-      .btn-primary{ padding-left: 22px; padding-right: 22px; }
-      .copygrid{ grid-template-columns: 1fr 1fr; }
+    @media (min-width:880px){
+      .row{ grid-template-columns:1fr auto }
+      .btn-primary{ padding-left:22px; padding-right:22px }
+      .copygrid{ grid-template-columns:1fr 1fr }
     }
   </style>
 </head>
@@ -138,6 +126,7 @@
     <header class="top">
       <div class="brand">
         <img class="logo" src="./icons/logo-menu.png" onerror="this.onerror=null;this.src='./icons/icon-192.png'" alt="direito.love" />
+        <span class="title-brand">direito.love</span>
       </div>
       <a class="btn btn-ghost" href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener" aria-label="Abrir Instagram do autor">Instagram</a>
     </header>
@@ -163,8 +152,8 @@
         <span>pensando…</span>
       </div>
 
-      <section id="result" class="result">
-        <p class="lead">Criei 4 prompts para que você tenha um resultado ainda melhor nos seus estudos.</p>
+      <section id="result" class="result" aria-live="polite">
+        <p class="lead">Criei 4 prompts com a nova estratégia (Google com 3 sites sorteados).</p>
         <div class="copygrid">
           <button class="copy-btn" id="copy-aprender"><span class="lbl">APRENDER</span> <span class="hint">copiar</span></button>
           <button class="copy-btn" id="copy-treinar"><span class="lbl">TREINAR</span> <span class="hint">copiar</span></button>
@@ -222,29 +211,63 @@
     tabGerar.addEventListener('click', () => selectTab('gerar'));
     tabArq.addEventListener('click', () => selectTab('arquivo'));
 
-    // ===== Templates =====
-    // CTA padronizada exigida
+    // ===== Pool fixo (10 sites) — ordem não importa, sortei diferente a cada prompt =====
+    const SITES_POOL = [
+      'JusBrasil',
+      'Jus',
+      'JurisWay',
+      'Conjur',
+      'Âmbito Jurídico',
+      'Pergunte Direito',
+      'Dicionário Direito',
+      'Conteúdo Jurídico',
+      'Dicionário Informal',
+      'LegJur',
+      'Planalto'
+    ];
+
+    /** Sorteia n itens únicos do pool (Fisher–Yates) */
+    function pickSites(n = 3) {
+      const arr = [...SITES_POOL];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr.slice(0, n);
+    }
+
+    /** Monta a URL de busca do Google com <tema> + sites sorteados + extras */
+    function makeSearchURL(tema, extras = [], picks = pickSites(3)) {
+      const q = [tema, ...picks, ...extras].join(' ').trim();
+      return `https://www.google.com/search?q=${encodeURIComponent(q)}`;
+    }
+
+    // ===== CTA padronizada (mantida) =====
     const CTA = `\n\nGere um novo prompt em 💚 [direito.love](https://direito.love)`;
 
-    // ===== Bloco global de regras (com estratégia anti-link quebrado atualizada) =====
+    // ===== Regras Globais (Google-only) =====
     const RegrasGlobais = `
-**Regras obrigatórias adicionais (valem para todo o projeto):**
-- **Leis/artigos**: sempre que citar uma lei específica ou artigo de código, **priorize o Portal da Legislação do Planalto** e **linke a lei completa (sem fragmentos #artX)**: https://www.planalto.gov.br/.
-- **Jurisprudência / súmulas / julgados / repetitivos**: a informação deve vir de **artigo/notícia jurídica não-governamental** (ConJur, Migalhas, JOTA, Âmbito Jurídico, portais universitários). **Procedimento**: (1) localizar pelo **título relacionado**; (2) **abrir o conteúdo**; (3) **confirmar no corpo do texto** (ementa/processo/tese); **só citar se confirmado**.
+**Estratégia de links — regra geral (vale para TODOS os prompts):**
+- **Somente** utilizar **Google** para localizar conteúdos específicos.
+- O **único link** permitido em qualquer resposta é o **link de busca no Google** no formato:
+  \`https://www.google.com/search?q=tema+nomesite1+nomesite2+nomesite3\`.
+- **Nunca** incluir links diretos para artigos/notícias/leis. **Sempre** apontar para a busca.
+- Para leis (ex.: artigos do Código Civil), inclua **no texto** a orientação "priorize Planalto", mas o **link exibido continua sendo o da busca**.
+- Para jurisprudência/súmulas/precedentes, **valide lendo** o conteúdo localizado na mesma busca; ainda assim, **o link exibido** permanece o da busca.
 
-**Validação obrigatória de links (anti-link quebrado):**
-- **Nunca** monte URL por padrão (nada de supor caminhos ou finalizar com ".pdf"). **Só** use links descobertos em páginas reais e acessíveis.
-- Inclua **apenas** links que abram sem erro (nada de 404/login). Para Planalto, **link da lei completa** (sem âncoras).
-- **Para jurisprudência/notícias (ConJur/Migalhas/JOTA etc.) use SEMPRE link de busca no Google**, com **"título exato + site"**:
-  - Formato exibido no texto: \`[Buscar no Google: "TÍTULO" — site:ConJur]\`
-  - URL do link (exemplo): \`https://www.google.com/search?q=T%C3%8DTULO+site%3Aconjur.com.br\`
-  - Motivo: evita link quebrado/redirecionamentos dinâmicos.
-- PDFs: só liste se a URL **terminar em .pdf** e tiver sido **encontrada navegando no site** (sem suposição).
-- Se não houver fonte válida, escreva **[não localizado]** (não invente link).
+**Como montar a busca:**
+- Query = \`<tema>\` + **3 sites sorteados** do pool (abaixo) + eventuais termos extras (anos, “STJ/STF”, etc).
+- Pool de sites (10): JusBrasil, Jus, JurisWay, Conjur, Âmbito Jurídico, Pergunte Direito, Dicionário Direito, Conteúdo Jurídico, Dicionário Informal, LegJur, Planalto.
+
+**Validação e honestidade:**
+- Resultados variam por data/local. O leitor deve escolher a **primeira fonte confiável** exibida.
 `;
 
+    // ===== Templates (cada um sorteia 3 sites) =====
     const Templates = {
-      aprender: (tema) => `Você é um professor universitário de Direito, com experiência em docência e atuação prática.
+      aprender: (tema) => {
+        const searchURL = makeSearchURL(tema, ['STJ', 'STF'], pickSites());
+        return `Você é um professor universitário de Direito, com experiência em docência e atuação prática.
 
 Seu papel é ensinar **${tema}** com profundidade, mas de forma didática e acessível para estudantes iniciantes ou intermediários. Nada de resposta rasa ou engessada.
 
@@ -255,12 +278,15 @@ Seu papel é ensinar **${tema}** com profundidade, mas de forma didática e aces
 - Conecte a explicação à prática forense: como o tema aparece na advocacia, concursos ou dia a dia jurídico.
 ${RegrasGlobais}
 
+**🔎 Pesquisa no Google (use este link para abrir os resultados):**
+${searchURL}
+
 **Formatação obrigatória (em Markdown simples):**
 
 ## 🧩 Conceito direto (4 a 6 linhas)
 ## 📜 Base legal essencial
-- Traga o(s) artigo(s) e o nome da lei (link priorizando o Portal do Planalto).
-- Se aplicável, inclua enunciado de súmula ou tese vinculante (validado via artigo/notícia jurídica com o link de busca no Google — vide regras).
+- Cite o(s) artigo(s) e a lei aplicável(s). **Para localizar o texto oficial, priorize “Planalto” na busca acima** (o link continua sendo o da busca do Google).
+- Se aplicável, mencione súmulas/teses (confirme a referência **lendo** um artigo/notícia jurídica encontrada pela mesma busca).
 
 ## ⚖️ Quadro comparativo
 | Instituto | Quando se aplica | Exemplo rápido |
@@ -270,28 +296,28 @@ ${RegrasGlobais}
 1. Identifique a situação jurídica.
 2. Verifique os pressupostos legais.
 3. Aplique a doutrina majoritária.
-4. Verifique o entendimento do STJ/STF (fonte validada conforme regras globais; **link via busca Google** para notícias/artigos).
+4. Cheque o entendimento do STJ/STF (valide pelo conteúdo encontrado na **mesma busca**).
 5. Aponte consequências práticas.
-6. Eventuais recursos ou medidas aplicáveis.
+6. Indique medidas ou recursos cabíveis.
 
 ## 💼 Exemplos práticos (3 mini-casos)
-- Cada exemplo deve simular um caso comum.
-- Mostre como o tema se aplica e qual seria a solução.
+- Simule casos comuns e mostre a aplicação.
 
 ## 🧯 Erros comuns (3) + 🧨 Pegadinhas de prova (2)
-- Liste os equívocos mais frequentes. (comente)
-- Alerta sobre armadilhas em provas e concursos. (comente)
 
 ## ✅ Checklist de prova (5 itens objetivos)
-- Pontos que o aluno deve revisar antes da prova.
 
-## 📚 Mini glossário (5 termos-chave explicados)
-- Termos usados no tema com explicação simples e objetiva.
+## 📚 Mini glossário (5 termos)
 
-## 📎 Jurisprudência majoritária
-- Cite no máximo 2 referências extraídas de **artigos/notícias** (não-governamentais) que **confirmem no corpo do texto** a jurisprudência/súmula/decisão. **Use link de busca no Google (“título + site”)** conforme regras.${CTA}`,
+## 📎 Observação sobre fontes
+- **Sempre** utilize a busca acima para localizar o texto do Planalto (leis) e artigos/notícias jurídicas (jurisprudência). **Todos os links exibidos** devem ser **exatamente** o link da busca:  
+${searchURL}
+${CTA}`;
+      },
 
-      treinar: (tema) => `Você é um elaborador de questões de Direito para treino universitário e OAB.
+      treinar: (tema) => {
+        const searchURL = makeSearchURL(tema, ['questões OAB', 'STJ', 'STF'], pickSites());
+        return `Você é um elaborador de questões de Direito para treino universitário e OAB.
 
 Parâmetros do treino:
 - Nível: **Intermediário**
@@ -301,10 +327,11 @@ Parâmetros do treino:
 - Use **Markdown simples** (sem HTML).
 - Questões de múltipla escolha (A–D), 1 correta + 3 alternativas plausíveis.
 - Misture: conceito, aplicação prática e interpretação.
-- Pesquise questões de provas da OAB e Concursos.
-- Primeiro, liste todas as questões → depois traga o **Gabarito Comentado**.
-- Cada justificativa: 1–2 linhas, explicando por que a correta está certa e as outras não.
+- Pesquise padrões de cobrança e entendimentos **usando apenas a busca do Google abaixo**.
 ${RegrasGlobais}
+
+**🔎 Pesquisa no Google (use este link para abrir os resultados):**
+${searchURL}
 
 **Tema:** ${tema}
 
@@ -319,70 +346,71 @@ ${RegrasGlobais}
 ... (até Q10)
 
 ## Gabarito Comentado
-- Q1) Letra C — justificativa breve (se citar lei, **link do Planalto**; se citar súmula/precedente, **link de busca Google com "título + site"** e confirmação no corpo da notícia).
+- Q1) Letra C — justificativa breve (se mencionar lei ou precedente, valide pelo conteúdo aberto via **${searchURL}**).
 - Q2) Letra A — justificativa breve
-- ...${CTA}`,
+- ...
 
-      noticias: (tema) => `Você é um curador de notícias e artigos jurídicos. Pesquise conteúdos dos **últimos 36 meses** relacionados a **${tema}** em **sites jurídicos** (notícias, revistas especializadas, portais acadêmicos/universitários). Evite blogs pessoais sem afiliação.
+**Link único para consulta:**  
+${searchURL}
+${CTA}`;
+      },
 
-Objetivo: entregar **10 achados** de alta relevância, sem duplicatas, com link canônico.
+      noticias: (tema) => {
+        const searchURL = makeSearchURL(tema, ['últimos 36 meses'], pickSites());
+        return `Você é um curador de notícias e artigos jurídicos. Pesquise conteúdos dos **últimos 36 meses** relacionados a **${tema}** em **sites jurídicos** (notícias, revistas especializadas, portais acadêmicos/universitários). Evite blogs pessoais sem afiliação.
 
-**Regras de formatação (obrigatórias):**
-- Saída em **Markdown simples**. **Não use HTML**.
-- Datas no formato **DD/MM/AAAA**.
-- Nome do site sem destaque.
-- Um item por linha principal + subitens com hífen.
-
-**Instruções de busca:**
-- Priorize: ConJur, Migalhas, JOTA, Âmbito Jurídico, Consultor Jurídico, portais universitários e institucionais.
-- Filtre por data: últimos 36 meses.
-- **Nunca** monte URL por padrão.
+Objetivo: entregar **10 achados** de alta relevância, sem duplicatas. **Todos os links exibidos devem ser o mesmo link de busca do Google**.
 ${RegrasGlobais}
+
+**🔎 Pesquisa no Google (use este link para abrir os resultados):**
+${searchURL}
 
 **Formato da resposta (Markdown):**
 # Achados (até 10)
-1) **Título** — Data: DD/MM/AAAA | Site: NOME
+1) **Título aproximado** — Data: DD/MM/AAAA | Site sugerido: NOME
    - Resumo: 2–3 linhas com o núcleo e impacto prático.
-   - Se citar lei/artigo, **link do Planalto** (lei completa).
-   - Se citar jurisprudência/súmula/precedente, **usar link de busca Google (“título + site”)** e confirmar a informação no corpo do texto.
-   - Link: **[Buscar no Google: "TÍTULO" — site:DOMÍNIO]** (colar URL de busca)
+   - Observação: selecione na busca acima a **primeira fonte confiável** (ConJur, Migalhas, JOTA, etc.).
+   - Link (Google — mesmo para todos): ${searchURL}
+
 ---
 2) ...
 ---
-10) ...${CTA}`,
+10) ...
 
-      casoreal: (tema) => `Você é um analista jurídico. Encontre até **5 casos concretos reais** relacionados ao tema **${tema}**, publicados nos **últimos 36 meses** em sites jurídicos confiáveis (notícias, portais especializados ou acadêmicos).
+**Link único para todos os itens:**  
+${searchURL}
+${CTA}`;
+      },
 
-**Objetivo:** mostrar o tema em ação, a partir de decisões, julgamentos, repercussões ou polêmicas públicas reais.
+      casoreal: (tema) => {
+        const searchURL = makeSearchURL(tema, ['caso real', 'jurisprudência', 'decisão', '2023..2025'], pickSites());
+        return `Você é um analista jurídico. Encontre até **5 casos concretos reais** relacionados ao tema **${tema}**, publicados nos **últimos 36 meses** em sites jurídicos confiáveis (notícias, portais especializados ou acadêmicos). **Todos os links exibidos devem ser o mesmo link de busca do Google**.
 
-**Regras obrigatórias:**
-- Use apenas **Markdown simples** (sem HTML).
-- Cada caso deve conter: Título, Data, Site, Link, Resumo e Análise.
-- Relacione explicitamente o caso com o **tema pesquisado**.
-- **Nunca** monte URL por padrão.
+**Objetivo:** mostrar o tema em ação, com decisões, julgamentos ou polêmicas reais.
 ${RegrasGlobais}
 
-**Fontes permitidas:** ConJur, Migalhas, JOTA, Âmbito Jurídico, Consultor Jurídico, revistas acadêmicas ou institucionais.
+**🔎 Pesquisa no Google (use este link para abrir os resultados):**
+${searchURL}
 
 **Formato (Markdown):**
 # Casos reais encontrados (até 5)
-1. Título — Data: DD/MM/AAAA | Site: NOME
+1. Título aproximado — Data: DD/MM/AAAA | Site sugerido: NOME
    - Resumo factual (3–4 linhas).
    - Comentário jurídico: relacione com "${tema}" (5–6 linhas).
-   - Se citar lei/artigo, **link do Planalto** (lei completa).
-   - Se citar súmula/precedente, **usar link de busca Google (“título + site”)** e confirmar no corpo da notícia.
-   - Link: **[Buscar no Google: "TÍTULO" — site:DOMÍNIO]**
+   - Link (Google — mesmo para todos): ${searchURL}
 2. ...
 3. ...
 4. ...
 5. ...
 
-**Notas finais:**
-- Se não encontrar 3 casos, entregue 1 ou 2 e diga [casos adicionais não localizados].${CTA}`
+**Nota:** escolha na busca acima a **primeira fonte confiável** e valide as informações lendo o conteúdo.
+**Link único (para todos os casos):** ${searchURL}
+${CTA}`;
+      }
     };
 
-    // ===== Estado e elementos =====
-    let current = { tema: "", prompts: { aprender: "", treinar: "", noticias: "", casoreal: "" } };
+    // ===== Estado & elementos =====
+    let current = { tema:"", prompts:{ aprender:"", treinar:"", noticias:"", casoreal:"" } };
     const el = {
       tema: document.getElementById('tema'),
       gerar: document.getElementById('gerar'),
@@ -397,7 +425,7 @@ ${RegrasGlobais}
     };
 
     // ===== Persistência (até 50 entradas) =====
-    const BOOK_KEY = 'book_data_v2';
+    const BOOK_KEY = 'book_data_v4_google_random3';
     function loadBook(){ try { return JSON.parse(localStorage.getItem(BOOK_KEY) || '[]') || []; } catch { return []; } }
     function saveBook(arr){ try { localStorage.setItem(BOOK_KEY, JSON.stringify(arr)); } catch {} }
     function pushEntry(obj){
@@ -456,7 +484,6 @@ ${RegrasGlobais}
         current.prompts.noticias  = Templates.noticias(tema);
         current.prompts.casoreal  = Templates.casoreal(tema);
 
-        // Guarda 4 entradas (limite 50)
         const ts = Date.now();
         pushEntry({ objetivo: strategyHumanName('aprender'), tema, prompt: current.prompts.aprender,  ts });
         pushEntry({ objetivo: strategyHumanName('treinar'),  tema, prompt: current.prompts.treinar,   ts });
