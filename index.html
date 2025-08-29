@@ -223,12 +223,20 @@
     tabArq.addEventListener('click', () => selectTab('arquivo'));
 
     // ===== Templates =====
-    const CTA = `\n\n**💚 [direito.love](https://direito.love)**`;
+    // CTA padronizada exigida
+    const CTA = `\n\nGere um novo prompt em [direito.love](https://direito.love)`;
 
+    // Bloco global de regras (inclui validação anti-link quebrado)
     const RegrasGlobais = `
 **Regras obrigatórias adicionais (valem para todo o projeto):**
 - **Leis/artigos**: sempre que citar uma lei específica ou artigo de código, **priorize buscar e linkar a fonte oficial no Portal da Legislação do Planalto**: https://www.planalto.gov.br/.
-- **Jurisprudência / súmulas / julgados / repetitivos**: a informação deve vir de **artigo ou notícia jurídica de site não-governamental** (ex.: ConJur, Migalhas, JOTA, Âmbito Jurídico, portais universitários). **Procedimento**: (1) localizar pelo **título relacionado ao tema**; (2) **acessar o conteúdo**; (3) **confirmar** no corpo do texto se a informação específica (ementa, processo, tese etc.) está presente; **só citar se confirmado**.
+- **Jurisprudência / súmulas / julgados / repetitivos**: a informação deve vir de **artigo ou notícia jurídica de site não-governamental** (ex.: ConJur, Migalhas, JOTA, Âmbito Jurídico, portais universitários). **Procedimento**: (1) localizar pelo **título relacionado ao tema**; (2) **acessar o conteúdo**; (3) **confirmar, no corpo do texto**, a informação específica (ementa, processo, tese etc.); **só citar se confirmado**.
+
+**Validação obrigatória de links (anti-link quebrado):**
+- **Nunca** monte URL com base em padrão do site (ex.: suposições de caminhos / final ".pdf"). **Só** use links encontrados em páginas reais e funcionais.
+- Inclua **apenas** links acessíveis (sem erro 404 / arquivo ausente). Se não abrir, **não liste**.
+- Para PDFs: só liste se a URL **realmente** terminar em \`.pdf\` e tiver sido **descoberta navegando no site** (nada de suposição).
+- Se não houver fonte válida, escreva **[não localizado]** em vez de inventar link.
 `;
 
     const Templates = {
@@ -277,8 +285,7 @@ ${RegrasGlobais}
 - Termos usados no tema com explicação simples e objetiva.
 
 ## 📎 Jurisprudência majoritária
-- Cite no máximo 2 referências extraídas de **artigos/notícias jurídicas** (não-governamentais) que **confirmem no corpo do texto** a jurisprudência/súmula/decisão citada. (ex.: ConJur, Migalhas, JOTA).
-${CTA}`,
+- Cite no máximo 2 referências extraídas de **artigos/notícias jurídicas** (não-governamentais) que **confirmem no corpo do texto** a jurisprudência/súmula/decisão citada. (ex.: ConJur, Migalhas, JOTA).${CTA}`,
 
       treinar: (tema) => `Você é um elaborador de questões de Direito para treino universitário e OAB.
 
@@ -310,8 +317,7 @@ ${RegrasGlobais}
 ## Gabarito Comentado
 - Q1) Letra C — justificativa breve (se citar lei, link do Planalto; se citar súmula/precedente, confirmar via artigo/notícia jurídica).
 - Q2) Letra A — justificativa breve
-- ...
-${CTA}`,
+- ...${CTA}`,
 
       noticias: (tema) => `Você é um curador de notícias e artigos jurídicos. Pesquise conteúdos dos **últimos 36 meses** relacionados a **${tema}** em **sites jurídicos** (notícias, revistas especializadas, portais acadêmicos/universitários). Evite blogs pessoais sem afiliação.
 
@@ -326,10 +332,8 @@ Objetivo: entregar **10 achados** de alta relevância, sem duplicatas, com link 
 **Instruções de busca:**
 - Priorize: ConJur, Migalhas, JOTA, Âmbito Jurídico, Consultor Jurídico, portais universitários e institucionais.
 - Filtre por data: últimos 36 meses.
-- Teste o link antes de publicar.
-- Não invente nada.
-- Garanta uma resposta correta e com link exato para a fonte.
-- Evite PDFs atrás de paywall; se inevitável, marque [acesso restrito].
+- **Nunca** monte URL por padrão; **só** inclua links reais e acessíveis.
+- Se não encontrar item válido, escreva **[não localizado]** (sem inventar).
 ${RegrasGlobais}
 
 **Formato da resposta (Markdown):**
@@ -339,12 +343,11 @@ ${RegrasGlobais}
    - Se citar lei/artigo, **link do Planalto**.
    - Se citar jurisprudência/súmula/precedente, **validar via artigo/notícia** (confirmando a presença do dado no corpo do texto).
    - Link: URL canônica
-   pule uma linha
+
 ---
 2) ...
 ---
-10) ...
-${CTA}`,
+10) ...${CTA}`,
 
       casoreal: (tema) => `Você é um analista jurídico. Encontre até **5 casos concretos reais** relacionados ao tema **${tema}**, publicados nos **últimos 36 meses** em sites jurídicos confiáveis (notícias, portais especializados ou acadêmicos).
 
@@ -354,6 +357,7 @@ ${CTA}`,
 - Use apenas **Markdown simples** (sem HTML).
 - Cada caso deve conter: Título, Data, Site, Link, Resumo e Análise.
 - Relacione explicitamente o caso com o **tema pesquisado**.
+- **Nunca** monte URL por padrão; **só** inclua links reais e acessíveis. Se não houver, escreva **[não localizado]**.
 ${RegrasGlobais}
 
 **Fontes permitidas:** ConJur, Migalhas, JOTA, Âmbito Jurídico, Consultor Jurídico, revistas acadêmicas ou institucionais.
@@ -372,8 +376,7 @@ ${RegrasGlobais}
 5. ...
 
 **Notas finais:**
-- Se não encontrar 3 casos, entregue 1 ou 2 e diga [casos adicionais não localizados].
-${CTA}`
+- Se não encontrar 3 casos, entregue 1 ou 2 e diga [casos adicionais não localizados].${CTA}`
     };
 
     // ===== Estado e elementos =====
