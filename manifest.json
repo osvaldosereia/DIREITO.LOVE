@@ -1,21 +1,12 @@
 {
-  "name": "direito.love",
+  "name": "direito.love — Estudo 3-em-1",
   "short_name": "direito.love",
-  "start_url": ".",
-  "scope": ".",
+  "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#f6f7fb",
-  "theme_color": "#0c4160",
+  "background_color": "#343541",
+  "theme_color": "#343541",
   "icons": [
-    {
-      "src": "/icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
+    { "src": "/icons/logo-heart.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/logo-heart.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
   ]
 }
