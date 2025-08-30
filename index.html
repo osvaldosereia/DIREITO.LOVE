@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chat Booy — direito.love</title>
+  <meta name="theme-color" content="#e9eaee"/>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/pwa-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="icons/pwa-192.png">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar" role="banner">
+    <div class="container nav">
+      <div class="brand" aria-label="direito.love">
+        <img src="icons/logo.svg" alt="" class="logo" />
+        <strong class="title">direito.love</strong>
+      </div>
+      <nav class="actions" aria-label="Ações principais">
+        <button class="iconbtn" id="btn-archive" title="Arquivo" aria-label="Abrir arquivo">
+          <img src="icons/file.svg" alt="" />
+        </button>
+        <button class="iconbtn" id="btn-new" title="Nova pesquisa" aria-label="Nova pesquisa">
+          <img src="icons/refresh.svg" alt="" />
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container app" role="main">
+    <section id="chat" class="chat" aria-label="Conversa">
+      <div id="messages" class="messages" aria-live="polite" aria-relevant="additions"></div>
+    </section>
+  </main>
+
+  <footer class="container footer" role="contentinfo">
+    <span class="muted">💚 direito.love — estudo jurídico minimalista</span>
+  </footer>
+
+  <script src="app.js?v=2" defer></script>
+</body>
+</html>
