@@ -3,6 +3,14 @@
   let tema = '';  // Inicializa a variável tema
   let chosen = new Set();  // Inicializa a variável chosen como um Set vazio
 
+  // Função para criar elementos HTML
+  function el(tag, cls, html) {
+    const x = document.createElement(tag);
+    if (cls) x.className = cls;
+    if (html != null) x.innerHTML = html;
+    return x;
+  }
+
   // Adicionando os event listeners para os botões flutuantes
 
   // Botão "Arquivo"
