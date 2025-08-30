@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- Cabeçalho -->
   <header class="topbar" role="banner">
     <div class="container nav">
       <div class="brand" aria-label="direito.love">
@@ -28,28 +29,32 @@
     </div>
   </header>
 
+  <!-- Conteúdo principal -->
   <main class="container app" role="main">
     <section id="chat" class="chat" aria-label="Conversa">
       <div id="messages" class="messages" aria-live="polite" aria-relevant="additions"></div>
     </section>
   </main>
 
+  <!-- Rodapé -->
   <footer class="container footer" role="contentinfo">
     <span class="muted"></span>
   </footer>
 
+  <!-- Botões flutuantes fixos -->
+  <div id="floating-buttons">
+    <button class="iconbtn" id="btn-pwa" title="PWA" aria-label="PWA">
+      <img src="icons/pwa-192.png" alt="PWA" />
+    </button>
+    <button class="iconbtn" id="btn-archive" title="Arquivo" aria-label="Abrir arquivo">
+      <img src="icons/file.svg" alt="Arquivo" />
+    </button>
+    <button class="iconbtn" id="btn-restart" title="Reiniciar pesquisa" aria-label="Reiniciar">
+      <img src="icons/refresh.svg" alt="Reiniciar" />
+    </button>
+  </div>
+
+  <!-- Inclusão do arquivo JavaScript -->
   <script src="app.js?v=3" defer></script>
-<!-- Botões flutuantes fixos -->
-<div id="floating-buttons">
-  <button class="iconbtn" id="btn-pwa" title="PWA" aria-label="PWA">
-    <img src="icons/pwa-192.png" alt="PWA" />
-  </button>
-  <button class="iconbtn" id="btn-archive" title="Arquivo" aria-label="Abrir arquivo">
-    <img src="icons/file.svg" alt="Arquivo" />
-  </button>
-  <button class="iconbtn" id="btn-restart" title="Reiniciar pesquisa" aria-label="Reiniciar">
-    <img src="icons/refresh.svg" alt="Reiniciar" />
-  </button>
-</div>
 </body>
 </html>
