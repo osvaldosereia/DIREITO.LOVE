@@ -9,7 +9,7 @@ body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Robot
 .nav{display:flex;align-items:center;justify-content:space-between;height:56px}
 .brand{display:flex;align-items:center;gap:8px}
 .logo{width:18px;height:18px}
-.title{font-size:13px;font-weight:600;letter-spacing:.2px}
+.title{font-size:18px;font-weight:500;letter-spacing:.2px}
 .actions{display:flex;align-items:center;gap:6px}
 .iconbtn{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--line);border-radius:10px;cursor:pointer;transition:transform .22s cubic-bezier(.2,.9,.3,1.4),background .2s}
 .iconbtn img{width:18px;height:18px;filter:grayscale(1)}
