@@ -397,4 +397,22 @@ document.getElementById('btn-restart').addEventListener('click', () => {
     });
   });
 })();
+(function() {
+  // Adicionando os event listeners para os botões flutuantes
+
+  // Botão "Arquivo"
+  document.getElementById('btn-archive').addEventListener('click', () => {
+    // Redireciona para a página de arquivo (arquivo.html)
+    window.location.href = 'arquivo.html';  // Leva para a página de arquivo
+  });
+
+  // Botão "Reiniciar"
+  document.getElementById('btn-restart').addEventListener('click', () => {
+    // Reinicia o processo de pesquisa
+    tema = '';  // Limpa o tema
+    chosen.clear();  // Limpa as escolhas anteriores
+    showInputBubble('Digite o tema…');  // Exibe o campo de entrada novamente
+  });
+
+})();
 
