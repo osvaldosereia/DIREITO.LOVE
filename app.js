@@ -367,4 +367,34 @@ document.getElementById('btn-restart').addEventListener('click', () => {
   chosen.clear();
   showInputBubble('Digite o tema…');
 });
+(function() {
+  let deferredPrompt; // Variável para armazenar o evento de instalação
+
+  // Captura o evento beforeinstallprompt
+  window.addEventListener('beforeinstallprompt', (e) => {
+    // Impede que o navegador mostre o prompt padrão de instalação
+    e.preventDefault();
+    // Armazena o evento para ser disparado manualmente
+    deferredPrompt = e;
+    
+    // Mostra o botão PWA quando o evento for capturado
+    document.getElementById('btn-pwa').style.display = 'block';
+
+    // Quando o usuário clica no botão PWA
+    document.getElementById('btn-pwa').addEventListener('click', () => {
+      // Exibe o prompt de instalação
+      deferredPrompt.prompt();
+      // Espera o usuário interagir com o prompt
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('Usuário aceitou a instalação do PWA');
+        } else {
+          console.log('Usuário rejeitou a instalação do PWA');
+        }
+        // Após a interação, limpe a variável deferredPrompt
+        deferredPrompt = null;
+      });
+    });
+  });
+})();
 
