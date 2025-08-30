@@ -4,11 +4,14 @@
   let chosen = new Set();  // Inicializa a variável chosen como um Set vazio
 
   // Adicionando os event listeners para os botões flutuantes
+
+  // Botão "Arquivo"
   document.getElementById('btn-archive').addEventListener('click', () => {
     // Redireciona para a página de arquivo (arquivo.html)
     window.location.href = 'arquivo.html';
   });
 
+  // Botão "Reiniciar"
   document.getElementById('btn-restart').addEventListener('click', () => {
     // Reinicia o processo de pesquisa
     tema = '';  // Limpa o tema
