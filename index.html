@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>direito.love — Offline‑first</title>
+  <meta name="theme-color" content="#16A34A">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-online="1">
+  <header>
+    <div class="container brand">
+      <img src="icons/logo.svg" alt="direito.love logo">
+      <div class="title">direito.love</div>
+      <div style="margin-left:auto" class="tools">
+        <a title="Instagram" href="https://instagram.com/osvaldosereiajr" class="btn ghost">IG</a>
+        <label class="btn ghost" title="Importar Arquivo">
+          📂 Importar <input type="file" accept="application/json" style="display:none" onchange="importJSON(this.files[0])">
+        </label>
+        <button class="btn" onclick="exportJSON()">💾 Exportar</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="status-bar">Sem conexão. Você ainda pode estudar e copiar; abriremos a IA quando voltar.</div>
+
+  <main class="container">
+    <div class="grid">
+      <div class="card">
+        <div class="section-title">
+          <h1>Gerador de Prompt</h1>
+          <span class="badge">Offline‑first</span>
+        </div>
+        <label>Tema</label>
+        <input id="tema" type="text" placeholder="Ex.: Dano moral estético em cirurgia de nariz">
+        <div class="row">
+          <select id="estrategia">
+            <option value="erros">Erros que mais caem (pegadinhas)</option>
+            <option value="mapa">Mapa Mental</option>
+            <option value="quadro">Quadro Comparativo</option>
+            <option value="peca">Aplicação prática (minipeça)</option>
+            <option value="flashcards">Flashcards</option>
+            <option value="sprint">Sprint 15’ (pacote)</option>
+            <option value="decoreba">Decoreba (assertivas)</option>
+          </select>
+          <button class="btn primary" onclick="genPrompt()" id="gerar">Gerar</button>
+        </div>
+        <h2>Resultado</h2>
+        <textarea id="output" placeholder="O prompt aparecerá aqui…"></textarea>
+        <div class="row">
+          <button class="btn" onclick="copyPrompt()">📋 Copiar</button>
+          <button class="btn" onclick="sharePrompt()">🔗 Compartilhar</button>
+          <button class="btn" data-require-online onclick="openIA('chatgpt')">Abrir no ChatGPT</button>
+          <button class="btn" data-require-online onclick="openIA('gemini')">Abrir no Gemini</button>
+          <button class="btn" data-require-online onclick="openIA('perplexity')">Abrir no Perplexity</button>
+        </div>
+        <div id="toast" style="display:none;margin-top:8px" class="badge"></div>
+      </div>
+
+      <div class="card" id="sprint">
+        <div class="section-title">
+          <h1>Estudo Rápido — Sprint 15’</h1>
+          <span class="timer" id="timer">15:00</span>
+        </div>
+        <p>Checklist da sessão (marque conforme concluir):</p>
+        <div class="checklist">
+          <label><input type="checkbox" onchange="toggleChecklist(this)"> Resumo didático (6–8 linhas)</label>
+          <label><input type="checkbox" onchange="toggleChecklist(this)"> 3 questões objetivas (A–D)</label>
+          <label><input type="checkbox" onchange="toggleChecklist(this)"> 1 pegadinha clássica</label>
+        </div>
+        <div class="row" style="margin-top:8px">
+          <button class="btn primary" onclick="startSprint()">Iniciar Sprint</button>
+          <button class="btn" onclick="genPrompt();">Gerar pacote com IA</button>
+        </div>
+      </div>
+
+      <div class="card" id="decoreba">
+        <div class="section-title">
+          <h1>Decoreba (Memorização Pura)</h1>
+          <span class="badge">foco: frases curtas</span>
+        </div>
+        <p>Gere assertivas via estratégia “Decoreba” no Gerador e/ou use a grade abaixo (placeholder local):</p>
+        <div id="decorebaList"></div>
+        <div class="row"><button class="btn" onclick="buildDecoreba()">Gerar placeholders</button></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">
+          <h1>Flashcards (offline)</h1>
+          <span class="badge">toque para virar</span>
+        </div>
+        <div id="flashcards"></div>
+        <div class="row"><button class="btn" onclick="buildFlashcards()">Criar baralho</button></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">
+          <h1>Histórico</h1>
+          <span class="badge">Local</span>
+        </div>
+        <div id="history"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer>💚 direito.love — PWA offline‑first (HTML + CSS + JS puros)</footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
