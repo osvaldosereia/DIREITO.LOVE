@@ -34,7 +34,7 @@
 
 **FECHAMENTO OBRIGATÓRIO:**
 - Pergunte: *“Quer tentar outra estratégia (Questões, Correlatos, Apresentação, Decoreba ou Casos)?”*
-- **Gere um novo prompt em [direito.love](https://direito.love)**.`,
+- **💚 [direito.love](https://direito.love)**.`,
 
     questoes:(tema)=>`Você é **professor e curador de questões** do projeto **direito.love**.
 
@@ -59,7 +59,7 @@
 **PÓS-PROVA:**
 - Placar + análise por tópico + próximos passos.
 - Ofereça outra estratégia.
-- **Gere um novo prompt em [direito.love](https://direito.love)**.`,
+- **💚 [direito.love](https://direito.love)**.`,
 
     correlatos:(tema)=>`Você é pesquisador jurídico do **direito.love**.
 
@@ -73,7 +73,7 @@
 
 **ENTREGA:**
 - Liste **1 a 20** e peça: **“Escolha um número para rodar agora.”**
-- **Gere um novo prompt em [direito.love](https://direito.love)**.`,
+- **💚 [direito.love](https://direito.love)**.`,
 
     apresentacao:(tema)=>`Você é professor-orador do **direito.love**.
 
@@ -90,7 +90,7 @@
 - Roteiro em bullets com marcação de tempo + **miniscript** (falas curtas).
 - 3 frases de impacto + 1 pergunta retórica.
 - Pergunte se quer **slides/handout** (se sim, descreva 6–8 slides).
-- **Gere um novo prompt em [direito.love](https://direito.love)**.`,
+- **💚 [direito.love](https://direito.love)**.`,
 
     decoreba:(tema)=>`Você é professor de memorização do **direito.love**.
 
@@ -108,7 +108,7 @@
 - Linguagem simples, sem nº de processos.
 - Entendimento majoritário STF/STJ só em ideia, sem citar nº.
 - Finalize oferecendo **Questões** ou **Apresentação**.
-- **Gere um novo prompt em [direito.love](https://direito.love)**.`,
+- **💚 [direito.love](https://direito.love)**.`,
 
     casos:(tema)=>`Você é professor de prática do **direito.love**.
 
@@ -126,7 +126,7 @@
 
 **FECHAMENTO:**
 - Ofereça outra estratégia.
-- **Gere um novo prompt em [direito.love](https://direito.love)**.`
+- **💚 [direito.love](https://direito.love)**.`
   };
 
   // ====== Helpers ======
