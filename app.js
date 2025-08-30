@@ -223,20 +223,34 @@ const typingStart = ()=> push('bot', `<span class="typing"><span class="dot"></s
 const typingStop = (bubble)=>{ if(!bubble) return; const msg=bubble.closest('.msg'); if(msg) msg.remove(); };
 
 function aiButtons(){
+  const URL = {
+    chatgpt: 'https://chat.openai.com/',
+    gemini: 'https://gemini.google.com/',
+    perplexity: 'https://www.perplexity.ai/'
+  };
+
   const wrap = el('div','ai-buttons');
 
   function mk(name, title, icon){
-    const b = el('button','ai');
-    b.title = title;
-    b.setAttribute('aria-label', title);
-    b.dataset.ai = name;
+    const a = document.createElement('a');
+    a.className = 'ai';
+    a.href = URL[name];         // link real
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.title = title;
+    a.setAttribute('aria-label', title);
 
     const img = document.createElement('img');
     img.src = `icons/${icon}`;
-    img.alt = ''; // decorativo
-    b.appendChild(img);
+    img.alt = '';               // decorativo
+    a.appendChild(img);
 
-    return b;
+    // depois de abrir a aba, mostramos as próximas estratégias aqui
+    a.addEventListener('click', () => {
+      setTimeout(() => showRemaining(), 200);
+    });
+
+    return a;
   }
 
   wrap.appendChild(mk('chatgpt','ChatGPT','chatgpt.svg'));
@@ -244,6 +258,7 @@ function aiButtons(){
   wrap.appendChild(mk('perplexity','Perplexity','perplexity.svg'));
   return wrap;
 }
+
 
 
 // ---- App logic ----
