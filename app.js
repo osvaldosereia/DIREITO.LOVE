@@ -11,16 +11,35 @@
     return x;
   }
 
+  // Função para adicionar mensagens no chat
+  function push(role, nodeOrHtml) {
+    const box = document.getElementById('messages');
+    const msg = document.createElement('div');
+    msg.classList.add('msg', role);
+    const bubble = document.createElement('div');
+    bubble.classList.add('bubble');
+    if (typeof nodeOrHtml === 'string') {
+      bubble.innerHTML = nodeOrHtml;
+    } else {
+      bubble.appendChild(nodeOrHtml);
+    }
+    msg.appendChild(bubble);
+    box.appendChild(msg);
+    box.scrollTop = box.scrollHeight;
+  }
+
   // Adicionando os event listeners para os botões flutuantes
 
   // Botão "Arquivo"
   document.getElementById('btn-archive').addEventListener('click', () => {
+    console.log('Botão Arquivo clicado');
     // Redireciona para a página de arquivo (arquivo.html)
     window.location.href = 'arquivo.html';
   });
 
   // Botão "Reiniciar"
   document.getElementById('btn-restart').addEventListener('click', () => {
+    console.log('Botão Reiniciar clicado');
     // Reinicia o processo de pesquisa
     tema = '';  // Limpa o tema
     chosen.clear();  // Limpa as escolhas anteriores
