@@ -1,52 +1,258 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Chat Booy — direito.love</title>
-  <meta name="color-scheme" content="light dark">
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chat Booy — direito.love</title>
+<meta name="color-scheme" content="light dark">
+<style>
+:root{--bg:#fff;--fg:#111;--muted:#6b6b6b;--line:#dcdcdc;--chip:#f3f3f3;--chip-hover:#ececec;--focus:#111;--you:#f6f6f6}
+*{box-sizing:border-box} html,body{height:100%}
+body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Inter,Arial,"Noto Sans","Helvetica Neue",sans-serif;color:var(--fg);background:var(--bg);line-height:1.35}
+.container{max-width:960px;margin:0 auto;padding:0 16px}
+.topbar{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:56px}
+.brand{display:flex;align-items:center;gap:8px}
+.logo{width:18px;height:18px}
+.title{font-size:13px;font-weight:600;letter-spacing:.2px}
+.actions{display:flex;align-items:center;gap:6px}
+.iconbtn{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--line);border-radius:10px;cursor:pointer;transition:transform .22s cubic-bezier(.2,.9,.3,1.4),box-shadow .22s,background .2s}
+.iconbtn:hover{background:#f8f8f8;transform:translateY(-1px)}
+.iconbtn:active{transform:translateY(0) scale(.98)}
+.iconbtn:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.iconbtn.primary{background:#111;border-color:#111}
+.iconbtn.primary svg{filter:invert(1)}
+.app{padding:16px 0}
+.chat{border:1px solid var(--line);border-radius:16px;min-height:70vh;display:flex;flex-direction:column;overflow:hidden;background:#fff}
+.messages{padding:12px;display:flex;flex-direction:column;gap:10px;overflow:auto;flex:1}
+.msg{display:flex;align-items:flex-start}
+.msg .bubble{max-width:80%;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:#fff;font-size:14px}
+.msg.user{justify-content:flex-end}
+.msg.user .bubble{background:var(--you)}
+.composer{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line);background:#fff}
+.input-wrap{flex:1;display:flex}
+#input{flex:1;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px}
+#input:focus-visible{outline:3px solid var(--focus);outline-offset:0;box-shadow:0 1px 0 #111}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{padding:6px 10px;font-size:12px;border-radius:999px;background:var(--chip);border:1px solid var(--line);cursor:pointer;transition:transform .22s cubic-bezier(.2,.9,.3,1.4),background .2s}
+.chip:hover{background:var(--chip-hover);transform:translateY(-1px)}
+.chip:active{transform:translateY(0) scale(.98)}
+.prompt-card{margin-top:6px;border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff}
+.prompt-title{font-size:15px;font-weight:600;margin:0 0 6px}
+.prompt-card textarea{width:100%;min-height:260px;border:1px solid var(--line);background:#fff;border-radius:8px;padding:10px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px}
+.prompt-card .row{display:flex;gap:6px;justify-content:flex-end;margin-top:8px}
+.ai-buttons{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.ai{width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:10px;background:#fff;cursor:pointer;transition:transform .22s cubic-bezier(.2,.9,.3,1.4),background .2s}
+.ai:hover{background:#f8f8f8;transform:translateY(-1px)}
+.typing{display:inline-flex;gap:4px;align-items:center}
+.dot{width:6px;height:6px;border-radius:50%;background:#9a9a9a;opacity:.35;animation:blink 1s infinite}
+.dot:nth-child(2){animation-delay:.15s}
+.dot:nth-child(3){animation-delay:.3s}
+@keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
+.footer{padding:16px 0;color:#6b6b6b;font-size:12px}
+@media (prefers-reduced-motion:reduce){.dot{animation:none}.iconbtn,.ai,.chip{transition:none}}
+</style>
 </head>
 <body>
-  <a class="skip" href="#input">Pular para o campo de tema</a>
+<header class="topbar" role="banner">
+  <div class="container nav">
+    <div class="brand"><span class="logo">💚</span><strong class="title">direito.love</strong></div>
+    <nav class="actions" aria-label="Ações principais">
+      <button class="iconbtn" id="btn-archive" title="Arquivo" aria-label="Abrir arquivo">📄</button>
+      <button class="iconbtn" id="btn-new" title="Nova pesquisa" aria-label="Nova pesquisa">↻</button>
+    </nav>
+  </div>
+</header>
 
-  <header class="topbar" role="banner">
-    <div class="container nav">
-      <div class="brand" aria-label="direito.love">
-        <img src="icons/logo.svg" alt="" class="logo" />
-        <strong class="title">direito.love</strong>
+<main class="container app" role="main">
+  <section class="chat" aria-label="Conversa">
+    <div id="messages" class="messages" aria-live="polite" aria-relevant="additions"></div>
+    <div class="composer">
+      <div class="input-wrap">
+        <input id="input" placeholder="Digite o tema e pressione Enter…" autocomplete="off" aria-label="Tema"/>
       </div>
-      <nav class="actions" aria-label="Ações principais">
-        <button class="iconbtn" id="btn-archive" title="Arquivo" aria-label="Abrir arquivo">
-          <img src="icons/file.svg" alt="" />
-        </button>
-        <button class="iconbtn" id="btn-new" title="Nova pesquisa" aria-label="Nova pesquisa">
-          <img src="icons/refresh.svg" alt="" />
-        </button>
-      </nav>
+      <button id="send" class="iconbtn primary" aria-label="Enviar tema" title="Enviar tema">➤</button>
     </div>
-  </header>
+  </section>
+</main>
 
-  <main class="container app" role="main">
-    <section class="chat" aria-label="Conversa">
-      <div id="messages" class="messages" aria-live="polite" aria-relevant="additions"></div>
+<footer class="container footer" role="contentinfo">
+  <span>direito.love — estudo jurídico minimalista</span>
+</footer>
 
-      <div class="composer">
-        <div class="input-wrap">
-          <input id="input" placeholder="Digite o tema e pressione Enter…" autocomplete="off" aria-label="Tema" />
-        </div>
-        <button id="send" class="iconbtn primary" aria-label="Enviar tema" title="Enviar tema">
-          <img src="icons/send.svg" alt="" />
-        </button>
+<script>
+(() => {
+  const LS_KEY='chatBooyArchive';
+  const lsLoad=()=>{ try{return JSON.parse(localStorage.getItem(LS_KEY))||[]}catch(e){return[]} };
+  const lsSave=v=> localStorage.setItem(LS_KEY, JSON.stringify(v));
+  const archiveAdd=r=>{ const L=lsLoad(); L.unshift(r); lsSave(L); };
+
+  const Prompts={
+    prova:(tema)=>`Você é um **professor de Direito** (OAB/concursos) do **direito.love**.
+
+**TEMA:** ${tema}
+**OBJETIVO:** Estudar para a prova — direto ao ponto, com didatismo e sem juridiquês.
+
+**REGRAS**
+- Linguagem simples e precisa. Não cite nº de processos/REsp/AREsp.
+- Traga apenas entendimentos **majoritários** de STF/STJ (sem nº).
+- Não inclua links; gere **10 buscas Google** em “🔎 Buscas prontas”.
+
+**ENTREGA (nesta ordem):**
+1) Conceito direto (5–7 linhas).
+2) Mapa mental textual.
+3) Exemplos práticos (2–3).
+4) Entendimento majoritário STF/STJ (sem nº).
+5) Pegadinhas.
+6) Quadro comparativo (se fizer sentido).
+7) Checklist (10 bullets).
+8) 🔎 Buscas prontas — gere 10 links com ${tema}.
+
+**💚 [direito.love](https://direito.love)**`,
+    questoes:(t)=>`Você é **curador de questões** do **direito.love**.
+
+**TEMA:** ${t}
+**OBJETIVO:** 15 questões (A–E) em **2 etapas**:
+- ETAPA 1: só as 15 questões, sem gabarito; ao final, peça autorização.
+- ETAPA 2 (se autorizado): gabarito comentado, fundamento legal, entendimento majoritário (sem nº), dica.
+
+Níveis: 5 fáceis, 6 médias, 4 difíceis. Cite banca/ano quando real.
+
+**💚 [direito.love](https://direito.love)**`,
+    correlatos:(t)=>`Pesquisador do **direito.love**.
+
+**TEMA-ÂNCORA:** ${t}
+**OBJETIVO:** 20 temas correlatos, em 3–4 grupos (fundamentos/aplicações/controvérsias/prática).
+Cada item: título (≤8 palavras) + foco + motivo (1 linha).
+
+**💚 [direito.love](https://direito.love)**`,
+    apresentacao:(t)=>`Professor-orador do **direito.love**.
+
+**TEMA:** ${t}
+**OBJETIVO:** Roteiro oral (5 min) com tempo por seção (abertura, 3 argumentos, exemplo, fechamento) + miniscript.
+
+**💚 [direito.love](https://direito.love)**`,
+    decoreba:(t)=>`Professor de memorização do **direito.love**.
+
+**TEMA:** ${t}
+**OBJETIVO:** Decoreba assertiva (assertivas essenciais, mnemônicos, confusões, flashcards, regra de bolso).
+
+**💚 [direito.love](https://direito.love)**`,
+    casos:(t)=>`Professor de prática do **direito.love**.
+
+**TEMA-GUIA:** ${t}
+**OBJETIVO:** 3 casos completos: fatos, problema, solução passo a passo (lei + entendimento majoritário sem nº), estratégia prática, variações, checklist. + 🔎 10 buscas.
+
+**💚 [direito.love](https://direito.love)**`,
+    testeRelampago:(t)=>`Elabore **Teste Relâmpago (5 questões)** sobre ${t}. Cada questão A–E com **gabarito imediato** (1–2 linhas).
+
+**💚 [direito.love](https://direito.love)**`,
+    mapaMental:(t)=>`Mapa Mental Explicativo de ${t}: tópicos Markdown (níveis), causa→consequência, exceções, palavras‑chave, “Como lembrar” (3 macetes).
+
+**💚 [direito.love](https://direito.love)**`,
+    errosProva:(t)=>`Erros que mais caem em ${t}: 10–15 bullets curtos (o que cai + como não errar), grupos: Conceito/Exceções/Jurisprudência/Aplicação; checklist final.
+
+**💚 [direito.love](https://direito.love)**`,
+    quadroComparativo:(t)=>`Quadro comparativo sobre ${t} (Markdown, 3 colunas: Instituto | Definição | Exemplo‑chave). 4–8 linhas + “Quando usar qual?” (3 bullets).
+
+**💚 [direito.love](https://direito.love)**`,
+  };
+
+  const $=s=>document.querySelector(s);
+  const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+  const wait=(min=1000,max=1800)=> matchMedia('(prefers-reduced-motion: reduce)').matches?Promise.resolve():sleep(Math.floor(Math.random()*(max-min+1))+min);
+  const typingStart=()=> push('bot', `<span class="typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>`);
+  const typingStop=(n)=>{ if(n&&n.parentElement){ n.parentElement.removeChild(n); } };
+  const truncate=(t,n=80)=> t.length>n? t.slice(0,n-1)+'…': t;
+  const labels=()=>({prova:'Estudar p/ Prova',questoes:'Questões (A–E)',correlatos:'Correlatos',apresentacao:'Apresentação (5min)',decoreba:'Decoreba',casos:'Casos concretos',testeRelampago:'🧪 Teste',mapaMental:'🧠 Mapa',errosProva:'🎯 Erros',quadroComparativo:'📚 Quadro'});
+  const all=()=>Object.keys(labels());
+  function push(role, html){ const box=$('#messages'); const w=document.createElement('div'); w.className=`msg ${role}`; const b=document.createElement('div'); b.className='bubble'; b.innerHTML=html; w.appendChild(b); box.appendChild(w); box.scrollTop=box.scrollHeight; return w; }
+
+  let tema=''; let chosen=new Set();
+
+  function renderAI(){ return `<div class="ai-buttons"><button class="ai" data-ai="chatgpt" title="ChatGPT">G</button><button class="ai" data-ai="gemini" title="Gemini">M</button><button class="ai" data-ai="perplexity" title="Perplexity">P</button></div>`; }
+  function openAI(ai){ const m={chatgpt:'https://chat.openai.com/',gemini:'https://gemini.google.com/',perplexity:'https://www.perplexity.ai/'}; const u=m[ai]; if(u) window.open(u,'_blank','noopener'); }
+
+  async function showRemaining(prefix=true){
+    const L=labels(); const remaining=all().filter(s=>!chosen.has(s));
+    if(!remaining.length){ const t=typingStart(); await wait(); typingStop(t); push('bot','Fechamos todas as estratégias. Use ↻ para nova pesquisa.'); return; }
+    if(prefix){ const t=typingStart(); await wait(); typingStop(t); push('bot', `Escolha outra estratégia para <strong>${truncate(tema,60)}</strong>:`); }
+    const bar=document.createElement('div'); bar.className='chips';
+    remaining.forEach(s=>{ const b=document.createElement('button'); b.className='chip'; b.textContent=L[s]; b.addEventListener('click',()=>handleStrategy(s)); bar.appendChild(b); });
+    push('bot', bar.outerHTML);
+  }
+
+  function renderPrompt(s){
+    const txt = Prompts[s](tema);
+    return `<div class="prompt-card">
+      <h3 class="prompt-title">${truncate(tema,80)}</h3>
+      <textarea readonly>${txt}</textarea>
+      <div class="row">
+        <button class="iconbtn copy" title="Copiar">📋</button>
+        <button class="iconbtn new" title="Nova pesquisa">↻</button>
       </div>
-    </section>
-  </main>
+    </div>`;
+  }
 
-  <footer class="container footer" role="contentinfo">
-    <span class="muted">direito.love — estudo jurídico minimalista</span>
-  </footer>
+  async function handleStrategy(s){
+    const L=labels(); chosen.add(s);
+    push('user', `<div class="bubble">${L[s]}</div>`);
+    let t=typingStart(); await wait(); typingStop(t);
+    push('bot', `Gerando prompt de <strong>${L[s]}</strong>…`);
+    t=typingStart(); await wait(1200,2000); typingStop(t);
 
-  <script src="app.js?v=fix4" defer></script>
+    const wrap = push('bot', renderPrompt(s));
+    const card = wrap.querySelector('.prompt-card');
+    const ta = card.querySelector('textarea');
+    const btnCopy = card.querySelector('.copy');
+    const btnNew = card.querySelector('.new');
 
+    btnCopy.addEventListener('click', async ()=>{
+      await navigator.clipboard.writeText(ta.value);
+      // salvar no arquivo
+      const rec={ id:Date.now().toString(36), theme:tema, strategy:s, strategyLabel:L[s], prompt:ta.value, createdAt:new Date().toISOString() };
+      archiveAdd(rec);
+      // feedback + IA
+      push('bot','copiado');
+      const aiWrap=document.createElement('div'); aiWrap.innerHTML=renderAI(); card.appendChild(aiWrap.firstElementChild);
+      card.querySelectorAll('.ai').forEach(b=> b.addEventListener('click', ()=>{ openAI(b.getAttribute('data-ai')); showRemaining(true); }));
+    });
+
+    btnNew.addEventListener('click', ()=>{ tema=''; chosen=new Set(); push('bot','Novo tema?'); $('#input').focus(); });
+  }
+
+  async function onSend(){
+    const inp=$('#input'); const text=inp.value.trim(); if(!text) return;
+    push('user', `<div class="bubble">${truncate(text,140)}</div>`); inp.value='';
+    if(!tema){
+      tema=text;
+      let t=typingStart(); await wait(); typingStop(t);
+      push('bot','Beleza. Vou te mostrar as estratégias disponíveis.');
+      await wait(500,900); t=typingStart(); await wait(300,700); typingStop(t);
+      push('bot', `O que você quer fazer com <strong>${truncate(tema,60)}</strong>?`);
+      await wait(300,600); showRemaining(false);
+    } else {
+      let t=typingStart(); await wait(400,700); typingStop(t);
+      push('bot','Escolha uma estratégia nos botões acima.');
+    }
+  }
+
+  // binds
+  document.getElementById('send').addEventListener('click', onSend);
+  document.getElementById('input').addEventListener('keydown', e=>{ if(e.key==='Enter') onSend(); });
+  document.getElementById('btn-archive').addEventListener('click', ()=> location.href='arquivo.html');
+  document.getElementById('btn-new').addEventListener('click', ()=>{ tema=''; chosen=new Set(); push('bot','Novo tema?'); document.getElementById('input').focus(); });
+
+  // boot
+  (async function init(){
+    console.log('APP OK');
+    const t=typingStart(); await wait(200,400); typingStop(t);
+    push('bot','<strong>Bem-vindo</strong>');
+    const t2=typingStart(); await wait(); typingStop(t2);
+    push('bot','Qual é o tema?');
+    document.getElementById('input').focus();
+  })();
+})();
+</script>
 </body>
 </html>
