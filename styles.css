@@ -30,7 +30,7 @@ body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Robot
 .chip:active{transform:translateY(0) scale(.98)}
 .chip:focus-visible{outline:3px solid var(--focus);outline-offset:1px}
 .prompt-card{margin-top:6px;border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff}
-.prompt-title{font-size:15px;font-weight:600;margin:0 0 6px}
+.prompt-title{font-size:20px;font-weight:500;margin:0 0 6px}
 .prompt-card textarea{width:100%;min-height:260px;border:1px solid var(--line);background:#fff;border-radius:8px;padding:10px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px}
 .prompt-card .row{display:flex;gap:6px;justify-content:flex-end;margin-top:8px}
 .ai-buttons{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
