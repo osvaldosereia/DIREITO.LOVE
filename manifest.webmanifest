@@ -1,8 +1,8 @@
 {
   "name": "Chat Booy — direito.love",
   "short_name": "Chat Booy",
-  "start_url": "index.html",
-  "scope": "./",
+  "description": "Aplicação web para estudar Direito com prompts interativos.",
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#f5f6f8",
   "theme_color": "#e9eaee",
@@ -15,8 +15,7 @@
     {
       "src": "icons/pwa-512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
   ]
 }
