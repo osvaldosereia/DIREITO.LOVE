@@ -347,3 +347,24 @@ function registerSW(){
   push('bot','Qual é o tema?'); showInputBubble();
 })();
 })();
+// Adicionando os event listeners para os botões flutuantes
+document.getElementById('btn-pwa').addEventListener('click', () => {
+  // Verifica se o PWA já está instalado
+  if ('serviceWorker' in navigator && window.matchMedia('(display-mode: standalone)').matches) {
+    alert('PWA já instalado!');
+  } else {
+    alert('Instale o PWA para usar offline!');
+  }
+});
+
+document.getElementById('btn-archive').addEventListener('click', () => {
+  window.location.href = 'arquivo.html';  // Leva para a página de arquivo
+});
+
+document.getElementById('btn-restart').addEventListener('click', () => {
+  // Reinicia o processo de pesquisa
+  tema = '';
+  chosen.clear();
+  showInputBubble('Digite o tema…');
+});
+
