@@ -224,16 +224,27 @@ const typingStop = (bubble)=>{ if(!bubble) return; const msg=bubble.closest('.ms
 
 function aiButtons(){
   const wrap = el('div','ai-buttons');
-  const mk = (name, title)=>{ const b = el('button','ai'); b.title=title; b.setAttribute('aria-label', title); b.textContent = title[0]; b.dataset.ai=name; return b; };
-  wrap.appendChild(mk('chatgpt','ChatGPT'));
-  wrap.appendChild(mk('gemini','Gemini'));
-  wrap.appendChild(mk('perplexity','Perplexity'));
+
+  function mk(name, title, icon){
+    const b = el('button','ai');
+    b.title = title;
+    b.setAttribute('aria-label', title);
+    b.dataset.ai = name;
+
+    const img = document.createElement('img');
+    img.src = `icons/${icon}`;
+    img.alt = ''; // decorativo
+    b.appendChild(img);
+
+    return b;
+  }
+
+  wrap.appendChild(mk('chatgpt','ChatGPT','chatgpt.svg'));
+  wrap.appendChild(mk('gemini','Gemini','gemini.svg'));
+  wrap.appendChild(mk('perplexity','Perplexity','perplexity.svg'));
   return wrap;
 }
-function openAI(ai){
-  const map={chatgpt:'https://chat.openai.com/',gemini:'https://gemini.google.com/',perplexity:'https://www.perplexity.ai/'};
-  const url=map[ai]; if(url) window.open(url,'_blank','noopener');
-}
+
 
 // ---- App logic ----
 let tema=''; const chosen = new Set();
