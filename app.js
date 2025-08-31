@@ -37,14 +37,14 @@ Ensinar o tema {{TEMA}} como se fosse a última revisão antes da prova.
 - Estrutura orientada para memorização e revisão.
 
 📌 FORMATO DA ENTREGA:
-1. **Conceito direto** (5 a 7 linhas).
-2. **Mapa mental em texto**.
+1. **Conceito direto** (2 parágrafos com 3 a 4 linhas cada).
+2. **Mapa mental em texto bem organizado, use icones para decorar**.
 3. **Exemplos típicos de prova**.
-4. **Entendimento jurisprudencial majoritário**.
-5. **Pegadinhas e confusões comuns**.
+4. **Entendimento jurisprudencial majoritário (pesquise bem)**.
+5. **Pegadinhas e confusões comuns (use icones)**.
 6. **Quadro comparativo** se houver institutos correlatos.
-7. **Checklist final**.
-8. **🔎 Buscas prontas**: 10 links Google “{{TEMA}} + palavra-chave”.
+7. **Checklist final objetivo mas detalhado**.
+8. **🔎 Buscas prontas**: 5 links Google “{{TEMA}} + palavra-chave”.
 
 ⚠️ REGRAS:
 - Não usar nº de processo.
