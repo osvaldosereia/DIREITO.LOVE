@@ -13,6 +13,21 @@ const archiveAdd=rec=>{ const L=lsLoad(); L.unshift(rec); lsSave(L); };
 const labels = {prova:'Estudar p/ Prova', questoes:'Questões (A–E)', correlatos:'Correlatos', apresentacao:'Apresentação (5min)', decoreba:'Decoreba', casos:'Casos concretos', testeRelampago:'🧪 Teste', mapaMental:'🧠 Mapa', errosProva:'🎯 Erros', quadroComparativo:'📚 Quadro'};
 const allStrategies = Object.keys(labels);
 
+// ---- Prompts ----
+const Prompts = {
+  prova: `Você é um **professor de Direito altamente didático**, especializado em provas da OAB e concursos jurídicos, escolhido pelo projeto **direito.love**...`,
+  questoes: `Você é um **professor-curador de questões jurídicas reais e autorais** do projeto **direito.love**...`,
+  correlatos: `Você é um **curador temático do direito.love**, responsável por sugerir caminhos de estudo...`,
+  apresentacao: `Você é um **professor-orador** do projeto **direito.love**, especialista em apresentações orais...`,
+  decoreba: `Você é um **professor de memorização jurídica**...`,
+  casos: `Você é um **professor de prática jurídica**...`,
+  testeRelampago: `Você é um **elaborador de questões rápidas**...`,
+  mapaMental: `Você é um **especialista em esquemas visuais**...`,
+  errosProva: `Você é um **coach de prova jurídica**...`,
+  quadroComparativo: `Você é um **professor comparatista**...`
+};
+function promptFor(strategy, tema){ return (Prompts[strategy]||'').replaceAll('{{TEMA}}', tema); }
+
 // ---- UI helpers ----
 function push(role, nodeOrHtml){
   const box = $('#messages');
@@ -128,7 +143,7 @@ function showChips(){
   push('bot', bar);
 }
 
-// ---- Helpers que estavam faltando ----
+// ---- Helpers ----
 function bindTop(){
   const btnArchive = document.getElementById('btn-archive');
   const btnNew = document.getElementById('btn-new');
