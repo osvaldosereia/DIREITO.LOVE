@@ -13,8 +13,6 @@ const archiveAdd=rec=>{ const L=lsLoad(); L.unshift(rec); lsSave(L); };
 const labels = {prova:'Estudar p/ Prova', questoes:'Questões (A–E)', correlatos:'Correlatos', apresentacao:'Apresentação (5min)', decoreba:'Decoreba', casos:'Casos concretos', testeRelampago:'🧪 Teste', mapaMental:'🧠 Mapa', errosProva:'🎯 Erros', quadroComparativo:'📚 Quadro'};
 const allStrategies = Object.keys(labels);
 
-function promptFor(strategy, tema){ return (Prompts[strategy]||'').replaceAll('{{TEMA}}', tema); }
-
 // ---- UI helpers ----
 function push(role, nodeOrHtml){
   const box = $('#messages');
@@ -128,6 +126,27 @@ function showChips(){
   const bar = el('div','chips');
   allStrategies.forEach(s=>{ if(chosen.has(s)) return; const b = el('button','chip', labels[s]); b.addEventListener('click', ()=> handleStrategy(s)); bar.appendChild(b); });
   push('bot', bar);
+}
+
+// ---- Helpers que estavam faltando ----
+function bindTop(){
+  const btnArchive = document.getElementById('btn-archive');
+  const btnNew = document.getElementById('btn-new');
+
+  if (btnArchive) {
+    btnArchive.addEventListener('click', ()=> window.location.href='arquivo.html');
+  }
+  if (btnNew) {
+    btnNew.addEventListener('click', ()=>{ 
+      tema=''; 
+      chosen.clear(); 
+      showInputBubble('Digite o tema…'); 
+    });
+  }
+}
+
+function registerSW(){
+  if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js?v=3').catch(()=>{});
 }
 
 // Boot
