@@ -289,3 +289,14 @@ a:focus-visible, button:focus-visible, select:focus-visible{ outline:3px solid v
 /* Ícone do logo ganha leve boost no dark para não “sumir” */
 :root[data-theme="dark"] .logo,
 :root[data-theme="auto"] .logo { filter: brightness(1.15); }
+
+
+/* Ícones no modo escuro */
+:root[data-theme="dark"] .iconbtn {
+  background-color: #1f1f1f;  /* fundo mais claro visível */
+  border-color: #3a3a3a;
+}
+
+:root[data-theme="dark"] .iconbtn img {
+  filter: invert(1); /* inverte o ícone escuro para claro */
+}
