@@ -51,6 +51,19 @@
           "type": "image/svg+xml"
         }
       ]
+    },
+    {
+      "name": "Histórico",
+      "short_name": "Arquivo",
+      "description": "Acessar os prompts salvos neste dispositivo.",
+      "url": "/arquivo.html",
+      "icons": [
+        {
+          "src": "icons/home.svg",
+          "sizes": "192x192",
+          "type": "image/svg+xml"
+        }
+      ]
     }
   ],
 
