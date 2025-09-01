@@ -1,7 +1,7 @@
 {
   "name": "direito.love — Gerador de Prompts Jurídicos",
   "short_name": "direito.love",
-  "description": "Gerador de prompts jurídicos para estudo, prática, provas da OAB e concursos.",
+  "description": "App de estudo jurídico: prompts inteligentes para OAB, concursos, prática e memorização.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -46,9 +46,9 @@
 
   "shortcuts": [
     {
-      "name": "➕ Nova Pesquisa",
+      "name": "Nova pesquisa",
       "short_name": "Novo",
-      "description": "Abrir o app pronto para um novo tema",
+      "description": "Abrir o app pronto para um novo tema.",
       "url": "/?novo=1",
       "icons": [
         {
@@ -59,9 +59,9 @@
       ]
     },
     {
-      "name": "📂 Histórico Local",
-      "short_name": "Histórico",
-      "description": "Abrir prompts já salvos no dispositivo",
+      "name": "Histórico",
+      "short_name": "Arquivo",
+      "description": "Abrir os prompts salvos neste dispositivo.",
       "url": "/arquivo.html",
       "icons": [
         {
