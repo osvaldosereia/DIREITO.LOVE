@@ -27,12 +27,9 @@
   })();
   </script>
 
-  <!-- Tema do navegador -->
-  <meta name="theme-color" content="#f5f6f8" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0f1113" media="(prefers-color-scheme: dark)">
-
   <!-- Manifest PWA -->
   <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#e9eaee"/>
 
   <!-- Ícones -->
   <link rel="apple-touch-icon" sizes="180x180" href="icons/pwa-180.png">
@@ -42,9 +39,10 @@
   <link rel="shortcut icon" href="icons/favicon.ico" type="image/x-icon">
 
   <!-- CSS -->
-  <link rel="stylesheet" href="styles.css?v=7">
+  <link rel="stylesheet" href="styles.css?v=8">
 </head>
 <body>
+  <!-- Topbar -->
   <header class="topbar" role="banner">
     <div class="container nav">
       <div class="brand" aria-label="direito.love">
@@ -52,15 +50,12 @@
         <strong class="title">direito.love</strong>
       </div>
       <nav class="actions" aria-label="Ações principais">
-        <!-- Histórico -->
-        <a class="iconbtn" href="arquivo.html" title="Histórico" aria-label="Abrir histórico local">
+        <a class="iconbtn" href="arquivo.html" title="Histórico" aria-label="Abrir histórico">
           <img src="icons/home.svg" alt="Histórico">
         </a>
-        <!-- Nova pesquisa -->
-        <button class="iconbtn" id="btn-new" title="Nova pesquisa" aria-label="Nova pesquisa">
-          <img src="icons/refresh.svg" alt="Reiniciar conversa" />
+        <button class="iconbtn" id="btn-new" title="Novo tema" aria-label="Novo tema">
+          <img src="icons/refresh.svg" alt="Reiniciar">
         </button>
-        <!-- Configurações -->
         <button class="iconbtn" id="btn-settings" title="Configurações" aria-label="Abrir configurações">
           <img src="icons/filter.svg" alt="Configurações">
         </button>
@@ -68,71 +63,70 @@
     </div>
   </header>
 
+  <!-- Chat -->
   <main class="container app" role="main">
     <section id="chat" class="chat" aria-label="Conversa">
       <div id="messages" class="messages" aria-live="polite" aria-relevant="additions"></div>
     </section>
   </main>
 
-  <footer class="container footer" role="contentinfo"></footer>
+  <footer class="container footer" role="contentinfo">
+    <small>💚 direito.love — seu assistente de estudo jurídico</small>
+  </footer>
 
-  <!-- Modal de Configurações -->
+  <!-- Modal Configurações -->
   <dialog id="settings-modal" class="settings-modal" aria-labelledby="settings-title">
     <form method="dialog" class="settings-card">
       <h3 id="settings-title">⚙️ Configurações</h3>
 
       <!-- Haptics -->
       <div class="settings-row">
-        <span class="settings-icon">📳</span>
-        <div class="settings-info">
-          <strong>Feedback Tátil</strong>
-          <p>Vibração leve ao copiar prompts</p>
-        </div>
         <label class="switch">
-          <input type="checkbox" id="opt-haptics" />
-          <span class="slider"></span>
+          <input type="checkbox" id="opt-haptics"/>
+          <span>
+            <strong>Feedback Tátil</strong>
+            <small>Vibração leve ao copiar prompts</small>
+          </span>
         </label>
       </div>
 
       <!-- Tema -->
       <div class="settings-row">
-        <span class="settings-icon">🎨</span>
-        <div class="settings-info">
+        <label for="theme-options">
           <strong>Tema</strong>
-          <p>Escolha claro, escuro ou automático</p>
+          <small>Escolha claro, escuro ou automático</small>
+        </label>
+        <div id="theme-options" role="radiogroup" aria-label="Escolha de tema">
+          <button class="chip theme-btn" data-value="light" role="radio" aria-checked="false">🌞 Claro</button>
+          <button class="chip theme-btn" data-value="dark" role="radio" aria-checked="false">🌙 Escuro</button>
+          <button class="chip theme-btn" data-value="auto" role="radio" aria-checked="true">⚡ Automático</button>
         </div>
-        <select id="opt-theme" aria-label="Selecionar tema do aplicativo">
-          <option value="auto">Automático</option>
-          <option value="light">Claro</option>
-          <option value="dark">Escuro</option>
-        </select>
       </div>
 
-      <!-- Lembrete diário -->
+      <!-- Lembrete -->
       <div class="settings-row">
-        <span class="settings-icon">⏰</span>
-        <div class="settings-info">
-          <strong>Lembrete diário</strong>
-          <p>Notificação para revisar um tema por dia</p>
-        </div>
         <label class="switch">
-          <input type="checkbox" id="opt-daily" />
-          <span class="slider"></span>
+          <input type="checkbox" id="opt-daily"/>
+          <span>
+            <strong>Lembrete diário</strong>
+            <small>Notificação para revisar um tema por dia</small>
+          </span>
         </label>
       </div>
 
       <!-- Política -->
-      <div class="settings-row link-row">
+      <div class="settings-row">
         <a class="btn mini" href="politica.html" target="_blank" rel="noopener">🔒 Política de Privacidade</a>
       </div>
 
+      <!-- Fechar -->
       <div class="settings-actions">
         <button class="btn" value="cancel">Fechar</button>
       </div>
     </form>
   </dialog>
 
-  <!-- JS principal -->
-  <script src="app.js?v=6" defer></script>
+  <!-- JS -->
+  <script src="app.js?v=8" defer></script>
 </body>
 </html>
