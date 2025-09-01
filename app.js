@@ -194,29 +194,6 @@ function push(role, nodeOrHtml){
 const typingStart = ()=> push('bot', `<span class="typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>`);
 const typingStop = (bubble)=>{ if(!bubble) return; const msg=bubble.closest('.msg'); if(msg) msg.remove(); };
 
-function aiButtons(){
-  const URL = {
-    chatgpt: 'https://chat.openai.com/',
-    gemini: 'https://gemini.google.com/',
-    perplexity: 'https://www.perplexity.ai/'
-  };
-  const wrap = el('div','ai-buttons');
-  function mk(name, label){
-    const a = document.createElement('a');
-    a.className = 'ai-btn';
-    a.href = URL[name];         
-    a.target = '_blank';
-    a.rel = 'noopener';
-    a.textContent = label;
-    a.setAttribute('aria-label', label);
-    return a;
-  }
-  wrap.appendChild(mk('chatgpt','ChatGPT'));
-  wrap.appendChild(mk('gemini','Gemini'));
-  wrap.appendChild(mk('perplexity','Perplexity'));
-  return wrap;
-}
-
 // ---- App logic ----
 let tema=''; const chosen = new Set();
 
@@ -234,10 +211,10 @@ function renderPromptCard(strategy){
     await navigator.clipboard.writeText(ta.value);
     push('bot','✅ Copiado com sucesso!');
 
-    const info = el('div','small','✨ Prompt copiado. Agora clique e cole o prompt na sua IA favorita:');
+    // Frase fixa no lugar dos botões externos
+    const info = el('div','small','✨ Pronto. Agora é só colar na sua I.A. preferida.');
     info.style.margin = '8px 0';
     card.appendChild(info);
-    card.appendChild(aiButtons());
 
     const novoPromptBtn = el('button','btn');
     novoPromptBtn.style.marginTop = '10px';
