@@ -251,3 +251,27 @@ html, body {
   background: var(--bg) !important;
   color-scheme: light dark;
 }
+
+/* Toast notifications */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #111;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.toast.ok { background: #107f7b; }
+.toast.warn { background: #b33; }
+
