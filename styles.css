@@ -300,3 +300,9 @@ a:focus-visible, button:focus-visible, select:focus-visible{ outline:3px solid v
 :root[data-theme="dark"] .iconbtn img {
   filter: invert(1); /* inverte o ícone escuro para claro */
 }
+
+/* Garantir que o fundo do app SEMPRE siga a variável do tema */
+html, body {
+  background: var(--bg) !important;   /* força fundo coerente */
+  color-scheme: light dark;           /* ajuda o navegador a escolher UI nativa */
+}
