@@ -1,47 +1,216 @@
-/* 🔧 Responsividade completa para telas pequenas */
-@media (max-width: 480px) {
-  .prompt-card .center-row {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
+:root{
+  --bg:#f5f6f8; --top:#e9eaee; --fg:#111; --muted:#6b6b6b; --line:#dcdcdc;
+  --bubble:#fff; --chip:#f3f3f3; --chip-hover:#ececec; --focus:#000; --you:#fff;
+}
+
+/* Tema auto/dark */
+:root[data-theme="dark"]{
+  --bg:#0f1113; --top:#16181b; --fg:#e9eaee; --muted:#9aa0a6; --line:#2a2d31;
+  --bubble:#1c1f23; --chip:#1c1f23; --chip-hover:#21252a; --focus:#7cc;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Inter,Arial,"Noto Sans","Helvetica Neue",sans-serif;
+  color:var(--fg);
+  background:var(--bg);
+  line-height:1.35
+}
+
+.container{max-width:960px;margin:0 auto;padding:0 16px}
+.topbar{position:sticky;top:0;z-index:10;background:var(--top);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:56px}
+.brand{display:flex;align-items:center;gap:8px}
+
+.logo{
+  width:32px;
+  height:auto;
+  max-width:100%;
+  display:inline-block;
+}
+
+.title{font-size:18px;font-weight:500;letter-spacing:.2px}
+.actions{display:flex;align-items:center;gap:6px}
+
+/* Botões superiores */
+.iconbtn{
+  width:44px;height:44px;
+  min-width:44px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:transparent;border:1px solid var(--line);border-radius:10px;
+  cursor:pointer;
+  transition:transform .22s cubic-bezier(.2,.9,.3,1.4),background .2s
+}
+.iconbtn img{width:18px;height:18px;filter:grayscale(1)}
+.iconbtn:hover{background:#f0f1f4;transform:translateY(-1px)}
+.iconbtn:active{transform:translateY(0) scale(.98)}
+.iconbtn:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
+.app{padding:12px 0}
+.chat{min-height:70vh;display:flex;flex-direction:column;gap:10px}
+.messages{padding:12px;display:flex;flex-direction:column;gap:10px;overflow:auto}
+.msg{display:flex;align-items:flex-start}
+.msg .bubble{
+  max-width:82%;
+  padding:10px 12px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:var(--bubble);
+  font-size:16px;
+}
+.msg.user{justify-content:flex-end}
+.msg.user .bubble{background:var(--you)}
+
+.small{font-size:12px;color:var(--muted)}
+
+.chips{
+  display:flex;flex-wrap:wrap;gap:6px;margin-top:6px
+}
+.chip{
+  padding:10px 14px;
+  font-size:14px;
+  min-height:44px; /* guideline Apple */
+  border-radius:999px;
+  background:var(--chip);
+  border:1px solid var(--line);
+  cursor:pointer;
+  transition:transform .22s cubic-bezier(.2,.9,.3,1.4),background .2s
+}
+.chip:hover{background:var(--chip-hover);transform:translateY(-1px)}
+.chip:active{transform:translateY(0) scale(.98)}
+.chip:focus-visible{outline:3px solid var(--focus);outline-offset:1px}
+
+.prompt-card{
+  margin-top:6px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:10px;
+  background:var(--bubble);
+}
+.prompt-title{font-size:20px;font-weight:500;margin:0 0 6px}
+.prompt-card textarea{
+  width:100%;
+  min-height:260px;
+  border:1px solid var(--line);
+  background:var(--bubble);
+  color:var(--fg);
+  border-radius:8px;
+  padding:10px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:12.5px
+}
+.prompt-card .row{
+  display:flex;
+  gap:6px;
+  justify-content:center;
+  margin-top:8px;
+  flex-wrap:wrap;           /* ✅ evita extrapolar em telas estreitas */
+}
+
+/* Mensagem final grande */
+.info-msg{
+  font-size:16px;
+  font-weight:500;
+  text-align:center;
+  margin-top:14px;
+  line-height:1.5;
+  color:var(--fg);
+}
+
+/* Botões padrão */
+.btn {
+  padding:12px 18px;
+  border-radius:8px;
+  border:1px solid var(--line);
+  background:var(--bubble);
+  color:var(--fg);
+  cursor:pointer;
+  font-size:14px;
+  font-weight:500;
+  box-shadow:0 2px 5px rgba(0,0,0,0.08);
+  transition:background 0.2s, transform 0.2s;
+}
+.btn:hover { background:var(--chip-hover); transform:translateY(-1px); }
+.btn:active { transform:translateY(0) scale(.98); }
+.btn.mini{ padding:8px 12px; font-size:13px; }
+
+/* Input */
+.input-bubble input{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:12px 14px;
+  font-size:14px;
+  background:var(--bubble);
+  color:var(--fg);
+}
+.input-bubble .row{display:flex;gap:6px;justify-content:flex-end;margin-top:8px}
+.typing{display:inline-flex;gap:4px;align-items:center}
+.dot{width:6px;height:6px;border-radius:50%;background:#9a9a9a;opacity:.35;animation:blink 1s infinite}
+.dot:nth-child(2){animation-delay:.15s}
+.dot:nth-child(3){animation-delay:.3s}
+@keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
+
+/* Footer */
+.footer{padding:10px 0;color:var(--muted);font-size:12px}
+
+/* Haptics visual fallback */
+body.haptic .iconbtn, body.haptic .btn{ transform:scale(.985); }
+
+/* Settings modal */
+.settings-modal::backdrop{ background:rgba(0,0,0,.25); }
+.settings-card{ min-width:320px; border:1px solid var(--line); border-radius:12px; padding:14px; background:var(--bubble); color:var(--fg); }
+.settings-card h3{ margin:0 0 8px; font-size:18px; }
+.settings-row{ display:flex; align-items:center; gap:10px; margin:10px 0; }
+.settings-actions{ display:flex; justify-content:flex-end; gap:8px; }
+
+.switch{ display:flex; align-items:center; gap:10px; cursor:pointer; }
+.switch input{ width:18px; height:18px; }
+
+/* Acessibilidade de foco geral */
+a:focus-visible, button:focus-visible, select:focus-visible{ outline:3px solid var(--focus); outline-offset:2px; }
+
+/* =========================
+   📱 Responsividade Mobile
+   ========================= */
+@media (max-width: 480px){
+  /* Botões do card em coluna, full-width */
+  .prompt-card .row{
+    flex-direction:column;
+    align-items:stretch;
+    gap:10px;
+  }
+  .prompt-card .btn{
+    width:100%;
+    text-align:center;
   }
 
-  .prompt-card .btn {
-    width: 100%;
-    text-align: center;
+  /* Chips ocupam largura total, melhor toque */
+  .chips{
+    flex-direction:column;
+    align-items:stretch;
+    gap:8px;
+  }
+  .chip{
+    width:100%;
+    text-align:center;
+    font-size:16px;
+    padding:14px;
   }
 
-  .prompt-card .row {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
+  /* Inputs e bolhas legíveis no mobile */
+  .input-bubble input{
+    font-size:16px;
+    padding:14px;
+  }
+  .msg .bubble{
+    font-size:15px;
+    padding:12px;
+    max-width:95%;
   }
 
-  .chips {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
-  }
-
-  .chip {
-    width: 100%;
-    text-align: center;
-    font-size: 16px;
-    padding: 14px;
-  }
-
-  .input-bubble input {
-    font-size: 16px;
-    padding: 14px;
-  }
-
-  .msg .bubble {
-    font-size: 15px;
-    padding: 12px;
-  }
-
-  .info-msg {
-    font-size: 15px;
-    text-align: center;
-  }
+  /* Margens um pouco maiores para respiro */
+  .container{ padding:0 12px; }
 }
