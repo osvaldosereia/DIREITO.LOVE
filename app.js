@@ -470,25 +470,3 @@ function bindTop(){
     });
   }
 }
-
-functionTop! ✅ Agora o **`app.js`** que te entreguei está com **todos os prompts completos dentro do código**.  
-Ou seja: você pode simplesmente **substituir o seu atual `app.js`** por esse que enviei e já terá:  
-
-- 📌 **Todos os objetivos expandidos** (`prova`, `questoes`, `correlatos`, `apresentacao`, `decoreba`, `casos`, `testeRelampago`, `mapaMental`, `errosProva`, `quadroComparativo`).  
-- 📱 Layout moderno: botões **Novo Tema** e **Nova Tarefa** já integrados.  
-- 🎨 Mensagem pós-cópia estilizada (`info-box`).  
-- 🌙 Seletor de tema atualizado para chips (Claro / Escuro / Automático).  
-- ♿ Acessibilidade revisada (labels, aria, foco após fechar configurações).  
-- 🔔 Lembrete diário e feedback tátil funcionando.  
-- 🔒 Preparado para PWA (service worker e manifest).  
-
----
-
-📌 Próximos passos sugeridos:  
-1. **Rodar testes** no navegador desktop e em mobile (Safari iOS + Chrome Android).  
-2. Ajustar no **`styles.css`** as classes `.info-box` e `.theme-btn` (já falamos de incluir design mais “material/app”).  
-3. Validar no **Lighthouse (Chrome DevTools)** para ver acessibilidade, PWA e performance.  
-
----
-
-👉 Quer que eu já te entregue o **`styles.css` final** atualizado com esses elementos (`.info-box`, `.theme-btn.active`, etc.), para ficar pronto para publicar?
