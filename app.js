@@ -20,7 +20,7 @@ const LS = {
 };
 
 /* =========================
-   Tema (helpers centrais)
+   Tema
    ========================= */
 function effectiveTheme(pref){ 
   if (pref === 'dark' || pref === 'light') return pref;
@@ -34,7 +34,9 @@ function applyTheme(pref){
   return eff;
 }
 
-/* NativeBridge (fallback web) */
+/* =========================
+   NativeBridge (fallback web)
+   ========================= */
 const NativeBridge = (()=> {
   const isNative = !!window.NativeBridgeNative || !!window.Capacitor;
   const ok = (data)=> Promise.resolve({ ok:true, data });
@@ -68,9 +70,7 @@ const NativeBridge = (()=> {
       }catch(e){ return err(String(e)); }
     },
     async scheduleReminder(preset){
-      setTimeout(()=>{
-        push('bot','🔔 (Simulação) Lembrete acionado. No app, você receberá notificação local.');
-      }, 800);
+      setTimeout(()=> push('bot','🔔 (Simulação) Lembrete acionado.'), 800);
       return ok();
     },
     async openDeepLink(route){
@@ -115,18 +115,13 @@ const labels = {
 const allStrategies = Object.keys(labels);
 
 /* =========================
-   Prompts (completos)
+   Prompts
    ========================= */
 const Prompts = {
   prova: `Você é um **professor de Direito altamente didático**, especializado em provas da OAB e concursos jurídicos, escolhido pelo projeto **direito.love**.
 
 🎯 OBJETIVO:
 Ensinar o tema {{TEMA}} como se fosse a última revisão antes da prova.
-
-📦 ENTREGÁVEL:
-- Explicação clara, sem juridiquês, com foco no que costuma cair.
-- Linguagem acessível, com precisão conceitual e técnica.
-- Estrutura orientada para memorização e revisão.
 
 📌 FORMATO:
 1. Conceito direto.
@@ -136,40 +131,21 @@ Ensinar o tema {{TEMA}} como se fosse a última revisão antes da prova.
 5. Pegadinhas comuns.
 6. Quadro comparativo.
 7. Checklist final.
-8. 🔎 Buscas prontas: 5 links Google.
-
-⚠️ REGRAS:
-- Não usar nº de processo.
-- Foco em OAB/concursos.
-- Texto fluido.
+8. 🔎 Buscas prontas.
 
 💚 [direito.love](https://direito.love)`,
-  questoes: `Você é um **professor-curador de questões jurídicas reais e autorais** do projeto **direito.love**.
+  questoes: `Você é um **professor-curador de questões jurídicas**.
 
 🎯 OBJETIVO:
 Treinar {{TEMA}} com 15 questões A–E em 2 etapas:
 - ETAPA 1: sem gabarito.
 - ETAPA 2: gabarito comentado.
 
-📦 QUESTÕES:
-- 5 fáceis, 6 médias, 4 difíceis.
-- Baseadas em OAB/concursos.
-
-📌 FORMATO:
-- Enunciado + alternativas.
-- Depois: letra correta + explicação.
-
 💚 [direito.love](https://direito.love)`,
-  correlatos: `Você é um **curador temático do direito.love**.
+  correlatos: `Você é um **curador temático**.
 
 🎯 OBJETIVO:
-Sugerir 20 temas correlatos a {{TEMA}} em 4 blocos:
-1. Fundamentos.
-2. Aplicações práticas.
-3. Controvérsias.
-4. Incidência em prova.
-
-📌 Cada item: título + indicação de uso + justificativa.
+Sugerir 20 temas correlatos a {{TEMA}}, em 4 blocos.
 
 💚 [direito.love](https://direito.love)`,
   apresentacao: `Você é um **professor-orador**.
@@ -177,24 +153,11 @@ Sugerir 20 temas correlatos a {{TEMA}} em 4 blocos:
 🎯 OBJETIVO:
 Criar um roteiro de 5 minutos sobre {{TEMA}}.
 
-📌 ROTEIRO:
-- 0:00–0:30: abertura.
-- 0:30–3:30: desenvolvimento.
-- 3:30–4:30: exemplo prático.
-- 4:30–5:00: conclusão.
-
 💚 [direito.love](https://direito.love)`,
   decoreba: `Você é um **professor de memorização jurídica**.
 
 🎯 OBJETIVO:
-Resumir {{TEMA}} para memorização.
-
-📌 FORMATO:
-1. 12–18 assertivas.
-2. 4–6 mnemônicos.
-3. 3–5 confusões clássicas.
-4. 6–8 flashcards.
-5. Checklist final.
+Resumir {{TEMA}} em assertivas, mnemônicos e flashcards.
 
 💚 [direito.love](https://direito.love)`,
   casos: `Você é um **professor de prática jurídica**.
@@ -202,24 +165,11 @@ Resumir {{TEMA}} para memorização.
 🎯 OBJETIVO:
 Apresentar 3 casos concretos comentados sobre {{TEMA}}.
 
-📌 PARA CADA CASO:
-1. Fatos.
-2. Problema jurídico.
-3. Solução fundamentada.
-4. Estratégia.
-5. Checklist.
-
-💡 EXTRA:
-+10 buscas Google.
-
 💚 [direito.love](https://direito.love)`,
   testeRelampago: `Você é um **elaborador de questões rápidas**.
 
 🎯 OBJETIVO:
-Avaliar {{TEMA}} em 15 questões A–E.
-
-📌 FORMATO:
-- Após cada questão, já mostre gabarito e explicação.
+Avaliar {{TEMA}} em 15 questões objetivas.
 
 💚 [direito.love](https://direito.love)`,
   mapaMental: `Você é um **especialista em esquemas visuais**.
@@ -227,31 +177,17 @@ Avaliar {{TEMA}} em 15 questões A–E.
 🎯 OBJETIVO:
 Apresentar {{TEMA}} em mapa mental textual.
 
-📌 Estrutura:
-• Tema
- ◦ Subtema
-  – Observações
-
 💚 [direito.love](https://direito.love)`,
   errosProva: `Você é um **coach de prova jurídica**.
 
 🎯 OBJETIVO:
-Apontar os 10–15 erros mais comuns sobre {{TEMA}}.
-
-📌 ORGANIZAÇÃO:
-1. Erros conceituais.
-2. Exceções ignoradas.
-3. Jurisprudência mal interpretada.
-4. Prática equivocada.
+Apontar erros comuns sobre {{TEMA}}.
 
 💚 [direito.love](https://direito.love)`,
   quadroComparativo: `Você é um **professor comparatista**.
 
 🎯 OBJETIVO:
 Montar um quadro comparativo entre {{TEMA}} e institutos correlatos.
-
-📌 FORMATO:
-Tabela com 3 colunas: Instituto | Definição | Exemplo.
 
 💚 [direito.love](https://direito.love)`
 };
@@ -273,7 +209,7 @@ function push(role, nodeOrHtml){
   w.scrollIntoView({behavior:"smooth", block:"end"});
   return b;
 }
-const typingStart = ()=> push('bot', `<span class="typing">Gerando estudo<span class="dot"></span><span class="dot"></span><span class="dot"></span></span>`);
+const typingStart = ()=> push('bot', `<span class="typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>`);
 const typingStop = (bubble)=>{ if(!bubble) return; const msg=bubble.closest('.msg'); if(msg) msg.remove(); };
 
 /* =========================
@@ -297,20 +233,19 @@ function renderPromptCard(strategy){
   const row = el('div','row');
 
   const copy = el('button','btn'); copy.textContent="📋 Copiar";
-  const exportBtn = el('button','btn'); exportBtn.textContent="💾 Salvar arquivo";
+  const exportBtn = el('button','btn'); exportBtn.textContent="💾 Salvar";
   const reminderBtn = el('button','btn'); reminderBtn.textContent="🔔 Lembrete";
   const novoTema = el('button','btn'); novoTema.textContent="➕ Novo Tema";
   const novaTarefa = el('button','btn'); novaTarefa.textContent="✨ Nova Tarefa";
 
   row.append(copy, exportBtn, reminderBtn, novoTema, novaTarefa);
-
   card.append(h, ta, row);
 
   copy.addEventListener('click', async ()=>{
     const r = await NativeBridge.copyPrompt(ta.value);
     if(r.ok){
       const info = el('div','info-box');
-      info.innerHTML = `<img src="icons/check.svg" alt="ok"/> Copiado com sucesso! Agora abra sua IA preferida e cole o prompt para começar.`;
+      info.innerHTML = `<img src="icons/check.svg" alt="ok"/> Copiado com sucesso! Agora abra sua IA preferida e cole o prompt.`;
       card.appendChild(info);
     } else {
       push('bot','⚠️ Falha ao copiar.');
@@ -321,17 +256,17 @@ function renderPromptCard(strategy){
     const name = filenameFrom(tema);
     const content = `# ${tema}\n**Gerado em:** ${new Date().toLocaleString()}\n\n## Prompt\n${ta.value}\n\n---\n💚 direito.love`;
     const r = await NativeBridge.exportMarkdown(name, content);
-    push('bot', r.ok ? '📄 Arquivo salvo com sucesso.' : '⚠️ Erro ao salvar arquivo.');
+    push('bot', r.ok ? '📄 Arquivo salvo com sucesso.' : '⚠️ Erro ao salvar.');
   });
 
   reminderBtn.addEventListener('click', async ()=>{
     const r = await NativeBridge.scheduleReminder('test');
-    push('bot', r.ok ? '🔔 Lembrete agendado (modo simulação).' : '⚠️ Não foi possível agendar.');
+    push('bot', r.ok ? '🔔 Lembrete agendado.' : '⚠️ Não foi possível agendar.');
   });
 
   novoTema.addEventListener('click', ()=>{
     tema=''; chosen.clear();
-    push('bot','✨ Vamos lá! Digite um novo tema:');
+    push('bot','✨ Digite um novo tema:');
     showInputBubble('Digite um novo tema…');
   });
 
@@ -357,7 +292,7 @@ function showInputBubble(placeholder='Digite o tema…'){
   const input = el('input'); 
   input.placeholder=placeholder; 
   input.autocomplete='off';
-  input.setAttribute('aria-label','Digite o tema jurídico para gerar prompts');
+  input.setAttribute('aria-label','Digite o tema jurídico');
   const row = el('div','row');
   const send = el('button','iconbtn'); 
   send.title='Enviar'; 
