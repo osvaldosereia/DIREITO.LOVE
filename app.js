@@ -238,7 +238,13 @@ function renderPromptCard(strategy){
     await navigator.clipboard.writeText(ta.value);
     archiveAdd({ id:Date.now().toString(36), theme:tema, strategy:strategy, strategyLabel:labels[strategy], prompt:ta.value, createdAt:new Date().toISOString() });
     push('bot','✅ Copiado com sucesso!');
-    push('bot','✨ Prompt copiado. Agora clique e cole o prompt na sua IA favorita:'); // 👈 nova frase
+
+    // Texto explicativo dentro do mesmo card
+    const info = el('div','small','✨ Prompt copiado. Agora clique e cole o prompt na sua IA favorita:');
+    info.style.margin = '8px 0';
+    card.appendChild(info);
+
+    // Botões das IAs
     card.appendChild(aiButtons());
 
     // 🔄 Botão Gerar Novo Prompt com espaçamento extra
