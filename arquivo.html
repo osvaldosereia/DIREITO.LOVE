@@ -15,17 +15,25 @@
       </div>
       <nav class="actions" aria-label="Ações do arquivo">
         <button class="iconbtn" id="btn-filter" title="Filtrar por estratégia" aria-label="Filtrar por estratégia">
-          <img src="icons/filter.svg" alt="">
+          <img src="icons/filter.svg" alt="Filtrar">
         </button>
-        <a class="iconbtn" href="index.html" title="Voltar ao chat" aria-label="Voltar ao chat"><img src="icons/home.svg" alt=""></a>
-        <button class="iconbtn" id="btn-clear" title="Limpar tudo" aria-label="Limpar tudo"><img src="icons/trash.svg" alt=""></button>
+        <a class="iconbtn" href="index.html" title="Voltar ao chat" aria-label="Voltar ao chat">
+          <img src="icons/home.svg" alt="Início">
+        </a>
+        <button class="iconbtn" id="btn-clear" title="Limpar tudo" aria-label="Limpar tudo">
+          <img src="icons/trash.svg" alt="Limpar">
+        </button>
       </nav>
     </div>
   </header>
 
   <main class="container app" role="main">
-    <div id="archive-root"></div>
-    <div id="empty" class="small" style="padding:20px;display:none">Nada salvo ainda.</div>
+    <section id="archive" class="chat" aria-label="Histórico">
+      <div id="archive-root"></div>
+      <div id="empty" class="small" style="padding:20px;display:none">
+        Nada salvo ainda.
+      </div>
+    </section>
 
     <div id="filter-pop" class="pop" style="display:none">
       <h4>Filtrar estratégias</h4>
