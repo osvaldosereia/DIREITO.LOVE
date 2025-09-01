@@ -3,7 +3,13 @@
   --bubble:#fff; --chip:#f3f3f3; --chip-hover:#ececec; --focus:#000; --you:#fff;
 }
 
-*{box-sizing:border-box} 
+/* Tema auto/dark */
+:root[data-theme="dark"]{
+  --bg:#0f1113; --top:#16181b; --fg:#e9eaee; --muted:#9aa0a6; --line:#2a2d31;
+  --bubble:#1c1f23; --chip:#1c1f23; --chip-hover:#21252a; --focus:#7cc;
+}
+
+*{box-sizing:border-box}
 html,body{height:100%}
 body{
   margin:0;
@@ -31,6 +37,7 @@ body{
 /* Botões superiores */
 .iconbtn{
   width:44px;height:44px;
+  min-width:44px;
   display:inline-flex;align-items:center;justify-content:center;
   background:transparent;border:1px solid var(--line);border-radius:10px;
   cursor:pointer;
@@ -51,7 +58,7 @@ body{
   border-radius:14px;
   border:1px solid var(--line);
   background:var(--bubble);
-  font-size:16px;   /* 🔹 Aumentado de 14px para 15px */
+  font-size:16px;
 }
 .msg.user{justify-content:flex-end}
 .msg.user .bubble{background:var(--you)}
@@ -80,28 +87,21 @@ body{
   border:1px solid var(--line);
   border-radius:12px;
   padding:10px;
-  background:#fff
+  background:var(--bubble);
 }
 .prompt-title{font-size:20px;font-weight:500;margin:0 0 6px}
 .prompt-card textarea{
   width:100%;
   min-height:260px;
   border:1px solid var(--line);
-  background:#fff;
+  background:var(--bubble);
+  color:var(--fg);
   border-radius:8px;
   padding:10px;
   font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   font-size:12.5px
 }
-.prompt-card .row{display:flex;gap:6px;justify-content:flex-end;margin-top:8px}
-
-/* Centralizar os dois botões */
-.center-row{
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  margin-top:12px;
-}
+.prompt-card .row{display:flex;gap:6px;justify-content:center;margin-top:8px}
 
 /* Mensagem final grande */
 .info-msg{
@@ -110,7 +110,7 @@ body{
   text-align:center;
   margin-top:14px;
   line-height:1.5;
-  color:#333;
+  color:var(--fg);
 }
 
 /* Botões padrão */
@@ -118,23 +118,27 @@ body{
   padding:12px 18px;
   border-radius:8px;
   border:1px solid var(--line);
-  background:#fff;
+  background:var(--bubble);
+  color:var(--fg);
   cursor:pointer;
   font-size:14px;
   font-weight:500;
   box-shadow:0 2px 5px rgba(0,0,0,0.08);
   transition:background 0.2s, transform 0.2s;
 }
-.btn:hover { background:#f0f1f4; transform:translateY(-1px); }
+.btn:hover { background:var(--chip-hover); transform:translateY(-1px); }
 .btn:active { transform:translateY(0) scale(.98); }
+.btn.mini{ padding:8px 12px; font-size:13px; }
 
+/* Input */
 .input-bubble input{
   width:100%;
   border:1px solid var(--line);
   border-radius:12px;
   padding:12px 14px;
   font-size:14px;
-  background:#fff
+  background:var(--bubble);
+  color:var(--fg);
 }
 .input-bubble .row{display:flex;gap:6px;justify-content:flex-end;margin-top:8px}
 .typing{display:inline-flex;gap:4px;align-items:center}
@@ -143,4 +147,21 @@ body{
 .dot:nth-child(3){animation-delay:.3s}
 @keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
 
+/* Footer */
 .footer{padding:10px 0;color:var(--muted);font-size:12px}
+
+/* Haptics visual fallback */
+body.haptic .iconbtn, body.haptic .btn{ transform:scale(.985); }
+
+/* Settings modal */
+.settings-modal::backdrop{ background:rgba(0,0,0,.25); }
+.settings-card{ min-width:320px; border:1px solid var(--line); border-radius:12px; padding:14px; background:var(--bubble); color:var(--fg); }
+.settings-card h3{ margin:0 0 8px; font-size:18px; }
+.settings-row{ display:flex; align-items:center; gap:10px; margin:10px 0; }
+.settings-actions{ display:flex; justify-content:flex-end; gap:8px; }
+
+.switch{ display:flex; align-items:center; gap:10px; cursor:pointer; }
+.switch input{ width:18px; height:18px; }
+
+/* Acessibilidade de foco geral */
+a:focus-visible, button:focus-visible, select:focus-visible{ outline:3px solid var(--focus); outline-offset:2px; }
