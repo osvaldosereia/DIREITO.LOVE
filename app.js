@@ -1,15 +1,11 @@
 (function(){
 // ---- State & Utils ----
-const LS_KEY='chatBooyArchive';
 const $ = s=>document.querySelector(s);
 const el = (tag, cls, html)=>{ const x=document.createElement(tag); if(cls) x.className=cls; if(html!=null) x.innerHTML=html; return x; };
 const sleep = ms=> new Promise(r=> setTimeout(r, ms));
 const wait = (min=700,max=1200)=> matchMedia('(prefers-reduced-motion: reduce)').matches ? Promise.resolve() : sleep(Math.floor(Math.random()*(max-min+1))+min);
-const truncate=(t,n=80)=> t.length>n? t.slice(0,n-1)+'…': t;
-const lsLoad=()=>{ try{return JSON.parse(localStorage.getItem(LS_KEY))||[]}catch(e){return[]} };
-const lsSave=v=> localStorage.setItem(LS_KEY, JSON.stringify(v));
-const archiveAdd=rec=>{ const L=lsLoad(); L.unshift(rec); lsSave(L); };
 
+// ---- Labels & Strategies ----
 const labels = {
   prova:'Estudar p/ Prova',
   questoes:'Questões (A–E)',
@@ -38,10 +34,10 @@ Ensinar o tema {{TEMA}} como se fosse a última revisão antes da prova.
 
 📌 FORMATO DA ENTREGA:
 1. **Conceito direto** (2 parágrafos com 3 a 4 linhas cada).
-2. **Mapa mental em texto bem organizado, use icones para decorar**.
+2. **Mapa mental em texto bem organizado, use ícones para decorar**.
 3. **Exemplos típicos de prova**.
 4. **Entendimento jurisprudencial majoritário (pesquise bem)**.
-5. **Pegadinhas e confusões comuns (use icones)**.
+5. **Pegadinhas e confusões comuns (use ícones)**.
 6. **Quadro comparativo** se houver institutos correlatos.
 7. **Checklist final objetivo mas detalhado**.
 8. **🔎 Buscas prontas**: 5 links Google “{{TEMA}} + palavra-chave”.
@@ -226,7 +222,7 @@ let tema=''; const chosen = new Set();
 
 function renderPromptCard(strategy){
   const card = el('div','prompt-card');
-  const h = el('h3','prompt-title', truncate(tema,80));
+  const h = el('h3','prompt-title', tema);
   const ta = el('textarea'); ta.value = promptFor(strategy, tema);
   const row = el('div','row');
   const copy = el('button','btn'); copy.textContent="Copiar";
@@ -236,18 +232,13 @@ function renderPromptCard(strategy){
 
   copy.addEventListener('click', async ()=>{ 
     await navigator.clipboard.writeText(ta.value);
-    archiveAdd({ id:Date.now().toString(36), theme:tema, strategy:strategy, strategyLabel:labels[strategy], prompt:ta.value, createdAt:new Date().toISOString() });
     push('bot','✅ Copiado com sucesso!');
 
-    // Texto explicativo dentro do mesmo card
     const info = el('div','small','✨ Prompt copiado. Agora clique e cole o prompt na sua IA favorita:');
     info.style.margin = '8px 0';
     card.appendChild(info);
-
-    // Botões das IAs
     card.appendChild(aiButtons());
 
-    // 🔄 Botão Gerar Novo Prompt com espaçamento extra
     const novoPromptBtn = el('button','btn');
     novoPromptBtn.style.marginTop = '10px';
     novoPromptBtn.innerHTML = '🔄 Novo Tema';
@@ -278,11 +269,10 @@ async function handleStrategy(s){
 function showRemaining(){
   const remaining = allStrategies.filter(x=> !chosen.has(x));
   if(!remaining.length){ push('bot','Fechamos todas as estratégias. Quer iniciar uma nova pesquisa?'); return; }
-  push('bot', `Quer gerar outro prompt para <strong>${truncate(tema,60)}</strong>? Escolha:`);
+  push('bot', `Quer gerar outro prompt para <strong>${tema}</strong>? Escolha:`);
   showChips();
 }
 
-// Input
 function showInputBubble(placeholder='Digite o tema…'){
   const wrap = el('div', 'input-bubble');
   const input = el('input'); input.placeholder=placeholder; input.autocomplete='off';
@@ -293,11 +283,11 @@ function showInputBubble(placeholder='Digite o tema…'){
 
   const submit = async ()=>{ const text = input.value.trim(); if(!text) return input.focus();
     tema = text; bubble.closest('.msg').remove();
-    push('user', `<div>${truncate(tema,140)}</div>`);
+    push('user', `<div>${tema}</div>`);
     let t=typingStart(); await wait(); typingStop(t);
     push('bot', 'Beleza. Vou te mostrar as estratégias disponíveis.');
     await wait(300,700); t=typingStart(); await wait(300,700); typingStop(t);
-    push('bot', `O que você quer fazer com <strong>${truncate(tema,60)}</strong>?`);
+    push('bot', `O que você quer fazer com <strong>${tema}</strong>?`);
     await wait(200,500); showChips(); };
   send.addEventListener('click', submit);
   input.addEventListener('keydown', e=>{ if(e.key==='Enter') submit(); });
@@ -312,9 +302,7 @@ function showChips(){
 
 // ---- Helpers ----
 function bindTop(){
-  const btnArchive = document.getElementById('btn-archive');
   const btnNew = document.getElementById('btn-new');
-  if (btnArchive) btnArchive.addEventListener('click', ()=> window.location.href='arquivo.html');
   if (btnNew) btnNew.addEventListener('click', ()=>{ tema=''; chosen.clear(); showInputBubble('Digite o tema…'); });
 }
 function registerSW(){ if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js?v=3').catch(()=>{}); }
