@@ -2,27 +2,29 @@ document.addEventListener('DOMContentLoaded', () => {
   const archiveRoot = document.getElementById('archive-root');
   const empty = document.getElementById('empty');
   const btnClear = document.getElementById('btn-clear');
+  const toast = document.getElementById('toast');
 
   let historico = JSON.parse(localStorage.getItem("historico")) || [];
 
-  /* ========== Toast ========== */
-  function showToast(msg, type = "ok") {
-    const toast = document.createElement("div");
-    toast.className = `toast ${type}`;
-    toast.setAttribute("role", "status");
-    toast.setAttribute("aria-live", "polite");
+  /* =========================
+     Toast (feedback moderno)
+     ========================= */
+  function showToast(msg, type = "info") {
     toast.textContent = msg;
-
-    document.body.appendChild(toast);
-
-    setTimeout(() => toast.classList.add("show"), 50);
+    toast.className = `toast ${type}`;
+    toast.style.display = "block";
     setTimeout(() => {
-      toast.classList.remove("show");
-      setTimeout(() => toast.remove(), 300);
+      toast.style.opacity = "1";
+    }, 50);
+    setTimeout(() => {
+      toast.style.opacity = "0";
+      setTimeout(() => (toast.style.display = "none"), 400);
     }, 2500);
   }
 
-  /* ========== Render ========== */
+  /* =========================
+     Render cards do histórico
+     ========================= */
   function renderHistorico() {
     archiveRoot.innerHTML = '';
     if (!historico.length) {
@@ -50,39 +52,37 @@ document.addEventListener('DOMContentLoaded', () => {
       textarea.value = item.prompt;
       textarea.readOnly = true;
       textarea.className = 'prompt-textarea';
-      textarea.setAttribute("aria-label", `Prompt salvo: ${item.titulo}`);
       card.appendChild(textarea);
 
       const row = document.createElement('div');
       row.className = 'center-row';
 
-      /* Copiar */
+      // Botão Copiar
       const copiarBtn = document.createElement('button');
-      copiarBtn.textContent = '📋 Copiar';
+      copiarBtn.innerHTML = '📋 Copiar';
       copiarBtn.className = 'btn copiar';
       copiarBtn.onclick = () => {
-        navigator.clipboard.writeText(item.prompt).then(() => {
-          showToast("✅ Copiado com sucesso!");
-        });
+        navigator.clipboard.writeText(item.prompt)
+          .then(() => showToast("✅ Copiado com sucesso!", "success"))
+          .catch(() => showToast("⚠️ Falha ao copiar.", "error"));
       };
 
-      /* Reabrir */
+      // Botão Reabrir
       const abrirBtn = document.createElement('a');
       abrirBtn.href = `index.html?tema=${encodeURIComponent(item.titulo)}&estrategia=${encodeURIComponent(item.estrategia)}`;
       abrirBtn.className = 'btn';
       abrirBtn.textContent = '🔄 Reabrir';
-      abrirBtn.setAttribute("aria-label", `Reabrir prompt de ${item.titulo}`);
       abrirBtn.target = '_blank';
 
-      /* Excluir */
+      // Botão Excluir
       const excluirBtn = document.createElement('button');
-      excluirBtn.textContent = '🗑️ Excluir';
+      excluirBtn.innerHTML = '🗑 Excluir';
       excluirBtn.className = 'btn excluir';
       excluirBtn.onclick = () => {
         historico.splice(index, 1);
         localStorage.setItem("historico", JSON.stringify(historico));
         renderHistorico();
-        showToast("🗑️ Item removido", "warn");
+        showToast("🗑 Item removido.", "info");
       };
 
       row.append(copiarBtn, abrirBtn, excluirBtn);
@@ -92,15 +92,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  renderHistorico();
-
-  /* Limpar tudo */
+  /* =========================
+     Limpar tudo
+     ========================= */
   btnClear.addEventListener('click', () => {
     if (confirm('Tem certeza que deseja apagar todo o histórico?')) {
       localStorage.removeItem("historico");
       historico = [];
       renderHistorico();
-      showToast("🧹 Histórico limpo", "warn");
+      showToast("🧹 Histórico limpo.", "info");
     }
   });
+
+  renderHistorico();
 });
