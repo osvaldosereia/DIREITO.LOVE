@@ -426,15 +426,15 @@ function bindTop(){
   // Se o modal existir, ligar os controles
   const dlg = document.getElementById('settings-modal');
   if(dlg){
-    const prefs = LS.get('prefs', { haptics:true, theme:'auto', daily:false });
+    const prefs = LS.get('prefs', { haptics:true, theme:'auto' });
+
     const hapt = document.getElementById('opt-haptics');
     const theme = document.getElementById('opt-theme');
-    const daily = document.getElementById('opt-daily');
-    const test  = document.getElementById('btn-test-reminder');
+    const newsBtn = document.getElementById('btn-news');
+    const newsStatus = document.getElementById('news-status');
 
     if(hapt) hapt.checked = !!prefs.haptics;
     if(theme) theme.value = prefs.theme || 'auto';
-    if(daily) daily.checked = !!prefs.daily;
 
     if(hapt) hapt.addEventListener('change', e=>{
       prefs.haptics = !!e.target.checked; LS.set('prefs', prefs);
@@ -444,11 +444,41 @@ function bindTop(){
       prefs.theme = e.target.value; LS.set('prefs', prefs);
       NativeBridge.setTheme(prefs.theme);
     });
-    if(daily) daily.addEventListener('change', e=>{
-      prefs.daily = !!e.target.checked; LS.set('prefs', prefs);
-      if(prefs.daily){ NativeBridge.scheduleReminder('daily'); }
-    });
-    if(test)  test.addEventListener('click', ()=> NativeBridge.scheduleReminder('test'));
+
+    // 🔔 Novidades (carrega news.json e marca "visto")
+    if(newsBtn){
+      newsBtn.addEventListener('click', async ()=>{
+        try{
+          const res = await fetch('news.json?v=' + Date.now());
+          if(!res.ok) throw new Error('HTTP ' + res.status);
+          const data = await res.json();
+          const lastSeen = LS.get('lastNewsId', 0);
+          // monta lista simples
+          const itens = (data.items||[]).map(x=>`• ${x.title} — ${x.date}`).join('\n');
+          alert(itens || 'Sem novidades por enquanto.');
+          // marca último visto
+          const newest = (data.items&&data.items[0]&&data.items[0].id) || lastSeen;
+          LS.set('lastNewsId', newest);
+          if(newsStatus) newsStatus.textContent = '';
+        }catch(e){
+          alert('Não foi possível carregar as novidades agora.');
+        }
+      });
+
+      // badge “novo” se houver item não visto
+      (async ()=>{
+        try{
+          const res = await fetch('news.json?v=' + Date.now());
+          if(!res.ok) return;
+          const data = await res.json();
+          const lastSeen = LS.get('lastNewsId', 0);
+          const newest = (data.items&&data.items[0]&&data.items[0].id) || 0;
+          if(newest > lastSeen && newsStatus){
+            newsStatus.textContent = '🟢 Novo';
+          }
+        }catch{}
+      })();
+    }
   }
 }
 
