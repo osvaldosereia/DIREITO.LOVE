@@ -410,30 +410,45 @@ function showChips(){
    Top bind & SW
    ========================= */
 function bindTop(){
+  // Nova pesquisa
   const btnNew = document.getElementById('btn-new');
-  if (btnNew) btnNew.addEventListener('click', ()=>{ tema=''; chosen.clear(); showInputBubble('Digite o tema…'); });
+  if (btnNew) btnNew.addEventListener('click', ()=>{
+    tema=''; chosen.clear(); showInputBubble('Digite o tema…');
+  });
 
-  // Settings modal (só será usado quando existir no HTML)
-  const dlg = $('#settings-modal');
+  // Abrir Configurações (⚙️)
+  const btnSettings = document.getElementById('btn-settings');
+  if (btnSettings) btnSettings.addEventListener('click', ()=>{
+    const dlg = document.getElementById('settings-modal');
+    if (dlg && typeof dlg.showModal === 'function') dlg.showModal();
+  });
+
+  // Se o modal existir, ligar os controles
+  const dlg = document.getElementById('settings-modal');
   if(dlg){
     const prefs = LS.get('prefs', { haptics:true, theme:'auto', daily:false });
-    $('#opt-haptics').checked = !!prefs.haptics;
-    $('#opt-theme').value = prefs.theme || 'auto';
-    $('#opt-daily').checked = !!prefs.daily;
+    const hapt = document.getElementById('opt-haptics');
+    const theme = document.getElementById('opt-theme');
+    const daily = document.getElementById('opt-daily');
+    const test  = document.getElementById('btn-test-reminder');
 
-    $('#opt-haptics').addEventListener('change', e=>{
+    if(hapt) hapt.checked = !!prefs.haptics;
+    if(theme) theme.value = prefs.theme || 'auto';
+    if(daily) daily.checked = !!prefs.daily;
+
+    if(hapt) hapt.addEventListener('change', e=>{
       prefs.haptics = !!e.target.checked; LS.set('prefs', prefs);
       NativeBridge.toggleHaptics(prefs.haptics);
     });
-    $('#opt-theme').addEventListener('change', e=>{
+    if(theme) theme.addEventListener('change', e=>{
       prefs.theme = e.target.value; LS.set('prefs', prefs);
       NativeBridge.setTheme(prefs.theme);
     });
-    $('#opt-daily').addEventListener('change', e=>{
+    if(daily) daily.addEventListener('change', e=>{
       prefs.daily = !!e.target.checked; LS.set('prefs', prefs);
       if(prefs.daily){ NativeBridge.scheduleReminder('daily'); }
     });
-    $('#btn-test-reminder').addEventListener('click', ()=> NativeBridge.scheduleReminder('test'));
+    if(test)  test.addEventListener('click', ()=> NativeBridge.scheduleReminder('test'));
   }
 }
 
