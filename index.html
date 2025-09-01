@@ -11,13 +11,12 @@
   <!-- Manifest PWA -->
   <link rel="manifest" href="manifest.webmanifest">
 
-  <!-- Ícones para diferentes dispositivos -->
+  <!-- Ícones -->
   <link rel="apple-touch-icon" sizes="180x180" href="icons/pwa-180.png">
   <link rel="icon" type="image/png" sizes="192x192" href="icons/pwa-192.png">
   <link rel="icon" type="image/png" sizes="512x512" href="icons/pwa-512.png">
   <link rel="icon" type="image/png" sizes="1024x1024" href="icons/pwa-1024.png">
   <link rel="shortcut icon" href="icons/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="icons/favicon.ico" type="image/x-icon">
 
   <!-- CSS -->
   <link rel="stylesheet" href="styles.css" />
@@ -30,8 +29,17 @@
         <strong class="title">direito.love</strong> - Gerador de Prompts
       </div>
       <nav class="actions" aria-label="Ações principais">
+        <!-- Histórico -->
+        <a class="iconbtn" href="arquivo.html" title="Histórico" aria-label="Abrir histórico local">
+          <img src="icons/home.svg" alt="Histórico">
+        </a>
+        <!-- Nova pesquisa -->
         <button class="iconbtn" id="btn-new" title="Nova pesquisa" aria-label="Nova pesquisa">
           <img src="icons/refresh.svg" alt="Reiniciar conversa" />
+        </button>
+        <!-- Configurações -->
+        <button class="iconbtn" id="btn-settings" title="Configurações" aria-label="Abrir configurações">
+          <img src="icons/filter.svg" alt="Configurações">
         </button>
       </nav>
     </div>
@@ -46,6 +54,45 @@
   <footer class="container footer" role="contentinfo">
     <span class="muted">💚 direito.love</span>
   </footer>
+
+  <!-- Modal de Configurações -->
+  <dialog id="settings-modal" class="settings-modal" aria-labelledby="settings-title">
+    <form method="dialog" class="settings-card">
+      <h3 id="settings-title">Configurações</h3>
+
+      <div class="settings-row">
+        <label class="switch">
+          <input type="checkbox" id="opt-haptics" />
+          <span>Haptics (feedback ao copiar)</span>
+        </label>
+      </div>
+
+      <div class="settings-row">
+        <label for="opt-theme">Tema</label>
+        <select id="opt-theme">
+          <option value="auto">Automático</option>
+          <option value="light">Claro</option>
+          <option value="dark">Escuro</option>
+        </select>
+      </div>
+
+      <div class="settings-row">
+        <label class="switch">
+          <input type="checkbox" id="opt-daily" />
+          <span>Lembrete diário de estudo</span>
+        </label>
+        <button type="button" class="btn mini" id="btn-test-reminder" aria-label="Testar lembrete agora">Testar agora</button>
+      </div>
+
+      <div class="settings-row">
+        <a class="btn mini" href="politica.html" target="_blank" rel="noopener">Política de Privacidade</a>
+      </div>
+
+      <div class="settings-actions">
+        <button class="btn" value="cancel">Fechar</button>
+      </div>
+    </form>
+  </dialog>
 
   <!-- JS principal -->
   <script src="app.js?v=5" defer></script>
