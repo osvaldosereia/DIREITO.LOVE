@@ -1,8 +1,8 @@
-const CACHE = 'chat-booy-v3';
+const CACHE = 'direito.love';
 const ASSETS = [
-  './','index.html','styles.css','app.js?v=3','arquivo.html','arquivo.js?v=3','manifest.webmanifest',
-  'icons/logo.svg','icons/file.svg','icons/refresh.svg','icons/send.svg','icons/filter.svg',
-  'icons/home.svg','icons/trash.svg','icons/copy.svg','icons/chatgpt.svg','icons/gemini.svg','icons/perplexity.svg',
+  './','index.html','styles.css','app.js?v=3','manifest.webmanifest',
+  'icons/logo.svg','icons/refresh.svg','icons/send.svg',
+  'icons/copy.svg','icons/chatgpt.svg','icons/gemini.svg','icons/perplexity.svg',
   'icons/pwa-192.png','icons/pwa-512.png'
 ];
 self.addEventListener('install', e=>{ e.waitUntil(caches.open(CACHE).then(c=> c.addAll(ASSETS)).then(()=> self.skipWaiting())); });
