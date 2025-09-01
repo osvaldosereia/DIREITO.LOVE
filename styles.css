@@ -231,3 +231,61 @@ a:focus-visible, button:focus-visible, select:focus-visible{ outline:3px solid v
 
   .container{ padding:0 12px; }
 }
+
+/* ===== CONTRASTE EXTRA PARA O MODO ESCURO ===== */
+:root[data-theme="dark"] .prompt-card,
+:root[data-theme="auto"] .prompt-card { background: #181c21; }
+
+/* Botões: fundo um pouco mais claro que o card + borda visível */
+:root[data-theme="dark"] .btn,
+:root[data-theme="auto"] .btn {
+  background:#222a31;
+  color:#e8eaed;
+  border-color:#3a434c;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03), 0 1px 0 rgba(0,0,0,.6);
+}
+:root[data-theme="dark"] .btn:hover,
+:root[data-theme="auto"] .btn:hover { background:#2a333b; }
+
+/* Chips: mesma lógica de contraste */
+:root[data-theme="dark"] .chip,
+:root[data-theme="auto"] .chip {
+  background:#20262c;
+  color:#e8eaed;
+  border-color:#3a434c;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+}
+:root[data-theme="dark"] .chip:hover,
+:root[data-theme="auto"] .chip:hover { background:#26303a; }
+
+/* Textarea / inputs: fundo mais escuro, texto claro e borda definida */
+:root[data-theme="dark"] .prompt-card textarea,
+:root[data-theme="auto"] .prompt-card textarea,
+:root[data-theme="dark"] .input-bubble input,
+:root[data-theme="auto"] .input-bubble input {
+  background:#0f1418;
+  color:#e8eaed;
+  border-color:#3a434c;
+}
+:root[data-theme="dark"] .prompt-card textarea::placeholder,
+:root[data-theme="auto"] .prompt-card textarea::placeholder,
+:root[data-theme="dark"] .input-bubble input::placeholder,
+:root[data-theme="auto"] .input-bubble input::placeholder { color:#96a1ad; }
+
+/* Bolhas de mensagem: leve contraste contra o fundo */
+:root[data-theme="dark"] .msg .bubble,
+:root[data-theme="auto"] .msg .bubble {
+  background:#1b2026;
+  border-color:#313942;
+}
+
+/* Topbar acompanha o dark de verdade */
+:root[data-theme="dark"] .topbar,
+:root[data-theme="auto"] .topbar {
+  background:#15181c;
+  border-bottom-color:#2c3238;
+}
+
+/* Ícone do logo ganha leve boost no dark para não “sumir” */
+:root[data-theme="dark"] .logo,
+:root[data-theme="auto"] .logo { filter: brightness(1.15); }
