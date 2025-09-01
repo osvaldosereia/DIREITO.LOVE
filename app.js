@@ -221,6 +221,9 @@ function renderPromptCard(strategy){
       '✨ Pronto.<br>Agora é só colar<br>na sua I.A. preferida.'
     );
     card.appendChild(info);
+
+    // Só depois de 5s mostrar as estratégias novamente
+    setTimeout(()=>{ showRemaining(); }, 5000);
   });
 
   novo.addEventListener('click', ()=>{ 
@@ -239,14 +242,16 @@ async function handleStrategy(s){
   push('bot', `Gerando prompt de <strong>${labels[s]}</strong>…`);
   t=typingStart(); await wait(1000,1600); typingStop(t);
   push('bot', renderPromptCard(s));
-  await wait(300,600);
-  showRemaining();
+  // 🔴 não chama showRemaining() aqui
 }
 
 function showRemaining(){
   const remaining = allStrategies.filter(x=> !chosen.has(x));
-  if(!remaining.length){ push('bot','Fechamos todas as estratégias. Quer iniciar uma nova pesquisa?'); return; }
-  push('bot', `Quer gerar outro prompt para <strong>${tema}</strong>? Escolha:`);
+  if(!remaining.length){ 
+    push('bot','Fechamos todas as estratégias. Quer iniciar uma nova pesquisa?'); 
+    return; 
+  }
+  push('bot', `Experimente outra tarefa para <strong>${tema}</strong>`);
   showChips();
 }
 
@@ -273,7 +278,12 @@ function showInputBubble(placeholder='Digite o tema…'){
 
 function showChips(){
   const bar = el('div','chips');
-  allStrategies.forEach(s=>{ if(chosen.has(s)) return; const b = el('button','chip', labels[s]); b.addEventListener('click', ()=> handleStrategy(s)); bar.appendChild(b); });
+  allStrategies.forEach(s=>{ 
+    if(chosen.has(s)) return; 
+    const b = el('button','chip', labels[s]); 
+    b.addEventListener('click', ()=> handleStrategy(s)); 
+    bar.appendChild(b); 
+  });
   push('bot', bar);
 }
 
