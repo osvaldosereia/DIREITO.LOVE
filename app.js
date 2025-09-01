@@ -268,9 +268,7 @@ function showInputBubble(placeholder='Digite o tema…'){
     push('user', `<div>${tema}</div>`);
     let t=typingStart(); await wait(); typingStop(t);
     push('bot', 'Beleza. Vou te mostrar as estratégias disponíveis.');
-    await wait(300,700); t=typingStart(); await wait(300,700); typingStop(t);
-    push('bot', `O que você quer fazer com <strong>${tema}</strong>?`);
-    await wait(200,500); showChips(); };
+    await wait(500,800); typingStop(t); await wait(400,700); showChips(); };
   send.addEventListener('click', submit);
   input.addEventListener('keydown', e=>{ if(e.key==='Enter') submit(); });
   input.focus();
