@@ -338,4 +338,144 @@ ${ta.value}
 💚 direito.love
 `;
     const r = await NativeBridge.exportMarkdown(name, content);
-    push('bot', r.ok ? '📄 Arquivo .md salvo.' :
+    push('bot', r.ok ? '📄 Arquivo .md salvo.' : '⚠️ Não foi possível salvar o .md.');
+  });
+
+  reminderBtn.addEventListener('click', async ()=>{
+    const r = await NativeBridge.scheduleReminder('test');
+    push('bot', r.ok ? '🔔 Lembrete agendado (modo demonstração no web).' : '⚠️ Não foi possível agendar o lembrete.');
+  });
+
+  novo.addEventListener('click', ()=>{
+    tema=''; chosen.clear();
+    push('bot','✨ Vamos lá! Digite um novo tema:');
+    showInputBubble('Digite um novo tema…');
+  });
+
+  return card;
+}
+
+async function handleStrategy(s){
+  chosen.add(s);
+  push('user', `<div>${labels[s]}</div>`);
+  let t=typingStart(); await wait(); typingStop(t);
+  push('bot', `Gerando prompt de <strong>${labels[s]}</strong>…`);
+  t=typingStart(); await wait(800,1300); typingStop(t);
+  push('bot', renderPromptCard(s));
+}
+
+function showRemaining(){
+  const remaining = allStrategies.filter(x=> !chosen.has(x));
+  if(!remaining.length){
+    push('bot','Fechamos todas as estratégias. Quer iniciar uma nova pesquisa?');
+    return;
+  }
+  push('bot', `Experimente outra tarefa para <strong>${tema}</strong>`);
+  showChips();
+}
+
+function showInputBubble(placeholder='Digite o tema…'){
+  const wrap = el('div', 'input-bubble');
+  const input = el('input'); input.placeholder=placeholder; input.autocomplete='off';
+  const row = el('div','row');
+  const send = el('button','iconbtn'); send.title='Enviar'; send.innerHTML='<img src="icons/send.svg" alt=""/>';
+  row.appendChild(send); wrap.appendChild(input); wrap.appendChild(row);
+  const bubble = push('bot', wrap);
+
+  const submit = async ()=>{ 
+    const text = input.value.trim(); if(!text) return input.focus();
+    tema = text; bubble.closest('.msg')?.remove();
+    push('user', `<div>${tema}</div>`);
+    let t=typingStart(); await wait(); typingStop(t);
+    push('bot', 'Beleza. Vou te mostrar as estratégias disponíveis.');
+    await wait(300,600); showChips();
+  };
+  send.addEventListener('click', submit);
+  input.addEventListener('keydown', e=>{ if(e.key==='Enter') submit(); });
+  input.focus();
+}
+
+function showChips(){
+  const bar = el('div','chips');
+  allStrategies.forEach(s=>{
+    if(chosen.has(s)) return;
+    const b = el('button','chip', labels[s]);
+    b.addEventListener('click', ()=> handleStrategy(s));
+    bar.appendChild(b);
+  });
+  push('bot', bar);
+}
+
+/* =========================
+   Top bind & SW
+   ========================= */
+function bindTop(){
+  const btnNew = document.getElementById('btn-new');
+  if (btnNew) btnNew.addEventListener('click', ()=>{ tema=''; chosen.clear(); showInputBubble('Digite o tema…'); });
+
+  // Settings modal (só será usado quando existir no HTML)
+  const dlg = $('#settings-modal');
+  if(dlg){
+    const prefs = LS.get('prefs', { haptics:true, theme:'auto', daily:false });
+    $('#opt-haptics').checked = !!prefs.haptics;
+    $('#opt-theme').value = prefs.theme || 'auto';
+    $('#opt-daily').checked = !!prefs.daily;
+
+    $('#opt-haptics').addEventListener('change', e=>{
+      prefs.haptics = !!e.target.checked; LS.set('prefs', prefs);
+      NativeBridge.toggleHaptics(prefs.haptics);
+    });
+    $('#opt-theme').addEventListener('change', e=>{
+      prefs.theme = e.target.value; LS.set('prefs', prefs);
+      NativeBridge.setTheme(prefs.theme);
+    });
+    $('#opt-daily').addEventListener('change', e=>{
+      prefs.daily = !!e.target.checked; LS.set('prefs', prefs);
+      if(prefs.daily){ NativeBridge.scheduleReminder('daily'); }
+    });
+    $('#btn-test-reminder').addEventListener('click', ()=> NativeBridge.scheduleReminder('test'));
+  }
+}
+
+function registerSW(){ if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js?v=5').catch(()=>{}); }
+
+/* =========================
+   Deep Link (URL params)
+   ========================= */
+function params(){
+  const q = new URLSearchParams(location.search);
+  return { tema:q.get('tema')||'', estrategia:q.get('estrategia')||'' };
+}
+
+/* =========================
+   Boot
+   ========================= */
+(async function init(){
+  bindTop(); registerSW();
+
+  const prefs = LS.get('prefs', { haptics:true, theme:'auto', daily:false });
+  document.documentElement.dataset.theme = prefs.theme || 'auto';
+
+  let t=typingStart(); await wait(200,400); typingStop(t);
+  push('bot','<strong>Bem-vindo</strong>');
+  t=typingStart(); await wait(); typingStop(t);
+
+  const p = params();
+  if(p.tema){
+    tema = p.tema;
+    push('user', `<div>${tema}</div>`);
+    await wait(200,400);
+    if(p.estrategia && labels[p.estrategia]){
+      await handleStrategy(p.estrategia);
+      return;
+    } else {
+      push('bot', 'Beleza. Vou te mostrar as estratégias disponíveis.');
+      await wait(300,600); showChips();
+      return;
+    }
+  }
+
+  push('bot','Qual é o tema?');
+  showInputBubble();
+})();
+})();
