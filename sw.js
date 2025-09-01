@@ -1,7 +1,9 @@
-/* ==============================
-   Service Worker — direito.love
-   v9 — otimizado para iOS/Android
-   ============================== */
+/* =========================
+   Service Worker v9
+   - network-first p/ HTML
+   - cache-first p/ estáticos
+   - fallback offline
+   ========================= */
 
 const CACHE = 'direito-love-v9';
 const ASSETS = [
@@ -9,14 +11,15 @@ const ASSETS = [
   'index.html',
   'styles.css',
   'app.js',
-  'manifest.webmanifest',
-  'politica.html',
   'arquivo.html',
   'arquivo.js',
+  'politica.html',
+  'manifest.webmanifest',
   // Ícones principais
   'icons/logo.svg',
-  'icons/send.svg',
   'icons/refresh.svg',
+  'icons/send.svg',
+  'icons/copy.svg',
   'icons/filter.svg',
   'icons/home.svg',
   'icons/trash.svg',
@@ -29,7 +32,9 @@ const ASSETS = [
   'icons/favicon.ico'
 ];
 
-/* ====== Install: cache inicial ====== */
+/* =========================
+   Install — pré-cache estáticos
+   ========================= */
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE)
@@ -38,7 +43,9 @@ self.addEventListener('install', e => {
   );
 });
 
-/* ====== Activate: limpa cache antigo ====== */
+/* =========================
+   Activate — limpa caches antigos
+   ========================= */
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(keys =>
@@ -47,48 +54,44 @@ self.addEventListener('activate', e => {
   );
 });
 
-/* ====== Fetch: estratégias ======
-   - HTML: network-first (sempre tenta online antes de usar cache)
-   - Assets locais: cache-first (rápido e offline)
-   - Outros: network fallback to cache
-================================== */
+/* =========================
+   Fetch — estratégias híbridas
+   ========================= */
 self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET') return;
 
   const url = new URL(req.url);
-  const isHTML = req.mode === 'navigate' || (req.headers.get('accept') || '').includes('text/html');
+  const isHTML =
+    req.mode === 'navigate' ||
+    (req.headers.get('accept') || '').includes('text/html');
   const sameOrigin = url.origin === location.origin;
 
+  // Estratégia network-first para páginas HTML
   if (isHTML && sameOrigin) {
     e.respondWith(
-      fetch(req).then(res => {
-        const copy = res.clone();
-        caches.open(CACHE).then(c => c.put(req, copy));
-        return res;
-      }).catch(() => caches.match('index.html'))
+      fetch(req)
+        .then(res => {
+          const copy = res.clone();
+          caches.open(CACHE).then(c => c.put(req, copy)).catch(() => {});
+          return res;
+        })
+        .catch(() => caches.match('index.html'))
     );
     return;
   }
 
+  // Estratégia cache-first para estáticos
   if (sameOrigin) {
     e.respondWith(
       caches.match(req).then(cached =>
-        cached || fetch(req).then(res => {
+        cached ||
+        fetch(req).then(res => {
           const copy = res.clone();
-          caches.open(CACHE).then(c => c.put(req, copy));
+          caches.open(CACHE).then(c => c.put(req, copy)).catch(() => {});
           return res;
         }).catch(() => cached)
       )
     );
-  }
-});
-
-/* ====== Mensagens ======
-   Permite forçar atualização pelo app.
-================================== */
-self.addEventListener('message', e => {
-  if (e.data === 'skipWaiting') {
-    self.skipWaiting();
   }
 });
