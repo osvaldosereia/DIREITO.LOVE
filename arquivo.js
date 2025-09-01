@@ -5,6 +5,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let historico = JSON.parse(localStorage.getItem("historico")) || [];
 
+  /* ========== Toast ========== */
+  function showToast(msg, type = "ok") {
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.setAttribute("role", "status");
+    toast.setAttribute("aria-live", "polite");
+    toast.textContent = msg;
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.classList.add("show"), 50);
+    setTimeout(() => {
+      toast.classList.remove("show");
+      setTimeout(() => toast.remove(), 300);
+    }, 2500);
+  }
+
+  /* ========== Render ========== */
   function renderHistorico() {
     archiveRoot.innerHTML = '';
     if (!historico.length) {
@@ -32,37 +50,42 @@ document.addEventListener('DOMContentLoaded', () => {
       textarea.value = item.prompt;
       textarea.readOnly = true;
       textarea.className = 'prompt-textarea';
+      textarea.setAttribute("aria-label", `Prompt salvo: ${item.titulo}`);
       card.appendChild(textarea);
 
       const row = document.createElement('div');
       row.className = 'center-row';
 
+      /* Copiar */
       const copiarBtn = document.createElement('button');
-      copiarBtn.textContent = 'Copiar';
+      copiarBtn.textContent = '📋 Copiar';
       copiarBtn.className = 'btn copiar';
       copiarBtn.onclick = () => {
-        navigator.clipboard.writeText(item.prompt);
-        alert('✅ Copiado com sucesso!');
+        navigator.clipboard.writeText(item.prompt).then(() => {
+          showToast("✅ Copiado com sucesso!");
+        });
       };
 
+      /* Reabrir */
       const abrirBtn = document.createElement('a');
       abrirBtn.href = `index.html?tema=${encodeURIComponent(item.titulo)}&estrategia=${encodeURIComponent(item.estrategia)}`;
       abrirBtn.className = 'btn';
-      abrirBtn.textContent = 'Reabrir';
+      abrirBtn.textContent = '🔄 Reabrir';
+      abrirBtn.setAttribute("aria-label", `Reabrir prompt de ${item.titulo}`);
       abrirBtn.target = '_blank';
 
+      /* Excluir */
       const excluirBtn = document.createElement('button');
-      excluirBtn.textContent = 'Excluir';
+      excluirBtn.textContent = '🗑️ Excluir';
       excluirBtn.className = 'btn excluir';
       excluirBtn.onclick = () => {
         historico.splice(index, 1);
         localStorage.setItem("historico", JSON.stringify(historico));
         renderHistorico();
+        showToast("🗑️ Item removido", "warn");
       };
 
-      row.appendChild(copiarBtn);
-      row.appendChild(abrirBtn);
-      row.appendChild(excluirBtn);
+      row.append(copiarBtn, abrirBtn, excluirBtn);
       card.appendChild(row);
 
       archiveRoot.appendChild(card);
@@ -71,11 +94,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   renderHistorico();
 
+  /* Limpar tudo */
   btnClear.addEventListener('click', () => {
-    if (confirm('Tem certeza que deseja apagar tudo?')) {
+    if (confirm('Tem certeza que deseja apagar todo o histórico?')) {
       localStorage.removeItem("historico");
       historico = [];
       renderHistorico();
+      showToast("🧹 Histórico limpo", "warn");
     }
   });
 });
