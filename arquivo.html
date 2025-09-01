@@ -3,10 +3,35 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Histórico — direito.love</title>
-  <meta name="theme-color" content="#0f1113"/>
+  <title>📂 Histórico — direito.love</title>
+
+  <!-- Tema rápido antes do CSS -->
+  <script>
+  (function () {
+    try {
+      var prefs = JSON.parse(localStorage.getItem('prefs') || '{}');
+      var t = prefs.theme || 'auto';
+      var eff = (t === 'auto')
+        ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+        : t;
+      document.documentElement.setAttribute('data-theme', eff);
+      var meta = document.querySelector('meta[name="theme-color"][data-live]');
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.setAttribute('name', 'theme-color');
+        meta.setAttribute('data-live', '1');
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute('content', eff === 'dark' ? '#15181c' : '#e9eaee');
+    } catch (e) {}
+  })();
+  </script>
+
+  <!-- Manifest -->
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css?v=9">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css?v=8">
 </head>
 <body>
   <header class="topbar" role="banner">
@@ -20,8 +45,8 @@
         <a class="iconbtn" href="index.html" title="Voltar ao chat" aria-label="Voltar ao chat">
           <img src="icons/home.svg" alt="Início">
         </a>
-        <!-- Limpar tudo -->
-        <button class="iconbtn" id="btn-clear" title="Apagar histórico" aria-label="Apagar histórico">
+        <!-- Limpar -->
+        <button class="iconbtn" id="btn-clear" title="Limpar histórico" aria-label="Limpar histórico">
           <img src="icons/trash.svg" alt="Limpar">
         </button>
       </nav>
@@ -30,17 +55,21 @@
 
   <main class="container app" role="main">
     <section id="archive" class="chat" aria-label="Histórico de prompts">
-      <div id="archive-root" role="list"></div>
+      <div id="archive-root"></div>
       <div id="empty" class="small" style="padding:20px;display:none">
-        📂 Nenhum item salvo ainda.
+        📭 Nada salvo ainda.
       </div>
     </section>
   </main>
 
   <footer class="container footer" role="contentinfo">
-    <span class="muted">Histórico local — armazenado somente neste dispositivo</span>
+    <span class="muted">Histórico local (armazenado neste dispositivo)</span>
   </footer>
 
+  <!-- Toast -->
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Script -->
   <script src="arquivo.js?v=5" defer></script>
 </body>
 </html>
