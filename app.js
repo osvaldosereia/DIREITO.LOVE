@@ -13,7 +13,7 @@ const labels = {
   apresentacao:'Apresentação Oral (5min)',
   decoreba:'Estudo Rápido',
   casos:'Casos Concretos',
-  testeRelampago:'🧪 Teste',
+  testeRelampago:'🧪 Teste Rápido',
   mapaMental:'🧠 Mapa Mental',
   errosProva:'🎯 Erros Clássicos',
   quadroComparativo:'📚 Quadro Analítico'
@@ -136,7 +136,7 @@ Acrescente 10 buscas Google “{{TEMA}} + palavra-chave”.
   testeRelampago: `Você é um **elaborador de questões rápidas**.
 
 🎯 OBJETIVO:
-Avaliar rapidamente {{TEMA}} em 5 questões objetivas A–E.
+Avaliar rapidamente {{TEMA}} em 15 questões objetivas A–E.
 
 📌 FORMATO:
 - Após cada questão, já mostre gabarito e explicação curta.
