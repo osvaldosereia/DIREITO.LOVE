@@ -8,20 +8,17 @@
   "orientation": "portrait",
   "lang": "pt-BR",
 
-  /* barras/splash: coerentes com o modo escuro */
   "theme_color": "#0f1113",
   "background_color": "#0f1113",
 
-  /* ícones (mantive os seus tamanhos) */
   "icons": [
-    { "src": "icons/pwa-144.png",  "sizes": "144x144",  "type": "image/png" },
-    { "src": "icons/pwa-180.png",  "sizes": "180x180",  "type": "image/png" },
+    { "src": "icons/pwa-144.png",  "sizes": "144x144",  "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/pwa-180.png",  "sizes": "180x180",  "type": "image/png", "purpose": "any maskable" },
     { "src": "icons/pwa-192.png",  "sizes": "192x192",  "type": "image/png", "purpose": "any maskable" },
     { "src": "icons/pwa-512.png",  "sizes": "512x512",  "type": "image/png", "purpose": "any maskable" },
     { "src": "icons/pwa-1024.png", "sizes": "1024x1024","type": "image/png", "purpose": "any maskable" }
   ],
 
-  /* atalhos (Android) — opcionais, mas deixam mais “nativo” */
   "shortcuts": [
     {
       "name": "Nova pesquisa",
@@ -39,6 +36,6 @@
     }
   ],
 
-  "prefer_related_applications": false,
-  "categories": ["education", "productivity"]
+  "categories": ["education", "productivity"],
+  "prefer_related_applications": false
 }
