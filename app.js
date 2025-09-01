@@ -1,11 +1,98 @@
 (function(){
-// ---- State & Utils ----
+/* =========================
+   State & Utils
+   ========================= */
 const $ = s=>document.querySelector(s);
 const el = (tag, cls, html)=>{ const x=document.createElement(tag); if(cls) x.className=cls; if(html!=null) x.innerHTML=html; return x; };
 const sleep = ms=> new Promise(r=> setTimeout(r, ms));
-const wait = (min=700,max=1200)=> matchMedia('(prefers-reduced-motion: reduce)').matches ? Promise.resolve() : sleep(Math.floor(Math.random()*(max-min+1))+min);
+const rand = (min,max)=> Math.floor(Math.random()*(max-min+1))+min;
+const wait = (min=700,max=1200)=> matchMedia('(prefers-reduced-motion: reduce)').matches ? Promise.resolve() : sleep(rand(min,max));
 
-// ---- Labels & Strategies ----
+/* Store helpers */
+const LS = {
+  get(k, def){ try{ return JSON.parse(localStorage.getItem(k)) ?? def; }catch{ return def; } },
+  set(k, v){ localStorage.setItem(k, JSON.stringify(v)); return v; }
+};
+
+/* NativeBridge (fallback web) */
+const NativeBridge = (()=> {
+  const isNative = !!window.NativeBridgeNative || !!window.Capacitor;
+  const ok = (data)=> Promise.resolve({ ok:true, data });
+  const err = (error)=> Promise.resolve({ ok:false, error });
+  const haptic = ()=> {
+    document.body.classList.add('haptic');
+    setTimeout(()=> document.body.classList.remove('haptic'), 120);
+  };
+
+  return {
+    isNative,
+    async copyPrompt(text){
+      try{
+        await navigator.clipboard.writeText(text);
+        const prefs = LS.get('prefs', { haptics:true, theme:'auto', daily:false });
+        if(prefs.haptics) haptic();
+        return ok();
+      }catch(e){ return err(String(e)); }
+    },
+    async exportMarkdown(filename, content){
+      try{
+        const blob = new Blob([content], { type:'text/markdown;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(a.href);
+        a.remove();
+        return ok();
+      }catch(e){ return err(String(e)); }
+    },
+    async importMarkdown(){
+      return new Promise((resolve)=>{
+        const input = document.createElement('input');
+        input.type='file';
+        input.accept='.md,text/markdown';
+        input.onchange = async () => {
+          const f = input.files?.[0];
+          if(!f) return resolve({ ok:false, error:'cancel' });
+          const text = await f.text();
+          resolve({ ok:true, data:{ filename:f.name, content:text } });
+        };
+        input.click();
+      });
+    },
+    async scheduleReminder(preset){
+      setTimeout(()=>{
+        push('bot','🔔 (Simulação) Lembrete acionado. No app, você receberá notificação local.');
+      }, 800);
+      return ok();
+    },
+    async openDeepLink(route){
+      if(route) location.hash = route;
+      return ok();
+    },
+    async setTheme(scheme){
+      document.documentElement.dataset.theme = scheme || 'auto';
+      return ok();
+    },
+    async getAppInfo(){
+      return ok({ platform: /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ? 'mobile' : 'web', version:'web', isNative });
+    },
+    async toggleHaptics(enabled){
+      const prefs = LS.get('prefs', { haptics:true, theme:'auto', daily:false });
+      prefs.haptics = !!enabled; LS.set('prefs', prefs);
+      return ok(prefs);
+    },
+    async openSettings(){
+      const dlg = $('#settings-modal'); if(dlg) dlg.showModal();
+      return ok();
+    }
+  };
+})();
+
+/* =========================
+   Labels & Strategies
+   ========================= */
 const labels = {
   prova:'Estudar p/ Prova',
   questoes:'Questões (A–E)',
@@ -20,7 +107,9 @@ const labels = {
 };
 const allStrategies = Object.keys(labels);
 
-// ---- Prompts ----
+/* =========================
+   Prompts (sem resumir)
+   ========================= */
 const Prompts = {
   prova: `Você é um **professor de Direito altamente didático**, especializado em provas da OAB e concursos jurídicos, escolhido pelo projeto **direito.love** para transformar qualquer tema em um estudo direto ao ponto, com profundidade e clareza.
 
@@ -48,7 +137,6 @@ Ensinar o tema {{TEMA}} como se fosse a última revisão antes da prova.
 - Texto fluido, como explicação oral.
 
 💚 [direito.love](https://direito.love)`,
-
   questoes: `Você é um **professor-curador de questões jurídicas reais e autorais** do projeto **direito.love**, especialista em transformar teoria em prática.
 
 🎯 OBJETIVO:
@@ -68,7 +156,6 @@ Treinar {{TEMA}} com 15 questões de múltipla escolha (A–E), em 2 etapas:
 Após a correção, ofereça estatísticas e sugestão de próxima estratégia.
 
 💚 [direito.love](https://direito.love)`,
-
   correlatos: `Você é um **curador temático do direito.love**, responsável por sugerir caminhos de estudo conectados ao tema {{TEMA}}.
 
 🎯 OBJETIVO:
@@ -84,7 +171,6 @@ Sugerir 20 temas correlatos, agrupados em 4 blocos:
 - Justificativa em 1 linha.
 
 💚 [direito.love](https://direito.love)`,
-
   apresentacao: `Você é um **professor-orador** do projeto **direito.love**.
 
 🎯 OBJETIVO:
@@ -101,7 +187,6 @@ Criar um roteiro de 5 minutos sobre {{TEMA}}.
 - Destaque de frases de efeito.
 
 💚 [direito.love](https://direito.love)`,
-
   decoreba: `Você é um **professor de memorização jurídica**.
 
 🎯 OBJETIVO:
@@ -115,7 +200,6 @@ Resumir {{TEMA}} em formato de memorização.
 5. Checklist final.
 
 💚 [direito.love](https://direito.love)`,
-
   casos: `Você é um **professor de prática jurídica**.
 
 🎯 OBJETIVO:
@@ -132,7 +216,6 @@ Apresentar 3 casos concretos comentados sobre {{TEMA}}.
 Acrescente 10 buscas Google “{{TEMA}} + palavra-chave”.
 
 💚 [direito.love](https://direito.love)`,
-
   testeRelampago: `Você é um **elaborador de questões rápidas**.
 
 🎯 OBJETIVO:
@@ -142,7 +225,6 @@ Avaliar rapidamente {{TEMA}} em 15 questões objetivas A–E.
 - Após cada questão, já mostre gabarito e explicação curta.
 
 💚 [direito.love](https://direito.love)`,
-
   mapaMental: `Você é um **especialista em esquemas visuais**.
 
 🎯 OBJETIVO:
@@ -154,7 +236,6 @@ Apresentar {{TEMA}} em mapa mental textual.
   – Observações
 
 💚 [direito.love](https://direito.love)`,
-
   errosProva: `Você é um **coach de prova jurídica**.
 
 🎯 OBJETIVO:
@@ -167,7 +248,6 @@ Apontar 10 a 15 erros mais cometidos sobre {{TEMA}}.
 - Grupo 4: prática equivocada.
 
 💚 [direito.love](https://direito.love)`,
-
   quadroComparativo: `Você é um **professor comparatista**.
 
 🎯 OBJETIVO:
@@ -180,7 +260,9 @@ Tabela com 3 colunas: Instituto | Definição | Exemplo.
 };
 function promptFor(strategy, tema){ return (Prompts[strategy]||'').replaceAll('{{TEMA}}', tema); }
 
-// ---- UI helpers ----
+/* =========================
+   UI helpers
+   ========================= */
 function push(role, nodeOrHtml){
   const box = $('#messages');
   const w = el('div', `msg ${role}`);
@@ -194,112 +276,66 @@ function push(role, nodeOrHtml){
 const typingStart = ()=> push('bot', `<span class="typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>`);
 const typingStop = (bubble)=>{ if(!bubble) return; const msg=bubble.closest('.msg'); if(msg) msg.remove(); };
 
-// ---- App logic ----
+/* =========================
+   App logic
+   ========================= */
 let tema=''; const chosen = new Set();
+
+function filenameFrom(tema){
+  const slug = (tema||'tema').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+  const d = new Date(); const pad = n=> String(n).padStart(2,'0');
+  const name = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}_${pad(d.getHours())}-${pad(d.getMinutes())}_${slug||'prompt'}.md`;
+  return name;
+}
 
 function renderPromptCard(strategy){
   const card = el('div','prompt-card');
   const h = el('h3','prompt-title', tema);
   const ta = el('textarea'); ta.value = promptFor(strategy, tema);
 
-  // Botões centralizados
-  const row = el('div','row center-row');
+  const row = el('div','row');
+
   const copy = el('button','btn'); copy.textContent="Copiar";
+  const exportBtn = el('button','btn'); exportBtn.textContent="Exportar .md";
+  const reminderBtn = el('button','btn'); reminderBtn.textContent="Lembrete";
   const novo = el('button','btn'); novo.textContent="Reiniciar";
-  row.appendChild(copy); row.appendChild(novo);
+
+  row.appendChild(copy);
+  row.appendChild(exportBtn);
+  row.appendChild(reminderBtn);
+  row.appendChild(novo);
 
   card.appendChild(h);
   card.appendChild(ta);
   card.appendChild(row);
 
-  copy.addEventListener('click', async ()=>{ 
-  await navigator.clipboard.writeText(ta.value);
-  push('bot','✅ Copiado com sucesso!');
-
-  // Frase em destaque
-  const info = el('div','info-msg',
-    '✨ Pronto.<br>Agora é só colar<br>na sua I.A. preferida.'
-  );
-  card.appendChild(info);
-
-  // 🔥 Espera 5s antes de mostrar "Experimente outra tarefa"
-  setTimeout(()=>{
-    showRemaining();
-  }, 5000);
-});
-
-  novo.addEventListener('click', ()=>{ 
-  tema=''; 
-  chosen.clear(); 
-  push('bot','✨ Vamos lá! Digite um novo tema:');
-  showInputBubble('Digite um novo tema…'); 
-});
-
-  return card;
-}
-
-async function handleStrategy(s){
-  chosen.add(s);
-  push('user', `<div>${labels[s]}</div>`);
-  let t=typingStart(); await wait(); typingStop(t);
-  push('bot', `Gerando prompt de <strong>${labels[s]}</strong>…`);
-  t=typingStart(); await wait(1000,1600); typingStop(t);
-  push('bot', renderPromptCard(s));
-  // 🔴 não chama showRemaining() aqui
-}
-
-function showRemaining(){
-  const remaining = allStrategies.filter(x=> !chosen.has(x));
-  if(!remaining.length){ 
-    push('bot','Fechamos todas as estratégias. Quer iniciar uma nova pesquisa?'); 
-    return; 
-  }
-  push('bot', `Experimente outra tarefa para <strong>${tema}</strong>`);
-  showChips();
-}
-
-function showInputBubble(placeholder='Digite o tema…'){
-  const wrap = el('div', 'input-bubble');
-  const input = el('input'); input.placeholder=placeholder; input.autocomplete='off';
-  const row = el('div','row');
-  const send = el('button','iconbtn'); send.title='Enviar'; send.innerHTML='<img src="icons/send.svg" alt=""/>';
-  row.appendChild(send); wrap.appendChild(input); wrap.appendChild(row);
-  const bubble = push('bot', wrap);
-
-  const submit = async ()=>{ const text = input.value.trim(); if(!text) return input.focus();
-    tema = text; bubble.closest('.msg').remove();
-    push('user', `<div>${tema}</div>`);
-    let t=typingStart(); await wait(); typingStop(t);
-    push('bot', 'Beleza. Vou te mostrar as estratégias disponíveis.');
-    await wait(500,800); typingStop(t); await wait(400,700); showChips(); };
-  send.addEventListener('click', submit);
-  input.addEventListener('keydown', e=>{ if(e.key==='Enter') submit(); });
-  input.focus();
-}
-
-function showChips(){
-  const bar = el('div','chips');
-  allStrategies.forEach(s=>{ 
-    if(chosen.has(s)) return; 
-    const b = el('button','chip', labels[s]); 
-    b.addEventListener('click', ()=> handleStrategy(s)); 
-    bar.appendChild(b); 
+  copy.addEventListener('click', async ()=>{
+    const r = await NativeBridge.copyPrompt(ta.value);
+    push('bot', r.ok ? '✅ Copiado com sucesso!' : '⚠️ Falha ao copiar.');
+    const historico = LS.get('historico', []);
+    historico.unshift({
+      titulo: tema,
+      estrategia: labels[strategy] || strategy,
+      prompt: ta.value,
+      ts: Date.now()
+    });
+    LS.set('historico', historico.slice(0,200));
+    const info = el('div','info-msg','✨ Pronto.<br>Agora é só colar<br>na sua I.A. preferida.');
+    card.appendChild(info);
+    setTimeout(()=>{ showRemaining(); }, 2500);
   });
-  push('bot', bar);
-}
 
-// ---- Helpers ----
-function bindTop(){
-  const btnNew = document.getElementById('btn-new');
-  if (btnNew) btnNew.addEventListener('click', ()=>{ tema=''; chosen.clear(); showInputBubble('Digite o tema…'); });
-}
-function registerSW(){ if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js?v=4').catch(()=>{}); }
+  exportBtn.addEventListener('click', async ()=>{
+    const name = filenameFrom(tema);
+    const content = `# ${tema}
+**Gerado em:** ${new Date().toLocaleString()}  
+**App:** direito.love
 
-// Boot
-(async function init(){
-  bindTop(); registerSW();
-  let t=typingStart(); await wait(200,400); typingStop(t);
-  push('bot','<strong>Bem-vindo</strong>'); t=typingStart(); await wait(); typingStop(t);
-  push('bot','Qual é o tema?'); showInputBubble();
-})();
-})();
+## Prompt
+${ta.value}
+
+---
+💚 direito.love
+`;
+    const r = await NativeBridge.exportMarkdown(name, content);
+    push('bot', r.ok ? '📄 Arquivo .md salvo.' :
