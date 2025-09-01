@@ -1,34 +1,44 @@
 {
-  "name": "direito.love",
+  "name": "direito.love — Gerador de Prompts",
   "short_name": "direito.love",
-  "description": "Gerador de Prompts para estudantes de Direito",
+  "description": "Gerador de prompts jurídicos para estudo, peças e provas.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0f1113",
+  "lang": "pt-BR",
+
+  /* barras/splash: coerentes com o modo escuro */
   "theme_color": "#0f1113",
+  "background_color": "#0f1113",
+
+  /* ícones (mantive os seus tamanhos) */
   "icons": [
+    { "src": "icons/pwa-144.png",  "sizes": "144x144",  "type": "image/png" },
+    { "src": "icons/pwa-180.png",  "sizes": "180x180",  "type": "image/png" },
+    { "src": "icons/pwa-192.png",  "sizes": "192x192",  "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/pwa-512.png",  "sizes": "512x512",  "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/pwa-1024.png", "sizes": "1024x1024","type": "image/png", "purpose": "any maskable" }
+  ],
+
+  /* atalhos (Android) — opcionais, mas deixam mais “nativo” */
+  "shortcuts": [
     {
-      "src": "icons/pwa-180.png",
-      "sizes": "180x180",
-      "type": "image/png"
+      "name": "Nova pesquisa",
+      "short_name": "Novo",
+      "description": "Abrir o app pronto para um novo tema.",
+      "url": "/?novo=1",
+      "icons": [{ "src": "icons/refresh.svg", "sizes": "192x192", "type": "image/svg+xml" }]
     },
     {
-      "src": "icons/pwa-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/pwa-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/pwa-1024.png",
-      "sizes": "1024x1024",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "name": "Histórico",
+      "short_name": "Arquivo",
+      "description": "Abrir os prompts salvos neste dispositivo.",
+      "url": "/arquivo.html",
+      "icons": [{ "src": "icons/home.svg", "sizes": "192x192", "type": "image/svg+xml" }]
     }
-  ]
+  ],
+
+  "prefer_related_applications": false,
+  "categories": ["education", "productivity"]
 }
