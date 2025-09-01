@@ -213,24 +213,27 @@ function renderPromptCard(strategy){
   card.appendChild(row);
 
   copy.addEventListener('click', async ()=>{ 
-    await navigator.clipboard.writeText(ta.value);
-    push('bot','✅ Copiado com sucesso!');
+  await navigator.clipboard.writeText(ta.value);
+  push('bot','✅ Copiado com sucesso!');
 
-    // Frase em destaque (3 linhas, centralizada)
-    const info = el('div','info-msg',
-      '✨ Pronto.<br>Agora é só colar<br>na sua I.A. preferida.'
-    );
-    card.appendChild(info);
+  // Frase em destaque
+  const info = el('div','info-msg',
+    '✨ Pronto.<br>Agora é só colar<br>na sua I.A. preferida.'
+  );
+  card.appendChild(info);
 
-    // Só depois de 5s mostrar as estratégias novamente
-    setTimeout(()=>{ showRemaining(); }, 5000);
-  });
+  // 🔥 Espera 5s antes de mostrar "Experimente outra tarefa"
+  setTimeout(()=>{
+    showRemaining();
+  }, 5000);
+});
 
   novo.addEventListener('click', ()=>{ 
-    tema=''; 
-    chosen.clear(); 
-    showInputBubble('Digite um novo tema…'); 
-  });
+  tema=''; 
+  chosen.clear(); 
+  push('bot','✨ Vamos lá! Digite um novo tema:');
+  showInputBubble('Digite um novo tema…'); 
+});
 
   return card;
 }
