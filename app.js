@@ -243,7 +243,7 @@ function renderPromptCard(strategy){
     // 🔄 Botão Gerar Novo Prompt com espaçamento extra
     const novoPromptBtn = el('button','btn');
     novoPromptBtn.style.marginTop = '10px';
-    novoPromptBtn.innerHTML = '🔄 Gerar novo prompt';
+    novoPromptBtn.innerHTML = '🔄 Novo Tema';
     novoPromptBtn.addEventListener('click', ()=>{
       tema = '';
       chosen.clear();
