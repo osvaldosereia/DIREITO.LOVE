@@ -239,7 +239,19 @@ function renderPromptCard(strategy){
     archiveAdd({ id:Date.now().toString(36), theme:tema, strategy:strategy, strategyLabel:labels[strategy], prompt:ta.value, createdAt:new Date().toISOString() });
     push('bot','✅ Copiado com sucesso!');
     card.appendChild(aiButtons());
+
+    // 🔄 Botão Gerar Novo Prompt
+    const novoPromptBtn = el('button','btn');
+    novoPromptBtn.innerHTML = '🔄 Gerar novo prompt';
+    novoPromptBtn.addEventListener('click', ()=>{
+      tema = '';
+      chosen.clear();
+      push('bot','✨ Que ótimo, vamos lá! Manda o novo tema:');
+      showInputBubble('Digite o novo tema…');
+    });
+    card.appendChild(novoPromptBtn);
   });
+
   novo.addEventListener('click', ()=>{ tema=''; chosen.clear(); showInputBubble('Digite um novo tema…'); });
   return card;
 }
