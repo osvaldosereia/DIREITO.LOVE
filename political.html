@@ -4,24 +4,92 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Política de Privacidade — direito.love</title>
+  <meta name="theme-color" content="#0f1113">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/favicon.ico">
+
   <style>
-    body{font:400 15px/1.6 Inter, ui-sans-serif, system-ui; color:#0b0c0d; background:#fff; margin:0; padding:24px}
-    main{max-width:860px; margin:0 auto}
-    h1{font-size:22px}
-    h2{font-size:18px}
-    p{margin:10px 0}
-    a{color:#0b7; text-decoration:none}
-    a:hover{text-decoration:underline}
+    :root {
+      --bg: #f9fafa;
+      --fg: #111;
+      --muted: #555;
+      --line: #e0e0e0;
+      --link: #107f7b;
+    }
+    body {
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+    }
+    header {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      padding: 12px 20px;
+      position: sticky;
+      top: 0;
+    }
+    header h1 {
+      font-size: 18px;
+      margin: 0;
+      font-weight: 600;
+    }
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+    h2 {
+      margin-top: 24px;
+      font-size: 17px;
+      border-left: 4px solid var(--link);
+      padding-left: 8px;
+    }
+    p {
+      margin: 12px 0;
+      font-size: 15px;
+    }
+    a {
+      color: var(--link);
+      text-decoration: none;
+    }
+    a:hover, a:focus {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      padding: 16px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+    }
   </style>
 </head>
 <body>
-  <main>
+  <header>
     <h1>Política de Privacidade</h1>
-    <p>Este aplicativo não coleta dados pessoais sensíveis. Os prompts gerados ficam no seu dispositivo (localStorage) e são usados apenas para histórico.</p>
-    <p>O app funciona também offline (PWA). Seus dados permanecem no seu navegador/dispositivo, sem envio para servidores.</p>
-    <p>Em caso de dúvidas, fale pelo Instagram:
+  </header>
+
+  <main role="main">
+    <p>O <strong>direito.love</strong> respeita sua privacidade. Este aplicativo não coleta dados pessoais sensíveis.</p>
+
+    <h2>Armazenamento de dados</h2>
+    <p>Os prompts gerados ficam apenas no seu dispositivo (<em>localStorage</em>) e são usados unicamente para histórico. Nenhum dado é enviado a servidores externos.</p>
+
+    <h2>Uso offline</h2>
+    <p>O app funciona como <abbr title="Progressive Web App">PWA</abbr>, podendo ser usado também offline. Seus dados permanecem locais no navegador ou no dispositivo.</p>
+
+    <h2>Contato</h2>
+    <p>Em caso de dúvidas ou solicitações, fale diretamente pelo Instagram:  
       <a href="https://www.instagram.com/osvaldosereiajr/" target="_blank" rel="noopener">@osvaldosereiajr</a>.
     </p>
   </main>
+
+  <footer>
+    💚 direito.love — Última atualização: Setembro/2025
+  </footer>
 </body>
 </html>
