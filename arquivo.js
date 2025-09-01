@@ -16,15 +16,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     historico.forEach((item, index) => {
       const card = document.createElement('div');
-      card.className = 'card';
+      card.className = 'prompt-card';
 
-      const titulo = document.createElement('h4');
+      const titulo = document.createElement('h3');
+      titulo.className = 'prompt-title';
       titulo.textContent = item.titulo;
       card.appendChild(titulo);
 
-      const estrategia = document.createElement('small');
+      const estrategia = document.createElement('div');
+      estrategia.className = 'small';
       estrategia.textContent = item.estrategia;
-      estrategia.className = 'muted';
       card.appendChild(estrategia);
 
       const textarea = document.createElement('textarea');
@@ -33,16 +34,22 @@ document.addEventListener('DOMContentLoaded', () => {
       textarea.className = 'prompt-textarea';
       card.appendChild(textarea);
 
-      const btnRow = document.createElement('div');
-      btnRow.className = 'btn-row';
+      const row = document.createElement('div');
+      row.className = 'center-row';
 
       const copiarBtn = document.createElement('button');
       copiarBtn.textContent = 'Copiar';
       copiarBtn.className = 'btn copiar';
       copiarBtn.onclick = () => {
         navigator.clipboard.writeText(item.prompt);
-        opcoesRow.style.display = 'flex';
+        alert('✅ Copiado com sucesso!');
       };
+
+      const abrirBtn = document.createElement('a');
+      abrirBtn.href = `index.html?tema=${encodeURIComponent(item.titulo)}&estrategia=${encodeURIComponent(item.estrategia)}`;
+      abrirBtn.className = 'btn';
+      abrirBtn.textContent = 'Reabrir';
+      abrirBtn.target = '_blank';
 
       const excluirBtn = document.createElement('button');
       excluirBtn.textContent = 'Excluir';
@@ -53,32 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
         renderHistorico();
       };
 
-      btnRow.appendChild(copiarBtn);
-      btnRow.appendChild(excluirBtn);
-      card.appendChild(btnRow);
+      row.appendChild(copiarBtn);
+      row.appendChild(abrirBtn);
+      row.appendChild(excluirBtn);
+      card.appendChild(row);
 
-      const opcoesRow = document.createElement('div');
-      opcoesRow.className = 'opcoes-row';
-      opcoesRow.style.display = 'none';
-
-      const btns = [
-        { nome: 'ChatGPT', icone: 'gpt', url: 'https://chat.openai.com/' },
-        { nome: 'Gemini', icone: 'gemini', url: 'https://gemini.google.com/' },
-        { nome: 'Perplexity', icone: 'perplexity', url: 'https://www.perplexity.ai/' },
-        { nome: 'Reabrir', icone: 'reabrir', url: `index.html?tema=${encodeURIComponent(item.titulo)}&estrategia=${encodeURIComponent(item.estrategia)}` }
-      ];
-
-      btns.forEach(btn => {
-        const el = document.createElement('a');
-        el.href = btn.url;
-        el.target = '_blank';
-        el.className = 'btn mini';
-        el.innerHTML = `<img src="icons/${btn.icone}.svg" alt="${btn.nome}" />`;
-        el.title = btn.nome;
-        opcoesRow.appendChild(el);
-      });
-
-      card.appendChild(opcoesRow);
       archiveRoot.appendChild(card);
     });
   }
