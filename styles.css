@@ -51,7 +51,7 @@ body{
   border-radius:14px;
   border:1px solid var(--line);
   background:var(--bubble);
-  font-size:14px
+  font-size:16px;   /* 🔹 Aumentado de 14px para 15px */
 }
 .msg.user{justify-content:flex-end}
 .msg.user .bubble{background:var(--you)}
