@@ -5,9 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>direito.love</title>
 
+  <!-- Tema rápido antes do CSS (evita flash e corrige barra no Android) -->
+  <script>
+  (function () {
+    try {
+      var prefs = JSON.parse(localStorage.getItem('prefs') || '{}');
+      var t = prefs.theme || 'auto';
+      var eff = (t === 'auto')
+        ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+        : t;
+      document.documentElement.setAttribute('data-theme', eff);
+      var meta = document.querySelector('meta[name="theme-color"][data-live]');
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.setAttribute('name', 'theme-color');
+        meta.setAttribute('data-live', '1');
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute('content', eff === 'dark' ? '#15181c' : '#e9eaee');
+    } catch (e) {}
+  })();
+  </script>
+
   <!-- Tema do navegador -->
   <meta name="theme-color" content="#f5f6f8" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0f1113" media="(prefers-color-scheme: dark)">
+
   <!-- Manifest PWA -->
   <link rel="manifest" href="manifest.webmanifest">
 
@@ -19,7 +42,7 @@
   <link rel="shortcut icon" href="icons/favicon.ico" type="image/x-icon">
 
   <!-- CSS -->
-   <link rel="stylesheet" href="styles.css?v=6">
+  <link rel="stylesheet" href="styles.css?v=6">
 </head>
 <body>
   <header class="topbar" role="banner">
