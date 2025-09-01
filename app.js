@@ -470,3 +470,4 @@ function bindTop(){
     });
   }
 }
+})();   // <-- precisa fechar a função auto-executada
