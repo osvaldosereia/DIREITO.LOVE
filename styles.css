@@ -5,24 +5,24 @@
 
 /* Tema auto/dark – contraste e legibilidade melhorados */
 :root[data-theme="dark"]{
-  --bg:#0f1216;         /* fundo da página */
-  --top:#15181c;        /* topbar */
-  --fg:#e8eaed;         /* texto principal */
-  --muted:#a3acb8;      /* texto secundário */
-  --line:#2c3238;       /* linhas/bordas */
-  --bubble:#1b1f24;     /* bolhas/cards/inputs */
-  --chip:#20262c;       /* chips/botões */
-  --chip-hover:#26303a; /* hover */
-  --focus:#39c;         /* foco acessível */
+  --bg:#0f1216;
+  --top:#15181c;
+  --fg:#e8eaed;
+  --muted:#a3acb8;
+  --line:#2c3238;
+  --bubble:#1b1f24;
+  --chip:#20262c;
+  --chip-hover:#26303a;
+  --focus:#39c;
 }
-/* quando tema = auto, respeita o dark do sistema */
+
 @media (prefers-color-scheme: dark){
   :root[data-theme="auto"]{
     --bg:#0f1216; --top:#15181c; --fg:#e8eaed; --muted:#a3acb8; --line:#2c3238;
     --bubble:#1b1f24; --chip:#20262c; --chip-hover:#26303a; --focus:#39c;
   }
 }
-/* pequenos toques de contraste no dark */
+
 :root[data-theme="dark"] .prompt-card,
 :root[data-theme="auto"] .prompt-card{ box-shadow:0 1px 0 rgba(0,0,0,.35); }
 :root[data-theme="dark"] .chip,
@@ -90,7 +90,7 @@ body{
 .chip{
   padding:10px 14px;
   font-size:14px;
-  min-height:44px; /* guideline Apple */
+  min-height:44px;
   border-radius:999px;
   background:var(--chip);
   border:1px solid var(--line);
@@ -125,10 +125,9 @@ body{
   gap:6px;
   justify-content:center;
   margin-top:8px;
-  flex-wrap:wrap;           /* evita extrapolar em telas estreitas */
+  flex-wrap:wrap;
 }
 
-/* Mensagem final grande */
 .info-msg{
   font-size:16px;
   font-weight:500;
@@ -138,7 +137,6 @@ body{
   color:var(--fg);
 }
 
-/* Botões padrão */
 .btn {
   display:inline-flex; align-items:center; justify-content:center;
   padding:12px 18px;
@@ -157,7 +155,6 @@ body{
 .btn:active { transform:translateY(0) scale(.98); }
 .btn.mini{ padding:8px 12px; font-size:13px; }
 
-/* Input */
 .input-bubble input{
   width:100%;
   border:1px solid var(--line);
@@ -174,28 +171,20 @@ body{
 .dot:nth-child(3){animation-delay:.3s}
 @keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
 
-/* Footer */
 .footer{padding:10px 0;color:var(--muted);font-size:12px}
-
-/* Haptics visual fallback */
 body.haptic .iconbtn, body.haptic .btn{ transform:scale(.985); }
 
-/* Settings modal */
 .settings-modal::backdrop{ background:rgba(0,0,0,.25); }
 .settings-card{ min-width:320px; border:1px solid var(--line); border-radius:12px; padding:14px; background:var(--bubble); color:var(--fg); }
 .settings-card h3{ margin:0 0 8px; font-size:18px; }
 .settings-row{ display:flex; align-items:center; gap:10px; margin:10px 0; }
 .settings-actions{ display:flex; justify-content:flex-end; gap:8px; }
-
 .switch{ display:flex; align-items:center; gap:10px; cursor:pointer; }
 .switch input{ width:18px; height:18px; }
 
-/* Acessibilidade de foco geral */
 a:focus-visible, button:focus-visible, select:focus-visible{ outline:3px solid var(--focus); outline-offset:2px; }
 
-/* =========================
-   📱 Responsividade Mobile
-   ========================= */
+/* ========================= RESPONSIVIDADE ========================= */
 @media (max-width: 480px){
   .prompt-card .row{
     flex-direction:column;
@@ -206,7 +195,6 @@ a:focus-visible, button:focus-visible, select:focus-visible{ outline:3px solid v
     width:100%;
     text-align:center;
   }
-
   .chips{
     flex-direction:column;
     align-items:stretch;
@@ -218,7 +206,6 @@ a:focus-visible, button:focus-visible, select:focus-visible{ outline:3px solid v
     font-size:16px;
     padding:14px;
   }
-
   .input-bubble input{
     font-size:16px;
     padding:14px;
@@ -228,15 +215,13 @@ a:focus-visible, button:focus-visible, select:focus-visible{ outline:3px solid v
     padding:12px;
     max-width:95%;
   }
-
   .container{ padding:0 12px; }
 }
 
-/* ===== CONTRASTE EXTRA PARA O MODO ESCURO ===== */
+/* ===================== CONTRASTE EXTRA – MODO ESCURO ===================== */
 :root[data-theme="dark"] .prompt-card,
 :root[data-theme="auto"] .prompt-card { background: #181c21; }
 
-/* Botões: fundo um pouco mais claro que o card + borda visível */
 :root[data-theme="dark"] .btn,
 :root[data-theme="auto"] .btn {
   background:#222a31;
@@ -247,7 +232,6 @@ a:focus-visible, button:focus-visible, select:focus-visible{ outline:3px solid v
 :root[data-theme="dark"] .btn:hover,
 :root[data-theme="auto"] .btn:hover { background:#2a333b; }
 
-/* Chips: mesma lógica de contraste */
 :root[data-theme="dark"] .chip,
 :root[data-theme="auto"] .chip {
   background:#20262c;
@@ -258,7 +242,6 @@ a:focus-visible, button:focus-visible, select:focus-visible{ outline:3px solid v
 :root[data-theme="dark"] .chip:hover,
 :root[data-theme="auto"] .chip:hover { background:#26303a; }
 
-/* Textarea / inputs: fundo mais escuro, texto claro e borda definida */
 :root[data-theme="dark"] .prompt-card textarea,
 :root[data-theme="auto"] .prompt-card textarea,
 :root[data-theme="dark"] .input-bubble input,
@@ -272,43 +255,48 @@ a:focus-visible, button:focus-visible, select:focus-visible{ outline:3px solid v
 :root[data-theme="dark"] .input-bubble input::placeholder,
 :root[data-theme="auto"] .input-bubble input::placeholder { color:#96a1ad; }
 
-/* Bolhas de mensagem: leve contraste contra o fundo */
 :root[data-theme="dark"] .msg .bubble,
 :root[data-theme="auto"] .msg .bubble {
   background:#1b2026;
   border-color:#313942;
 }
 
-/* Topbar acompanha o dark de verdade */
 :root[data-theme="dark"] .topbar,
 :root[data-theme="auto"] .topbar {
   background:#15181c;
   border-bottom-color:#2c3238;
 }
 
-/* Ícone do logo ganha leve boost no dark para não “sumir” */
 :root[data-theme="dark"] .logo,
 :root[data-theme="auto"] .logo { filter: brightness(1.15); }
 
-
-/* Ícones no modo escuro */
-:root[data-theme="dark"] .iconbtn {
-  background-color: #1f1f1f;  /* fundo mais claro visível */
+:root[data-theme="dark"] .iconbtn,
+:root[data-theme="auto"] .iconbtn {
+  background-color: #1f1f1f;
   border-color: #3a3a3a;
 }
-
-:root[data-theme="dark"] .iconbtn img {
-  filter: invert(1); /* inverte o ícone escuro para claro */
+:root[data-theme="dark"] .iconbtn img,
+:root[data-theme="auto"] .iconbtn img {
+  filter: invert(1);
 }
 
-/* Garantir que o fundo do app SEMPRE siga a variável do tema */
-html, body {
-  background: var(--bg) !important;   /* força fundo coerente */
-  color-scheme: light dark;           /* ajuda o navegador a escolher UI nativa */
+:root[data-theme="dark"] .iconbtn:hover,
+:root[data-theme="auto"] .iconbtn:hover {
+  background:#262b31;
 }
 
-/* Garantir que o fundo do app SEMPRE siga a variável do tema */
+@media (prefers-color-scheme: dark){
+  :root[data-theme="auto"] .iconbtn {
+    background-color:#1f1f1f;
+    border-color:#3a3a3a;
+  }
+  :root[data-theme="auto"] .iconbtn img {
+    filter: invert(1);
+  }
+}
+
+/* Forçar fundo real da página em todas as plataformas */
 html, body {
-  background: var(--bg) !important;   /* força fundo coerente */
-  color-scheme: light dark;           /* ajuda o navegador a escolher UI nativa */
+  background: var(--bg) !important;
+  color-scheme: light dark;
 }
