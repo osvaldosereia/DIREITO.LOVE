@@ -14,6 +14,22 @@ const LS = {
   set(k, v){ localStorage.setItem(k, JSON.stringify(v)); return v; }
 };
 
+/* =========================
+   Tema (helpers centrais)
+   ========================= */
+function effectiveTheme(pref){ // 'light' | 'dark' | 'auto' -> 'light' | 'dark'
+  if (pref === 'dark' || pref === 'light') return pref;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+function applyTheme(pref){ // aplica data-theme e atualiza barra
+  const eff = effectiveTheme(pref);
+  document.documentElement.setAttribute('data-theme', eff);
+  // atualiza <meta name="theme-color"> controlado por JS (inserido no <head>)
+  const meta = document.querySelector('meta[name="theme-color"][data-live]');
+  if (meta) meta.setAttribute('content', eff === 'dark' ? '#15181c' : '#e9eaee');
+  return eff;
+}
+
 /* NativeBridge (fallback web) */
 const NativeBridge = (()=> {
   const isNative = !!window.NativeBridgeNative || !!window.Capacitor;
@@ -72,7 +88,8 @@ const NativeBridge = (()=> {
       return ok();
     },
     async setTheme(scheme){
-      document.documentElement.dataset.theme = scheme || 'auto';
+      // aplica imediatamente também no PWA/web
+      applyTheme(scheme || 'auto');
       return ok();
     },
     async getAppInfo(){
@@ -440,12 +457,15 @@ function bindTop(){
       prefs.haptics = !!e.target.checked; LS.set('prefs', prefs);
       NativeBridge.toggleHaptics(prefs.haptics);
     });
+
+    // 🔄 Tema: aplica no HTML e atualiza barra do navegador ao vivo
     if(theme) theme.addEventListener('change', e=>{
       prefs.theme = e.target.value; LS.set('prefs', prefs);
-      NativeBridge.setTheme(prefs.theme);
+      applyTheme(prefs.theme);
+      NativeBridge.setTheme?.(prefs.theme); // opcional se houver camada nativa
     });
 
-    // 🔔 Novidades (carrega news.json e marca "visto")
+    // 🔔 Novidades (se existir no HTML; guardado por if)
     if(newsBtn){
       newsBtn.addEventListener('click', async ()=>{
         try{
@@ -453,10 +473,8 @@ function bindTop(){
           if(!res.ok) throw new Error('HTTP ' + res.status);
           const data = await res.json();
           const lastSeen = LS.get('lastNewsId', 0);
-          // monta lista simples
           const itens = (data.items||[]).map(x=>`• ${x.title} — ${x.date}`).join('\n');
           alert(itens || 'Sem novidades por enquanto.');
-          // marca último visto
           const newest = (data.items&&data.items[0]&&data.items[0].id) || lastSeen;
           LS.set('lastNewsId', newest);
           if(newsStatus) newsStatus.textContent = '';
@@ -464,8 +482,6 @@ function bindTop(){
           alert('Não foi possível carregar as novidades agora.');
         }
       });
-
-      // badge “novo” se houver item não visto
       (async ()=>{
         try{
           const res = await fetch('news.json?v=' + Date.now());
@@ -482,7 +498,7 @@ function bindTop(){
   }
 }
 
-function registerSW(){ if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js?v=5').catch(()=>{}); }
+function registerSW(){ if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js?v=6').catch(()=>{}); }
 
 /* =========================
    Deep Link (URL params)
@@ -498,8 +514,9 @@ function params(){
 (async function init(){
   bindTop(); registerSW();
 
+  // aplica tema salvo (e calcula dark/light efetivo) já no boot
   const prefs = LS.get('prefs', { haptics:true, theme:'auto', daily:false });
-  document.documentElement.dataset.theme = prefs.theme || 'auto';
+  applyTheme(prefs.theme || 'auto');
 
   let t=typingStart(); await wait(200,400); typingStop(t);
   push('bot','<strong>Bem-vindo</strong>');
