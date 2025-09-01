@@ -1,18 +1,14 @@
 {
   "name": "direito.love",
-  "short_name": "💚direito.love",
+  "short_name": "DireitoLove",
   "description": "Gerador de Prompts para estudantes de Direito",
   "start_url": "/index.html",
   "scope": "/",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#f5f6f8",
   "theme_color": "#107f7b",
   "icons": [
-    {
-      "src": "icons/pwa-180.png",
-      "sizes": "180x180",
-      "type": "image/png"
-    },
     {
       "src": "icons/pwa-192.png",
       "sizes": "192x192",
@@ -27,11 +23,6 @@
       "src": "icons/pwa-1024.png",
       "sizes": "1024x1024",
       "type": "image/png"
-    },
-    {
-      "src": "icons/favicon.ico",
-      "sizes": "48x48",
-      "type": "image/x-icon"
     }
   ]
 }
