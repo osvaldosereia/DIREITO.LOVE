@@ -87,3 +87,48 @@ body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Robot
 .actions .iconbtn{width:38px;height:38px}
 @media (prefers-reduced-motion:reduce){.dot{animation:none}.iconbtn,.ai-btn,.chip{transition:none}}
 @media (max-width:640px){.container{padding:0 12px}.nav{height:52px}}
+.opcoes-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.opcoes-row .btn {
+  padding: 6px 8px;
+  font-size: 14px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn.copiar, .btn.excluir {
+  background: #f0f0f0;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn.copiar:hover, .btn.excluir:hover {
+  background: #e2e2e2;
+}
+
+textarea.prompt-textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 13px;
+  resize: vertical;
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: monospace;
+}
