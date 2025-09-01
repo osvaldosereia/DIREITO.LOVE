@@ -121,20 +121,25 @@ body{
 
 /* Botões padrão */
 .btn {
-  padding:12px 18px;
-  border-radius:8px;
-  border:1px solid var(--line);
-  background:var(--bubble);
-  color:var(--fg);
-  cursor:pointer;
-  font-size:14px;
-  font-weight:500;
-  box-shadow:0 2px 5px rgba(0,0,0,0.08);
-  transition:background 0.2s, transform 0.2s;
+  display: inline-flex;              /* ✅ padroniza para link e button */
+  align-items: center;
+  justify-content: center;
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--bubble);
+  color: var(--fg);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;             /* ✅ remove sublinhado dos <a> */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+  transition: background 0.2s, transform 0.2s;
 }
-.btn:hover { background:var(--chip-hover); transform:translateY(-1px); }
-.btn:active { transform:translateY(0) scale(.98); }
-.btn.mini{ padding:8px 12px; font-size:13px; }
+.btn:hover { background: var(--chip-hover); transform: translateY(-1px); }
+.btn:active { transform: translateY(0) scale(.98); }
+.btn.mini { padding: 8px 12px; font-size: 13px; }
+
 
 /* Input */
 .input-bubble input{
