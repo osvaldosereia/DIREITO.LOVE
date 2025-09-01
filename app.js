@@ -201,34 +201,34 @@ function renderPromptCard(strategy){
   const card = el('div','prompt-card');
   const h = el('h3','prompt-title', tema);
   const ta = el('textarea'); ta.value = promptFor(strategy, tema);
-  const row = el('div','row');
+
+  // Botões centralizados
+  const row = el('div','row center-row');
   const copy = el('button','btn'); copy.textContent="Copiar";
   const novo = el('button','btn'); novo.textContent="Reiniciar";
   row.appendChild(copy); row.appendChild(novo);
-  card.appendChild(h); card.appendChild(ta); card.appendChild(row);
+
+  card.appendChild(h);
+  card.appendChild(ta);
+  card.appendChild(row);
 
   copy.addEventListener('click', async ()=>{ 
     await navigator.clipboard.writeText(ta.value);
     push('bot','✅ Copiado com sucesso!');
 
-    // Frase fixa no lugar dos botões externos
-    const info = el('div','small','✨ Pronto. Agora é só colar na sua I.A. preferida.');
-    info.style.margin = '8px 0';
+    // Frase em destaque (3 linhas, centralizada)
+    const info = el('div','info-msg',
+      '✨ Pronto.<br>Agora é só colar<br>na sua I.A. preferida.'
+    );
     card.appendChild(info);
-
-    const novoPromptBtn = el('button','btn');
-    novoPromptBtn.style.marginTop = '10px';
-    novoPromptBtn.innerHTML = '🔄 Novo Tema';
-    novoPromptBtn.addEventListener('click', ()=>{
-      tema = '';
-      chosen.clear();
-      push('bot','✨ Que ótimo, vamos lá! Manda o novo tema:');
-      showInputBubble('Digite o novo tema…');
-    });
-    card.appendChild(novoPromptBtn);
   });
 
-  novo.addEventListener('click', ()=>{ tema=''; chosen.clear(); showInputBubble('Digite um novo tema…'); });
+  novo.addEventListener('click', ()=>{ 
+    tema=''; 
+    chosen.clear(); 
+    showInputBubble('Digite um novo tema…'); 
+  });
+
   return card;
 }
 
@@ -282,7 +282,7 @@ function bindTop(){
   const btnNew = document.getElementById('btn-new');
   if (btnNew) btnNew.addEventListener('click', ()=>{ tema=''; chosen.clear(); showInputBubble('Digite o tema…'); });
 }
-function registerSW(){ if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js?v=3').catch(()=>{}); }
+function registerSW(){ if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js?v=4').catch(()=>{}); }
 
 // Boot
 (async function init(){
