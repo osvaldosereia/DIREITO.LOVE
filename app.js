@@ -1,5 +1,5 @@
 // ================================
-// app.js - direito.love (UX refinada)
+// app.js - direito.love (UX refinada e compatível iOS/Android)
 // ================================
 
 // Seletores principais
@@ -61,18 +61,27 @@ chatForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const tema = chatInput.value.trim();
   if (!tema) {
-    showToast("⚠️ Digite um tema antes de enviar!");
+    showToast("Digite um tema antes de enviar.");
     return;
   }
 
   addMessage("user", tema);
 
-  const typingMsg = addMessage("bot", "digitando...");
+  const typingMsg = addMessage("bot", "Digitando");
 
+  // simular animação de digitando...
+  let dots = 0;
+  const typingInterval = setInterval(() => {
+    dots = (dots + 1) % 4;
+    typingMsg.textContent = "Digitando" + ".".repeat(dots);
+  }, 400);
+
+  // substitui após 1.2s
   setTimeout(() => {
-    typingMsg.textContent = "Pronto! Já gerei 5 opções de estudo. Escolha a que quiser copiar:";
+    clearInterval(typingInterval);
+    typingMsg.textContent = "Pronto! Já gerei 5 opções de estudo. Clique para copiar:";
     renderOpcoes(tema);
-  }, 1000);
+  }, 1200);
 
   chatInput.value = "";
 });
@@ -88,6 +97,7 @@ function renderOpcoes(tema) {
     const btn = document.createElement("button");
     btn.className = "option-btn";
     btn.textContent = opcao.nome;
+    btn.setAttribute("aria-label", `Copiar prompt de ${opcao.nome}`);
 
     btn.style.opacity = 0;
     btn.style.transition = "opacity 0.4s ease";
@@ -97,7 +107,7 @@ function renderOpcoes(tema) {
     btn.addEventListener("click", () => {
       const promptFinal = opcao.prompt.replaceAll("{tema}", temaAtual);
       navigator.clipboard.writeText(promptFinal).then(() => {
-        showToast(`✅ "${opcao.nome}" copiado!`);
+        showToast(`Prompt "${opcao.nome}" copiado.`);
       });
     });
     container.appendChild(btn);
@@ -106,7 +116,8 @@ function renderOpcoes(tema) {
   // botão salvar
   const salvarBtn = document.createElement("button");
   salvarBtn.className = "save-btn";
-  salvarBtn.textContent = "⭐ Salvar Tema";
+  salvarBtn.textContent = "Salvar Tema";
+  salvarBtn.setAttribute("aria-label", "Salvar este tema");
 
   salvarBtn.style.opacity = 0;
   salvarBtn.style.transition = "opacity 0.4s ease";
@@ -139,16 +150,18 @@ function salvarTema(tema) {
   let salvos = JSON.parse(localStorage.getItem("temasSalvos")) || [];
 
   if (salvos.some(item => item.tema === tema)) {
-    showToast(`⚠️ O tema "${tema}" já foi salvo.`);
+    showToast(`O tema "${tema}" já foi salvo.`);
     return;
   }
 
   if (salvos.length >= 10) {
     salvos.shift(); // remove o mais antigo
+    showToast("Limite de 10 atingido. O tema mais antigo foi removido.");
   }
 
   salvos.push({
     tema,
+    data: new Date().toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" }),
     opcoes: opcoesEstudo.map(o => ({
       nome: o.nome,
       prompt: o.prompt.replaceAll("{tema}", tema)
@@ -156,7 +169,7 @@ function salvarTema(tema) {
   });
 
   localStorage.setItem("temasSalvos", JSON.stringify(salvos));
-  showToast(`⭐ Tema "${tema}" salvo!`);
+  showToast(`Tema "${tema}" salvo.`);
 }
 
 // ================================
@@ -185,17 +198,12 @@ document.querySelectorAll(".drawer-option").forEach(btn => {
     switch (action) {
       case "theme":
         document.body.classList.toggle("dark");
-        showToast("🌗 Tema alternado");
-        break;
-      case "language":
-        showToast("🌍 Alterar idioma (em breve)");
+        showToast("Tema alternado.");
         break;
       case "about":
-        showToast("ℹ️ direito.love — App educacional para estudo");
+        window.location.href = "sobre.html";
         break;
-      case "help":
-        showToast("❓ Ajuda: Digite um tema e clique em uma opção.");
-        break;
+      // "salvos" já é link no HTML
     }
     fecharDrawer();
   });
