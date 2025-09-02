@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>direito.love</title>
 
-  <!-- Tema rápido antes do CSS -->
+  <!-- =========================
+       Ajuste do tema inicial
+       ========================= -->
   <script>
   (function () {
     try {
@@ -27,21 +29,22 @@
   })();
   </script>
 
-  <!-- Manifest PWA -->
-<link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#e9eaee" data-live>
+  <!-- Manifesto PWA -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#e9eaee" data-live>
 
-<!-- Ícones -->
-<link rel="apple-touch-icon" sizes="180x180" href="icons/pwa-180.png">
-<link rel="icon" type="image/png" sizes="144x144" href="icons/pwa-144.png">
-<link rel="icon" type="image/png" sizes="192x192" href="icons/pwa-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="icons/pwa-512.png">
-<link rel="icon" type="image/png" sizes="1024x1024" href="icons/pwa-1024.png">
-<link rel="shortcut icon" href="icons/favicon.ico" type="image/x-icon">
+  <!-- Ícones do PWA -->
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/pwa-180.png">
+  <link rel="icon" type="image/png" sizes="144x144" href="icons/pwa-144.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/pwa-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/pwa-512.png">
+  <link rel="icon" type="image/png" sizes="1024x1024" href="icons/pwa-1024.png">
+  <link rel="shortcut icon" href="icons/favicon.ico" type="image/x-icon">
 
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="styles.css?v=8">
+  <!-- =========================
+       CSS sem versão (?v=8 removido)
+       ========================= -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <!-- Topbar -->
@@ -52,12 +55,15 @@
         <strong class="title">direito.love</strong>
       </div>
       <nav class="actions" aria-label="Ações principais">
+        <!-- Botão histórico -->
         <a class="iconbtn" href="arquivo.html" title="Histórico" aria-label="Abrir histórico">
           <img src="icons/home.svg" alt="Histórico">
         </a>
+        <!-- Botão novo tema -->
         <button class="iconbtn" id="btn-new" title="Novo tema" aria-label="Novo tema">
           <img src="icons/refresh.svg" alt="Reiniciar">
         </button>
+        <!-- Botão configurações -->
         <button class="iconbtn" id="btn-settings" title="Configurações" aria-label="Abrir configurações">
           <img src="icons/filter.svg" alt="Configurações">
         </button>
@@ -72,16 +78,19 @@
     </section>
   </main>
 
+  <!-- Rodapé -->
   <footer class="container footer" role="contentinfo">
     <small>💚 direito.love — seu assistente de estudo jurídico</small>
   </footer>
 
-  <!-- Modal Configurações -->
+  <!-- =========================
+       Modal de Configurações
+       ========================= -->
   <dialog id="settings-modal" class="settings-modal" aria-labelledby="settings-title">
     <form method="dialog" class="settings-card">
       <h3 id="settings-title">⚙️ Configurações</h3>
 
-      <!-- Haptics -->
+      <!-- Feedback Tátil -->
       <div class="settings-row">
         <label class="switch">
           <input type="checkbox" id="opt-haptics"/>
@@ -128,7 +137,9 @@
     </form>
   </dialog>
 
-  <!-- JS -->
-  <script src="app.js?v=8" defer></script>
+  <!-- =========================
+       JS sem versão (?v=8 removido)
+       ========================= -->
+  <script src="app.js" defer></script>
 </body>
 </html>
