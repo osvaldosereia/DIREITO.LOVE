@@ -4,133 +4,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Sobre — direito.love</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=1.0.1">
   <style>
-    /* Ajustes extras mobile */
     @media (max-width: 768px) {
-      .sobre-container {
-        padding: 18px;
-        gap: 14px;
-      }
       .app-header h1 {
-        font-size: 15px;
+        font-size: 18px;
       }
-      .settings-btn {
-        font-size: 20px;
-        padding: 6px;
+      .page-content {
+        font-size: 15px;
+        line-height: 1.6;
       }
     }
 
     body {
       padding-bottom: env(safe-area-inset-bottom);
     }
-
-    .sobre-container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      line-height: 1.6;
-    }
-
-    .sobre-container h2 {
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .sobre-container p {
-      font-size: 15px;
-      color: var(--text);
-    }
-
-    .sobre-container a {
-      color: var(--text);
-      text-decoration: none;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 2px;
-      transition: color 0.2s, border-color 0.2s;
-    }
-    .sobre-container a:hover {
-      color: var(--accent);
-      border-color: var(--accent);
-    }
   </style>
 </head>
 <body>
-  <!-- Cabeçalho -->
   <header class="app-header">
-    <h1>Sobre</h1>
-    <a href="index.html" class="settings-btn" aria-label="Voltar">⬅</a>
+    <h1>Sobre o direito.love</h1>
+    <a href="index.html?v=1.0.1" class="settings-btn" aria-label="Voltar para página inicial">⬅</a>
   </header>
 
-  <!-- Conteúdo -->
-  <main class="sobre-container" role="main">
+  <main class="page-content" style="max-width:900px; margin:20px auto; padding:16px;">
     <h2>O que é o direito.love?</h2>
     <p>
-      O <strong>direito.love</strong> é um app educacional desenvolvido para apoiar
-      estudantes e profissionais do Direito. Nosso objetivo é oferecer recursos de
-      estudo organizados, acessíveis e adaptados às melhores práticas de usabilidade.
+      O <strong>direito.love</strong> é um app educacional criado para ajudar estudantes de Direito
+      a gerar <em>prompts</em> de estudo rápidos, objetivos e personalizados.
     </p>
-
-    <h2>Funcionalidades</h2>
     <p>
-      • Geração de prompts de estudo inteligentes.<br>
-      • Temas salvos para revisão posterior.<br>
-      • Modo claro e escuro automático.<br>
-      • Interface minimalista, otimizada para iOS e Android.
+      Ele segue as boas práticas de UX aprovadas por <strong>Apple</strong> e <strong>Google</strong>,
+      com design minimalista, responsivo e suporte a <strong>tema claro e escuro automático</strong>.
     </p>
-
-    <h2>Contato</h2>
     <p>
-      Para dúvidas ou sugestões, entre em contato em:<br>
-      <a href="mailto:contato@direito.love">contato@direito.love</a>
+      Nenhum dado é enviado para servidores externos: todo o funcionamento é local no seu navegador.
     </p>
-
-    <p><small>© 2025 direito.love — Todos os direitos reservados.</small></p>
+    <p style="margin-top:20px; font-size:13px; color:var(--muted);">
+      © 2025 direito.love — Todos os direitos reservados.
+    </p>
   </main>
 
-  <!-- Toast -->
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
-  <script>
-    // ================================
-    // Snackbar (toast moderno)
-    // ================================
-    let toastTimeout;
-    function showToast(message) {
-      const toast = document.getElementById("toast");
-      toast.textContent = message;
-
-      toast.classList.remove("show");
-      clearTimeout(toastTimeout);
-
-      setTimeout(() => {
-        toast.classList.add("show");
-      }, 50);
-
-      const duracao = message.length > 40 ? 3500 : 1800;
-      toastTimeout = setTimeout(() => {
-        toast.classList.remove("show");
-      }, duracao);
-    }
-
-    // ================================
-    // Controle de tema (Claro / Escuro / Automático)
-    // ================================
-    function applyTheme(mode) {
-      document.body.classList.remove("dark");
-      if (mode === "dark" || (mode === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-        document.body.classList.add("dark");
-      }
-    }
-
-    (function initTheme() {
-      const saved = localStorage.getItem("theme") || "auto";
-      applyTheme(saved);
-    })();
-  </script>
+  <!-- Script com versão para limpar cache -->
+  <script src="app.js?v=1.0.1"></script>
 </body>
 </html>
