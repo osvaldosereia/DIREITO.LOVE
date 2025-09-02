@@ -1,6 +1,4 @@
-// ================================
-// app.js - direito.love (versão robusta e estável)
-// ================================
+// ===== app.js FINAL =====
 
 // Seletores principais
 const chatForm = document.getElementById("chat-form");
@@ -10,11 +8,18 @@ const drawer = document.getElementById("settings-drawer");
 const drawerOverlay = document.getElementById("drawer-overlay");
 const closeDrawerBtn = document.getElementById("close-settings");
 const settingsBtn = document.querySelector(".settings-btn");
+const toast = document.getElementById("toast");
 
-// Toast (mensagem flutuante)
+let temaAtual = "";
+let categoriaAtual = "tema";
+let promptsConfig = null;
+let promptsBase = null;
+
+// ==============================
+// Toast feedback
+// ==============================
 let toastTimeout;
 function showToast(message) {
-  const toast = document.getElementById("toast");
   toast.textContent = message;
   toast.classList.remove("show");
   clearTimeout(toastTimeout);
@@ -22,84 +27,31 @@ function showToast(message) {
   toastTimeout = setTimeout(() => toast.classList.remove("show"), message.length > 40 ? 3500 : 1800);
 }
 
-// Placeholder de objetivos
-const opcoesEstudo = [
-  { nome: "Resumo", prompt: "Gere um resumo do tema: {tema}" },
-  { nome: "Questão objetiva", prompt: "Crie uma questão de múltipla escolha sobre: {tema}" },
-  { nome: "Flashcard", prompt: "Crie um flashcard para revisar: {tema}" }
-];
-
-let temaAtual = "";
-
+// ==============================
+// Scroll helper
+// ==============================
 function scrollToBottom() {
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// Evento de envio do formulário
-chatForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const tema = chatInput.value.trim();
-  if (!tema) {
-    showToast("⚠️ Digite um tema antes de enviar!");
-    return;
+// ==============================
+// Carregar JSONs de configuração
+// ==============================
+async function carregarConfigs() {
+  try {
+    const resPrompts = await fetch("prompts.json");
+    const resBase = await fetch("prompts-base.json");
+    promptsConfig = await resPrompts.json();
+    promptsBase = await resBase.json();
+  } catch (err) {
+    console.error("Erro ao carregar JSONs:", err);
+    showToast("⚠️ Falha ao carregar configurações");
   }
-  temaAtual = tema;
-
-  // Limpa opções anteriores
-  document.querySelectorAll(".opcoes-container").forEach(el => el.remove());
-
-  addMessage("user", tema);
-  const typingMsg = addMessage("bot", "digitando...");
-
-  setTimeout(() => {
-    typingMsg.innerHTML = "<b>Legal!</b><br>Escolha o prompt e cole na sua IA preferida 🤩";
-    renderOpcoes(tema);
-  }, 1000);
-
-  chatInput.value = "";
-});
-
-// Renderiza os botões com opções
-function renderOpcoes(tema) {
-  const container = document.createElement("div");
-  container.className = "opcoes-container";
-
-  opcoesEstudo.forEach((opcao, i) => {
-    const btn = document.createElement("button");
-    btn.className = "option-btn";
-    btn.textContent = opcao.nome;
-    btn.style.opacity = 0;
-    btn.style.transition = "opacity 0.4s ease";
-    setTimeout(() => { btn.style.opacity = 1; }, 200 * i);
-
-    btn.addEventListener("click", () => {
-      if (!temaAtual) {
-        showToast("⚠️ Tema inválido. Reenvie o tema.");
-        return;
-      }
-      const promptFinal = opcao.prompt.replaceAll("{tema}", temaAtual);
-      navigator.clipboard.writeText(promptFinal).then(() => {
-        showToast(`✅ "${opcao.nome}" copiado!`);
-      });
-    });
-
-    container.appendChild(btn);
-  });
-
-  const salvarBtn = document.createElement("button");
-  salvarBtn.className = "save-btn";
-  salvarBtn.textContent = "⭐ Salvar Tema";
-  salvarBtn.style.opacity = 0;
-  salvarBtn.style.transition = "opacity 0.4s ease";
-  setTimeout(() => { salvarBtn.style.opacity = 1; }, 1200);
-
-  salvarBtn.addEventListener("click", () => salvarTema(temaAtual));
-  container.appendChild(salvarBtn);
-
-  chatMessages.appendChild(container);
-  scrollToBottom();
 }
 
+// ==============================
+// Mensagens
+// ==============================
 function addMessage(tipo, texto) {
   const msg = document.createElement("div");
   msg.className = `message ${tipo}`;
@@ -109,21 +61,108 @@ function addMessage(tipo, texto) {
   return msg;
 }
 
-function salvarTema(tema) {
+// ==============================
+// Renderizar objetivos (botões)
+// ==============================
+function renderOpcoes(categoria, entrada) {
+  // Limpa opções anteriores
+  document.querySelectorAll(".opcoes-container").forEach(el => el.remove());
+
+  const container = document.createElement("div");
+  container.className = "opcoes-container";
+
+  promptsConfig.objetivos.forEach((objetivo, i) => {
+    const btn = document.createElement("button");
+    btn.className = "option-btn";
+    btn.textContent = objetivo.titulo;
+    btn.style.opacity = 0;
+    btn.style.transition = "opacity 0.4s ease";
+    setTimeout(() => { btn.style.opacity = 1; }, 200 * i);
+
+    btn.addEventListener("click", () => {
+      if (!temaAtual) {
+        showToast("⚠️ Entrada inválida. Tente novamente.");
+        return;
+      }
+      const basePrompt = promptsBase[objetivo.id] || "{entrada}";
+      const promptFinal = basePrompt
+        .replaceAll("{tema}", entrada)
+        .replaceAll("{texto}", entrada)
+        .replaceAll("{youtube}", entrada)
+        .replaceAll("{arquivo}", entrada);
+
+      navigator.clipboard.writeText(promptFinal).then(() => {
+        showToast(`✅ \"${objetivo.titulo}\" copiado!`);
+      });
+    });
+
+    container.appendChild(btn);
+  });
+
+  // Botão salvar tema
+  const salvarBtn = document.createElement("button");
+  salvarBtn.className = "save-btn";
+  salvarBtn.textContent = "⭐ Salvar Tema";
+  salvarBtn.addEventListener("click", () => salvarTema(entrada, categoria));
+  container.appendChild(salvarBtn);
+
+  chatMessages.appendChild(container);
+  scrollToBottom();
+}
+
+// ==============================
+// Salvar temas no localStorage
+// ==============================
+function salvarTema(entrada, categoria) {
   let salvos = JSON.parse(localStorage.getItem("temasSalvos")) || [];
-  if (salvos.some(item => item.tema === tema)) {
-    showToast(`⚠️ O tema "${tema}" já foi salvo.`);
+  if (salvos.some(item => item.entrada === entrada && item.categoria === categoria)) {
+    showToast(`⚠️ O item já foi salvo.`);
     return;
   }
   if (salvos.length >= 30) salvos.shift();
-  salvos.push({
-    tema,
-    opcoes: opcoesEstudo.map(o => ({ nome: o.nome, prompt: o.prompt.replaceAll("{tema}", tema) }))
-  });
+
+  const opcoes = promptsConfig.objetivos.map(obj => ({
+    nome: obj.titulo,
+    prompt: (promptsBase[obj.id] || "{entrada}")
+      .replaceAll("{tema}", entrada)
+      .replaceAll("{texto}", entrada)
+      .replaceAll("{youtube}", entrada)
+      .replaceAll("{arquivo}", entrada)
+  }));
+
+  salvos.push({ categoria, entrada, opcoes });
   localStorage.setItem("temasSalvos", JSON.stringify(salvos));
-  showToast(`⭐ Tema "${tema}" salvo!`);
+  showToast("⭐ Tema salvo com sucesso!");
 }
 
+// ==============================
+// Eventos do formulário
+// ==============================
+chatForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const entrada = chatInput.value.trim();
+  if (!entrada) {
+    showToast("⚠️ Digite algo antes de enviar!");
+    return;
+  }
+
+  temaAtual = entrada;
+  categoriaAtual = "tema"; // por padrão, tema. (futuramente pode detectar pelo input)
+
+  addMessage("user", entrada);
+  const typingMsg = addMessage("bot", "digitando...");
+
+  setTimeout(() => {
+    typingMsg.innerHTML = "<b>Legal!</b><br>Escolha o tipo de questão ou material de estudo.";
+    renderOpcoes(categoriaAtual, entrada);
+  }, 800);
+
+  chatInput.value = "";
+});
+
+// ==============================
+// Drawer lateral (configurações)
+// ==============================
 settingsBtn.addEventListener("click", () => {
   drawer.setAttribute("aria-hidden", "false");
   drawerOverlay.classList.add("active");
@@ -148,9 +187,14 @@ document.querySelectorAll(".drawer-option").forEach(btn => {
         window.location.href = "sobre.html";
         break;
       case "help":
-        showToast("❓ Ajuda: Digite um tema e clique em uma opção.");
+        showToast("❓ Ajuda: Digite um tema e escolha uma opção.");
         break;
     }
     fecharDrawer();
   });
 });
+
+// ==============================
+// Inicialização
+// ==============================
+window.addEventListener("load", carregarConfigs);
