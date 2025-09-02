@@ -1,4 +1,4 @@
-// ===== app.js FINAL =====
+// ===== app.js FINAL (ajustado) =====
 
 // Seletores principais
 const chatForm = document.getElementById("chat-form");
@@ -119,7 +119,6 @@ function salvarTema(entrada, categoria) {
     showToast(`⚠️ O item já foi salvo.`);
     return;
   }
-  if (salvos.length >= 30) salvos.shift();
 
   const opcoes = promptsConfig.objetivos.map(obj => ({
     nome: obj.titulo,
@@ -130,7 +129,14 @@ function salvarTema(entrada, categoria) {
       .replaceAll("{arquivo}", entrada)
   }));
 
-  salvos.push({ categoria, entrada, opcoes });
+  // Inserir no início da lista (mais recente primeiro)
+  salvos.unshift({ categoria, entrada, opcoes });
+
+  // Limite de 20 itens → remove o último se passar
+  if (salvos.length > 20) {
+    salvos.pop();
+  }
+
   localStorage.setItem("temasSalvos", JSON.stringify(salvos));
   showToast("⭐ Tema salvo com sucesso!");
 }
@@ -147,7 +153,7 @@ chatForm.addEventListener("submit", (e) => {
   }
 
   temaAtual = entrada;
-  categoriaAtual = "tema"; // por padrão, tema. (futuramente pode detectar pelo input)
+  categoriaAtual = "tema"; // por padrão, tema
 
   addMessage("user", entrada);
   const typingMsg = addMessage("bot", "digitando...");
