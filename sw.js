@@ -7,12 +7,13 @@
 
 const CACHE = 'direito-love-v11';
 const ASSETS = [
+  './',
   'index.html',
   'styles.css',
   'app.js',
   'politica.html',
+  'offline.html', // fallback offline
   'manifest.webmanifest',
-  'offline.html',
   // Ícones principais
   'icons/logo.svg',
   'icons/refresh.svg',
@@ -77,7 +78,9 @@ self.addEventListener('fetch', e => {
           caches.open(CACHE).then(c => c.put(req, copy)).catch(() => {});
           return res;
         })
-        .catch(() => caches.match('offline.html'))
+        .catch(() =>
+          caches.match(req).then(r => r || caches.match('offline.html'))
+        )
     );
     return;
   }
