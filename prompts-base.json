@@ -1,67 +1,17 @@
 {
-  "objetivos": [
-    {
-      "id": "objetiva",
-      "templates": {
-        "tema": "Gere 5 questões objetivas sobre {tema}, cada uma com 4 alternativas (A–D) e gabarito comentado.",
-        "texto": "Com base no texto a seguir, crie 5 questões objetivas (A–D) com gabarito comentado. Texto: {texto}",
-        "youtube": "Analise o vídeo {youtube} e elabore 5 questões objetivas (A–D) com gabarito.",
-        "arquivo": "O estudante fornecerá um arquivo. Gere 5 questões objetivas (A–D) sobre {arquivo}, incluindo gabarito comentado."
-      }
-    },
-    {
-      "id": "discursiva",
-      "templates": {
-        "tema": "Proponha 3 questões discursivas sobre {tema}, com critérios de correção.",
-        "texto": "Com base no texto a seguir, elabore 3 questões discursivas. Texto: {texto}",
-        "youtube": "Com base no vídeo {youtube}, elabore 3 questões discursivas.",
-        "arquivo": "O estudante fornecerá um arquivo. Crie 3 questões discursivas a partir de {arquivo}."
-      }
-    },
-    {
-      "id": "flashcards",
-      "templates": {
-        "tema": "Crie 20 flashcards de pergunta e resposta curta sobre {tema}.",
-        "texto": "Com base no texto a seguir, crie 20 flashcards de pergunta e resposta curta. Texto: {texto}",
-        "youtube": "Com base no vídeo {youtube}, crie 20 flashcards de pergunta e resposta curta.",
-        "arquivo": "O estudante fornecerá um arquivo. Crie 20 flashcards a partir de {arquivo}."
-      }
-    },
-    {
-      "id": "simulado",
-      "templates": {
-        "tema": "Monte um simulado com 10 questões objetivas (A–D) sobre {tema}, incluindo gabarito.",
-        "texto": "Monte um simulado com 10 questões objetivas (A–D) com base no texto: {texto}.",
-        "youtube": "Monte um simulado com 10 questões objetivas (A–D) com base no vídeo {youtube}.",
-        "arquivo": "O estudante fornecerá um arquivo. Monte um simulado de 10 questões objetivas com base em {arquivo}."
-      }
-    },
-    {
-      "id": "estudo_dirigido",
-      "templates": {
-        "tema": "Elabore um estudo dirigido sobre {tema}, incluindo objetivos, leitura recomendada, 5 questões e dicas de memorização.",
-        "texto": "Elabore um estudo dirigido com base no texto: {texto}.",
-        "youtube": "Elabore um estudo dirigido a partir do vídeo {youtube}.",
-        "arquivo": "O estudante fornecerá um arquivo. Monte um estudo dirigido com base em {arquivo}."
-      }
-    },
-    {
-      "id": "caso_pratico",
-      "templates": {
-        "tema": "Crie um caso prático sobre {tema}, incluindo narrativa, documentos e 4 perguntas para análise.",
-        "texto": "Crie um caso prático com base no texto: {texto}.",
-        "youtube": "Crie um caso prático a partir do vídeo {youtube}.",
-        "arquivo": "O estudante fornecerá um arquivo. Crie um caso prático com base em {arquivo}."
-      }
-    },
-    {
-      "id": "vf_justificado",
-      "templates": {
-        "tema": "Crie 10 itens de Verdadeiro ou Falso sobre {tema}, cada um com justificativa da resposta.",
-        "texto": "Com base no texto a seguir, crie 10 itens de Verdadeiro ou Falso com justificativa. Texto: {texto}",
-        "youtube": "Com base no vídeo {youtube}, crie 10 itens de Verdadeiro ou Falso com justificativa.",
-        "arquivo": "O estudante fornecerá um arquivo. Crie 10 itens de Verdadeiro ou Falso a partir de {arquivo}, cada um com justificativa."
-      }
-    }
-  ]
+  "resumo": "Gere um resumo claro e objetivo sobre {tema} ou a partir do conteúdo: {texto} {youtube} {arquivo}.",
+
+  "questoes_objetivas": "Crie 3 questões objetivas de múltipla escolha sobre {tema} ou baseado no conteúdo: {texto} {youtube} {arquivo}. Inclua alternativas e destaque a correta.",
+
+  "questoes_discursivas": "Elabore 2 questões discursivas sobre {tema} ou baseado no conteúdo: {texto} {youtube} {arquivo}.",
+
+  "flashcards": "Crie 5 flashcards para revisar {tema} ou baseado no conteúdo: {texto} {youtube} {arquivo}. Formato: Frente → Verso.",
+
+  "simulado": "Monte um mini simulado com 5 questões variadas (objetivas e discursivas) sobre {tema} ou baseado no conteúdo: {texto} {youtube} {arquivo}. Inclua gabarito.",
+
+  "mapa_mental": "Organize um mapa mental em tópicos hierárquicos sobre {tema} ou a partir do conteúdo: {texto} {youtube} {arquivo}.",
+
+  "explicacao_simples": "Explique {tema} ou o conteúdo {texto} {youtube} {arquivo} de forma simples, como se fosse para um iniciante.",
+
+  "plano_estudos": "Monte um plano de estudos em etapas para aprender {tema} ou o conteúdo {texto} {youtube} {arquivo}, sugerindo atividades práticas."
 }
