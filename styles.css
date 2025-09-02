@@ -46,7 +46,7 @@ body {
   margin: 0 auto;
   width: 100%;
 
-  position: sticky; /* fixo */
+  position: sticky;
   top: 0;
   z-index: 1200;
 }
@@ -156,12 +156,13 @@ body {
   font-size: 14px;
   text-align: center;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.15s;
 }
 .option-btn:hover,
 .save-btn:hover,
 .drawer-option:hover {
   background: var(--btn-hover);
+  transform: translateY(-1px);
 }
 .save-btn {
   background: var(--accent);
@@ -227,7 +228,7 @@ body {
    ============================== */
 .toast {
   position: fixed;
-  bottom: 20px;
+  bottom: 80px; /* fica acima do teclado no mobile */
   left: 50%;
   transform: translateX(-50%) translateY(20px);
   background: rgba(0, 0, 0, 0.85);
@@ -265,6 +266,7 @@ body {
     padding: 14px;
   }
 }
+
 /* ==============================
    Tema Escuro (Dark Mode)
    ============================== */
@@ -286,17 +288,14 @@ body.dark .app-header {
   background: #2b2b2b;
   border-bottom: 1px solid var(--border);
 }
-
 body.dark .input-footer {
   background: #2b2b2b;
   border-top: 1px solid var(--border);
 }
-
 body.dark .drawer {
   background: #2b2b2b;
   color: var(--text);
 }
-
 body.dark .toast {
   background: rgba(255, 255, 255, 0.9);
   color: #111;
