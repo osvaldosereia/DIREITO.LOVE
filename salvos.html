@@ -4,9 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Temas Salvos — direito.love</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=1.0.1">
   <style>
-    /* Ajustes extras para mobile */
     @media (max-width: 768px) {
       .tema-salvo {
         padding: 16px;
@@ -32,122 +31,24 @@
       }
     }
 
-    /* Safe area padding para iOS */
     body {
       padding-bottom: env(safe-area-inset-bottom);
     }
   </style>
 </head>
 <body>
-  <!-- Cabeçalho fixo -->
   <header class="app-header">
     <h1>Temas Salvos</h1>
-    <a href="index.html" class="settings-btn" aria-label="Voltar para página inicial">⬅</a>
+    <a href="index.html?v=1.0.1" class="settings-btn" aria-label="Voltar para página inicial">⬅</a>
   </header>
 
-  <!-- Conteúdo -->
   <main class="salvos-container" id="salvos-container" role="main">
     <p>Carregando temas salvos...</p>
   </main>
 
-  <!-- Toast -->
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <script>
-    // ================================
-    // Snackbar (toast moderno)
-    // ================================
-    let toastTimeout;
-    function showToast(message) {
-      const toast = document.getElementById("toast");
-      toast.textContent = message;
-
-      toast.classList.remove("show");
-      clearTimeout(toastTimeout);
-
-      setTimeout(() => {
-        toast.classList.add("show");
-      }, 50);
-
-      const duracao = message.length > 40 ? 3500 : 1800;
-      toastTimeout = setTimeout(() => {
-        toast.classList.remove("show");
-      }, duracao);
-    }
-
-    // ================================
-    // Controle de tema (Claro / Escuro / Automático)
-    // ================================
-    function applyTheme(mode) {
-      document.body.classList.remove("dark");
-      if (mode === "dark" || (mode === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-        document.body.classList.add("dark");
-      }
-    }
-
-    (function initTheme() {
-      const saved = localStorage.getItem("theme") || "auto";
-      applyTheme(saved);
-    })();
-
-    // ================================
-    // Carregar temas salvos
-    // ================================
-    const container = document.getElementById("salvos-container");
-    const salvos = JSON.parse(localStorage.getItem("temasSalvos")) || [];
-
-    container.innerHTML = "";
-
-    if (salvos.length === 0) {
-      container.innerHTML = "<p>Nenhum tema salvo ainda.</p>";
-    } else {
-      // aviso se atingir limite
-      if (salvos.length >= 10) {
-        const aviso = document.createElement("p");
-        aviso.textContent = "⚠️ Você já atingiu o limite de 10 temas salvos. O mais antigo será substituído.";
-        aviso.style.fontSize = "13px";
-        aviso.style.color = "var(--muted)";
-        aviso.style.marginBottom = "12px";
-        container.appendChild(aviso);
-      }
-
-      salvos.forEach((item, index) => {
-        const div = document.createElement("div");
-        div.className = "tema-salvo";
-
-        // título do tema
-        const titulo = document.createElement("h2");
-        titulo.textContent = `📌 ${item.tema}`;
-        titulo.style.color = "var(--text)";
-        div.appendChild(titulo);
-
-        // descrição
-        const desc = document.createElement("p");
-        desc.textContent = "Escolha um dos prompts para copiar:";
-        div.appendChild(desc);
-
-        // botões das opções
-        item.opcoes.forEach(opcao => {
-          const btn = document.createElement("button");
-          btn.className = "option-btn";
-          btn.textContent = opcao.nome;
-          btn.setAttribute("aria-label", `Copiar prompt de ${opcao.nome}`);
-          btn.addEventListener("click", () => {
-            navigator.clipboard.writeText(opcao.prompt).then(() => {
-              showToast(`✅ Prompt de "${opcao.nome}" copiado!`);
-            });
-          });
-          div.appendChild(btn);
-        });
-
-        // espaçamento entre blocos
-        if (index < salvos.length - 1) {
-          div.style.marginBottom = "20px";
-        }
-
-        container.appendChild(div);
-      });
-    }
-  </script>
+  <!-- Script com versão para limpar cache -->
+  <script src="app.js?v=1.0.1"></script>
 </body>
 </html>
