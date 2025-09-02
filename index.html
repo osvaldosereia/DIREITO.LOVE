@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>direito.love</title>
 
-  <!-- Ajuste inicial de tema -->
+  <!-- Tema dinâmico -->
   <script>
   (function () {
     try {
@@ -27,17 +27,14 @@
   })();
   </script>
 
-  <!-- Manifesto PWA -->
+  <!-- PWA -->
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#e9eaee" data-live>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
-  <!-- Ícones -->
-  <link rel="apple-touch-icon" sizes="180x180" href="icons/pwa-180.png">
-  <link rel="icon" type="image/png" sizes="144x144" href="icons/pwa-144.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="icons/pwa-192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="icons/pwa-512.png">
-  <link rel="icon" type="image/png" sizes="1024x1024" href="icons/pwa-1024.png">
-  <link rel="shortcut icon" href="icons/favicon.ico" type="image/x-icon">
+  <!-- Favicon genérico -->
+  <link rel="icon" href="favicon.ico">
 
   <!-- CSS -->
   <link rel="stylesheet" href="styles.css">
@@ -47,22 +44,29 @@
   <header class="topbar" role="banner">
     <div class="container nav">
       <div class="brand" aria-label="direito.love">
-  <span class="logo" role="img" aria-label="Logo">💚</span>
-  <strong class="title">direito.love</strong>
-     </div>
+        <span class="logo" role="img" aria-label="Logo">💚</span>
+        <strong class="title">direito.love</strong>
+      </div>
       <nav class="actions" aria-label="Ações principais">
         <a class="iconbtn" href="arquivo.html" aria-label="Histórico">🗃️</a>
-       <button class="iconbtn" id="btn-new" aria-label="Novo tema">➕</button>
-       <button class="iconbtn" id="btn-settings" aria-label="Configurações">☰</button>
-
+        <button class="iconbtn" id="btn-new" aria-label="Novo tema">➕</button>
+        <button class="iconbtn" id="btn-settings" aria-label="Configurações">☰</button>
       </nav>
     </div>
   </header>
 
-  <!-- Chat -->
+  <!-- App principal -->
   <main class="container app" role="main">
     <section id="chat" class="chat" aria-label="Conversa">
-      <div id="messages" class="messages" aria-live="polite" aria-relevant="additions"></div>
+      <div class="input-bubble">
+        <input type="text" id="tema" placeholder="Digite um tema para gerar o prompt...">
+        <div class="row">
+          <button class="btn" id="copiar" style="display:none">📋 Copiar</button>
+          <button class="btn" id="abrir" style="display:none">💬 Abrir IA</button>
+        </div>
+      </div>
+      <div id="resultado" class="info-msg"></div>
+      <div id="objetivos"></div>
     </section>
   </main>
 
@@ -71,12 +75,10 @@
     <small>💚 direito.love — seu assistente de estudo jurídico</small>
   </footer>
 
-  <!-- Modal de Configurações -->
+  <!-- Modal Configurações -->
   <dialog id="settings-modal" class="settings-modal" aria-labelledby="settings-title">
     <form method="dialog" class="settings-card">
       <h3 id="settings-title">⚙️ Configurações</h3>
-
-      <!-- Feedback Tátil -->
       <div class="settings-row">
         <div class="settings-info">
           <strong>Feedback Tátil</strong>
@@ -87,8 +89,6 @@
           <span class="slider"></span>
         </label>
       </div>
-
-      <!-- Tema -->
       <div class="settings-row">
         <div class="settings-info">
           <strong>Tema</strong>
@@ -100,8 +100,6 @@
           <button class="chip theme-btn" data-value="auto" role="radio">⚡ Auto</button>
         </div>
       </div>
-
-      <!-- Lembrete -->
       <div class="settings-row">
         <div class="settings-info">
           <strong>Lembrete diário</strong>
@@ -112,15 +110,11 @@
           <span class="slider"></span>
         </label>
       </div>
-
-      <!-- Política -->
       <div class="settings-row link-only">
         <a class="btn mini" href="politica.html" target="_blank" rel="noopener">
           🔒 Política de Privacidade
         </a>
       </div>
-
-      <!-- Ações -->
       <div class="settings-actions">
         <button class="btn" value="cancel">Fechar</button>
       </div>
@@ -129,5 +123,10 @@
 
   <!-- JS -->
   <script src="app.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(console.error);
+    }
+  </script>
 </body>
 </html>
