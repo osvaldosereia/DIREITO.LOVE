@@ -55,18 +55,6 @@
 
   <script>
     // ================================
-    // Inicializar tema (claro / escuro / automático)
-    // ================================
-    (function initTheme() {
-      const savedTheme = localStorage.getItem("theme") || "auto";
-      if (savedTheme === "dark") {
-        document.body.classList.add("dark");
-      } else if (savedTheme === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        document.body.classList.add("dark");
-      }
-    })();
-
-    // ================================
     // Snackbar (toast moderno)
     // ================================
     let toastTimeout;
@@ -86,6 +74,21 @@
         toast.classList.remove("show");
       }, duracao);
     }
+
+    // ================================
+    // Controle de tema (Claro / Escuro / Automático)
+    // ================================
+    function applyTheme(mode) {
+      document.body.classList.remove("dark");
+      if (mode === "dark" || (mode === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+        document.body.classList.add("dark");
+      }
+    }
+
+    (function initTheme() {
+      const saved = localStorage.getItem("theme") || "auto";
+      applyTheme(saved);
+    })();
 
     // ================================
     // Carregar temas salvos
