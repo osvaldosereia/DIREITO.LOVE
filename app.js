@@ -1,30 +1,19 @@
 // ================================
-// app.js - direito.love
-// Lógica base: categorias, accordion, modal, drawer
+// app.js - direito.love (revisado)
+// Etapa 1: carregar objetivos no accordion
 // ================================
 
 // Seletores principais
 const tabs = document.querySelectorAll('.tab');
 const userInput = document.getElementById('user-input');
-const accordionHeaders = document.querySelectorAll('.accordion-header');
-const modal = document.getElementById('prompt-modal');
-const modalText = document.getElementById('prompt-text');
-const copyBtn = document.getElementById('copy-btn');
-const newGoalBtn = document.getElementById('new-goal-btn');
-const newInputBtn = document.getElementById('new-input-btn');
-const favBtn = document.getElementById('fav-btn');
-const waBtn = document.getElementById('wa-btn');
-const drawer = document.getElementById('drawer');
-const openDrawerBtn = document.getElementById('open-drawer');
-const closeDrawerBtn = document.getElementById('close-drawer');
+const accordionItems = document.querySelectorAll('.accordion-item');
 
 // Estado
 let currentCategory = 'tema';
-let currentPrompt = '';
+let objetivos = [];
 
 // Alternar categorias
-// Apenas muda o placeholder para guiar o usuário
-// (A lógica de prompts será expandida depois com JSON)
+// Muda apenas o placeholder para guiar o usuário
 tabs.forEach(tab => {
   tab.addEventListener('click', () => {
     currentCategory = tab.dataset.category;
@@ -39,71 +28,49 @@ tabs.forEach(tab => {
         userInput.placeholder = 'Cole o link do vídeo do YouTube...';
         break;
       case 'arquivo':
-        userInput.placeholder = 'Indique o arquivo (anexe depois na IA)...';
+        userInput.placeholder = 'Descreva o arquivo (anexe depois na IA)...';
         break;
     }
   });
 });
 
+// Carregar JSON de objetivos
+fetch('prompts.json')
+  .then(res => res.json())
+  .then(data => {
+    objetivos = data.objetivos;
+    renderAccordion();
+  })
+  .catch(err => console.error('Erro ao carregar prompts.json:', err));
+
+// Renderizar accordion dinamicamente
+function renderAccordion() {
+  accordionItems.forEach(item => {
+    const header = item.querySelector('.accordion-header');
+    const content = item.querySelector('.accordion-content');
+    const grupo = header.textContent.trim();
+
+    // Filtra objetivos por grupo
+    const objs = objetivos.filter(obj => obj.grupo === grupo);
+
+    // Limpa e adiciona os objetivos
+    content.innerHTML = '';
+    objs.forEach(obj => {
+      const btn = document.createElement('button');
+      btn.textContent = obj.titulo;
+      btn.className = 'objective-btn';
+      btn.setAttribute('data-id', obj.id);
+      btn.setAttribute('aria-label', `Selecionar objetivo: ${obj.titulo}`);
+      content.appendChild(btn);
+    });
+  });
+}
+
 // Accordion expand/collapse
+const accordionHeaders = document.querySelectorAll('.accordion-header');
 accordionHeaders.forEach(header => {
   header.addEventListener('click', () => {
     const expanded = header.getAttribute('aria-expanded') === 'true';
     header.setAttribute('aria-expanded', !expanded);
   });
-});
-
-// Exibir modal com prompt fake (placeholder)
-accordionHeaders.forEach(header => {
-  header.addEventListener('dblclick', () => {
-    currentPrompt = `Prompt gerado para: ${header.textContent} | Entrada: ${userInput.value}`;
-    modalText.textContent = currentPrompt;
-    modal.style.display = 'flex';
-    modal.setAttribute('aria-hidden', 'false');
-  });
-});
-
-// Botões do modal
-copyBtn.addEventListener('click', () => {
-  navigator.clipboard.writeText(currentPrompt).then(() => {
-    alert('✅ Prompt copiado com sucesso!');
-  });
-});
-
-newGoalBtn.addEventListener('click', () => {
-  modal.style.display = 'none';
-});
-
-newInputBtn.addEventListener('click', () => {
-  userInput.value = '';
-  modal.style.display = 'none';
-});
-
-favBtn.addEventListener('click', () => {
-  let favs = JSON.parse(localStorage.getItem('favoritos')) || [];
-  favs.push(currentPrompt);
-  localStorage.setItem('favoritos', JSON.stringify(favs));
-  alert('⭐ Adicionado aos favoritos!');
-});
-
-waBtn.addEventListener('click', () => {
-  const url = `https://wa.me/?text=${encodeURIComponent(currentPrompt)}`;
-  window.open(url, '_blank');
-});
-
-// Fechar modal clicando fora
-modal.addEventListener('click', (e) => {
-  if (e.target === modal) {
-    modal.style.display = 'none';
-    modal.setAttribute('aria-hidden', 'true');
-  }
-});
-
-// Drawer
-openDrawerBtn.addEventListener('click', () => {
-  drawer.setAttribute('aria-hidden', 'false');
-});
-
-closeDrawerBtn.addEventListener('click', () => {
-  drawer.setAttribute('aria-hidden', 'true');
 });
