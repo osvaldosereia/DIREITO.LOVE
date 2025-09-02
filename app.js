@@ -1,131 +1,109 @@
-// Elementos principais
-const entradaContainer = document.getElementById('entrada-container');
-const objetivosContainer = document.getElementById('objetivos-container');
-const resultadoContainer = document.getElementById('resultado-container');
-const resultado = document.getElementById('resultado');
-const toast = document.getElementById('toast');
+// ================================
+// app.js - direito.love
+// Lógica base: categorias, accordion, modal, drawer
+// ================================
 
-let categoriaAtiva = 'Tema';
-let entradaUsuario = '';
-let objetivos = {};
-let base = {};
+// Seletores principais
+const tabs = document.querySelectorAll('.tab');
+const userInput = document.getElementById('user-input');
+const accordionHeaders = document.querySelectorAll('.accordion-header');
+const modal = document.getElementById('prompt-modal');
+const modalText = document.getElementById('prompt-text');
+const copyBtn = document.getElementById('copy-btn');
+const newGoalBtn = document.getElementById('new-goal-btn');
+const newInputBtn = document.getElementById('new-input-btn');
+const favBtn = document.getElementById('fav-btn');
+const waBtn = document.getElementById('wa-btn');
+const drawer = document.getElementById('drawer');
+const openDrawerBtn = document.getElementById('open-drawer');
+const closeDrawerBtn = document.getElementById('close-drawer');
 
-// Categoria
-document.querySelectorAll('.categoria-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.categoria-btn').forEach(b => b.classList.remove('ativo'));
-    btn.classList.add('ativo');
-    categoriaAtiva = btn.dataset.categoria;
-    renderEntrada();
-    renderObjetivos();
+// Estado
+let currentCategory = 'tema';
+let currentPrompt = '';
+
+// Alternar categorias
+// Apenas muda o placeholder para guiar o usuário
+// (A lógica de prompts será expandida depois com JSON)
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    currentCategory = tab.dataset.category;
+    switch (currentCategory) {
+      case 'tema':
+        userInput.placeholder = 'Digite o tema do estudo...';
+        break;
+      case 'texto':
+        userInput.placeholder = 'Cole aqui o texto base...';
+        break;
+      case 'youtube':
+        userInput.placeholder = 'Cole o link do vídeo do YouTube...';
+        break;
+      case 'arquivo':
+        userInput.placeholder = 'Indique o arquivo (anexe depois na IA)...';
+        break;
+    }
   });
 });
 
-// Entrada dinâmica
-function renderEntrada() {
-  entradaContainer.innerHTML = '';
-  const wrapper = document.createElement('div');
-
-  if (categoriaAtiva === 'Texto') {
-    const textarea = document.createElement('textarea');
-    textarea.placeholder = 'Cole aqui o conteúdo jurídico...';
-    textarea.addEventListener('input', e => entradaUsuario = e.target.value);
-    wrapper.appendChild(textarea);
-
-  } else if (categoriaAtiva === 'YouTube') {
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.placeholder = 'Cole o link do vídeo...';
-    input.addEventListener('input', e => entradaUsuario = e.target.value);
-    wrapper.appendChild(input);
-
-  } else if (categoriaAtiva === 'Arquivo') {
-    const aviso = document.createElement('p');
-    aviso.textContent = 'Você pode indicar o conteúdo de um arquivo (PDF, DOC etc.) ao gerar o prompt. O app não processa arquivos.';
-    wrapper.appendChild(aviso);
-
-  } else {
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.placeholder = 'Digite o tema jurídico...';
-    input.addEventListener('input', e => entradaUsuario = e.target.value);
-    wrapper.appendChild(input);
-  }
-
-  entradaContainer.appendChild(wrapper);
-}
-
-// Objetivos dinâmicos
-function renderObjetivos() {
-  objetivosContainer.innerHTML = '';
-  const lista = objetivos[categoriaAtiva];
-  if (!lista) return;
-
-  lista.forEach(id => {
-    const obj = base[id];
-    if (!obj) return;
-
-    const card = document.createElement('div');
-    card.className = 'objetivo-card';
-
-    const h3 = document.createElement('h3');
-    h3.textContent = obj.titulo;
-    card.appendChild(h3);
-
-    const p = document.createElement('p');
-    p.textContent = obj.descricao;
-    card.appendChild(p);
-
-    const btn = document.createElement('button');
-    btn.textContent = 'Gerar Prompt';
-    btn.addEventListener('click', () => gerarPrompt(obj.prompt));
-    card.appendChild(btn);
-
-    objetivosContainer.appendChild(card);
+// Accordion expand/collapse
+accordionHeaders.forEach(header => {
+  header.addEventListener('click', () => {
+    const expanded = header.getAttribute('aria-expanded') === 'true';
+    header.setAttribute('aria-expanded', !expanded);
   });
-}
+});
 
-// Geração de prompt
-function gerarPrompt(template) {
-  if (!entradaUsuario || entradaUsuario.trim() === '') {
-    mostrarToast('Por favor, preencha o campo de entrada.');
-    return;
+// Exibir modal com prompt fake (placeholder)
+accordionHeaders.forEach(header => {
+  header.addEventListener('dblclick', () => {
+    currentPrompt = `Prompt gerado para: ${header.textContent} | Entrada: ${userInput.value}`;
+    modalText.textContent = currentPrompt;
+    modal.style.display = 'flex';
+    modal.setAttribute('aria-hidden', 'false');
+  });
+});
+
+// Botões do modal
+copyBtn.addEventListener('click', () => {
+  navigator.clipboard.writeText(currentPrompt).then(() => {
+    alert('✅ Prompt copiado com sucesso!');
+  });
+});
+
+newGoalBtn.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+newInputBtn.addEventListener('click', () => {
+  userInput.value = '';
+  modal.style.display = 'none';
+});
+
+favBtn.addEventListener('click', () => {
+  let favs = JSON.parse(localStorage.getItem('favoritos')) || [];
+  favs.push(currentPrompt);
+  localStorage.setItem('favoritos', JSON.stringify(favs));
+  alert('⭐ Adicionado aos favoritos!');
+});
+
+waBtn.addEventListener('click', () => {
+  const url = `https://wa.me/?text=${encodeURIComponent(currentPrompt)}`;
+  window.open(url, '_blank');
+});
+
+// Fechar modal clicando fora
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
   }
+});
 
-  const prompt = template.replace('{{entrada}}', entradaUsuario.trim());
-  resultado.textContent = prompt;
-  resultadoContainer.classList.remove('oculto');
+// Drawer
+openDrawerBtn.addEventListener('click', () => {
+  drawer.setAttribute('aria-hidden', 'false');
+});
 
-  document.getElementById('copiar-btn').onclick = () => {
-    navigator.clipboard.writeText(prompt).then(() => mostrarToast('Prompt copiado com sucesso!'));
-  };
-
-  document.getElementById('abrir-btn').onclick = () => {
-    const url = `https://chat.openai.com/chat?prompt=${encodeURIComponent(prompt)}`;
-    window.open(url, '_blank');
-  };
-}
-
-// Toast
-function mostrarToast(mensagem) {
-  toast.textContent = mensagem;
-  toast.classList.add('visivel');
-  setTimeout(() => toast.classList.remove('visivel'), 3000);
-}
-
-// Botão topo
-document.getElementById('topo-btn').onclick = () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-};
-
-// Inicialização
-async function init() {
-  const res1 = await fetch('prompts.json');
-  const res2 = await fetch('prompts-base.json');
-  objetivos = await res1.json();
-  base = await res2.json();
-  renderEntrada();
-  renderObjetivos();
-}
-
-init();
+closeDrawerBtn.addEventListener('click', () => {
+  drawer.setAttribute('aria-hidden', 'true');
+});
