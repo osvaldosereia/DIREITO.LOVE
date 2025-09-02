@@ -1,5 +1,5 @@
 // ================================
-// app.js - direito.love (UX refinada, tema simples)
+// app.js - direito.love (versão robusta e estável)
 // ================================
 
 // Seletores principais
@@ -11,42 +11,31 @@ const drawerOverlay = document.getElementById("drawer-overlay");
 const closeDrawerBtn = document.getElementById("close-settings");
 const settingsBtn = document.querySelector(".settings-btn");
 
-// ================================
-// Snackbar (toast moderno)
-// ================================
+// Toast (mensagem flutuante)
 let toastTimeout;
 function showToast(message) {
   const toast = document.getElementById("toast");
   toast.textContent = message;
-
   toast.classList.remove("show");
   clearTimeout(toastTimeout);
-
-  setTimeout(() => {
-    toast.classList.add("show");
-  }, 50);
-
-  const duracao = message.length > 40 ? 3500 : 1800;
-  toastTimeout = setTimeout(() => {
-    toast.classList.remove("show");
-  }, duracao);
+  setTimeout(() => toast.classList.add("show"), 50);
+  toastTimeout = setTimeout(() => toast.classList.remove("show"), message.length > 40 ? 3500 : 1800);
 }
 
-// ================================
-// Objetivos fixos (padrão)
-// ================================
-const opcoesEstudo = [ /* ... seus prompts continuam aqui sem mudanças ... */ ];
+// Placeholder de objetivos
+const opcoesEstudo = [
+  { nome: "Resumo", prompt: "Gere um resumo do tema: {tema}" },
+  { nome: "Questão objetiva", prompt: "Crie uma questão de múltipla escolha sobre: {tema}" },
+  { nome: "Flashcard", prompt: "Crie um flashcard para revisar: {tema}" }
+];
 
 let temaAtual = "";
 
-// Scroll automático
 function scrollToBottom() {
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// ================================
-// Envio do tema
-// ================================
+// Evento de envio do formulário
 chatForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const tema = chatInput.value.trim();
@@ -54,9 +43,12 @@ chatForm.addEventListener("submit", (e) => {
     showToast("⚠️ Digite um tema antes de enviar!");
     return;
   }
+  temaAtual = tema;
+
+  // Limpa opções anteriores
+  document.querySelectorAll(".opcoes-container").forEach(el => el.remove());
 
   addMessage("user", tema);
-
   const typingMsg = addMessage("bot", "digitando...");
 
   setTimeout(() => {
@@ -67,9 +59,7 @@ chatForm.addEventListener("submit", (e) => {
   chatInput.value = "";
 });
 
-// ================================
-// Renderizar botões de opções
-// ================================
+// Renderiza os botões com opções
 function renderOpcoes(tema) {
   const container = document.createElement("div");
   container.className = "opcoes-container";
@@ -78,29 +68,29 @@ function renderOpcoes(tema) {
     const btn = document.createElement("button");
     btn.className = "option-btn";
     btn.textContent = opcao.nome;
-
     btn.style.opacity = 0;
     btn.style.transition = "opacity 0.4s ease";
-
     setTimeout(() => { btn.style.opacity = 1; }, 200 * i);
 
     btn.addEventListener("click", () => {
+      if (!temaAtual) {
+        showToast("⚠️ Tema inválido. Reenvie o tema.");
+        return;
+      }
       const promptFinal = opcao.prompt.replaceAll("{tema}", temaAtual);
       navigator.clipboard.writeText(promptFinal).then(() => {
         showToast(`✅ "${opcao.nome}" copiado!`);
       });
     });
+
     container.appendChild(btn);
   });
 
-  // botão salvar
   const salvarBtn = document.createElement("button");
   salvarBtn.className = "save-btn";
   salvarBtn.textContent = "⭐ Salvar Tema";
-
   salvarBtn.style.opacity = 0;
   salvarBtn.style.transition = "opacity 0.4s ease";
-
   setTimeout(() => { salvarBtn.style.opacity = 1; }, 1200);
 
   salvarBtn.addEventListener("click", () => salvarTema(temaAtual));
@@ -116,47 +106,28 @@ function addMessage(tipo, texto) {
   msg.textContent = texto;
   chatMessages.appendChild(msg);
   scrollToBottom();
-
-  if (tipo === "user") temaAtual = texto;
-
   return msg;
 }
 
-// ================================
-// Salvar tema no localStorage
-// ================================
 function salvarTema(tema) {
   let salvos = JSON.parse(localStorage.getItem("temasSalvos")) || [];
-
   if (salvos.some(item => item.tema === tema)) {
     showToast(`⚠️ O tema "${tema}" já foi salvo.`);
     return;
   }
-
-  if (salvos.length >= 30) {
-    salvos.shift(); // remove o mais antigo
-  }
-
+  if (salvos.length >= 30) salvos.shift();
   salvos.push({
     tema,
-    opcoes: opcoesEstudo.map(o => ({
-      nome: o.nome,
-      prompt: o.prompt.replaceAll("{tema}", tema)
-    }))
+    opcoes: opcoesEstudo.map(o => ({ nome: o.nome, prompt: o.prompt.replaceAll("{tema}", tema) }))
   });
-
   localStorage.setItem("temasSalvos", JSON.stringify(salvos));
   showToast(`⭐ Tema "${tema}" salvo!`);
 }
 
-// ================================
-// Drawer de Configurações
-// ================================
 settingsBtn.addEventListener("click", () => {
   drawer.setAttribute("aria-hidden", "false");
   drawerOverlay.classList.add("active");
 });
-
 closeDrawerBtn.addEventListener("click", fecharDrawer);
 drawerOverlay.addEventListener("click", fecharDrawer);
 
@@ -165,13 +136,9 @@ function fecharDrawer() {
   drawerOverlay.classList.remove("active");
 }
 
-// ================================
-// Ações dos botões do Drawer
-// ================================
 document.querySelectorAll(".drawer-option").forEach(btn => {
   btn.addEventListener("click", () => {
     const action = btn.dataset.action;
-
     switch (action) {
       case "theme":
         document.body.classList.toggle("dark");
