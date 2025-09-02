@@ -23,7 +23,7 @@
 }
 
 body {
-  font-family: "Inter", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", Arial, sans-serif;
   background: var(--bg);
   color: var(--text);
   display: flex;
@@ -32,7 +32,7 @@ body {
 }
 
 /* ==============================
-   Header
+   Header fixo
    ============================== */
 .app-header {
   background: #fff;
@@ -44,6 +44,9 @@ body {
   max-width: 900px;
   margin: 0 auto;
   width: 100%;
+  position: sticky;   /* fixo no topo */
+  top: 0;
+  z-index: 1000;
 }
 .app-header h1 {
   font-size: 16px;
@@ -55,6 +58,7 @@ body {
   font-size: 18px;
   cursor: pointer;
   color: var(--text);
+  margin-right: 4px; /* afastar da borda */
 }
 
 /* ==============================
@@ -123,9 +127,14 @@ body {
   border: none;
   padding: 0 16px;
   cursor: pointer;
+  min-width: 44px; /* área mínima clicável */
+  min-height: 44px;
 }
 .error-message {
-  color: red;
+  color: #b00020;
+  background: #fdecea;
+  border-radius: 6px;
+  padding: 6px;
   font-size: 13px;
   margin-top: 6px;
   text-align: center;
@@ -165,7 +174,8 @@ body {
   position: fixed;
   top: 0;
   right: -300px;
-  width: 280px;
+  width: 80%;          /* ajusta em telas pequenas */
+  max-width: 280px;    /* limite máximo */
   height: 100%;
   background: #fff;
   box-shadow: -2px 0 10px rgba(0,0,0,0.2);
@@ -227,4 +237,30 @@ body {
   .app-header h1 {
     font-size: 14px;
   }
+}
+
+/* ==============================
+   TOAST (Feedback visual)
+   ============================== */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 3000;
+}
+
+/* Quando visível */
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
