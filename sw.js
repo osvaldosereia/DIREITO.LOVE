@@ -1,16 +1,21 @@
 /* =========================
-   Service Worker v12
+   Service Worker v13
+   Estratégias de cache:
    - network-first p/ HTML
    - cache-first p/ estáticos
    - fallback offline
    ========================= */
 
-const CACHE = 'direito-love-v12';
+const CACHE = 'direito-love-v13';
+
+/* =========================
+   Lista de arquivos para cache
+   ========================= */
 const ASSETS = [
   './',
   'index.html',
-  'styles.css',
-  'app.js',
+  'styles.css',   // versão sem ?v=8
+  'app.js',       // versão sem ?v=8
   'politica.html',
   'offline.html',
   'manifest.webmanifest',
@@ -32,19 +37,19 @@ const ASSETS = [
 ];
 
 /* =========================
-   Install — pré-cache estáticos
+   Instalação — pré-cache
    ========================= */
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE)
       .then(c => c.addAll(ASSETS))
       .then(() => self.skipWaiting())
-      .catch(err => console.error('Erro no pré-cache:', err))
+      .catch(err => console.error('❌ Erro no pré-cache:', err))
   );
 });
 
 /* =========================
-   Activate — limpa caches antigos
+   Ativação — limpa caches antigos
    ========================= */
 self.addEventListener('activate', e => {
   e.waitUntil(
@@ -83,7 +88,7 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // Estratégia cache-first para estáticos locais
+  // Estratégia cache-first para estáticos
   if (sameOrigin) {
     e.respondWith(
       caches.match(req).then(cached =>
