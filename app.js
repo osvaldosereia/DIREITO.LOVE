@@ -1,199 +1,40 @@
-// ================================
-// app.js - direito.love (revisado final)
-// ================================
+const chatForm = document.getElementById("chat-form");
+const chatInput = document.getElementById("chat-input");
+const chatContainer = document.getElementById("chat-container");
+const errorMessage = document.getElementById("error-message");
 
-// Seletores principais
-const tabs = document.querySelectorAll('.tab');
-const userInput = document.getElementById('user-input');
-const accordionItems = document.querySelectorAll('.accordion-item');
-const modal = document.getElementById('prompt-modal');
-const modalText = document.getElementById('prompt-text');
-const copyBtn = document.getElementById('copy-btn');
-const newGoalBtn = document.getElementById('new-goal-btn');
-const newInputBtn = document.getElementById('new-input-btn');
-const favBtn = document.getElementById('fav-btn');
-const waBtn = document.getElementById('wa-btn');
-const drawer = document.getElementById('drawer');
-const openDrawerBtn = document.getElementById('open-drawer');
-const closeDrawerBtn = document.getElementById('close-drawer');
-
-// Criar overlay para drawer
-const drawerOverlay = document.createElement('div');
-drawerOverlay.classList.add('drawer-overlay');
-document.body.appendChild(drawerOverlay);
-
-// Criar área de feedback visual (toast)
-const toast = document.createElement('div');
-toast.id = 'toast';
-toast.setAttribute('role', 'status');
-toast.setAttribute('aria-live', 'polite');
-document.body.appendChild(toast);
-
-// Função de feedback visual
-function showToast(msg) {
-  toast.textContent = msg;
-  toast.classList.add('active');
-  setTimeout(() => toast.classList.remove('active'), 3000);
+// função auxiliar para criar mensagens no chat
+function addMessage(text, sender = "user") {
+  const msg = document.createElement("div");
+  msg.classList.add("message", sender);
+  msg.innerHTML = `<p>${text}</p>`;
+  chatContainer.appendChild(msg);
+  chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
-// Estado
-let currentCategory = 'tema';
-let objetivos = [];
-let templates = [];
-let currentPrompt = '';
+// enviar mensagem
+chatForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const text = chatInput.value.trim();
 
-// Alternar categorias
-tabs.forEach(tab => {
-  tab.addEventListener('click', () => {
-    currentCategory = tab.dataset.category;
-    switch (currentCategory) {
-      case 'tema':
-        userInput.placeholder = 'Digite o tema do estudo...';
-        break;
-      case 'texto':
-        userInput.placeholder = 'Cole aqui o texto base...';
-        break;
-      case 'youtube':
-        userInput.placeholder = 'Cole o link do vídeo do YouTube...';
-        break;
-      case 'arquivo':
-        userInput.placeholder = 'Descreva o arquivo (anexe depois na IA)...';
-        break;
-    }
-  });
-});
-
-// Carregar JSONs
-Promise.all([
-  fetch('prompts.json').then(res => res.json()),
-  fetch('prompts-base.json').then(res => res.json())
-])
-  .then(([promptsData, baseData]) => {
-    objetivos = promptsData.objetivos;
-    templates = baseData.objetivos;
-    renderAccordion();
-  })
-  .catch(err => console.error('Erro ao carregar JSONs:', err));
-
-// Renderizar accordion
-function renderAccordion() {
-  accordionItems.forEach(item => {
-    const header = item.querySelector('.accordion-header');
-    const content = item.querySelector('.accordion-content');
-    const grupo = header.textContent.trim();
-
-    const objs = objetivos.filter(obj => obj.grupo === grupo);
-    content.innerHTML = '';
-
-    objs.forEach(obj => {
-      const btn = document.createElement('button');
-      btn.textContent = obj.titulo;
-      btn.className = 'objective-btn';
-      btn.setAttribute('data-id', obj.id);
-      btn.setAttribute('aria-label', `Selecionar objetivo: ${obj.titulo}`);
-      btn.addEventListener('click', () => gerarPrompt(obj.id));
-      content.appendChild(btn);
-    });
-  });
-}
-
-// Gerar prompt
-function gerarPrompt(objId) {
-  const entrada = userInput.value.trim();
-  if (!entrada) {
-    showToast('⚠️ Insira um conteúdo antes de gerar o prompt!');
+  if (!text) {
+    errorMessage.textContent = "⚠️ Por favor, escreva um tema antes de continuar.";
+    chatInput.classList.add("input-error");
     return;
   }
 
-  const templateObj = templates.find(t => t.id === objId);
-  if (!templateObj) return;
+  // limpar erro
+  errorMessage.textContent = "";
+  chatInput.classList.remove("input-error");
 
-  const template = templateObj.templates[currentCategory];
+  // exibe mensagem do usuário
+  addMessage(text, "user");
 
-  currentPrompt = template
-    .replace('{tema}', entrada)
-    .replace('{texto}', entrada)
-    .replace('{youtube}', entrada)
-    .replace('{arquivo}', entrada);
+  // limpa input
+  chatInput.value = "";
 
-  modalText.textContent = currentPrompt;
-  modal.style.display = 'flex';
-  modal.setAttribute('aria-hidden', 'false');
-  modal.querySelector('button').focus(); // foca no primeiro botão
-}
-
-// Accordion expand/collapse
-const accordionHeaders = document.querySelectorAll('.accordion-header');
-accordionHeaders.forEach(header => {
-  header.addEventListener('click', () => {
-    const expanded = header.getAttribute('aria-expanded') === 'true';
-    header.setAttribute('aria-expanded', !expanded);
-  });
+  // resposta do app (placeholder)
+  setTimeout(() => {
+    addMessage("Escolha uma opção: Explicação Detalhada, Questões Objetivas, Revisão Rápida, Pegadinhas de Prova, Casos Concretos", "bot");
+  }, 500);
 });
-
-// Botões do modal
-copyBtn.addEventListener('click', () => {
-  navigator.clipboard.writeText(currentPrompt).then(() => {
-    showToast('✅ Prompt copiado com sucesso!');
-  });
-});
-
-newGoalBtn.addEventListener('click', () => {
-  modal.style.display = 'none';
-});
-
-newInputBtn.addEventListener('click', () => {
-  userInput.value = '';
-  modal.style.display = 'none';
-});
-
-favBtn.addEventListener('click', () => {
-  let favs = JSON.parse(localStorage.getItem('favoritos')) || [];
-  favs.push(currentPrompt);
-  localStorage.setItem('favoritos', JSON.stringify(favs));
-  showToast('⭐ Adicionado aos favoritos!');
-});
-
-waBtn.addEventListener('click', () => {
-  const url = `https://wa.me/?text=${encodeURIComponent(currentPrompt)}`;
-  window.open(url, '_blank');
-});
-
-// Fechar modal clicando fora
-modal.addEventListener('click', (e) => {
-  if (e.target === modal) {
-    fecharModal();
-  }
-});
-
-// Fechar modal com Esc
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    fecharModal();
-    fecharDrawer();
-  }
-});
-
-function fecharModal() {
-  modal.style.display = 'none';
-  modal.setAttribute('aria-hidden', 'true');
-}
-
-// Drawer
-openDrawerBtn.addEventListener('click', () => {
-  drawer.setAttribute('aria-hidden', 'false');
-  drawerOverlay.classList.add('active');
-});
-
-closeDrawerBtn.addEventListener('click', () => {
-  fecharDrawer();
-});
-
-drawerOverlay.addEventListener('click', () => {
-  fecharDrawer();
-});
-
-function fecharDrawer() {
-  drawer.setAttribute('aria-hidden', 'true');
-  drawerOverlay.classList.remove('active');
-}
