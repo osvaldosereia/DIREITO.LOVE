@@ -1,5 +1,5 @@
 // ================================
-// app.js - direito.love (com auto-scroll, toast e digitando)
+// app.js - direito.love (com auto-scroll, toast e drawer funcional)
 // ================================
 
 // Seletores principais
@@ -52,7 +52,7 @@ chatForm.addEventListener("submit", (e) => {
 
   // aguarda 1.2s e troca pelo conteúdo real
   setTimeout(() => {
-    typingMsg.textContent = "Pronto! Já gerei 5 prompts de estudo. É só clicar no que quiser copiar:";
+    typingMsg.textContent = "Pronto! Já gerei 5 prompts de estudo. Clique no que quiser copiar:";
     renderOpcoes(tema);
   }, 1200);
 
@@ -69,7 +69,7 @@ function renderOpcoes(tema) {
     btn.className = "option-btn";
     btn.textContent = opcao.nome;
     btn.addEventListener("click", () => {
-      const promptFinal = opcao.prompt.replaceAll("{tema}", temaAtual);
+      const promptFinal = opcao.prompt.replaceAll("{tema}", tema);
       navigator.clipboard.writeText(promptFinal).then(() => {
         showToast(`✅ Prompt de "${opcao.nome}" copiado!`);
       });
@@ -81,7 +81,7 @@ function renderOpcoes(tema) {
   const salvarBtn = document.createElement("button");
   salvarBtn.className = "save-btn";
   salvarBtn.textContent = "⭐ Salvar Tema";
-  salvarBtn.addEventListener("click", () => salvarTema(temaAtual));
+  salvarBtn.addEventListener("click", () => salvarTema(tema));
   container.appendChild(salvarBtn);
 
   chatMessages.appendChild(container);
@@ -105,6 +105,13 @@ function addMessage(tipo, texto) {
 // Salvar tema no localStorage
 function salvarTema(tema) {
   let salvos = JSON.parse(localStorage.getItem("temasSalvos")) || [];
+
+  // evita duplicados
+  if (salvos.some(item => item.tema === tema)) {
+    showToast(`⚠️ O tema "${tema}" já foi salvo antes.`);
+    return;
+  }
+
   salvos.push({
     tema,
     opcoes: opcoesEstudo.map(o => ({
@@ -136,3 +143,30 @@ function fecharDrawer() {
   drawer.setAttribute("aria-hidden", "true");
   drawerOverlay.classList.remove("active");
 }
+
+// ================================
+// Ações dos botões do Drawer
+// ================================
+document.querySelectorAll(".drawer-option").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const action = btn.dataset.action;
+
+    switch (action) {
+      case "theme":
+        document.body.classList.toggle("dark");
+        showToast("🌗 Tema alternado");
+        break;
+      case "language":
+        showToast("🌍 Alterar idioma (em breve)");
+        break;
+      case "about":
+        showToast("ℹ️ direito.love — App educacional para estudo");
+        break;
+      case "help":
+        showToast("❓ Ajuda: Digite um tema e escolha um tipo de estudo.");
+        break;
+    }
+
+    fecharDrawer();
+  });
+});
