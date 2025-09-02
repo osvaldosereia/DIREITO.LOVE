@@ -4,43 +4,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>direito.love</title>
-
-  <!-- Tema dinâmico -->
-  <script>
-  (function () {
-    try {
-      var prefs = JSON.parse(localStorage.getItem('prefs') || '{}');
-      var t = prefs.theme || 'auto';
-      var eff = (t === 'auto')
-        ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-        : t;
-      document.documentElement.setAttribute('data-theme', eff);
-      var meta = document.querySelector('meta[name="theme-color"][data-live]');
-      if (!meta) {
-        meta = document.createElement('meta');
-        meta.setAttribute('name', 'theme-color');
-        meta.setAttribute('data-live', '1');
-        document.head.appendChild(meta);
-      }
-      meta.setAttribute('content', eff === 'dark' ? '#15181c' : '#e9eaee');
-    } catch (e) {}
-  })();
-  </script>
-
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#e9eaee" data-live>
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-
-  <!-- Favicon genérico -->
+  <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="favicon.ico">
-
-  <!-- CSS -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Topbar -->
   <header class="topbar" role="banner">
     <div class="container nav">
       <div class="brand" aria-label="direito.love">
@@ -55,7 +24,6 @@
     </div>
   </header>
 
-  <!-- Chat / App principal -->
   <main class="container app" role="main">
     <section id="chat" class="chat" aria-label="Conversa">
       <div class="input-bubble">
@@ -76,12 +44,10 @@
     </section>
   </main>
 
-  <!-- Rodapé -->
   <footer class="container footer" role="contentinfo">
     <small>💚 direito.love — seu assistente de estudo jurídico</small>
   </footer>
 
-  <!-- Modal Configurações -->
   <dialog id="settings-modal" class="settings-modal" aria-labelledby="settings-title">
     <form method="dialog" class="settings-card">
       <h3 id="settings-title">⚙️ Configurações</h3>
@@ -127,7 +93,6 @@
     </form>
   </dialog>
 
-  <!-- JS -->
   <script src="app.js" defer></script>
   <script>
     if ('serviceWorker' in navigator) {
