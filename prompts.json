@@ -1,68 +1,68 @@
 {
-  "Tema": [
-    "flashcards-juridicos",
-    "resumo-simplificado",
-    "mapa-mental",
-    "quadro-comparativo",
-    "dicionario-juridico",
-    "explicacao-para-leigo",
-    "jurisprudencia-clara",
-    "questao-objetiva-oab",
-    "questao-dissertativa",
-    "verdadeiro-ou-falso",
-    "caso-pratico",
-    "peca-processual",
-    "simulado-tematico",
-    "simulado-misto",
-    "analogias-juridicas",
-    "argumentos-pros-contras",
-    "tese-juridica",
-    "topicos-apresentacao",
-    "perguntas-para-professor",
-    "checklist-revisao"
+  "categorias": [
+    {
+      "id": "tema",
+      "nome": "Tema",
+      "placeholder": "Digite o tema do estudo..."
+    },
+    {
+      "id": "texto",
+      "nome": "Texto",
+      "placeholder": "Cole aqui o texto base..."
+    },
+    {
+      "id": "youtube",
+      "nome": "YouTube",
+      "placeholder": "Cole o link do vídeo do YouTube..."
+    },
+    {
+      "id": "arquivo",
+      "nome": "Arquivo",
+      "placeholder": "Descreva o arquivo (anexe depois na IA)..."
+    }
   ],
-  "Texto": [
-    "flashcards-juridicos",
-    "resumo-simplificado",
-    "mapa-mental",
-    "quadro-comparativo",
-    "dicionario-juridico",
-    "explicacao-para-leigo",
-    "jurisprudencia-clara",
-    "questao-dissertativa",
-    "verdadeiro-ou-falso",
-    "caso-pratico",
-    "peca-processual",
-    "analogias-juridicas",
-    "argumentos-pros-contras",
-    "tese-juridica",
-    "topicos-apresentacao",
-    "perguntas-para-professor",
-    "checklist-revisao"
-  ],
-  "YouTube": [
-    "flashcards-juridicos",
-    "resumo-simplificado",
-    "mapa-mental",
-    "dicionario-juridico",
-    "explicacao-para-leigo",
-    "questao-objetiva-oab",
-    "questao-dissertativa",
-    "verdadeiro-ou-falso",
-    "caso-pratico",
-    "analogias-juridicas",
-    "argumentos-pros-contras",
-    "topicos-apresentacao",
-    "perguntas-para-professor",
-    "checklist-revisao"
-  ],
-  "Arquivo": [
-    "flashcards-juridicos",
-    "resumo-simplificado",
-    "mapa-mental",
-    "questao-dissertativa",
-    "peca-processual",
-    "tese-juridica",
-    "checklist-revisao"
+  "objetivos": [
+    {
+      "id": "objetiva",
+      "grupo": "Treino para Provas e Concursos",
+      "titulo": "Questões Objetivas",
+      "descricao": "Gere 5 questões de múltipla escolha com gabarito comentado."
+    },
+    {
+      "id": "discursiva",
+      "grupo": "Estudo Crítico e Criativo",
+      "titulo": "Questões Discursivas",
+      "descricao": "Proponha 3 questões abertas com critérios de correção."
+    },
+    {
+      "id": "flashcards",
+      "grupo": "Revisão e Aprendizado",
+      "titulo": "Flashcards",
+      "descricao": "Crie 20 flashcards (pergunta e resposta curta)."
+    },
+    {
+      "id": "simulado",
+      "grupo": "Treino para Provas e Concursos",
+      "titulo": "Simulado Curto",
+      "descricao": "Monte 10 questões objetivas variadas."
+    },
+    {
+      "id": "estudo_dirigido",
+      "grupo": "Revisão e Aprendizado",
+      "titulo": "Estudo Dirigido",
+      "descricao": "Plano de estudo com leitura, exercícios e dicas."
+    },
+    {
+      "id": "caso_pratico",
+      "grupo": "Estudo Crítico e Criativo",
+      "titulo": "Caso Prático",
+      "descricao": "Estudo de caso com perguntas orientadoras."
+    },
+    {
+      "id": "vf_justificado",
+      "grupo": "Revisão e Aprendizado",
+      "titulo": "Verdadeiro ou Falso Justificado",
+      "descricao": "10 itens V/F com justificativa."
+    }
   ]
 }
