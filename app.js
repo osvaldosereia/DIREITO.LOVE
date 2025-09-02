@@ -79,7 +79,7 @@ chatForm.addEventListener("submit", (e) => {
   // substitui após 1.2s
   setTimeout(() => {
     clearInterval(typingInterval);
-    typingMsg.textContent = "Pronto!<br>Gerei 5 prompts pra você.<br>Clique e cole na sua IA favorita:";
+ typingMsg.innerHTML = "<b>Pronto!</b><br>Gerei 5 prompts pra você.<br><b>Copie e cole</b> na sua IA favorita:";
     renderOpcoes(tema);
   }, 1200);
 
