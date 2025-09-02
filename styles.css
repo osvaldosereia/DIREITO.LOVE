@@ -1,5 +1,23 @@
 /* ==============================
-   Paleta Dark (forçado via .dark)
+   Variáveis globais (tema claro)
+   ============================== */
+:root {
+  --bg: #f9f9f9;
+  --text: #222;
+  --muted: #666;
+  --border: #ddd;
+  --bot-msg: #f0f0f0;
+  --user-msg: #fff;
+  --btn-bg: #fff;
+  --btn-border: #ccc;
+  --btn-hover: #f5f5f5;
+  --accent: #000;
+  --toast-bg: rgba(0, 0, 0, 0.85);
+  --toast-text: #fff;
+}
+
+/* ==============================
+   Tema escuro
    ============================== */
 body.dark {
   --bg: #000000;
@@ -17,12 +35,143 @@ body.dark {
 }
 
 /* ==============================
-   Botões (ajustados p/ dark e responsivo)
+   Reset
    ============================== */
-.option-btn,
-.save-btn,
-.drawer-option,
-a.drawer-option {
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* ==============================
+   Cabeçalho fixo
+   ============================== */
+.app-header {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.app-header h1 {
+  font-size: 18px;
+  font-weight: 600;
+}
+.app-header .subtitle {
+  font-size: 13px;
+  color: var(--muted);
+}
+.settings-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--text);
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* ==============================
+   Chat container
+   ============================== */
+.chat-container {
+  flex: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.message {
+  max-width: 75%;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  word-wrap: break-word;
+}
+.message.bot {
+  background: var(--bot-msg);
+  align-self: flex-start;
+}
+.message.user {
+  background: var(--user-msg);
+  border: 1px solid var(--border);
+  align-self: flex-end;
+}
+.hint {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* ==============================
+   Input fixo
+   ============================== */
+.input-footer {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 12px;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+}
+.input-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.input-wrapper input {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  font-size: 15px;
+  background: var(--user-msg);
+  color: var(--text);
+}
+.input-wrapper button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 0 16px;
+  cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
+  font-size: 18px;
+}
+.error-message {
+  color: #b00020;
+  background: #fdecea;
+  border-radius: 6px;
+  padding: 6px;
+  font-size: 13px;
+  margin-top: 6px;
+  text-align: center;
+}
+
+/* ==============================
+   Botões de opções
+   ============================== */
+.option-btn, .save-btn, .drawer-option, a.drawer-option {
   display: block;
   width: 100%;
   padding: 12px;
@@ -33,106 +182,20 @@ a.drawer-option {
   font-size: 14px;
   text-align: center;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-  color: var(--text);
+  transition: background 0.2s;
   text-decoration: none;
-  min-height: 44px; /* toque acessível */
+  color: var(--text);
+  min-height: 44px;
 }
-
 .option-btn:hover,
 .save-btn:hover,
 .drawer-option:hover {
   background: var(--btn-hover);
 }
-
-.option-btn:active,
-.save-btn:active,
-.drawer-option:active {
-  opacity: 0.8;
-}
-
-body.dark .save-btn {
-  background: #ffffff;
-  color: #000000;
-  border: none;
-}
-
-/* ==============================
-   Container principal
-   ============================== */
-.chat-container {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  background-color: var(--bg);
-  color: var(--text);
-}
-
-.message {
-  padding: 12px;
-  border-radius: 6px;
-  background-color: var(--bot-msg);
-}
-.message.user {
-  background-color: var(--user-msg);
-  align-self: flex-end;
-}
-
-/* ==============================
-   Toast (feedback flutuante)
-   ============================== */
-.toast {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--toast-bg);
-  color: var(--toast-text);
-  padding: 12px 20px;
-  border-radius: 8px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  z-index: 9999;
-}
-.toast.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* ==============================
-   Footer fixo
-   ============================== */
-.input-footer {
-  position: sticky;
-  bottom: 0;
-  background: var(--bg);
-  padding: 12px;
-  box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.1);
-}
-.input-wrapper {
-  display: flex;
-  gap: 8px;
-}
-.input-wrapper input {
-  flex: 1;
-  padding: 12px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  font-size: 16px;
-  background: var(--user-msg);
-  color: var(--text);
-}
-.input-wrapper button {
+.save-btn {
   background: var(--accent);
-  color: var(--bg);
+  color: #fff;
   border: none;
-  border-radius: 6px;
-  padding: 0 16px;
-  font-size: 18px;
-  min-height: 44px;
-  cursor: pointer;
 }
 
 /* ==============================
@@ -140,63 +203,102 @@ body.dark .save-btn {
    ============================== */
 .drawer {
   position: fixed;
-  right: -100%;
   top: 0;
-  width: 280px;
+  right: -300px;
+  width: 80%;
+  max-width: 280px;
   height: 100%;
   background: var(--bg);
   color: var(--text);
+  box-shadow: -2px 0 10px rgba(0,0,0,0.2);
   transition: right 0.3s ease;
-  z-index: 999;
-  padding: 16px;
-  box-shadow: -2px 0 6px rgba(0,0,0,0.2);
+  z-index: 2000;
+  padding: 20px;
 }
 .drawer[aria-hidden="false"] {
   right: 0;
 }
-.drawer-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.4);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  z-index: 998;
+.drawer h2 {
+  font-size: 16px;
+  margin-bottom: 16px;
 }
-.drawer-overlay.active {
-  opacity: 1;
-  pointer-events: auto;
+.drawer ul {
+  list-style: none;
 }
 .close-btn {
-  font-size: 18px;
   background: none;
-  color: var(--text);
   border: none;
+  font-size: 18px;
   float: right;
   cursor: pointer;
+  color: var(--text);
+  min-width: 44px;
+  min-height: 44px;
+}
+.drawer-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4);
+  z-index: 1500;
+  display: none;
+}
+.drawer-overlay.active {
+  display: block;
 }
 
 /* ==============================
-   Acessibilidade e ajustes
+   Página Salvos (ajuste extra)
    ============================== */
-.error-message {
-  color: red;
-  font-size: 13px;
-  margin-top: 6px;
+.salvos-container .tema-salvo {
+  background: var(--bot-msg);
+  padding: 14px;
+  border-radius: 8px;
 }
-.hint {
-  font-size: 13px;
-  color: var(--muted);
-  margin-top: 4px;
+.salvos-container h2 {
+  font-size: 15px;
+  margin-bottom: 8px;
+  color: var(--text);
 }
 
-/* Container de opções (botões de prompt) */
-.opcoes-container {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 12px;
+/* ==============================
+   Responsividade
+   ============================== */
+@media (max-width: 768px) {
+  .message {
+    max-width: 90%;
+  }
+  .app-header h1 {
+    font-size: 16px;
+  }
+  .app-header .subtitle {
+    font-size: 12px;
+  }
+  .settings-btn {
+    font-size: 18px;
+  }
+}
+
+/* ==============================
+   Toast (feedback visual)
+   ============================== */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--toast-bg);
+  color: var(--toast-text);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 3000;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
