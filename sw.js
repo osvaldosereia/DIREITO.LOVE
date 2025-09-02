@@ -11,9 +11,6 @@ const ASSETS = [
   'index.html',
   'styles.css',
   'app.js',
-  'arquivo.html',
-  'arquivo.js',
-  'politica.html',
   'manifest.webmanifest',
   // Ícones principais
   'icons/logo.svg',
@@ -28,7 +25,6 @@ const ASSETS = [
   'icons/pwa-180.png',
   'icons/pwa-192.png',
   'icons/pwa-512.png',
-  'icons/pwa-1024.png',
   'icons/favicon.ico'
 ];
 
