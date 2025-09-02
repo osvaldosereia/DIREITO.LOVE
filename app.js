@@ -1,5 +1,5 @@
 // ================================
-// app.js - direito.love (UX refinada com tema Claro/Escuro/Automático)
+// app.js - direito.love (UX refinada)
 // ================================
 
 // Seletores principais
@@ -27,7 +27,6 @@ function showToast(message) {
   }, 50);
 
   const duracao = message.length > 40 ? 3500 : 1800;
-
   toastTimeout = setTimeout(() => {
     toast.classList.remove("show");
   }, duracao);
@@ -46,9 +45,7 @@ const opcoesEstudo = [
 
 let temaAtual = "";
 
-// ================================
 // Scroll automático
-// ================================
 function scrollToBottom() {
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
@@ -175,34 +172,6 @@ function fecharDrawer() {
 }
 
 // ================================
-// Tema Claro / Escuro / Automático
-// ================================
-function aplicarTema(modo) {
-  document.body.classList.remove("dark");
-  localStorage.removeItem("theme");
-
-  if (modo === "light") {
-    localStorage.setItem("theme", "light");
-    document.body.classList.remove("dark");
-  } else if (modo === "dark") {
-    localStorage.setItem("theme", "dark");
-    document.body.classList.add("dark");
-  } else if (modo === "auto") {
-    localStorage.setItem("theme", "auto");
-    // usa prefers-color-scheme
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      document.body.classList.add("dark");
-    }
-  }
-}
-
-// aplica tema salvo ao carregar
-(function initTheme() {
-  const savedTheme = localStorage.getItem("theme") || "auto";
-  aplicarTema(savedTheme);
-})();
-
-// ================================
 // Ações dos botões do Drawer
 // ================================
 document.querySelectorAll(".drawer-option").forEach(btn => {
@@ -211,21 +180,10 @@ document.querySelectorAll(".drawer-option").forEach(btn => {
 
     switch (action) {
       case "theme":
-        // alterna entre os 3 modos
-        const atual = localStorage.getItem("theme") || "auto";
-        if (atual === "auto") {
-          aplicarTema("light");
-          showToast("☀️ Tema claro ativado");
-        } else if (atual === "light") {
-          aplicarTema("dark");
-          showToast("🌙 Tema escuro ativado");
-        } else {
-          aplicarTema("auto");
-          showToast("⚡ Tema automático");
-        }
+        toggleTheme();
         break;
       case "about":
-        showToast("ℹ️ direito.love — App educacional para estudo");
+        window.location.href = "sobre.html"; // 👉 vai para a nova página
         break;
       case "help":
         showToast("❓ Ajuda: Digite um tema e clique em uma opção.");
@@ -234,3 +192,33 @@ document.querySelectorAll(".drawer-option").forEach(btn => {
     fecharDrawer();
   });
 });
+
+// ================================
+// Controle de tema (Claro / Escuro / Automático)
+// ================================
+function toggleTheme() {
+  const current = localStorage.getItem("theme") || "auto";
+  let next;
+
+  if (current === "auto") next = "light";
+  else if (current === "light") next = "dark";
+  else next = "auto";
+
+  localStorage.setItem("theme", next);
+  applyTheme(next);
+
+  showToast(`🌗 Tema: ${next === "auto" ? "Automático" : next === "light" ? "Claro" : "Escuro"}`);
+}
+
+function applyTheme(mode) {
+  document.body.classList.remove("dark");
+  if (mode === "dark" || (mode === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+    document.body.classList.add("dark");
+  }
+}
+
+// aplicar tema na carga inicial
+(function initTheme() {
+  const saved = localStorage.getItem("theme") || "auto";
+  applyTheme(saved);
+})();
