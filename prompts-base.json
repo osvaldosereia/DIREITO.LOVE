@@ -1,6 +1,6 @@
 // ================================
 // app.js - direito.love (revisado)
-// Etapa 2: geração de prompts reais
+// Etapa 3: melhorias de UX e acessibilidade
 // ================================
 
 // Seletores principais
@@ -17,6 +17,25 @@ const waBtn = document.getElementById('wa-btn');
 const drawer = document.getElementById('drawer');
 const openDrawerBtn = document.getElementById('open-drawer');
 const closeDrawerBtn = document.getElementById('close-drawer');
+
+// Criar overlay para drawer
+const drawerOverlay = document.createElement('div');
+drawerOverlay.classList.add('drawer-overlay');
+document.body.appendChild(drawerOverlay);
+
+// Criar área de feedback visual (toast)
+const toast = document.createElement('div');
+toast.id = 'toast';
+toast.setAttribute('role', 'status');
+toast.setAttribute('aria-live', 'polite');
+document.body.appendChild(toast);
+
+// Função de feedback visual
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('active');
+  setTimeout(() => toast.classList.remove('active'), 3000);
+}
 
 // Estado
 let currentCategory = 'tema';
@@ -83,7 +102,7 @@ function renderAccordion() {
 function gerarPrompt(objId) {
   const entrada = userInput.value.trim();
   if (!entrada) {
-    alert('⚠️ Insira um conteúdo antes de gerar o prompt!');
+    showToast('⚠️ Insira um conteúdo antes de gerar o prompt!');
     return;
   }
 
@@ -92,17 +111,16 @@ function gerarPrompt(objId) {
 
   const template = templateObj.templates[currentCategory];
 
-  // Substitui placeholder conforme categoria
   currentPrompt = template
     .replace('{tema}', entrada)
     .replace('{texto}', entrada)
     .replace('{youtube}', entrada)
     .replace('{arquivo}', entrada);
 
-  // Exibir modal
   modalText.textContent = currentPrompt;
   modal.style.display = 'flex';
   modal.setAttribute('aria-hidden', 'false');
+  modal.querySelector('button').focus(); // foca no primeiro botão
 }
 
 // Accordion expand/collapse
@@ -117,7 +135,7 @@ accordionHeaders.forEach(header => {
 // Botões do modal
 copyBtn.addEventListener('click', () => {
   navigator.clipboard.writeText(currentPrompt).then(() => {
-    alert('✅ Prompt copiado com sucesso!');
+    showToast('✅ Prompt copiado com sucesso!');
   });
 });
 
@@ -134,7 +152,7 @@ favBtn.addEventListener('click', () => {
   let favs = JSON.parse(localStorage.getItem('favoritos')) || [];
   favs.push(currentPrompt);
   localStorage.setItem('favoritos', JSON.stringify(favs));
-  alert('⭐ Adicionado aos favoritos!');
+  showToast('⭐ Adicionado aos favoritos!');
 });
 
 waBtn.addEventListener('click', () => {
@@ -145,16 +163,38 @@ waBtn.addEventListener('click', () => {
 // Fechar modal clicando fora
 modal.addEventListener('click', (e) => {
   if (e.target === modal) {
-    modal.style.display = 'none';
-    modal.setAttribute('aria-hidden', 'true');
+    fecharModal();
   }
 });
+
+// Fechar modal com Esc
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    fecharModal();
+    fecharDrawer();
+  }
+});
+
+function fecharModal() {
+  modal.style.display = 'none';
+  modal.setAttribute('aria-hidden', 'true');
+}
 
 // Drawer
 openDrawerBtn.addEventListener('click', () => {
   drawer.setAttribute('aria-hidden', 'false');
+  drawerOverlay.classList.add('active');
 });
 
 closeDrawerBtn.addEventListener('click', () => {
-  drawer.setAttribute('aria-hidden', 'true');
+  fecharDrawer();
 });
+
+drawerOverlay.addEventListener('click', () => {
+  fecharDrawer();
+});
+
+function fecharDrawer() {
+  drawer.setAttribute('aria-hidden', 'true');
+  drawerOverlay.classList.remove('active');
+}
