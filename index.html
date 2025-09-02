@@ -7,13 +7,15 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Cabeçalho estilo ChatGPT -->
+  <!-- Cabeçalho -->
   <header class="app-header">
     <h1>direito.love</h1>
-    <button class="settings-btn" aria-label="Abrir configurações">⚙</button>
+    <div class="header-actions">
+      <button class="settings-btn" aria-label="Abrir configurações">⚙</button>
+    </div>
   </header>
 
-  <!-- Área de chat -->
+  <!-- Chat -->
   <main class="chat-container" id="chat-container">
     <div class="message bot">
       <p><strong>Olá, qual o tema de hoje?</strong></p>
@@ -21,21 +23,32 @@
     </div>
   </main>
 
-  <!-- Campo de input -->
+  <!-- Input fixo -->
   <footer class="input-footer">
     <form id="chat-form" autocomplete="off">
       <div class="input-wrapper">
-        <input 
-          type="text" 
-          id="chat-input" 
-          placeholder="Digite aqui..." 
-          aria-label="Campo de entrada do chat"
-        >
+        <input id="chat-input" type="text" placeholder="Digite aqui..." aria-label="Campo de entrada do chat">
         <button type="submit">➤</button>
       </div>
       <p id="error-message" class="error-message" aria-live="polite"></p>
     </form>
   </footer>
+
+  <!-- Drawer Configurações -->
+  <aside id="settings-drawer" class="drawer" aria-hidden="true">
+    <button id="close-settings" class="close-btn">✖</button>
+    <h2>Configurações</h2>
+    <ul>
+      <li><button class="drawer-option" data-action="theme">🌗 Alternar Tema</button></li>
+      <li><button class="drawer-option" data-action="language">🌍 Idioma</button></li>
+      <li><a href="salvos.html" class="drawer-option">💾 Temas Salvos</a></li>
+      <li><button class="drawer-option" data-action="about">ℹ️ Sobre</button></li>
+      <li><button class="drawer-option" data-action="help">❓ Ajuda</button></li>
+    </ul>
+  </aside>
+
+  <!-- Overlay -->
+  <div id="drawer-overlay" class="drawer-overlay"></div>
 
   <script src="app.js"></script>
 </body>
