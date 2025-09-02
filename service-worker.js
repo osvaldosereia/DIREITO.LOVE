@@ -1,43 +1,52 @@
-const CACHE_NAME = 'direito-love-cache-v1';
+// ================================
+// service-worker.js - direito.love
+// Cache offline básico para PWA
+// ================================
+
+const CACHE_NAME = "direito-love-v1";
 const FILES_TO_CACHE = [
-  './index.html',
-  './styles.css',
-  './app.js',
-  './prompts.json',
-  './prompts-base.json',
-  './manifest.json',
-  './icons/pwa-144.png',
-  './icons/pwa-180.png',
-  './icons/pwa-192.png',
-  './icons/pwa-512.png',
-  './icons/pwa-1024.png'
+  "/", // raiz
+  "/index.html",
+  "/styles.css",
+  "/app.js",
+  "/manifest.json",
+  "/pwa-144.png",
+  "/pwa-180.png",
+  "/pwa-192.png",
+  "/pwa-512.png",
+  "/pwa-1024.png"
 ];
 
-// Instalação: salva todos os arquivos no cache
-self.addEventListener('install', event => {
+// Instalação do service worker e cache inicial
+self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(FILES_TO_CACHE))
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(FILES_TO_CACHE);
+    })
   );
-  self.skipWaiting();
 });
 
-// Ativação: remove caches antigos
-self.addEventListener('activate', event => {
+// Ativação e limpeza de caches antigos
+self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
-        keys.map(key => {
-          if (key !== CACHE_NAME) return caches.delete(key);
+    caches.keys().then((keyList) => {
+      return Promise.all(
+        keyList.map((key) => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
         })
-      )
-    )
+      );
+    })
   );
-  self.clients.claim();
+  return self.clients.claim();
 });
 
-// Intercepta requisições: usa cache ou busca online
-self.addEventListener('fetch', event => {
+// Interceptar requisições e servir cache
+self.addEventListener("fetch", (event) => {
   event.respondWith(
-    caches.match(event.request).then(response => response || fetch(event.request))
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
+    })
   );
 });
