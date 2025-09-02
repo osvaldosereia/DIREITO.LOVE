@@ -1,0 +1,194 @@
+/* Reset e base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  background-color: #111;
+  color: #fff;
+  line-height: 1.5;
+  padding: 1rem;
+}
+
+h1, h2 {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+p {
+  margin-bottom: 1rem;
+  color: #aaa;
+  font-size: 1rem;
+}
+
+/* Header e navegação */
+header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.onboarding {
+  font-size: 0.95rem;
+  color: #ccc;
+  max-width: 600px;
+  margin: 0.5rem auto 1.5rem;
+}
+
+.categoria-selector {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.categoria-btn {
+  padding: 0.75rem 1rem;
+  background: #1e1e1e;
+  color: #fff;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  cursor: pointer;
+  min-width: 44px;
+  font-size: 0.95rem;
+  transition: background 0.3s;
+}
+
+.categoria-btn.ativo,
+.categoria-btn:hover {
+  background: #3a3a3a;
+}
+
+/* Entrada dinâmica */
+#entrada-container {
+  margin-bottom: 2rem;
+}
+
+input[type="text"], textarea {
+  width: 100%;
+  padding: 1rem;
+  background: #1e1e1e;
+  color: #fff;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Objetivos */
+#objetivos-container {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.objetivo-card {
+  background: #1e1e1e;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid #3a3a3a;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+.objetivo-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.objetivo-card p {
+  font-size: 0.95rem;
+  color: #ccc;
+  margin-bottom: 0.75rem;
+}
+
+.objetivo-card button {
+  padding: 0.6rem 1rem;
+  background: #3a3a3a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+/* Resultado */
+#resultado-container {
+  background: #1e1e1e;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid #3a3a3a;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  margin-bottom: 2rem;
+}
+
+#resultado {
+  white-space: pre-wrap;
+  background: transparent;
+  color: #fff;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.botoes-resultado button {
+  margin-right: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: #3a3a3a;
+  border: none;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Toast */
+#toast {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #3a3a3a;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  display: none;
+}
+
+#toast.visivel {
+  display: block;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-top: 3rem;
+}
+
+#topo-btn {
+  background: transparent;
+  border: none;
+  color: #aaa;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+/* Utilitários */
+.oculto {
+  display: none;
+}
+
+@media (min-width: 600px) {
+  #objetivos-container {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
