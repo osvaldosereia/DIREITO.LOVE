@@ -1,67 +1,160 @@
-{
-  "objetivos": [
-    {
-      "id": "objetiva",
-      "templates": {
-        "tema": "Gere 5 questões objetivas sobre {tema}, cada uma com 4 alternativas (A–D) e gabarito comentado.",
-        "texto": "Com base no texto a seguir, crie 5 questões objetivas (A–D) com gabarito comentado. Texto: {texto}",
-        "youtube": "Analise o vídeo {youtube} e elabore 5 questões objetivas (A–D) com gabarito.",
-        "arquivo": "O estudante fornecerá um arquivo. Gere 5 questões objetivas (A–D) sobre {arquivo}. Inclua gabarito comentado."
-      }
-    },
-    {
-      "id": "discursiva",
-      "templates": {
-        "tema": "Proponha 3 questões discursivas sobre {tema}, com critérios de correção.",
-        "texto": "Com base no texto a seguir, elabore 3 questões discursivas. Texto: {texto}",
-        "youtube": "Com base no vídeo {youtube}, elabore 3 questões discursivas.",
-        "arquivo": "O estudante fornecerá um arquivo. Crie 3 questões discursivas a partir de {arquivo}."
-      }
-    },
-    {
-      "id": "flashcards",
-      "templates": {
-        "tema": "Crie 20 flashcards de pergunta e resposta sobre {tema}.",
-        "texto": "Com base no texto a seguir, crie 20 flashcards. Texto: {texto}",
-        "youtube": "Com base no vídeo {youtube}, crie 20 flashcards.",
-        "arquivo": "O estudante fornecerá um arquivo. Crie 20 flashcards a partir de {arquivo}."
-      }
-    },
-    {
-      "id": "simulado",
-      "templates": {
-        "tema": "Monte um simulado com 10 questões objetivas (A–D) sobre {tema}, com gabarito.",
-        "texto": "Monte um simulado com 10 questões objetivas com base no texto: {texto}.",
-        "youtube": "Monte um simulado com 10 questões objetivas com base no vídeo {youtube}.",
-        "arquivo": "O estudante fornecerá um arquivo. Monte um simulado de 10 questões com base em {arquivo}."
-      }
-    },
-    {
-      "id": "estudo_dirigido",
-      "templates": {
-        "tema": "Elabore um estudo dirigido sobre {tema}, incluindo objetivos, leitura, 5 questões e dicas de memorização.",
-        "texto": "Elabore um estudo dirigido com base no texto: {texto}.",
-        "youtube": "Elabore um estudo dirigido a partir do vídeo {youtube}.",
-        "arquivo": "O estudante fornecerá um arquivo. Monte um estudo dirigido com base em {arquivo}."
-      }
-    },
-    {
-      "id": "caso_pratico",
-      "templates": {
-        "tema": "Crie um caso prático sobre {tema}, incluindo narrativa, documentos e 4 perguntas.",
-        "texto": "Crie um caso prático com base no texto: {texto}.",
-        "youtube": "Crie um caso prático a partir do vídeo {youtube}.",
-        "arquivo": "O estudante fornecerá um arquivo. Crie um caso prático com base em {arquivo}."
-      }
-    },
-    {
-      "id": "vf_justificado",
-      "templates": {
-        "tema": "Crie 10 itens de Verdadeiro ou Falso sobre {tema}, cada um com justificativa.",
-        "texto": "Com base no texto a seguir, crie 10 itens de Verdadeiro ou Falso. Texto: {texto}",
-        "youtube": "Com base no vídeo {youtube}, crie 10 itens de Verdadeiro ou Falso.",
-        "arquivo": "O estudante fornecerá um arquivo. Crie 10 itens de Verdadeiro ou Falso a partir de {arquivo}."
-      }
+// ================================
+// app.js - direito.love (revisado)
+// Etapa 2: geração de prompts reais
+// ================================
+
+// Seletores principais
+const tabs = document.querySelectorAll('.tab');
+const userInput = document.getElementById('user-input');
+const accordionItems = document.querySelectorAll('.accordion-item');
+const modal = document.getElementById('prompt-modal');
+const modalText = document.getElementById('prompt-text');
+const copyBtn = document.getElementById('copy-btn');
+const newGoalBtn = document.getElementById('new-goal-btn');
+const newInputBtn = document.getElementById('new-input-btn');
+const favBtn = document.getElementById('fav-btn');
+const waBtn = document.getElementById('wa-btn');
+const drawer = document.getElementById('drawer');
+const openDrawerBtn = document.getElementById('open-drawer');
+const closeDrawerBtn = document.getElementById('close-drawer');
+
+// Estado
+let currentCategory = 'tema';
+let objetivos = [];
+let templates = [];
+let currentPrompt = '';
+
+// Alternar categorias
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    currentCategory = tab.dataset.category;
+    switch (currentCategory) {
+      case 'tema':
+        userInput.placeholder = 'Digite o tema do estudo...';
+        break;
+      case 'texto':
+        userInput.placeholder = 'Cole aqui o texto base...';
+        break;
+      case 'youtube':
+        userInput.placeholder = 'Cole o link do vídeo do YouTube...';
+        break;
+      case 'arquivo':
+        userInput.placeholder = 'Descreva o arquivo (anexe depois na IA)...';
+        break;
     }
-  ]
+  });
+});
+
+// Carregar JSONs
+Promise.all([
+  fetch('prompts.json').then(res => res.json()),
+  fetch('prompts-base.json').then(res => res.json())
+])
+  .then(([promptsData, baseData]) => {
+    objetivos = promptsData.objetivos;
+    templates = baseData.objetivos;
+    renderAccordion();
+  })
+  .catch(err => console.error('Erro ao carregar JSONs:', err));
+
+// Renderizar accordion
+function renderAccordion() {
+  accordionItems.forEach(item => {
+    const header = item.querySelector('.accordion-header');
+    const content = item.querySelector('.accordion-content');
+    const grupo = header.textContent.trim();
+
+    const objs = objetivos.filter(obj => obj.grupo === grupo);
+    content.innerHTML = '';
+
+    objs.forEach(obj => {
+      const btn = document.createElement('button');
+      btn.textContent = obj.titulo;
+      btn.className = 'objective-btn';
+      btn.setAttribute('data-id', obj.id);
+      btn.setAttribute('aria-label', `Selecionar objetivo: ${obj.titulo}`);
+      btn.addEventListener('click', () => gerarPrompt(obj.id));
+      content.appendChild(btn);
+    });
+  });
 }
+
+// Gerar prompt
+function gerarPrompt(objId) {
+  const entrada = userInput.value.trim();
+  if (!entrada) {
+    alert('⚠️ Insira um conteúdo antes de gerar o prompt!');
+    return;
+  }
+
+  const templateObj = templates.find(t => t.id === objId);
+  if (!templateObj) return;
+
+  const template = templateObj.templates[currentCategory];
+
+  // Substitui placeholder conforme categoria
+  currentPrompt = template
+    .replace('{tema}', entrada)
+    .replace('{texto}', entrada)
+    .replace('{youtube}', entrada)
+    .replace('{arquivo}', entrada);
+
+  // Exibir modal
+  modalText.textContent = currentPrompt;
+  modal.style.display = 'flex';
+  modal.setAttribute('aria-hidden', 'false');
+}
+
+// Accordion expand/collapse
+const accordionHeaders = document.querySelectorAll('.accordion-header');
+accordionHeaders.forEach(header => {
+  header.addEventListener('click', () => {
+    const expanded = header.getAttribute('aria-expanded') === 'true';
+    header.setAttribute('aria-expanded', !expanded);
+  });
+});
+
+// Botões do modal
+copyBtn.addEventListener('click', () => {
+  navigator.clipboard.writeText(currentPrompt).then(() => {
+    alert('✅ Prompt copiado com sucesso!');
+  });
+});
+
+newGoalBtn.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+newInputBtn.addEventListener('click', () => {
+  userInput.value = '';
+  modal.style.display = 'none';
+});
+
+favBtn.addEventListener('click', () => {
+  let favs = JSON.parse(localStorage.getItem('favoritos')) || [];
+  favs.push(currentPrompt);
+  localStorage.setItem('favoritos', JSON.stringify(favs));
+  alert('⭐ Adicionado aos favoritos!');
+});
+
+waBtn.addEventListener('click', () => {
+  const url = `https://wa.me/?text=${encodeURIComponent(currentPrompt)}`;
+  window.open(url, '_blank');
+});
+
+// Fechar modal clicando fora
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+  }
+});
+
+// Drawer
+openDrawerBtn.addEventListener('click', () => {
+  drawer.setAttribute('aria-hidden', 'false');
+});
+
+closeDrawerBtn.addEventListener('click', () => {
+  drawer.setAttribute('aria-hidden', 'true');
+});
