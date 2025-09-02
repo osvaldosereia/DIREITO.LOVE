@@ -29,10 +29,11 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  padding-bottom: env(safe-area-inset-bottom); /* safe area iOS */
 }
 
 /* ==============================
-   Header
+   Header fixo
    ============================== */
 .app-header {
   background: #fff;
@@ -44,6 +45,10 @@ body {
   max-width: 900px;
   margin: 0 auto;
   width: 100%;
+
+  position: sticky; /* fixo */
+  top: 0;
+  z-index: 1200;
 }
 .app-header h1 {
   font-size: 16px;
@@ -75,6 +80,7 @@ body {
   padding: 12px;
   border-radius: 8px;
   font-size: 15px;
+  line-height: 1.5;
   word-wrap: break-word;
 }
 .message.bot {
@@ -123,6 +129,10 @@ body {
   padding: 0 16px;
   cursor: pointer;
 }
+
+/* ==============================
+   Mensagens de erro
+   ============================== */
 .error-message {
   color: red;
   font-size: 13px;
@@ -131,9 +141,11 @@ body {
 }
 
 /* ==============================
-   Botões de opções
+   Botões padrão
    ============================== */
-.option-btn, .save-btn, .drawer-option {
+.option-btn,
+.save-btn,
+.drawer-option {
   display: block;
   width: 100%;
   padding: 12px;
@@ -171,23 +183,30 @@ body {
   transition: right 0.3s ease;
   z-index: 2000;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 .drawer[aria-hidden="false"] {
   right: 0;
 }
 .drawer h2 {
   font-size: 16px;
+  font-weight: 600;
   margin-bottom: 16px;
 }
 .drawer ul {
   list-style: none;
+  margin-top: 10px;
+}
+.drawer ul li {
+  margin-bottom: 8px;
 }
 .close-btn {
   background: none;
   border: none;
   font-size: 18px;
-  float: right;
   cursor: pointer;
+  align-self: flex-end;
 }
 
 /* Overlay */
@@ -204,23 +223,14 @@ body {
 }
 
 /* ==============================
-   Responsividade
-   ============================== */
-@media (max-width: 768px) {
-  .message {
-    max-width: 90%;
-  }
-}
-
-/* ==============================
    Toast / Snackbar
    ============================== */
 .toast {
   position: fixed;
   bottom: 20px;
   left: 50%;
-  transform: translateX(-50%);
-  background: #333;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(0, 0, 0, 0.85);
   color: #fff;
   padding: 12px 20px;
   border-radius: 6px;
@@ -232,5 +242,26 @@ body {
 }
 .toast.show {
   opacity: 1;
-  transform: translateX(-50%) translateY(-5px);
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ==============================
+   Responsividade
+   ============================== */
+@media (max-width: 768px) {
+  .message {
+    max-width: 90%;
+  }
+  .app-header h1 {
+    font-size: 14px;
+  }
+  .option-btn,
+  .drawer-option {
+    font-size: 15px;
+    padding: 14px;
+  }
+  .input-wrapper input {
+    font-size: 15px;
+    padding: 14px;
+  }
 }
