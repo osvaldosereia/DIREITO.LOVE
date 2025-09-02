@@ -231,7 +231,7 @@ function showInputBubble(placeholder='Digite o tema…'){
   const row = el('div','row');
   const send = el('button','iconbtn'); 
   send.title='Enviar'; 
-  send.innerHTML='<img src="icons/send.svg" alt="Enviar"/>';
+  send.innerHTML = '➡️';
   row.appendChild(send); wrap.appendChild(input); wrap.appendChild(row);
   const bubble = push('bot', wrap);
 
