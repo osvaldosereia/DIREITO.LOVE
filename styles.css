@@ -1,24 +1,36 @@
 /* =========================
-   Variáveis de cor (claro e escuro)
+   Tema escuro corrigido
    ========================= */
-:root{
-  --bg:#f5f6f8; --top:#e9eaee; --fg:#111; --muted:#6b6b6b; --line:#dcdcdc;
-  --bubble:#fff; --chip:#f3f3f3; --chip-hover:#ececec; --focus:#000; --you:#fff;
+:root[data-theme="dark"] {
+  --bg: #0f1216;
+  --top: #15181c;
+  --fg: #e8eaed;        /* texto principal claro */
+  --muted: #a3acb8;     /* texto secundário */
+  --line: #2c3238;
+
+  --bubble: #1e242a;    /* bolhas de bot */
+  --chip: #252c34;      /* chips com contraste melhor */
+  --chip-hover: #2e3741;
+  --focus: #63d1c3;     /* destaque no foco */
+  --you: #2a323c;       /* 🔥 fundo da bolha do usuário no escuro */
 }
 
-/* Tema escuro */
-:root[data-theme="dark"]{
-  --bg:#0f1216; --top:#15181c; --fg:#e8eaed; --muted:#a3acb8; --line:#2c3238;
-  --bubble:#1b1f24; --chip:#20262c; --chip-hover:#26303a; --focus:#39c;
+/* Bolha do usuário no escuro → texto sempre claro */
+:root[data-theme="dark"] .msg.user .bubble {
+  background: var(--you);
+  color: var(--fg);
 }
 
-/* Auto segue preferências do sistema */
-@media (prefers-color-scheme: dark){
-  :root[data-theme="auto"]{
-    --bg:#0f1216; --top:#15181c; --fg:#e8eaed; --muted:#a3acb8; --line:#2c3238;
-    --bubble:#1b1f24; --chip:#20262c; --chip-hover:#26303a; --focus:#39c;
-  }
+/* Chips no escuro → contraste melhor */
+:root[data-theme="dark"] .chip {
+  background: var(--chip);
+  color: var(--fg);
+  border: 1px solid #3c4652;
 }
+:root[data-theme="dark"] .chip:hover {
+  background: var(--chip-hover);
+}
+
 
 /* =========================
    Reset e corpo
