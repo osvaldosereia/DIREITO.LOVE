@@ -10,27 +10,33 @@
   <!-- Cabeçalho estilo ChatGPT -->
   <header class="app-header">
     <h1>direito.love</h1>
+    <button class="settings-btn" aria-label="Abrir configurações">⚙</button>
   </header>
 
   <!-- Área de chat -->
-  <main class="chat-container">
+  <main class="chat-container" id="chat-container">
     <div class="message bot">
       <p><strong>Olá, qual o tema de hoje?</strong></p>
       <small class="hint">Escreva o tema ou cole um texto ou link do YouTube.</small>
     </div>
   </main>
 
-  <!-- Campo de input fixo -->
+  <!-- Campo de input -->
   <footer class="input-footer">
-    <form id="chat-form">
-      <input 
-        type="text" 
-        id="chat-input" 
-        placeholder="Digite aqui..." 
-        aria-label="Campo de entrada do chat"
-      >
-      <button type="submit">➤</button>
+    <form id="chat-form" autocomplete="off">
+      <div class="input-wrapper">
+        <input 
+          type="text" 
+          id="chat-input" 
+          placeholder="Digite aqui..." 
+          aria-label="Campo de entrada do chat"
+        >
+        <button type="submit">➤</button>
+      </div>
+      <p id="error-message" class="error-message" aria-live="polite"></p>
     </form>
   </footer>
+
+  <script src="app.js"></script>
 </body>
 </html>
