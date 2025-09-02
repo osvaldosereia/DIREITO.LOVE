@@ -443,31 +443,31 @@ function bindTop(){
       });
     }
 
-    // tema (chips)
-    const themeBtns = dlg.querySelectorAll('.theme-btn');
-    function setThemeChoice(val){
-      prefs.theme = val;
-      LS.set('prefs', prefs);
-      applyTheme(val);
-      NativeBridge.setTheme?.(val);
+   // tema (chips)
+const themeBtns = dlg.querySelectorAll('.theme-btn');
+function setThemeChoice(val){
+  prefs.theme = val;
+  LS.set('prefs', prefs);
+  applyTheme(val);
+  NativeBridge.setTheme?.(val);
 
-      themeBtns.forEach(btn=>{
-        const active = btn.dataset.value === val;
-        btn.setAttribute('aria-checked', active);
-        btn.classList.toggle('active', active);
-      });
-    }
-
-    themeBtns.forEach(btn=>{
-      btn.addEventListener('click', ()=> setThemeChoice(btn.dataset.value));
-    });
-
-    // aplica estado inicial
-    setThemeChoice(prefs.theme || 'auto');
-
-    dlg.addEventListener('close', ()=> {
-      document.getElementById('btn-settings')?.focus();
-    });
-  }
+  themeBtns.forEach(btn=>{
+    const active = btn.dataset.value === val;
+    btn.setAttribute('aria-checked', active);
+    btn.classList.toggle('active', active);
+  });
 }
-})();   // <-- precisa fechar a função auto-executada
+
+themeBtns.forEach(btn=>{
+  btn.addEventListener('click', ()=> setThemeChoice(btn.dataset.value));
+});
+
+// aplica estado inicial
+setThemeChoice(prefs.theme || 'auto');
+
+dlg.addEventListener('close', ()=> {
+  document.getElementById('btn-settings')?.focus();
+});
+} // <- fecha o if(dlg)
+} // <- fecha a função bindTop
+})(); // <- fecha a função auto-executada
