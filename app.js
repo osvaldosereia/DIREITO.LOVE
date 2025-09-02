@@ -197,7 +197,7 @@ chatForm.addEventListener("submit", (e) => {
   const typingMsg = addMessage("bot", "digitando...");
 
   setTimeout(() => {
-    typingMsg.textContent = "Pronto! Já gerei 5 opções de estudo. Escolha a que quiser copiar:";
+    typingMsg.textContent = "Legal! Escolha o Prompt e cole na sua IA preferida. 👑:";
     renderOpcoes(tema);
   }, 1000);
 
