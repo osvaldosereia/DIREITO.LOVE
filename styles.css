@@ -200,6 +200,9 @@ body {
   margin-top: 6px;
   text-align: center;
 }
+.error-message:empty {
+  display: none;
+}
 
 /* ==============================
    Botões padrão
