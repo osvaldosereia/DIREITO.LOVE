@@ -18,7 +18,21 @@
     <p>Carregando temas salvos...</p>
   </main>
 
+  <!-- Toast -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
   <script>
+    // Função de feedback visual (toast)
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2500);
+    }
+
     // Recupera os temas salvos do localStorage
     const container = document.getElementById("salvos-container");
     const salvos = JSON.parse(localStorage.getItem("temasSalvos")) || [];
@@ -49,7 +63,7 @@
           btn.textContent = opcao.nome;
           btn.addEventListener("click", () => {
             navigator.clipboard.writeText(opcao.prompt).then(() => {
-              alert(`✅ Prompt de "${opcao.nome}" copiado!`);
+              showToast(`✅ Prompt de "${opcao.nome}" copiado!`);
             });
           });
           div.appendChild(btn);
