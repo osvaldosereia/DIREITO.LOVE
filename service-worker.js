@@ -1,32 +1,37 @@
-// ================================
-// service-worker.js - direito.love
-// Cache offline básico para PWA
-// ================================
+// ===== service-worker.js FINAL =====
 
-const CACHE_NAME = "direito-love-v1";
+const CACHE_NAME = "direito-love-v2";
 const FILES_TO_CACHE = [
-  "/", // raiz
+  "/",
   "/index.html",
   "/styles.css",
   "/app.js",
-  "/manifest.json",
-  "/pwa-144.png",
-  "/pwa-180.png",
+  "/theme.js",
+  "/sobre.html",
+  "/salvos.html",
+  "/salvos.css",
+  "/prompts.json",
+  "/prompts-base.json",
   "/pwa-192.png",
+  "/pwa-180.png",
   "/pwa-512.png",
-  "/pwa-1024.png"
+  "/pwa-1024.png",
+  "/offline.html"
 ];
 
-// Instalação do service worker e cache inicial
+// ==============================
+// Instalação do Service Worker
+// ==============================
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(FILES_TO_CACHE);
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(FILES_TO_CACHE))
   );
+  self.skipWaiting();
 });
 
-// Ativação e limpeza de caches antigos
+// ==============================
+// Ativação (limpar caches antigos)
+// ==============================
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keyList) => {
@@ -39,14 +44,21 @@ self.addEventListener("activate", (event) => {
       );
     })
   );
-  return self.clients.claim();
+  self.clients.claim();
 });
 
-// Interceptar requisições e servir cache
+// ==============================
+// Interceptar requisições
+// ==============================
 self.addEventListener("fetch", (event) => {
+  if (event.request.method !== "GET") return;
+
   event.respondWith(
     caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
+      return (
+        response ||
+        fetch(event.request).catch(() => caches.match("/offline.html"))
+      );
     })
   );
 });
