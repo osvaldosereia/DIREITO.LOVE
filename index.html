@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#111111" />
+  <title>direito.love</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="apple-touch-icon" href="icons/pwa-180.png" />
+</head>
+<body>
+  <header>
+    <h1>direito.love</h1>
+    <p class="onboarding">Gere prompts para estudar Direito com inteligência artificial. Escolha uma categoria, insira conteúdo e veja sugestões.</p>
+    <nav class="categoria-selector" role="tablist">
+      <button class="categoria-btn ativo" data-categoria="Tema" aria-label="Tema">🎯 Tema</button>
+      <button class="categoria-btn" data-categoria="Texto" aria-label="Texto">📄 Texto</button>
+      <button class="categoria-btn" data-categoria="YouTube" aria-label="YouTube">🎥 YouTube</button>
+      <button class="categoria-btn" data-categoria="Arquivo" aria-label="Arquivo">📎 Arquivo</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="entrada-container"></section>
+
+    <section id="objetivos-container" aria-label="Lista de objetivos disponíveis"></section>
+
+    <section id="resultado-container" class="oculto" aria-label="Resultado gerado">
+      <h2>🎓 Prompt Gerado</h2>
+      <pre id="resultado"></pre>
+      <div class="botoes-resultado">
+        <button id="copiar-btn" aria-label="Copiar prompt">📋 Copiar</button>
+        <button id="abrir-btn" aria-label="Abrir IA">🤖 Abrir na IA</button>
+      </div>
+    </section>
+
+    <div id="toast" role="alert" class="oculto"></div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 direito.love • app educacional offline</p>
+    <button id="topo-btn" aria-label="Voltar ao topo">🔝</button>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
