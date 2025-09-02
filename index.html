@@ -1,21 +1,38 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<header>
-  <div class="logo-container">
-    <span class="logo">💚</span>
-    <span class="app-name"><strong>direito.love</strong></span>
-  </div>
-  <nav class="topbar" aria-label="Categorias de entrada">
-    <button class="tab active" data-category="tema">🎯 Tema</button>
-    <button class="tab" data-category="texto">📄 Texto</button>
-    <button class="tab" data-category="youtube">🎥 YouTube</button>
-    <button class="tab" data-category="arquivo">📎 Arquivo</button>
-  </nav>
-</header>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>direito.love — App Educacional</title>
 
+  <!-- Manifesto PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1e3a8a">
 
+  <!-- Ícone Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/pwa-192.png">
+
+  <!-- CSS principal -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Cabeçalho com logo e navegação -->
+  <header>
+    <div class="logo-container">
+      <span class="logo">💚</span>
+      <span class="app-name"><strong>direito.love</strong></span>
+    </div>
+    <nav class="topbar" aria-label="Categorias de entrada">
+      <button class="tab active" data-category="tema">🎯 Tema</button>
+      <button class="tab" data-category="texto">📄 Texto</button>
+      <button class="tab" data-category="youtube">🎥 YouTube</button>
+      <button class="tab" data-category="arquivo">📎 Arquivo</button>
+    </nav>
+  </header>
+
+  <!-- Conteúdo principal -->
   <main>
-    <!-- Campo de entrada dinâmico -->
+    <!-- Campo de entrada -->
     <section id="input-section" aria-label="Entrada do usuário">
       <textarea id="user-input" placeholder="Digite seu tema ou conteúdo aqui..." rows="3"></textarea>
     </section>
@@ -39,7 +56,7 @@
     </section>
   </main>
 
-  <!-- Modal do prompt -->
+  <!-- Modal para exibir prompts -->
   <div id="prompt-modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal-content" role="document">
       <p id="prompt-text"></p>
@@ -68,12 +85,15 @@
     </ul>
   </aside>
 
+  <!-- Botão flutuante para abrir drawer -->
   <button id="open-drawer" class="drawer-btn" aria-label="Abrir menu lateral">☰</button>
 
+  <!-- Rodapé -->
   <footer>
     <p>direito.love — App educacional para estudo</p>
   </footer>
 
+  <!-- JS principal -->
   <script src="app.js"></script>
 </body>
 </html>
