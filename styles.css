@@ -281,3 +281,51 @@ footer {
   background: var(--color-border);
   color: var(--color-muted);
 }
+
+/* ==============================
+   RESPONSIVIDADE
+   ============================== */
+
+/* Centralizar conteúdo em telas grandes */
+@media (min-width: 768px) {
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  #user-input {
+    font-size: 18px;
+  }
+
+  .accordion {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .accordion-item {
+    margin-bottom: 0;
+  }
+
+  .modal-content {
+    max-width: 600px;
+  }
+}
+
+/* Ajustes para telas muito largas (desktop > 1200px) */
+@media (min-width: 1200px) {
+  main {
+    max-width: 1100px;
+  }
+
+  .topbar {
+    justify-content: center;
+  }
+
+  .topbar .tab {
+    flex: none;
+    margin: 0 8px;
+    min-width: 120px;
+  }
+}
