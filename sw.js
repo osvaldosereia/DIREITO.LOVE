@@ -1,16 +1,17 @@
 /* =========================
-   Service Worker v9
+   Service Worker v10
    - network-first p/ HTML
    - cache-first p/ estáticos
    - fallback offline
    ========================= */
 
-const CACHE = 'direito-love-v9';
+const CACHE = 'direito-love-v10';
 const ASSETS = [
   './',
   'index.html',
   'styles.css',
   'app.js',
+  'politica.html',
   'manifest.webmanifest',
   // Ícones principais
   'icons/logo.svg',
@@ -25,6 +26,7 @@ const ASSETS = [
   'icons/pwa-180.png',
   'icons/pwa-192.png',
   'icons/pwa-512.png',
+  'icons/pwa-1024.png',
   'icons/favicon.ico'
 ];
 
@@ -36,6 +38,9 @@ self.addEventListener('install', e => {
     caches.open(CACHE)
       .then(c => c.addAll(ASSETS))
       .then(() => self.skipWaiting())
+      .catch(err => {
+        console.error('Erro no pré-cache:', err);
+      })
   );
 });
 
