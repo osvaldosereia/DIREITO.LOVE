@@ -1,46 +1,86 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#111111" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>direito.love</title>
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="apple-touch-icon" href="icons/pwa-180.png" />
+
+  <!-- Manifest e ícones PWA -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="pwa-180.png">
+  <meta name="theme-color" content="#000000">
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
-    <h1>direito.love</h1>
-    <p class="onboarding">Gere prompts para estudar Direito com inteligência artificial. Escolha uma categoria, insira conteúdo e veja sugestões.</p>
-    <nav class="categoria-selector" role="tablist">
-      <button class="categoria-btn ativo" data-categoria="Tema" aria-label="Tema">🎯 Tema</button>
-      <button class="categoria-btn" data-categoria="Texto" aria-label="Texto">📄 Texto</button>
-      <button class="categoria-btn" data-categoria="YouTube" aria-label="YouTube">🎥 YouTube</button>
-      <button class="categoria-btn" data-categoria="Arquivo" aria-label="Arquivo">📎 Arquivo</button>
+    <nav class="topbar" aria-label="Categorias de entrada">
+      <button class="tab" data-category="tema">🎯 Tema</button>
+      <button class="tab" data-category="texto">📄 Texto</button>
+      <button class="tab" data-category="youtube">🎥 YouTube</button>
+      <button class="tab" data-category="arquivo">📎 Arquivo</button>
     </nav>
   </header>
 
   <main>
-    <section id="entrada-container"></section>
-
-    <section id="objetivos-container" aria-label="Lista de objetivos disponíveis"></section>
-
-    <section id="resultado-container" class="oculto" aria-label="Resultado gerado">
-      <h2>🎓 Prompt Gerado</h2>
-      <pre id="resultado"></pre>
-      <div class="botoes-resultado">
-        <button id="copiar-btn" aria-label="Copiar prompt">📋 Copiar</button>
-        <button id="abrir-btn" aria-label="Abrir IA">🤖 Abrir na IA</button>
-      </div>
+    <!-- Campo de entrada dinâmico -->
+    <section id="input-section" aria-label="Entrada do usuário">
+      <textarea id="user-input" placeholder="Digite aqui..." rows="3"></textarea>
     </section>
 
-    <div id="toast" role="alert" class="oculto"></div>
+    <!-- Accordion de objetivos -->
+    <section class="accordion" aria-label="Objetivos de estudo">
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false">📘 Revisão e Aprendizado</button>
+        <div class="accordion-content"></div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false">📚 Treino para Provas e Concursos</button>
+        <div class="accordion-content"></div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false">🧠 Estudo Crítico e Criativo</button>
+        <div class="accordion-content"></div>
+      </div>
+    </section>
   </main>
 
+  <!-- Modal do prompt -->
+  <div id="prompt-modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-content">
+      <p id="prompt-text"></p>
+      <div class="modal-actions">
+        <button id="copy-btn">📋 Copiar</button>
+        <button id="new-goal-btn">🎯 Novo Objetivo</button>
+        <button id="new-input-btn">📝 Novo Tema</button>
+        <button id="fav-btn">⭐ Favoritar</button>
+        <button id="wa-btn">📤 WhatsApp</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drawer lateral -->
+  <aside id="drawer" class="drawer" aria-hidden="true">
+    <button id="close-drawer">✖</button>
+    <ul>
+      <li>ℹ️ Sobre</li>
+      <li>❓ Dúvidas</li>
+      <li>💡 Dicas</li>
+      <li>📷 Instagram</li>
+      <li>🌗 Tema</li>
+      <li>⭐ Favoritos</li>
+      <li>🎮 Progresso</li>
+      <li>🌍 Idioma</li>
+    </ul>
+  </aside>
+
+  <button id="open-drawer" class="drawer-btn">☰</button>
+
   <footer>
-    <p>&copy; 2025 direito.love • app educacional offline</p>
-    <button id="topo-btn" aria-label="Voltar ao topo">🔝</button>
+    <p>direito.love — App educacional para estudo</p>
   </footer>
 
   <script src="app.js"></script>
