@@ -1,5 +1,5 @@
 // ================================
-// app.js - direito.love (com auto-scroll, toast, drawer e tema)
+// app.js - direito.love (UX refinada)
 // ================================
 
 // Seletores principais
@@ -11,15 +11,34 @@ const drawerOverlay = document.getElementById("drawer-overlay");
 const closeDrawerBtn = document.getElementById("close-settings");
 const settingsBtn = document.querySelector(".settings-btn");
 
-// Função de feedback visual (toast)
+// ================================
+// Snackbar (toast moderno)
+// ================================
+let toastTimeout;
 function showToast(message) {
   const toast = document.getElementById("toast");
   toast.textContent = message;
-  toast.classList.add("show");
-  setTimeout(() => toast.classList.remove("show"), 2500);
+
+  // limpa se já existir ativo
+  toast.classList.remove("show");
+  clearTimeout(toastTimeout);
+
+  // exibe
+  setTimeout(() => {
+    toast.classList.add("show");
+  }, 50);
+
+  // duração adaptativa
+  const duracao = message.length > 40 ? 3500 : 1800;
+
+  toastTimeout = setTimeout(() => {
+    toast.classList.remove("show");
+  }, duracao);
 }
 
+// ================================
 // Objetivos fixos (padrão)
+// ================================
 const opcoesEstudo = [
   { nome: "Explicação Detalhada", prompt: "Explique detalhadamente o tema {tema}, com exemplos, tópicos e separadores.\n\n---\n💚 direito.love" },
   { nome: "Questões Objetivas", prompt: "Crie 5 questões objetivas de múltipla escolha sobre {tema}, com alternativas e resposta correta.\n\n---\n💚 direito.love" },
@@ -30,12 +49,14 @@ const opcoesEstudo = [
 
 let temaAtual = "";
 
-// Scroll automático para última mensagem
+// Scroll automático
 function scrollToBottom() {
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
+// ================================
 // Envio do tema
+// ================================
 chatForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const tema = chatInput.value.trim();
@@ -44,34 +65,39 @@ chatForm.addEventListener("submit", (e) => {
     return;
   }
 
-  // mensagem do usuário
   addMessage("user", tema);
 
-  // mensagem "digitando..."
   const typingMsg = addMessage("bot", "digitando...");
 
-  // aguarda 1.2s e troca pelo conteúdo real
   setTimeout(() => {
-    typingMsg.textContent = "Pronto! Já gerei 5 prompts de estudo. Clique no que quiser copiar:";
+    typingMsg.textContent = "Pronto! Já gerei 5 opções de estudo. Escolha a que quiser copiar:";
     renderOpcoes(tema);
-  }, 1200);
+  }, 1000);
 
   chatInput.value = "";
 });
 
+// ================================
 // Renderizar botões de opções
+// ================================
 function renderOpcoes(tema) {
   const container = document.createElement("div");
   container.className = "opcoes-container";
 
-  opcoesEstudo.forEach(opcao => {
+  opcoesEstudo.forEach((opcao, i) => {
     const btn = document.createElement("button");
     btn.className = "option-btn";
     btn.textContent = opcao.nome;
+
+    btn.style.opacity = 0;
+    btn.style.transition = "opacity 0.4s ease";
+
+    setTimeout(() => { btn.style.opacity = 1; }, 200 * i);
+
     btn.addEventListener("click", () => {
-      const promptFinal = opcao.prompt.replaceAll("{tema}", tema);
+      const promptFinal = opcao.prompt.replaceAll("{tema}", temaAtual);
       navigator.clipboard.writeText(promptFinal).then(() => {
-        showToast(`✅ Prompt de "${opcao.nome}" copiado!`);
+        showToast(`✅ "${opcao.nome}" copiado!`);
       });
     });
     container.appendChild(btn);
@@ -81,7 +107,13 @@ function renderOpcoes(tema) {
   const salvarBtn = document.createElement("button");
   salvarBtn.className = "save-btn";
   salvarBtn.textContent = "⭐ Salvar Tema";
-  salvarBtn.addEventListener("click", () => salvarTema(tema));
+
+  salvarBtn.style.opacity = 0;
+  salvarBtn.style.transition = "opacity 0.4s ease";
+
+  setTimeout(() => { salvarBtn.style.opacity = 1; }, 1200);
+
+  salvarBtn.addEventListener("click", () => salvarTema(temaAtual));
   container.appendChild(salvarBtn);
 
   chatMessages.appendChild(container);
@@ -95,21 +127,24 @@ function addMessage(tipo, texto) {
   chatMessages.appendChild(msg);
   scrollToBottom();
 
-  if (tipo === "user") {
-    temaAtual = texto;
-  }
+  if (tipo === "user") temaAtual = texto;
 
-  return msg; // retorna o elemento para poder atualizar (digitando...)
+  return msg;
 }
 
+// ================================
 // Salvar tema no localStorage
+// ================================
 function salvarTema(tema) {
   let salvos = JSON.parse(localStorage.getItem("temasSalvos")) || [];
 
-  // evita duplicados
   if (salvos.some(item => item.tema === tema)) {
-    showToast(`⚠️ O tema "${tema}" já foi salvo antes.`);
+    showToast(`⚠️ O tema "${tema}" já foi salvo.`);
     return;
+  }
+
+  if (salvos.length >= 10) {
+    salvos.shift(); // remove o mais antigo
   }
 
   salvos.push({
@@ -119,8 +154,9 @@ function salvarTema(tema) {
       prompt: o.prompt.replaceAll("{tema}", tema)
     }))
   });
+
   localStorage.setItem("temasSalvos", JSON.stringify(salvos));
-  showToast(`⭐ Tema "${tema}" salvo com sucesso!`);
+  showToast(`⭐ Tema "${tema}" salvo!`);
 }
 
 // ================================
@@ -140,26 +176,6 @@ function fecharDrawer() {
 }
 
 // ================================
-// Tema: Claro / Escuro / Automático
-// ================================
-function aplicarTema(modo) {
-  document.body.classList.remove("dark", "auto");
-  if (modo === "escuro") {
-    document.body.classList.add("dark");
-  } else if (modo === "auto") {
-    document.body.classList.add("auto");
-  }
-  localStorage.setItem("temaPreferido", modo);
-
-  const icones = { claro: "☀️", escuro: "🌙", auto: "🌓" };
-  showToast(`${icones[modo]} Tema: ${modo}`);
-}
-
-// Carregar tema salvo ao iniciar
-const temaSalvo = localStorage.getItem("temaPreferido") || "claro";
-aplicarTema(temaSalvo);
-
-// ================================
 // Ações dos botões do Drawer
 // ================================
 document.querySelectorAll(".drawer-option").forEach(btn => {
@@ -167,13 +183,10 @@ document.querySelectorAll(".drawer-option").forEach(btn => {
     const action = btn.dataset.action;
 
     switch (action) {
-      case "theme": {
-        const opcoes = ["claro", "escuro", "auto"];
-        let atual = localStorage.getItem("temaPreferido") || "claro";
-        let proximo = opcoes[(opcoes.indexOf(atual) + 1) % opcoes.length];
-        aplicarTema(proximo);
+      case "theme":
+        document.body.classList.toggle("dark");
+        showToast("🌗 Tema alternado");
         break;
-      }
       case "language":
         showToast("🌍 Alterar idioma (em breve)");
         break;
@@ -181,10 +194,9 @@ document.querySelectorAll(".drawer-option").forEach(btn => {
         showToast("ℹ️ direito.love — App educacional para estudo");
         break;
       case "help":
-        showToast("❓ Ajuda: Digite um tema e escolha um tipo de estudo.");
+        showToast("❓ Ajuda: Digite um tema e clique em uma opção.");
         break;
     }
-
     fecharDrawer();
   });
 });
