@@ -2,9 +2,41 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Temas Salvos — direito.love</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Ajustes extras para mobile */
+    @media (max-width: 768px) {
+      .tema-salvo {
+        padding: 16px;
+      }
+      .tema-salvo h2 {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+      .option-btn {
+        font-size: 15px;
+        padding: 14px; /* área de toque maior */
+        border-radius: 8px;
+      }
+      .salvos-container {
+        gap: 18px;
+      }
+      .app-header h1 {
+        font-size: 15px;
+      }
+      .settings-btn {
+        font-size: 20px; /* botão maior para toque */
+        padding: 6px;
+      }
+    }
+
+    /* Safe area padding para iOS */
+    body {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+  </style>
 </head>
 <body>
   <!-- Cabeçalho fixo -->
