@@ -44,13 +44,20 @@
     body {
       padding-bottom: env(safe-area-inset-bottom);
     }
+
+    /* Fixar topo */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
   </style>
 </head>
 <body>
   <!-- Cabeçalho fixo -->
   <header class="app-header">
     <h1>direito.love</h1>
-<button type="button" class="settings-btn" aria-label="Abrir configurações">⚙</button>
+    <button type="button" class="settings-btn" aria-label="Abrir configurações">⚙</button>
   </header>
 
   <!-- Área de chat -->
@@ -82,11 +89,11 @@
     <button id="close-settings" class="close-btn">✖</button>
     <h2>Configurações</h2>
     <ul>
-      <li><button class="drawer-option" data-action="theme">🌗 Alternar Tema</button></li>
-      <li><button class="drawer-option" data-action="language">🌍 Idioma</button></li>
-      <li><button class="drawer-option" data-action="about">ℹ️ Sobre</button></li>
-      <li><a href="salvos.html" class="drawer-option">⭐ Salvos</a></li>
-      <li><button class="drawer-option" data-action="help">❓ Ajuda</button></li>
+      <li><button class="drawer-option" data-action="theme">Alterar Tema</button></li>
+      <li><button class="drawer-option" data-action="language">Idioma</button></li>
+      <li><button class="drawer-option" data-action="about">Sobre</button></li>
+      <li><a href="salvos.html" class="drawer-option">Temas Salvos</a></li>
+      <li><button class="drawer-option" data-action="help">Ajuda</button></li>
     </ul>
   </aside>
 
