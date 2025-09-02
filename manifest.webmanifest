@@ -2,12 +2,26 @@
   "name": "direito.love",
   "short_name": "direito.love",
   "description": "Seu assistente de estudo jurídico",
-  "start_url": "/index.html",
-  "scope": "/",
+  
+  /* =========================
+     Caminho inicial e escopo
+     ✅ Corrigido para relativo (./) → funciona em raiz e subpasta
+     ========================= */
+  "start_url": "./index.html",
+  "scope": "./",
+  
+  /* =========================
+     Aparência do PWA
+     ========================= */
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#63d1c3",
   "orientation": "portrait",
+
+  /* =========================
+     Ícones PWA
+     (todos com "any maskable" → melhor adaptação nos devices)
+     ========================= */
   "icons": [
     {
       "src": "icons/pwa-144.png",
