@@ -1,21 +1,22 @@
 // ================================
-// app.js - direito.love (corrigido com toast)
+// app.js - direito.love (com auto-scroll e toast)
 // ================================
 
 // Seletores principais
 const chatForm = document.getElementById("chat-form");
 const chatInput = document.getElementById("chat-input");
 const chatMessages = document.getElementById("chat-messages");
+const drawer = document.getElementById("settings-drawer");
+const drawerOverlay = document.getElementById("drawer-overlay");
+const closeDrawerBtn = document.getElementById("close-settings");
+const settingsBtn = document.querySelector(".settings-btn");
 
 // Função de feedback visual (toast)
 function showToast(message) {
   const toast = document.getElementById("toast");
   toast.textContent = message;
   toast.classList.add("show");
-
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 2500);
+  setTimeout(() => toast.classList.remove("show"), 2500);
 }
 
 // Objetivos fixos (padrão)
@@ -26,6 +27,13 @@ const opcoesEstudo = [
   { nome: "Pegadinhas de Prova", prompt: "Liste pegadinhas de prova comuns sobre {tema}, com explicação de porque estão erradas.\n\n---\n💚 direito.love" },
   { nome: "Casos Concretos", prompt: "Crie 2 casos práticos envolvendo {tema}, peça análise e resposta fundamentada.\n\n---\n💚 direito.love" }
 ];
+
+let temaAtual = "";
+
+// Scroll automático para última mensagem
+function scrollToBottom() {
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
 
 // Envio do tema
 chatForm.addEventListener("submit", (e) => {
@@ -73,18 +81,15 @@ function renderOpcoes(tema) {
   container.appendChild(salvarBtn);
 
   chatMessages.appendChild(container);
-  chatMessages.scrollTop = chatMessages.scrollHeight;
+  scrollToBottom();
 }
 
-let temaAtual = "";
-
-// Adiciona mensagens no chat
 function addMessage(tipo, texto) {
   const msg = document.createElement("div");
-  msg.className = `msg ${tipo}`;
+  msg.className = `message ${tipo}`;
   msg.textContent = texto;
   chatMessages.appendChild(msg);
-  chatMessages.scrollTop = chatMessages.scrollHeight;
+  scrollToBottom();
 
   if (tipo === "user") {
     temaAtual = texto;
@@ -94,7 +99,34 @@ function addMessage(tipo, texto) {
 // Salvar tema no localStorage
 function salvarTema(tema) {
   let salvos = JSON.parse(localStorage.getItem("temasSalvos")) || [];
-  salvos.push({ tema, opcoes: opcoesEstudo.map(o => ({ nome: o.nome, prompt: o.prompt.replaceAll("{tema}", tema) })) });
+  salvos.push({
+    tema,
+    opcoes: opcoesEstudo.map(o => ({
+      nome: o.nome,
+      prompt: o.prompt.replaceAll("{tema}", tema)
+    }))
+  });
   localStorage.setItem("temasSalvos", JSON.stringify(salvos));
   showToast(`⭐ Tema "${tema}" salvo com sucesso!`);
+}
+
+// ================================
+// Drawer de Configurações
+// ================================
+settingsBtn.addEventListener("click", () => {
+  drawer.setAttribute("aria-hidden", "false");
+  drawerOverlay.classList.add("active");
+});
+
+closeDrawerBtn.addEventListener("click", () => {
+  fecharDrawer();
+});
+
+drawerOverlay.addEventListener("click", () => {
+  fecharDrawer();
+});
+
+function fecharDrawer() {
+  drawer.setAttribute("aria-hidden", "true");
+  drawerOverlay.classList.remove("active");
 }
