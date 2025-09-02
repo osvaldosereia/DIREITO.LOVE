@@ -1,17 +1,17 @@
 {
-  "resumo": "Gere um resumo claro e objetivo sobre {tema} ou a partir do conteúdo: {texto} {youtube} {arquivo}.",
+  "resumo": "Gere um resumo claro, objetivo e educativo sobre {tema} ou a partir do conteúdo: {texto} {youtube} {arquivo}.",
 
-  "questoes_objetivas": "Crie 3 questões objetivas de múltipla escolha sobre {tema} ou baseado no conteúdo: {texto} {youtube} {arquivo}. Inclua alternativas e destaque a correta.",
+  "questoes_objetivas": "Crie 3 questões objetivas de múltipla escolha sobre {tema} ou baseado no conteúdo: {texto} {youtube} {arquivo}. Inclua 4 alternativas e destaque a correta.",
 
-  "questoes_discursivas": "Elabore 2 questões discursivas sobre {tema} ou baseado no conteúdo: {texto} {youtube} {arquivo}.",
+  "questoes_discursivas": "Elabore 2 questões discursivas sobre {tema} ou baseado no conteúdo: {texto} {youtube} {arquivo}, incentivando a reflexão crítica.",
 
   "flashcards": "Crie 5 flashcards para revisar {tema} ou baseado no conteúdo: {texto} {youtube} {arquivo}. Formato: Frente → Verso.",
 
-  "simulado": "Monte um mini simulado com 5 questões variadas (objetivas e discursivas) sobre {tema} ou baseado no conteúdo: {texto} {youtube} {arquivo}. Inclua gabarito.",
+  "simulado": "Monte um mini simulado com 5 questões variadas (objetivas e discursivas) sobre {tema} ou baseado no conteúdo: {texto} {youtube} {arquivo}. Inclua gabarito ao final.",
 
-  "mapa_mental": "Organize um mapa mental em tópicos hierárquicos sobre {tema} ou a partir do conteúdo: {texto} {youtube} {arquivo}.",
+  "mapa_mental": "Organize um mapa mental em tópicos hierárquicos e claros sobre {tema} ou a partir do conteúdo: {texto} {youtube} {arquivo}.",
 
-  "explicacao_simples": "Explique {tema} ou o conteúdo {texto} {youtube} {arquivo} de forma simples, como se fosse para um iniciante.",
+  "explicacao_simples": "Explique {tema} ou o conteúdo {texto} {youtube} {arquivo} de forma simples e acessível, como se fosse para um iniciante.",
 
-  "plano_estudos": "Monte um plano de estudos em etapas para aprender {tema} ou o conteúdo {texto} {youtube} {arquivo}, sugerindo atividades práticas."
+  "plano_estudos": "Monte um plano de estudos em etapas para aprender {tema} ou o conteúdo {texto} {youtube} {arquivo}, sugerindo atividades práticas e revisões."
 }
