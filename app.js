@@ -1,50 +1,100 @@
+// ================================
+// app.js - direito.love (corrigido com toast)
+// ================================
+
+// Seletores principais
 const chatForm = document.getElementById("chat-form");
 const chatInput = document.getElementById("chat-input");
-const chatContainer = document.getElementById("chat-container");
-const errorMessage = document.getElementById("error-message");
+const chatMessages = document.getElementById("chat-messages");
 
-function addMessage(text, sender = "bot") {
-  const msg = document.createElement("div");
-  msg.classList.add("message", sender);
-  msg.innerHTML = `<p>${text.replace(/\n/g, "<br>")}</p>`;
-  chatContainer.appendChild(msg);
-  chatContainer.scrollTop = chatContainer.scrollHeight;
+// Função de feedback visual (toast)
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2500);
 }
 
+// Objetivos fixos (padrão)
+const opcoesEstudo = [
+  { nome: "Explicação Detalhada", prompt: "Explique detalhadamente o tema {tema}, com exemplos, tópicos e separadores.\n\n---\n💚 direito.love" },
+  { nome: "Questões Objetivas", prompt: "Crie 5 questões objetivas de múltipla escolha sobre {tema}, com alternativas e resposta correta.\n\n---\n💚 direito.love" },
+  { nome: "Revisão Rápida", prompt: "Monte um resumo rápido sobre {tema}, em tópicos curtos e claros, ideal para revisar em 5 minutos.\n\n---\n💚 direito.love" },
+  { nome: "Pegadinhas de Prova", prompt: "Liste pegadinhas de prova comuns sobre {tema}, com explicação de porque estão erradas.\n\n---\n💚 direito.love" },
+  { nome: "Casos Concretos", prompt: "Crie 2 casos práticos envolvendo {tema}, peça análise e resposta fundamentada.\n\n---\n💚 direito.love" }
+];
+
+// Envio do tema
 chatForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const tema = chatInput.value.trim();
-
   if (!tema) {
-    errorMessage.textContent = "⚠️ Por favor, escreva um tema antes de continuar.";
+    showToast("⚠️ Digite um tema antes de enviar!");
     return;
   }
-  errorMessage.textContent = "";
-  addMessage(tema, "user");
+
+  // mensagem do usuário
+  addMessage("user", tema);
+
+  // resposta automática do bot com opções
+  addMessage("bot", "Pronto! Já gerei 5 prompts de estudo. É só clicar no que quiser copiar:");
+
+  renderOpcoes(tema);
+
   chatInput.value = "";
-
-  setTimeout(() => {
-    const wrapper = document.createElement("div");
-    wrapper.classList.add("message", "bot");
-    wrapper.innerHTML = `
-      <p>✅ Pronto! Criei 5 prompts de estudo para você.  
-      Basta clicar em qualquer botão abaixo para copiar:</p>
-      <button class="option-btn">Explicação Detalhada</button>
-      <button class="option-btn">Questões Objetivas</button>
-      <button class="option-btn">Revisão Rápida</button>
-      <button class="option-btn">Pegadinhas de Prova</button>
-      <button class="option-btn">Casos Concretos</button>
-      <button class="save-btn" data-tema="${tema}">💾 Salvar Tema</button>
-    `;
-    chatContainer.appendChild(wrapper);
-    chatContainer.scrollTop = chatContainer.scrollHeight;
-
-    // salvar tema
-    wrapper.querySelector(".save-btn").addEventListener("click", () => {
-      let salvos = JSON.parse(localStorage.getItem("temasSalvos")) || [];
-      salvos.push({ tema, data: new Date().toISOString() });
-      localStorage.setItem("temasSalvos", JSON.stringify(salvos));
-      alert("💾 Tema salvo com sucesso! Você pode acessá-lo em Configurações > Temas Salvos.");
-    });
-  }, 500);
 });
+
+// Renderizar botões de opções
+function renderOpcoes(tema) {
+  const container = document.createElement("div");
+  container.className = "opcoes-container";
+
+  opcoesEstudo.forEach(opcao => {
+    const btn = document.createElement("button");
+    btn.className = "option-btn";
+    btn.textContent = opcao.nome;
+    btn.addEventListener("click", () => {
+      const promptFinal = opcao.prompt.replaceAll("{tema}", temaAtual);
+      navigator.clipboard.writeText(promptFinal).then(() => {
+        showToast(`✅ Prompt de "${opcao.nome}" copiado!`);
+      });
+    });
+    container.appendChild(btn);
+  });
+
+  // botão salvar
+  const salvarBtn = document.createElement("button");
+  salvarBtn.className = "save-btn";
+  salvarBtn.textContent = "⭐ Salvar Tema";
+  salvarBtn.addEventListener("click", () => salvarTema(temaAtual));
+  container.appendChild(salvarBtn);
+
+  chatMessages.appendChild(container);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+let temaAtual = "";
+
+// Adiciona mensagens no chat
+function addMessage(tipo, texto) {
+  const msg = document.createElement("div");
+  msg.className = `msg ${tipo}`;
+  msg.textContent = texto;
+  chatMessages.appendChild(msg);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+
+  if (tipo === "user") {
+    temaAtual = texto;
+  }
+}
+
+// Salvar tema no localStorage
+function salvarTema(tema) {
+  let salvos = JSON.parse(localStorage.getItem("temasSalvos")) || [];
+  salvos.push({ tema, opcoes: opcoesEstudo.map(o => ({ nome: o.nome, prompt: o.prompt.replaceAll("{tema}", tema) })) });
+  localStorage.setItem("temasSalvos", JSON.stringify(salvos));
+  showToast(`⭐ Tema "${tema}" salvo com sucesso!`);
+}
