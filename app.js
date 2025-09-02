@@ -1,5 +1,5 @@
 // ================================
-// app.js - direito.love (com auto-scroll, toast e drawer funcional)
+// app.js - direito.love (com auto-scroll, toast, drawer e tema)
 // ================================
 
 // Seletores principais
@@ -131,18 +131,33 @@ settingsBtn.addEventListener("click", () => {
   drawerOverlay.classList.add("active");
 });
 
-closeDrawerBtn.addEventListener("click", () => {
-  fecharDrawer();
-});
-
-drawerOverlay.addEventListener("click", () => {
-  fecharDrawer();
-});
+closeDrawerBtn.addEventListener("click", fecharDrawer);
+drawerOverlay.addEventListener("click", fecharDrawer);
 
 function fecharDrawer() {
   drawer.setAttribute("aria-hidden", "true");
   drawerOverlay.classList.remove("active");
 }
+
+// ================================
+// Tema: Claro / Escuro / Automático
+// ================================
+function aplicarTema(modo) {
+  document.body.classList.remove("dark", "auto");
+  if (modo === "escuro") {
+    document.body.classList.add("dark");
+  } else if (modo === "auto") {
+    document.body.classList.add("auto");
+  }
+  localStorage.setItem("temaPreferido", modo);
+
+  const icones = { claro: "☀️", escuro: "🌙", auto: "🌓" };
+  showToast(`${icones[modo]} Tema: ${modo}`);
+}
+
+// Carregar tema salvo ao iniciar
+const temaSalvo = localStorage.getItem("temaPreferido") || "claro";
+aplicarTema(temaSalvo);
 
 // ================================
 // Ações dos botões do Drawer
@@ -152,10 +167,13 @@ document.querySelectorAll(".drawer-option").forEach(btn => {
     const action = btn.dataset.action;
 
     switch (action) {
-      case "theme":
-        document.body.classList.toggle("dark");
-        showToast("🌗 Tema alternado");
+      case "theme": {
+        const opcoes = ["claro", "escuro", "auto"];
+        let atual = localStorage.getItem("temaPreferido") || "claro";
+        let proximo = opcoes[(opcoes.indexOf(atual) + 1) % opcoes.length];
+        aplicarTema(proximo);
         break;
+      }
       case "language":
         showToast("🌍 Alterar idioma (em breve)");
         break;
