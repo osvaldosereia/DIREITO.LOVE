@@ -270,7 +270,7 @@ function salvarTema(tema) {
     return;
   }
 
-  if (salvos.length >= 10) {
+  if (salvos.length >= 30) {
     salvos.shift(); // remove o mais antigo
   }
 
