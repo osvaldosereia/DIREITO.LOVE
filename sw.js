@@ -1,16 +1,8 @@
 /* =========================
-   Service Worker v14
-   Estratégias de cache:
-   - network-first p/ HTML
-   - cache-first p/ estáticos
-   - fallback offline
+   Service Worker v15
    ========================= */
+const CACHE = 'direito-love-v15';
 
-const CACHE = 'direito-love-v14';
-
-/* =========================
-   Lista de arquivos para cache
-   ========================= */
 const ASSETS = [
   './',
   'index.html',
@@ -20,30 +12,18 @@ const ASSETS = [
   'arquivo.html',
   'offline.html',
   'manifest.webmanifest',
-  // Ícones principais (somente PNGs do PWA + favicon)
-  'icons/pwa-144.png',
-  'icons/pwa-180.png',
-  'icons/pwa-192.png',
-  'icons/pwa-512.png',
-  'icons/pwa-1024.png',
-  'icons/favicon.ico'
+  'favicon.ico',
+  'arquivo.js'
 ];
 
-/* =========================
-   Instalação — pré-cache
-   ========================= */
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE)
       .then(c => c.addAll(ASSETS))
       .then(() => self.skipWaiting())
-      .catch(err => console.error('❌ Erro no pré-cache:', err))
   );
 });
 
-/* =========================
-   Ativação — limpa caches antigos
-   ========================= */
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(keys =>
@@ -52,9 +32,6 @@ self.addEventListener('activate', e => {
   );
 });
 
-/* =========================
-   Fetch — estratégias híbridas
-   ========================= */
 self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET') return;
@@ -65,7 +42,6 @@ self.addEventListener('fetch', e => {
     (req.headers.get('accept') || '').includes('text/html');
   const sameOrigin = url.origin === location.origin;
 
-  // Estratégia network-first para páginas HTML
   if (isHTML && sameOrigin) {
     e.respondWith(
       fetch(req)
@@ -74,14 +50,11 @@ self.addEventListener('fetch', e => {
           caches.open(CACHE).then(c => c.put(req, copy));
           return res;
         })
-        .catch(() =>
-          caches.match(req).then(r => r || caches.match('offline.html'))
-        )
+        .catch(() => caches.match(req).then(r => r || caches.match('offline.html')))
     );
     return;
   }
 
-  // Estratégia cache-first para estáticos
   if (sameOrigin) {
     e.respondWith(
       caches.match(req).then(cached =>
