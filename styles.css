@@ -10,14 +10,14 @@ body.dark {
   --user-msg: #1a1a1a;
   --btn-bg: #1c1c1c;
   --btn-border: #444444;
-  --btn-hover: #2e2e2e;     /* mais claro p/ hover */
+  --btn-hover: #2e2e2e;
   --accent: #ffffff;
-  --toast-bg: #222222;      /* fundo sólido e legível */
+  --toast-bg: #222222;
   --toast-text: #ffffff;
 }
 
 /* ==============================
-   Botões padrão (ajustados p/ dark)
+   Botões (ajustados p/ dark e responsivo)
    ============================== */
 .option-btn,
 .save-btn,
@@ -35,7 +35,8 @@ a.drawer-option {
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
   color: var(--text);
-  text-decoration: none; /* remove sublinhado dos links */
+  text-decoration: none;
+  min-height: 44px; /* toque acessível */
 }
 
 .option-btn:hover,
@@ -50,9 +51,152 @@ a.drawer-option {
   opacity: 0.8;
 }
 
-/* Botão Salvar Tema no Dark Mode → fundo branco e texto preto */
 body.dark .save-btn {
   background: #ffffff;
   color: #000000;
   border: none;
+}
+
+/* ==============================
+   Container principal
+   ============================== */
+.chat-container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.message {
+  padding: 12px;
+  border-radius: 6px;
+  background-color: var(--bot-msg);
+}
+.message.user {
+  background-color: var(--user-msg);
+  align-self: flex-end;
+}
+
+/* ==============================
+   Toast (feedback flutuante)
+   ============================== */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--toast-bg);
+  color: var(--toast-text);
+  padding: 12px 20px;
+  border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 9999;
+}
+.toast.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ==============================
+   Footer fixo
+   ============================== */
+.input-footer {
+  position: sticky;
+  bottom: 0;
+  background: var(--bg);
+  padding: 12px;
+  box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.1);
+}
+.input-wrapper {
+  display: flex;
+  gap: 8px;
+}
+.input-wrapper input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  font-size: 16px;
+  background: var(--user-msg);
+  color: var(--text);
+}
+.input-wrapper button {
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 6px;
+  padding: 0 16px;
+  font-size: 18px;
+  min-height: 44px;
+  cursor: pointer;
+}
+
+/* ==============================
+   Drawer lateral
+   ============================== */
+.drawer {
+  position: fixed;
+  right: -100%;
+  top: 0;
+  width: 280px;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  transition: right 0.3s ease;
+  z-index: 999;
+  padding: 16px;
+  box-shadow: -2px 0 6px rgba(0,0,0,0.2);
+}
+.drawer[aria-hidden="false"] {
+  right: 0;
+}
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 998;
+}
+.drawer-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.close-btn {
+  font-size: 18px;
+  background: none;
+  color: var(--text);
+  border: none;
+  float: right;
+  cursor: pointer;
+}
+
+/* ==============================
+   Acessibilidade e ajustes
+   ============================== */
+.error-message {
+  color: red;
+  font-size: 13px;
+  margin-top: 6px;
+}
+.hint {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* Container de opções (botões de prompt) */
+.opcoes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
 }
