@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sobre — direito.love</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .sobre-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .sobre-container h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .sobre-container p {
+      font-size: 15px;
+      color: var(--text);
+    }
+    @media (max-width: 768px) {
+      .sobre-container h2 {
+        font-size: 16px;
+      }
+      .sobre-container p {
+        font-size: 14px;
+      }
+      .app-header h1 {
+        font-size: 15px;
+      }
+      .settings-btn {
+        font-size: 20px;
+        padding: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Cabeçalho fixo -->
+  <header class="app-header">
+    <h1>Sobre</h1>
+    <a href="index.html" class="settings-btn" aria-label="Voltar para página inicial">⬅</a>
+  </header>
+
+  <!-- Conteúdo -->
+  <main class="sobre-container" role="main">
+    <h2>📚 O que é o direito.love?</h2>
+    <p>
+      O <strong>direito.love</strong> é um app educacional projetado para facilitar
+      seus estudos de Direito. Ele gera prompts de estudo práticos, rápidos e úteis,
+      ajudando você a revisar, praticar questões e entender melhor os temas jurídicos.
+    </p>
+
+    <h2>✨ Funcionalidades</h2>
+    <p>
+      - Geração de prompts inteligentes para estudo.<br>
+      - Salvamento de temas favoritos.<br>
+      - Interface otimizada para desktop e mobile.<br>
+      - Compatível com modo claro, escuro e automático.<br>
+    </p>
+
+    <h2>💚 Nossa missão</h2>
+    <p>
+      Tornar o estudo do Direito mais acessível, rápido e interativo.
+      Queremos que você aprenda de forma eficiente e organizada.
+    </p>
+  </main>
+
+  <!-- Toast -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // ================================
+    // Inicializar tema
+    // ================================
+    (function initTheme() {
+      const savedTheme = localStorage.getItem("theme") || "auto";
+      if (savedTheme === "dark") {
+        document.body.classList.add("dark");
+      } else if (savedTheme === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        document.body.classList.add("dark");
+      }
+    })();
+
+    // ================================
+    // Snackbar (toast moderno) - opcional
+    // ================================
+    let toastTimeout;
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+
+      toast.classList.remove("show");
+      clearTimeout(toastTimeout);
+
+      setTimeout(() => {
+        toast.classList.add("show");
+      }, 50);
+
+      const duracao = message.length > 40 ? 3500 : 1800;
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove("show");
+      }, duracao);
+    }
+  </script>
+</body>
+</html>
