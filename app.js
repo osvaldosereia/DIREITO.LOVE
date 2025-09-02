@@ -475,7 +475,7 @@ dlg.addEventListener('close', ()=> {
    ========================= */
 function registerSW(){
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js?v=9')
+    navigator.serviceWorker.register('/sw.js')
       .then(reg => console.log("✅ Service Worker registrado:", reg))
       .catch(err => console.error("❌ Erro ao registrar SW:", err));
   }
