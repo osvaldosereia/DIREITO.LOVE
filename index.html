@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>direito.love — App Educacional</title>
-  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Versão adicionada para forçar atualização de cache -->
+  <link rel="stylesheet" href="styles.css?v=1.0.1">
+
   <style>
     /* Ajustes extras mobile */
     @media (max-width: 768px) {
@@ -55,22 +58,21 @@
 </head>
 <body>
   <!-- Cabeçalho fixo -->
-<header class="app-header">
-  <div>
-    <h1 style="margin:0;">💚 direito.love</h1>
-    <p style="margin:0; font-size:11px; color:#666;">Prompts para Estudante de Direito</p>
-  </div>
-  <button type="button" class="settings-btn" aria-label="Abrir configurações">✚</button>
-</header>
-
+  <header class="app-header">
+    <div>
+      <h1 style="margin:0;">💚 direito.love</h1>
+      <p style="margin:0; font-size:11px; color:#666;">Prompts para Estudante de Direito</p>
+    </div>
+    <button type="button" class="settings-btn" aria-label="Abrir configurações">✚</button>
+  </header>
 
   <!-- Área de chat -->
-<main class="chat-container" id="chat-messages">
-  <div class="message bot">
-    <strong>Olá, qual o tema de hoje?</strong>
-    <div class="hint">Escreva o tema ou cole um texto ou link do YouTube.</div>
-  </div>
-</main>
+  <main class="chat-container" id="chat-messages">
+    <div class="message bot">
+      <strong>Olá, qual o tema de hoje?</strong>
+      <div class="hint">Escreva o tema ou cole um texto ou link do YouTube.</div>
+    </div>
+  </main>
 
   <!-- Campo de input fixo -->
   <footer class="input-footer">
@@ -105,7 +107,7 @@
   <!-- Toast -->
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <!-- Scripts -->
-  <script src="app.js"></script>
+  <!-- Scripts (com versão para limpar cache) -->
+  <script src="app.js?v=1.0.1"></script>
 </body>
 </html>
