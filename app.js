@@ -1,5 +1,5 @@
 // ================================
-// app.js - direito.love (com auto-scroll e toast)
+// app.js - direito.love (com auto-scroll, toast e digitando)
 // ================================
 
 // Seletores principais
@@ -47,10 +47,14 @@ chatForm.addEventListener("submit", (e) => {
   // mensagem do usuário
   addMessage("user", tema);
 
-  // resposta automática do bot com opções
-  addMessage("bot", "Pronto! Já gerei 5 prompts de estudo. É só clicar no que quiser copiar:");
+  // mensagem "digitando..."
+  const typingMsg = addMessage("bot", "digitando...");
 
-  renderOpcoes(tema);
+  // aguarda 1.2s e troca pelo conteúdo real
+  setTimeout(() => {
+    typingMsg.textContent = "Pronto! Já gerei 5 prompts de estudo. É só clicar no que quiser copiar:";
+    renderOpcoes(tema);
+  }, 1200);
 
   chatInput.value = "";
 });
@@ -94,6 +98,8 @@ function addMessage(tipo, texto) {
   if (tipo === "user") {
     temaAtual = texto;
   }
+
+  return msg; // retorna o elemento para poder atualizar (digitando...)
 }
 
 // Salvar tema no localStorage
