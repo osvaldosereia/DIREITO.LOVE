@@ -347,3 +347,36 @@ a.drawer-option {
     padding: 14px;
   }
 }
+
+/* ==============================
+   Mensagens
+   ============================== */
+.message {
+  max-width: 75%;           /* largura máxima igual p/ todos */
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.message.bot {
+  background: var(--bot-msg);
+  align-self: flex-start;
+}
+
+.message.user {
+  background: var(--user-msg);
+  border: 1px solid var(--border);
+  align-self: flex-end;
+}
+
+/* Subtítulo dentro do balão */
+.message .hint {
+  display: block;          /* garante que fique embaixo do texto */
+  margin-top: 6px;         /* afastado do texto principal */
+  font-size: 13px;         /* um pouco menor */
+  color: var(--muted);     /* cor suave */
+  line-height: 1.4;
+}
+
