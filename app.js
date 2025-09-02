@@ -3,12 +3,7 @@
    Funções utilitárias
    ========================= */
 const $ = s=>document.querySelector(s);
-const el = (tag, cls, html)=>{ 
-  const x=document.createElement(tag); 
-  if(cls) x.className=cls; 
-  if(html!=null) x.innerHTML=html; 
-  return x; 
-};
+const el = (tag, cls, html)=>{ const x=document.createElement(tag); if(cls) x.className=cls; if(html!=null) x.innerHTML=html; return x; };
 const sleep = ms=> new Promise(r=> setTimeout(r, ms));
 const rand = (min,max)=> Math.floor(Math.random()*(max-min+1))+min;
 const wait = (min=700,max=1200)=> matchMedia('(prefers-reduced-motion: reduce)').matches ? Promise.resolve() : sleep(rand(min,max));
@@ -24,17 +19,8 @@ const LS = {
 /* =========================
    Tema (dark/light/auto)
    ========================= */
-function effectiveTheme(pref){ 
-  if (pref === 'dark' || pref === 'light') return pref;
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-}
-function applyTheme(pref){ 
-  const eff = effectiveTheme(pref);
-  document.documentElement.setAttribute('data-theme', eff);
-  const meta = document.querySelector('meta[name="theme-color"][data-live]');
-  if (meta) meta.setAttribute('content', eff === 'dark' ? '#15181c' : '#e9eaee');
-  return eff;
-}
+function effectiveTheme(pref){ if (pref === 'dark' || pref === 'light') return pref; return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+function applyTheme(pref){ const eff = effectiveTheme(pref); document.documentElement.setAttribute('data-theme', eff); const meta = document.querySelector('meta[name="theme-color"][data-live]'); if (meta) meta.setAttribute('content', eff === 'dark' ? '#15181c' : '#e9eaee'); return eff; }
 
 /* =========================
    Estratégias e Labels
@@ -53,7 +39,7 @@ const labels = {
 const allStrategies = Object.keys(labels);
 
 /* =========================
-   Templates de Prompts — atualizados e organizados
+   Templates de Prompts
    ========================= */
 const Prompts = {
   prova: `Você é um Professor de Direito altamente didático, especializado em provas da OAB e concursos.
@@ -180,10 +166,68 @@ Gerar um quadro analítico completo do tema **{{TEMA}}**.
 💚 direito.love`
 };
 
-function promptFor(strategy, tema){ 
-  return (Prompts[strategy]||'').replaceAll('{{TEMA}}', tema); 
-}
+function promptFor(strategy, tema){ return (Prompts[strategy]||'').replaceAll('{{TEMA}}', tema); }
 
 /* =========================
-   Helpers de UI
+   UI
    ========================= */
+document.addEventListener('DOMContentLoaded', ()=>{
+  const temaInput = $('#tema');
+  const resultBox = $('#resultado');
+  const copyBtn = $('#copiar');
+  const gptBtn = $('#abrir');
+  const objetivosBox = $('#objetivos');
+  const categoriaBtns = [...document.querySelectorAll('[data-cat]')];
+
+  let categoria = 'tema';
+  let estrategia = null;
+
+  function renderObjetivos(){
+    objetivosBox.innerHTML = '';
+    allStrategies.forEach(k=>{
+      const card = el('div', 'card');
+      const titulo = el('h2', '', labels[k]);
+      const botao = el('button', '', 'Começar');
+      botao.addEventListener('click', ()=> gerarPrompt(k));
+      card.append(titulo, botao);
+      objetivosBox.append(card);
+    });
+  }
+
+  function gerarPrompt(chave){
+    estrategia = chave;
+    const tema = temaInput.value.trim();
+    if (!tema) return alert('Por favor, preencha o campo com um tema.');
+    resultBox.innerHTML = 'Gerando...';
+    wait().then(()=>{
+      const prompt = promptFor(chave, tema);
+      resultBox.textContent = prompt;
+      copyBtn.style.display = 'inline-block';
+      gptBtn.style.display = 'inline-block';
+    });
+  }
+
+  copyBtn.addEventListener('click', ()=>{
+    navigator.clipboard.writeText(resultBox.textContent);
+    copyBtn.textContent = '✅ Copiado';
+    setTimeout(()=> copyBtn.textContent = '📋 Copiar', 2000);
+  });
+
+  gptBtn.addEventListener('click', ()=>{
+    const url = 'https://chat.openai.com/chat';
+    window.open(url, '_blank');
+  });
+
+  categoriaBtns.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      categoria = btn.dataset.cat;
+      for (const b of categoriaBtns) b.classList.remove('active');
+      btn.classList.add('active');
+    });
+  });
+
+  renderObjetivos();
+  applyTheme(LS.get('theme', 'auto'));
+});
+
+})();
