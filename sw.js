@@ -1,18 +1,18 @@
 /* =========================
-   Service Worker v10
+   Service Worker v11
    - network-first p/ HTML
    - cache-first p/ estáticos
    - fallback offline
    ========================= */
 
-const CACHE = 'direito-love-v10';
+const CACHE = 'direito-love-v11';
 const ASSETS = [
-  './',
   'index.html',
   'styles.css',
   'app.js',
   'politica.html',
   'manifest.webmanifest',
+  'offline.html',
   // Ícones principais
   'icons/logo.svg',
   'icons/refresh.svg',
@@ -77,7 +77,7 @@ self.addEventListener('fetch', e => {
           caches.open(CACHE).then(c => c.put(req, copy)).catch(() => {});
           return res;
         })
-        .catch(() => caches.match('index.html'))
+        .catch(() => caches.match('offline.html'))
     );
     return;
   }
