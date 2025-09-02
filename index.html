@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>direito.love</title>
 
-  <!-- =========================
-       Ajuste do tema inicial
-       ========================= -->
+  <!-- Ajuste inicial de tema -->
   <script>
   (function () {
     try {
@@ -33,7 +31,7 @@
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#e9eaee" data-live>
 
-  <!-- Ícones do PWA -->
+  <!-- Ícones -->
   <link rel="apple-touch-icon" sizes="180x180" href="icons/pwa-180.png">
   <link rel="icon" type="image/png" sizes="144x144" href="icons/pwa-144.png">
   <link rel="icon" type="image/png" sizes="192x192" href="icons/pwa-192.png">
@@ -41,9 +39,7 @@
   <link rel="icon" type="image/png" sizes="1024x1024" href="icons/pwa-1024.png">
   <link rel="shortcut icon" href="icons/favicon.ico" type="image/x-icon">
 
-  <!-- =========================
-       CSS sem versão (?v=8 removido)
-       ========================= -->
+  <!-- CSS -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -51,20 +47,17 @@
   <header class="topbar" role="banner">
     <div class="container nav">
       <div class="brand" aria-label="direito.love">
-        <img src="icons/logo.svg" alt="Logo do direito.love" class="logo" />
+        <img src="icons/logo.svg" alt="Logo direito.love" class="logo" />
         <strong class="title">direito.love</strong>
       </div>
       <nav class="actions" aria-label="Ações principais">
-        <!-- Botão histórico -->
-        <a class="iconbtn" href="arquivo.html" title="Histórico" aria-label="Abrir histórico">
+        <a class="iconbtn" href="arquivo.html" title="Histórico" aria-label="Histórico">
           <img src="icons/home.svg" alt="Histórico">
         </a>
-        <!-- Botão novo tema -->
         <button class="iconbtn" id="btn-new" title="Novo tema" aria-label="Novo tema">
-          <img src="icons/refresh.svg" alt="Reiniciar">
+          <img src="icons/refresh.svg" alt="Novo tema">
         </button>
-        <!-- Botão configurações -->
-        <button class="iconbtn" id="btn-settings" title="Configurações" aria-label="Abrir configurações">
+        <button class="iconbtn" id="btn-settings" title="Configurações" aria-label="Configurações">
           <img src="icons/filter.svg" alt="Configurações">
         </button>
       </nav>
@@ -83,63 +76,63 @@
     <small>💚 direito.love — seu assistente de estudo jurídico</small>
   </footer>
 
-  <!-- =========================
-       Modal de Configurações
-       ========================= -->
+  <!-- Modal de Configurações -->
   <dialog id="settings-modal" class="settings-modal" aria-labelledby="settings-title">
     <form method="dialog" class="settings-card">
       <h3 id="settings-title">⚙️ Configurações</h3>
 
       <!-- Feedback Tátil -->
       <div class="settings-row">
+        <div class="settings-info">
+          <strong>Feedback Tátil</strong>
+          <p>Vibração leve ao copiar prompts</p>
+        </div>
         <label class="switch">
           <input type="checkbox" id="opt-haptics"/>
-          <span>
-            <strong>Feedback Tátil</strong>
-            <small>Vibração leve ao copiar prompts</small>
-          </span>
+          <span class="slider"></span>
         </label>
       </div>
 
       <!-- Tema -->
       <div class="settings-row">
-        <label for="theme-options">
+        <div class="settings-info">
           <strong>Tema</strong>
-          <small>Escolha claro, escuro ou automático</small>
-        </label>
-        <div id="theme-options" role="radiogroup" aria-label="Escolha de tema">
-          <button class="chip theme-btn" data-value="light" role="radio" aria-checked="false">🌞 Claro</button>
-          <button class="chip theme-btn" data-value="dark" role="radio" aria-checked="false">🌙 Escuro</button>
-          <button class="chip theme-btn" data-value="auto" role="radio" aria-checked="true">⚡ Automático</button>
+          <p>Escolha claro, escuro ou automático</p>
+        </div>
+        <div class="theme-options">
+          <button class="chip theme-btn" data-value="light" role="radio">🌞 Claro</button>
+          <button class="chip theme-btn" data-value="dark" role="radio">🌙 Escuro</button>
+          <button class="chip theme-btn" data-value="auto" role="radio">⚡ Auto</button>
         </div>
       </div>
 
       <!-- Lembrete -->
       <div class="settings-row">
+        <div class="settings-info">
+          <strong>Lembrete diário</strong>
+          <p>Notificação para revisar 1 tema por dia</p>
+        </div>
         <label class="switch">
           <input type="checkbox" id="opt-daily"/>
-          <span>
-            <strong>Lembrete diário</strong>
-            <small>Notificação para revisar um tema por dia</small>
-          </span>
+          <span class="slider"></span>
         </label>
       </div>
 
       <!-- Política -->
-      <div class="settings-row">
-        <a class="btn mini" href="politica.html" target="_blank" rel="noopener">🔒 Política de Privacidade</a>
+      <div class="settings-row link-only">
+        <a class="btn mini" href="politica.html" target="_blank" rel="noopener">
+          🔒 Política de Privacidade
+        </a>
       </div>
 
-      <!-- Fechar -->
+      <!-- Ações -->
       <div class="settings-actions">
         <button class="btn" value="cancel">Fechar</button>
       </div>
     </form>
   </dialog>
 
-  <!-- =========================
-       JS sem versão (?v=8 removido)
-       ========================= -->
+  <!-- JS -->
   <script src="app.js" defer></script>
 </body>
 </html>
