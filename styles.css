@@ -329,3 +329,22 @@ footer {
     min-width: 120px;
   }
 }
+
+/* Logo tipográfica */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.logo {
+  font-size: 22px;
+}
+
+.app-name {
+  font-size: 18px;
+  font-weight: bold;
+}
