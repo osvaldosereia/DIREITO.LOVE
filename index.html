@@ -16,55 +16,55 @@
 <body>
   <header>
     <nav class="topbar" aria-label="Categorias de entrada">
-      <button class="tab" data-category="tema">🎯 Tema</button>
-      <button class="tab" data-category="texto">📄 Texto</button>
-      <button class="tab" data-category="youtube">🎥 YouTube</button>
-      <button class="tab" data-category="arquivo">📎 Arquivo</button>
+      <button class="tab" data-category="tema" aria-label="Escolher entrada por tema">🎯 Tema</button>
+      <button class="tab" data-category="texto" aria-label="Escolher entrada por texto">📄 Texto</button>
+      <button class="tab" data-category="youtube" aria-label="Escolher entrada por vídeo do YouTube">🎥 YouTube</button>
+      <button class="tab" data-category="arquivo" aria-label="Escolher entrada por arquivo">📎 Arquivo</button>
     </nav>
   </header>
 
   <main>
     <!-- Campo de entrada dinâmico -->
     <section id="input-section" aria-label="Entrada do usuário">
-      <textarea id="user-input" placeholder="Digite aqui..." rows="3"></textarea>
+      <textarea id="user-input" placeholder="Digite seu tema ou conteúdo aqui..." rows="3"></textarea>
     </section>
 
     <!-- Accordion de objetivos -->
     <section class="accordion" aria-label="Objetivos de estudo">
       <div class="accordion-item">
-        <button class="accordion-header" aria-expanded="false">📘 Revisão e Aprendizado</button>
-        <div class="accordion-content"></div>
+        <button class="accordion-header" aria-expanded="false" aria-controls="content1">📘 Revisão e Aprendizado</button>
+        <div class="accordion-content" id="content1"></div>
       </div>
 
       <div class="accordion-item">
-        <button class="accordion-header" aria-expanded="false">📚 Treino para Provas e Concursos</button>
-        <div class="accordion-content"></div>
+        <button class="accordion-header" aria-expanded="false" aria-controls="content2">📚 Treino para Provas e Concursos</button>
+        <div class="accordion-content" id="content2"></div>
       </div>
 
       <div class="accordion-item">
-        <button class="accordion-header" aria-expanded="false">🧠 Estudo Crítico e Criativo</button>
-        <div class="accordion-content"></div>
+        <button class="accordion-header" aria-expanded="false" aria-controls="content3">🧠 Estudo Crítico e Criativo</button>
+        <div class="accordion-content" id="content3"></div>
       </div>
     </section>
   </main>
 
   <!-- Modal do prompt -->
   <div id="prompt-modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-content">
+    <div class="modal-content" role="document">
       <p id="prompt-text"></p>
       <div class="modal-actions">
-        <button id="copy-btn">📋 Copiar</button>
-        <button id="new-goal-btn">🎯 Novo Objetivo</button>
-        <button id="new-input-btn">📝 Novo Tema</button>
-        <button id="fav-btn">⭐ Favoritar</button>
-        <button id="wa-btn">📤 WhatsApp</button>
+        <button id="copy-btn" aria-label="Copiar prompt gerado">📋 Copiar</button>
+        <button id="new-goal-btn" aria-label="Escolher novo objetivo">🎯 Novo Objetivo</button>
+        <button id="new-input-btn" aria-label="Inserir novo tema">📝 Novo Tema</button>
+        <button id="fav-btn" aria-label="Adicionar aos favoritos">⭐ Favoritar</button>
+        <button id="wa-btn" aria-label="Compartilhar no WhatsApp">📤 WhatsApp</button>
       </div>
     </div>
   </div>
 
   <!-- Drawer lateral -->
-  <aside id="drawer" class="drawer" aria-hidden="true">
-    <button id="close-drawer">✖</button>
+  <aside id="drawer" class="drawer" aria-hidden="true" role="navigation">
+    <button id="close-drawer" aria-label="Fechar menu lateral">✖</button>
     <ul>
       <li>ℹ️ Sobre</li>
       <li>❓ Dúvidas</li>
@@ -77,7 +77,7 @@
     </ul>
   </aside>
 
-  <button id="open-drawer" class="drawer-btn">☰</button>
+  <button id="open-drawer" class="drawer-btn" aria-label="Abrir menu lateral">☰</button>
 
   <footer>
     <p>direito.love — App educacional para estudo</p>
