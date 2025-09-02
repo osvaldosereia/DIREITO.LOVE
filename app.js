@@ -470,4 +470,24 @@ dlg.addEventListener('close', ()=> {
 });
 } // <- fecha o if(dlg)
 } // <- fecha a função bindTop
+/* =========================
+   Service Worker
+   ========================= */
+function registerSW(){
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js?v=9')
+      .then(reg => console.log("✅ Service Worker registrado:", reg))
+      .catch(err => console.error("❌ Erro ao registrar SW:", err));
+  }
+}
+
+/* Inicialização */
+function init(){
+  bindTop();
+  showInputBubble('Digite o tema…');
+  registerSW(); // garante que o SW seja carregado
+}
+
+init();
+   
 })(); // <- fecha a função auto-executada
