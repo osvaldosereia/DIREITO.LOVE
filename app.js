@@ -196,24 +196,24 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   function gerarPrompt(chave){
     estrategia = chave;
-    const tema = temaInput.value.trim();
+    const tema = temaInput?.value.trim();
     if (!tema) return alert('Por favor, preencha o campo com um tema.');
     resultBox.innerHTML = 'Gerando...';
     wait().then(()=>{
       const prompt = promptFor(chave, tema);
       resultBox.textContent = prompt;
-      copyBtn.style.display = 'inline-block';
-      gptBtn.style.display = 'inline-block';
+      if (copyBtn) copyBtn.style.display = 'inline-block';
+      if (gptBtn) gptBtn.style.display = 'inline-block';
     });
   }
 
-  copyBtn.addEventListener('click', ()=>{
+  copyBtn?.addEventListener('click', ()=>{
     navigator.clipboard.writeText(resultBox.textContent);
     copyBtn.textContent = '✅ Copiado';
     setTimeout(()=> copyBtn.textContent = '📋 Copiar', 2000);
   });
 
-  gptBtn.addEventListener('click', ()=>{
+  gptBtn?.addEventListener('click', ()=>{
     const url = 'https://chat.openai.com/chat';
     window.open(url, '_blank');
   });
