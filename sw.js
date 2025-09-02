@@ -1,18 +1,18 @@
 /* =========================
-   Service Worker v11
+   Service Worker v12
    - network-first p/ HTML
    - cache-first p/ estáticos
    - fallback offline
    ========================= */
 
-const CACHE = 'direito-love-v11';
+const CACHE = 'direito-love-v12';
 const ASSETS = [
   './',
   'index.html',
   'styles.css',
   'app.js',
   'politica.html',
-  'offline.html', // fallback offline
+  'offline.html',
   'manifest.webmanifest',
   // Ícones principais
   'icons/logo.svg',
@@ -39,9 +39,7 @@ self.addEventListener('install', e => {
     caches.open(CACHE)
       .then(c => c.addAll(ASSETS))
       .then(() => self.skipWaiting())
-      .catch(err => {
-        console.error('Erro no pré-cache:', err);
-      })
+      .catch(err => console.error('Erro no pré-cache:', err))
   );
 });
 
@@ -75,7 +73,7 @@ self.addEventListener('fetch', e => {
       fetch(req)
         .then(res => {
           const copy = res.clone();
-          caches.open(CACHE).then(c => c.put(req, copy)).catch(() => {});
+          caches.open(CACHE).then(c => c.put(req, copy));
           return res;
         })
         .catch(() =>
@@ -85,14 +83,14 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // Estratégia cache-first para estáticos
+  // Estratégia cache-first para estáticos locais
   if (sameOrigin) {
     e.respondWith(
       caches.match(req).then(cached =>
         cached ||
         fetch(req).then(res => {
           const copy = res.clone();
-          caches.open(CACHE).then(c => c.put(req, copy)).catch(() => {});
+          caches.open(CACHE).then(c => c.put(req, copy));
           return res;
         }).catch(() => cached)
       )
