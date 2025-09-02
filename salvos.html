@@ -1,146 +1,80 @@
+<!-- ===== salvos.html FINAL ===== -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Temas Salvos — direito.love</title>
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    /* Ajustes extras para mobile */
-    @media (max-width: 768px) {
-      .tema-salvo {
-        padding: 16px;
-      }
-      .tema-salvo h2 {
-        font-size: 16px;
-        margin-bottom: 10px;
-      }
-      .option-btn {
-        font-size: 15px;
-        padding: 14px;
-        border-radius: 8px;
-      }
-      .salvos-container {
-        gap: 18px;
-      }
-      .app-header h1 {
-        font-size: 15px;
-      }
-      .settings-btn {
-        font-size: 20px;
-        padding: 6px;
-      }
-    }
-
-    /* Safe area padding para iOS */
-    body {
-      padding-bottom: env(safe-area-inset-bottom);
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css?v=2.0.0">
 </head>
 <body>
-  <!-- Cabeçalho fixo -->
+  <!-- Cabeçalho -->
   <header class="app-header">
-    <h1>Temas Salvos</h1>
-    <a href="index.html" class="settings-btn" aria-label="Voltar para página inicial">⬅</a>
+    <div>
+      <h1>Temas Salvos</h1>
+      <p class="subtitle">⭐ Seus prompts guardados</p>
+    </div>
+    <a href="index.html" class="settings-btn" aria-label="Voltar">⟵</a>
   </header>
 
-  <!-- Conteúdo -->
-  <main class="salvos-container" id="salvos-container" role="main">
-    <p>Carregando temas salvos...</p>
+  <!-- Conteúdo principal -->
+  <main class="chat-container salvos-container" id="salvos-list">
+    <div class="message bot">
+      <p>📂 Aqui você encontra todos os temas que salvou para revisar depois.</p>
+    </div>
   </main>
 
-  <!-- Toast -->
+  <!-- Toast visual -->
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
+  <!-- Scripts -->
+  <script src="theme.js?v=2.0.0"></script>
   <script>
-    // ================================
-    // Aplicar tema salvo
-    // ================================
-    function applyTheme(mode) {
-      document.body.classList.remove("dark");
-      if (mode === "dark" || (mode === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-        document.body.classList.add("dark");
-      }
-    }
+    const lista = document.getElementById("salvos-list");
 
-    (function initTheme() {
-      const saved = localStorage.getItem("theme") || "auto";
-      applyTheme(saved);
-    })();
-
-    // ================================
-    // Snackbar (toast moderno)
-    // ================================
-    let toastTimeout;
     function showToast(message) {
       const toast = document.getElementById("toast");
       toast.textContent = message;
-
       toast.classList.remove("show");
-      clearTimeout(toastTimeout);
-
       setTimeout(() => toast.classList.add("show"), 50);
-
-      const duracao = message.length > 40 ? 3500 : 1800;
-      toastTimeout = setTimeout(() => {
-        toast.classList.remove("show");
-      }, duracao);
+      setTimeout(() => toast.classList.remove("show"), 2000);
     }
 
-    // ================================
-    // Carregar temas salvos
-    // ================================
-    const container = document.getElementById("salvos-container");
-    const salvos = JSON.parse(localStorage.getItem("temasSalvos")) || [];
-
-    container.innerHTML = "";
-
-    if (salvos.length === 0) {
-      container.innerHTML = "<p>Nenhum tema salvo ainda.</p>";
-    } else {
-      if (salvos.length >= 30) {
-        const aviso = document.createElement("p");
-        aviso.textContent = "⚠️ Você já atingiu o limite de 30 temas salvos. O mais antigo será substituído.";
-        aviso.style.fontSize = "13px";
-        aviso.style.color = "var(--muted)";
-        aviso.style.marginBottom = "12px";
-        container.appendChild(aviso);
+    function carregarSalvos() {
+      const salvos = JSON.parse(localStorage.getItem("temasSalvos")) || [];
+      if (!salvos.length) {
+        const vazio = document.createElement("div");
+        vazio.className = "message bot";
+        vazio.textContent = "Nenhum tema salvo ainda.";
+        lista.appendChild(vazio);
+        return;
       }
 
-      salvos.forEach((item, index) => {
-        const div = document.createElement("div");
-        div.className = "tema-salvo";
+      salvos.forEach((item) => {
+        const card = document.createElement("div");
+        card.className = "tema-salvo message bot";
 
         const titulo = document.createElement("h2");
-        titulo.textContent = `📌 ${item.tema}`;
-        titulo.style.color = "var(--text)";
-        div.appendChild(titulo);
-
-        const desc = document.createElement("p");
-        desc.textContent = "Escolha um dos prompts para copiar:";
-        div.appendChild(desc);
+        titulo.textContent = `📌 ${item.entrada}`;
+        card.appendChild(titulo);
 
         item.opcoes.forEach(opcao => {
           const btn = document.createElement("button");
           btn.className = "option-btn";
           btn.textContent = opcao.nome;
-          btn.setAttribute("aria-label", `Copiar prompt de ${opcao.nome}`);
           btn.addEventListener("click", () => {
             navigator.clipboard.writeText(opcao.prompt).then(() => {
-              showToast(`✅ Prompt de "${opcao.nome}" copiado!`);
+              showToast(`✅ ${opcao.nome} copiado!`);
             });
           });
-          div.appendChild(btn);
+          card.appendChild(btn);
         });
 
-        if (index < salvos.length - 1) {
-          div.style.marginBottom = "20px";
-        }
-
-        container.appendChild(div);
+        lista.appendChild(card);
       });
     }
+
+    window.addEventListener("DOMContentLoaded", carregarSalvos);
   </script>
 </body>
 </html>
