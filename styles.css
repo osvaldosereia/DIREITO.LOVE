@@ -1,46 +1,66 @@
 /* =========================
-   Tema escuro corrigido
-   ========================= */
+Tema claro adicionado (corrigido)
+========================= */
+:root[data-theme="light"], :root:not([data-theme]) {
+--bg: #f9fafa;
+--top: #ffffff;
+--fg: #111;
+--muted: #555;
+--line: #e0e0e0;
+
+
+--bubble: #ffffff;
+--chip: #f0f1f4;
+--chip-hover: #e2e5ea;
+--focus: #107f7b;
+--you: #e7edf3;
+}
+
+
+/* =========================
+Tema escuro corrigido
+========================= */
 :root[data-theme="dark"] {
-  --bg: #0f1216;
-  --top: #15181c;
-  --fg: #e8eaed;        /* texto principal claro */
-  --muted: #a3acb8;     /* texto secundário */
-  --line: #2c3238;
+--bg: #0f1216;
+--top: #15181c;
+--fg: #e8eaed;
+--muted: #a3acb8;
+--line: #2c3238;
 
-  --bubble: #1e242a;    /* bolhas de bot */
-  --chip: #2f3740;      /* chips mais claros p/ contraste */
-  --chip-hover: #3a434f;
-  --focus: #63d1c3;     /* destaque no foco */
-  --you: #2a323c;       /* bolha do usuário */
+
+--bubble: #1e242a;
+--chip: #2f3740;
+--chip-hover: #3a434f;
+--focus: #63d1c3;
+--you: #2a323c;
 }
 
-/* Bolha do usuário no escuro → texto sempre claro */
+
 :root[data-theme="dark"] .msg.user .bubble {
-  background: var(--you);
-  color: var(--fg);
+background: var(--you);
+color: var(--fg);
 }
 
-/* Chips no escuro → contraste melhor */
+
 :root[data-theme="dark"] .chip {
-  background: var(--chip);
-  color: var(--fg);
-  border: 1px solid #3c4652;
+background: var(--chip);
+color: var(--fg);
+border: 1px solid #3c4652;
 }
 :root[data-theme="dark"] .chip:hover {
-  background: var(--chip-hover);
+background: var(--chip-hover);
 }
 
-/* Botões no modo escuro → fundo mais claro p/ ícones */
+
 :root[data-theme="dark"] .btn,
 :root[data-theme="dark"] .iconbtn {
-  background: #2f3740;
-  border: 1px solid #3e4752;
-  color: var(--fg);
+background: #2f3740;
+border: 1px solid #3e4752;
+color: var(--fg);
 }
 :root[data-theme="dark"] .btn:hover,
 :root[data-theme="dark"] .iconbtn:hover {
-  background: #3a434f;
+background: #3a434f;
 }
 
 /* =========================
