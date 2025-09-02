@@ -107,7 +107,10 @@ function renderOpcoes(tema) {
     btn.addEventListener("click", () => {
       const promptFinal = opcao.prompt.replaceAll("{tema}", temaAtual);
       navigator.clipboard.writeText(promptFinal).then(() => {
-        showToast(`Prompt "${opcao.nome}" copiado.`);
+        showToast(`<div style="text-align:center;">
+  <span style="color:gold; font-weight:bold;">COPIADO</span><br>
+  <span>${opcao.nome}</span>
+</div>`);
       });
     });
     container.appendChild(btn);
