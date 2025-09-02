@@ -180,7 +180,7 @@ function renderPromptCard(strategy){
     const r = await NativeBridge.copyPrompt(ta.value);
     if(r.ok){
       const info = el('div','info-box');
-      info.innerHTML = `<img src="icons/check.svg" alt="ok"/> Copiado com sucesso! Agora abra sua IA preferida e cole o prompt para começar.`;
+      info.innerHTML = `✔️ Copiado com sucesso! Agora abra sua IA preferida e cole o prompt para começar.`;
       card.appendChild(info);
     } else {
       push('bot','⚠️ Falha ao copiar.');
