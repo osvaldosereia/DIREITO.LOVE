@@ -1,12 +1,12 @@
 /* =========================
-   Service Worker v13
+   Service Worker v14
    Estratégias de cache:
    - network-first p/ HTML
    - cache-first p/ estáticos
    - fallback offline
    ========================= */
 
-const CACHE = 'direito-love-v13';
+const CACHE = 'direito-love-v14';
 
 /* =========================
    Lista de arquivos para cache
@@ -14,20 +14,13 @@ const CACHE = 'direito-love-v13';
 const ASSETS = [
   './',
   'index.html',
-  'styles.css',   // versão sem ?v=8
-  'app.js',       // versão sem ?v=8
+  'styles.css',
+  'app.js',
   'politica.html',
+  'arquivo.html',
   'offline.html',
   'manifest.webmanifest',
-  // Ícones principais
-  'icons/logo.svg',
-  'icons/refresh.svg',
-  'icons/send.svg',
-  'icons/copy.svg',
-  'icons/filter.svg',
-  'icons/home.svg',
-  'icons/trash.svg',
-  'icons/check.svg',
+  // Ícones principais (somente PNGs do PWA + favicon)
   'icons/pwa-144.png',
   'icons/pwa-180.png',
   'icons/pwa-192.png',
