@@ -1,3 +1,4 @@
+<!-- ===== index.html FINAL ===== -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -12,23 +13,26 @@
   <meta name="theme-color" content="#000000">
 
   <!-- Estilos principais -->
-  <link rel="stylesheet" href="styles.css?v=1.0.3">
+  <link rel="stylesheet" href="styles.css?v=2.0.0">
 </head>
 <body>
   <!-- Cabeçalho -->
   <header class="app-header">
     <div>
-      <h1 style="margin:0;">direito.love</h1>
-      <p style="margin:0; font-size:12px; color:var(--muted);">💚 Gerador de Prompts Educacionais</p>
+      <h1>direito.love</h1>
+      <p class="subtitle">💚 Gerador de Prompts Educacionais</p>
     </div>
     <button type="button" class="settings-btn" aria-label="Abrir configurações">☰</button>
   </header>
 
-  <!-- Mensagens do chat -->
+  <!-- Mensagens iniciais (onboarding simplificado) -->
   <main class="chat-container" id="chat-messages">
     <div class="message bot">
-      <strong>Olá! Qual o tema de hoje?</strong>
-      <div class="hint">Escreva o tema ou cole um texto ou link do YouTube.</div>
+      <strong>👋 Bem-vindo ao direito.love!</strong>
+      <div class="hint">
+        Digite um <b>tema</b>, cole um <b>texto</b> ou insira um <b>link do YouTube</b>.<br>
+        Depois, escolha o tipo de questão ou material de estudo que deseja gerar. ✨
+      </div>
     </div>
   </main>
 
@@ -37,7 +41,7 @@
     <form id="chat-form" autocomplete="off">
       <div class="input-wrapper">
         <input type="text" id="chat-input" placeholder="Digite aqui..." aria-label="Campo de entrada">
-        <button type="submit">➤</button>
+        <button type="submit" aria-label="Enviar">➤</button>
       </div>
       <p id="error-message" class="error-message" aria-live="polite"></p>
     </form>
@@ -59,12 +63,13 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <!-- Scripts (em ordem correta) -->
-  <script src="theme.js?v=1.0.3"></script>
-  <script src="app.js?v=1.0.3"></script>
+  <script src="theme.js?v=2.0.0"></script>
+  <script src="app.js?v=2.0.0"></script>
   <script>
     // Ativação do Service Worker PWA
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js');
+      navigator.serviceWorker.register('service-worker.js')
+        .catch(err => console.warn("SW falhou:", err));
     }
   </script>
 </body>
