@@ -207,16 +207,23 @@ body {
   min-height: 44px;
   word-wrap: break-word;
 }
+/* Hover dos botões normais */
 .option-btn:hover,
-.save-btn:hover,
 .drawer-option:hover {
   background: var(--btn-hover);
 }
+
+/* Botão Salvar Tema */
 .save-btn {
   background: var(--accent);
   color: #fff;
   border: none;
 }
+.save-btn:hover {
+  background: var(--accent-hover); /* verde mais escuro */
+  color: #fff; /* mantém visível */
+}
+
 
 /* ==============================
    Drawer lateral
