@@ -181,6 +181,10 @@ body {
   text-align: center;
   background: transparent;
 }
+.error-message:empty {
+  display: none;
+}
+
 
 /* ==============================
    Botões de opções
