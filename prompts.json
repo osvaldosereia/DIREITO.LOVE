@@ -24,43 +24,43 @@
   "objetivos": [
     {
       "id": "objetiva",
-      "grupo": "Treino para Provas e Concursos",
+      "grupo": "📚 Treino para Provas e Concursos",
       "titulo": "Questões Objetivas",
       "descricao": "Gere 5 questões de múltipla escolha com gabarito comentado."
     },
     {
       "id": "discursiva",
-      "grupo": "Estudo Crítico e Criativo",
+      "grupo": "🧠 Estudo Crítico e Criativo",
       "titulo": "Questões Discursivas",
       "descricao": "Proponha 3 questões abertas com critérios de correção."
     },
     {
       "id": "flashcards",
-      "grupo": "Revisão e Aprendizado",
+      "grupo": "📘 Revisão e Aprendizado",
       "titulo": "Flashcards",
       "descricao": "Crie 20 flashcards (pergunta e resposta curta)."
     },
     {
       "id": "simulado",
-      "grupo": "Treino para Provas e Concursos",
+      "grupo": "📚 Treino para Provas e Concursos",
       "titulo": "Simulado Curto",
       "descricao": "Monte 10 questões objetivas variadas."
     },
     {
       "id": "estudo_dirigido",
-      "grupo": "Revisão e Aprendizado",
+      "grupo": "📘 Revisão e Aprendizado",
       "titulo": "Estudo Dirigido",
       "descricao": "Plano de estudo com leitura, exercícios e dicas."
     },
     {
       "id": "caso_pratico",
-      "grupo": "Estudo Crítico e Criativo",
+      "grupo": "🧠 Estudo Crítico e Criativo",
       "titulo": "Caso Prático",
       "descricao": "Estudo de caso com perguntas orientadoras."
     },
     {
       "id": "vf_justificado",
-      "grupo": "Revisão e Aprendizado",
+      "grupo": "📘 Revisão e Aprendizado",
       "titulo": "Verdadeiro ou Falso Justificado",
       "descricao": "10 itens V/F com justificativa."
     }
