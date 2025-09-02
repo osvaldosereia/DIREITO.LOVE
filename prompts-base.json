@@ -1,102 +1,67 @@
 {
-  "flashcards-juridicos": {
-    "titulo": "Flashcards jurídicos",
-    "descricao": "Gerar perguntas e respostas curtas para revisar conceitos do Direito.",
-    "prompt": "Crie uma lista de flashcards com perguntas e respostas objetivas sobre: {{entrada}}. Mantenha linguagem acadêmica e foco em memorização."
-  },
-  "resumo-simplificado": {
-    "titulo": "Resumo simplificado",
-    "descricao": "Gerar um resumo claro e direto sobre o tema estudado.",
-    "prompt": "Resuma o conteúdo a seguir de forma simples, direta e didática, voltado para estudantes de Direito: {{entrada}}."
-  },
-  "mapa-mental": {
-    "titulo": "Mapa mental com tópicos-chave",
-    "descricao": "Gerar uma estrutura em tópicos para facilitar a visualização do conteúdo.",
-    "prompt": "Organize as principais ideias sobre o tema a seguir em formato de mapa mental, com tópicos e subtópicos hierárquicos: {{entrada}}."
-  },
-  "quadro-comparativo": {
-    "titulo": "Quadro comparativo",
-    "descricao": "Comparar dois ou mais institutos jurídicos destacados no conteúdo.",
-    "prompt": "Crie um quadro comparativo destacando semelhanças e diferenças entre os conceitos jurídicos presentes em: {{entrada}}."
-  },
-  "dicionario-juridico": {
-    "titulo": "Dicionário jurídico básico",
-    "descricao": "Listar e explicar termos jurídicos essenciais encontrados no conteúdo.",
-    "prompt": "Liste e defina os principais termos jurídicos encontrados em: {{entrada}}. Use definições simples e acadêmicas."
-  },
-  "explicacao-para-leigo": {
-    "titulo": "Explicação como se fosse para leigo",
-    "descricao": "Traduzir conceitos jurídicos para linguagem acessível.",
-    "prompt": "Explique o conteúdo a seguir como se fosse para uma pessoa leiga, mantendo precisão jurídica e simplicidade: {{entrada}}."
-  },
-  "jurisprudencia-clara": {
-    "titulo": "Tradução da jurisprudência em linguagem clara",
-    "descricao": "Interpretar e simplificar ementas ou decisões jurídicas.",
-    "prompt": "Interprete e resuma a jurisprudência ou ementa a seguir em linguagem clara e acessível: {{entrada}}."
-  },
-  "questao-objetiva-oab": {
-    "titulo": "Questão objetiva estilo OAB",
-    "descricao": "Criar uma questão de múltipla escolha com gabarito comentado.",
-    "prompt": "Crie uma questão objetiva com 4 alternativas e destaque a correta com comentário, estilo prova da OAB, sobre: {{entrada}}."
-  },
-  "questao-dissertativa": {
-    "titulo": "Questão dissertativa",
-    "descricao": "Gerar uma pergunta aberta que exija resposta argumentativa.",
-    "prompt": "Crie uma pergunta dissertativa de nível intermediário sobre o seguinte tema: {{entrada}}."
-  },
-  "verdadeiro-ou-falso": {
-    "titulo": "Questão de verdadeiro ou falso",
-    "descricao": "Criar afirmações jurídicas para julgar como certas ou erradas.",
-    "prompt": "Crie 5 frases sobre o conteúdo abaixo para o estudante julgar como verdadeiro ou falso: {{entrada}}."
-  },
-  "caso-pratico": {
-    "titulo": "Caso prático com perguntas",
-    "descricao": "Descrever uma situação e propor perguntas de análise jurídica.",
-    "prompt": "Descreva um caso prático e, em seguida, formule perguntas que exijam análise jurídica do seguinte conteúdo: {{entrada}}."
-  },
-  "peca-processual": {
-    "titulo": "Peça processual simulada",
-    "descricao": "Gerar uma sugestão de estrutura de peça jurídica.",
-    "prompt": "Crie um modelo básico de peça processual que poderia ser usada na situação descrita em: {{entrada}}. Siga os padrões cobrados na 2ª fase da OAB."
-  },
-  "simulado-tematico": {
-    "titulo": "Simulado temático com 5 questões",
-    "descricao": "Simulado objetivo sobre um único tema jurídico.",
-    "prompt": "Crie um simulado com 5 questões objetivas de múltipla escolha sobre o seguinte tema jurídico: {{entrada}}."
-  },
-  "simulado-misto": {
-    "titulo": "Simulado misto com 5 questões",
-    "descricao": "Misturar temas e disciplinas em questões variadas.",
-    "prompt": "Crie um simulado com 5 questões objetivas de múltiplas disciplinas jurídicas com base em: {{entrada}}."
-  },
-  "analogias-juridicas": {
-    "titulo": "Explique o tema com analogias",
-    "descricao": "Usar metáforas ou comparações para facilitar o entendimento.",
-    "prompt": "Explique o conteúdo a seguir usando analogias simples e criativas, sem perder a precisão técnica: {{entrada}}."
-  },
-  "argumentos-pros-contras": {
-    "titulo": "Argumentos prós e contras",
-    "descricao": "Apresentar visões divergentes sobre o tema jurídico.",
-    "prompt": "Apresente argumentos prós e contras sobre o seguinte tema jurídico: {{entrada}}."
-  },
-  "tese-juridica": {
-    "titulo": "Tese de argumentação jurídica",
-    "descricao": "Elaborar uma tese clara com fundamentação legal.",
-    "prompt": "Elabore uma tese de argumentação jurídica sobre o tema a seguir, com base em fundamentos legais e doutrinários: {{entrada}}."
-  },
-  "topicos-apresentacao": {
-    "titulo": "Tópicos para apresentação oral",
-    "descricao": "Organizar ideias-chave para uso em seminários ou debates.",
-    "prompt": "Organize os principais tópicos sobre o conteúdo a seguir, para uso em uma apresentação oral: {{entrada}}."
-  },
-  "perguntas-para-professor": {
-    "titulo": "Perguntas para fazer ao professor",
-    "descricao": "Gerar dúvidas inteligentes para aprofundar o tema em sala de aula.",
-    "prompt": "Crie perguntas relevantes que um estudante poderia fazer ao professor sobre: {{entrada}}."
-  },
-  "checklist-revisao": {
-    "titulo": "Checklist de revisão final",
-    "descricao": "Listar tudo o que deve ser revisado antes da prova.",
-    "prompt": "Crie um checklist com os principais pontos que o estudante deve revisar sobre: {{entrada}}."
-  }
+  "objetivos": [
+    {
+      "id": "objetiva",
+      "templates": {
+        "tema": "Gere 5 questões objetivas sobre {tema}, cada uma com 4 alternativas (A–D) e gabarito comentado.",
+        "texto": "Com base no texto a seguir, crie 5 questões objetivas (A–D) com gabarito comentado. Texto: {texto}",
+        "youtube": "Analise o vídeo {youtube} e elabore 5 questões objetivas (A–D) com gabarito.",
+        "arquivo": "O estudante fornecerá um arquivo. Gere 5 questões objetivas (A–D) sobre {arquivo}. Inclua gabarito comentado."
+      }
+    },
+    {
+      "id": "discursiva",
+      "templates": {
+        "tema": "Proponha 3 questões discursivas sobre {tema}, com critérios de correção.",
+        "texto": "Com base no texto a seguir, elabore 3 questões discursivas. Texto: {texto}",
+        "youtube": "Com base no vídeo {youtube}, elabore 3 questões discursivas.",
+        "arquivo": "O estudante fornecerá um arquivo. Crie 3 questões discursivas a partir de {arquivo}."
+      }
+    },
+    {
+      "id": "flashcards",
+      "templates": {
+        "tema": "Crie 20 flashcards de pergunta e resposta sobre {tema}.",
+        "texto": "Com base no texto a seguir, crie 20 flashcards. Texto: {texto}",
+        "youtube": "Com base no vídeo {youtube}, crie 20 flashcards.",
+        "arquivo": "O estudante fornecerá um arquivo. Crie 20 flashcards a partir de {arquivo}."
+      }
+    },
+    {
+      "id": "simulado",
+      "templates": {
+        "tema": "Monte um simulado com 10 questões objetivas (A–D) sobre {tema}, com gabarito.",
+        "texto": "Monte um simulado com 10 questões objetivas com base no texto: {texto}.",
+        "youtube": "Monte um simulado com 10 questões objetivas com base no vídeo {youtube}.",
+        "arquivo": "O estudante fornecerá um arquivo. Monte um simulado de 10 questões com base em {arquivo}."
+      }
+    },
+    {
+      "id": "estudo_dirigido",
+      "templates": {
+        "tema": "Elabore um estudo dirigido sobre {tema}, incluindo objetivos, leitura, 5 questões e dicas de memorização.",
+        "texto": "Elabore um estudo dirigido com base no texto: {texto}.",
+        "youtube": "Elabore um estudo dirigido a partir do vídeo {youtube}.",
+        "arquivo": "O estudante fornecerá um arquivo. Monte um estudo dirigido com base em {arquivo}."
+      }
+    },
+    {
+      "id": "caso_pratico",
+      "templates": {
+        "tema": "Crie um caso prático sobre {tema}, incluindo narrativa, documentos e 4 perguntas.",
+        "texto": "Crie um caso prático com base no texto: {texto}.",
+        "youtube": "Crie um caso prático a partir do vídeo {youtube}.",
+        "arquivo": "O estudante fornecerá um arquivo. Crie um caso prático com base em {arquivo}."
+      }
+    },
+    {
+      "id": "vf_justificado",
+      "templates": {
+        "tema": "Crie 10 itens de Verdadeiro ou Falso sobre {tema}, cada um com justificativa.",
+        "texto": "Com base no texto a seguir, crie 10 itens de Verdadeiro ou Falso. Texto: {texto}",
+        "youtube": "Com base no vídeo {youtube}, crie 10 itens de Verdadeiro ou Falso.",
+        "arquivo": "O estudante fornecerá um arquivo. Crie 10 itens de Verdadeiro ou Falso a partir de {arquivo}."
+      }
+    }
+  ]
 }
