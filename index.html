@@ -2,47 +2,90 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>direito.love — App Educacional</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Ajustes extras mobile */
+    @media (max-width: 768px) {
+      .app-header h1 {
+        font-size: 15px;
+      }
+      .settings-btn {
+        font-size: 20px;
+        padding: 6px;
+      }
+      .chat-container {
+        gap: 18px;
+      }
+      .msg {
+        font-size: 15px;
+        line-height: 1.5;
+      }
+      .option-btn,
+      .save-btn {
+        font-size: 15px;
+        padding: 14px;
+        border-radius: 8px;
+      }
+      .input-wrapper input {
+        font-size: 15px;
+        padding: 14px;
+      }
+      .input-wrapper button {
+        font-size: 16px;
+        padding: 0 18px;
+        min-width: 44px;
+        min-height: 44px;
+      }
+    }
+
+    /* Safe area para iOS */
+    body {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+  </style>
 </head>
 <body>
-  <!-- Cabeçalho -->
+  <!-- Cabeçalho fixo -->
   <header class="app-header">
     <h1>direito.love</h1>
-    <div class="header-actions">
-      <button class="settings-btn" aria-label="Abrir configurações">⚙</button>
-    </div>
+    <button class="settings-btn" aria-label="Abrir configurações">⚙</button>
   </header>
 
-  <!-- Chat -->
-  <main class="chat-container" id="chat-container">
+  <!-- Área de chat -->
+  <main class="chat-container" id="chat-messages">
     <div class="message bot">
       <p><strong>Olá, qual o tema de hoje?</strong></p>
       <small class="hint">Escreva o tema ou cole um texto ou link do YouTube.</small>
     </div>
   </main>
 
-  <!-- Input fixo -->
+  <!-- Campo de input fixo -->
   <footer class="input-footer">
     <form id="chat-form" autocomplete="off">
       <div class="input-wrapper">
-        <input id="chat-input" type="text" placeholder="Digite aqui..." aria-label="Campo de entrada do chat">
+        <input 
+          type="text" 
+          id="chat-input" 
+          placeholder="Digite aqui..." 
+          aria-label="Campo de entrada do chat"
+        >
         <button type="submit">➤</button>
       </div>
       <p id="error-message" class="error-message" aria-live="polite"></p>
     </form>
   </footer>
 
-  <!-- Drawer Configurações -->
+  <!-- Drawer de Configurações -->
   <aside id="settings-drawer" class="drawer" aria-hidden="true">
     <button id="close-settings" class="close-btn">✖</button>
     <h2>Configurações</h2>
     <ul>
       <li><button class="drawer-option" data-action="theme">🌗 Alternar Tema</button></li>
       <li><button class="drawer-option" data-action="language">🌍 Idioma</button></li>
-      <li><a href="salvos.html" class="drawer-option">💾 Temas Salvos</a></li>
       <li><button class="drawer-option" data-action="about">ℹ️ Sobre</button></li>
+      <li><a href="salvos.html" class="drawer-option">⭐ Salvos</a></li>
       <li><button class="drawer-option" data-action="help">❓ Ajuda</button></li>
     </ul>
   </aside>
@@ -50,8 +93,10 @@
   <!-- Overlay -->
   <div id="drawer-overlay" class="drawer-overlay"></div>
 
-  <script src="app.js"></script>
-<div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <!-- Toast -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
+  <!-- Scripts -->
+  <script src="app.js"></script>
 </body>
 </html>
