@@ -1,16 +1,13 @@
 {
-  "name": "direito.love — Gerador de Prompts Jurídicos",
+  "name": "direito.love",
   "short_name": "direito.love",
-  "description": "App de estudo jurídico: prompts inteligentes para OAB, concursos, prática e memorização.",
-  "start_url": "/",
+  "description": "Seu assistente de estudo jurídico",
+  "start_url": "/index.html",
   "scope": "/",
   "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#63d1c3",
   "orientation": "portrait",
-  "lang": "pt-BR",
-
-  "theme_color": "#0f1113",
-  "background_color": "#0f1113",
-
   "icons": [
     {
       "src": "icons/pwa-144.png",
@@ -41,38 +38,11 @@
       "sizes": "1024x1024",
       "type": "image/png",
       "purpose": "any maskable"
-    }
-  ],
-
-  "shortcuts": [
-    {
-      "name": "Nova pesquisa",
-      "short_name": "Novo",
-      "description": "Abrir o app pronto para um novo tema.",
-      "url": "/?novo=1",
-      "icons": [
-        {
-          "src": "icons/refresh.svg",
-          "sizes": "192x192",
-          "type": "image/svg+xml"
-        }
-      ]
     },
     {
-      "name": "Histórico",
-      "short_name": "Arquivo",
-      "description": "Abrir os prompts salvos neste dispositivo.",
-      "url": "/arquivo.html",
-      "icons": [
-        {
-          "src": "icons/home.svg",
-          "sizes": "192x192",
-          "type": "image/svg+xml"
-        }
-      ]
+      "src": "icons/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
     }
-  ],
-
-  "categories": ["education", "productivity"],
-  "prefer_related_applications": false
+  ]
 }
