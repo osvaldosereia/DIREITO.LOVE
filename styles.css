@@ -1,5 +1,5 @@
 /* ==============================
-   Layout direito.love - estilo ChatGPT refinado
+   Layout direito.love - estilo refinado
    ============================== */
 
 /* Reset */
@@ -9,40 +9,65 @@
   box-sizing: border-box;
 }
 
+/* ==============================
+   Paleta Light (padrão)
+   ============================== */
 :root {
-  /* Light mode (padrão) */
-  --bg: #f9f9f9;
-  --text: #222;
-  --muted: #666;
-  --border: #ddd;
-  --bot-msg: #f0f0f0;
-  --user-msg: #fff;
-  --btn-bg: #fff;
-  --btn-border: #ccc;
-  --btn-hover: #f5f5f5;
-  --accent: #000;
+  --bg: #ffffff;
+  --text: #111111;
+  --muted: #555555;
+  --border: #dddddd;
+  --bot-msg: #f5f5f5;
+  --user-msg: #ffffff;
+  --btn-bg: #f8f8f8;
+  --btn-border: #cccccc;
+  --btn-hover: #eeeeee;
+  --accent: #000000;
   --toast-bg: rgba(0, 0, 0, 0.85);
-  --toast-text: #fff;
+  --toast-text: #ffffff;
 }
 
-/* Dark mode automático (se usuário usa tema escuro no SO) */
+/* ==============================
+   Paleta Dark (forçado via .dark)
+   ============================== */
+body.dark {
+  --bg: #000000;
+  --text: #ffffff;
+  --muted: #bbbbbb;
+  --border: #333333;
+  --bot-msg: #111111;
+  --user-msg: #1a1a1a;
+  --btn-bg: #1c1c1c;
+  --btn-border: #444444;
+  --btn-hover: #2a2a2a;
+  --accent: #ffffff;
+  --toast-bg: rgba(255, 255, 255, 0.95);
+  --toast-text: #000000;
+}
+
+/* ==============================
+   Modo Automático (respeita SO)
+   ============================== */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #121212;
-    --text: #fff;
-    --muted: #aaa;
-    --border: #333;
-    --bot-msg: #1e1e1e;
-    --user-msg: #2a2a2a;
-    --btn-bg: #2a2a2a;
-    --btn-border: #444;
-    --btn-hover: #3a3a3a;
-    --accent: #fff;
-    --toast-bg: #000;
-    --toast-text: #fff;
+    --bg: #000000;
+    --text: #ffffff;
+    --muted: #bbbbbb;
+    --border: #333333;
+    --bot-msg: #111111;
+    --user-msg: #1a1a1a;
+    --btn-bg: #1c1c1c;
+    --btn-border: #444444;
+    --btn-hover: #2a2a2a;
+    --accent: #ffffff;
+    --toast-bg: rgba(255, 255, 255, 0.95);
+    --toast-text: #000000;
   }
 }
 
+/* ==============================
+   Base
+   ============================== */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Inter", Arial, sans-serif;
   background: var(--bg);
@@ -50,7 +75,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  padding-bottom: env(safe-area-inset-bottom); /* safe area iOS */
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 /* ==============================
@@ -84,7 +109,7 @@ body {
 }
 
 /* ==============================
-   Chat e Salvos container
+   Chat e Salvos
    ============================== */
 .chat-container,
 .salvos-container {
@@ -154,10 +179,17 @@ body {
   cursor: pointer;
   min-width: 44px;
   min-height: 44px;
+  transition: background 0.2s;
+}
+.input-wrapper button:hover {
+  background: var(--btn-hover);
+}
+.input-wrapper button:active {
+  opacity: 0.8;
 }
 
 /* ==============================
-   Mensagens de erro
+   Erros
    ============================== */
 .error-message {
   color: #b00020;
@@ -170,11 +202,12 @@ body {
 }
 
 /* ==============================
-   Botões de opções
+   Botões padrão
    ============================== */
 .option-btn,
 .save-btn,
-.drawer-option {
+.drawer-option,
+a.drawer-option {
   display: block;
   width: 100%;
   padding: 12px;
@@ -187,11 +220,17 @@ body {
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
   color: var(--text);
+  text-decoration: none; /* remove sublinhado dos links */
 }
 .option-btn:hover,
 .save-btn:hover,
 .drawer-option:hover {
   background: var(--btn-hover);
+}
+.option-btn:active,
+.save-btn:active,
+.drawer-option:active {
+  opacity: 0.8;
 }
 .save-btn {
   background: var(--accent);
@@ -262,7 +301,7 @@ body {
 }
 
 /* ==============================
-   TOAST (Feedback visual)
+   Toast
    ============================== */
 .toast {
   position: fixed;
