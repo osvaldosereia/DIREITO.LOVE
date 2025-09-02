@@ -1,62 +1,21 @@
 {
   "name": "direito.love",
   "short_name": "direito.love",
-  "description": "Seu assistente de estudo jurídico",
-  
-  /* =========================
-     Caminho inicial e escopo
-     ✅ Corrigido para relativo (./) → funciona em raiz e subpasta
-     ========================= */
-  "start_url": "./index.html",
-  "scope": "./",
-  
-  /* =========================
-     Aparência do PWA
-     ========================= */
+  "description": "Gere prompts jurídicos para estudar com IA",
+  "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#63d1c3",
-  "orientation": "portrait",
-
-  /* =========================
-     Ícones PWA
-     (todos com "any maskable" → melhor adaptação nos devices)
-     ========================= */
+  "theme_color": "#e9eaee",
+  "background_color": "#f9fafa",
   "icons": [
     {
-      "src": "icons/pwa-144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icons/pwa-180.png",
-      "sizes": "180x180",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icons/pwa-192.png",
+      "src": "pwa-192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
-      "src": "icons/pwa-512.png",
+      "src": "pwa-512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icons/pwa-1024.png",
-      "sizes": "1024x1024",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icons/favicon.ico",
-      "sizes": "48x48",
-      "type": "image/x-icon"
+      "type": "image/png"
     }
   ]
 }
