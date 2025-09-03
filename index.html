@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>direito.love</title>
+</head>
+<body>
+  <!-- Topbar fixa -->
+  <header class="topbar" aria-label="Barra superior">
+    <h1 class="app-title">direito.love</h1>
+    <button class="menu-toggle" aria-label="Abrir menu lateral">☰</button>
+  </header>
+
+  <!-- Sidebar retrátil -->
+  <nav class="sidebar" aria-label="Menu lateral" aria-hidden="true">
+    <ul>
+      <li><button id="nav-salvos" aria-label="Abrir prompts salvos">⭐ Salvos</button></li>
+      <li><button id="nav-como-usar" aria-label="Abrir instruções de uso">❓ Como Usar</button></li>
+      <li><button id="nav-sobre" aria-label="Abrir informações sobre o app">ℹ️ Sobre & Contato</button></li>
+      <li><button id="nav-tema" aria-label="Alterar tema do aplicativo">🌗 Tema</button></li>
+    </ul>
+  </nav>
+
+  <!-- Área principal do chat -->
+  <main class="chat-area" aria-label="Área de conversa">
+    <div id="messages" class="messages" aria-live="polite">
+      <!-- Mensagens renderizadas dinamicamente -->
+    </div>
+
+    <div id="options-area" class="options" aria-label="Opções adicionais">
+      <!-- Checkboxes de múltipla escolha e sugestões contextuais -->
+    </div>
+
+    <div id="generate-area" class="generate">
+      <button id="generate-btn" disabled>Gerar Prompt</button>
+    </div>
+  </main>
+
+  <!-- Campo fixo no rodapé -->
+  <footer class="input-footer" aria-label="Entrada de texto">
+    <input 
+      type="text" 
+      id="user-input" 
+      maxlength="80" 
+      placeholder="Digite o tema do seu estudo..." 
+      aria-label="Campo para digitar o tema"
+    />
+    <button id="send-btn" aria-label="Enviar tema" disabled>Enviar</button>
+  </footer>
+
+  <!-- Modal para exibir prompt -->
+  <div id="prompt-modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-content" role="document">
+      <div id="prompt-text"></div>
+      <div class="modal-actions">
+        <button id="copy-btn" aria-label="Copiar prompt">📋 Copiar</button>
+        <button id="save-btn" aria-label="Salvar prompt">⭐ Salvar</button>
+        <button id="share-btn" aria-label="Compartilhar prompt">📤 Compartilhar</button>
+        <button id="refazer-btn" aria-label="Refazer seleções">🔄 Refazer</button>
+        <button id="close-modal" aria-label="Fechar modal">❌ Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast/feedback -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
