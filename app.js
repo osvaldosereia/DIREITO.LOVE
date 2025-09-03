@@ -185,7 +185,6 @@ function askOptions() {
     label.appendChild(document.createTextNode(opt));
     optionsArea.appendChild(label);
     }, i * 100);
-    }, i * 100);
   });
 
   const generateArea = document.getElementById("generate-area");
