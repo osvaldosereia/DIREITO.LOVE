@@ -120,6 +120,7 @@ function handleUserInput() {
 // Pergunta múltipla escolha
 function askOptions() {
   showMessage("system", "O que devemos incluir? (Selecione pelo menos 1 opção)");
+  lastStep = "options";
 
   const options = [
     "Explicação Rápida",
@@ -142,7 +143,9 @@ function askOptions() {
 
   const optionsArea = document.getElementById("options-area");
   optionsArea.innerHTML = "";
+  selectedOptions = [];
 
+  // Renderizar checkboxes
   options.forEach(opt => {
     const label = document.createElement("label");
     const checkbox = document.createElement("input");
@@ -160,6 +163,10 @@ function askOptions() {
     optionsArea.appendChild(label);
   });
 
+  // Mostrar botão Gerar Prompt nesta etapa
+  const generateArea = document.getElementById("generate-area");
+  generateArea.hidden = false;
+
   const generateBtn = document.getElementById("generate-btn");
   generateBtn.disabled = false;
   generateBtn.onclick = () => {
@@ -167,7 +174,9 @@ function askOptions() {
       showToast("Escolha pelo menos 1 opção.");
       return;
     }
-    showToast("Opções registradas. (Próxima etapa: sugestões contextuais)");
+    loadSuggestions(currentTheme);
+    // Esconder botão novamente depois de usado
+    generateArea.hidden = true;
   };
 }
 
