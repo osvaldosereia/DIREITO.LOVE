@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="💚 direito.love — App educacional que gera prompts jurídicos estruturados para estudantes de Direito, OAB e concursos.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <title>direito.love</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/pwa-180.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="icons/pwa-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="icons/pwa-512.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <button class="menu-toggle" aria-label="Abrir menu">☰</button>
+    <h1>💚 direito.love</h1>
+  </header>
+  <aside class="sidebar" id="sidebar">
+    <nav>
+      <ul>
+        <li><button id="nav-tema">🌗 Tema</button></li>
+        <li><button id="nav-salvos">⭐ Salvos</button></li>
+        <li><button id="nav-sobre">ℹ️ Sobre</button></li>
+      </ul>
+    </nav>
+  </aside>
+  <div id="sidebar-overlay" hidden></div>
+  <main id="chat-page" class="page" aria-label="Chat principal">
+    <div id="chat-messages"></div>
+    <form id="chat-form">
+      <input id="chat-input" type="text" maxlength="80" placeholder="Digite o tema..." required>
+      <button id="generate-btn" type="submit" disabled>Gerar Prompt</button>
+    </form>
+  </main>
+  <main id="salvos-page" class="page" hidden aria-label="Página de Salvos">
+    <h2>⭐ Prompts Salvos</h2>
+    <button id="voltar-chat" aria-label="Voltar">⬅️ Voltar</button>
+    <ul id="salvos-list"></ul>
+  </main>
+  <main id="sobre-page" class="page" hidden aria-label="Página Sobre">
+    <h2>ℹ️ Sobre</h2>
+    <button class="voltar" data-target="chat-page">⬅️ Voltar</button>
+    <p><strong>direito.love</strong> é um app educacional criado para estudantes de Direito.</p>
+    <p>Nosso objetivo é facilitar o estudo com prompts estruturados, integrando legislação, súmulas e jurisprudências.</p>
+    <p><strong>Contato:</strong> contato@direito.love</p>
+  </main>
+  <div id="prompt-modal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <p id="prompt-text"></p>
+      <div class="modal-actions">
+        <button id="copy-btn">📋 Copiar</button>
+        <button id="save-btn">⭐ Salvar</button>
+        <button id="share-btn">📤 Compartilhar</button>
+        <button id="new-btn">🔄 Novo</button>
+      </div>
+    </div>
+  </div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
