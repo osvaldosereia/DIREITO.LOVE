@@ -1,0 +1,47 @@
+{
+  "categorias": [
+    "Tema"
+  ],
+  "etapas": [
+    {
+      "titulo": "Digite seu tema",
+      "tipo": "input",
+      "limiteCaracteres": 150,
+      "restricoes": [
+        "sem links"
+      ]
+    },
+    {
+      "titulo": "O que deseja incluir no prompt?",
+      "tipo": "multiselect",
+      "obrigatorio": true,
+      "opcoes": [
+        "Explicação Rápida",
+        "Resumo Objetivo com Assertivas",
+        "Casos Concretos Comentados",
+        "Entendimentos Doutrinários e Jurisprudenciais",
+        "Quadro Comparativo",
+        "Questões Objetivas Comentadas",
+        "Questões Provas OAB",
+        "Questões Dissertativas",
+        "Mapa Mental",
+        "Debate",
+        "Apresentação Oral Rápida",
+        "Pegadinhas de Provas",
+        "Erros Comuns",
+        "Dúvidas Frequentes",
+        "Temas Correlatos",
+        "Relação Processual",
+        "Prática Jurídica",
+        "Tipos de Peças Processuais Relacionadas",
+        "Base Legal"
+      ]
+    },
+    {
+      "titulo": "Sugestões encontradas",
+      "tipo": "multiselect",
+      "obrigatorio": false,
+      "opcoes": "Dinâmico (busca nos JSONs externos)"
+    }
+  ]
+}

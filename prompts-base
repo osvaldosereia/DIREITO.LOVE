@@ -1,0 +1,8 @@
+{
+  "padrao": {
+    "inicio": "Tema: {{tema}}\n\nInstruções para a IA:\n",
+    "modulos": "{{modulos}}\n\n🔁 A cada 4 itens, peça autorização para continuar.\n",
+    "contexto": "💡 Contexto encontrado:\n{{trechos}}\n",
+    "final": "⚠️ NÃO inclua conteúdos que não estejam listados.\n📎 Finalize com: 💚 direito.love"
+  }
+}
