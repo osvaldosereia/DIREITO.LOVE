@@ -1,0 +1,10 @@
+{
+  "temas": {
+    "penal": [
+      { "id": "artigo_121", "descricao": "Art. 121 - Homicídio simples" }
+    ],
+    "civil": [
+      { "id": "artigo_421", "descricao": "Art. 421 - Liberdade contratual" }
+    ]
+  }
+}
