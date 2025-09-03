@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QuestGPT — direito.love</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">QuestGPT</header>
+  <main id="app">
+    <div id="chat"></div>
+  </main>
+  <form id="composer">
+    <input id="tema" maxlength="80" placeholder="Digite o tema" />
+    <span id="charCount">0</span>/80
+    <button id="enviar">Enviar</button>
+  </form>
+  <div id="toast"></div>
+  <footer><span id="year"></span></footer>
+  <script src="app.js"></script>
+</body>
+</html>
