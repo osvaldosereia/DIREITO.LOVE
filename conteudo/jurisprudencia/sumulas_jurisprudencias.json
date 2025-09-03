@@ -1,0 +1,22 @@
+{
+  "sumulas": [
+    {
+      "corte": "STF",
+      "texto": "É inconstitucional a prisão civil do depositário infiel, qualquer que seja a modalidade do depósito."
+    },
+    {
+      "corte": "STJ",
+      "texto": "A ausência de intimação da defesa sobre a expedição de carta precatória para oitiva de testemunha configura nulidade."
+    }
+  ],
+  "jurisprudencias": [
+    {
+      "corte": "STJ",
+      "texto": "A reincidência penal não impede a substituição da pena privativa de liberdade por restritivas de direitos."
+    },
+    {
+      "corte": "STF",
+      "texto": "É possível a aplicação do princípio da insignificância aos crimes contra a Administração Pública."
+    }
+  ]
+}
