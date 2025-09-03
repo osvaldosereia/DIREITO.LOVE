@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QuestGPT — direito.love</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <button id="btnDrawer" aria-label="Abrir menu">☰</button>
+    <h1>QuestGPT</h1>
+  </header>
+
+  <aside id="drawer" class="drawer" aria-hidden="true">
+    <button class="drawer-close">✕</button>
+    <nav class="drawer-nav">
+      <a href="#/chat" class="nav-link">Início</a>
+      <a href="#/salvos" class="nav-link">Salvos</a>
+      <a href="#/como-usar" class="nav-link">Como Usar</a>
+      <a href="#/sobre" class="nav-link">Sobre</a>
+    </nav>
+  </aside>
+
+  <main id="app">
+    <section id="view-chat" class="view">
+      <div id="chat" class="chat"></div>
+    </section>
+    <section id="view-salvos" class="view" hidden>
+      <h2>Prompts Salvos</h2>
+      <ul id="listaSalvos"></ul>
+    </section>
+    <section id="view-como-usar" class="view" hidden>
+      <h2>Como Usar</h2>
+      <p>Digite um tema, selecione os itens e gere seu prompt de estudo.</p>
+    </section>
+    <section id="view-sobre" class="view" hidden>
+      <h2>Sobre</h2>
+      <p>App educacional para estudantes de Direito.</p>
+    </section>
+  </main>
+
+  <form id="composer">
+    <input id="tema" maxlength="80" placeholder="Digite o tema" />
+    <span id="charCount">0</span>/80
+    <button id="enviar">Enviar</button>
+  </form>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <footer><span id="year"></span> © direito.love</footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
