@@ -208,7 +208,7 @@ gerar.onclick = () => {
 };
 $('.bloco-gerar').classList.remove('hidden');
 scrollToEl($('.bloco-gerar'));
-
+));
 
   setupDrawer();
   registerSW();
