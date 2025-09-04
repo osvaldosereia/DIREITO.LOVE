@@ -1,0 +1,20 @@
+[
+  {
+    "id": "art-186-cc",
+    "tipo": "artigo",
+    "titulo": "Art. 186 - Código Civil",
+    "texto": "Aquele que, por ação ou omissão voluntária, negligência ou imprudência, violar direito e causar dano a outrem, comete ato ilícito.",
+    "fonte": "Código Civil",
+    "tags": ["ato ilícito", "responsabilidade", "culpa"],
+    "palavras_chave": ["responsabilidade civil", "dano moral", "ação indenizatória"]
+  },
+  {
+    "id": "art-927-cc",
+    "tipo": "artigo",
+    "titulo": "Art. 927 - Código Civil",
+    "texto": "Aquele que, por ato ilícito, causar dano a outrem, fica obrigado a repará-lo.",
+    "fonte": "Código Civil",
+    "tags": ["indenização", "reparação", "ato ilícito"],
+    "palavras_chave": ["dever de indenizar", "danos emergentes", "lucros cessantes"]
+  }
+]
