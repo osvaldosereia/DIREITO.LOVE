@@ -1,0 +1,198 @@
+/*
+styles.css
+Estilo base do app direito.love (MVP 0)
+Layout responsivo, dark/light automático, com foco em mobile e acessibilidade.
+*/
+
+:root {
+  --font-family: system-ui, sans-serif;
+  --font-size: 16px;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --gap: 1rem;
+
+  /* Tema claro */
+  --bg: #ffffff;
+  --fg: #111111;
+  --accent: #2563EB;
+  --muted: #888888;
+  --input-bg: #f1f1f1;
+  --input-border: #cccccc;
+}
+
+/* Tema escuro automático */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111111;
+    --fg: #ffffff;
+    --accent: #60a5fa;
+    --muted: #999999;
+    --input-bg: #222222;
+    --input-border: #444444;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  background-color: var(--bg);
+  color: var(--fg);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-top: calc(3rem + var(--safe-top));
+  padding-bottom: calc(4rem + var(--safe-bottom));
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Topbar fixa */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3rem;
+  padding: 0 1rem;
+  background: var(--bg);
+  color: var(--fg);
+  border-bottom: 1px solid var(--input-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+}
+
+.logo {
+  font-weight: bold;
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  padding: 0.5rem;
+  color: var(--fg);
+}
+
+/* Área do chat */
+.chat-area {
+  flex: 1;
+  padding: var(--gap);
+  overflow-y: auto;
+}
+
+.mensagem-recepcao {
+  opacity: 0.8;
+  margin-bottom: var(--gap);
+}
+
+/* Input fixo na base */
+.input-area {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.5rem 1rem var(--safe-bottom);
+  background: var(--bg);
+  border-top: 1px solid var(--input-border);
+  display: flex;
+  gap: 0.5rem;
+  z-index: 10;
+}
+
+.input-area input {
+  flex: 1;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--input-border);
+  border-radius: 0.5rem;
+  background: var(--input-bg);
+  color: var(--fg);
+}
+
+.input-area button {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+}
+
+/* Acessórios */
+.acessorios {
+  padding: var(--gap);
+  border-top: 1px solid var(--input-border);
+}
+
+.acessorios h2 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+#acessorios-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+#acessorios-form input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+/* Botão de gerar */
+#acessorios-section button {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  width: 100%;
+}
+
+/* Prompt gerado */
+.resultado {
+  padding: var(--gap);
+  border-top: 1px solid var(--input-border);
+}
+
+.resultado h2 {
+  margin-bottom: 0.5rem;
+}
+
+#prompt-gerado {
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  white-space: pre-wrap;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.botoes-prompt {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.botoes-prompt button {
+  flex: 1;
+  padding: 0.75rem;
+  font-size: 1rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+}
