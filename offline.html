@@ -7,8 +7,8 @@
   <meta name="description" content="Você está offline — direito.love" />
   <title>Sem conexão — direito.love</title>
 
-  <!-- CSS principal (servido do cache pelo SW). Se não estiver em cache, usamos o fallback inline abaixo. -->
-  <link rel="stylesheet" href="css/styles.css" />
+  <!-- CSS principal (servido do cache pelo SW). Caminho ABSOLUTO. -->
+  <link rel="stylesheet" href="/css/styles.css" />
 
   <!-- Fallback CSS mínimo para o botão, caso o styles.css não esteja disponível no primeiro load offline -->
   <style>
@@ -29,7 +29,8 @@
 
     <p>
       <button class="btn primary" type="button" id="retry">Tentar novamente</button>
-      <a class="btn" href="index.html" style="margin-left:8px">Voltar ao início</a>
+      <!-- Caminho ABSOLUTO para garantir que volte sempre à raiz -->
+      <a class="btn" href="/index.html" style="margin-left:8px">Voltar ao início</a>
     </p>
 
     <p id="status" class="muted" aria-live="polite"></p>
@@ -45,7 +46,7 @@
     // Se a conexão voltar nesta página, voltamos pro app
     function handleOnlineChange() {
       $('#status').textContent = navigator.onLine ? 'Conexão restabelecida. Abrindo o app…' : 'Ainda sem conexão.';
-      if (navigator.onLine) setTimeout(() => location.href = 'index.html', 600);
+      if (navigator.onLine) setTimeout(() => location.href = '/index.html', 600);
     }
     window.addEventListener('online', handleOnlineChange);
     window.addEventListener('offline', handleOnlineChange);
