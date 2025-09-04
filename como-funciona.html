@@ -8,38 +8,43 @@
   <link rel="stylesheet" href="/css/styles.css" />
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand"><span class="logo">💚</span><span>direito.love</span></div>
-    <nav class="actions">
-      <a href="/objetivo.html" class="btn">Nosso Objetivo</a>
-      <a href="/sobre.html" class="btn">Sobre</a>
-      <a href="/index.html" class="btn primary">Voltar</a>
-    </nav>
-  </header>
+  <div class="container">
+    <header class="topbar" role="banner">
+      <div class="brand" aria-label="direito.love">
+        <span class="logo">💚</span><span>direito.love</span>
+      </div>
+      <a href="/index.html" class="btn primary" aria-label="Voltar ao início">Voltar</a>
+    </header>
 
-  <main class="chat" role="main" aria-labelledby="title">
-    <section class="section">
-      <h1 id="title">Como Funciona</h1>
-      <div class="card">
-        <p>O app gera prompts de estudo jurídicos de alto nível em 3 passos:</p>
-        <ol>
-          <li><b>Escreva o tema</b> (ex.: “Responsabilidade civil por dano estético”).</li>
-          <li><b>Selecione os módulos</b> (conceitos, base legal, jurisprudência, etc.).</li>
-          <li><b>Gerar → Copiar</b> para usar em qualquer IA e salvar em Recentes.</li>
-        </ol>
-        <p>Extras:</p>
-        <ul>
-          <li>“Sugestões encontradas” traz itens do KB (códigos, súmulas, jurisprudência).</li>
-          <li>“Recentes” guarda os últimos 50 prompts gerados.</li>
-          <li>Funciona como <b>PWA</b> e tem tela offline.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3>Atenção</h3>
-        <p>As referências devem ser conferidas; priorize jurisprudência majoritária e
-        cite artigos com número e lei (sem inventar). O app alerta quando faltar base segura.</p>
-      </div>
-    </section>
-  </main>
+    <main class="chat" role="main" aria-labelledby="title">
+      <section class="section">
+        <h1 id="title">Como Funciona</h1>
+
+        <div class="card">
+          <p>O app gera prompts de estudo jurídicos em 3 passos:</p>
+          <ol>
+            <li><b>Escreva o tema</b> (ex.: “Responsabilidade civil por dano estético”).</li>
+            <li><b>Selecione os módulos</b> (conceitos, base legal, jurisprudência, etc.).</li>
+            <li><b>Gerar → Copiar</b> para usar em qualquer IA e salvar em Recentes.</li>
+          </ol>
+        </div>
+
+        <div class="card">
+          <h3>Dicas úteis</h3>
+          <ul>
+            <li><b>Sugestões encontradas</b> vêm do nosso KB (códigos, súmulas, jurisprudência).</li>
+            <li><b>Recentes</b> guarda os últimos 50 prompts gerados (salva quando você copia).</li>
+            <li>Funciona como <b>PWA</b> e tem tela offline.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Boas práticas</h3>
+          <p>Priorize jurisprudência majoritária e cite artigos com número e lei. Se faltar base segura,
+          o app orienta a indicar as lacunas — sem inventar referências.</p>
+        </div>
+      </section>
+    </main>
+  </div>
 </body>
 </html>
