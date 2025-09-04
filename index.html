@@ -5,11 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="description" content="Gerador de prompts jurídicos para estudantes de Direito — direito.love" />
   <meta name="theme-color" content="#000000" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="icon" href="icons/pwa-192.png" />
-  <link rel="apple-touch-icon" href="icons/pwa-192.png" />
+
+  <!-- use caminhos absolutos -->
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" href="/icons/pwa-192.png" />
+  <link rel="apple-touch-icon" href="/icons/pwa-192.png" />
+  <link rel="stylesheet" href="/css/styles.css" />
   <title>💚 direito.love — Chat</title>
-  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
   <div class="container">
@@ -104,6 +106,5 @@
   <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
   <!-- Ponto de entrada único -->
-  <script type="module" src="app.js"></script>
+   <script type="module" src="/app.js"></script>
 </body>
-</html>
