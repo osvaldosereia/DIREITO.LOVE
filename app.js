@@ -198,10 +198,17 @@ window.addEventListener('DOMContentLoaded', async () => {
     }).catch(() => { /* silencioso */ });
 
     const gerar = $('#btn-gerar');
-    gerar.onclick = () => openResumo(tema);
-    $('.bloco-gerar').classList.remove('hidden');
-    scrollToEl($('.bloco-gerar'));
-  });
+gerar.onclick = () => {
+  const prompt = buildPrompt(tema);
+
+  // salva já no momento de Gerar
+  salvarPrompt(prompt,{ tema, mods:selecionados().map(s=>s.id) });
+
+  openResumo(tema);
+};
+$('.bloco-gerar').classList.remove('hidden');
+scrollToEl($('.bloco-gerar'));
+
 
   setupDrawer();
   registerSW();
