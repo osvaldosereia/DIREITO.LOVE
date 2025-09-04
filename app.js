@@ -1,71 +1,63 @@
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelector(".menu-toggle").addEventListener("click", () => {
-    document.querySelector(".sidebar").classList.toggle("active");
-    document.getElementById("sidebar-overlay").hidden = false;
-  });
-  document.getElementById("sidebar-overlay").addEventListener("click", () => {
-    document.querySelector(".sidebar").classList.remove("active");
-    document.getElementById("sidebar-overlay").hidden = true;
-  });
-  const newBtn = document.getElementById("new-btn");
-  if (newBtn) {
-    newBtn.addEventListener("click", () => {
-      closeModal();
-      askOptions();
-    });
+  const form = document.getElementById("chat-form");
+  const input = document.getElementById("chat-input");
+  const messages = document.getElementById("chat-messages");
+
+  // Arquivos JSON disponíveis
+  const fontes = [
+    "/data/codigo_penal.json",
+    "/data/codigo_civil.json",
+    "/data/sumulas_stf.json",
+    "/data/sumulas_stj.json",
+    "/data/jurisprudencias_stf.json",
+    "/data/jurisprudencias_stj.json"
+  ];
+
+  // Função para adicionar mensagens no chat
+  function addMessage(texto, classe = "bot") {
+    const p = document.createElement("p");
+    p.className = classe;
+    p.textContent = texto;
+    messages.appendChild(p);
+    messages.scrollTop = messages.scrollHeight;
   }
-  document.getElementById("nav-tema").addEventListener("click", () => {
-    const current = localStorage.getItem("theme") || "auto";
-    let next = current === "light" ? "dark" : current === "dark" ? "auto" : "light";
-    localStorage.setItem("theme", next);
-    applyTheme(next);
-    showToast("Tema alterado para: " + next);
-  });
-  function applyTheme(mode) {
-    document.body.classList.remove("theme-light", "theme-dark");
-    if (mode === "light") document.body.classList.add("theme-light");
-    else if (mode === "dark") document.body.classList.add("theme-dark");
-    else {
-      if (window.matchMedia("(prefers-color-scheme: dark)").matches) document.body.classList.add("theme-dark");
-      else document.body.classList.add("theme-light");
+
+  // Buscar termo nos JSONs
+  async function buscarTema(termo) {
+    addMessage("🔎 Buscando por: " + termo + "...");
+
+    let encontrou = false;
+
+    for (let fonte of fontes) {
+      try {
+        const dados = await fetch(fonte).then(r => r.json());
+        const texto = JSON.stringify(dados).toLowerCase();
+
+        if (texto.includes(termo.toLowerCase())) {
+          encontrou = true;
+          addMessage("📂 Fonte: " + fonte);
+
+          // Mostrar parte do conteúdo encontrado
+          const preview = JSON.stringify(dados, null, 2).slice(0, 300) + "...";
+          addMessage(preview);
+        }
+      } catch (e) {
+        console.error("Erro ao carregar", fonte, e);
+      }
+    }
+
+    if (!encontrou) {
+      addMessage("❌ Nenhum resultado encontrado para: " + termo);
     }
   }
-  function savePrompt() {
-    try {
-      const content = document.getElementById("prompt-text").dataset.fullPrompt;
-      let prompts = JSON.parse(localStorage.getItem("prompts") || "[]");
-      if (prompts.length >= 100) prompts.shift();
-      const theme = localStorage.getItem("theme") || "auto";
-      prompts.push({ theme, text: content, date: new Date().toISOString() });
-      localStorage.setItem("prompts", JSON.stringify(prompts));
-      showToast("Prompt salvo com sucesso ⭐");
-      if (navigator.vibrate) navigator.vibrate(100);
-    } catch (err) { showToast("Erro ao salvar prompt."); }
-  }
-  function showToast(message) {
-    const toast = document.getElementById("toast");
-    toast.innerText = message;
-    toast.classList.add("show", "pulse");
-    setTimeout(() => { toast.classList.remove("show", "pulse"); }, 2500);
-  }
-  function renderSavedPrompts() {
-    const list = document.getElementById("salvos-list");
-    list.innerHTML = "";
-    const prompts = JSON.parse(localStorage.getItem("prompts") || "[]");
-    prompts.forEach(p => {
-      const li = document.createElement("li");
-      li.innerText = p.theme + " — " + new Date(p.date).toLocaleDateString();
-      li.onclick = () => openModal(p.text, p.text);
-      list.appendChild(li);
-    });
-  }
-  document.getElementById("nav-salvos").addEventListener("click", () => {
-    showPage("salvos-page");
-    renderSavedPrompts();
+
+  // Evento do formulário
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const termo = input.value.trim();
+    if (!termo) return;
+    addMessage("👤 " + termo, "user");
+    buscarTema(termo);
+    input.value = "";
   });
-  document.getElementById("nav-sobre").addEventListener("click", () => {
-    showPage("sobre-page");
-  });
-  const savedTheme = localStorage.getItem("theme") || "auto";
-  applyTheme(savedTheme);
 });
