@@ -18,6 +18,7 @@
     <button class="menu-toggle" aria-label="Abrir menu">☰</button>
     <h1>💚 direito.love</h1>
   </header>
+
   <aside class="sidebar" id="sidebar">
     <nav>
       <ul>
@@ -28,18 +29,23 @@
     </nav>
   </aside>
   <div id="sidebar-overlay" hidden></div>
+
   <main id="chat-page" class="page" aria-label="Chat principal">
     <div id="chat-messages"></div>
     <form id="chat-form">
       <input id="chat-input" type="text" maxlength="80" placeholder="Digite o tema..." required>
-      <button id="generate-btn" type="submit" disabled>Gerar Prompt</button>
+      <button id="send-btn" type="submit">Enviar</button>
     </form>
   </main>
+
+  <!-- Página Salvos -->
   <main id="salvos-page" class="page" hidden aria-label="Página de Salvos">
     <h2>⭐ Prompts Salvos</h2>
     <button id="voltar-chat" aria-label="Voltar">⬅️ Voltar</button>
     <ul id="salvos-list"></ul>
   </main>
+
+  <!-- Página Sobre -->
   <main id="sobre-page" class="page" hidden aria-label="Página Sobre">
     <h2>ℹ️ Sobre</h2>
     <button class="voltar" data-target="chat-page">⬅️ Voltar</button>
@@ -47,6 +53,8 @@
     <p>Nosso objetivo é facilitar o estudo com prompts estruturados, integrando legislação, súmulas e jurisprudências.</p>
     <p><strong>Contato:</strong> contato@direito.love</p>
   </main>
+
+  <!-- Modal -->
   <div id="prompt-modal" class="modal" aria-hidden="true">
     <div class="modal-content">
       <p id="prompt-text"></p>
@@ -58,7 +66,9 @@
       </div>
     </div>
   </div>
+
   <div id="toast" role="status" aria-live="polite"></div>
+
   <script src="app.js"></script>
 </body>
 </html>
