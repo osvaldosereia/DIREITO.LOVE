@@ -4,15 +4,52 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Você está offline — direito.love" />
   <title>Sem conexão — direito.love</title>
+
+  <!-- CSS principal (servido do cache pelo SW). Se não estiver em cache, usamos o fallback inline abaixo. -->
   <link rel="stylesheet" href="css/styles.css" />
-  <style> main{ max-width:640px; margin:40px auto; padding:0 14px } </style>
+
+  <!-- Fallback CSS mínimo para o botão, caso o styles.css não esteja disponível no primeiro load offline -->
+  <style>
+    :root { color-scheme: light dark; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+    main { max-width: 680px; margin: 48px auto; padding: 0 16px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center;
+           height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid #ddd;
+           text-decoration: none; cursor: pointer; }
+    .btn.primary { background: #111; color: #fff; border-color: #111; }
+    .muted { opacity: .7; }
+  </style>
 </head>
 <body>
-  <main>
-    <h1>Você está offline</h1>
-    <p>Esta é a shell do app. Assim que voltar a conexão, o conteúdo dinâmico será atualizado.</p>
-    <p><a class="btn primary" href="index.html">Voltar ao início</a></p>
+  <main role="main" aria-labelledby="offline-title">
+    <h1 id="offline-title">Você está offline</h1>
+    <p class="muted">Esta é a casca do app. Assim que a conexão voltar, carregaremos o conteúdo automaticamente.</p>
+
+    <p>
+      <button class="btn primary" type="button" id="retry">Tentar novamente</button>
+      <a class="btn" href="index.html" style="margin-left:8px">Voltar ao início</a>
+    </p>
+
+    <p id="status" class="muted" aria-live="polite"></p>
   </main>
+
+  <!-- Script inline (sem rede) para melhorar a UX offline -->
+  <script>
+    const $ = sel => document.querySelector(sel);
+
+    // Botão tentar novamente: força um reload (o SW entrega do cache se disponível)
+    $('#retry')?.addEventListener('click', () => location.reload());
+
+    // Se a conexão voltar nesta página, voltamos pro app
+    function handleOnlineChange() {
+      $('#status').textContent = navigator.onLine ? 'Conexão restabelecida. Abrindo o app…' : 'Ainda sem conexão.';
+      if (navigator.onLine) setTimeout(() => location.href = 'index.html', 600);
+    }
+    window.addEventListener('online', handleOnlineChange);
+    window.addEventListener('offline', handleOnlineChange);
+    handleOnlineChange();
+  </script>
 </body>
 </html>
