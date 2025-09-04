@@ -1,0 +1,20 @@
+[
+  {
+    "id": "acordaotjsp2023-123",
+    "tipo": "jurisprudencia",
+    "titulo": "TJSP - Apelação Cível 100XXXX-89.2022.8.26.0100",
+    "texto": "Responsabilidade civil. Dano moral configurado. Valor fixado com razoabilidade. Sentença mantida.",
+    "fonte": "TJSP",
+    "tags": ["dano moral", "sentença", "responsabilidade"],
+    "palavras_chave": ["ação de indenização", "valor da condenação", "fixação do quantum"]
+  },
+  {
+    "id": "acordaotjsp2022-456",
+    "tipo": "jurisprudencia",
+    "titulo": "TJSP - Apelação Cível 100YYYY-15.2021.8.26.0001",
+    "texto": "Ausência de nexo de causalidade. Improcedência mantida. Sem reparação.",
+    "fonte": "TJSP",
+    "tags": ["nexo causal", "improcedência", "reparação"],
+    "palavras_chave": ["prova do dano", "responsabilidade objetiva", "culpa exclusiva da vítima"]
+  }
+]
