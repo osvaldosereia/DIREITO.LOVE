@@ -1,311 +1,138 @@
 /*
 styles.css
-Estilo base do app direito.love (MVP 0)
-Layout responsivo, dark/light automático, com foco em mobile e acessibilidade.
+Estilo refinado e minimalista para direito.love
 */
 
 :root {
-  --font-family: system-ui, sans-serif;
-  --font-size: 16px;
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --safe-top: env(safe-area-inset-top, 0px);
-  --gap: 1rem;
-
-  /* Tema claro */
-  --bg: #ffffff;
-  --fg: #111111;
-  --accent: #2563EB;
-  --muted: #888888;
-  --input-bg: #f1f1f1;
-  --input-border: #cccccc;
-}
-
-/* Tema escuro automático */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #111111;
-    --fg: #ffffff;
-    --accent: #60a5fa;
-    --muted: #999999;
-    --input-bg: #222222;
-    --input-border: #444444;
-  }
+  --bg: #f3f3f3;
+  --fg: #111;
+  --accent: #111;
+  --gray-medium: #ddd;
+  --gray-dark: #999;
+  --white: #fff;
+  --max-width: 600px;
 }
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  height: 100%;
+  line-height: 1.6;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-family);
-  font-size: var(--font-size);
-  background-color: var(--bg);
-  color: var(--fg);
+  padding: env(safe-area-inset-top) env(safe-area-inset-left) env(safe-area-inset-bottom) env(safe-area-inset-right);
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  padding-top: calc(3rem + var(--safe-top));
-  padding-bottom: calc(4rem + var(--safe-bottom));
-}
-
-.hidden {
-  display: none !important;
-}
-
-/* Topbar fixa */
-.topbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3rem;
-  padding: 0 1rem;
-  background: var(--bg);
-  color: var(--fg);
-  border-bottom: 1px solid var(--input-border);
-  display: flex;
   align-items: center;
+}
+
+/* Topbar */
+.topbar {
+  width: 100%;
+  max-width: var(--max-width);
+  background: #000;
+  color: var(--white);
+  padding: 16px;
+  font-size: 18px;
+  display: flex;
   justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
   z-index: 10;
 }
 
-.logo {
-  font-weight: bold;
-}
-
-.menu-btn {
-  background: none;
-  border: none;
-  font-size: 1.25rem;
-  padding: 0.5rem;
-  color: var(--fg);
-}
-
-/* Área do chat */
+/* Área de chat */
 .chat-area {
+  width: 100%;
+  max-width: var(--max-width);
   flex: 1;
-  padding: var(--gap);
+  padding: 16px;
   overflow-y: auto;
 }
 
-.mensagem-recepcao {
-  opacity: 0.8;
-  margin-bottom: var(--gap);
+/* Balões de mensagens */
+.mensagem-recepcao,
+.mensagem-usuario {
+  background: var(--white);
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  max-width: 90%;
+  font-size: 16px;
+  word-wrap: break-word;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
-/* Input fixo na base */
+.mensagem-recepcao {
+  align-self: flex-start;
+  background: var(--white);
+}
+
+.mensagem-usuario {
+  align-self: flex-end;
+  background: var(--gray-medium);
+}
+
+/* Input fixo */
 .input-area {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 0.5rem 1rem var(--safe-bottom);
-  background: var(--bg);
-  border-top: 1px solid var(--input-border);
+  width: 100%;
+  max-width: var(--max-width);
   display: flex;
-  gap: 0.5rem;
-  z-index: 10;
+  padding: 12px;
+  background: #000;
+  position: sticky;
+  bottom: 0;
+  gap: 8px;
 }
 
 .input-area input {
   flex: 1;
-  padding: 0.75rem;
-  font-size: 1rem;
-  border: 1px solid var(--input-border);
-  border-radius: 0.5rem;
-  background: var(--input-bg);
-  color: var(--fg);
-}
-
-.input-area button {
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  background: var(--accent);
-  color: white;
-  border: none;
-  border-radius: 0.5rem;
-}
-
-/* Acessórios */
-.acessorios {
-  padding: var(--gap);
-  border-top: 1px solid var(--input-border);
-}
-
-.acessorios h2 {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-#acessorios-form label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem;
-  line-height: 1.4;
-}
-
-#acessorios-form input[type="checkbox"] {
-  margin-right: 0.5rem;
-}
-
-/* Botão de gerar */
-#acessorios-section button {
-  margin-top: 1rem;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  background: var(--accent);
-  color: white;
-  border: none;
-  border-radius: 0.5rem;
-  width: 100%;
-}
-
-/* Prompt gerado */
-.resultado {
-  padding: var(--gap);
-  border-top: 1px solid var(--input-border);
-}
-
-.resultado h2 {
-  margin-bottom: 0.5rem;
-}
-
-#prompt-gerado {
-  background: var(--input-bg);
-  border: 1px solid var(--input-border);
-  border-radius: 0.5rem;
-  padding: 1rem;
-  white-space: pre-wrap;
-  font-size: 0.95rem;
-  margin-bottom: 1rem;
-}
-
-.botoes-prompt {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.botoes-prompt button {
-  flex: 1;
-  padding: 0.75rem;
-  font-size: 1rem;
-  background: var(--accent);
-  color: white;
-  border: none;
-  border-radius: 0.5rem;
-}
-
-/* === Drawer lateral RECENTES === */
-.drawer {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 90%;
-  max-width: 400px;
-  height: 100%;
-  background: var(--bg);
-  color: var(--fg);
-  border-left: 1px solid var(--input-border);
-  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
-  z-index: 20;
-  display: flex;
-  flex-direction: column;
-  padding: env(safe-area-inset-top) 1rem env(safe-area-inset-bottom);
-  overflow-y: auto;
-}
-
-.drawer-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1.2rem;
-  padding: 1rem 0;
-  border-bottom: 1px solid var(--input-border);
-}
-
-.drawer-list {
-  list-style: none;
-  padding: 1rem 0;
-  margin: 0;
-  flex: 1;
-  overflow-y: auto;
-}
-
-.drawer-list li {
-  margin-bottom: 1.5rem;
-  background: var(--input-bg);
-  border: 1px solid var(--input-border);
-  border-radius: 8px;
-  padding: 1rem;
-  position: relative;
-}
-
-.drawer-list pre {
-  white-space: pre-wrap;
-  font-size: 0.95rem;
-  margin-bottom: 0.5rem;
-}
-
-.drawer-list button {
-  font-size: 0.85rem;
-  padding: 0.5rem 0.75rem;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-}
-
-.drawer-footer {
-  padding: 1rem 0;
-  border-top: 1px solid var(--input-border);
-  text-align: center;
-}
-
-.drawer-footer button {
-  background: crimson;
-  color: white;
-  padding: 0.75rem 1.25rem;
-  font-size: 1rem;
+  padding: 12px;
+  font-size: 16px;
   border: none;
   border-radius: 6px;
 }
 
-/* Item vazio */
-.drawer .vazio {
-  text-align: center;
-  font-style: italic;
-  opacity: 0.6;
+.input-area button {
+  padding: 0 16px;
+  font-size: 16px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
 }
 
-/* Layout dos acessórios (Etapas A e B) */
+/* Acessórios */
+.acessorios {
+  width: 100%;
+  max-width: var(--max-width);
+  padding: 16px;
+}
+
 .acessorios label {
   display: block;
   margin-bottom: 12px;
   font-size: 16px;
-  cursor: pointer;
 }
 
 .acessorios input[type="checkbox"] {
   margin-right: 8px;
 }
 
-/* Bloco fixo para botão gerar prompt */
+/* Botão "Gerar Prompt" */
 .bloco-gerar {
-  padding: 24px 16px;
-  text-align: center;
-}
-
-.bloco-gerar button {
-  font-size: 18px;
-  padding: 12px 20px;
   width: 100%;
-  max-width: 480px;
-}
-/* Bloco final com botão "Gerar Prompt" */
-.bloco-gerar {
-  padding: 24px 16px;
+  max-width: var(--max-width);
+  padding: 16px;
   text-align: center;
 }
 
@@ -318,10 +145,56 @@ body {
   color: white;
   border: none;
   border-radius: 6px;
-  cursor: pointer;
 }
 
 .bloco-gerar button:disabled {
   background: #ccc;
   cursor: not-allowed;
+}
+
+/* Prompt final */
+.resultado {
+  width: 100%;
+  max-width: var(--max-width);
+  padding: 16px;
+}
+
+.resultado pre {
+  background: var(--gray-medium);
+  padding: 16px;
+  border-radius: 8px;
+  white-space: pre-wrap;
+  font-size: 16px;
+}
+
+.botoes-prompt {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.botoes-prompt button {
+  flex: 1;
+  padding: 12px;
+  font-size: 16px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+}
+
+/* Utilitários */
+.hidden {
+  display: none !important;
+}
+
+@media (min-width: 700px) {
+  .chat-area,
+  .input-area,
+  .acessorios,
+  .bloco-gerar,
+  .resultado {
+    margin: auto;
+    border-radius: 12px;
+  }
 }
