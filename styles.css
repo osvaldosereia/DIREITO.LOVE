@@ -303,3 +303,25 @@ body {
   width: 100%;
   max-width: 480px;
 }
+/* Bloco final com botão "Gerar Prompt" */
+.bloco-gerar {
+  padding: 24px 16px;
+  text-align: center;
+}
+
+.bloco-gerar button {
+  font-size: 18px;
+  padding: 12px 20px;
+  width: 100%;
+  max-width: 480px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.bloco-gerar button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
