@@ -1,7 +1,6 @@
 /*
 app.js
-Lógica base do direito.love (MVP 0)
-Gerencia entrada de tema, acessórios fixos e geração do prompt.
+Gerencia input do tema, acessórios fixos e sugestões dinâmicas (Etapa B)
 */
 
 const formInput = document.getElementById('input-form');
@@ -17,11 +16,13 @@ const promptPre = document.getElementById('prompt-gerado');
 const copiarBtn = document.getElementById('copiar-btn');
 const novoBtn = document.getElementById('novo-btn');
 
-// Estado do app
+// Etapa B
+const dinamicosSection = document.getElementById('dinamicos-section');
+const dinamicosForm = document.getElementById('dinamicos-form');
+
 let temaAtual = '';
 let acessoriosSelecionados = [];
 
-// Submeter tema
 formInput.addEventListener('submit', (e) => {
   e.preventDefault();
   const tema = temaInput.value.trim();
@@ -36,13 +37,19 @@ formInput.addEventListener('submit', (e) => {
   setTimeout(() => {
     mostrarMensagem(`🔧 Selecione como deseja enriquecer seu prompt sobre "${tema}".`);
     renderizarAcessorios();
+
+    // 🚀 NOVO: Etapa B - busca sugestões dinâmicas
+    buscarAcessoriosDinamicos(temaAtual).then(itens => {
+      if (itens.length >= 3) {
+        renderizarEtapaB(itens);
+      }
+    });
+
   }, 1500);
 });
 
-// Renderiza os acessórios fixos (Etapa A)
 function renderizarAcessorios() {
   acessoriosForm.innerHTML = '';
-
   acessoriosFixos.forEach((item, index) => {
     const id = `acessorio-${index}`;
     const label = document.createElement('label');
@@ -62,27 +69,29 @@ function renderizarAcessorios() {
   acessoriosSection.classList.remove('hidden');
 }
 
-// Habilita botão se ≥1 acessório for marcado
 function atualizarSelecao() {
   const selecionados = [...acessoriosForm.querySelectorAll('input:checked')];
   acessoriosSelecionados = selecionados.map(input => input.value);
   gerarBtn.disabled = acessoriosSelecionados.length === 0;
 }
 
-// Gerar prompt
 gerarBtn.addEventListener('click', () => {
   acessoriosSection.classList.add('hidden');
+  dinamicosSection?.classList.add('hidden');
   mostrarMensagem('🧠 Gerando prompt...');
 
   setTimeout(() => {
-    const prompt = `Tema: ${temaAtual}\n\nIncluir: ${acessoriosSelecionados.join(', ')}`;
+    const dinamicos = window._dinamicosSelecionados || [];
+    const prompt = `Tema: ${temaAtual}
+
+Incluir: ${[...acessoriosSelecionados, ...dinamicos].join(', ')}`;
+
     mostrarMensagem('📝 Pronto! Aqui está seu prompt:');
     promptPre.textContent = prompt;
     resultadoSection.classList.remove('hidden');
   }, 1500);
 });
 
-// Copiar prompt
 copiarBtn.addEventListener('click', () => {
   navigator.clipboard.writeText(promptPre.textContent).then(() => {
     copiarBtn.textContent = '✅ Copiado!';
@@ -92,17 +101,16 @@ copiarBtn.addEventListener('click', () => {
   });
 });
 
-// Novo prompt
 novoBtn.addEventListener('click', () => {
   resultadoSection.classList.add('hidden');
   temaAtual = '';
   acessoriosSelecionados = [];
+  window._dinamicosSelecionados = [];
   formInput.classList.remove('hidden');
   temaInput.focus();
   mostrarMensagem('📢 Digite outro tema para gerar um novo prompt.');
 });
 
-// Adiciona mensagens ao chat
 function mostrarMensagem(texto) {
   const div = document.createElement('div');
   div.className = 'mensagem-recepcao';
