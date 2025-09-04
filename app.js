@@ -195,6 +195,20 @@ function openResumo(tema) {
     }
   };
 
+  // Compartilhar (Web Share + fallbacks)
+  const shareBtn = $('#share-btn');
+  if (shareBtn) {
+    shareBtn.onclick = async () => {
+      const prompt = buildPrompt(tema);
+      const title = `direito.love — ${tema}`;
+      const safeName = `prompt-${(tema || 'direito-love')
+        .replace(/\W+/g, '-')
+        .toLowerCase()
+        .slice(0, 50)}.txt`;
+      await shareText(prompt, { title, filename: safeName });
+    };
+  }
+
   $('#close-resumo').onclick = closeResumo;
   $('#go-recentes').onclick = () => (location.href = '/recentes.html');
 }
