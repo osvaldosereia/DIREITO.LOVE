@@ -195,22 +195,23 @@ window.addEventListener('DOMContentLoaded', async () => {
 });
 
       sec.classList.remove('hidden');
-    }).catch(() => { /* silencioso */ });
+        }).catch(() => { /* silencioso */ });
 
     const gerar = $('#btn-gerar');
-gerar.onclick = () => {
-  const prompt = buildPrompt(tema);
+    gerar.onclick = () => {
+      const prompt = buildPrompt(tema);
 
-  // salva já no momento de Gerar
-  salvarPrompt(prompt,{ tema, mods:selecionados().map(s=>s.id) });
+      // salva já no momento de Gerar
+      salvarPrompt(prompt,{ tema, mods:selecionados().map(s=>s.id) });
 
-  openResumo(tema);
-};
-$('.bloco-gerar').classList.remove('hidden');
-scrollToEl($('.bloco-gerar'));
-));
+      openResumo(tema);
+    };
+    $('.bloco-gerar').classList.remove('hidden');
+    scrollToEl($('.bloco-gerar'));
+  }); // fecha apenas o form.addEventListener
 
   setupDrawer();
   registerSW();
   maybeEducativo();
-});
+}); // fecha o DOMContentLoaded
+
