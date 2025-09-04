@@ -1,7 +1,7 @@
 <!--
 index.html
-Estrutura base do app direito.love (MVP 0)
-Inclui topbar, área de chat, input base e placeholders para acessórios e prompt gerado.
+Estrutura base do app direito.love (MVP 0 + MVP 1 Etapa B)
+Inclui topbar, área de chat, input, acessórios e sugestões dinâmicas.
 -->
 
 <!DOCTYPE html>
@@ -45,6 +45,12 @@ Inclui topbar, área de chat, input base e placeholders para acessórios e promp
     <button id="gerar-btn" disabled>🎯 Gerar Prompt</button>
   </section>
 
+  <!-- Etapa B - Acessórios Dinâmicos -->
+  <section class="acessorios hidden" id="dinamicos-section">
+    <h3>📚 Sugestões relacionadas ao tema:</h3>
+    <form id="dinamicos-form"></form>
+  </section>
+
   <!-- Resultado final -->
   <section class="resultado hidden" id="resultado-section">
     <h2>📝 Prompt Gerado</h2>
@@ -57,6 +63,6 @@ Inclui topbar, área de chat, input base e placeholders para acessórios e promp
 
   <script src="data-acessorios.js"></script>
   <script src="app.js"></script>
-<script src="busca-legislacao.js"></script>
+  <script src="busca-legislacao.js"></script>
 </body>
 </html>
