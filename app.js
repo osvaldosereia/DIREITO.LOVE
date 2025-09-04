@@ -196,8 +196,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
       sec.classList.remove('hidden');
         }).catch(() => { /* silencioso */ });
-
-    const gerar = $('#btn-gerar');
+        const gerar = $('#btn-gerar');
     gerar.onclick = () => {
       const prompt = buildPrompt(tema);
 
@@ -206,12 +205,12 @@ window.addEventListener('DOMContentLoaded', async () => {
 
       openResumo(tema);
     };
+
     $('.bloco-gerar').classList.remove('hidden');
     scrollToEl($('.bloco-gerar'));
-  }); // fecha apenas o form.addEventListener
+  }); // fecha o form.addEventListener
 
   setupDrawer();
   registerSW();
   maybeEducativo();
-}); // fecha o DOMContentLoaded
-
+}); // fecha o window.addEventListener
