@@ -8,33 +8,35 @@
   <link rel="stylesheet" href="/css/styles.css" />
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand"><span class="logo">💚</span><span>direito.love</span></div>
-    <nav class="actions">
-      <a href="/como-funciona.html" class="btn">Como Funciona</a>
-      <a href="/sobre.html" class="btn">Sobre</a>
-      <a href="/index.html" class="btn primary">Voltar</a>
-    </nav>
-  </header>
+  <div class="container">
+    <header class="topbar" role="banner">
+      <div class="brand" aria-label="direito.love">
+        <span class="logo">💚</span><span>direito.love</span>
+      </div>
+      <a href="/index.html" class="btn primary" aria-label="Voltar ao início">Voltar</a>
+    </header>
 
-  <main class="chat" role="main" aria-labelledby="title">
-    <section class="section">
-      <h1 id="title">Nosso Objetivo</h1>
-      <div class="card">
-        <p>Entregar ao estudante de Direito um fluxo simples, confiável e rápido para
-        produzir prompts de estudo <b>claros, organizados e verificáveis</b>.</p>
-        <ul>
-          <li><b>Qualidade:</b> foco em linguagem simples, organização e jurisprudência majoritária.</li>
-          <li><b>Produtividade:</b> seleção de módulos em um clique, resumo e cópia imediata.</li>
-          <li><b>Confiabilidade:</b> encorajar checagem de fontes e evitar alucinações.</li>
-          <li><b>Acessibilidade:</b> interface leve, responsiva e com boas práticas de ARIA.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3>Visão</h3>
-        <p>Ser o atalho favorito do estudante para montar planos de estudo, resumos e roteiros de prática.</p>
-      </div>
-    </section>
-  </main>
+    <main class="chat" role="main" aria-labelledby="title">
+      <section class="section">
+        <h1 id="title">Nosso Objetivo</h1>
+
+        <div class="card">
+          <p>Entregar ao estudante de Direito um fluxo simples, confiável e rápido para
+          produzir prompts de estudo <b>claros, organizados e verificáveis</b>.</p>
+          <ul>
+            <li><b>Qualidade:</b> linguagem simples, organização e jurisprudência majoritária.</li>
+            <li><b>Produtividade:</b> seleção de módulos em um clique + resumo + cópia.</li>
+            <li><b>Confiabilidade:</b> evitar alucinações e encorajar checagem de fontes.</li>
+            <li><b>Acessibilidade:</b> interface leve, responsiva e com boas práticas ARIA.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Visão</h3>
+          <p>Ser o atalho preferido para montar planos de estudo, resumos e roteiros práticos.</p>
+        </div>
+      </section>
+    </main>
+  </div>
 </body>
 </html>
