@@ -78,6 +78,8 @@ function atualizarSelecao() {
 gerarBtn.addEventListener('click', () => {
   acessoriosSection.classList.add('hidden');
   dinamicosSection?.classList.add('hidden');
+  document.querySelector('.bloco-gerar')?.classList.add('hidden'); // esconde o botão "Gerar Prompt"
+
   mostrarMensagem('🧠 Gerando prompt...');
 
   setTimeout(() => {
@@ -89,8 +91,12 @@ Incluir: ${[...acessoriosSelecionados, ...dinamicos].join(', ')}`;
     mostrarMensagem('📝 Pronto! Aqui está seu prompt:');
     promptPre.textContent = prompt;
     resultadoSection.classList.remove('hidden');
+
+    // 🔜 Em breve: salvar em RECENTES
+
   }, 1500);
 });
+
 
 copiarBtn.addEventListener('click', () => {
   navigator.clipboard.writeText(promptPre.textContent).then(() => {
