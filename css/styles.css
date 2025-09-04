@@ -89,3 +89,9 @@ a.btn{text-decoration:none;color:inherit}
 
 /* Focus */
 :focus-visible{outline:2px solid #111;outline-offset:2px}
+
+/* Quando a sugestão/acessório está selecionada */
+.chip[aria-pressed="true"] {
+  background: var(--accent);
+  color: #fff;
+}
