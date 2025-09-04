@@ -87,6 +87,7 @@ gerarBtn.addEventListener('click', () => {
     const prompt = `Tema: ${temaAtual}
 
 Incluir: ${[...acessoriosSelecionados, ...dinamicos].join(', ')}`;
+    salvarPrompt(prompt);
 
     mostrarMensagem('📝 Pronto! Aqui está seu prompt:');
     promptPre.textContent = prompt;
