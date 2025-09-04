@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Gerador de prompts jurídicos para estudantes de Direito — direito.love" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/pwa-192.png" />
+  <link rel="apple-touch-icon" href="icons/pwa-192.png" />
+  <title>💚 direito.love — Chat</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="topbar" role="banner">
+      <div class="brand" aria-label="direito.love">
+        <span class="logo">💚</span>
+        <span>direito.love</span>
+      </div>
+      <button id="btn-settings" class="icon-btn" aria-label="Abrir configurações" aria-controls="drawer" aria-expanded="false">⚙</button>
+    </header>
+
+    <main class="chat" id="chat" role="log" aria-live="polite" aria-relevant="additions">
+      <!-- Mensagens surgem aqui via JS -->
+    </main>
+
+    <section class="chat">
+      <!-- Acessórios -->
+      <div id="acessorios-sec" class="section hidden" aria-labelledby="lbl-acessorios">
+        <h3 id="lbl-acessorios">O que incluir? (selecione pelo menos 1)</h3>
+        <div id="acessorios-list" class="chips" role="group" aria-label="Acessórios para o prompt"></div>
+      </div>
+
+      <!-- Sugestões dinâmicas (opcional) -->
+      <div id="sugestoes-sec" class="section hidden" aria-labelledby="lbl-sugestoes">
+        <h3 id="lbl-sugestoes">Sugestões encontradas</h3>
+        <ul id="sugestoes-list"></ul>
+      </div>
+
+      <!-- Botão Gerar -->
+      <div class="bloco-gerar section hidden">
+        <button id="btn-gerar" class="btn primary" disabled>Gerar</button>
+      </div>
+    </section>
+
+    <!-- Composer -->
+    <form id="tema-form" class="composer" aria-label="Enviar tema">
+      <div class="input">
+        <input id="tema-input" name="tema" type="text" autocomplete="off" maxlength="180"
+               placeholder="Digite o tema jurídico (ex.: Responsabilidade civil por dano estético)"
+               aria-label="Tema jurídico" required />
+      </div>
+      <button class="btn primary" type="submit">Avançar</button>
+    </form>
+  </div>
+
+  <!-- Overlay compartilhado -->
+  <div id="overlay" class="overlay" aria-hidden="true"></div>
+
+  <!-- Modal Educativo (first run) -->
+  <div id="educativo-modal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="edu-title">
+    <div class="panel">
+      <header>
+        <h2 id="edu-title">Como funciona</h2>
+        <button class="icon-btn" id="educativo-ok" aria-label="Entendi">✔</button>
+      </header>
+      <div class="content">
+        <ul class="educativo-list">
+          <li>Digite o tema → aguarde “... pensando”.</li>
+          <li>Escolha os módulos que quer no seu prompt.</li>
+          <li>Clique em <b>Gerar</b> para copiar (sem exibir o prompt gigante).</li>
+          <li>Os últimos 50 prompts ficam em <b>Recentes</b>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Resumo do Prompt (sem exibir o prompt) -->
+  <div id="resumo-modal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="resumo-title">
+    <div class="panel">
+      <header>
+        <h2 id="resumo-title">Seu prompt está pronto</h2>
+        <button class="icon-btn" id="close-resumo" aria-label="Fechar">✕</button>
+      </header>
+      <div class="content">
+        <p>Veja o que será incluído:</p>
+        <ul id="resumo-list"></ul>
+      </div>
+      <div class="actions">
+        <button id="go-recentes" class="btn" type="button" aria-label="Ir para recentes">Recentes</button>
+        <button id="copy-btn" class="btn primary" type="button">Copiar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drawer (Configurações) -->
+  <aside id="drawer" class="drawer" role="dialog" aria-label="Configurações">
+    <header>
+      <h3>Preferências</h3>
+      <button id="btn-close-drawer" class="icon-btn" aria-label="Fechar">✕</button>
+    </header>
+    <div class="content">
+      <p class="muted">Aqui entrarão preferências (tema, acessibilidade, etc.).</p>
+      <p class="muted">PWA e offline já vêm ativados.</p>
+      <a href="recentes.html" class="btn" style="margin-top:8px">Abrir Recentes</a>
+    </div>
+  </aside>
+
+  <!-- Toast -->
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Scripts (ordem importa) -->
+  <script type="module" src="js/utils.js"></script>
+  <script type="module" src="js/data-acessorios.js"></script>
+  <script type="module" src="js/busca-legislacao.js"></script>
+  <script type="module" src="js/recents.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
