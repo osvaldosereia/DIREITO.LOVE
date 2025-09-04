@@ -8,14 +8,14 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icons/pwa-192.png" />
   <title>📋 Recentes — direito.love</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="/css/styles.css" />
 </head>
 <body>
   <header class="topbar" role="banner" aria-label="Barra superior">
     <div class="brand" aria-label="direito.love">
       <span class="logo">💚</span><span>direito.love</span>
     </div>
-    <a href="index.html" class="btn primary" aria-label="Voltar para a página principal">Voltar</a>
+    <a href="/index.html" class="btn primary" aria-label="Voltar para a página principal">Voltar</a>
   </header>
 
   <main class="chat" role="main" id="conteudo">
@@ -29,8 +29,8 @@
 
   <!-- Só o que a página precisa -->
   <script type="module">
-    import { $, $$, toast, copyToClipboard } from './js/utils.js';
-    import { listarPrompts, removerPrompt } from './js/recents.js';
+    import { $, $$, toast, copyToClipboard } from '/js/utils.js';
+    import { listarPrompts, removerPrompt } from '/js/recents.js';
 
     const escapeHTML = (s='') => s.replace(/[<>&]/g, m => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[m]));
 
