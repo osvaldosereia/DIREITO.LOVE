@@ -69,6 +69,21 @@ Inclui topbar, área de chat, input, acessórios e sugestões dinâmicas.
   <script src="app.js"></script>
   <script src="busca-legislacao.js"></script>
   <script src="recents.js"></script>
+  <script>
+  // Modal educativo no primeiro acesso
+  const modal = document.getElementById('modal-educativo');
+  const btn = document.getElementById('entendi-btn');
+
+  if (!localStorage.getItem('educativo_ok')) {
+    modal.classList.remove('hidden');
+  }
+
+  btn.onclick = () => {
+    localStorage.setItem('educativo_ok', 'true');
+    modal.classList.add('hidden');
+  };
+</script>
+
 
 </body>
 </html>
