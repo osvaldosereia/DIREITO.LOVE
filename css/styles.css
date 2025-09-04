@@ -17,8 +17,8 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:ui-sans-serif,s
 /* Topbar */
 .topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:rgba(255,255,255,.86);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--border)}
 .topbar .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.2px}
-.topbar .brand .logo{font-size:22px}
-.icon-btn{width:44px;height:44px;display:inline-grid;place-items:center;border-radius:12px;border:1px solid var(--border);background:#fff;cursor:pointer}
+.topbar .brand .logo{font-size:24px}
+.icon-btn{width:32px;height:32px;display:inline-grid;place-items:center;border-radius:12px;border:1px solid var(--border);background:#fff;cursor:pointer}
 .icon-btn:focus-visible{outline:2px solid #111;outline-offset:2px}
 .topbar .btn{height:36px;padding:0 12px;border-radius:10px}
 
