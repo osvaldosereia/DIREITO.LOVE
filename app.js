@@ -144,7 +144,7 @@ window.addEventListener('DOMContentLoaded', async ()=>{
 
     // Sugestões do KB (não bloqueia)
     buscarSugestoesTema(tema).then(sugs=>{
-      if(!sugs || sugs.length<3) return;
+    if (!sugs || !sugs.length) return; // mostra com 1+;
       const sec=$('#sugestoes-sec'); const ul=$('#sugestoes-list');
       ul.innerHTML='';
       sugs.forEach(s=>{ const li=document.createElement('li'); li.textContent=`${s.titulo} — ${s.resumo||''}`.trim(); ul.appendChild(li); });
