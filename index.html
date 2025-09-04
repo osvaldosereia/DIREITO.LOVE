@@ -67,6 +67,7 @@
         <ul class="educativo-list">
           <li>Digite o tema → aguarde “... pensando”.</li>
           <li>Escolha os módulos que quer no seu prompt.</li>
+          <li><b>Dica:</b> toque na <b>estrela</b> (☆→★) para <b>favoritar</b> e subir os módulos que mais usa.</li>
           <li>Clique em <b>Gerar</b> para copiar (sem exibir o prompt gigante).</li>
           <li>Os últimos 50 prompts ficam em <b>Recentes</b>.</li>
         </ul>
@@ -100,10 +101,19 @@
       <button id="btn-close-drawer" class="icon-btn" aria-label="Fechar">✕</button>
     </header>
     <div class="content">
-      <p class="muted">Aqui entrarão preferências (tema, acessibilidade, etc.).</p>
-      <p class="muted">PWA e offline já vêm ativados.</p>
+      <p class="muted">Ajuste o app do seu jeito. Tudo funciona offline (PWA).</p>
 
       <a href="/recentes.html" class="btn primary" style="margin-top:8px">Abrir Recentes</a>
+
+      <hr style="margin:12px 0; opacity:.2" />
+
+      <!-- Favoritos (estrela inline) -->
+      <h4 class="muted" style="margin:0 0 8px">Favoritos</h4>
+      <label class="row" style="gap:12px">
+        <input id="pref-autoselect" type="checkbox" />
+        <span>Pré-selecionar favoritos</span>
+      </label>
+      <button id="pref-clear-favs" class="btn" style="margin-top:8px">Limpar favoritos</button>
 
       <hr style="margin:12px 0; opacity:.2" />
 
