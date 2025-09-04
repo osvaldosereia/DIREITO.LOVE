@@ -88,24 +88,26 @@ Data: ${now}`;
 function openResumo(tema){
   scrollToEl(document.body);
   const overlay = $('#overlay'); const modal = $('#resumo-modal'); const list = $('#resumo-list');
-  const sel = selecionados();
+  const sel = selecionados(); // snapshot dos chips marcados AGORA
   list.innerHTML = sel.map(s => `<li>${s.nome}</li>`).join('') || '<li>—</li>';
   overlay.classList.add('show'); modal.classList.remove('hidden'); modal.setAttribute('aria-hidden','false');
   cleanupTrap = trapFocus(modal);
- $('#copy-btn').onclick=async()=>{
-  const prompt=buildPrompt(tema);
 
-  // salva sempre
-  salvarPrompt(prompt,{ tema, mods:sel.map(s=>s.id) });
+  $('#copy-btn').onclick = async () => {
+    const prompt = buildPrompt(tema);
 
-  // tenta copiar
-  const ok = await copyToClipboard(prompt);
-  if(ok){
-    toast('✅ Copiado e salvo em Recentes');
-  } else {
-    toast('⚠ Salvo em Recentes, mas não copiado');
-  }
-};
+    // 🔎 debug opcional
+    console.log('[RECENTES] salvando', { tema, mods: sel.map(s=>s.id), tamanho: prompt.length });
+
+    // salva aqui (único lugar)
+    salvarPrompt(prompt, { tema, mods: sel.map(s=>s.id) });
+
+    // tenta copiar
+    const ok = await copyToClipboard(prompt);
+    if (ok) toast('✅ Copiado e salvo em Recentes');
+    else    toast('⚠ Salvo em Recentes, mas não copiado');
+  };
+
   $('#close-resumo').onclick = closeResumo;
   $('#go-recentes').onclick = () => location.href = 'recentes.html';
 }
@@ -197,14 +199,11 @@ window.addEventListener('DOMContentLoaded', async () => {
       sec.classList.remove('hidden');
         }).catch(() => { /* silencioso */ });
         const gerar = $('#btn-gerar');
-    gerar.onclick = () => {
-      const prompt = buildPrompt(tema);
+gerar.onclick = () => {
+  // No Gerar não salvamos. Só abrimos o resumo.
+  openResumo(tema);
+};
 
-      // salva já no momento de Gerar
-      salvarPrompt(prompt,{ tema, mods:selecionados().map(s=>s.id) });
-
-      openResumo(tema);
-    };
 
     $('.bloco-gerar').classList.remove('hidden');
     scrollToEl($('.bloco-gerar'));
