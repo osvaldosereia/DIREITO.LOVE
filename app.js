@@ -167,11 +167,24 @@ window.addEventListener('DOMContentLoaded', async () => {
       $('#lbl-sugestoes').textContent = `Sugestões (${sugs.length})`;
       const sec = $('#sugestoes-sec'); const ul = $('#sugestoes-list');
       ul.innerHTML = '';
-      sugs.forEach(s => {
-        const li = document.createElement('li');
-        li.textContent = `${s.titulo} — ${s.resumo || ''}`.trim();
-        ul.appendChild(li);
-      });
+      sugs.forEach(s=>{
+  const b = document.createElement('button');
+  b.className = 'chip'; 
+  b.type = 'button';
+  b.setAttribute('aria-pressed','false');
+  b.dataset.id = `sug-${s.titulo}`; // cria um id único
+  b.textContent = s.titulo;
+
+  // Quando clicar → alterna entre marcado/desmarcado
+  b.addEventListener('click',()=>{
+    const pressed = b.getAttribute('aria-pressed') === 'true';
+    b.setAttribute('aria-pressed', String(!pressed));
+    validateGerar(); // revalida o botão "Gerar"
+  });
+
+  ul.appendChild(b);
+});
+
       sec.classList.remove('hidden');
     }).catch(() => { /* silencioso */ });
 
