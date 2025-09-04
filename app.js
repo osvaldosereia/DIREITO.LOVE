@@ -5,6 +5,13 @@ import { ACESSORIOS } from '/js/data-acessorios.js';
 import { buscarSugestoesTema } from '/js/busca-legislacao.js';
 import { salvarPrompt } from '/js/recents.js';
 
+// Favoritos (estrela inline)
+import {
+  orderModules, isFav, toggleFav,
+  getFavs, setFavs,
+  getPrefAutoselectFavs, setPrefAutoselectFavs
+} from '/js/prefs.js';
+
 // -------------------- Estado simples --------------------
 let cleanupTrap = null;
 
@@ -52,7 +59,7 @@ function showThinking() {
   return addBot('... pensando');
 }
 
-// Cria um chip (botão) selecionável, reutilizável para acessórios e sugestões
+// Cria um chip (botão) selecionável (usado para SUGESTÕES do KB)
 function makeChip({ id, label }) {
   const b = document.createElement('button');
   b.className = 'chip';
@@ -68,16 +75,91 @@ function makeChip({ id, label }) {
   return b;
 }
 
+// Chip de ACESSÓRIO com estrela de favorito (⭐)
+function makeChipWithStar({ id, label }) {
+  const wrap = document.createElement('div');
+  wrap.className = 'chip-wrap';
+
+  // Botão principal (seleciona/desseleciona o módulo)
+  const chip = document.createElement('button');
+  chip.className = 'chip';
+  chip.type = 'button';
+  chip.dataset.id = id;
+  chip.setAttribute('aria-pressed', 'false');
+  chip.textContent = label;
+  chip.addEventListener('click', () => {
+    const pressed = chip.getAttribute('aria-pressed') === 'true';
+    chip.setAttribute('aria-pressed', String(!pressed));
+    validateGerar();
+  });
+  if (isFav(id)) chip.classList.add('is-fav');
+
+  // Estrela (favoritar) — separada para não conflitar com o chip
+  const star = document.createElement('button');
+  star.className = 'chip-star';
+  star.type = 'button';
+  const favNow = isFav(id);
+  star.setAttribute('aria-pressed', String(favNow));
+  star.setAttribute('aria-label', (favNow ? 'Remover dos' : 'Adicionar aos') + ' favoritos: ' + label);
+  star.dataset.id = id;
+  star.textContent = favNow ? '★' : '☆';
+
+  star.addEventListener('click', (ev) => {
+    ev.stopPropagation(); // não dispara o click do chip
+    const now = toggleFav(id);
+    star.setAttribute('aria-pressed', String(now));
+    star.textContent = now ? '★' : '☆';
+    if (now) chip.classList.add('is-fav'); else chip.classList.remove('is-fav');
+    toast(now ? '⭐ Adicionado aos favoritos' : '☆ Removido dos favoritos');
+    // Re-render para reordenar, preservando seleções atuais
+    renderAcessorios(true);
+  });
+
+  wrap.appendChild(chip);
+  wrap.appendChild(star);
+  return wrap;
+}
+
 // -------------------- Acessórios --------------------
+// Renderiza a lista de acessórios (favoritos primeiro), com opção de preservar seleções atuais.
+function renderAcessorios(preserveSelection = false) {
+  const list = $('#acessorios-list');
+
+  // Quais chips estão selecionados antes de re-renderizar?
+  const prevSelected = new Set(
+    preserveSelection
+      ? Array.from(list.querySelectorAll('.chip[aria-pressed="true"]')).map(el => el.dataset.id)
+      : []
+  );
+
+  list.innerHTML = '';
+  const ordered = orderModules(ACESSORIOS) || ACESSORIOS;
+  ordered.forEach(a => {
+    list.appendChild(makeChipWithStar({ id: a.id, label: a.nome }));
+  });
+
+  // Seleção desejada = seleção anterior ∪ (favoritos se pref. autoselect estiver ON E NÃO estivermos preservando)
+  const wantSelected = new Set(prevSelected);
+  if (!preserveSelection && getPrefAutoselectFavs()) {
+    getFavs().forEach(id => wantSelected.add(id));
+  }
+
+  // Aplica seleção desejada (usando .click() para manter validações)
+  if (wantSelected.size > 0) {
+    list.querySelectorAll('.chip').forEach(chip => {
+      const id = chip.dataset.id;
+      const already = chip.getAttribute('aria-pressed') === 'true';
+      if (wantSelected.has(id) && !already) chip.click();
+    });
+  }
+
+  validateGerar();
+}
+
 function showAcessorios() {
   const sec = $('#acessorios-sec');
-  const list = $('#acessorios-list');
-  list.innerHTML = '';
-  ACESSORIOS.forEach((a) => {
-    list.appendChild(makeChip({ id: a.id, label: a.nome }));
-  });
+  renderAcessorios(false);
   sec.classList.remove('hidden');
-  validateGerar();
 }
 
 // Retorna TODOS chips selecionados (acessórios + sugestões), sem duplicados
@@ -160,7 +242,6 @@ async function shareText(text, { title = 'direito.love — Prompt', filename = '
   if (ok) toast('✅ Copiado. Cole no app desejado.');
   return ok;
 }
-
 
 // -------------------- Resumo / Modal --------------------
 function openResumo(tema) {
@@ -286,6 +367,28 @@ window.addEventListener('DOMContentLoaded', () => {
   const input = $('#tema-input');
   const form = $('#tema-form');
 
+  // Wire dos controles do Drawer (se existirem na página)
+  const chkAuto = $('#pref-autoselect');
+  if (chkAuto) {
+    chkAuto.checked = getPrefAutoselectFavs();
+    chkAuto.onchange = () => {
+      setPrefAutoselectFavs(chkAuto.checked);
+      toast(chkAuto.checked ? '✅ Favoritos entram marcados' : '☑ Marque manualmente');
+    };
+  }
+
+  const btnClear = $('#pref-clear-favs');
+  if (btnClear) {
+    btnClear.onclick = () => {
+      setFavs([]);
+      toast('🧹 Favoritos limpos');
+      // Se a seção estiver visível, re-renderiza para tirar “is-fav”
+      if (!$('#acessorios-sec').classList.contains('hidden')) {
+        renderAcessorios(true);
+      }
+    };
+  }
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const tema = (input.value || '').trim().slice(0, 180);
@@ -322,7 +425,7 @@ window.addEventListener('DOMContentLoaded', () => {
         ul.innerHTML = '';
 
         sugs.forEach((s, i) => {
-          // id estável e simples
+          // id estável e simples (sugestões não têm estrela no V1)
           const id = `sug-${i}-${(s.titulo || 'item').toLowerCase().replace(/\s+/g, '-').slice(0, 40)}`;
           ul.appendChild(makeChip({ id, label: s.titulo || 'Item' }));
         });
