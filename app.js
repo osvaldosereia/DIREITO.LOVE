@@ -1,22 +1,19 @@
 /*
 app.js
-Gerencia input do tema, acessórios fixos e sugestões dinâmicas (Etapa B)
+Lógica principal do app direito.love
 */
 
 const formInput = document.getElementById('input-form');
 const temaInput = document.getElementById('tema-input');
 const chatArea = document.getElementById('chat-area');
-
 const acessoriosSection = document.getElementById('acessorios-section');
 const acessoriosForm = document.getElementById('acessorios-form');
 const gerarBtn = document.getElementById('gerar-btn');
-
+const gerarBloco = document.querySelector('.bloco-gerar');
 const resultadoSection = document.getElementById('resultado-section');
 const promptPre = document.getElementById('prompt-gerado');
 const copiarBtn = document.getElementById('copiar-btn');
 const novoBtn = document.getElementById('novo-btn');
-
-// Etapa B
 const dinamicosSection = document.getElementById('dinamicos-section');
 const dinamicosForm = document.getElementById('dinamicos-form');
 
@@ -31,21 +28,19 @@ formInput.addEventListener('submit', (e) => {
   temaAtual = tema;
   temaInput.value = '';
   formInput.classList.add('hidden');
-
-  mostrarMensagem(`🧠 Pensando sobre "${tema}"...`);
+  mostrarMensagem(`💬 Tema enviado: “${tema}”`);
+  mostrarMensagem('🔎 Carregando opções para você...');
 
   setTimeout(() => {
-    mostrarMensagem(`🔧 Selecione como deseja enriquecer seu prompt sobre "${tema}".`);
     renderizarAcessorios();
-
-    // 🚀 NOVO: Etapa B - busca sugestões dinâmicas
-    buscarAcessoriosDinamicos(temaAtual).then(itens => {
-      if (itens.length >= 3) {
-        renderizarEtapaB(itens);
-      }
+    buscarAcessoriosDinamicos(tema).then(itens => {
+      if (itens.length >= 3) renderizarEtapaB(itens);
     });
 
-  }, 1500);
+    // Exibir botão Gerar (desativado até seleção)
+    gerarBtn.disabled = true;
+    gerarBloco.classList.remove('hidden');
+  }, 1200);
 });
 
 function renderizarAcessorios() {
@@ -78,8 +73,7 @@ function atualizarSelecao() {
 gerarBtn.addEventListener('click', () => {
   acessoriosSection.classList.add('hidden');
   dinamicosSection?.classList.add('hidden');
-  document.querySelector('.bloco-gerar')?.classList.add('hidden'); // esconde o botão "Gerar Prompt"
-
+  gerarBloco.classList.add('hidden');
   mostrarMensagem('🧠 Gerando prompt...');
 
   setTimeout(() => {
@@ -87,24 +81,22 @@ gerarBtn.addEventListener('click', () => {
     const prompt = `Tema: ${temaAtual}
 
 Incluir: ${[...acessoriosSelecionados, ...dinamicos].join(', ')}`;
-    salvarPrompt(prompt);
 
-    mostrarMensagem('📝 Pronto! Aqui está seu prompt:');
+    salvarPrompt(prompt); // salva nos recentes
+
+    mostrarMensagem('✅ Pronto! Aqui está seu prompt:');
     promptPre.textContent = prompt;
     resultadoSection.classList.remove('hidden');
-
-    // 🔜 Em breve: salvar em RECENTES
-
   }, 1500);
 });
-
 
 copiarBtn.addEventListener('click', () => {
   navigator.clipboard.writeText(promptPre.textContent).then(() => {
     copiarBtn.textContent = '✅ Copiado!';
     setTimeout(() => {
       copiarBtn.textContent = '📋 Copiar';
-    }, 1500);
+      window.location.href = 'recentes.html'; // redireciona
+    }, 800);
   });
 });
 
