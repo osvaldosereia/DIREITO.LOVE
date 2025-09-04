@@ -23,17 +23,52 @@
   <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
   <script type="module">
-    import { $, $$, toast, copyToClipboard } from '/js/utils.js';
+    import { $, toast, copyToClipboard } from '/js/utils.js';
     import { listarPrompts, removerPrompt } from '/js/recents.js';
 
     const escapeHTML = (s='') => s.replace(/[<>&]/g, m => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[m]));
+
+    // Compartilhar (Web Share + fallbacks) — versão local para a página Recentes
+    async function shareTextLocal(text, title = 'direito.love — Prompt') {
+      if (!navigator.onLine) { toast('⚠ Requer conexão para compartilhar'); return; }
+
+      try {
+        if (navigator.share) {
+          await navigator.share({ title, text });
+          return;
+        }
+      } catch (e) {
+        if (e && e.name === 'AbortError') { toast('Compartilhamento cancelado'); return; }
+        // segue para fallback
+      }
+
+      if ((text || '').length < 12000) {
+        const subject = encodeURIComponent(title);
+        const body = encodeURIComponent(text || '');
+        location.href = `mailto:?subject=${subject}&body=${body}`;
+        return;
+      }
+
+      try {
+        const blob = new Blob([text || ''], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'prompt-direito-love.txt';
+        document.body.appendChild(a); a.click(); a.remove();
+        URL.revokeObjectURL(url);
+        toast('⬇️ Exportado como .txt');
+      } catch {}
+
+      const ok = await copyToClipboard(text || '');
+      if (ok) toast('✅ Copiado. Cole no app desejado.');
+    }
 
     function render(){
       const el = $('#lista');
       const arr = listarPrompts();
       el.innerHTML = '';
 
-      if(!arr.length){
+      if (!arr.length){
         el.innerHTML = '<div class="card"><div class="muted">Sem itens ainda. Gere um prompt e clique em <b>Copiar</b> para salvar aqui.</div></div>';
         return;
       }
@@ -45,8 +80,9 @@
           <div class="row">
             <div><div class="muted">${new Date(item.quando).toLocaleString()}</div></div>
             <div class="actions">
-              <button class="btn" data-act="copy" data-i="${idx}">Copiar</button>
-              <button class="btn" data-act="del"  data-i="${idx}">Excluir</button>
+              <button class="btn" data-act="copy"  data-i="${idx}">Copiar</button>
+              <button class="btn" data-act="share" data-i="${idx}">Compartilhar</button>
+              <button class="btn" data-act="del"   data-i="${idx}">Excluir</button>
             </div>
           </div>
           <pre style="white-space:pre-wrap;font-family:inherit;margin-top:10px">${escapeHTML(item.texto)}</pre>
@@ -54,22 +90,30 @@
         el.appendChild(card);
       });
 
-      // Delegação de eventos (mais leve)
+      // Delegação de eventos para os botões
       el.onclick = (e) => {
         const btn = e.target.closest('button[data-act]');
-        if(!btn) return;
+        if (!btn) return;
         const i = +btn.dataset.i;
         const act = btn.dataset.act;
         const arrNow = listarPrompts();
         const item = arrNow[i];
-        if(!item) return;
+        if (!item) return;
 
-        if(act === 'copy'){
+        if (act === 'copy') {
           copyToClipboard(item.texto);
-        } else if(act === 'del'){
+          return;
+        }
+        if (act === 'share') {
+          const title = `direito.love — ${item.tema || 'Prompt'}`;
+          shareTextLocal(item.texto, title);
+          return;
+        }
+        if (act === 'del') {
           removerPrompt(i);
           render();
-          toast('Excluído');
+          toast('🗑️ Excluído');
+          return;
         }
       };
     }
