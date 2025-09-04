@@ -1,0 +1,61 @@
+<!--
+index.html
+Estrutura base do app direito.love (MVP 0)
+Inclui topbar, área de chat, input base e placeholders para acessórios e prompt gerado.
+-->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/pwa-192.png" />
+  <link rel="apple-touch-icon" href="icons/pwa-180.png" />
+  <title>direito.love</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Topbar fixa -->
+  <header class="topbar">
+    <div class="logo">⚖️ direito.love</div>
+    <button class="menu-btn" aria-label="Abrir menu lateral">☰</button>
+  </header>
+
+  <!-- Conteúdo principal -->
+  <main class="chat-area" id="chat-area" role="main" aria-live="polite">
+    <div class="mensagem-recepcao">
+      👋 Olá! Escreva o <strong>tema jurídico</strong> que deseja aprofundar.
+    </div>
+    <!-- Aqui aparecem as mensagens simuladas e o prompt -->
+  </main>
+
+  <!-- Campo de input fixo na base -->
+  <form class="input-area" id="input-form">
+    <input type="text" id="tema-input" placeholder="Digite o tema aqui..." aria-label="Tema jurídico" required />
+    <button type="submit">Enviar</button>
+  </form>
+
+  <!-- Acessórios da Etapa A -->
+  <section class="acessorios hidden" id="acessorios-section">
+    <h2>🔧 Escolha como deseja enriquecer seu prompt:</h2>
+    <form id="acessorios-form"></form>
+    <button id="gerar-btn" disabled>🎯 Gerar Prompt</button>
+  </section>
+
+  <!-- Resultado final -->
+  <section class="resultado hidden" id="resultado-section">
+    <h2>📝 Prompt Gerado</h2>
+    <pre id="prompt-gerado"></pre>
+    <div class="botoes-prompt">
+      <button id="copiar-btn">📋 Copiar</button>
+      <button id="novo-btn">🆕 Novo</button>
+    </div>
+  </section>
+
+  <script src="data-acessorios.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
