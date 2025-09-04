@@ -68,4 +68,57 @@
           <li>Digite o tema → aguarde “... pensando”.</li>
           <li>Escolha os módulos que quer no seu prompt.</li>
           <li>Clique em <b>Gerar</b> para copiar (sem exibir o prompt gigante).</li>
-          <li>Os últimos 50 prompts ficam em <b>Recentes</b>
+          <li>Os últimos 50 prompts ficam em <b>Recentes</b>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal resumo -->
+  <div id="resumo-modal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="resumo-title">
+    <div class="panel">
+      <header>
+        <h2 id="resumo-title">Seu prompt está pronto</h2>
+        <button class="icon-btn" id="close-resumo" aria-label="Fechar">✕</button>
+      </header>
+      <div class="content">
+        <p>Veja o que será incluído:</p>
+        <ul id="resumo-list"></ul>
+      </div>
+      <div class="actions">
+        <a id="go-recentes" href="/recentes.html" class="btn">Recentes</a>
+        <button id="share-btn" class="btn" type="button" aria-label="Compartilhar prompt">Compartilhar</button>
+        <button id="copy-btn" class="btn primary" type="button">Copiar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drawer lateral -->
+  <aside id="drawer" class="drawer" role="dialog" aria-label="Configurações">
+    <header>
+      <h3>Preferências</h3>
+      <button id="btn-close-drawer" class="icon-btn" aria-label="Fechar">✕</button>
+    </header>
+    <div class="content">
+      <p class="muted">Aqui entrarão preferências (tema, acessibilidade, etc.).</p>
+      <p class="muted">PWA e offline já vêm ativados.</p>
+
+      <a href="/recentes.html" class="btn primary" style="margin-top:8px">Abrir Recentes</a>
+
+      <hr style="margin:12px 0; opacity:.2" />
+
+      <h4 class="muted" style="margin:0 0 8px">Sobre o app</h4>
+      <nav class="stack" aria-label="Páginas institucionais">
+        <a href="/como-funciona.html" class="btn">Como Funciona</a>
+        <a href="/objetivo.html" class="btn">Nosso Objetivo</a>
+        <a href="/sobre.html" class="btn">Sobre</a>
+      </nav>
+    </div>
+  </aside>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Ponto de entrada único -->
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
