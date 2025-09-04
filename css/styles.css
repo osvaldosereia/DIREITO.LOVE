@@ -95,3 +95,56 @@ a.btn{text-decoration:none;color:inherit}
   background: var(--accent);
   color: #fff;
 }
+/* ===== Fix Recentes: ações responsivas e sem overflow ===== */
+
+/* Linha do cabeçalho do card (data + ações) */
+.card .row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;           /* permite quebrar para a linha de baixo */
+}
+
+/* Coluna da data/horário ocupa o espaço disponível */
+.card .row > :first-child{
+  flex:1 1 220px;
+  min-width:0;
+}
+
+/* Bloco de botões (Copiar / Compartilhar / Excluir) */
+.card .actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;           /* deixa os botões quebrarem se faltar espaço */
+  margin-left:auto;
+}
+
+/* Botões não estouram largura */
+.card .actions .btn{
+  white-space:nowrap;       /* evita texto quebrando feio */
+  flex:0 0 auto;
+}
+
+/* Conteúdo do prompt nunca cria scroll horizontal */
+.card pre{
+  white-space:pre-wrap;     /* já estava inline, trazemos p/ CSS */
+  word-break:break-word;
+  overflow-wrap:anywhere;
+  max-width:100%;
+}
+
+/* Garantia extra para contêineres */
+.list, .card{ max-width:100%; }
+
+/* Mobile: organiza 3 botões por linha sem ultrapassar */
+@media (max-width: 520px){
+  .card .actions{
+    width:100%;
+    margin-left:0;
+    justify-content:flex-start;
+  }
+  .card .actions .btn{
+    flex:1 1 calc(33.33% - 8px);
+  }
+}
+
