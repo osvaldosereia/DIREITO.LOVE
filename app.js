@@ -119,6 +119,49 @@ Assinatura: 💚 direito.love
 Data: ${now}`;
 }
 
+// === Compartilhamento (Web Share + fallbacks) ===
+async function shareText(text, { title = 'direito.love — Prompt', filename = 'prompt-direito-love.txt' } = {}) {
+  if (!navigator.onLine) { toast('⚠ Requer conexão para compartilhar'); return false; }
+
+  try {
+    if (navigator.share) {
+      if (text.length > 12000 && navigator.canShare) {
+        const file = new File([text], filename, { type: 'text/plain' });
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({ title, files: [file] });
+          return true;
+        }
+      }
+      await navigator.share({ title, text });
+      return true;
+    }
+  } catch (e) {
+    if (e?.name === 'AbortError') { toast('Compartilhamento cancelado'); return false; }
+  }
+
+  if (text.length < 12000) {
+    const subject = encodeURIComponent(title);
+    const body = encodeURIComponent(text);
+    location.href = `mailto:?subject=${subject}&body=${body}`;
+    return true;
+  }
+
+  try {
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+    toast('⬇️ Exportado como .txt');
+  } catch {}
+
+  const ok = await copyToClipboard(text);
+  if (ok) toast('✅ Copiado. Cole no app desejado.');
+  return ok;
+}
+
+
 // -------------------- Resumo / Modal --------------------
 function openResumo(tema) {
   scrollToEl(document.body);
