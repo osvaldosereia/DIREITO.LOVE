@@ -4,44 +4,37 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#000000" />
-  <meta name="description" content="Seus últimos prompts salvos — direito.love" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="icon" href="icons/pwa-192.png" />
   <title>📋 Recentes — direito.love</title>
   <link rel="stylesheet" href="/css/styles.css" />
 </head>
 <body>
-  <header class="topbar" role="banner" aria-label="Barra superior">
-    <div class="brand" aria-label="direito.love">
-      <span class="logo">💚</span><span>direito.love</span>
-    </div>
-    <a href="/index.html" class="btn primary" aria-label="Voltar para a página principal">Voltar</a>
+  <header class="topbar">
+    <div class="brand"><span class="logo">💚</span><span>direito.love</span></div>
+    <a href="/index.html" class="btn primary">Voltar</a>
   </header>
 
-  <main class="chat" role="main" id="conteudo">
+  <main class="chat" role="main">
     <div class="section">
       <h3>Seus últimos prompts</h3>
-      <div id="lista" class="list" aria-live="polite"></div>
+      <div id="lista" class="list"></div>
     </div>
   </main>
 
   <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
-  <!-- Só o que a página precisa -->
   <script type="module">
     import { $, $$, toast, copyToClipboard } from '/js/utils.js';
     import { listarPrompts, removerPrompt } from '/js/recents.js';
 
     const escapeHTML = (s='') => s.replace(/[<>&]/g, m => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[m]));
 
-    function render() {
+    function render(){
       const el = $('#lista');
+      const arr = listarPrompts();
       el.innerHTML = '';
-      let arr = [];
-      try { arr = listarPrompts(); } catch { arr = []; }
 
-      if (!arr.length) {
-        el.innerHTML = '<div class="card"><div class="muted">Sem itens ainda.</div></div>';
+      if(!arr.length){
+        el.innerHTML = '<div class="card"><div class="muted">Sem itens ainda. Gere um prompt e clique em <b>Copiar</b> para salvar aqui.</div></div>';
         return;
       }
 
@@ -52,17 +45,36 @@
           <div class="row">
             <div><div class="muted">${new Date(item.quando).toLocaleString()}</div></div>
             <div class="actions">
-              <button class="btn" data-act="copy">Copiar</button>
-              <button class="btn" data-act="del">Excluir</button>
+              <button class="btn" data-act="copy" data-i="${idx}">Copiar</button>
+              <button class="btn" data-act="del"  data-i="${idx}">Excluir</button>
             </div>
           </div>
           <pre style="white-space:pre-wrap;font-family:inherit;margin-top:10px">${escapeHTML(item.texto)}</pre>
         `;
+        el.appendChild(card);
+      });
 
-        // Copiar com feedback
-        card.querySelector('[data-act="copy"]').addEventListener('click', async () => {
-          const ok = await copyToClipboard(item.texto);
-          if (ok) toast('✅ Copiado para a área de transferência');
-        });
+      // Delegação de eventos (mais leve)
+      el.onclick = (e) => {
+        const btn = e.target.closest('button[data-act]');
+        if(!btn) return;
+        const i = +btn.dataset.i;
+        const act = btn.dataset.act;
+        const arrNow = listarPrompts();
+        const item = arrNow[i];
+        if(!item) return;
 
-        // Excluir com rerender
+        if(act === 'copy'){
+          copyToClipboard(item.texto);
+        } else if(act === 'del'){
+          removerPrompt(i);
+          render();
+          toast('Excluído');
+        }
+      };
+    }
+
+    render();
+  </script>
+</body>
+</html>
