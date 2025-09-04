@@ -43,29 +43,43 @@ function flattenItems(data){
 }
 
 export async function buscarSugestoesTema(tema){
-  const results=[]; const t=(tema||'').toLowerCase();
-  for(const p of KB_PATHS){
+  const norm = s => (s || '')
+  .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // tira acentos
+  .toLowerCase();
+
+export async function buscarSugestoesTema(tema){
+  const results = [];
+  const tokens = norm(tema).split(/\s+/).filter(Boolean); // ex.: ["responsabilidade","civil"]
+  for (const p of KB_PATHS){
     const j = await fetchJSON(p);
-    if(!j) continue;
-    let items=[];
-    if(Array.isArray(j)) items=j;
-    else if(Array.isArray(j.itens)) items=j.itens;
-    else items=flattenItems(j);
-    items.forEach(it=>{
-      const title=String(it.titulo || it.nome || it.sumula || it.artigo || it).trim();
-      const text =String(it.texto || it.ementa || it.resumo || it.descricao || it).trim();
-      const hay  =(title+' '+text).toLowerCase();
-      if(!t || hay.includes(t)){
-        results.push({ fonte:p, titulo:title||'Item', resumo:(text||'').slice(0,160) });
+    if (!j) continue;
+
+    let items = [];
+    if (Array.isArray(j)) items = j;
+    else if (Array.isArray(j.itens)) items = j.itens;
+    else items = flattenItems(j); // já existe no arquivo
+
+    items.forEach(it => {
+      const title = String(it.titulo || it.nome || it.sumula || it['súmula'] || it.artigo || it).trim();
+      const text  = String(it.texto  || it.ementa || it.resumo || it.descricao || it['descrição'] || '').trim();
+      const hay   = norm(`${title} ${text}`);
+
+      // casa se QUALQUER token aparecer (mais permissivo)
+      const match = !tokens.length || tokens.some(t => hay.includes(t));
+      if (match){
+        results.push({ fonte:p, titulo: title || 'Item', resumo: (text||'').slice(0,160) });
       }
     });
   }
-  const seen=new Set(); const final=[];
-  for(const r of results){
-    const key=r.titulo+'|'+r.fonte;
-    if(!seen.has(key)){ final.push(r); seen.add(key); }
-    if(final.length>=8) break;
+
+  // dedup + limita
+  const seen = new Set(); const final = [];
+  for (const r of results){
+    const key = r.titulo + '|' + r.fonte;
+    if (!seen.has(key)){ final.push(r); seen.add(key); }
+    if (final.length >= 8) break;
   }
   console.debug('[kb] sugestões:', final.length);
   return final;
 }
+
