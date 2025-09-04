@@ -3,18 +3,18 @@ const VERSION = 'v2.0.1-' + (self && self.registration ? Date.now() : Math.rando
 
 // Shell do app (apenas arquivos que EXISTEM no repositório)
 const ASSETS = [
-  'index.html',
-  'recentes.html',
-  'offline.html',
-  'css/styles.css',
-  'js/utils.js',
-  'js/data-acessorios.js',
-  'js/busca-legislacao.js',
-  'js/recents.js',
-  'app.js',
-  'manifest.json',
-  'icons/pwa-180.png',
-  'icons/pwa-192.png'
+  '/index.html',
+  '/recentes.html',
+  '/offline.html',
+  '/css/styles.css',
+  '/js/utils.js',
+  '/js/data-acessorios.js',
+  '/js/busca-legislacao.js',
+  '/js/recents.js',
+  '/app.js',
+  '/manifest.json',
+  '/icons/pwa-180.png',
+  '/icons/pwa-192.png'
 ];
 
 // Instalação: pré-carrega shell
