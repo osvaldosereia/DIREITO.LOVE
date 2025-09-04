@@ -92,11 +92,20 @@ function openResumo(tema){
   list.innerHTML = sel.map(s => `<li>${s.nome}</li>`).join('') || '<li>—</li>';
   overlay.classList.add('show'); modal.classList.remove('hidden'); modal.setAttribute('aria-hidden','false');
   cleanupTrap = trapFocus(modal);
-  $('#copy-btn').onclick = async () => {
-    const prompt = buildPrompt(tema);
-    const ok = await copyToClipboard(prompt);
-    if (ok) { salvarPrompt(prompt, { tema, mods: sel.map(s => s.id) }); toast('✅ Prompt copiado'); }
-  };
+ $('#copy-btn').onclick=async()=>{
+  const prompt=buildPrompt(tema);
+
+  // salva sempre
+  salvarPrompt(prompt,{ tema, mods:sel.map(s=>s.id) });
+
+  // tenta copiar
+  const ok = await copyToClipboard(prompt);
+  if(ok){
+    toast('✅ Copiado e salvo em Recentes');
+  } else {
+    toast('⚠ Salvo em Recentes, mas não copiado');
+  }
+};
   $('#close-resumo').onclick = closeResumo;
   $('#go-recentes').onclick = () => location.href = 'recentes.html';
 }
