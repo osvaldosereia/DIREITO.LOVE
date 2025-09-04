@@ -6,7 +6,7 @@
   <meta name="description" content="Gerador de prompts jurídicos para estudantes de Direito — direito.love" />
   <meta name="theme-color" content="#000000" />
 
-  <!-- use caminhos absolutos -->
+  <!-- caminhos absolutos -->
   <link rel="manifest" href="/manifest.json" />
   <link rel="icon" href="/icons/pwa-192.png" />
   <link rel="apple-touch-icon" href="/icons/pwa-192.png" />
@@ -15,21 +15,13 @@
 </head>
 <body>
   <div class="container">
-  <!-- Topo -->
-  <header class="topbar" role="banner">
-    <div class="brand" aria-label="direito.love">
-      <span class="logo">💚</span><span>direito.love</span>
-    </div>
-
-    <nav class="stack" aria-label="Páginas institucionais" style="margin-top:8px">
-      <a href="/como-funciona.html" class="btn">Como Funciona</a>
-      <a href="/objetivo.html" class="btn">Nosso Objetivo</a>
-      <a href="/sobre.html" class="btn">Sobre</a>
-    </nav>
-
-    <button id="btn-settings" class="icon-btn" aria-label="Abrir configurações" aria-controls="drawer" aria-expanded="false">⚙</button>
-  </header>
-</div>
+    <!-- Topo -->
+    <header class="topbar" role="banner">
+      <div class="brand" aria-label="direito.love">
+        <span class="logo">💚</span><span>direito.love</span>
+      </div>
+      <button id="btn-settings" class="icon-btn" aria-label="Abrir configurações" aria-controls="drawer" aria-expanded="false">⚙</button>
+    </header>
 
     <!-- Área do chat -->
     <main class="chat" id="chat" role="log" aria-live="polite" aria-relevant="additions"></main>
@@ -40,10 +32,12 @@
         <h3 id="lbl-acessorios">O que incluir? (selecione pelo menos 1)</h3>
         <div id="acessorios-list" class="chips" role="group" aria-label="Acessórios para o prompt"></div>
       </div>
+
       <div id="sugestoes-sec" class="section hidden" aria-labelledby="lbl-sugestoes">
         <h3 id="lbl-sugestoes">Sugestões encontradas</h3>
         <ul id="sugestoes-list"></ul>
       </div>
+
       <div class="bloco-gerar section hidden">
         <button id="btn-gerar" class="btn primary" disabled>Gerar</button>
       </div>
@@ -74,46 +68,4 @@
           <li>Digite o tema → aguarde “... pensando”.</li>
           <li>Escolha os módulos que quer no seu prompt.</li>
           <li>Clique em <b>Gerar</b> para copiar (sem exibir o prompt gigante).</li>
-          <li>Os últimos 50 prompts ficam em <b>Recentes</b>.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal resumo -->
-  <div id="resumo-modal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="resumo-title">
-    <div class="panel">
-      <header>
-        <h2 id="resumo-title">Seu prompt está pronto</h2>
-        <button class="icon-btn" id="close-resumo" aria-label="Fechar">✕</button>
-      </header>
-      <div class="content">
-        <p>Veja o que será incluído:</p>
-        <ul id="resumo-list"></ul>
-      </div>
-     <div class="actions">
-  <a id="go-recentes" href="recentes.html" class="btn">Recentes</a>
-  <button id="share-btn" class="btn" type="button" aria-label="Compartilhar prompt">Compartilhar</button>
-  <button id="copy-btn" class="btn primary" type="button">Copiar</button>
-</div>
-    </div>
-  </div>
-
-  <!-- Drawer lateral -->
-  <aside id="drawer" class="drawer" role="dialog" aria-label="Configurações">
-    <header>
-      <h3>Preferências</h3>
-      <button id="btn-close-drawer" class="icon-btn" aria-label="Fechar">✕</button>
-    </header>
-    <div class="content">
-      <p class="muted">Aqui entrarão preferências (tema, acessibilidade, etc.).</p>
-      <p class="muted">PWA e offline já vêm ativados.</p>
-      <a href="recentes.html" class="btn primary" style="margin-top:8px">Abrir Recentes</a>
-    </div>
-  </aside>
-
-  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
-
-  <!-- Ponto de entrada único -->
-   <script type="module" src="/app.js"></script>
-</body>
+          <li>Os últimos 50 prompts ficam em <b>Recentes</b>
