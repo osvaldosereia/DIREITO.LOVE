@@ -1,48 +1,72 @@
-/*
-recents.js
-Gerencia o armazenamento local de prompts gerados
-Limite: 50 entradas
-*/
+<!--
+recentes.html
+Lista os últimos prompts gerados pelo usuário (limitado a 50)
+-->
 
-const CHAVE_RECENTES = 'prompts-recentes';
-const LIMITE = 50;
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="icon" href="icons/pwa-192.png" />
+  <link rel="apple-touch-icon" href="icons/pwa-180.png" />
+  <title>📋 Recentes - direito.love</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
 
-// Salva um novo prompt
-function salvarPrompt(promptTexto) {
-  const recentes = carregarRecentes();
-  const novo = {
-    id: Date.now(),
-    texto: promptTexto.trim()
-  };
+  <!-- Topo fixo -->
+  <header class="topbar">
+    <div class="logo">💚 direito.love</div>
+    <span>📋 Recentes</span>
+  </header>
 
-  // Adiciona no topo
-  recentes.unshift(novo);
+  <main class="chat-area" id="recentes-area">
+    <div id="listaRecentes"></div>
+  </main>
 
-  // Limita a 50
-  if (recentes.length > LIMITE) {
-    recentes.pop();
-  }
+  <div class="bloco-gerar">
+    <button id="voltarBtn">⬅️ Voltar ao início</button>
+    <button id="limparBtn">🗑️ Limpar todos</button>
+  </div>
 
-  localStorage.setItem(CHAVE_RECENTES, JSON.stringify(recentes));
-}
+  <script src="recents.js"></script>
+  <script>
+    const lista = document.getElementById('listaRecentes');
+    const voltarBtn = document.getElementById('voltarBtn');
+    const limparBtn = document.getElementById('limparBtn');
 
-// Retorna todos os prompts salvos
-function carregarRecentes() {
-  try {
-    const salvos = localStorage.getItem(CHAVE_RECENTES);
-    return salvos ? JSON.parse(salvos) : [];
-  } catch {
-    return [];
-  }
-}
+    function renderizarLista() {
+      const recentes = carregarRecentes();
+      lista.innerHTML = '';
 
-// Exclui um pelo ID
-function excluirPrompt(id) {
-  const recentes = carregarRecentes().filter(p => p.id !== id);
-  localStorage.setItem(CHAVE_RECENTES, JSON.stringify(recentes));
-}
+      if (recentes.length === 0) {
+        lista.innerHTML = '<div class="mensagem-recepcao">Nenhum prompt salvo ainda.</div>';
+        return;
+      }
 
-// Limpa tudo
-function limparRecentes() {
-  localStorage.removeItem(CHAVE_RECENTES);
-}
+      recentes.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'mensagem-recepcao';
+        card.innerHTML = `
+          <pre>${item.texto}</pre>
+          <button onclick="navigator.clipboard.writeText(\`${item.texto}\`)">📋 Copiar</button>
+        `;
+        lista.appendChild(card);
+      });
+    }
+
+    voltarBtn.onclick = () => window.location.href = 'index.html';
+    limparBtn.onclick = () => {
+      if (confirm('Tem certeza que deseja apagar todos os prompts salvos?')) {
+        limparRecentes();
+        renderizarLista();
+      }
+    };
+
+    renderizarLista();
+  </script>
+
+</body>
+</html>
