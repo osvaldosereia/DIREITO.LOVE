@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Pesquisa — direito.love</title>
+  <meta name="theme-color" content="#F5C400" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="favicon-180.png" />
+
+  <style>
+    :root{
+      --bg:#FFFDF0;
+      --surface:#ffffff;
+      --text:#001840;
+      --border:#e5e7eb;
+      --primary:#102A71;
+      --highlight:#F5C400;
+      --highlight-light:#FFDC5F;
+      --radius:10px;
+      --shadow:0 4px 16px rgba(0,0,0,.05);
+      --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0; background:var(--bg); color:var(--text);
+      font:400 15px/1.4 var(--font); -webkit-font-smoothing:antialiased;
+    }
+
+    /* Topbar */
+    .topbar{
+      position:sticky; top:0; z-index:30;
+      background:var(--highlight); border-bottom:2px solid var(--primary);
+      display:flex; justify-content:center; align-items:center;
+      padding:4px 10px;
+    }
+    .topbar img{height:40px; width:auto;}
+
+    main{max-width:900px; margin:20px auto; padding:0 16px;}
+
+    #busca{
+      width:100%; padding:12px 14px; font-size:16px;
+      border:1px solid var(--border); border-radius:8px;
+      margin-bottom:20px;
+    }
+
+    .resultado{
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:var(--radius); box-shadow:var(--shadow);
+      padding:14px; margin-bottom:16px;
+    }
+    .resultado h3{margin:0 0 8px; font-size:17px; color:var(--primary);}
+    .resultado p{margin:0 0 10px; font-size:14px; line-height:1.5;}
+
+    .btn{
+      appearance:none; border:none; cursor:pointer;
+      background:var(--primary); color:#fff; font-size:14px;
+      padding:8px 12px; border-radius:6px;
+      transition:.15s;
+    }
+    .btn:hover{background:#264399;}
+
+    .toast{
+      position:fixed; left:50%; transform:translateX(-50%);
+      bottom:18px; background:#111; color:#fff;
+      padding:8px 12px; border-radius:999px;
+      opacity:0; transition:.2s; z-index:60
+    }
+    .toast.show{opacity:1}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <img src="icons/logo.png" alt="direito.love">
+  </header>
+
+  <main>
+    <input id="busca" placeholder="Digite um termo (ex: homicídio, súmula, CPC...)" autocomplete="off" />
+    <div id="resultados"></div>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+<script>
+(async function(){
+  const arquivos = [
+    "cp.json",
+    "cpc.json",
+    "sumulas.json",
+    "jurisprudencia.json",
+    "enunciados.json"
+  ];
+  let data = [];
+
+  // Carrega todos os JSON em /data/
+  for (const arq of arquivos){
+    try{
+      const conteudo = await fetch("data/" + arq).then(r=>r.json());
+      data = data.concat(conteudo);
+    }catch(e){
+      console.warn("Erro ao carregar", arq, e);
+    }
+  }
+
+  const buscaEl = document.getElementById("busca");
+  const resultadosEl = document.getElementById("resultados");
+  const toastEl = document.getElementById("toast");
+
+  function toast(msg,t=1600){
+    toastEl.textContent = msg;
+    toastEl.classList.add("show");
+    setTimeout(()=>toastEl.classList.remove("show"),t);
+  }
+
+  buscaEl.addEventListener("input", ()=>{
+    const termo = buscaEl.value.toLowerCase().trim();
+    resultadosEl.innerHTML = "";
+    if(!termo) return;
+    const filtrados = data.filter(item =>
+      item.titulo.toLowerCase().includes(termo) ||
+      item.texto.toLowerCase().includes(termo)
+    );
+    if(!filtrados.length){
+      resultadosEl.innerHTML = "<p>Nenhum resultado encontrado.</p>";
+      return;
+    }
+    filtrados.forEach(item=>{
+      const div = document.createElement("div");
+      div.className = "resultado";
+      div.innerHTML = `
+        <h3>${item.titulo}</h3>
+        <p>${item.texto}</p>
+        <button class="btn">Copiar</button>
+      `;
+      div.querySelector("button").addEventListener("click", async ()=>{
+        try{
+          await navigator.clipboard.writeText(item.titulo + "\\n" + item.texto);
+          toast("Copiado!");
+        }catch(e){
+          toast("Não consegui copiar.");
+        }
+      });
+      resultadosEl.appendChild(div);
+    });
+  });
+})();
+</script>
+</body>
+</html>
