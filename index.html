@@ -40,7 +40,7 @@
     .topbar{
       position:sticky; top:0; z-index:30;
       background:var(--highlight); color:var(--text);
-      border-bottom:2px solid var(--primary);
+      border-bottom:3px solid var(--primary);
       display:flex; justify-content:center; align-items:center;
       padding:4px 10px; /* mais fina */
     }
@@ -194,7 +194,39 @@
 📌 Tema escolhido: [INSERIR TEMA AQUI]
 📌 Sessões a serem seguidas: [INSERIR AQUI A SEQUÊNCIA DE SESSÕES DEFINIDA PELO USUÁRIO]
 
----`;
+---
+
+### Regras obrigatórias de escrita:
+
+1. **Seguir exatamente a sequência de sessões definida pelo usuário.**
+   - Nenhuma sessão pode ser omitida.
+   - Cada sessão deve ser aberta com um **título claro** e, se necessário, subtítulos.
+
+2. **Entrega por blocos:**
+   - Apresentar no máximo **3 sessões por vez**.
+   - Ao final de cada bloco, perguntar:
+     ➡️ “Deseja que eu continue para as próximas sessões?”
+   - Só prossiga após autorização.
+
+3. **Formatação:**
+   - Pular **duas linhas** antes de cada nova sessão.
+   - Usar uma **linha separadora (---)** para dividir os blocos.
+   - Estruturar o conteúdo em **parágrafos curtos e claros**.
+   - Quando houver quadro comparativo, **organizar em tabela textual simples**.
+   - Quando houver questões, numerá-las (1, 2, 3…) e apresentar alternativas (A, B, C, D, E), logo após incluir gabarito comentado.
+   - Base legal deve vir unicamente do Planalto Governo.
+   - Evite números de julgados; apresente apenas entendimentos.
+   - A busca deve ser feita na web.
+
+4. **Linguagem:**
+   - Clara, simples e didática, mas mantendo rigor jurídico.
+
+---
+
+### Encerramento:
+Ao finalizar todas as sessões solicitadas, conclua sempre com:
+
+💚 direito.love`;
 
   const temaEl=$("#tema"),
         criarBtn=$("#criar"),
@@ -237,7 +269,7 @@
     catch(e){toast("Não consegui copiar automaticamente.");}
   });
 
-  // Compartilhar: só mostra no mobile (CSS). Aqui, ainda escondemos se o recurso não existir.
+  // Compartilhar: só mostra no mobile (CSS). Se não suportado, esconde.
   if(!(navigator.share && typeof navigator.share==="function")){
     if(compartilhar2) compartilhar2.style.display = "none";
   }else{
@@ -248,7 +280,6 @@
         await navigator.share({title:"Prompt — direito.love", text, url:window.location.href});
         toast("Compartilhado!");
       }catch(e){
-        // usuário cancelou — não é erro fatal
         toast("Compartilhamento cancelado.");
       }
     });
