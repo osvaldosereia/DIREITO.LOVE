@@ -6,6 +6,12 @@
   <title>direito.love — Criador de Prompts</title>
   <meta name="theme-color" content="#F5C400" />
 
+  <!-- SEO -->
+  <meta name="description" content="direito.love — Criador de Prompts para estudo jurídico, OAB e concursos." />
+  <meta name="keywords" content="direito, OAB, concursos, súmulas, jurisprudência, estudo jurídico" />
+  <meta name="author" content="direito.love" />
+  <meta name="robots" content="index, follow" />
+
   <!-- Favicon -->
   <link rel="icon" href="favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="favicon-180.png" />
@@ -16,113 +22,65 @@
       --surface:#ffffff;
       --text:#001840;
       --border:#e5e7eb;
-
       --primary:#102A71;
       --highlight:#F5C400;
       --highlight-light:#FFDC5F;
-
       --radius:10px;
       --shadow:0 4px 16px rgba(0,0,0,.05);
       --gap:16px;
-
       --aside-width:420px;
       --prompt-width:400px;
       --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
     }
-
     *{box-sizing:border-box}
     body{
       margin:0; background:var(--bg); color:var(--text);
       font:400 15px/1.3 var(--font); -webkit-font-smoothing:antialiased;
     }
-
-    /* Topbar amarela + estreita */
     .topbar{
       position:sticky; top:0; z-index:30;
-      background:var(--highlight); color:var(--text);
-      border-bottom:2px solid var(--primary);
-      display:flex; justify-content:center; align-items:center;
-      padding:4px 10px;
+      background:var(--highlight); border-bottom:2px solid var(--primary);
+      display:flex; justify-content:space-between; align-items:center;
+      padding:4px 12px;
     }
-    .topbar img{height:40px; width:auto;}
-
-    .wrap{
-      display:grid; gap:var(--gap);
-      grid-template-columns:1fr;
-      padding:18px; max-width:1400px; margin:0 auto;
-    }
-    @media (min-width:1100px){
-      .wrap{grid-template-columns:minmax(0,1fr) var(--aside-width); align-items:start;}
-    }
-
-    .card{background:var(--surface); border:1px solid var(--border);
-      border-radius:var(--radius); box-shadow:var(--shadow);}
-
+    .topbar .logo img{height:40px;width:auto}
+    .nav-buttons{display:flex;gap:12px}
+    .nav-buttons img{height:26px;width:26px;cursor:pointer;transition:transform .15s}
+    .nav-buttons img:hover{transform:scale(1.1)}
+    .wrap{display:grid;gap:var(--gap);grid-template-columns:1fr;padding:18px;max-width:1400px;margin:0 auto}
+    @media(min-width:1100px){.wrap{grid-template-columns:minmax(0,1fr) var(--aside-width);align-items:start}}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
     .builder{padding:18px}
-    .builder h2{margin:0 0 12px; font-size:20px; font-weight:700; color:var(--primary);}
-    label[for=tema], .section-title{font-size:14px; color:var(--primary); margin:8px 0}
-    #tema{
-      width:100%; border:1px solid var(--border); background:#fff; color:var(--text);
-      padding:10px 12px; border-radius:8px; font-size:15px; outline:none;
-    }
+    .builder h2{margin:0 0 12px;font-size:20px;font-weight:700;color:var(--primary)}
+    label[for=tema],.section-title{font-size:14px;color:var(--primary);margin:8px 0}
+    #tema{width:100%;border:1px solid var(--border);background:#fff;color:var(--text);padding:10px 12px;border-radius:8px;font-size:15px;outline:none}
     #tema::placeholder{color:#9aa3af}
-
-    .sessao-lista{
-      display:grid; grid-template-columns:1fr; gap:4px;
-      margin:10px 0; padding:0; list-style:none;
-    }
-    @media(min-width:900px){
-      .sessao-lista{grid-template-columns:1fr 1fr; column-gap:20px;}
-    }
-    .sessao-lista li{
-      display:flex; align-items:center; gap:6px;
-      padding:2px 0; font-size:14px;
-    }
-    .sessao-lista input[type=checkbox]{accent-color:var(--primary); cursor:pointer;}
-    .sessao-lista label{cursor:pointer;}
-
-    .actions{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap}
-    .btn{
-      appearance:none; border:none; background:var(--highlight); color:#000;
-      padding:9px 14px; border-radius:8px; font-size:14px; cursor:pointer; transition:.15s;
-    }
-    .btn:hover{background:var(--highlight-light);}
-    .btn.primary{background:var(--primary); color:#fff; font-weight:700}
-    .btn.primary:hover{background:#264399;}
-
-    .aside{position:sticky; top:56px; padding:12px}
-    .stack{max-width:var(--prompt-width); margin:0 auto;}
-
-    .ad .box{
-      width:min(var(--prompt-width), 100%);
-      aspect-ratio:400/180;
-      border:1px dashed var(--border); border-radius:10px;
-      background:#fff; color:#999; display:flex;
-      align-items:center; justify-content:center; font-size:13px;
-    }
-
-    textarea#saida{
-      width:min(var(--prompt-width), 100%);
-      min-height:30vh;
-      resize:vertical; padding:10px 12px; border-radius:8px;
-      border:1px solid var(--border); background:#fff; color:#001840;
-      font-family:ui-monospace,Menlo,Consolas,monospace; font-size:13.5px;
-      display:block; margin:0 auto;
-    }
-
-    .toast{position:fixed; left:50%; transform:translateX(-50%);
-      bottom:18px; background:#111; color:#fff;
-      padding:8px 12px; border-radius:999px; opacity:0;
-      transition:.2s; z-index:60}
+    .sessao-lista{display:grid;grid-template-columns:1fr;gap:4px;margin:10px 0;padding:0;list-style:none}
+    @media(min-width:900px){.sessao-lista{grid-template-columns:1fr 1fr;column-gap:20px}}
+    .sessao-lista li{display:flex;align-items:center;gap:6px;padding:2px 0;font-size:14px}
+    .sessao-lista input[type=checkbox]{accent-color:var(--primary);cursor:pointer}
+    .sessao-lista label{cursor:pointer}
+    .actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+    .btn{appearance:none;border:none;background:var(--highlight);color:#000;padding:9px 14px;border-radius:8px;font-size:14px;cursor:pointer;transition:.15s}
+    .btn:hover{background:var(--highlight-light)}
+    .btn.primary{background:var(--primary);color:#fff;font-weight:700}
+    .btn.primary:hover{background:#264399}
+    .aside{position:sticky;top:56px;padding:12px}
+    .stack{max-width:var(--prompt-width);margin:0 auto}
+    .ad .box{width:min(var(--prompt-width),100%);aspect-ratio:400/180;border:1px dashed var(--border);border-radius:10px;background:#fff;color:#999;display:flex;align-items:center;justify-content:center;font-size:13px}
+    textarea#saida{width:min(var(--prompt-width),100%);min-height:30vh;resize:vertical;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:#fff;color:#001840;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13.5px;display:block;margin:0 auto}
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:60}
     .toast.show{opacity:1}
-    .info{margin-top:6px; font-size:12px; color:#666}
+    .info{margin-top:6px;font-size:12px;color:#666}
   </style>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9390108277510836"
-     crossorigin="anonymous"></script>
 </head>
 <body>
   <header class="topbar">
     <div class="logo"><img src="icons/logo.png" alt="direito.love"></div>
+    <nav class="nav-buttons">
+      <a href="index.html" aria-label="Início"><img src="icons/inicio.png" alt="Início"></a>
+      <a href="pesquisa.html" aria-label="Pesquisar"><img src="icons/pesquisar.png" alt="Pesquisar"></a>
+    </nav>
   </header>
 
   <div class="wrap">
@@ -130,7 +88,6 @@
       <h2>Criador de Prompts — Estudantes de Direito</h2>
       <label for="tema">Tema</label>
       <input id="tema" maxlength="120" placeholder="Digite aqui o tema..." autocomplete="off" />
-
       <div class="section-title">Selecione como quer estudar:</div>
       <ul class="sessao-lista" id="sessao-lista">
         <li><input type="checkbox" id="s1"><label for="s1">Conceitos e Definições</label></li>
@@ -154,7 +111,6 @@
         <li><input type="checkbox" id="s19"><label for="s19">Dicas de Prova (OAB/Concursos)</label></li>
         <li><input type="checkbox" id="s20"><label for="s20">Referências Bibliográficas</label></li>
       </ul>
-
       <div class="actions">
         <button id="criar" class="btn primary" disabled>Criar Prompt</button>
         <button id="limpar" class="btn">Limpar</button>
@@ -164,15 +120,9 @@
 
     <aside class="aside card">
       <div class="stack">
-        <div class="ad" id="ad-container">
-  <div class="box" id="ad-box">
-    <!-- Aqui vai a tag do AdSense -->
-    Anúncio • 400×180
-  </div>
-</div>
-
+        <div class="ad" id="ad-container"><div class="box" id="ad-box">Anúncio • 400×180</div></div>
         <textarea id="saida" readonly placeholder="(vazio)"></textarea>
-        <div class="actions" style="margin:10px auto 0; width:min(var(--prompt-width),100%);">
+        <div class="actions" style="margin:10px auto 0;width:min(var(--prompt-width),100%);">
           <button id="copiar2" class="btn">Copiar</button>
           <button id="novo2" class="btn">Novo</button>
         </div>
@@ -184,36 +134,11 @@
 
 <script>
 (function(){
-  const $ = (s,r=document)=>r.querySelector(s);
-  const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
-  const toast = (msg,t=1600)=>{const el=$("#toast");el.textContent=msg;
-    el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
+  const $=(s,r=document)=>r.querySelector(s);
+  const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+  const toast=(msg,t=1600)=>{const el=$("#toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
 
-  // Descrições detalhadas para cada sessão
-  const SESSOES_DETALHADAS = {
-    "Conceitos e Definições": "Conceitos e Definições — Explique os principais conceitos jurídicos envolvidos, com definições legais, doutrinárias e comparações práticas.",
-    "Base Legal Essencial": "Base Legal Essencial — Liste os artigos de lei aplicáveis ao tema, destacando relevância prática e implicações processuais.",
-    "Jurisprudência Majoritária": "Jurisprudência Majoritária — Resuma os entendimentos predominantes dos tribunais superiores, apontando tendências e efeitos práticos.",
-    "Doutrina Relevante": "Doutrina Relevante — Apresente autores clássicos e contemporâneos, destacando convergências, divergências e críticas.",
-    "Exemplos e Casos Práticos": "Exemplos e Casos Práticos — Mostre como o tema aparece na prática, com casos concretos, julgados relevantes e aplicações reais.",
-    "Quadro Comparativo": "Quadro Comparativo — Organize semelhanças e diferenças em tabela textual simples, facilitando a revisão e comparação.",
-    "Questões de Fixação": "Questões de Fixação — Elabore questões objetivas no estilo OAB/concursos, numeradas, com alternativas e gabarito comentado.",
-    "Debates, Críticas e Tendências": "Debates, Críticas e Tendências — Traga discussões acadêmicas e críticas contemporâneas, além de apontar caminhos futuros.",
-    "Súmulas e Enunciados": "Súmulas e Enunciados — Liste e explique súmulas e enunciados aplicáveis, contextualizando seu uso em provas e prática.",
-    "Estrutura de Peça / Modelos": "Estrutura de Peça / Modelos — Monte um guia prático de estruturação da peça processual adequada ao tema.",
-    "Checklist de Peça": "Checklist de Peça — Crie uma lista prática com itens obrigatórios e facultativos para garantir completude da peça.",
-    "Raciocínio Jurídico (passo a passo)": "Raciocínio Jurídico (passo a passo) — Estruture a linha de raciocínio jurídico, encadeando premissas, fundamentos e conclusões.",
-    "Mapa Mental": "Mapa Mental — Organize o tema em tópicos-chave conectados, simulando um mapa mental textual para memorização.",
-    "Flashcards": "Flashcards — Transforme os pontos principais em perguntas e respostas curtas, próprias para revisão rápida.",
-    "Erros Comuns": "Erros Comuns — Liste falhas frequentes cometidas por estudantes e advogados sobre o tema, com dicas para evitá-las.",
-    "Checklist Final de Revisão": "Checklist Final de Revisão — Um resumo em formato de lista dos pontos que não podem faltar na revisão final.",
-    "Casos Famosos / Leading Cases": "Casos Famosos / Leading Cases — Destaque julgados emblemáticos, explicando fatos, fundamentos e impacto jurídico.",
-    "Atualizações Recentes": "Atualizações Recentes — Informe alterações legislativas, novas súmulas e entendimentos atuais aplicáveis ao tema.",
-    "Dicas de Prova (OAB/Concursos)": "Dicas de Prova (OAB/Concursos) — Apresente técnicas de resolução e pontos de atenção para provas objetivas e práticas.",
-    "Referências Bibliográficas": "Referências Bibliográficas — Liste obras, artigos e autores essenciais para estudo aprofundado e consulta futura."
-  };
-
-  const BASE_PROMPT = `Você deve assumir a persona de uma **equipe de professores especialistas em todas as áreas do Direito brasileiro**, formada também por **pesquisadores de súmulas e jurisprudências**. Todos fazem parte da equipe **direito.love**.
+  const BASE_PROMPT=`Você deve assumir a persona de uma **equipe de professores especialistas em todas as áreas do Direito brasileiro**, formada também por **pesquisadores de súmulas e jurisprudências**. Todos fazem parte da equipe **direito.love**.
 
 📌 Tema escolhido: [INSERIR TEMA AQUI]
 📌 Sessões a serem seguidas: [INSERIR AQUI A SEQUÊNCIA DE SESSÕES DEFINIDA PELO USUÁRIO]
@@ -252,16 +177,11 @@ Ao finalizar todas as sessões solicitadas, conclua sempre com:
 
 💚 direito.love`;
 
-  const temaEl=$("#tema"),
-        criarBtn=$("#criar"),
-        limparBtn=$("#limpar"),
-        saida=$("#saida"),
-        copiar2=$("#copiar2"),
-        novo2=$("#novo2");
+  const temaEl=$("#tema"),criarBtn=$("#criar"),limparBtn=$("#limpar"),saida=$("#saida"),copiar2=$("#copiar2"),novo2=$("#novo2");
 
   function updateCTA(){
     const checked=[...$$(".sessao-lista input:checked")];
-    criarBtn.disabled=!(temaEl.value.trim() && checked.length);
+    criarBtn.disabled=!(temaEl.value.trim()&&checked.length);
   }
 
   temaEl.addEventListener("input",updateCTA);
@@ -269,56 +189,21 @@ Ao finalizar todas as sessões solicitadas, conclua sempre com:
 
   criarBtn.addEventListener("click",()=>{
     const tema=temaEl.value.trim();
-    const checked=[...$$(".sessao-lista input:checked")].map(cb=>{
-      const key=cb.nextElementSibling.textContent.trim();
-      return SESSOES_DETALHADAS[key] || key;
-    });
+    const checked=[...$$(".sessao-lista input:checked")].map(cb=>cb.nextElementSibling.textContent);
     if(!tema){toast("Digite um tema.");return;}
     if(!checked.length){toast("Selecione ao menos 1 sessão.");return;}
-    const prompt=BASE_PROMPT
-      .replace("[INSERIR TEMA AQUI]",tema)
-      .replace("[INSERIR AQUI A SEQUÊNCIA DE SESSÕES DEFINIDA PELO USUÁRIO]",checked.join(" → "));
-    saida.value=prompt;
-    toast("Prompt criado!");
+    const prompt=BASE_PROMPT.replace("[INSERIR TEMA AQUI]",tema).replace("[INSERIR AQUI A SEQUÊNCIA DE SESSÕES DEFINIDA PELO USUÁRIO]",checked.join(" → "));
+    saida.value=prompt;toast("Prompt criado!");
   });
 
-  limparBtn.addEventListener("click",()=>{
-    temaEl.value="";saida.value="";
-    $$(".sessao-lista input").forEach(cb=>cb.checked=false);
-    updateCTA();toast("Tudo limpo.");
-  });
+  limparBtn.addEventListener("click",()=>{temaEl.value="";saida.value="";$$(".sessao-lista input").forEach(cb=>cb.checked=false);updateCTA();toast("Tudo limpo.");});
 
-  copiar2.addEventListener("click",async()=>{
-    const text = saida.value;
-    if(!text.trim()){toast("Nada para copiar.");return;}
-    try{await navigator.clipboard.writeText(text);toast("Copiado!");}
-    catch(e){toast("Não consegui copiar automaticamente.");}
-  });
+  copiar2.addEventListener("click",async()=>{const text=saida.value;if(!text.trim()){toast("Nada para copiar.");return;}try{await navigator.clipboard.writeText(text);toast("Copiado!");}catch(e){toast("Erro ao copiar.");}});
 
-  novo2.addEventListener("click",()=>{
-    temaEl.value="";saida.value="";
-    $$(".sessao-lista input").forEach(cb=>cb.checked=false);
-    updateCTA();toast("Pronto para novo tema."); temaEl.focus();
-    window.scrollTo({top:0,behavior:"smooth"});
-  });
+  novo2.addEventListener("click",()=>{temaEl.value="";saida.value="";$$(".sessao-lista input").forEach(cb=>cb.checked=false);updateCTA();toast("Pronto para novo tema.");temaEl.focus();window.scrollTo({top:0,behavior:"smooth"});});
 
-  temaEl.addEventListener("keydown",e=>{
-    if(e.key==="Enter" && !criarBtn.disabled){
-      e.preventDefault();criarBtn.click();
-    }
-  });
+  temaEl.addEventListener("keydown",e=>{if(e.key==="Enter"&&!criarBtn.disabled){e.preventDefault();criarBtn.click();}});
 })();
-// Esconde o bloco de anúncio se estiver vazio
-window.addEventListener("load", ()=>{
-  const adBox = document.getElementById("ad-box");
-  const adContainer = document.getElementById("ad-container");
-  if(adBox && adContainer){
-    // Verifica se não há conteúdo visível dentro do box
-    if(adBox.innerHTML.trim() === "" || adBox.textContent.trim().includes("Anúncio")){
-      adContainer.style.display = "none";
-    }
-  }
-});
 </script>
 </body>
 </html>
