@@ -3,8 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Pesquisa — direito.love</title>
+  <title>direito.love — Pesquisa</title>
   <meta name="theme-color" content="#F5C400" />
+
+  <!-- SEO -->
+  <meta name="description" content="Pesquisa de artigos, súmulas, jurisprudências e enunciados jurídicos no direito.love" />
+  <meta name="keywords" content="pesquisa jurídica, direito, OAB, concursos, jurisprudência, súmulas" />
+  <meta name="author" content="direito.love" />
+  <meta name="robots" content="index, follow" />
 
   <!-- Favicon -->
   <link rel="icon" href="favicon.png" type="image/png" />
@@ -12,131 +18,131 @@
 
   <style>
     :root{
-      --bg:#FFFDF0;
-      --surface:#ffffff;
-      --text:#001840;
-      --border:#e5e7eb;
-      --primary:#102A71;
-      --highlight:#F5C400;
-      --highlight-light:#FFDC5F;
-      --radius:10px;
-      --shadow:0 4px 16px rgba(0,0,0,.05);
+      --bg:#FFFDF0; --surface:#ffffff; --text:#001840; --border:#e5e7eb;
+      --primary:#102A71; --highlight:#F5C400; --highlight-light:#FFDC5F;
+      --radius:10px; --shadow:0 4px 16px rgba(0,0,0,.05);
       --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
     }
-
     *{box-sizing:border-box}
-    body{
-      margin:0; background:var(--bg); color:var(--text);
-      font:400 15px/1.4 var(--font); -webkit-font-smoothing:antialiased;
-    }
-
+    body{margin:0;background:var(--bg);color:var(--text);font:400 15px/1.4 var(--font);}
     .topbar{
-      position:sticky; top:0; z-index:30;
-      background:var(--highlight); border-bottom:2px solid var(--primary);
-      display:flex; justify-content:center; align-items:center;
-      padding:4px 10px;
+      position:sticky;top:0;z-index:30;background:var(--highlight);
+      border-bottom:2px solid var(--primary);
+      display:flex;justify-content:space-between;align-items:center;
+      padding:4px 12px;
     }
-    .topbar img{height:40px; width:auto;}
-
-    main{max-width:900px; margin:20px auto; padding:0 16px;}
-
-    #busca{
-      width:100%; padding:12px 14px; font-size:16px;
-      border:1px solid var(--border); border-radius:8px;
-      margin-bottom:20px;
-    }
-
-    .resultado{
-      background:var(--surface); border:1px solid var(--border);
-      border-radius:var(--radius); box-shadow:var(--shadow);
-      padding:14px; margin-bottom:16px;
-    }
-    .resultado h3{margin:0 0 8px; font-size:17px; color:var(--primary);}
-    .resultado p{margin:0 0 10px; font-size:14px; line-height:1.5;}
-
-    .btn{
-      appearance:none; border:none; cursor:pointer;
-      background:var(--primary); color:#fff; font-size:14px;
-      padding:8px 12px; border-radius:6px;
-      transition:.15s;
-    }
-    .btn:hover{background:#264399;}
-
-    .toast{
-      position:fixed; left:50%; transform:translateX(-50%);
-      bottom:18px; background:#111; color:#fff;
-      padding:8px 12px; border-radius:999px;
-      opacity:0; transition:.2s; z-index:60
-    }
+    .topbar .logo img{height:40px;width:auto}
+    .nav-buttons{display:flex;gap:12px}
+    .nav-buttons img{height:26px;width:26px;cursor:pointer;transition:transform .15s}
+    .nav-buttons img:hover{transform:scale(1.1)}
+    .wrap{max-width:900px;margin:0 auto;padding:22px}
+    h2{margin:0 0 10px;color:var(--primary)}
+    .search-box{margin:20px 0}
+    #busca{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:15px}
+    .result{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
+      padding:12px 14px;margin:12px 0;position:relative}
+    .result p{margin:0;font-size:14px;line-height:1.4}
+    .truncate{max-height:3.5em;overflow:hidden;position:relative}
+    .btn-small{font-size:12px;color:var(--primary);background:none;border:none;cursor:pointer;padding:2px 4px;margin-top:4px}
+    .actions{margin-top:8px;display:flex;gap:8px}
+    .btn{appearance:none;border:none;background:var(--highlight);color:#000;padding:6px 10px;border-radius:8px;font-size:13px;cursor:pointer;transition:.15s}
+    .btn:hover{background:var(--highlight-light)}
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:60}
     .toast.show{opacity:1}
   </style>
 </head>
 <body>
   <header class="topbar">
-    <img src="icons/logo.png" alt="direito.love">
+    <div class="logo"><img src="icons/logo.png" alt="direito.love"></div>
+    <nav class="nav-buttons">
+      <a href="index.html" aria-label="Início"><img src="icons/inicio.png" alt="Início"></a>
+      <a href="pesquisa.html" aria-label="Pesquisar"><img src="icons/pesquisar.png" alt="Pesquisar"></a>
+    </nav>
   </header>
 
-  <main>
-    <input id="busca" placeholder="Digite um termo (ex: homicídio, súmula, CPC...)" autocomplete="off" />
+  <div class="wrap">
+    <h2>Pesquisa de Conteúdo Jurídico</h2>
+    <p>Digite um termo (artigo, súmula, jurisprudência ou palavra-chave) para buscar nos arquivos.</p>
+    <div class="search-box">
+      <input id="busca" type="text" placeholder="Ex: artigo 5º, súmula 381, dano moral..." />
+    </div>
     <div id="resultados"></div>
-  </main>
+  </div>
 
   <div id="toast" class="toast"></div>
 
 <script>
-(async function(){
-  const arquivos = ["cp.json","sumulas.json","jurisprudencia.json"];
-  let data = [];
+(function(){
+  const $=(s,r=document)=>r.querySelector(s);
+  const resultados=$("#resultados");
+  const busca=$("#busca");
+  const toast=(msg,t=1600)=>{const el=$("#toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
 
-  for (const arq of arquivos){
-    try{
-      const conteudo = await fetch("data/" + arq).then(r=>r.json());
-      data = data.concat(conteudo);
-    }catch(e){
-      console.warn("Erro ao carregar", arq, e);
+  // 🔹 Arquivos JSON (cada um com array de objetos {titulo, texto})
+  const arquivos=["json/codigos.json","json/sumulas.json","json/juris.json","json/enunciados.json"];
+
+  async function carregarDados(){
+    const dados=[];
+    for(const arq of arquivos){
+      try{
+        const r=await fetch(arq); if(!r.ok) continue;
+        const j=await r.json(); dados.push(...j);
+      }catch(e){console.warn("Erro ao carregar",arq);}
     }
+    return dados;
   }
 
-  const buscaEl = document.getElementById("busca");
-  const resultadosEl = document.getElementById("resultados");
-  const toastEl = document.getElementById("toast");
+  let baseDados=[];
+  carregarDados().then(d=>{baseDados=d;toast("Base carregada com sucesso!")});
 
-  function toast(msg,t=1600){
-    toastEl.textContent = msg;
-    toastEl.classList.add("show");
-    setTimeout(()=>toastEl.classList.remove("show"),t);
-  }
-
-  buscaEl.addEventListener("input", ()=>{
-    const termo = buscaEl.value.toLowerCase().trim();
-    resultadosEl.innerHTML = "";
-    if(!termo) return;
-    const filtrados = data.filter(item =>
-      item.titulo.toLowerCase().includes(termo) ||
-      item.texto.toLowerCase().includes(termo)
-    );
-    if(!filtrados.length){
-      resultadosEl.innerHTML = "<p>Nenhum resultado encontrado.</p>";
-      return;
-    }
-    filtrados.forEach(item=>{
-      const div = document.createElement("div");
-      div.className = "resultado";
-      div.innerHTML = `
-        <h3>${item.titulo}</h3>
-        <p>${item.texto}</p>
-        <button class="btn">Copiar</button>
-      `;
-      div.querySelector("button").addEventListener("click", async ()=>{
-        try{
-          await navigator.clipboard.writeText(item.titulo + "\\n" + item.texto);
-          toast("Copiado!");
-        }catch(e){
-          toast("Erro ao copiar.");
-        }
+  function renderizarResultados(lista){
+    resultados.innerHTML="";
+    if(!lista.length){resultados.innerHTML="<p>Nenhum resultado encontrado.</p>";return;}
+    lista.forEach(item=>{
+      const div=document.createElement("div");
+      div.className="result";
+      const p=document.createElement("p");
+      p.textContent=item.texto;
+      if(item.texto.length>150){
+        p.classList.add("truncate");
+        const btn=document.createElement("button");
+        btn.textContent="ver mais";
+        btn.className="btn-small";
+        btn.addEventListener("click",()=>{
+          if(p.classList.contains("truncate")){
+            p.classList.remove("truncate");btn.textContent="recolher";
+          }else{
+            p.classList.add("truncate");btn.textContent="ver mais";
+          }
+        });
+        div.appendChild(p);
+        div.appendChild(btn);
+      }else{
+        div.appendChild(p);
+      }
+      const actions=document.createElement("div");
+      actions.className="actions";
+      const copiar=document.createElement("button");
+      copiar.textContent="Copiar";
+      copiar.className="btn";
+      copiar.addEventListener("click",async()=>{
+        try{await navigator.clipboard.writeText(item.texto);toast("Copiado!");}
+        catch{toast("Erro ao copiar.");}
       });
-      resultadosEl.appendChild(div);
+      actions.appendChild(copiar);
+      div.appendChild(actions);
+      resultados.appendChild(div);
     });
+  }
+
+  busca.addEventListener("input",()=>{
+    const termo=busca.value.toLowerCase().trim();
+    if(!termo){resultados.innerHTML="";return;}
+    const achados=baseDados.filter(x=>
+      x.titulo.toLowerCase().includes(termo)||
+      x.texto.toLowerCase().includes(termo)
+    );
+    renderizarResultados(achados);
   });
 })();
 </script>
