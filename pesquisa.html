@@ -79,7 +79,7 @@
   const toast=(msg,t=1600)=>{const el=$("#toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
 
   // 🔹 Arquivos JSON (cada um com array de objetos {titulo, texto})
-  const arquivos=["json/codigos.json","json/sumulas.json","json/juris.json","json/enunciados.json"];
+  const arquivos=["data/codigos.json","data/sumulas.json","data/juris.json","data/enunciados.json"];
 
   async function carregarDados(){
     const dados=[];
