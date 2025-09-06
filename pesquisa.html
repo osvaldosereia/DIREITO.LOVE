@@ -30,7 +30,6 @@
       font:400 15px/1.4 var(--font); -webkit-font-smoothing:antialiased;
     }
 
-    /* Topbar */
     .topbar{
       position:sticky; top:0; z-index:30;
       background:var(--highlight); border-bottom:2px solid var(--primary);
@@ -86,16 +85,9 @@
 
 <script>
 (async function(){
-  const arquivos = [
-    "cp.json",
-    "cpc.json",
-    "sumulas.json",
-    "jurisprudencia.json",
-    "enunciados.json"
-  ];
+  const arquivos = ["cp.json","sumulas.json","jurisprudencia.json"];
   let data = [];
 
-  // Carrega todos os JSON em /data/
   for (const arq of arquivos){
     try{
       const conteudo = await fetch("data/" + arq).then(r=>r.json());
@@ -140,7 +132,7 @@
           await navigator.clipboard.writeText(item.titulo + "\\n" + item.texto);
           toast("Copiado!");
         }catch(e){
-          toast("Não consegui copiar.");
+          toast("Erro ao copiar.");
         }
       });
       resultadosEl.appendChild(div);
