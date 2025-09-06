@@ -300,6 +300,17 @@ Ao finalizar todas as sessões solicitadas, conclua sempre com:
     }
   });
 })();
+// Esconde o bloco de anúncio se estiver vazio
+window.addEventListener("load", ()=>{
+  const adBox = document.getElementById("ad-box");
+  const adContainer = document.getElementById("ad-container");
+  if(adBox && adContainer){
+    // Verifica se não há conteúdo visível dentro do box
+    if(adBox.innerHTML.trim() === "" || adBox.textContent.trim().includes("Anúncio")){
+      adContainer.style.display = "none";
+    }
+  }
+});
 </script>
 </body>
 </html>
