@@ -232,5 +232,13 @@ window.addEventListener("load", ()=>{
   }
 });
 </script>
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js")
+    .then(() => console.log("✅ Service Worker registrado"))
+    .catch(err => console.warn("Erro SW:", err));
+}
+</script>
+
 </body>
 </html>
