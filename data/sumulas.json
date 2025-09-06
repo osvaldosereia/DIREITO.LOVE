@@ -1,0 +1,17 @@
+[
+  {
+    "id": "stf_sumula_13",
+    "titulo": "Súmula Vinculante 13",
+    "texto": "É vedada a nomeação de cônjuge, companheiro ou parente até o terceiro grau para o exercício de cargo em comissão..."
+  },
+  {
+    "id": "stj_sumula_7",
+    "titulo": "Súmula 7 do STJ",
+    "texto": "A pretensão de simples reexame de prova não enseja recurso especial."
+  },
+  {
+    "id": "stf_sumula_70",
+    "titulo": "Súmula 70 do STF",
+    "texto": "É inadmissível a prisão civil por dívida, salvo a do responsável pelo inadimplemento voluntário e inescusável de obrigação alimentícia."
+  }
+]
