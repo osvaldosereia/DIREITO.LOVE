@@ -40,7 +40,7 @@
     .topbar{
       position:sticky; top:0; z-index:30;
       background:var(--highlight); color:var(--text);
-      border-bottom:3px solid var(--primary);
+      border-bottom:2px solid var(--primary);
       display:flex; justify-content:center; align-items:center;
       padding:4px 10px; /* mais fina */
     }
@@ -117,12 +117,6 @@
       transition:.2s; z-index:60}
     .toast.show{opacity:1}
     .info{margin-top:6px; font-size:12px; color:#666}
-
-    /* Mostrar "Compartilhar" só no mobile */
-    .only-mobile{display:inline-block;}
-    @media (min-width:900px){
-      .only-mobile{display:none !important;}
-    }
   </style>
 </head>
 <body>
@@ -173,7 +167,6 @@
         <textarea id="saida" readonly placeholder="(vazio)"></textarea>
         <div class="actions" style="margin:10px auto 0; width:min(var(--prompt-width),100%);">
           <button id="copiar2" class="btn">Copiar</button>
-          <button id="compartilhar2" class="btn only-mobile">Compartilhar</button>
           <button id="novo2" class="btn">Novo</button>
         </div>
       </div>
@@ -233,7 +226,6 @@ Ao finalizar todas as sessões solicitadas, conclua sempre com:
         limparBtn=$("#limpar"),
         saida=$("#saida"),
         copiar2=$("#copiar2"),
-        compartilhar2=$("#compartilhar2"),
         novo2=$("#novo2");
 
   function updateCTA(){
@@ -268,22 +260,6 @@ Ao finalizar todas as sessões solicitadas, conclua sempre com:
     try{await navigator.clipboard.writeText(text);toast("Copiado!");}
     catch(e){toast("Não consegui copiar automaticamente.");}
   });
-
-  // Compartilhar: só mostra no mobile (CSS). Se não suportado, esconde.
-  if(!(navigator.share && typeof navigator.share==="function")){
-    if(compartilhar2) compartilhar2.style.display = "none";
-  }else{
-    compartilhar2.addEventListener("click",async()=>{
-      const text=saida.value.trim();
-      if(!text){toast("Nada para compartilhar.");return;}
-      try{
-        await navigator.share({title:"Prompt — direito.love", text, url:window.location.href});
-        toast("Compartilhado!");
-      }catch(e){
-        toast("Compartilhamento cancelado.");
-      }
-    });
-  }
 
   novo2.addEventListener("click",()=>{
     temaEl.value="";saida.value="";
