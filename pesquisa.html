@@ -31,6 +31,11 @@
       display:flex;justify-content:space-between;align-items:center;
       padding:4px 8%;
     }
+    .topbar .logo a{
+      text-decoration:none;
+      cursor:default; /* não parece clicável */
+      display:inline-block;
+    }
     .topbar .logo img{height:40px;width:auto}
     .nav-buttons{display:flex;gap:12px}
     .nav-buttons img{height:26px;width:26px;cursor:pointer;transition:transform .15s}
@@ -54,7 +59,9 @@
 </head>
 <body>
   <header class="topbar">
-    <div class="logo"><img src="icons/logo.png" alt="direito.love"></div>
+    <div class="logo">
+      <a href="index.html"><img src="icons/logo.png" alt="direito.love"></a>
+    </div>
     <nav class="nav-buttons">
       <a href="index.html" aria-label="Início"><img src="icons/inicio.png" alt="Início"></a>
       <a href="pesquisa.html" aria-label="Pesquisar"><img src="icons/pesquisar.png" alt="Pesquisar"></a>
