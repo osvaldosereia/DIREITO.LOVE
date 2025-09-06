@@ -44,6 +44,11 @@
       padding:4px 8%;
     }
     .topbar .logo img{height:40px;width:auto}
+    .topbar .logo a{
+      display:inline-block;
+      text-decoration:none;
+      cursor:default; /* não parece clicável */
+    }
     .nav-buttons{display:flex;gap:12px}
     .nav-buttons img{height:26px;width:26px;cursor:pointer;transition:transform .15s}
     .nav-buttons img:hover{transform:scale(1.1)}
@@ -53,7 +58,16 @@
     .builder{padding:18px}
     .builder h2{margin:0 0 12px;font-size:20px;font-weight:700;color:var(--primary)}
     label[for=tema],.section-title{font-size:14px;color:var(--primary);margin:8px 0}
-    #tema{width:100%;border:1px solid var(--border);background:#fff;color:var(--text);padding:10px 12px;border-radius:8px;font-size:15px;outline:none}
+    #tema{
+      width:100%;
+      border:2px solid var(--primary);
+      background:#fdfdfd;
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:8px;
+      font-size:15px;
+      outline:none;
+    }
     #tema::placeholder{color:#9aa3af}
     .sessao-lista{display:grid;grid-template-columns:1fr;gap:4px;margin:10px 0;padding:0;list-style:none}
     @media(min-width:900px){.sessao-lista{grid-template-columns:1fr 1fr;column-gap:20px}}
@@ -76,7 +90,9 @@
 </head>
 <body>
   <header class="topbar">
-    <div class="logo"><img src="icons/logo.png" alt="direito.love"></div>
+    <div class="logo">
+      <a href="index.html"><img src="icons/logo.png" alt="direito.love"></a>
+    </div>
     <nav class="nav-buttons">
       <a href="index.html" aria-label="Início"><img src="icons/inicio.png" alt="Início"></a>
       <a href="pesquisa.html" aria-label="Pesquisar"><img src="icons/pesquisar.png" alt="Pesquisar"></a>
@@ -85,10 +101,10 @@
 
   <div class="wrap">
     <main class="builder card">
-      <h2>Criador de Prompts — Estudantes de Direito</h2>
+      <h2>Criador de Prompts para Estudantes de Direito</h2>
       <label for="tema">Tema</label>
-      <input id="tema" maxlength="120" placeholder="Digite aqui o tema..." autocomplete="off" />
-      <div class="section-title">Selecione como quer estudar:</div>
+      <input id="tema" maxlength="120" placeholder="Digite aqui o Tema. Seja específico." autocomplete="off" />
+      <div class="section-title"><b>Selecione como quer estudar:</b></div>
       <ul class="sessao-lista" id="sessao-lista">
         <li><input type="checkbox" id="s1"><label for="s1">Conceitos e Definições</label></li>
         <li><input type="checkbox" id="s2"><label for="s2">Base Legal Essencial</label></li>
@@ -120,7 +136,7 @@
 
     <aside class="aside card">
       <div class="stack">
-        <div class="ad" id="ad-container"><div class="box" id="ad-box">Anúncio • 400×180</div></div>
+        <div class="ad" id="ad-container"><div class="box" id="ad-box"></div></div>
         <textarea id="saida" readonly placeholder="(vazio)"></textarea>
         <div class="actions" style="margin:10px auto 0;width:min(var(--prompt-width),100%);">
           <button id="copiar2" class="btn">Copiar</button>
@@ -204,6 +220,17 @@ Ao finalizar todas as sessões solicitadas, conclua sempre com:
 
   temaEl.addEventListener("keydown",e=>{if(e.key==="Enter"&&!criarBtn.disabled){e.preventDefault();criarBtn.click();}});
 })();
+
+// Esconde o bloco de anúncio se estiver vazio
+window.addEventListener("load", ()=>{
+  const adBox=document.getElementById("ad-box");
+  const adContainer=document.getElementById("ad-container");
+  if(adBox && adContainer){
+    if(adBox.innerHTML.trim()===""){
+      adContainer.style.display="none";
+    }
+  }
+});
 </script>
 </body>
 </html>
