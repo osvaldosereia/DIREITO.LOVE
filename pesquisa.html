@@ -38,15 +38,15 @@
     .wrap{max-width:900px;margin:0 auto;padding:22px}
     h2{margin:0 0 10px;color:var(--primary)}
     .search-box{margin:20px 0}
-    #busca{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:15px}
+    #busca{width:100%;padding:10px 12px;border:2px solid var(--primary);border-radius:8px;font-size:15px}
     .result{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
       padding:12px 14px;margin:12px 0;position:relative}
-    .result p{margin:0;font-size:14px;line-height:1.4}
-    .truncate{max-height:3.5em;overflow:hidden;position:relative}
-    .btn-small{font-size:12px;color:var(--primary);background:none;border:none;cursor:pointer;padding:2px 4px;margin-top:4px}
-    .actions{margin-top:8px;display:flex;gap:8px}
+    .result p{margin:0;font-size:12px;line-height:1.4}
+    .actions{margin-top:8px;display:flex;justify-content:space-between;gap:8px}
     .btn{appearance:none;border:none;background:var(--highlight);color:#000;padding:6px 10px;border-radius:8px;font-size:13px;cursor:pointer;transition:.15s}
     .btn:hover{background:var(--highlight-light)}
+    .btn-alt{appearance:none;border:none;background:var(--primary);color:#fff;padding:6px 10px;border-radius:8px;font-size:13px;cursor:pointer;transition:.15s}
+    .btn-alt:hover{background:#264399}
     .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:60}
     .toast.show{opacity:1}
   </style>
@@ -78,7 +78,7 @@
   const busca=$("#busca");
   const toast=(msg,t=1600)=>{const el=$("#toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
 
-  // 🔹 Arquivos JSON (cada um com array de objetos {titulo, texto})
+  // Arquivos JSON
   const arquivos=["data/cp.json","data/sumulas.json","data/jurisprudencia.json"];
 
   async function carregarDados(){
@@ -98,39 +98,65 @@
   function renderizarResultados(lista){
     resultados.innerHTML="";
     if(!lista.length){resultados.innerHTML="<p>Nenhum resultado encontrado.</p>";return;}
+
     lista.forEach(item=>{
       const div=document.createElement("div");
       div.className="result";
+
       const p=document.createElement("p");
-      p.textContent=item.texto;
-      if(item.texto.length>100){
-        p.classList.add("truncate");
-        const btn=document.createElement("button");
-        btn.textContent="ver mais";
-        btn.className="btn-small";
-        btn.addEventListener("click",()=>{
-          if(p.classList.contains("truncate")){
-            p.classList.remove("truncate");btn.textContent="recolher";
+      let textoOriginal=item.texto;
+
+      if(textoOriginal.length>150){
+        p.textContent=textoOriginal.substring(0,150)+"...";
+
+        const actions=document.createElement("div");
+        actions.className="actions";
+
+        const copiar=document.createElement("button");
+        copiar.textContent="Copiar";
+        copiar.className="btn";
+        copiar.addEventListener("click",async()=>{
+          try{await navigator.clipboard.writeText(item.texto);toast("Copiado!");}
+          catch{toast("Erro ao copiar.");}
+        });
+
+        const verMais=document.createElement("button");
+        verMais.textContent="Ver mais";
+        verMais.className="btn-alt";
+        verMais.addEventListener("click",()=>{
+          if(verMais.textContent==="Ver mais"){
+            p.textContent=textoOriginal;
+            verMais.textContent="Recolher";
           }else{
-            p.classList.add("truncate");btn.textContent="ver mais";
+            p.textContent=textoOriginal.substring(0,150)+"...";
+            verMais.textContent="Ver mais";
           }
         });
+
+        actions.appendChild(copiar);
+        actions.appendChild(verMais);
+
         div.appendChild(p);
-        div.appendChild(btn);
+        div.appendChild(actions);
       }else{
+        p.textContent=textoOriginal;
         div.appendChild(p);
+
+        const actions=document.createElement("div");
+        actions.className="actions";
+
+        const copiar=document.createElement("button");
+        copiar.textContent="Copiar";
+        copiar.className="btn";
+        copiar.addEventListener("click",async()=>{
+          try{await navigator.clipboard.writeText(item.texto);toast("Copiado!");}
+          catch{toast("Erro ao copiar.");}
+        });
+
+        actions.appendChild(copiar);
+        div.appendChild(actions);
       }
-      const actions=document.createElement("div");
-      actions.className="actions";
-      const copiar=document.createElement("button");
-      copiar.textContent="Copiar";
-      copiar.className="btn";
-      copiar.addEventListener("click",async()=>{
-        try{await navigator.clipboard.writeText(item.texto);toast("Copiado!");}
-        catch{toast("Erro ao copiar.");}
-      });
-      actions.appendChild(copiar);
-      div.appendChild(actions);
+
       resultados.appendChild(div);
     });
   }
