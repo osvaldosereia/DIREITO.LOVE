@@ -16,6 +16,9 @@
   <link rel="icon" href="favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="favicon-180.png" />
 
+  <!-- Manifest -->
+  <link rel="manifest" href="manifest.json">
+
   <style>
     :root{
       --bg:#FFFDF0;
@@ -48,6 +51,7 @@
       display:inline-block;
       text-decoration:none;
       cursor:default; /* não parece clicável */
+      -webkit-tap-highlight-color: transparent; /* remove highlight no iOS */
     }
     .nav-buttons{display:flex;gap:12px}
     .nav-buttons img{height:26px;width:26px;cursor:pointer;transition:transform .15s}
@@ -154,7 +158,7 @@
   const $$=(s,r=document)=>[...r.querySelectorAll(s)];
   const toast=(msg,t=1600)=>{const el=$("#toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
 
-  const BASE_PROMPT=`Você deve assumir a persona de um professo de direito muito didático e dedicado. O professor é assessorado por especialistas em criação de apostilas para estudantes de direito epesquisadores de súmulas e jurisprudências**. Todos fazem parte da equipe **direito.love**.
+  const BASE_PROMPT=`Você deve assumir a persona de um professo de direito muito didático e dedicado. O professor é assessorado por especialistas em criação de apostilas para estudantes de direito e pesquisadores de súmulas e jurisprudências. Todos fazem parte da equipe **direito.love**.
 
 📌 Tema escolhido: [INSERIR TEMA AQUI]
 📌 Sessões a serem seguidas: [INSERIR AQUI A SEQUÊNCIA DE SESSÕES DEFINIDA PELO USUÁRIO]
@@ -226,7 +230,7 @@ window.addEventListener("load", ()=>{
   const adBox=document.getElementById("ad-box");
   const adContainer=document.getElementById("ad-container");
   if(adBox && adContainer){
-    if(adBox.innerHTML.trim()===""){
+    if(!adBox.innerHTML.trim()){ // só esconde se estiver realmente vazio
       adContainer.style.display="none";
     }
   }
