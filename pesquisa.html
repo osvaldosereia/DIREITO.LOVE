@@ -110,10 +110,10 @@
       const div=document.createElement("div");
       div.className="result";
 
-      // texto resumido (máx. 200 caracteres)
+      // texto resumido (máx. 400 caracteres)
       const p=document.createElement("p");
-      if(item.texto.length>200){
-        p.textContent=item.texto.substring(0,200)+"...";
+      if(item.texto.length>400){
+        p.textContent=item.texto.substring(0,400)+"...";
       }else{
         p.textContent=item.texto;
       }
