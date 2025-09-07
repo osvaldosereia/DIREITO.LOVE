@@ -80,10 +80,12 @@
     setTimeout(()=>el.classList.remove("show"),t);};
 
   // Agora só usa o JSON com id + texto
-  const arquivos=["data/cp.json"];
-  const arquivos=["data/cpp.json"];
-  const arquivos=["data/jurisprudencia.json"];
-  const arquivos=["data/cm.json"];
+var arquivos = [
+  "data/cp.json",
+  "data/cpp.json",
+  "data/jurisprudencia.json",
+  "data/cm.json"
+];
 
   async function carregarDados(){
     const dados=[];
