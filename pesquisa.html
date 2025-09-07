@@ -5,14 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>direito.love — Pesquisa</title>
   <meta name="theme-color" content="#F5C400" />
-
-  <!-- SEO -->
   <meta name="description" content="Pesquisa de artigos, súmulas, jurisprudências e enunciados jurídicos no direito.love" />
   <meta name="keywords" content="pesquisa jurídica, direito, OAB, concursos, jurisprudência, súmulas" />
   <meta name="author" content="direito.love" />
   <meta name="robots" content="index, follow" />
-
-  <!-- Favicon -->
   <link rel="icon" href="favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="favicon-180.png" />
 
@@ -32,49 +28,29 @@
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);color:var(--text);font:400 13px/1.4 var(--font);}
 
-    /* ===== TOPBAR ===== */
-    .topbar{
-      position:sticky; top:0; z-index:100;
-      background:var(--highlight);
-      border-bottom:1px solid rgba(0,0,0,.08);
-      transition: box-shadow .18s ease, padding .18s ease;
-    }
-    .topbar.is-scrolled{ box-shadow:0 6px 18px rgba(0,0,0,.08); }
-    .topbar__inner{
-      max-width:1160px; margin:0 auto;
-      padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px;
-    }
-    .topbar.is-scrolled .topbar__inner{ padding:8px 16px; }
-    .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; color:#111; }
-    .brand__logo{ height:26px; width:auto; display:block; }
-    .topbar__actions{ display:flex; align-items:center; gap:8px; }
-    .icon-btn{
-      display:inline-grid; place-items:center;
-      width:36px; height:36px; border-radius:10px;
-      background:rgba(255,255,255,.85);
-      border:1px solid rgba(0,0,0,.06);
-      box-shadow:0 1px 0 rgba(255,255,255,.6) inset;
-      transition: transform .12s ease, background .15s ease;
-    }
-    .icon-btn:hover{ transform:translateY(-1px); background:#fff; }
-    .icon-btn img{ width:20px; height:20px; display:block; }
-    .pill-btn{
-      appearance:none; border:1px solid rgba(0,0,0,.1);
-      background:#fff; color:#111; padding:8px 12px; border-radius:999px; cursor:pointer;
-      font:600 13px/1 var(--font);
-      transition: background .15s ease, transform .12s ease;
-    }
-    .pill-btn:hover{ background:#f6f6f6; transform:translateY(-1px); }
-    .pill-btn.hidden{ display:none; }
-    @media (max-width:640px){
-      .topbar__inner{ padding:8px 12px; }
-    }
+    /* TOPBAR simplificada (igual ao index) */
+    .topbar{position:sticky; top:0; z-index:100; background:var(--highlight); border-bottom:1px solid rgba(0,0,0,.08)}
+    .topbar__inner{max-width:1160px; margin:0 auto; padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px}
+    .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:#111}
+    .brand__logo{height:26px; width:auto; display:block}
+    .topbar__actions{display:flex; gap:8px}
+    .icon-btn{display:inline-grid; place-items:center; width:36px; height:36px; border-radius:10px; background:rgba(255,255,255,.85); border:1px solid rgba(0,0,0,.06)}
+    .icon-btn img{width:20px; height:20px}
 
-    /* ===== PÁGINA ===== */
+    /* Página */
     .wrap{max-width:900px;margin:0 auto;padding:22px; transition:padding-bottom .2s ease;}
     h2{margin:0 0 10px;color:var(--primary)}
-    .search-box{margin:20px 0}
-    #busca{width:100%;padding:10px 12px;border:2px solid var(--primary);border-radius:8px;font-size:15px}
+
+    .search-box{
+      display:flex; gap:10px; align-items:center; margin:20px 0;
+    }
+    #busca{
+      flex:1; padding:10px 12px; border:2px solid var(--primary); border-radius:8px; font-size:15px
+    }
+    #btnBuscar{
+      appearance:none; border:none; background:var(--primary); color:#fff; padding:10px 14px; border-radius:8px; font-size:14px; cursor:pointer;
+    }
+    #btnBuscar:disabled{opacity:.7; cursor:progress}
 
     .result{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
       padding:12px 14px;margin:12px 0;position:relative}
@@ -91,6 +67,9 @@
     .btn-alt.is-selected{ background: var(--success); color:#fff; }
     .btn-alt.is-selected:hover{ filter:brightness(.95); }
 
+    .more-wrap{display:flex; justify-content:center; margin:16px 0}
+    #btnMais{min-width:180px}
+
     .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;
       padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:60}
     .toast.show{opacity:1}
@@ -103,14 +82,9 @@
       box-shadow:0 6px 20px rgba(0,0,0,.25); font: 500 14px/1.2 var(--font);
       pointer-events:none;
     }
-    #dl-bar-selecao button{
-      border:0; padding:8px 12px; border-radius:10px; cursor:pointer; pointer-events:auto;
-    }
-    #dl-bar-selecao #dl-enviar{ background: var(--primary); color:#fff; }
-    #dl-bar-selecao #dl-enviar:hover{ background:#264399; }
-    #dl-bar-selecao #dl-enviar:disabled{ opacity:.5; filter:grayscale(.3); }
-    #dl-bar-selecao #dl-limpar{ background: var(--muted-btn); color:#111; }
-    #dl-bar-selecao #dl-limpar:hover{ background:#d6dae1; }
+    #dl-bar-selecao button{border:0; padding:8px 12px; border-radius:10px; cursor:pointer; pointer-events:auto;}
+    #dl-enviar{ background: var(--primary); color:#fff; } #dl-enviar:hover{ background:#264399; } #dl-enviar:disabled{ opacity:.5; filter:grayscale(.3) }
+    #dl-limpar{ background: var(--muted-btn); color:#111; } #dl-limpar:hover{ background:#d6dae1 }
 
     @media (max-width: 480px){
       .btn,.btn-alt{ padding:8px 12px; }
@@ -131,71 +105,46 @@
         <a class="icon-btn" href="pesquisa.html" aria-label="Pesquisar" title="Pesquisar">
           <img src="icons/pesquisar.png" alt="">
         </a>
-        <button id="btn-install" class="pill-btn hidden" aria-label="Instalar app">Instalar app</button>
       </nav>
     </div>
   </header>
 
   <div class="wrap">
     <h2>Pesquisa de Conteúdo Jurídico</h2>
-    <p>Digite um termo (artigo, súmula, jurisprudência ou palavra-chave) para buscar nos arquivos.</p>
+    <p>Digite um termo (artigo, súmula, jurisprudência ou palavra-chave) e clique em <b>Buscar</b>.</p>
+
     <div class="search-box">
       <input id="busca" type="text" placeholder="Ex: artigo 5º, súmula 381, dano moral..." />
+      <button id="btnBuscar">Buscar</button>
     </div>
+
     <div id="resultados"></div>
+    <div class="more-wrap" style="display:none"><button id="btnMais" class="btn">Carregar mais</button></div>
   </div>
 
   <div id="toast" class="toast" aria-live="polite"></div>
 
-  <!-- Barra flutuante: só 2 botões -->
+  <!-- Barra flutuante -->
   <div id="dl-bar-selecao" aria-live="polite">
     <button id="dl-enviar" disabled>Enviar</button>
     <button id="dl-limpar">Limpar</button>
   </div>
 
 <script>
-/* ===== topbar.js ===== */
-(function(){
-  const header = document.querySelector('.topbar');
-  const installBtn = document.getElementById('btn-install');
-  let deferredPrompt = null;
-
-  const onScroll = () => {
-    if (window.scrollY > 2) header.classList.add('is-scrolled');
-    else header.classList.remove('is-scrolled');
-  };
-  window.addEventListener('scroll', onScroll, { passive:true });
-  onScroll();
-
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault(); deferredPrompt = e;
-    installBtn?.classList.remove('hidden');
-  });
-  installBtn?.addEventListener('click', async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    try{ await deferredPrompt.userChoice; }catch{}
-    deferredPrompt = null; installBtn.classList.add('hidden');
-  });
-})();
-</script>
-
-<script>
-/* ===== pesquisa.js ===== */
+/* ===== pesquisa.js (com botão Buscar + lote) ===== */
 (function(){
   const $=(s,r=document)=>r.querySelector(s);
   const $$=(s,r=document)=>[...r.querySelectorAll(s)];
   const resultados=$("#resultados");
   const busca=$("#busca");
+  const btnBuscar=$("#btnBuscar");
+  const btnMais=$("#btnMais");
+  const moreWrap=$(".more-wrap");
   const wrap=$(".wrap");
-  const toast=(msg,t=1600)=>{const el=$("#toast");el.textContent=msg;el.classList.add("show");
-    setTimeout(()=>el.classList.remove("show"),t);};
+  const toast=(msg,t=1600)=>{const el=$("#toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
 
-  // >>> Busca sem acento/ç
-  const norm = (s="") => s
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase();
+  // Normaliza (ignora acentos/ç)
+  const norm=(s="")=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 
   // Config
   const KEY='dl_pesquisa_selecionados';
@@ -210,14 +159,13 @@
     "data/temas_repetitivos_stj.json",
   ];
   const MAX_SNIPPET = 400;
+  const PAGE_SIZE = 40; // render por lote
 
   const getCarrinho = ()=>JSON.parse(localStorage.getItem(KEY)||'[]');
   const setCarrinho = (arr)=>localStorage.setItem(KEY, JSON.stringify(arr));
   const dedupPush = (arr, item)=>{
     const k = item.id || item._id || (item.fonte+':'+(item.texto||'').slice(0,50));
-    if(!arr.some(x => x.id === k)){
-      arr.push({...item, id: k});
-    }
+    if(!arr.some(x => x.id === k)){ arr.push({...item, id: k}); }
     return arr;
   };
 
@@ -232,94 +180,67 @@
         (Array.isArray(j)? j : []).forEach((it, idx)=>{
           const _id = it.id || `${tag}_${idx}`;
           const texto = (it.texto || '').trim();
-          dados.push({
-            ...it,
-            _id,
-            fonte: tag,
-            textoNorm: norm(texto)
-          });
+          dados.push({ ...it, _id, fonte: tag, textoNorm: norm(texto) });
         });
       }catch(e){ console.warn("Erro ao carregar",arq,e); }
     }
     return dados;
   }
 
-  let baseDados=[];
+  let baseDados=[];     // tudo
+  let lastResults=[];   // últimos achados filtrados
+  let pageIndex=0;      // página atual dos achados
+
   carregarDados().then(d=>{
     baseDados=d;
     toast("Base carregada com sucesso!");
-    if(busca.value.trim()) filtrarRender();
   });
 
-  // Render
-  function renderizarResultados(lista){
-    resultados.innerHTML="";
-    if(!lista.length){
-      resultados.innerHTML="<p>Nenhum resultado encontrado.</p>";
-      toggleBar(false);
-      return;
-    }
-    toggleBar(true);
-
+  // Render em lote
+  function renderBatch(append=false){
     const carrinho = getCarrinho();
+    const start = pageIndex*PAGE_SIZE;
+    const end = Math.min(lastResults.length, start+PAGE_SIZE);
+    if(!append){ resultados.innerHTML=""; }
 
-    lista.forEach(item=>{
-      const selected = carrinho.some(x => x.id === (item.id||item._id));
-
+    for(let i=start;i<end;i++){
+      const item = lastResults[i];
       const div=document.createElement("div");
       div.className="result";
 
-      // fonte (em negrito)
       const fonteP = document.createElement('p');
       fonteP.className = 'filetag';
       fonteP.innerHTML = `<strong>${(item.fonte||'').trim()}</strong>`;
       div.appendChild(fonteP);
 
-      // texto (snippet)
       const p=document.createElement("p");
       const txt = (item.texto||'').trim();
       p.textContent = txt.length>MAX_SNIPPET ? (txt.substring(0,MAX_SNIPPET)+"...") : txt;
       div.appendChild(p);
 
-      // ações
       const actions=document.createElement("div");
       actions.className="actions";
 
-      // Copiar
       const copiar=document.createElement("button");
       copiar.textContent="Copiar";
       copiar.className="btn";
       copiar.addEventListener("click",async()=>{
-        try{
-          await navigator.clipboard.writeText(item.texto||'');
-          toast("Copiado!");
-        }catch{ toast("Erro ao copiar."); }
+        try{ await navigator.clipboard.writeText(item.texto||''); toast("Copiado!"); }
+        catch{ toast("Erro ao copiar."); }
       });
 
-      // Selecionar (único controle de seleção)
       const selBtn=document.createElement("button");
       selBtn.className="btn-alt";
-      const syncBtn = (on)=> {
-        selBtn.textContent = on ? "Selecionado" : "Selecionar";
-        selBtn.classList.toggle('is-selected', on);
-      };
-      syncBtn(selected);
-
+      const key = item.id||item._id;
+      const syncBtn = (on)=>{ selBtn.textContent = on ? "Selecionado" : "Selecionar"; selBtn.classList.toggle('is-selected', on); };
+      syncBtn(carrinho.some(x => x.id === key));
       selBtn.addEventListener("click",()=>{
         let arr=getCarrinho();
-        const key = item.id||item._id;
-        const obj = { id: key, fonte:item.fonte, texto:item.texto };
-
+        const obj = { id:key, fonte:item.fonte, texto:item.texto };
         const isIn = arr.some(x => x.id === key);
-        if (isIn){
-          arr = arr.filter(x => x.id !== key);
-          syncBtn(false);
-        }else{
-          arr = dedupPush(arr, obj);
-          syncBtn(true);
-        }
-        setCarrinho(arr);
-        updateBar();
+        if (isIn){ arr = arr.filter(x => x.id !== key); syncBtn(false); }
+        else { arr = dedupPush(arr, obj); syncBtn(true); }
+        setCarrinho(arr); updateBar();
       });
 
       actions.appendChild(copiar);
@@ -327,8 +248,12 @@
       div.appendChild(actions);
 
       resultados.appendChild(div);
-    });
+    }
 
+    // controla botão "Carregar mais"
+    pageIndex++;
+    const hasMore = pageIndex*PAGE_SIZE < lastResults.length;
+    moreWrap.style.display = hasMore ? "flex" : "none";
     updateBar();
   }
 
@@ -343,29 +268,51 @@
     wrap.style.paddingBottom = show ? `calc(var(--bar-h) + 16px + var(--safe-bottom))` : '22px';
   }
 
-  // barra: enviar / limpar
-  $('#dl-enviar').addEventListener('click', ()=> {
-    window.location.href = 'index.html#pesquisa';
-  });
+  // Executa busca (click ou Enter)
+  async function executarBusca(){
+    const termo = busca.value.trim();
+    resultados.innerHTML="";
+    moreWrap.style.display="none";
+    pageIndex=0;
+
+    if(!termo){
+      toggleBar(false);
+      return;
+    }
+
+    btnBuscar.disabled = true;
+    document.body.style.cursor = 'progress';
+    try{
+      const termoNorm = norm(termo);
+      // filtro O(N) – rápido o suficiente; se crescer MUITO, trocamos pra index (FlexSearch)
+      lastResults = baseDados.filter(x => (x.textoNorm || "").includes(termoNorm));
+      if(!lastResults.length){
+        resultados.innerHTML = "<p>Nenhum resultado encontrado.</p>";
+        toggleBar(false);
+      }else{
+        toggleBar(true);
+        renderBatch(false);
+      }
+    }finally{
+      btnBuscar.disabled = false;
+      document.body.style.cursor = '';
+    }
+  }
+
+  // Eventos
+  btnBuscar.addEventListener("click", executarBusca);
+  $("#btnMais").addEventListener("click", ()=> renderBatch(true));
+  busca.addEventListener("keydown", (e)=>{ if(e.key==="Enter"){ e.preventDefault(); executarBusca(); } });
+
+  // Barra: enviar / limpar
+  $('#dl-enviar').addEventListener('click', ()=> { window.location.href = 'index.html#pesquisa'; });
   $('#dl-limpar').addEventListener('click', ()=> {
     localStorage.removeItem(KEY);
     updateBar();
-    // re-renderiza a lista atual para atualizar os botões
-    filtrarRender();
+    // mantém os resultados, só desmarca
+    [...$$('.btn-alt.is-selected', resultados)].forEach(b=>b.classList.remove('is-selected'));
+    [...$$('.btn-alt', resultados)].forEach(b=>{ if(b.textContent==="Selecionado") b.textContent="Selecionar"; });
   });
-
-  // Filtro (ignora acentos/ç)
-  function filtrarRender(){
-    const termo = busca.value.trim();
-    if(!termo){resultados.innerHTML=""; toggleBar(false); return;}
-    const termoNorm = norm(termo);
-    const achados = baseDados.filter(x =>
-      (x.textoNorm || "").includes(termoNorm)
-    );
-    renderizarResultados(achados);
-  }
-
-  busca.addEventListener("input",filtrarRender);
 })();
 </script>
 </body>
