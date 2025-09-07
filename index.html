@@ -234,6 +234,110 @@ window.addEventListener("DOMContentLoaded", ()=>{
 });
 
 </script>
+<script>
+/* direito.love — index-importa-pesquisa.js (receber múltiplos achados, texto ou links) */
+(() => {
+  const KEY = 'dl_pesquisa_selecionados';
+  const $ = (s, r=document)=>r.querySelector(s);
+  const get = () => JSON.parse(localStorage.getItem(KEY) || '[]');
+  const set = (arr) => localStorage.setItem(KEY, JSON.stringify(arr));
+
+  const firstLine = (s='') => String(s).split('\n')[0].trim();
+
+  // Descobre campo do prompt/composer de forma resiliente
+  const findPromptField = () =>
+    $('#prompt') ||
+    $('#composer textarea') ||
+    document.querySelector('textarea[name="prompt"]') ||
+    $('#tema') ||
+    document.querySelector('textarea') ||
+    document.querySelector('input[type="text"]');
+
+  const renderBox = (items) => {
+    if (!items.length) return;
+    if ($('#dl-box-achados')) return;
+
+    const box = document.createElement('section');
+    box.id = 'dl-box-achados';
+    box.innerHTML = `
+      <style>
+        #dl-box-achados{
+          margin:16px 0; padding:14px; border:1px solid #e5e5e5; border-radius:12px; background:#fafafa;
+          font: 500 14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Arial;
+        }
+        #dl-box-achados h3{ margin:0 0 8px 0; font-size:15px; }
+        #dl-box-achados ul{ margin:0 0 10px 18px; padding:0; }
+        #dl-box-achados li{ margin:4px 0; }
+        #dl-box-achados .actions{ display:flex; gap:8px; }
+        #dl-box-achados button{
+          border:1px solid #ddd; background:#fff; padding:8px 12px; border-radius:10px; cursor:pointer;
+        }
+      </style>
+      <h3>🔎 Achados da pesquisa (${items.length})</h3>
+      <ul>
+        ${items.map(i => {
+          if (i.texto) {
+            const tag = (i.fonte||'').toUpperCase();
+            return `<li><strong>${tag}</strong> — ${firstLine(i.texto)}</li>`;
+          } else {
+            return `<li>${i.title ? i.title+' — ' : ''}${i.url ? `<a href="${i.url}" target="_blank" rel="noopener">${i.url}</a>` : ''}</li>`;
+          }
+        }).join('')}
+      </ul>
+      <div class="actions">
+        <button id="dl-inserir">Inserir no prompt</button>
+        <button id="dl-limpar">Descartar</button>
+      </div>
+    `;
+
+    const field=findPromptField();
+    const parent=(field&&field.closest&&field.closest('form, section, main'))||document.body;
+    parent.insertBefore(box, parent.firstChild);
+
+    $('#dl-inserir').addEventListener('click', () => {
+      const f = findPromptField();
+      const bloco = items.map(i => {
+        if (i.texto) {
+          // Formato: FONTE na linha de cima (semelhante ao pedido visual da pesquisa) + texto completo
+          const tag = (i.fonte||'').toUpperCase();
+          return `${tag ? `**${tag}**\n` : ''}${i.texto}`; // mantém uma linha acima com a fonte
+        } else {
+          return `- ${i.title || ''}${i.title && i.url ? ' — ' : ''}${i.url || ''}`;
+        }
+      }).join("\n\n");
+
+      if (f) {
+        const sep = (f.value||'').trim() ? '\n\n' : '';
+        f.value = (f.value || '') + sep + '🔎 Achados da pesquisa:\n' + bloco + '\n';
+        f.focus();
+        localStorage.removeItem(KEY);
+        $('#dl-box-achados')?.remove();
+      } else {
+        alert("Campo de prompt não encontrado. Cole manualmente:\n\n" + bloco);
+      }
+    });
+
+    $('#dl-limpar').addEventListener('click', () => {
+      localStorage.removeItem(KEY);
+      $('#dl-box-achados')?.remove();
+    });
+  };
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const itens = get();
+    if (location.hash === '#pesquisa' || itens.length) {
+      // Dedup por id
+      const uniq=[]; const seen=new Set();
+      itens.forEach(i => {
+        const k = i.id || (i.fonte+':'+(i.texto||'' ).slice(0,50));
+        if(!seen.has(k)){ seen.add(k); uniq.push(i); }
+      });
+      set(uniq);
+      renderBox(uniq);
+    }
+  });
+})();
+</script>
 
 </body>
 </html>
