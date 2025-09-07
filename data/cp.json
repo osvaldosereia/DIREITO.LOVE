@@ -1,12 +1,1710 @@
 [
   {
+    "id": "cp_art_1",
+    "texto": "Art. 1º — Anterioridade da Lei\n- Não há crime sem lei anterior que o defina. Não há pena sem prévia cominação legal."
+  },
+  {
+    "id": "cp_art_2",
+    "texto": "Art. 2º — Lei penal no tempo\n- Ninguém pode ser punido por fato que lei posterior deixa de considerar crime, cessando em virtude dela a execução e os efeitos penais da sentença condenatória.\nParágrafo único - A lei posterior, que de qualquer modo favorecer o agente, aplica-se aos fatos anteriores, ainda que decididos por sentença condenatória transitada em julgado."
+  },
+  {
+    "id": "cp_art_3",
+    "texto": "Art. 3º — Lei excepcional ou temporária (Incluído pela Lei nº 7.209, de 11.7.1984)\n- A lei excepcional ou temporária, embora decorrido o período de sua duração ou cessadas as circunstâncias que a determinaram, aplica-se ao fato praticado durante sua vigência."
+  },
+  {
+    "id": "cp_art_4",
+    "texto": "Art. 4º — Tempo do crime\n- Considera-se praticado o crime no momento da ação ou omissão, ainda que outro seja o momento do resultado."
+  },
+  {
+    "id": "cp_art_5",
+    "texto": "Art. 5º — Territorialidade\n- Aplica-se a lei brasileira, sem prejuízo de convenções, tratados e regras de direito internacional, ao crime cometido no território nacional."
+  },
+  {
+    "id": "cp_art_6",
+    "texto": "Art. 6º — Lugar do crime (Redação dada pela Lei nº 7.209, de 1984)\n- Considera-se praticado o crime no lugar em que ocorreu a ação ou omissão, no todo ou em parte, bem como onde se produziu ou deveria produzir-se o resultado."
+  },
+  {
+    "id": "cp_art_7",
+    "texto": "Art. 7º — Extraterritorialidade (Redação dada pela Lei nº 7.209, de 1984)\n- Ficam sujeitos à lei brasileira, embora cometidos no estrangeiro:"
+  },
+  {
+    "id": "cp_art_8",
+    "texto": "Art. 8º — Pena cumprida no estrangeiro (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- A pena cumprida no estrangeiro atenua a pena imposta no Brasil pelo mesmo crime, quando diversas, ou nela é computada, quando idênticas."
+  },
+  {
+    "id": "cp_art_9",
+    "texto": "Art. 9º — Eficácia de sentença estrangeira (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- A sentença estrangeira, quando a aplicação da lei brasileira produz na espécie as mesmas conseqüências, pode ser homologada no Brasil para:\nI - obrigar o condenado à reparação do dano, a restituições e a outros efeitos civis;\nII - sujeitá-lo a medida de segurança.\nParágrafo único - A homologação depende:"
+  },
+  {
+    "id": "cp_art_10",
+    "texto": "Art. 10 — Contagem de prazo (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- O dia do começo inclui-se no cômputo do prazo. Contam-se os dias, os meses e os anos pelo calendário comum."
+  },
+  {
+    "id": "cp_art_11",
+    "texto": "Art. 11 — Frações não computáveis da pena (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- Desprezam-se, nas penas privativas de liberdade e nas restritivas de direitos, as frações de dia, e, na pena de multa, as frações de cruzeiro."
+  },
+  {
+    "id": "cp_art_12",
+    "texto": "Art. 12 — Legislação especial (Incluída pela Lei nº 7.209, de 11.7.1984)\n- As regras gerais deste Código aplicam-se aos fatos incriminados por lei especial, se esta não dispuser de modo diverso."
+  },
+  {
+    "id": "cp_art_13",
+    "texto": "Art. 13 — Relação de causalidade (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- O resultado, de que depende a existência do crime, somente é imputável a quem lhe deu causa. Considera-se causa a ação ou omissão sem a qual o resultado não teria ocorrido."
+  },
+  {
+    "id": "cp_art_14",
+    "texto": "Art. 14 — c) com seu comportamento anterior, criou o risco da ocorrência do resultado. (Incluído pela Lei nº 7.209, de 11.7.1984)\n- Diz-se o crime:\nCrime consumado\nI - consumado, quando nele se reúnem todos os elementos de sua definição legal;\nTentativa\nII - tentado, quando, iniciada a execução, não se consuma por circunstâncias alheias à vontade do agente.\nPena de tentativa\nParágrafo único - Salvo disposição em contrário, pune-se a tentativa com a pena correspondente ao crime consumado, diminuída de um a dois terços."
+  },
+  {
+    "id": "cp_art_15",
+    "texto": "Art. 15 — Desistência voluntária e arrependimento eficaz (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- O agente que, voluntariamente, desiste de prosseguir na execução ou impede que o resultado se produza, só responde pelos atos já praticados."
+  },
+  {
+    "id": "cp_art_16",
+    "texto": "Art. 16 — Arrependimento posterior (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- Nos crimes cometidos sem violência ou grave ameaça à pessoa, reparado o dano ou restituída a coisa, até o recebimento da denúncia ou da queixa, por ato voluntário do agente, a pena será reduzida de um a dois terços."
+  },
+  {
+    "id": "cp_art_17",
+    "texto": "Art. 17 — Crime impossível (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- Não se pune a tentativa quando, por ineficácia absoluta do meio ou por absoluta impropriedade do objeto, é impossível consumar-se o crime."
+  },
+  {
+    "id": "cp_art_18",
+    "texto": "Art. 18 — - Não se pune a tentativa quando, por ineficácia absoluta do meio ou por absoluta impropriedade do objeto, é impossível consumar-se o crime.(Redação dada pela Lei nº 7.209, de 11.7.1984)\n- Diz-se o crime:\nCrime doloso\nI - doloso, quando o agente quis o resultado ou assumiu o risco de produzi-lo;\nCrime culposo\nII - culposo, quando o agente deu causa ao resultado por imprudência, negligência ou imperícia.\nParágrafo único - Salvo os casos expressos em lei, ninguém pode ser punido por fato previsto como crime, senão quando o pratica dolosamente."
+  },
+  {
+    "id": "cp_art_19",
+    "texto": "Art. 19 — Agravação pelo resultado (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- Pelo resultado que agrava especialmente a pena, só responde o agente que o houver causado ao menos culposamente."
+  },
+  {
+    "id": "cp_art_20",
+    "texto": "Art. 20 — Erro sobre elementos do tipo (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- O erro sobre elemento constitutivo do tipo legal de crime exclui o dolo, mas permite a punição por crime culposo, se previsto em lei."
+  },
+  {
+    "id": "cp_art_21",
+    "texto": "Art. 21 — Erro sobre a ilicitude do fato (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- O desconhecimento da lei é inescusável. O erro sobre a ilicitude do fato, se inevitável, isenta de pena; se evitável, poderá diminuí-la de um sexto a um terço.\nParágrafo único - Considera-se evitável o erro se o agente atua ou se omite sem a consciência da ilicitude do fato, quando lhe era possível, nas circunstâncias, ter ou atingir essa consciência."
+  },
+  {
+    "id": "cp_art_22",
+    "texto": "Art. 22 — Coação irresistível e obediência hierárquica (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- Se o fato é cometido sob coação irresistível ou em estrita obediência a ordem, não manifestamente ilegal, de superior hierárquico, só é punível o autor da coação ou da ordem."
+  },
+  {
+    "id": "cp_art_23",
+    "texto": "Art. 23 — Exclusão de ilicitude         (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- Não há crime quando o agente pratica o fato:\nI - em estado de necessidade;\nII - em legítima defesa; (Vide ADPF 779)\nIII - em estrito cumprimento de dever legal ou no exercício regular de direito.\nExcesso punível\nParágrafo único - O agente, em qualquer das hipóteses deste artigo, responderá pelo excesso doloso ou culposo."
+  },
+  {
+    "id": "cp_art_24",
+    "texto": "Art. 24 — Estado de necessidade\n- Considera-se em estado de necessidade quem pratica o fato para salvar de perigo atual, que não provocou por sua vontade, nem podia de outro modo evitar, direito próprio ou alheio, cujo sacrifício, nas circunstâncias, não era razoável exigir-se."
+  },
+  {
+    "id": "cp_art_25",
+    "texto": "Art. 25 — Legítima defesa\n- Entende-se em legítima defesa quem, usando moderadamente dos meios necessários, repele injusta agressão, atual ou iminente, a direito seu ou de outrem. (Vide ADPF 779)\nParágrafo único. Observados os requisitos previstos no caput deste artigo, considera-se também em legítima defesa o agente de segurança pública que repele agressão ou risco de agressão a vítima mantida refém durante a prática de crimes. (Vide ADPF 779)"
+  },
+  {
+    "id": "cp_art_26",
+    "texto": "Art. 26 — Inimputáveis\n- É isento de pena o agente que, por doença mental ou desenvolvimento mental incompleto ou retardado, era, ao tempo da ação ou da omissão, inteiramente incapaz de entender o caráter ilícito do fato ou de determinar-se de acordo com esse entendimento.\nRedução de pena\nParágrafo único - A pena pode ser reduzida de um a dois terços, se o agente, em virtude de perturbação de saúde mental ou por desenvolvimento mental incompleto ou retardado não era inteiramente capaz de entender o caráter ilícito do fato ou de determinar-se de acordo com esse entendimento."
+  },
+  {
+    "id": "cp_art_27",
+    "texto": "Art. 27 — Menores de dezoito anos\n- Os menores de 18"
+  },
+  {
+    "id": "cp_art_28",
+    "texto": "Art. 28 — Emoção e paixão\n- Não excluem a imputabilidade penal:"
+  },
+  {
+    "id": "cp_art_29",
+    "texto": "Art. 29 — DO CONCURSO DE PESSOAS\n- Quem, de qualquer modo, concorre para o crime incide nas penas a este cominadas, na medida de sua culpabilidade."
+  },
+  {
+    "id": "cp_art_30",
+    "texto": "Art. 30 — Circunstâncias incomunicáveis\n- Não se comunicam as circunstâncias e as condições de caráter pessoal, salvo quando elementares do crime."
+  },
+  {
+    "id": "cp_art_31",
+    "texto": "Art. 31 — Casos de impunibilidade\n- O ajuste, a determinação ou instigação e o auxílio, salvo disposição expressa em contrário, não são puníveis, se o crime não chega, pelo menos, a ser tentado."
+  },
+  {
+    "id": "cp_art_32",
+    "texto": "Art. 32 — DAS ESPÉCIES DE PENA\n- As penas são:"
+  },
+  {
+    "id": "cp_art_33",
+    "texto": "Art. 33 — Reclusão e detenção\n- A pena de reclusão deve ser cumprida em regime fechado, semi-aberto ou aberto. A de detenção, em regime semi-aberto, ou aberto, salvo necessidade de transferência a regime fechado."
+  },
+  {
+    "id": "cp_art_34",
+    "texto": "Art. 34 — Regras do regime fechado\n- O condenado será submetido, no início do cumprimento da pena, a exame criminológico de classificação para individualização da execução."
+  },
+  {
+    "id": "cp_art_35",
+    "texto": "Art. 35 — Regras do regime semi-aberto\n- Aplica-se a norma do art. 34 deste Código, caput, ao condenado que inicie o cumprimento da pena em regime semi-aberto."
+  },
+  {
+    "id": "cp_art_36",
+    "texto": "Art. 36 — Regras do regime aberto\n- O regime aberto baseia-se na autodisciplina e senso de responsabilidade do condenado."
+  },
+  {
+    "id": "cp_art_37",
+    "texto": "Art. 37 — Regime especial\n- As mulheres cumprem pena em estabelecimento próprio, observando-se os deveres e direitos inerentes à sua condição pessoal, bem como, no que couber, o disposto neste Capítulo."
+  },
+  {
+    "id": "cp_art_38",
+    "texto": "Art. 38 — Direitos do preso\n- O preso conserva todos os direitos não atingidos pela perda da liberdade, impondo-se a todas as autoridades o respeito à sua integridade física e moral."
+  },
+  {
+    "id": "cp_art_39",
+    "texto": "Art. 39 — Trabalho do preso\n- O trabalho do preso será sempre remunerado, sendo-lhe garantidos os benefícios da Previdência Social."
+  },
+  {
+    "id": "cp_art_40",
+    "texto": "Art. 40 — Legislação especial\n- A legislação especial regulará a matéria prevista nos arts. 38 e 39 deste Código, bem como especificará os deveres e direitos do preso, os critérios para revogação e transferência dos regimes e estabelecerá as infrações disciplinares e correspondentes sanções."
+  },
+  {
+    "id": "cp_art_41",
+    "texto": "Art. 41 — Superveniência de doença mental\n- O condenado a quem sobrevém doença mental deve ser recolhido a hospital de custódia e tratamento psiquiátrico ou, à falta, a outro estabelecimento adequado."
+  },
+  {
+    "id": "cp_art_42",
+    "texto": "Art. 42 — Detração\n- Computam-se, na pena privativa de liberdade e na medida de segurança, o tempo de prisão provisória, no Brasil ou no estrangeiro, o de prisão administrativa e o de internação em qualquer dos estabelecimentos referidos no artigo anterior."
+  },
+  {
+    "id": "cp_art_43",
+    "texto": "Art. 43 — Penas restritivas de direitos"
+  },
+  {
+    "id": "cp_art_44",
+    "texto": "Art. 44 — VI - limitação de fim de semana. (Incluído pela Lei nº 9.714, de 25.11.1998)"
+  },
+  {
+    "id": "cp_art_45",
+    "texto": "Art. 45 — Conversão das penas restritivas de direitos"
+  },
+  {
+    "id": "cp_art_46",
+    "texto": "Art. 46 — Prestação de serviços à comunidade ou a entidades públicas"
+  },
+  {
+    "id": "cp_art_47",
+    "texto": "Art. 47 — Interdição temporária de direitos (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- As penas de interdição temporária de direitos são:"
+  },
+  {
+    "id": "cp_art_48",
+    "texto": "Art. 48 — Limitação de fim de semana\n- A limitação de fim de semana consiste na obrigação de permanecer, aos sábados e domingos, por 5\nParágrafo único - Durante a permanência poderão ser ministrados ao condenado cursos e palestras ou atribuídas atividades educativas."
+  },
+  {
+    "id": "cp_art_49",
+    "texto": "Art. 49 — Multa\n- A pena de multa consiste no pagamento ao fundo penitenciário da quantia fixada na sentença e calculada em dias-multa. Será, no mínimo, de 10"
+  },
+  {
+    "id": "cp_art_50",
+    "texto": "Art. 50 — Pagamento da multa\n- A multa deve ser paga dentro de 10"
+  },
+  {
+    "id": "cp_art_51",
+    "texto": "Art. 51 — Conversão da Multa e revogação         (Redação dada pela Lei nº 7.209, de 11.7.1984)"
+  },
+  {
+    "id": "cp_art_52",
+    "texto": "Art. 52 — Suspensão da execução da multa\n- É suspensa a execução da pena de multa, se sobrevém ao condenado doença mental."
+  },
+  {
+    "id": "cp_art_53",
+    "texto": "Art. 53 — Penas privativas de liberdade\n- As penas privativas de liberdade têm seus limites estabelecidos na sanção correspondente a cada tipo legal de crime."
+  },
+  {
+    "id": "cp_art_54",
+    "texto": "Art. 54 — Penas restritivas de direitos\n- As penas restritivas de direitos são aplicáveis, independentemente de cominação na parte especial, em substituição à pena privativa de liberdade, fixada em quantidade inferior a 1"
+  },
+  {
+    "id": "cp_art_55",
+    "texto": "Art. 55 — - As penas restritivas de direitos são aplicáveis, independentemente de cominação na parte especial, em substituição à pena privativa de liberdade, fixada em quantidade inferior a 1 (um) ano, ou nos crimes culposos. (Redação dada pela Lei nº 7.209, de 11.7.1984)"
+  },
+  {
+    "id": "cp_art_56",
+    "texto": "Art. 56 — . As penas restritivas de direitos referidas nos incisos III, IV, V e VI do art. 43 terão a mesma duração da pena privativa de liberdade substituída, ressalvado o disposto no § 4o do art. 46. (Redação dada pela Lei nº 9.714, de 1998)\n- As penas de interdição, previstas nos incisos I e II do art. 47 deste Código, aplicam-se para todo o crime cometido no exercício de profissão, atividade, ofício, cargo ou função, sempre que houver violação dos deveres que lhes são inerentes."
+  },
+  {
+    "id": "cp_art_57",
+    "texto": "Art. 57 — - As penas de interdição, previstas nos incisos I e II do art. 47 deste Código, aplicam-se para todo o crime cometido no exercício de profissão, atividade, ofício, cargo ou função, sempre que houver violação dos deveres que lhes são inerentes.   (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- A pena de interdição, prevista no inciso III do art. 47 deste Código, aplica-se aos crimes culposos de trânsito."
+  },
+  {
+    "id": "cp_art_58",
+    "texto": "Art. 58 — Pena de multa\n- A multa, prevista em cada tipo legal de crime, tem os limites fixados no art. 49 e seus parágrafos deste Código.\nParágrafo único - A multa prevista no parágrafo único do art. 44 e no § 2º do art. 60 deste Código aplica-se independentemente de cominação na parte especial."
+  },
+  {
+    "id": "cp_art_59",
+    "texto": "Art. 59 — Fixação da pena\n- O juiz, atendendo à culpabilidade, aos antecedentes, à conduta social, à personalidade do agente, aos motivos, às circunstâncias e conseqüências do crime, bem como ao comportamento da vítima, estabelecerá, conforme seja necessário e suficiente para reprovação e prevenção do crime: (Vide ADPF 1107)"
+  },
+  {
+    "id": "cp_art_60",
+    "texto": "Art. 60 — Critérios especiais da pena de multa\n- Na fixação da pena de multa o juiz deve atender, principalmente, à situação econômica do réu."
+  },
+  {
+    "id": "cp_art_61",
+    "texto": "Art. 61 — Circunstâncias agravantes\n- São circunstâncias que sempre agravam a pena, quando não constituem ou qualificam o crime:"
+  },
+  {
+    "id": "cp_art_62",
+    "texto": "Art. 62 — Agravantes no caso de concurso de pessoas\n- A pena será ainda agravada em relação ao agente que:"
+  },
+  {
+    "id": "cp_art_63",
+    "texto": "Art. 63 — Reincidência\n- Verifica-se a reincidência quando o agente comete novo crime, depois de transitar em julgado a sentença que, no País ou no estrangeiro, o tenha condenado por crime anterior."
+  },
+  {
+    "id": "cp_art_64",
+    "texto": "Art. 64 — - Verifica-se a reincidência quando o agente comete novo crime, depois de transitar em julgado a sentença que, no País ou no estrangeiro, o tenha condenado por crime anterior. (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- Para efeito de reincidência:"
+  },
+  {
+    "id": "cp_art_65",
+    "texto": "Art. 65 — Circunstâncias atenuantes\n- São circunstâncias que sempre atenuam a pena:"
+  },
+  {
+    "id": "cp_art_66",
+    "texto": "Art. 66 — e) cometido o crime sob a influência de multidão em tumulto, se não o provocou.\n- A pena poderá ser ainda atenuada em razão de circunstância relevante, anterior ou posterior ao crime, embora não prevista expressamente em lei."
+  },
+  {
+    "id": "cp_art_67",
+    "texto": "Art. 67 — Concurso de circunstâncias agravantes e atenuantes\n- No concurso de agravantes e atenuantes, a pena deve aproximar-se do limite indicado pelas circunstâncias preponderantes, entendendo-se como tais as que resultam dos motivos determinantes do crime, da personalidade do agente e da reincidência."
+  },
+  {
+    "id": "cp_art_68",
+    "texto": "Art. 68 — Cálculo da pena\n- A pena-base será fixada atendendo-se ao critério do art. 59 deste Código; em seguida serão consideradas as circunstâncias atenuantes e agravantes; por último, as causas de diminuição e de aumento.\nParágrafo único - No concurso de causas de aumento ou de diminuição previstas na parte especial, pode o juiz limitar-se a um só aumento ou a uma só diminuição, prevalecendo, todavia, a causa que mais aumente ou diminua."
+  },
+  {
+    "id": "cp_art_69",
+    "texto": "Art. 69 — Concurso material\n- Quando o agente, mediante mais de uma ação ou omissão, pratica dois ou mais crimes, idênticos ou não, aplicam-se cumulativamente as penas privativas de liberdade em que haja incorrido. No caso de aplicação cumulativa de penas de reclusão e de detenção, executa-se primeiro aquela."
+  },
+  {
+    "id": "cp_art_70",
+    "texto": "Art. 70 — Concurso formal\n- Quando o agente, mediante uma só ação ou omissão, pratica dois ou mais crimes, idênticos ou não, aplica-se-lhe a mais grave das penas cabíveis ou, se iguais, somente uma delas, mas aumentada, em qualquer caso, de um sexto até metade. As penas aplicam-se, entretanto, cumulativamente, se a ação ou omissão é dolosa e os crimes concorrentes resultam de desígnios autônomos, consoante o disposto no artigo anterior.\nParágrafo único - Não poderá a pena exceder a que seria cabível pela regra do art. 69 deste Código."
+  },
+  {
+    "id": "cp_art_71",
+    "texto": "Art. 71 — Crime continuado\n- Quando o agente, mediante mais de uma ação ou omissão, pratica dois ou mais crimes da mesma espécie e, pelas condições de tempo, lugar, maneira de execução e outras semelhantes, devem os subseqüentes ser havidos como continuação do primeiro, aplica-se-lhe a pena de um só dos crimes, se idênticas, ou a mais grave, se diversas, aumentada, em qualquer caso, de um sexto a dois terços.\nParágrafo único - Nos crimes dolosos, contra vítimas diferentes, cometidos com violência ou grave ameaça à pessoa, poderá o juiz, considerando a culpabilidade, os antecedentes, a conduta social e a personalidade do agente, bem como os motivos e as circunstâncias, aumentar a pena de um só dos crimes, se idênticas, ou a mais grave, se diversas, até o triplo, observadas as regras do parágrafo único do art. 70 e do art. 75 deste Código."
+  },
+  {
+    "id": "cp_art_72",
+    "texto": "Art. 72 — Multas no concurso de crimes\n- No concurso de crimes, as penas de multa são aplicadas distinta e integralmente."
+  },
+  {
+    "id": "cp_art_73",
+    "texto": "Art. 73 — Erro na execução\n- Quando, por acidente ou erro no uso dos meios de execução, o agente, ao invés de atingir a pessoa que pretendia ofender, atinge pessoa diversa, responde como se tivesse praticado o crime contra aquela, atendendo-se ao disposto no § 3º do art. 20 deste Código. No caso de ser também atingida a pessoa que o agente pretendia ofender, aplica-se a regra do art. 70 deste Código."
+  },
+  {
+    "id": "cp_art_74",
+    "texto": "Art. 74 — Resultado diverso do pretendido\n- Fora dos casos do artigo anterior, quando, por acidente ou erro na execução do crime, sobrevém resultado diverso do pretendido, o agente responde por culpa, se o fato é previsto como crime culposo; se ocorre também o resultado pretendido, aplica-se a regra do art. 70 deste Código."
+  },
+  {
+    "id": "cp_art_75",
+    "texto": "Art. 75 — Limite das penas"
+  },
+  {
+    "id": "cp_art_76",
+    "texto": "Art. 76 — Concurso de infrações\n- No concurso de infrações, executar-se-á primeiramente a pena mais grave."
+  },
+  {
+    "id": "cp_art_77",
+    "texto": "Art. 77 — Requisitos da suspensão da pena\n- A execução da pena privativa de liberdade, não superior a 2"
+  },
+  {
+    "id": "cp_art_78",
+    "texto": "Art. 78 — § 2o A execução da pena privativa de liberdade, não superior a quatro anos, poderá ser suspensa, por quatro a seis anos, desde que o condenado seja maior de setenta anos de idade, ou razões de saúde justifiquem a suspensão.         (Redação dada pela Lei nº 9.714, de 1998)\n- Durante o prazo da suspensão, o condenado ficará sujeito à observação e ao cumprimento das condições estabelecidas pelo juiz."
+  },
+  {
+    "id": "cp_art_79",
+    "texto": "Art. 79 — c) comparecimento pessoal e obrigatório a juízo, mensalmente, para informar e justificar suas atividades.  (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- A sentença poderá especificar outras condições a que fica subordinada a suspensão, desde que adequadas ao fato e à situação pessoal do condenado."
+  },
+  {
+    "id": "cp_art_80",
+    "texto": "Art. 80 — - A sentença poderá especificar outras condições a que fica subordinada a suspensão, desde que adequadas ao fato e à situação pessoal do condenado.  (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- A suspensão não se estende às penas restritivas de direitos nem à multa."
+  },
+  {
+    "id": "cp_art_81",
+    "texto": "Art. 81 — Revogação obrigatória\n- A suspensão será revogada se, no curso do prazo, o beneficiário:"
+  },
+  {
+    "id": "cp_art_82",
+    "texto": "Art. 82 — Cumprimento das condições\n- Expirado o prazo sem que tenha havido revogação, considera-se extinta a pena privativa de liberdade."
+  },
+  {
+    "id": "cp_art_83",
+    "texto": "Art. 83 — Requisitos do livramento condicional\n- O juiz poderá conceder livramento condicional ao condenado a pena privativa de liberdade igual ou superior a 2\nI - cumprida mais de um terço da pena se o condenado não for reincidente em crime doloso e tiver bons antecedentes;\nII - cumprida mais da metade se o condenado for reincidente em crime doloso;\nIII - comprovado:\na) bom comportamento durante a execução da pena;\nb) não cometimento de falta grave nos últimos 12\nc) bom desempenho no trabalho que lhe foi atribuído; e\nd) aptidão para prover a própria subsistência mediante trabalho honesto;\nIV - tenha reparado, salvo efetiva impossibilidade de fazê-lo, o dano causado pela infração;\nV - cumpridos mais de dois terços da pena, nos casos de condenação por crime hediondo, prática de tortura, tráfico ilícito de entorpecentes e drogas afins, tráfico de pessoas e terrorismo, se o apenado não for reincidente específico em crimes dessa natureza.\nParágrafo único - Para o condenado por crime doloso, cometido com violência ou grave ameaça à pessoa, a concessão do livramento ficará também subordinada à constatação de condições pessoais que façam presumir que o liberado não voltará a delinqüir."
+  },
+  {
+    "id": "cp_art_84",
+    "texto": "Art. 84 — Soma de penas\n- As penas que correspondem a infrações diversas devem somar-se para efeito do livramento."
+  },
+  {
+    "id": "cp_art_85",
+    "texto": "Art. 85 — Especificações das condições\n- A sentença especificará as condições a que fica subordinado o livramento."
+  },
+  {
+    "id": "cp_art_86",
+    "texto": "Art. 86 — Revogação do livramento\n- Revoga-se o livramento, se o liberado vem a ser condenado a pena privativa de liberdade, em sentença irrecorrível:"
+  },
+  {
+    "id": "cp_art_87",
+    "texto": "Art. 87 — Revogação facultativa\n- O juiz poderá, também, revogar o livramento, se o liberado deixar de cumprir qualquer das obrigações constantes da sentença, ou for irrecorrivelmente condenado, por crime ou contravenção, a pena que não seja privativa de liberdade."
+  },
+  {
+    "id": "cp_art_88",
+    "texto": "Art. 88 — Efeitos da revogação\n- Revogado o livramento, não poderá ser novamente concedido, e, salvo quando a revogação resulta de condenação por outro crime anterior àquele benefício, não se desconta na pena o tempo em que esteve solto o condenado."
+  },
+  {
+    "id": "cp_art_89",
+    "texto": "Art. 89 — Extinção\n- O juiz não poderá declarar extinta a pena, enquanto não passar em julgado a sentença em processo a que responde o liberado, por crime cometido na vigência do livramento."
+  },
+  {
+    "id": "cp_art_90",
+    "texto": "Art. 90 — - O juiz não poderá declarar extinta a pena, enquanto não passar em julgado a sentença em processo a que responde o liberado, por crime cometido na vigência do livramento.(Redação dada pela Lei nº 7.209, de 11.7.1984)\n- Se até o seu término o livramento não é revogado, considera-se extinta a pena privativa de liberdade."
+  },
+  {
+    "id": "cp_art_91",
+    "texto": "Art. 91 — Efeitos genéricos e específicos\n- São efeitos da condenação:"
+  },
+  {
+    "id": "cp_art_91-A",
+    "texto": "Art. 91-A — § 2o  Na hipótese do § 1o, as medidas assecuratórias previstas na legislação processual poderão abranger bens ou valores equivalentes do investigado ou acusado para posterior decretação de perda.          (Incluído pela Lei nº 12.694, de 2012)"
+  },
+  {
+    "id": "cp_art_92",
+    "texto": "Art. 92 — § 5º Os instrumentos utilizados para a prática de crimes por organizações criminosas e milícias deverão ser declarados perdidos em favor da União ou do Estado, dependendo da Justiça onde tramita a ação penal, ainda que não ponham em perigo a segurança das pessoas, a moral ou a ordem pública, nem ofereçam sério risco de ser utilizados para o cometimento de novos crimes.             (Incluído pela Lei nº 13.964, de 2019)\n- São também efeitos da condenação:"
+  },
+  {
+    "id": "cp_art_93",
+    "texto": "Art. 93 — Reabilitação\n- A reabilitação alcança quaisquer penas aplicadas em sentença definitiva, assegurando ao condenado o sigilo dos registros sobre o seu processo e condenação.\nParágrafo único - A reabilitação poderá, também, atingir os efeitos da condenação, previstos no art. 92 deste Código, vedada reintegração na situação anterior, nos casos dos incisos I e II do mesmo artigo."
+  },
+  {
+    "id": "cp_art_94",
+    "texto": "Art. 94 — Parágrafo único - A reabilitação poderá, também, atingir os efeitos da condenação, previstos no art. 92 deste Código, vedada reintegração na situação anterior, nos casos dos incisos I e II do mesmo artigo.  (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- A reabilitação poderá ser requerida, decorridos 2\nI - tenha tido domicílio no País no prazo acima referido;\nII - tenha dado, durante esse tempo, demonstração efetiva e constante de bom comportamento público e privado;\nIII - tenha ressarcido o dano causado pelo crime ou demonstre a absoluta impossibilidade de o fazer, até o dia do pedido, ou exiba documento que comprove a renúncia da vítima ou novação da dívida.\nParágrafo único - Negada a reabilitação, poderá ser requerida, a qualquer tempo, desde que o pedido seja instruído com novos elementos comprobatórios dos requisitos necessários."
+  },
+  {
+    "id": "cp_art_95",
+    "texto": "Art. 95 — Parágrafo único - Negada a reabilitação, poderá ser requerida, a qualquer tempo, desde que o pedido seja instruído com novos elementos comprobatórios dos requisitos necessários.  (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- A reabilitação será revogada, de ofício ou a requerimento do Ministério Público, se o reabilitado for condenado, como reincidente, por decisão definitiva, a pena que não seja de multa."
+  },
+  {
+    "id": "cp_art_96",
+    "texto": "Art. 96 — Espécies de medidas de segurança\n. As medidas de segurança são:\nI - Internação em hospital de custódia e tratamento psiquiátrico ou, à falta, em outro estabelecimento adequado;\nII - sujeição a tratamento ambulatorial.\nParágrafo único - Extinta a punibilidade, não se impõe medida de segurança nem subsiste a que tenha sido imposta."
+  },
+  {
+    "id": "cp_art_97",
+    "texto": "Art. 97 — Imposição da medida de segurança para inimputável\n- Se o agente for inimputável, o juiz determinará sua internação"
+  },
+  {
+    "id": "cp_art_98",
+    "texto": "Art. 98 — Substituição da pena por medida de segurança para o semi-imputável\n- Na hipótese do parágrafo único do art. 26 deste Código e necessitando o condenado de especial tratamento curativo, a pena privativa de liberdade pode ser substituída pela internação, ou tratamento ambulatorial, pelo prazo mínimo de 1"
+  },
+  {
+    "id": "cp_art_99",
+    "texto": "Art. 99 — Direitos do internado\n- O internado será recolhido a estabelecimento dotado de características hospitalares e será submetido a tratamento."
+  },
+  {
+    "id": "cp_art_100",
+    "texto": "Art. 100 — Ação pública e de iniciativa privada\n- A ação penal é pública, salvo quando a lei expressamente a declara privativa do ofendido."
+  },
+  {
+    "id": "cp_art_101",
+    "texto": "Art. 101 — A ação penal no crime complexo\n- Quando a lei considera como elemento ou circunstâncias do tipo legal fatos que, por si mesmos, constituem crimes, cabe ação pública em relação àquele, desde que, em relação a qualquer destes, se deva proceder por iniciativa do Ministério Público."
+  },
+  {
+    "id": "cp_art_102",
+    "texto": "Art. 102 — Irretratabilidade da representação\n- A representação será irretratável depois de oferecida a denúncia."
+  },
+  {
+    "id": "cp_art_103",
+    "texto": "Art. 103 — Decadência do direito de queixa ou de representação\n- Salvo disposição expressa em contrário, o ofendido decai do direito de queixa ou de representação se não o exerce dentro do prazo de 6"
+  },
+  {
+    "id": "cp_art_104",
+    "texto": "Art. 104 — Renúncia expressa ou tácita do direito de queixa\n- O direito de queixa não pode ser exercido quando renunciado expressa ou tacitamente.\nParágrafo único - Importa renúncia tácita ao direito de queixa a prática de ato incompatível com a vontade de exercê-lo; não a implica, todavia, o fato de receber o ofendido a indenização do dano causado pelo crime."
+  },
+  {
+    "id": "cp_art_105",
+    "texto": "Art. 105 — Perdão do ofendido\n- O perdão do ofendido, nos crimes em que somente se procede mediante queixa, obsta ao prosseguimento da ação."
+  },
+  {
+    "id": "cp_art_106",
+    "texto": "Art. 106 — - O perdão do ofendido, nos crimes em que somente se procede mediante queixa, obsta ao prosseguimento da ação. (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- O perdão, no processo ou fora dele, expresso ou tácito:"
+  },
+  {
+    "id": "cp_art_107",
+    "texto": "Art. 107 — Extinção da punibilidade\n- Extingue-se a punibilidade:"
+  },
+  {
+    "id": "cp_art_108",
+    "texto": "Art. 108 — IX - pelo perdão judicial, nos casos previstos em lei.\n- A extinção da punibilidade de crime que é pressuposto, elemento constitutivo ou circunstância agravante de outro não se estende a este. Nos crimes conexos, a extinção da punibilidade de um deles não impede, quanto aos outros, a agravação da pena resultante da conexão."
+  },
+  {
+    "id": "cp_art_109",
+    "texto": "Art. 109 — Prescrição antes de transitar em julgado a sentença\n. A prescrição, antes de transitar em julgado a sentença final, salvo o disposto no § 1o do art. 110 deste Código, regula-se pelo máximo da pena privativa de liberdade cominada ao crime, verificando-se: .\nI - em vinte anos, se o máximo da pena é superior a doze;\nII - em dezesseis anos, se o máximo da pena é superior a oito anos e não excede a doze;\nIII - em doze anos, se o máximo da pena é superior a quatro anos e não excede a oito;\nIV - em oito anos, se o máximo da pena é superior a dois anos e não excede a quatro;\nV - em quatro anos, se o máximo da pena é igual a um ano ou, sendo superior, não excede a dois;\nVI - em 3 .\nPrescrição das penas restritivas de direito\nParágrafo único - Aplicam-se às penas restritivas de direito os mesmos prazos previstos para as privativas de liberdade."
+  },
+  {
+    "id": "cp_art_110",
+    "texto": "Art. 110 — Prescrição depois de transitar em julgado sentença final condenatória\n- A prescrição depois de transitar em julgado a sentença condenatória regula-se pela pena aplicada e verifica-se nos prazos fixados no artigo anterior, os quais se aumentam de um terço, se o condenado é reincidente."
+  },
+  {
+    "id": "cp_art_111",
+    "texto": "Art. 111 — Termo inicial da prescrição antes de transitar em julgado a sentença final\n- A prescrição, antes de transitar em julgado a sentença final, começa a correr:"
+  },
+  {
+    "id": "cp_art_112",
+    "texto": "Art. 112 — Termo inicial da prescrição após a sentença condenatória irrecorrível\n- No caso do art. 110 deste Código, a prescrição começa a correr:"
+  },
+  {
+    "id": "cp_art_113",
+    "texto": "Art. 113 — Prescrição no caso de evasão do condenado ou de revogação do livramento condicional\n- No caso de evadir-se o condenado ou de revogar-se o livramento condicional, a prescrição é regulada pelo tempo que resta da pena."
+  },
+  {
+    "id": "cp_art_114",
+    "texto": "Art. 114 — Prescrição da multa\n- A prescrição da pena de multa ocorrerá:"
+  },
+  {
+    "id": "cp_art_115",
+    "texto": "Art. 115 — Redução dos prazos de prescrição"
+  },
+  {
+    "id": "cp_art_116",
+    "texto": "Art. 116 — Causas impeditivas da prescrição\n- Antes de passar em julgado a sentença final, a prescrição não corre:\nI - enquanto não resolvida, em outro processo, questão de que dependa o reconhecimento da existência do crime;\nII - enquanto o agente cumpre pena no exterior;\nIII - na pendência de embargos de declaração ou de recursos aos Tribunais Superiores, quando inadmissíveis; e\nIV - enquanto não cumprido ou não rescindido o acordo de não persecução penal.\nParágrafo único - Depois de passada em julgado a sentença condenatória, a prescrição não corre durante o tempo em que o condenado está preso por outro motivo."
+  },
+  {
+    "id": "cp_art_117",
+    "texto": "Art. 117 — Causas interruptivas da prescrição\n- O curso da prescrição interrompe-se:"
+  },
+  {
+    "id": "cp_art_118",
+    "texto": "Art. 118 — § 2º - Interrompida a prescrição, salvo a hipótese do inciso V deste artigo, todo o prazo começa a correr, novamente, do dia da interrupção.  (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- As penas mais leves prescrevem com as mais graves."
+  },
+  {
+    "id": "cp_art_119",
+    "texto": "Art. 119 — - As penas mais leves prescrevem com as mais graves.  (Redação dada pela Lei nº 7.209, de 11.7.1984)\n- No caso de concurso de crimes, a extinção da punibilidade incidirá sobre a pena de cada um, isoladamente."
+  },
+  {
+    "id": "cp_art_120",
+    "texto": "Art. 120 — Perdão judicial\n- A sentença que conceder perdão judicial não será considerada para efeitos de reincidência."
+  },
+  {
     "id": "cp_art_121",
-    "titulo": "Art. 121 — Homicídio",
-    "texto": "Matar alguém: pena - reclusão, de seis a vinte anos."
+    "texto": "Art. 121 — Homicídio simples"
+  },
+  {
+    "id": "cp_art_121-A",
+    "texto": "Art. 121-A — Feminicídio     (Incluído pela Lei nº 14.994, de 2024)"
+  },
+  {
+    "id": "cp_art_122",
+    "texto": "Art. 122 — Induzimento, instigação ou auxílio a suicídio ou a automutilação           (Redação dada pela Lei nº 13.968, de 2019)"
+  },
+  {
+    "id": "cp_art_123",
+    "texto": "Art. 123 — Infanticídio\n- Matar, sob a influência do estado puerperal, o próprio filho, durante o parto ou logo após:"
+  },
+  {
+    "id": "cp_art_124",
+    "texto": "Art. 124 — Aborto provocado pela gestante ou com seu consentimento\n- Provocar aborto em si mesma ou consentir que outrem lho provoque: (Vide ADPF 54)"
+  },
+  {
+    "id": "cp_art_125",
+    "texto": "Art. 125 — Aborto provocado por terceiro\n- Provocar aborto, sem o consentimento da gestante:"
+  },
+  {
+    "id": "cp_art_126",
+    "texto": "Art. 126 — Pena - reclusão, de três a dez anos.\n- Provocar aborto com o consentimento da gestante: (Vide ADPF 54)\nPena - reclusão, de um a quatro anos.\nParágrafo único. Aplica-se a pena do artigo anterior, se a gestante não é maior de quatorze anos, ou é alienada ou debil mental, ou se o consentimento é obtido mediante fraude, grave ameaça ou violência"
+  },
+  {
+    "id": "cp_art_127",
+    "texto": "Art. 127 — Forma qualificada\n- As penas cominadas nos dois artigos anteriores são aumentadas de um terço, se, em conseqüência do aborto ou dos meios empregados para provocá-lo, a gestante sofre lesão corporal de natureza grave; e são duplicadas, se, por qualquer dessas causas, lhe sobrevém a morte."
+  },
+  {
+    "id": "cp_art_128",
+    "texto": "Art. 128 — - As penas cominadas nos dois artigos anteriores são aumentadas de um terço, se, em conseqüência do aborto ou dos meios empregados para provocá-lo, a gestante sofre lesão corporal de natureza grave; e são duplicadas, se, por qualquer dessas      causas, lhe sobrevém a morte.\n- Não se pune o aborto praticado por médico: (Vide ADPF 54)"
   },
   {
     "id": "cp_art_129",
-    "titulo": "Art. 129 — Lesão corporal",
-    "texto": "Ofender a integridade corporal ou a saúde de outrem: pena - detenção, de três meses a um ano."
+    "texto": "Art. 129 — Lesão corporal"
+  },
+  {
+    "id": "cp_art_130",
+    "texto": "Art. 130 — Perigo de contágio venéreo\n- Expor alguém, por meio de relações sexuais ou qualquer ato libidinoso, a contágio de moléstia venérea, de que sabe ou deve saber que está contaminado:"
+  },
+  {
+    "id": "cp_art_131",
+    "texto": "Art. 131 — Perigo de contágio de moléstia grave\n- Praticar, com o fim de transmitir a outrem moléstia grave de que está contaminado, ato capaz de produzir o contágio:"
+  },
+  {
+    "id": "cp_art_132",
+    "texto": "Art. 132 — Perigo para a vida ou saúde de outrem\n- Expor a vida ou a saúde de outrem a perigo direto e iminente:\nPena - detenção, de três meses a um ano, se o fato não constitui crime mais grave.\nParágrafo único. A pena é aumentada de um sexto a um terço se a exposição da vida ou da saúde de outrem a perigo decorre do transporte de pessoas para a prestação de serviços em estabelecimentos de qualquer natureza, em desacordo com as normas legais."
+  },
+  {
+    "id": "cp_art_133",
+    "texto": "Art. 133 — Abandono de incapaz\n- Abandonar pessoa que está sob seu cuidado, guarda, vigilância ou autoridade, e, por qualquer motivo, incapaz de defender-se dos riscos resultantes do abandono:"
+  },
+  {
+    "id": "cp_art_134",
+    "texto": "Art. 134 — Exposição ou abandono de recém-nascido\n- Expor ou abandonar recém-nascido, para ocultar desonra própria:"
+  },
+  {
+    "id": "cp_art_135",
+    "texto": "Art. 135 — Omissão de socorro\n- Deixar de prestar assistência, quando possível fazê-lo sem risco pessoal, à criança abandonada ou extraviada, ou à pessoa inválida ou ferida, ao desamparo ou em grave e iminente perigo; ou não pedir, nesses casos, o socorro da autoridade pública:\nPena - detenção, de um a seis meses, ou multa.\nParágrafo único - A pena é aumentada de metade, se da omissão resulta lesão corporal de natureza grave, e triplicada, se resulta a morte."
+  },
+  {
+    "id": "cp_art_135-A",
+    "texto": "Art. 135-A — Condicionamento de atendimento médico-hospitalar emergencial (Incluído pela Lei nº 12.653, de 2012).\n. Exigir cheque-caução, nota promissória ou qualquer garantia, bem como o preenchimento prévio de formulários administrativos, como condição para o atendimento médico-hospitalar emergencial: .\nPena - detenção, de 3 .\nParágrafo único. A pena é aumentada até o dobro se da negativa de atendimento resulta lesão corporal de natureza grave, e até o triplo se resulta a morte. ."
+  },
+  {
+    "id": "cp_art_136",
+    "texto": "Art. 136 — Maus-tratos\n- Expor a perigo a vida ou a saúde de pessoa sob sua autoridade, guarda ou vigilância, para fim de educação, ensino, tratamento ou custódia, quer privando-a de alimentação ou cuidados indispensáveis, quer sujeitando-a a trabalho excessivo ou inadequado, quer abusando de meios de correção ou disciplina:"
+  },
+  {
+    "id": "cp_art_137",
+    "texto": "Art. 137 — Rixa\n- Participar de rixa, salvo para separar os contendores:\nPena - detenção, de quinze dias a dois meses, ou multa.\nParágrafo único - Se ocorre morte ou lesão corporal de natureza grave, aplica-se, pelo fato da participação na rixa, a pena de detenção, de seis meses a dois anos."
+  },
+  {
+    "id": "cp_art_138",
+    "texto": "Art. 138 — Calúnia\n- Caluniar alguém, imputando-lhe falsamente fato definido como crime:"
+  },
+  {
+    "id": "cp_art_139",
+    "texto": "Art. 139 — Difamação\n- Difamar alguém, imputando-lhe fato ofensivo à sua reputação:\nPena - detenção, de três meses a um ano, e multa.\nExceção da verdade\nParágrafo único - A exceção da verdade somente se admite se o ofendido é funcionário público e a ofensa é relativa ao exercício de suas funções."
+  },
+  {
+    "id": "cp_art_140",
+    "texto": "Art. 140 — Injúria\n- Injuriar alguém, ofendendo-lhe a dignidade ou o decoro:"
+  },
+  {
+    "id": "cp_art_141",
+    "texto": "Art. 141 — Disposições comuns\n- As penas cominadas neste Capítulo aumentam-se de um terço, se qualquer dos crimes é cometido:"
+  },
+  {
+    "id": "cp_art_142",
+    "texto": "Art. 142 — Exclusão do crime\n- Não constituem injúria ou difamação punível:\nI - a ofensa irrogada em juízo, na discussão da causa, pela parte ou por seu procurador;\nII - a opinião desfavorável da crítica literária, artística ou científica, salvo quando inequívoca a intenção de injuriar ou difamar;\nIII - o conceito desfavorável emitido por funcionário público, em apreciação ou informação que preste no cumprimento de dever do ofício.\nParágrafo único - Nos casos dos ns. I e III, responde pela injúria ou pela difamação quem lhe dá publicidade."
+  },
+  {
+    "id": "cp_art_143",
+    "texto": "Art. 143 — Retratação\n- O querelado que, antes da sentença, se retrata cabalmente da calúnia ou da difamação, fica isento de pena.\nParágrafo único. Nos casos em que o querelado tenha praticado a calúnia ou a difamação utilizando-se de meios de comunicação, a retratação dar-se-á, se assim desejar o ofendido, pelos mesmos meios em que se praticou a ofensa."
+  },
+  {
+    "id": "cp_art_144",
+    "texto": "Art. 144 — Parágrafo único.  Nos casos em que o querelado tenha praticado a calúnia ou a difamação utilizando-se de meios de comunicação, a retratação dar-se-á, se assim desejar o ofendido, pelos mesmos meios em que se praticou a ofensa.      (Incluído pela Lei nº 13.188, de 2015)\n- Se, de referências, alusões ou frases, se infere calúnia, difamação ou injúria, quem se julga ofendido pode pedir explicações em juízo. Aquele que se recusa a dá-las ou, a critério do juiz, não as dá satisfatórias, responde pela ofensa."
+  },
+  {
+    "id": "cp_art_145",
+    "texto": "Art. 145 — - Se, de referências, alusões ou frases, se infere calúnia, difamação ou injúria, quem se julga ofendido pode pedir explicações em juízo. Aquele que se recusa a dá-las ou, a critério do juiz, não as dá satisfatórias, responde pela ofensa.\n- Nos crimes previstos neste Capítulo somente se procede mediante queixa, salvo quando, no caso do art. 140, § 2º, da violência resulta lesão corporal.\nParágrafo único. Procede-se mediante requisição do Ministro da Justiça, no caso do inciso I do caput do art. 141 deste Código, e mediante representação do ofendido, no caso do inciso II do mesmo artigo, bem como no caso do § 3o do art. 140 deste Código."
+  },
+  {
+    "id": "cp_art_146",
+    "texto": "Art. 146 — Constrangimento ilegal\n- Constranger alguém, mediante violência ou grave ameaça, ou depois de lhe haver reduzido, por qualquer outro meio, a capacidade de resistência, a não fazer o que a lei permite, ou a fazer o que ela não manda:"
+  },
+  {
+    "id": "cp_art_146-A",
+    "texto": "Art. 146-A — Intimidação sistemática (bullying)\n. Intimidar sistematicamente, individualmente ou em grupo, mediante violência física ou psicológica, uma ou mais pessoas, de modo intencional e repetitivo, sem motivação evidente, por meio de atos de intimidação, de humilhação ou de discriminação ou de ações verbais, morais, sexuais, sociais, psicológicas, físicas, materiais ou virtuais:\nPena - multa, se a conduta não constituir crime mais grave.\nIntimidação sistemática virtual\nParágrafo único. Se a conduta é realizada por meio da rede de computadores, de rede social, de aplicativos, de jogos on-line ou por qualquer outro meio ou ambiente digital, ou transmitida em tempo real:"
+  },
+  {
+    "id": "cp_art_147",
+    "texto": "Art. 147 — Ameaça\n- Ameaçar alguém, por palavra, escrito ou gesto, ou qualquer outro meio simbólico, de causar-lhe mal injusto e grave:"
+  },
+  {
+    "id": "cp_art_147-A",
+    "texto": "Art. 147-A — Perseguição"
+  },
+  {
+    "id": "cp_art_147-B",
+    "texto": "Art. 147-B — Violência psicológica contra a mulher   (Incluído pela Lei nº 14.188, de 2021)\n. Causar dano emocional à mulher que a prejudique e perturbe seu pleno desenvolvimento ou que vise a degradar ou a controlar suas ações, comportamentos, crenças e decisões, mediante ameaça, constrangimento, humilhação, manipulação, isolamento, chantagem, ridicularização, limitação do direito de ir e vir ou qualquer outro meio que cause prejuízo à sua saúde psicológica e autodeterminação:\nPena - reclusão, de 6\nParágrafo único. A pena é aumentada de metade se o crime é cometido mediante uso de inteligência artificial ou de qualquer outro recurso tecnológico que altere imagem ou som da vítima."
+  },
+  {
+    "id": "cp_art_148",
+    "texto": "Art. 148 — Seqüestro e cárcere privado\n- Privar alguém de sua liberdade, mediante seqüestro ou cárcere privado:"
+  },
+  {
+    "id": "cp_art_149",
+    "texto": "Art. 149 — Redução a condição análoga à de escravo"
+  },
+  {
+    "id": "cp_art_149-A",
+    "texto": "Art. 149-A — Tráfico de Pessoas               (Incluído pela Lei nº 13.344, de 2016)          (Vigência)"
+  },
+  {
+    "id": "cp_art_150",
+    "texto": "Art. 150 — Violação de domicílio\n- Entrar ou permanecer, clandestina ou astuciosamente, ou contra a vontade expressa ou tácita de quem de direito, em casa alheia ou em suas dependências:"
+  },
+  {
+    "id": "cp_art_151",
+    "texto": "Art. 151 — Violação de correspondência\n- Devassar indevidamente o conteúdo de correspondência fechada, dirigida a outrem:"
+  },
+  {
+    "id": "cp_art_152",
+    "texto": "Art. 152 — Correspondência comercial\n- Abusar da condição de sócio ou empregado de estabelecimento comercial ou industrial para, no todo ou em parte, desviar, sonegar, subtrair ou suprimir correspondência, ou revelar a estranho seu conteúdo:\nPena - detenção, de três meses a dois anos.\nParágrafo único - Somente se procede mediante representação."
+  },
+  {
+    "id": "cp_art_153",
+    "texto": "Art. 153 — Divulgação de segredo\n- Divulgar alguém, sem justa causa, conteúdo de documento particular ou de correspondência confidencial, de que é destinatário ou detentor, e cuja divulgação possa produzir dano a outrem:"
+  },
+  {
+    "id": "cp_art_154",
+    "texto": "Art. 154 — Violação do segredo profissional\n- Revelar alguém, sem justa causa, segredo, de que tem ciência em razão de função, ministério, ofício ou profissão, e cuja revelação possa produzir dano a outrem:\nPena - detenção, de três meses a um ano, ou multa de um conto a dez contos de réis.\nParágrafo único - Somente se procede mediante representação."
+  },
+  {
+    "id": "cp_art_154-A",
+    "texto": "Art. 154-A — Invasão de dispositivo informático  (Incluído pela Lei nº 12.737, de 2012)      Vigência"
+  },
+  {
+    "id": "cp_art_154-B",
+    "texto": "Art. 154-B — Ação penal       (Incluído pela Lei nº 12.737, de 2012)     Vigência"
+  },
+  {
+    "id": "cp_art_155",
+    "texto": "Art. 155 — Furto\n- Subtrair, para si ou para outrem, coisa alheia móvel:"
+  },
+  {
+    "id": "cp_art_156",
+    "texto": "Art. 156 — Furto de coisa comum\n- Subtrair o condômino, co-herdeiro ou sócio, para si ou para outrem, a quem legitimamente a detém, a coisa comum:"
+  },
+  {
+    "id": "cp_art_157",
+    "texto": "Art. 157 — Roubo\n- Subtrair coisa móvel alheia, para si ou para outrem, mediante grave ameaça ou violência a pessoa, ou depois de havê-la, por qualquer meio, reduzido à impossibilidade de resistência:"
+  },
+  {
+    "id": "cp_art_158",
+    "texto": "Art. 158 — Extorsão\n- Constranger alguém, mediante violência ou grave ameaça, e com o intuito de obter para si ou para outrem indevida vantagem econômica, a fazer, tolerar que se faça ou deixar de fazer alguma coisa:"
+  },
+  {
+    "id": "cp_art_159",
+    "texto": "Art. 159 — Extorsão mediante seqüestro\n- Seqüestrar pessoa com o fim de obter, para si ou para outrem, qualquer vantagem, como condição ou preço do resgate: Vide Lei nº 8.072, de 25.7.90"
+  },
+  {
+    "id": "cp_art_160",
+    "texto": "Art. 160 — Extorsão indireta\n- Exigir ou receber, como garantia de dívida, abusando da situação de alguém, documento que pode dar causa a procedimento criminal contra a vítima ou contra terceiro:"
+  },
+  {
+    "id": "cp_art_161",
+    "texto": "Art. 161 — Alteração de limites\n- Suprimir ou deslocar tapume, marco, ou qualquer outro sinal indicativo de linha divisória, para apropriar-se, no todo ou em parte, de coisa imóvel alheia:"
+  },
+  {
+    "id": "cp_art_162",
+    "texto": "Art. 162 — Supressão ou alteração de marca em animais\n- Suprimir ou alterar, indevidamente, em gado ou rebanho alheio, marca ou sinal indicativo de propriedade:"
+  },
+  {
+    "id": "cp_art_163",
+    "texto": "Art. 163 — Dano\n- Destruir, inutilizar ou deteriorar coisa alheia:\nPena - detenção, de um a seis meses, ou multa.\nDano qualificado\nParágrafo único - Se o crime é cometido:"
+  },
+  {
+    "id": "cp_art_164",
+    "texto": "Art. 164 — Introdução ou abandono de animais em propriedade alheia\n- Introduzir ou deixar animais em propriedade alheia, sem consentimento de quem de direito, desde que o fato resulte prejuízo:"
+  },
+  {
+    "id": "cp_art_165",
+    "texto": "Art. 165 — Dano em coisa de valor artístico, arqueológico ou histórico\n- Destruir, inutilizar ou deteriorar coisa tombada pela autoridade competente em virtude de valor artístico, arqueológico ou histórico:"
+  },
+  {
+    "id": "cp_art_166",
+    "texto": "Art. 166 — Alteração de local especialmente protegido\n- Alterar, sem licença da autoridade competente, o aspecto de local especialmente protegido por lei:"
+  },
+  {
+    "id": "cp_art_167",
+    "texto": "Art. 167 — Ação penal\n- Nos casos do art. 163, do inciso IV do seu parágrafo e do art. 164, somente se procede mediante queixa."
+  },
+  {
+    "id": "cp_art_168",
+    "texto": "Art. 168 — Apropriação indébita\n- Apropriar-se de coisa alheia móvel, de que tem a posse ou a detenção:"
+  },
+  {
+    "id": "cp_art_168-A",
+    "texto": "Art. 168-A — Apropriação indébita previdenciária (Incluído pela Lei nº 9.983, de 2000)"
+  },
+  {
+    "id": "cp_art_169",
+    "texto": "Art. 169 — Apropriação de coisa havida por erro, caso fortuito ou força da natureza\n- Apropriar-se alguém de coisa alheia vinda ao seu poder por erro, caso fortuito ou força da natureza:\nPena - detenção, de um mês a um ano, ou multa.\nParágrafo único - Na mesma pena incorre:"
+  },
+  {
+    "id": "cp_art_170",
+    "texto": "Art. 170 — II - quem acha coisa alheia perdida e dela se apropria, total ou parcialmente, deixando de restituí-la ao dono ou legítimo possuidor ou de entregá-la à autoridade competente, dentro no prazo de quinze dias.\n- Nos crimes previstos neste Capítulo, aplica-se o disposto no art. 155, § 2º."
+  },
+  {
+    "id": "cp_art_171",
+    "texto": "Art. 171 — Estelionato\n- Obter, para si ou para outrem, vantagem ilícita, em prejuízo alheio, induzindo ou mantendo alguém em erro, mediante artifício, ardil, ou qualquer outro meio fraudulento:"
+  },
+  {
+    "id": "cp_art_171-A",
+    "texto": "Art. 171-A — IV - maior de 70 (setenta) anos de idade ou incapaz.           (Incluído pela Lei nº 13.964, de 2019)"
+  },
+  {
+    "id": "cp_art_172",
+    "texto": "Art. 172 — Duplicata simulada\n- Emitir fatura, duplicata ou nota de venda que não corresponda à mercadoria vendida, em quantidade ou qualidade, ou ao serviço prestado.\nPena - detenção, de 2\nParágrafo único. Nas mesmas penas incorrerá aquêle que falsificar ou adulterar a escrituração do Livro de Registro de Duplicatas."
+  },
+  {
+    "id": "cp_art_173",
+    "texto": "Art. 173 — Abuso de incapazes\n- Abusar, em proveito próprio ou alheio, de necessidade, paixão ou inexperiência de menor, ou da alienação ou debilidade mental de outrem, induzindo qualquer deles à prática de ato suscetível de produzir efeito jurídico, em prejuízo próprio ou de terceiro:"
+  },
+  {
+    "id": "cp_art_174",
+    "texto": "Art. 174 — Induzimento à especulação\n- Abusar, em proveito próprio ou alheio, da inexperiência ou da simplicidade ou inferioridade mental de outrem, induzindo-o à prática de jogo ou aposta, ou à especulação com títulos ou mercadorias, sabendo ou devendo saber que a operação é ruinosa:"
+  },
+  {
+    "id": "cp_art_175",
+    "texto": "Art. 175 — Fraude no comércio\n- Enganar, no exercício de atividade comercial, o adquirente ou consumidor:"
+  },
+  {
+    "id": "cp_art_176",
+    "texto": "Art. 176 — Outras fraudes\n- Tomar refeição em restaurante, alojar-se em hotel ou utilizar-se de meio de transporte sem dispor de recursos para efetuar o pagamento:\nPena - detenção, de quinze dias a dois meses, ou multa.\nParágrafo único - Somente se procede mediante representação, e o juiz pode, conforme as circunstâncias, deixar de aplicar a pena."
+  },
+  {
+    "id": "cp_art_177",
+    "texto": "Art. 177 — Fraudes e abusos na fundação ou administração de sociedade por ações\n- Promover a fundação de sociedade por ações, fazendo, em prospecto ou em comunicação ao público ou à assembléia, afirmação falsa sobre a constituição da sociedade, ou ocultando fraudulentamente fato a ela relativo:"
+  },
+  {
+    "id": "cp_art_178",
+    "texto": "Art. 178 — Emissão irregular de conhecimento de depósito ou \"warrant\"\n- Emitir conhecimento de depósito ou warrant, em desacordo com disposição legal:"
+  },
+  {
+    "id": "cp_art_179",
+    "texto": "Art. 179 — Fraude à execução\n- Fraudar execução, alienando, desviando, destruindo ou danificando bens, ou simulando dívidas:\nPena - detenção, de seis meses a dois anos, ou multa.\nParágrafo único - Somente se procede mediante queixa."
+  },
+  {
+    "id": "cp_art_180",
+    "texto": "Art. 180 — Receptação\n- Adquirir, receber, transportar, conduzir ou ocultar, em proveito próprio ou alheio, coisa que sabe ser produto de crime, ou influir para que terceiro, de boa-fé, a adquira, receba ou oculte:"
+  },
+  {
+    "id": "cp_art_180-A",
+    "texto": "Art. 180-A — Receptação de animal"
+  },
+  {
+    "id": "cp_art_181",
+    "texto": "Art. 181 — DISPOSIÇÕES GERAIS\n- É isento de pena quem comete qualquer dos crimes previstos neste título, em prejuízo:"
+  },
+  {
+    "id": "cp_art_182",
+    "texto": "Art. 182 — II - de ascendente ou descendente, seja o parentesco legítimo ou ilegítimo, seja civil ou natural.\n- Somente se procede mediante representação, se o crime previsto neste título é cometido em prejuízo:"
+  },
+  {
+    "id": "cp_art_183",
+    "texto": "Art. 183 — III - de tio ou sobrinho, com quem o agente coabita.\n- Não se aplica o disposto nos dois artigos anteriores:"
+  },
+  {
+    "id": "cp_art_183-A",
+    "texto": "Art. 183-A — III – se o crime é praticado contra pessoa com idade igual ou superior a 60 (sessenta) anos.    (Incluído pela Lei nº 10.741, de 2003)"
+  },
+  {
+    "id": "cp_art_184",
+    "texto": "Art. 184 — Violação de direito autoral"
+  },
+  {
+    "id": "cp_art_185",
+    "texto": "Art. 185 — Usurpação de nome ou pseudônimo alheio\n-"
+  },
+  {
+    "id": "cp_art_186",
+    "texto": "Art. 186 — -          (Revogado pela Lei nº 10.695, de 1º.7.2003)"
+  },
+  {
+    "id": "cp_art_189",
+    "texto": "Art. 189 — Usurpação ou indevida exploração de modelo ou desenho privilegiado"
+  },
+  {
+    "id": "cp_art_190",
+    "texto": "Art. 190 — Falsa declaração de depósito em modelo ou desenho"
+  },
+  {
+    "id": "cp_art_191",
+    "texto": "Art. 191 — .               (Revogado pela Lei nº 9.279, de 14.5.1996)"
+  },
+  {
+    "id": "cp_art_192",
+    "texto": "Art. 192 — Violação do direito de marca"
+  },
+  {
+    "id": "cp_art_193",
+    "texto": "Art. 193 — Uso indevido de armas, brasões e distintivos públicos"
+  },
+  {
+    "id": "cp_art_194",
+    "texto": "Art. 194 — Marca com falsa indicação de procedência"
+  },
+  {
+    "id": "cp_art_195",
+    "texto": "Art. 195 — .         (Revogado pela Lei nº 9.279, de 14.5.1996)"
+  },
+  {
+    "id": "cp_art_196",
+    "texto": "Art. 196 — Concorrência desleal"
+  },
+  {
+    "id": "cp_art_197",
+    "texto": "Art. 197 — Atentado contra a liberdade de trabalho\n- Constranger alguém, mediante violência ou grave ameaça:"
+  },
+  {
+    "id": "cp_art_198",
+    "texto": "Art. 198 — Atentado contra a liberdade de contrato de trabalho e boicotagem violenta\n- Constranger alguém, mediante violência ou grave ameaça, a celebrar contrato de trabalho, ou a não fornecer a outrem ou não adquirir de outrem matéria-prima ou produto industrial ou agrícola:"
+  },
+  {
+    "id": "cp_art_199",
+    "texto": "Art. 199 — Atentado contra a liberdade de associação\n- Constranger alguém, mediante violência ou grave ameaça, a participar ou deixar de participar de determinado sindicato ou associação profissional:"
+  },
+  {
+    "id": "cp_art_200",
+    "texto": "Art. 200 — Paralisação de trabalho, seguida de violência ou perturbação da ordem\n- Participar de suspensão ou abandono coletivo de trabalho, praticando violência contra pessoa ou contra coisa:\nPena - detenção, de um mês a um ano, e multa, além da pena correspondente à violência.\nParágrafo único - Para que se considere coletivo o abandono de trabalho é indispensável o concurso de, pelo menos, três empregados."
+  },
+  {
+    "id": "cp_art_201",
+    "texto": "Art. 201 — Paralisação de trabalho de interesse coletivo\n- Participar de suspensão ou abandono coletivo de trabalho, provocando a interrupção de obra pública ou serviço de interesse coletivo:"
+  },
+  {
+    "id": "cp_art_202",
+    "texto": "Art. 202 — Invasão de estabelecimento industrial, comercial ou agrícola. Sabotagem\n- Invadir ou ocupar estabelecimento industrial, comercial ou agrícola, com o intuito de impedir ou embaraçar o curso normal do trabalho, ou com o mesmo fim danificar o estabelecimento ou as coisas nele existentes ou delas dispor:"
+  },
+  {
+    "id": "cp_art_203",
+    "texto": "Art. 203 — Frustração de direito assegurado por lei trabalhista\n- Frustrar, mediante fraude ou violência, direito assegurado pela legislação do trabalho:"
+  },
+  {
+    "id": "cp_art_204",
+    "texto": "Art. 204 — Frustração de lei sobre a nacionalização do trabalho\n- Frustrar, mediante fraude ou violência, obrigação legal relativa à nacionalização do trabalho:"
+  },
+  {
+    "id": "cp_art_205",
+    "texto": "Art. 205 — Exercício de atividade com infração de decisão administrativa\n- Exercer atividade, de que está impedido por decisão administrativa:"
+  },
+  {
+    "id": "cp_art_206",
+    "texto": "Art. 206 — Aliciamento para o fim de emigração\n- Recrutar trabalhadores, mediante fraude, com o fim de levá-los para território estrangeiro."
+  },
+  {
+    "id": "cp_art_207",
+    "texto": "Art. 207 — Aliciamento de trabalhadores de um local para outro do território nacional\n- Aliciar trabalhadores, com o fim de levá-los de uma para outra localidade do território nacional:"
+  },
+  {
+    "id": "cp_art_208",
+    "texto": "Art. 208 — Ultraje a culto e impedimento ou perturbação de ato a ele relativo\n- Escarnecer de alguém publicamente, por motivo de crença ou função religiosa; impedir ou perturbar cerimônia ou prática de culto religioso; vilipendiar publicamente ato ou objeto de culto religioso:\nPena - detenção, de um mês a um ano, ou multa.\nParágrafo único - Se há emprego de violência, a pena é aumentada de um terço, sem prejuízo da correspondente à violência."
+  },
+  {
+    "id": "cp_art_209",
+    "texto": "Art. 209 — Impedimento ou perturbação de cerimônia funerária\n- Impedir ou perturbar enterro ou cerimônia funerária:\nPena - detenção, de um mês a um ano, ou multa.\nParágrafo único - Se há emprego de violência, a pena é aumentada de um terço, sem prejuízo da correspondente à violência."
+  },
+  {
+    "id": "cp_art_210",
+    "texto": "Art. 210 — Violação de sepultura\n- Violar ou profanar sepultura ou urna funerária:"
+  },
+  {
+    "id": "cp_art_211",
+    "texto": "Art. 211 — Destruição, subtração ou ocultação de cadáver\n- Destruir, subtrair ou ocultar cadáver ou parte dele:"
+  },
+  {
+    "id": "cp_art_212",
+    "texto": "Art. 212 — Vilipêndio a cadáver\n- Vilipendiar cadáver ou suas cinzas:"
+  },
+  {
+    "id": "cp_art_213",
+    "texto": "Art. 213 — Estupro"
+  },
+  {
+    "id": "cp_art_214",
+    "texto": "Art. 214 — Pena - reclusão, de 12 (doze) a 30 (trinta) anos              (Incluído pela Lei nº 12.015, de 2009)\n-"
+  },
+  {
+    "id": "cp_art_215",
+    "texto": "Art. 215 — Violação sexual mediante fraude            (Redação dada pela Lei nº 12.015, de 2009)\n. Ter conjunção carnal ou praticar outro ato libidinoso com alguém, mediante fraude ou outro meio que impeça ou dificulte a livre manifestação de vontade da vítima:\nPena - reclusão, de 2\nParágrafo único. Se o crime é cometido com o fim de obter vantagem econômica, aplica-se também multa."
+  },
+  {
+    "id": "cp_art_215-A",
+    "texto": "Art. 215-A — Importunação sexual   (Incluído pela Lei nº 13.718, de 2018)"
+  },
+  {
+    "id": "cp_art_216",
+    "texto": "Art. 216 — Pena - reclusão, de 1 (um) a 5 (cinco) anos, se o ato não constitui crime mais grave. (Incluído pela Lei nº 13.718, de 2018)"
+  },
+  {
+    "id": "cp_art_216-A",
+    "texto": "Art. 216-A — Assédio sexual             (Incluído pela Lei nº 10.224, de 15 de 2001)\n. Constranger alguém com o intuito de obter vantagem ou favorecimento sexual, prevalecendo-se o agente da sua condição de superior hierárquico ou ascendência inerentes ao exercício de emprego, cargo ou função.\nPena – detenção, de 1\nParágrafo único."
+  },
+  {
+    "id": "cp_art_216-B",
+    "texto": "Art. 216-B — Registro não autorizado da intimidade sexual\n. Produzir, fotografar, filmar ou registrar, por qualquer meio, conteúdo com cena de nudez ou ato sexual ou libidinoso de caráter íntimo e privado sem autorização dos participantes:\nPena - detenção, de 6 (seis) meses a 1 (um) ano, e multa.\nParágrafo único. Na mesma pena incorre quem realiza montagem em fotografia, vídeo, áudio ou qualquer outro registro com o fim de incluir pessoa em cena de nudez ou ato sexual ou libidinoso de caráter íntimo."
+  },
+  {
+    "id": "cp_art_217",
+    "texto": "Art. 217 — Sedução\n-"
+  },
+  {
+    "id": "cp_art_217-A",
+    "texto": "Art. 217-A — Estupro de vulnerável                (Incluído pela Lei nº 12.015, de 2009)"
+  },
+  {
+    "id": "cp_art_218",
+    "texto": "Art. 218 — Corrupção de menores\n. Induzir alguém menor de 14\nPena - reclusão, de 2\nParágrafo único."
+  },
+  {
+    "id": "cp_art_218-A",
+    "texto": "Art. 218-A — Satisfação de lascívia mediante presença de criança ou adolescente              (Incluído pela Lei nº 12.015, de 2009)"
+  },
+  {
+    "id": "cp_art_218-B",
+    "texto": "Art. 218-B — Favorecimento da prostituição ou de outra forma de exploração sexual de criança ou adolescente ou de vulnerável.                 (Redação dada pela Lei nº 12.978, de 2014)"
+  },
+  {
+    "id": "cp_art_218-C",
+    "texto": "Art. 218-C — Divulgação de cena de estupro ou de cena de estupro de vulnerável, de cena de sexo ou de pornografia  (Incluído pela Lei nº 13.718, de 2018)"
+  },
+  {
+    "id": "cp_art_219",
+    "texto": "Art. 219 — Rapto violento ou mediante fraude\n-"
+  },
+  {
+    "id": "cp_art_220",
+    "texto": "Art. 220 — Rapto consensual\n-"
+  },
+  {
+    "id": "cp_art_221",
+    "texto": "Art. 221 — Diminuição de pena\n-"
+  },
+  {
+    "id": "cp_art_222",
+    "texto": "Art. 222 — Concurso de rapto e outro crime\n-"
+  },
+  {
+    "id": "cp_art_223",
+    "texto": "Art. 223 — DISPOSIÇÕES GERAIS\n-"
+  },
+  {
+    "id": "cp_art_224",
+    "texto": "Art. 224 — -              (Revogado pela Lei nº 12.015, de 2009)\n-"
+  },
+  {
+    "id": "cp_art_225",
+    "texto": "Art. 225 — Ação penal\n. Nos crimes definidos nos Capítulos I e II deste Título, procede-se mediante ação penal pública incondicionada.\nParágrafo único. ."
+  },
+  {
+    "id": "cp_art_226",
+    "texto": "Art. 226 — Aumento de pena"
+  },
+  {
+    "id": "cp_art_227",
+    "texto": "Art. 227 — Mediação para servir a lascívia de outrem\n- Induzir alguém a satisfazer a lascívia de outrem:"
+  },
+  {
+    "id": "cp_art_228",
+    "texto": "Art. 228 — Favorecimento da prostituição ou outra forma de exploração sexual               (Redação dada pela Lei nº 12.015, de 2009)"
+  },
+  {
+    "id": "cp_art_229",
+    "texto": "Art. 229 — Casa de prostituição"
+  },
+  {
+    "id": "cp_art_230",
+    "texto": "Art. 230 — Rufianismo\n- Tirar proveito da prostituição alheia, participando diretamente de seus lucros ou fazendo-se sustentar, no todo ou em parte, por quem a exerça:"
+  },
+  {
+    "id": "cp_art_231",
+    "texto": "Art. 231 — Tráfico internacional de pessoa para fim de exploração sexual             (Redação dada pela Lei nº 12.015, de 2009)"
+  },
+  {
+    "id": "cp_art_231-A",
+    "texto": "Art. 231-A — .               (Revogado pela Lei nº 13.344, de 2016)          (Vigência)"
+  },
+  {
+    "id": "cp_art_232",
+    "texto": "Art. 232 — .               (Revogado pela Lei nº 13.344, de 2016)          (Vigência)\n-"
+  },
+  {
+    "id": "cp_art_232-A",
+    "texto": "Art. 232-A — Promoção de migração ilegal"
+  },
+  {
+    "id": "cp_art_233",
+    "texto": "Art. 233 — Ato obsceno\n- Praticar ato obsceno em lugar público, ou aberto ou exposto ao público:"
+  },
+  {
+    "id": "cp_art_234",
+    "texto": "Art. 234 — Escrito ou objeto obsceno\n- Fazer, importar, exportar, adquirir ou ter sob sua guarda, para fim de comércio, de distribuição ou de exposição pública, escrito, desenho, pintura, estampa ou qualquer objeto obsceno:\nPena - detenção, de seis meses a dois anos, ou multa.\nParágrafo único - Incorre na mesma pena quem:"
+  },
+  {
+    "id": "cp_art_234-A",
+    "texto": "Art. 234-A — Aumento de pena                (Incluído pela Lei nº 12.015, de 2009)"
+  },
+  {
+    "id": "cp_art_234-B",
+    "texto": "Art. 234-B — IV - de 1/3 (um terço) a 2/3 (dois terços), se o agente transmite à vítima doença sexualmente transmissível de que sabe ou deveria saber ser portador, ou se a vítima é idosa ou pessoa com deficiência.   (Redação dada pela Lei nº 13.718, de 2018)"
+  },
+  {
+    "id": "cp_art_234-C",
+    "texto": "Art. 234-C — § 3º O réu condenado passará a ser monitorado por dispositivo eletrônico.     (Incluído pela Lei nº 15.035, de 2024)"
+  },
+  {
+    "id": "cp_art_235",
+    "texto": "Art. 235 — Bigamia\n- Contrair alguém, sendo casado, novo casamento:"
+  },
+  {
+    "id": "cp_art_236",
+    "texto": "Art. 236 — Induzimento a erro essencial e ocultação de impedimento\n- Contrair casamento, induzindo em erro essencial o outro contraente, ou ocultando-lhe impedimento que não seja casamento anterior:\nPena - detenção, de seis meses a dois anos.\nParágrafo único - A ação penal depende de queixa do contraente enganado e não pode ser intentada senão depois de transitar em julgado a sentença que, por motivo de erro ou impedimento, anule o casamento."
+  },
+  {
+    "id": "cp_art_237",
+    "texto": "Art. 237 — Conhecimento prévio de impedimento\n- Contrair casamento, conhecendo a existência de impedimento que lhe cause a nulidade absoluta:"
+  },
+  {
+    "id": "cp_art_238",
+    "texto": "Art. 238 — Simulação de autoridade para celebração de casamento\n- Atribuir-se falsamente autoridade para celebração de casamento:"
+  },
+  {
+    "id": "cp_art_239",
+    "texto": "Art. 239 — Simulação de casamento\n- Simular casamento mediante engano de outra pessoa:"
+  },
+  {
+    "id": "cp_art_240",
+    "texto": "Art. 240 — Adultério\n-"
+  },
+  {
+    "id": "cp_art_241",
+    "texto": "Art. 241 — Registro de nascimento inexistente\n- Promover no registro civil a inscrição de nascimento inexistente:"
+  },
+  {
+    "id": "cp_art_242",
+    "texto": "Art. 242 — Parto suposto. Supressão ou alteração de direito inerente ao estado civil de recém-nascido\n- Dar parto alheio como próprio; registrar como seu o filho de outrem; ocultar recém-nascido ou substituí-lo, suprimindo ou alterando direito inerente ao estado civil:\nPena - reclusão, de dois a seis anos.\nParágrafo único - Se o crime é praticado por motivo de reconhecida nobreza:"
+  },
+  {
+    "id": "cp_art_243",
+    "texto": "Art. 243 — Sonegação de estado de filiação\n- Deixar em asilo de expostos ou outra instituição de assistência filho próprio ou alheio, ocultando-lhe a filiação ou atribuindo-lhe outra, com o fim de prejudicar direito inerente ao estado civil:"
+  },
+  {
+    "id": "cp_art_244",
+    "texto": "Art. 244 — Abandono material\n. Deixar, sem justa causa, de prover a subsistência do cônjuge, ou de filho menor de 18\nPena - detenção, de 1\nParágrafo único - Nas mesmas penas incide quem, sendo solvente, frustra ou ilide, de qualquer modo, inclusive por abandono injustificado de emprego ou função, o pagamento de pensão alimentícia judicialmente acordada, fixada ou majorada."
+  },
+  {
+    "id": "cp_art_245",
+    "texto": "Art. 245 — Entrega de filho menor a pessoa inidônea\n- Entregar filho menor de 18"
+  },
+  {
+    "id": "cp_art_246",
+    "texto": "Art. 246 — Abandono intelectual\n- Deixar, sem justa causa, de prover à instrução primária de filho em idade escolar:"
+  },
+  {
+    "id": "cp_art_247",
+    "texto": "Art. 247 — Pena - detenção, de quinze dias a um mês, ou multa.\n- Permitir alguém que menor de dezoito anos, sujeito a seu poder ou confiado à sua guarda ou vigilância:"
+  },
+  {
+    "id": "cp_art_248",
+    "texto": "Art. 248 — Induzimento a fuga, entrega arbitrária ou sonegação de incapazes\n- Induzir menor de dezoito anos, ou interdito, a fugir do lugar em que se acha por determinação de quem sobre ele exerce autoridade, em virtude de lei ou de ordem judicial; confiar a outrem sem ordem do pai, do tutor ou do curador algum menor de dezoito anos ou interdito, ou deixar, sem justa causa, de entregá-lo a quem legitimamente o reclame:"
+  },
+  {
+    "id": "cp_art_249",
+    "texto": "Art. 249 — Subtração de incapazes\n- Subtrair menor de dezoito anos ou interdito ao poder de quem o tem sob sua guarda em virtude de lei ou de ordem judicial:"
+  },
+  {
+    "id": "cp_art_250",
+    "texto": "Art. 250 — Incêndio\n- Causar incêndio, expondo a perigo a vida, a integridade física ou o patrimônio de outrem:"
+  },
+  {
+    "id": "cp_art_251",
+    "texto": "Art. 251 — Explosão\n- Expor a perigo a vida, a integridade física ou o patrimônio de outrem, mediante explosão, arremesso ou simples colocação de engenho de dinamite ou de substância de efeitos análogos:"
+  },
+  {
+    "id": "cp_art_252",
+    "texto": "Art. 252 — Uso de gás tóxico ou asfixiante\n- Expor a perigo a vida, a integridade física ou o patrimônio de outrem, usando de gás tóxico ou asfixiante:\nPena - reclusão, de um a quatro anos, e multa.\nModalidade Culposa\nParágrafo único - Se o crime é culposo:"
+  },
+  {
+    "id": "cp_art_253",
+    "texto": "Art. 253 — Fabrico, fornecimento, aquisição posse ou transporte de explosivos ou gás tóxico, ou asfixiante\n- Fabricar, fornecer, adquirir, possuir ou transportar, sem licença da autoridade, substância ou engenho explosivo, gás tóxico ou asfixiante, ou material destinado à sua fabricação:"
+  },
+  {
+    "id": "cp_art_254",
+    "texto": "Art. 254 — Inundação\n- Causar inundação, expondo a perigo a vida, a integridade física ou o patrimônio de outrem:"
+  },
+  {
+    "id": "cp_art_255",
+    "texto": "Art. 255 — Perigo de inundação\n- Remover, destruir ou inutilizar, em prédio próprio ou alheio, expondo a perigo a vida, a integridade física ou o patrimônio de outrem, obstáculo natural ou obra destinada a impedir inundação:"
+  },
+  {
+    "id": "cp_art_256",
+    "texto": "Art. 256 — Desabamento ou desmoronamento\n- Causar desabamento ou desmoronamento, expondo a perigo a vida, a integridade física ou o patrimônio de outrem:\nPena - reclusão, de um a quatro anos, e multa.\nModalidade culposa\nParágrafo único - Se o crime é culposo:"
+  },
+  {
+    "id": "cp_art_257",
+    "texto": "Art. 257 — Subtração, ocultação ou inutilização de material de salvamento\n- Subtrair, ocultar ou inutilizar, por ocasião de incêndio, inundação, naufrágio, ou outro desastre ou calamidade, aparelho, material ou qualquer meio destinado a serviço de combate ao perigo, de socorro ou salvamento; ou impedir ou dificultar serviço de tal natureza:"
+  },
+  {
+    "id": "cp_art_258",
+    "texto": "Art. 258 — Formas qualificadas de crime de perigo comum\n- Se do crime doloso de perigo comum resulta lesão corporal de natureza grave, a pena privativa de liberdade é aumentada de metade; se resulta morte, é aplicada em dobro. No caso de culpa, se do fato resulta lesão corporal, a pena aumenta-se de metade; se resulta morte, aplica-se a pena cominada ao homicídio culposo, aumentada de um terço."
+  },
+  {
+    "id": "cp_art_259",
+    "texto": "Art. 259 — Difusão de doença ou praga\n- Difundir doença ou praga que possa causar dano a floresta, plantação ou animais de utilidade econômica:\nPena - reclusão, de dois a cinco anos, e multa.\nModalidade culposa\nParágrafo único - No caso de culpa, a pena é de detenção, de um a seis meses, ou multa."
+  },
+  {
+    "id": "cp_art_260",
+    "texto": "Art. 260 — Perigo de desastre ferroviário\n- Impedir ou perturbar serviço de estrada de ferro:"
+  },
+  {
+    "id": "cp_art_261",
+    "texto": "Art. 261 — Atentado contra a segurança de transporte marítimo, fluvial ou aéreo\n- Expor a perigo embarcação ou aeronave, própria ou alheia, ou praticar qualquer ato tendente a impedir ou dificultar navegação marítima, fluvial ou aérea:"
+  },
+  {
+    "id": "cp_art_262",
+    "texto": "Art. 262 — Atentado contra a segurança de outro meio de transporte\n- Expor a perigo outro meio de transporte público, impedir-lhe ou dificultar-lhe o funcionamento:"
+  },
+  {
+    "id": "cp_art_263",
+    "texto": "Art. 263 — Forma qualificada\n- Se de qualquer dos crimes previstos nos arts. 260 a 262, no caso de desastre ou sinistro, resulta lesão corporal ou morte, aplica-se o disposto no art. 258."
+  },
+  {
+    "id": "cp_art_264",
+    "texto": "Art. 264 — Arremesso de projétil\n- Arremessar projétil contra veículo, em movimento, destinado ao transporte público por terra, por água ou pelo ar:\nPena - detenção, de um a seis meses.\nParágrafo único - Se do fato resulta lesão corporal, a pena é de detenção, de seis meses a dois anos; se resulta morte, a pena é a do art. 121, § 3º, aumentada de um terço."
+  },
+  {
+    "id": "cp_art_265",
+    "texto": "Art. 265 — Atentado contra a segurança de serviço de utilidade pública\n- Atentar contra a segurança ou o funcionamento de serviço de água, luz, força ou calor, ou qualquer outro de utilidade pública:\nPena - reclusão, de um a cinco anos, e multa.\nParágrafo único - Aumentar-se-á a pena de 1/3"
+  },
+  {
+    "id": "cp_art_266",
+    "texto": "Art. 266 — Interrupção ou perturbação de serviço telegráfico, telefônico, informático, telemático ou de informação de utilidade pública    (Redação dada pela Lei nº 12.737, de 2012)    Vigência\n- Interromper ou perturbar serviço telegráfico, radiotelegráfico ou telefônico, impedir ou dificultar-lhe o restabelecimento:"
+  },
+  {
+    "id": "cp_art_267",
+    "texto": "Art. 267 — Epidemia\n- Causar epidemia, mediante a propagação de germes patogênicos:"
+  },
+  {
+    "id": "cp_art_268",
+    "texto": "Art. 268 — Infração de medida sanitária preventiva\n- Infringir determinação do poder público, destinada a impedir introdução ou propagação de doença contagiosa:\nPena - detenção, de um mês a um ano, e multa.\nParágrafo único - A pena é aumentada de um terço, se o agente é funcionário da saúde pública ou exerce a profissão de médico, farmacêutico, dentista ou enfermeiro."
+  },
+  {
+    "id": "cp_art_269",
+    "texto": "Art. 269 — Omissão de notificação de doença\n- Deixar o médico de denunciar à autoridade pública doença cuja notificação é compulsória:"
+  },
+  {
+    "id": "cp_art_270",
+    "texto": "Art. 270 — Envenenamento de água potável ou de substância alimentícia ou medicinal\n- Envenenar água potável, de uso comum ou particular, ou substância alimentícia ou medicinal destinada a consumo:"
+  },
+  {
+    "id": "cp_art_271",
+    "texto": "Art. 271 — Corrupção ou poluição de água potável\n- Corromper ou poluir água potável, de uso comum ou particular, tornando-a imprópria para consumo ou nociva à saúde:\nPena - reclusão, de dois a cinco anos.\nModalidade culposa\nParágrafo único - Se o crime é culposo:"
+  },
+  {
+    "id": "cp_art_272",
+    "texto": "Art. 272 — Falsificação, corrupção, adulteração ou alteração de substância ou produtos alimentícios (Redação dada pela Lei nº 9.677, de 2.7.1998)\n- Corromper, adulterar, falsificar ou alterar substância ou produto alimentício destinado a consumo, tornando-o nociva à saúde ou reduzindo-lhe o valor nutritivo:"
+  },
+  {
+    "id": "cp_art_273",
+    "texto": "Art. 273 — Falsificação, corrupção, adulteração ou alteração de produto destinado a fins terapêuticos ou medicinais (Redação dada pela Lei nº 9.677, de 2.7.1998)\n- Falsificar, corromper, adulterar ou alterar produto destinado a fins terapêuticos ou medicinais:"
+  },
+  {
+    "id": "cp_art_274",
+    "texto": "Art. 274 — Emprego de processo proibido ou de substância não permitida\n- Empregar, no fabrico de produto destinado a consumo, revestimento, gaseificação artificial, matéria corante, substância aromática, anti-séptica, conservadora ou qualquer outra não expressamente permitida pela legislação sanitária:"
+  },
+  {
+    "id": "cp_art_275",
+    "texto": "Art. 275 — Invólucro ou recipiente com falsa indicação\n- Inculcar, em invólucro ou recipiente de produtos alimentícios, terapêuticos ou medicinais, a existência de substância que não se encontra em seu conteúdo ou que nele existe em quantidade menor que a mencionada:"
+  },
+  {
+    "id": "cp_art_276",
+    "texto": "Art. 276 — Produto ou substância nas condições dos dois artigos anteriores\n- Vender, expor à venda, ter em depósito para vender ou, de qualquer forma, entregar a consumo produto nas condições dos arts. 274 e 275."
+  },
+  {
+    "id": "cp_art_277",
+    "texto": "Art. 277 — Substância destinada à falsificação\n- Vender, expor à venda, ter em depósito ou ceder substância destinada à falsificação de produtos alimentícios, terapêuticos ou medicinais:"
+  },
+  {
+    "id": "cp_art_278",
+    "texto": "Art. 278 — Outras substâncias nocivas à saúde pública\n- Fabricar, vender, expor à venda, ter em depósito para vender ou, de qualquer forma, entregar a consumo coisa ou substância nociva à saúde, ainda que não destinada à alimentação ou a fim medicinal:\nPena - detenção, de um a três anos, e multa.\nModalidade culposa\nParágrafo único - Se o crime é culposo:"
+  },
+  {
+    "id": "cp_art_279",
+    "texto": "Art. 279 — Substância avariada\n-"
+  },
+  {
+    "id": "cp_art_280",
+    "texto": "Art. 280 — Medicamento em desacordo com receita médica\n- Fornecer substância medicinal em desacordo com receita médica:\nPena - detenção, de um a três anos, ou multa.\nModalidade culposa\nParágrafo único - Se o crime é culposo:"
+  },
+  {
+    "id": "cp_art_281",
+    "texto": "Art. 281 — COMÉRCIO, POSSE OU USO DE ENTORPECENTE OU SUBSTÂNCIA QUE DETERMINE DEPENDÊNCIA FÍSICA OU PSÍQUICA. (Redação dada pela Lei nº 5.726, de 1971)      (Revogado pela Lei nº 6.368, 1976)"
+  },
+  {
+    "id": "cp_art_282",
+    "texto": "Art. 282 — Exercício ilegal da medicina, arte dentária ou farmacêutica\n- Exercer, ainda que a título gratuito, a profissão de médico, dentista ou farmacêutico, sem autorização legal ou excedendo-lhe os limites:\nPena - detenção, de seis meses a dois anos.\nParágrafo único - Se o crime é praticado com o fim de lucro, aplica-se também multa."
+  },
+  {
+    "id": "cp_art_283",
+    "texto": "Art. 283 — Charlatanismo\n- Inculcar ou anunciar cura por meio secreto ou infalível:"
+  },
+  {
+    "id": "cp_art_284",
+    "texto": "Art. 284 — Curandeirismo\n- Exercer o curandeirismo:\nI - prescrevendo, ministrando ou aplicando, habitualmente, qualquer substância;\nII - usando gestos, palavras ou qualquer outro meio;\nIII - fazendo diagnósticos:\nPena - detenção, de seis meses a dois anos.\nParágrafo único - Se o crime é praticado mediante remuneração, o agente fica também sujeito à multa."
+  },
+  {
+    "id": "cp_art_285",
+    "texto": "Art. 285 — Forma qualificada\n- Aplica-se o disposto no art. 258 aos crimes previstos neste Capítulo, salvo quanto ao definido no art. 267."
+  },
+  {
+    "id": "cp_art_286",
+    "texto": "Art. 286 — Incitação ao crime\n- Incitar, publicamente, a prática de crime:\nPena - detenção, de três a seis meses, ou multa.\nParágrafo único. Incorre na mesma pena quem incita, publicamente, animosidade entre as Forças Armadas, ou delas contra os poderes constitucionais, as instituições civis ou a sociedade."
+  },
+  {
+    "id": "cp_art_287",
+    "texto": "Art. 287 — Apologia de crime ou criminoso\n- Fazer, publicamente, apologia de fato criminoso ou de autor de crime:"
+  },
+  {
+    "id": "cp_art_288",
+    "texto": "Art. 288 — Associação Criminosa\n. Associarem-se 3\nPena - reclusão, de 1\nParágrafo único. A pena aumenta-se até a metade se a associação é armada ou se houver a participação de criança ou adolescente."
+  },
+  {
+    "id": "cp_art_288-A",
+    "texto": "Art. 288-A — Constituição de milícia privada          (Incluído dada pela Lei nº 12.720, de 2012)"
+  },
+  {
+    "id": "cp_art_289",
+    "texto": "Art. 289 — Moeda Falsa\n- Falsificar, fabricando-a ou alterando-a, moeda metálica ou papel-moeda de curso legal no país ou no estrangeiro:"
+  },
+  {
+    "id": "cp_art_290",
+    "texto": "Art. 290 — Crimes assimilados ao de moeda falsa\n- Formar cédula, nota ou bilhete representativo de moeda com fragmentos de cédulas, notas ou bilhetes verdadeiros; suprimir, em nota, cédula ou bilhete recolhidos, para o fim de restituí-los à circulação, sinal indicativo de sua inutilização; restituir à circulação cédula, nota ou bilhete em tais condições, ou já recolhidos para o fim de inutilização:\nPena - reclusão, de dois a oito anos, e multa.\nParágrafo único - O máximo da reclusão é elevado a doze anos e multa, se o crime é cometido por funcionário que trabalha na repartição onde o dinheiro se achava recolhido, ou nela tem fácil ingresso, em razão do cargo."
+  },
+  {
+    "id": "cp_art_291",
+    "texto": "Art. 291 — Petrechos para falsificação de moeda\n- Fabricar, adquirir, fornecer, a título oneroso ou gratuito, possuir ou guardar maquinismo, aparelho, instrumento ou qualquer objeto especialmente destinado à falsificação de moeda:"
+  },
+  {
+    "id": "cp_art_292",
+    "texto": "Art. 292 — Emissão de título ao portador sem permissão legal\n- Emitir, sem permissão legal, nota, bilhete, ficha, vale ou título que contenha promessa de pagamento em dinheiro ao portador ou a que falte indicação do nome da pessoa a quem deva ser pago:\nPena - detenção, de um a seis meses, ou multa.\nParágrafo único - Quem recebe ou utiliza como dinheiro qualquer dos documentos referidos neste artigo incorre na pena de detenção, de quinze dias a três meses, ou multa."
+  },
+  {
+    "id": "cp_art_293",
+    "texto": "Art. 293 — Falsificação de papéis públicos\n- Falsificar, fabricando-os ou alterando-os:"
+  },
+  {
+    "id": "cp_art_294",
+    "texto": "Art. 294 — Petrechos de falsificação\n- Fabricar, adquirir, fornecer, possuir ou guardar objeto especialmente destinado à falsificação de qualquer dos papéis referidos no artigo anterior:"
+  },
+  {
+    "id": "cp_art_295",
+    "texto": "Art. 295 — Pena - reclusão, de um a três anos, e multa.\n- Se o agente é funcionário público, e comete o crime prevalecendo-se do cargo, aumenta-se a pena de sexta parte."
+  },
+  {
+    "id": "cp_art_296",
+    "texto": "Art. 296 — Falsificação do selo ou sinal público\n- Falsificar, fabricando-os ou alterando-os:"
+  },
+  {
+    "id": "cp_art_297",
+    "texto": "Art. 297 — Falsificação de documento público\n- Falsificar, no todo ou em parte, documento público, ou alterar documento público verdadeiro:"
+  },
+  {
+    "id": "cp_art_298",
+    "texto": "Art. 298 — Falsificação de documento particular    (Redação dada pela Lei nº 12.737, de 2012)    Vigência\n- Falsificar, no todo ou em parte, documento particular ou alterar documento particular verdadeiro:\nPena - reclusão, de um a cinco anos, e multa.\nFalsificação de cartão Vigência\nParágrafo único. Para fins do disposto no caput, equipara-se a documento particular o cartão de crédito ou débito. Vigência"
+  },
+  {
+    "id": "cp_art_299",
+    "texto": "Art. 299 — Falsidade ideológica\n- Omitir, em documento público ou particular, declaração que dele devia constar, ou nele inserir ou fazer inserir declaração falsa ou diversa da que devia ser escrita, com o fim de prejudicar direito, criar obrigação ou alterar a verdade sobre fato juridicamente relevante:\nPena - reclusão, de um a cinco anos, e multa, se o documento é público, e reclusão de um a três anos, e multa, de quinhentos mil réis a cinco contos de réis, se o documento é particular.\nParágrafo único - Se o agente é funcionário público, e comete o crime prevalecendo-se do cargo, ou se a falsificação ou alteração é de assentamento de registro civil, aumenta-se a pena de sexta parte."
+  },
+  {
+    "id": "cp_art_300",
+    "texto": "Art. 300 — Falso reconhecimento de firma ou letra\n- Reconhecer, como verdadeira, no exercício de função pública, firma ou letra que o não seja:"
+  },
+  {
+    "id": "cp_art_301",
+    "texto": "Art. 301 — Certidão ou atestado ideologicamente falso\n- Atestar ou certificar falsamente, em razão de função pública, fato ou circunstância que habilite alguém a obter cargo público, isenção de ônus ou de serviço de caráter público, ou qualquer outra vantagem:"
+  },
+  {
+    "id": "cp_art_302",
+    "texto": "Art. 302 — Falsidade de atestado médico\n- Dar o médico, no exercício da sua profissão, atestado falso:\nPena - detenção, de um mês a um ano.\nParágrafo único - Se o crime é cometido com o fim de lucro, aplica-se também multa."
+  },
+  {
+    "id": "cp_art_303",
+    "texto": "Art. 303 — Reprodução ou adulteração de selo ou peça filatélica\n- Reproduzir ou alterar selo ou peça filatélica que tenha valor para coleção, salvo quando a reprodução ou a alteração está visivelmente anotada na face ou no verso do selo ou peça:\nPena - detenção, de um a três anos, e multa.\nParágrafo único - Na mesma pena incorre quem, para fins de comércio, faz uso do selo ou peça filatélica."
+  },
+  {
+    "id": "cp_art_304",
+    "texto": "Art. 304 — Uso de documento falso\n- Fazer uso de qualquer dos papéis falsificados ou alterados, a que se referem os arts. 297 a 302:"
+  },
+  {
+    "id": "cp_art_305",
+    "texto": "Art. 305 — Supressão de documento\n- Destruir, suprimir ou ocultar, em benefício próprio ou de outrem, ou em prejuízo alheio, documento público ou particular verdadeiro, de que não podia dispor:"
+  },
+  {
+    "id": "cp_art_306",
+    "texto": "Art. 306 — Falsificação do sinal empregado no contraste de metal precioso ou na fiscalização alfandegária, ou para outros fins\n- Falsificar, fabricando-o ou alterando-o, marca ou sinal empregado pelo poder público no contraste de metal precioso ou na fiscalização alfandegária, ou usar marca ou sinal dessa natureza, falsificado por outrem:\nPena - reclusão, de dois a seis anos, e multa.\nParágrafo único - Se a marca ou sinal falsificado é o que usa a autoridade pública para o fim de fiscalização sanitária, ou para autenticar ou encerrar determinados objetos, ou comprovar o cumprimento de formalidade legal:"
+  },
+  {
+    "id": "cp_art_307",
+    "texto": "Art. 307 — Falsa identidade\n- Atribuir-se ou atribuir a terceiro falsa identidade para obter vantagem, em proveito próprio ou alheio, ou para causar dano a outrem:"
+  },
+  {
+    "id": "cp_art_308",
+    "texto": "Art. 308 — Pena - detenção, de três meses a um ano, ou multa, se o fato não constitui elemento de crime mais grave.\n- Usar, como próprio, passaporte, título de eleitor, caderneta de reservista ou qualquer documento de identidade alheia ou ceder a outrem, para que dele se utilize, documento dessa natureza, próprio ou de terceiro:"
+  },
+  {
+    "id": "cp_art_309",
+    "texto": "Art. 309 — Fraude de lei sobre estrangeiro\n- Usar o estrangeiro, para entrar ou permanecer no território nacional, nome que não é o seu:\nPena - detenção, de um a três anos, e multa.\nParágrafo único - Atribuir a estrangeiro falsa qualidade para promover-lhe a entrada em território nacional:"
+  },
+  {
+    "id": "cp_art_310",
+    "texto": "Art. 310 — Pena - reclusão, de um a quatro anos, e multa. (Incluído pela Lei nº 9.426, de 1996)\n- Prestar-se a figurar como proprietário ou possuidor de ação, título ou valor pertencente a estrangeiro, nos casos em que a este é vedada por lei a propriedade ou a posse de tais bens:"
+  },
+  {
+    "id": "cp_art_311",
+    "texto": "Art. 311 — Adulteração de sinal identificador de veículo   (Redação dada pela Lei nº 14.562, de 2023)"
+  },
+  {
+    "id": "cp_art_311-A",
+    "texto": "Art. 311-A — Fraudes em certames de interesse público   (Incluído pela Lei 12.550. de 2011)"
+  },
+  {
+    "id": "cp_art_312",
+    "texto": "Art. 312 — Peculato\n- Apropriar-se o funcionário público de dinheiro, valor ou qualquer outro bem móvel, público ou particular, de que tem a posse em razão do cargo, ou desviá-lo, em proveito próprio ou alheio:"
+  },
+  {
+    "id": "cp_art_313",
+    "texto": "Art. 313 — Peculato mediante erro de outrem\n- Apropriar-se de dinheiro ou qualquer utilidade que, no exercício do cargo, recebeu por erro de outrem:"
+  },
+  {
+    "id": "cp_art_313-A",
+    "texto": "Art. 313-A — Inserção de dados falsos em sistema de informações (Incluído pela Lei nº 9.983, de 2000)"
+  },
+  {
+    "id": "cp_art_313-B",
+    "texto": "Art. 313-B — Modificação ou alteração não autorizada de sistema de informações (Incluído pela Lei nº 9.983, de 2000)\n. Modificar ou alterar, o funcionário, sistema de informações ou programa de informática sem autorização ou solicitação de autoridade competente:\nPena – detenção, de 3\nParágrafo único. As penas são aumentadas de um terço até a metade se da modificação ou alteração resulta dano para a Administração Pública ou para o administrado."
+  },
+  {
+    "id": "cp_art_314",
+    "texto": "Art. 314 — Extravio, sonegação ou inutilização de livro ou documento\n- Extraviar livro oficial ou qualquer documento, de que tem a guarda em razão do cargo; sonegá-lo ou inutilizá-lo, total ou parcialmente:"
+  },
+  {
+    "id": "cp_art_315",
+    "texto": "Art. 315 — Emprego irregular de verbas ou rendas públicas\n- Dar às verbas ou rendas públicas aplicação diversa da estabelecida em lei:"
+  },
+  {
+    "id": "cp_art_316",
+    "texto": "Art. 316 — Concussão\n- Exigir, para si ou para outrem, direta ou indiretamente, ainda que fora da função ou antes de assumi-la, mas em razão dela, vantagem indevida:"
+  },
+  {
+    "id": "cp_art_317",
+    "texto": "Art. 317 — Corrupção passiva\n- Solicitar ou receber, para si ou para outrem, direta ou indiretamente, ainda que fora da função ou antes de assumi-la, mas em razão dela, vantagem indevida, ou aceitar promessa de tal vantagem:"
+  },
+  {
+    "id": "cp_art_318",
+    "texto": "Art. 318 — Facilitação de contrabando ou descaminho\n- Facilitar, com infração de dever funcional, a prática de contrabando ou descaminho (art. 334):"
+  },
+  {
+    "id": "cp_art_319",
+    "texto": "Art. 319 — Prevaricação\n- Retardar ou deixar de praticar, indevidamente, ato de ofício, ou praticá-lo contra disposição expressa de lei, para satisfazer interesse ou sentimento pessoal: (Vide ADPF 881)"
+  },
+  {
+    "id": "cp_art_319-A",
+    "texto": "Art. 319-A — Pena - detenção, de três meses a um ano, e multa."
+  },
+  {
+    "id": "cp_art_320",
+    "texto": "Art. 320 — Condescendência criminosa\n- Deixar o funcionário, por indulgência, de responsabilizar subordinado que cometeu infração no exercício do cargo ou, quando lhe falte competência, não levar o fato ao conhecimento da autoridade competente:"
+  },
+  {
+    "id": "cp_art_321",
+    "texto": "Art. 321 — Advocacia administrativa\n- Patrocinar, direta ou indiretamente, interesse privado perante a administração pública, valendo-se da qualidade de funcionário:\nPena - detenção, de um a três meses, ou multa.\nParágrafo único - Se o interesse é ilegítimo:"
+  },
+  {
+    "id": "cp_art_322",
+    "texto": "Art. 322 — Violência arbitrária\n- Praticar violência, no exercício de função ou a pretexto de exercê-la:"
+  },
+  {
+    "id": "cp_art_323",
+    "texto": "Art. 323 — Abandono de função\n- Abandonar cargo público, fora dos casos permitidos em lei:"
+  },
+  {
+    "id": "cp_art_324",
+    "texto": "Art. 324 — Exercício funcional ilegalmente antecipado ou prolongado\n- Entrar no exercício de função pública antes de satisfeitas as exigências legais, ou continuar a exercê-la, sem autorização, depois de saber oficialmente que foi exonerado, removido, substituído ou suspenso:"
+  },
+  {
+    "id": "cp_art_325",
+    "texto": "Art. 325 — Violação de sigilo funcional\n- Revelar fato de que tem ciência em razão do cargo e que deva permanecer em segredo, ou facilitar-lhe a revelação:"
+  },
+  {
+    "id": "cp_art_326",
+    "texto": "Art. 326 — Violação do sigilo de proposta de concorrência\n- Devassar o sigilo de proposta de concorrência pública, ou proporcionar a terceiro o ensejo de devassá-lo:"
+  },
+  {
+    "id": "cp_art_327",
+    "texto": "Art. 327 — Funcionário público\n- Considera-se funcionário público, para os efeitos penais, quem, embora transitoriamente ou sem remuneração, exerce cargo, emprego ou função pública."
+  },
+  {
+    "id": "cp_art_328",
+    "texto": "Art. 328 — Usurpação de função pública\n- Usurpar o exercício de função pública:\nPena - detenção, de três meses a dois anos, e multa.\nParágrafo único - Se do fato o agente aufere vantagem:"
+  },
+  {
+    "id": "cp_art_329",
+    "texto": "Art. 329 — Resistência\n- Opor-se à execução de ato legal, mediante violência ou ameaça a funcionário competente para executá-lo ou a quem lhe esteja prestando auxílio:"
+  },
+  {
+    "id": "cp_art_330",
+    "texto": "Art. 330 — Desobediência\n- Desobedecer a ordem legal de funcionário público:"
+  },
+  {
+    "id": "cp_art_331",
+    "texto": "Art. 331 — Desacato\n- Desacatar funcionário público no exercício da função ou em razão dela:"
+  },
+  {
+    "id": "cp_art_332",
+    "texto": "Art. 332 — Tráfico de Influência (Redação dada pela Lei nº 9.127, de 1995)\n- Solicitar, exigir, cobrar ou obter, para si ou para outrem, vantagem ou promessa de vantagem, a pretexto de influir em ato praticado por funcionário público no exercício da função:\nPena - reclusão, de 2\nParágrafo único - A pena é aumentada da metade, se o agente alega ou insinua que a vantagem é também destinada ao funcionário."
+  },
+  {
+    "id": "cp_art_333",
+    "texto": "Art. 333 — Corrupção ativa\n- Oferecer ou prometer vantagem indevida a funcionário público, para determiná-lo a praticar, omitir ou retardar ato de ofício:\nPena – reclusão, de 2\nParágrafo único - A pena é aumentada de um terço, se, em razão da vantagem ou promessa, o funcionário retarda ou omite ato de ofício, ou o pratica infringindo dever funcional."
+  },
+  {
+    "id": "cp_art_334",
+    "texto": "Art. 334 — Descaminho"
+  },
+  {
+    "id": "cp_art_334-A",
+    "texto": "Art. 334-A — Contrabando"
+  },
+  {
+    "id": "cp_art_335",
+    "texto": "Art. 335 — Impedimento, perturbação ou fraude de concorrência\n- Impedir, perturbar ou fraudar concorrência pública ou venda em hasta pública, promovida pela administração federal, estadual ou municipal, ou por entidade paraestatal; afastar ou procurar afastar concorrente ou licitante, por meio de violência, grave ameaça, fraude ou oferecimento de vantagem:\nPena - detenção, de seis meses a dois anos, ou multa, além da pena correspondente à violência.\nParágrafo único - Incorre na mesma pena quem se abstém de concorrer ou licitar, em razão da vantagem oferecida."
+  },
+  {
+    "id": "cp_art_336",
+    "texto": "Art. 336 — Inutilização de edital ou de sinal\n- Rasgar ou, de qualquer forma, inutilizar ou conspurcar edital afixado por ordem de funcionário público; violar ou inutilizar selo ou sinal empregado, por determinação legal ou por ordem de funcionário público, para identificar ou cerrar qualquer objeto:"
+  },
+  {
+    "id": "cp_art_337",
+    "texto": "Art. 337 — Subtração ou inutilização de livro ou documento\n- Subtrair, ou inutilizar, total ou parcialmente, livro oficial, processo ou documento confiado à custódia de funcionário, em razão de ofício, ou de particular em serviço público:"
+  },
+  {
+    "id": "cp_art_337-A",
+    "texto": "Art. 337-A — Sonegação de contribuição previdenciária (Incluído pela Lei nº 9.983, de 2000)"
+  },
+  {
+    "id": "cp_art_337-B",
+    "texto": "Art. 337-B — Corrupção ativa em transação comercial internacional\n. Prometer, oferecer ou dar, direta ou indiretamente, vantagem indevida a funcionário público estrangeiro, ou a terceira pessoa, para determiná-lo a praticar, omitir ou retardar ato de ofício relacionado à transação comercial internacional:\nPena – reclusão, de 1\nParágrafo único. A pena é aumentada de 1/3"
+  },
+  {
+    "id": "cp_art_337-C",
+    "texto": "Art. 337-C — Tráfico de influência em transação comercial internacional (Incluído pela Lei nº 10.467, de 11.6.2002)\n. Solicitar, exigir, cobrar ou obter, para si ou para outrem, direta ou indiretamente, vantagem ou promessa de vantagem a pretexto de influir em ato praticado por funcionário público estrangeiro no exercício de suas funções, relacionado a transação comercial internacional:\nPena – reclusão, de 2\nParágrafo único. A pena é aumentada da metade, se o agente alega ou insinua que a vantagem é também destinada a funcionário estrangeiro."
+  },
+  {
+    "id": "cp_art_337-D",
+    "texto": "Art. 337-D — Funcionário público estrangeiro (Incluído pela Lei nº 10.467, de 11.6.2002)\n. Considera-se funcionário público estrangeiro, para os efeitos penais, quem, ainda que transitoriamente ou sem remuneração, exerce cargo, emprego ou função pública em entidades estatais ou em representações diplomáticas de país estrangeiro.\nParágrafo único. Equipara-se a funcionário público estrangeiro quem exerce cargo, emprego ou função em empresas controladas, diretamente ou indiretamente, pelo Poder Público de país estrangeiro ou em organizações públicas internacionais."
+  },
+  {
+    "id": "cp_art_337-E",
+    "texto": "Art. 337-E — Contratação direta ilegal       (Incluído pela Lei nº 14.133, de 2021)"
+  },
+  {
+    "id": "cp_art_337-F",
+    "texto": "Art. 337-F — Frustração do caráter competitivo de licitação      (Incluído pela Lei nº 14.133, de 2021)"
+  },
+  {
+    "id": "cp_art_337-G",
+    "texto": "Art. 337-G — Patrocínio de contratação indevida     (Incluído pela Lei nº 14.133, de 2021)"
+  },
+  {
+    "id": "cp_art_337-H",
+    "texto": "Art. 337-H — Modificação ou pagamento irregular em contrato administrativo       (Incluído pela Lei nº 14.133, de 2021)"
+  },
+  {
+    "id": "cp_art_337-I",
+    "texto": "Art. 337-I — Perturbação de processo licitatório       (Incluído pela Lei nº 14.133, de 2021)"
+  },
+  {
+    "id": "cp_art_337-J",
+    "texto": "Art. 337-J — Violação de sigilo em licitação      (Incluído pela Lei nº 14.133, de 2021)"
+  },
+  {
+    "id": "cp_art_337-K",
+    "texto": "Art. 337-K — Afastamento de licitante       (Incluído pela Lei nº 14.133, de 2021)\n. Afastar ou tentar afastar licitante por meio de violência, grave ameaça, fraude ou oferecimento de vantagem de qualquer tipo:\nPena - reclusão, de 3\nParágrafo único. Incorre na mesma pena quem se abstém ou desiste de licitar em razão de vantagem oferecida."
+  },
+  {
+    "id": "cp_art_337-L",
+    "texto": "Art. 337-L — Fraude em licitação ou contrato       (Incluído pela Lei nº 14.133, de 2021)"
+  },
+  {
+    "id": "cp_art_337-M",
+    "texto": "Art. 337-M — Contratação inidônea        (Incluído pela Lei nº 14.133, de 2021)"
+  },
+  {
+    "id": "cp_art_337-N",
+    "texto": "Art. 337-N — Impedimento indevido       (Incluído pela Lei nº 14.133, de 2021)"
+  },
+  {
+    "id": "cp_art_337-O",
+    "texto": "Art. 337-O — Omissão grave de dado ou de informação por projetista        (Incluído pela Lei nº 14.133, de 2021)"
+  },
+  {
+    "id": "cp_art_337-P",
+    "texto": "Art. 337-P — § 2º Se o crime é praticado com o fim de obter benefício, direto ou indireto, próprio ou de outrem, aplica-se em dobro a pena prevista no caput deste artigo.         (Incluído pela Lei nº 14.133, de 2021)"
+  },
+  {
+    "id": "cp_art_338",
+    "texto": "Art. 338 — Reingresso de estrangeiro expulso\n- Reingressar no território nacional o estrangeiro que dele foi expulso:"
+  },
+  {
+    "id": "cp_art_339",
+    "texto": "Art. 339 — Denunciação caluniosa"
+  },
+  {
+    "id": "cp_art_340",
+    "texto": "Art. 340 — Comunicação falsa de crime ou de contravenção\n- Provocar a ação de autoridade, comunicando-lhe a ocorrência de crime ou de contravenção que sabe não se ter verificado:"
+  },
+  {
+    "id": "cp_art_341",
+    "texto": "Art. 341 — Auto-acusação falsa\n- Acusar-se, perante a autoridade, de crime inexistente ou praticado por outrem:"
+  },
+  {
+    "id": "cp_art_342",
+    "texto": "Art. 342 — Falso testemunho ou falsa perícia"
+  },
+  {
+    "id": "cp_art_343",
+    "texto": "Art. 343 — § 2o O fato deixa de ser punível se, antes da sentença no processo em que ocorreu o ilícito, o agente se retrata ou declara a verdade.(Redação dada pela Lei nº 10.268, de 28.8.2001)\n. Dar, oferecer ou prometer dinheiro ou qualquer outra vantagem a testemunha, perito, contador, tradutor ou intérprete, para fazer afirmação falsa, negar ou calar a verdade em depoimento, perícia, cálculos, tradução ou interpretação:\nPena - reclusão, de três a quatro anos, e multa.\nParágrafo único. As penas aumentam-se de um sexto a um terço, se o crime é cometido com o fim de obter prova destinada a produzir efeito em processo penal ou em processo civil em que for parte entidade da administração pública direta ou indireta."
+  },
+  {
+    "id": "cp_art_344",
+    "texto": "Art. 344 — Coação no curso do processo\n- Usar de violência ou grave ameaça, com o fim de favorecer interesse próprio ou alheio, contra autoridade, parte, ou qualquer outra pessoa que funciona ou é chamada a intervir em processo judicial, policial ou administrativo, ou em juízo arbitral:\nPena - reclusão, de um a quatro anos, e multa, além da pena correspondente à violência.\nParágrafo único. A pena aumenta-se de 1/3"
+  },
+  {
+    "id": "cp_art_345",
+    "texto": "Art. 345 — Exercício arbitrário das próprias razões\n- Fazer justiça pelas próprias mãos, para satisfazer pretensão, embora legítima, salvo quando a lei o permite:\nPena - detenção, de quinze dias a um mês, ou multa, além da pena correspondente à violência.\nParágrafo único - Se não há emprego de violência, somente se procede mediante queixa."
+  },
+  {
+    "id": "cp_art_346",
+    "texto": "Art. 346 — Parágrafo único - Se não há emprego de violência, somente se procede mediante queixa.\n- Tirar, suprimir, destruir ou danificar coisa própria, que se acha em poder de terceiro por determinação judicial ou convenção:"
+  },
+  {
+    "id": "cp_art_347",
+    "texto": "Art. 347 — Fraude processual\n- Inovar artificiosamente, na pendência de processo civil ou administrativo, o estado de lugar, de coisa ou de pessoa, com o fim de induzir a erro o juiz ou o perito:\nPena - detenção, de três meses a dois anos, e multa.\nParágrafo único - Se a inovação se destina a produzir efeito em processo penal, ainda que não iniciado, as penas aplicam-se em dobro."
+  },
+  {
+    "id": "cp_art_348",
+    "texto": "Art. 348 — Favorecimento pessoal\n- Auxiliar a subtrair-se à ação de autoridade pública autor de crime a que é cominada pena de reclusão:"
+  },
+  {
+    "id": "cp_art_349",
+    "texto": "Art. 349 — Favorecimento real\n- Prestar a criminoso, fora dos casos de co-autoria ou de receptação, auxílio destinado a tornar seguro o proveito do crime:"
+  },
+  {
+    "id": "cp_art_349-A",
+    "texto": "Art. 349-A — Pena - detenção, de um a seis meses, e multa."
+  },
+  {
+    "id": "cp_art_350",
+    "texto": "Art. 350 — Exercício arbitrário ou abuso de poder\n-"
+  },
+  {
+    "id": "cp_art_351",
+    "texto": "Art. 351 — Fuga de pessoa presa ou submetida a medida de segurança\n- Promover ou facilitar a fuga de pessoa legalmente presa ou submetida a medida de segurança detentiva:"
+  },
+  {
+    "id": "cp_art_352",
+    "texto": "Art. 352 — Evasão mediante violência contra a pessoa\n- Evadir-se ou tentar evadir-se o preso ou o indivíduo submetido a medida de segurança detentiva, usando de violência contra a pessoa:"
+  },
+  {
+    "id": "cp_art_353",
+    "texto": "Art. 353 — Arrebatamento de preso\n- Arrebatar preso, a fim de maltratá-lo, do poder de quem o tenha sob custódia ou guarda:"
+  },
+  {
+    "id": "cp_art_354",
+    "texto": "Art. 354 — Motim de presos\n- Amotinarem-se presos, perturbando a ordem ou disciplina da prisão:"
+  },
+  {
+    "id": "cp_art_355",
+    "texto": "Art. 355 — Patrocínio infiel\n- Trair, na qualidade de advogado ou procurador, o dever profissional, prejudicando interesse, cujo patrocínio, em juízo, lhe é confiado:\nPena - detenção, de seis meses a três anos, e multa.\nPatrocínio simultâneo ou tergiversação\nParágrafo único - Incorre na pena deste artigo o advogado ou procurador judicial que defende na mesma causa, simultânea ou sucessivamente, partes contrárias."
+  },
+  {
+    "id": "cp_art_356",
+    "texto": "Art. 356 — Sonegação de papel ou objeto de valor probatório\n- Inutilizar, total ou parcialmente, ou deixar de restituir autos, documento ou objeto de valor probatório, que recebeu na qualidade de advogado ou procurador:"
+  },
+  {
+    "id": "cp_art_357",
+    "texto": "Art. 357 — Exploração de prestígio\n- Solicitar ou receber dinheiro ou qualquer outra utilidade, a pretexto de influir em juiz, jurado, órgão do Ministério Público, funcionário de justiça, perito, tradutor, intérprete ou testemunha:\nPena - reclusão, de um a cinco anos, e multa.\nParágrafo único - As penas aumentam-se de um terço, se o agente alega ou insinua que o dinheiro ou utilidade também se destina a qualquer das pessoas referidas neste artigo."
+  },
+  {
+    "id": "cp_art_358",
+    "texto": "Art. 358 — Violência ou fraude em arrematação judicial\n- Impedir, perturbar ou fraudar arrematação judicial; afastar ou procurar afastar concorrente ou licitante, por meio de violência, grave ameaça, fraude ou oferecimento de vantagem:"
+  },
+  {
+    "id": "cp_art_359",
+    "texto": "Art. 359 — Desobediência a decisão judicial sobre perda ou suspensão de direito\n- Exercer função, atividade, direito, autoridade ou múnus, de que foi suspenso ou privado por decisão judicial:"
+  },
+  {
+    "id": "cp_art_359-A",
+    "texto": "Art. 359-A — Contratação de operação de crédito\n. Ordenar, autorizar ou realizar operação de crédito, interno ou externo, sem prévia autorização legislativa:\nPena – reclusão, de 1\nParágrafo único. Incide na mesma pena quem ordena, autoriza ou realiza operação de crédito, interno ou externo:"
+  },
+  {
+    "id": "cp_art_359-B",
+    "texto": "Art. 359-B — Inscrição de despesas não empenhadas em restos a pagar (Incluído pela Lei nº 10.028, de 2000)"
+  },
+  {
+    "id": "cp_art_359-C",
+    "texto": "Art. 359-C — Assunção de obrigação no último ano do mandato ou legislatura (Incluído pela Lei nº 10.028, de 2000)"
+  },
+  {
+    "id": "cp_art_359-D",
+    "texto": "Art. 359-D — Ordenação de despesa não autorizada (Incluído pela Lei nº 10.028, de 2000)"
+  },
+  {
+    "id": "cp_art_359-E",
+    "texto": "Art. 359-E — Prestação de garantia graciosa (Incluído pela Lei nº 10.028, de 2000)"
+  },
+  {
+    "id": "cp_art_359-F",
+    "texto": "Art. 359-F — Não cancelamento de restos a pagar (Incluído pela Lei nº 10.028, de 2000)"
+  },
+  {
+    "id": "cp_art_359-G",
+    "texto": "Art. 359-G — Aumento de despesa total com pessoal no último ano do mandato ou legislatura  (Incluído pela Lei nº 10.028, de 2000)"
+  },
+  {
+    "id": "cp_art_359-H",
+    "texto": "Art. 359-H — Oferta pública ou colocação de títulos no mercado (Incluído pela Lei nº 10.028, de 2000)"
+  },
+  {
+    "id": "cp_art_359-I",
+    "texto": "Art. 359-I — Atentado à soberania         (Incluído pela Lei nº 14.197, de 2021)        (Vigência)"
+  },
+  {
+    "id": "cp_art_359-J",
+    "texto": "Art. 359-J — Atentado à integridade nacional         (Incluído pela Lei nº 14.197, de 2021)        (Vigência)"
+  },
+  {
+    "id": "cp_art_359-K",
+    "texto": "Art. 359-K — Espionagem         (Incluído pela Lei nº 14.197, de 2021)        (Vigência)"
+  },
+  {
+    "id": "cp_art_359-L",
+    "texto": "Art. 359-L — Abolição violenta do Estado Democrático de Direito         (Incluído pela Lei nº 14.197, de 2021)        (Vigência)"
+  },
+  {
+    "id": "cp_art_359-M",
+    "texto": "Art. 359-M — Golpe de Estado         (Incluído pela Lei nº 14.197, de 2021)        (Vigência)"
+  },
+  {
+    "id": "cp_art_359-N",
+    "texto": "Art. 359-N — Interrupção do processo eleitoral         (Incluído pela Lei nº 14.197, de 2021)        (Vigência)"
+  },
+  {
+    "id": "cp_art_359-O",
+    "texto": "Art. 359-O — (VETADO)         (Incluído pela Lei nº 14.197, de 2021)        (Vigência)"
+  },
+  {
+    "id": "cp_art_359-P",
+    "texto": "Art. 359-P — Violência política         (Incluído pela Lei nº 14.197, de 2021)        (Vigência)"
+  },
+  {
+    "id": "cp_art_359-Q",
+    "texto": "Art. 359-Q — (VETADO)         (Incluído pela Lei nº 14.197, de 2021)        (Vigência)"
+  },
+  {
+    "id": "cp_art_359-R",
+    "texto": "Art. 359-R — Sabotagem         (Incluído pela Lei nº 14.197, de 2021)        (Vigência)"
+  },
+  {
+    "id": "cp_art_359-T",
+    "texto": "Art. 359-T — DISPOSIÇÕES COMUNS"
+  },
+  {
+    "id": "cp_art_359-U",
+    "texto": "Art. 359-U — (VETADO)         (Incluído pela Lei nº 14.197, de 2021)        (Vigência)"
+  },
+  {
+    "id": "cp_art_360",
+    "texto": "Art. 360 — DISPOSIÇÕES FINAIS\n- Ressalvada a legislação especial sobre os crimes contra a existência, a segurança e a integridade do Estado e contra a guarda e o emprego da economia popular, os crimes de imprensa e os de falência, os de responsabilidade do Presidente da República e dos Governadores ou Interventores, e os crimes militares, revogam-se as disposições em contrário."
+  },
+  {
+    "id": "cp_art_361",
+    "texto": "Art. 361 — - Ressalvada a legislação especial sobre os crimes contra a existência, a segurança e a integridade do Estado e contra a guarda e o emprego da economia popular, os crimes de imprensa e os de falência, os de responsabilidade do Presidente da República e dos Governadores ou Interventores, e os crimes militares, revogam-se as disposições em contrário.\n- Este Código entrará em vigor no dia 1º de janeiro de 1942."
   }
 ]
