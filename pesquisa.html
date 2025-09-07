@@ -1,137 +1,5 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>direito.love — Pesquisa</title>
-  <meta name="theme-color" content="#F5C400" />
-  <meta name="description" content="Pesquisa de artigos, súmulas, jurisprudências e logo jurídicos no direito.love" />
-  <meta name="keywords" content="pesquisa jurídica, direito, OAB, concursos, jurisprudência, súmulas" />
-  <meta name="author" content="direito.love" />
-  <meta name="robots" content="index, follow" />
-  <link rel="icon" href="favicon.png" type="image/png" />
-  <link rel="apple-touch-icon" href="favicon-180.png" />
-
-  <style>
-    :root{
-      --bg:#FFFDF0; --surface:#ffffff; --text:#001840; --border:#e5e7eb;
-      --primary:#102A71; --highlight:#F5C400; --highlight-light:#FFDC5F;
-      --radius:10px; --shadow:0 4px 16px rgba(0,0,0,.05);
-      --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
-
-      --safe-bottom: env(safe-area-inset-bottom, 0px);
-      --bar-h: 64px;
-
-      --success:#16a34a;   /* verde sucesso (Selecionado) */
-      --muted-btn:#e5e7eb; /* cinza do botão Limpar */
-    }
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--text);font:400 13px/1.4 var(--font);}
-
-    /* TOPBAR simplificada (igual ao index) */
-    .topbar{position:sticky; top:0; z-index:100; background:var(--highlight); border-bottom:1px solid rgba(0,0,0,.08)}
-    .topbar__inner{max-width:1160px; margin:0 auto; padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px}
-    .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:#111}
-    .brand__logo{height:36px; width:auto; display:block}
-    .topbar__actions{display:flex; gap:8px}
-    .icon-btn{display:inline-grid; place-items:center; width:36px; height:36px; border-radius:10px; background:rgba(255,255,255,.85); border:1px solid rgba(0,0,0,.06)}
-    .icon-btn img{width:20px; height:20px}
-
-    /* Página */
-    .wrap{max-width:900px;margin:0 auto;padding:22px; transition:padding-bottom .2s ease;}
-    h2{margin:0 0 10px;color:var(--primary)}
-
-    .search-box{
-      display:flex; gap:10px; align-items:center; margin:20px 0;
-    }
-    #busca{
-      flex:1; padding:10px 12px; border:2px solid var(--primary); border-radius:8px; font-size:15px
-    }
-    #btnBuscar{
-      appearance:none; border:none; background:var(--primary); color:#fff; padding:10px 14px; border-radius:8px; font-size:14px; cursor:pointer;
-    }
-    #btnBuscar:disabled{opacity:.7; cursor:progress}
-
-    .result{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
-      padding:12px 14px;margin:12px 0;position:relative}
-    .result p{margin:0;font-size:13px;line-height:1.4}
-    .filetag{margin:0 0 6px 0;font-weight:700}
-
-    .actions{margin-top:8px;display:flex;justify-content:space-between;gap:8px}
-    .btn{appearance:none;border:none;background:var(--highlight);color:#000;padding:6px 10px;border-radius:8px;
-      font-size:13px;cursor:pointer;transition:.15s}
-    .btn:hover{background:var(--highlight-light)}
-    .btn-alt{appearance:none;border:none;background:var(--primary);color:#fff;padding:6px 10px;border-radius:8px;
-      font-size:13px;cursor:pointer;transition:.15s}
-    .btn-alt:hover{background:#264399}
-    .btn-alt.is-selected{ background: var(--success); color:#fff; }
-    .btn-alt.is-selected:hover{ filter:brightness(.95); }
-
-    .more-wrap{display:flex; justify-content:center; margin:16px 0}
-    #btnMais{min-width:180px}
-
-    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;
-      padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:60}
-    .toast.show{opacity:1}
-
-    /* Barra flutuante */
-    #dl-bar-selecao{
-      position:fixed; left:50%; transform:translateX(-50%);
-      bottom:calc(12px + var(--safe-bottom)); z-index:9999; background:#111; color:#fff;
-      padding:10px 12px; border-radius:12px; display:none; align-items:center; gap:8px;
-      box-shadow:0 6px 20px rgba(0,0,0,.25); font: 500 14px/1.2 var(--font);
-      pointer-events:none;
-    }
-    #dl-bar-selecao button{border:0; padding:8px 12px; border-radius:10px; cursor:pointer; pointer-events:auto;}
-    #dl-enviar{ background: var(--primary); color:#fff; } #dl-enviar:hover{ background:#264399; } #dl-enviar:disabled{ opacity:.5; filter:grayscale(.3) }
-    #dl-limpar{ background: var(--muted-btn); color:#111; } #dl-limpar:hover{ background:#d6dae1 }
-
-    @media (max-width: 480px){
-      .btn,.btn-alt{ padding:8px 12px; }
-    }
-  </style>
-</head>
-<body>
-  <!-- TOPBAR -->
-  <header class="topbar" role="banner">
-    <div class="topbar__inner">
-      <a class="brand" href="index.html" aria-label="Início">
-        <img class="brand__logo" src="icons/logo.png" alt="direito.love" />
-      </a>
-      <nav class="topbar__actions" aria-label="Ações">
-        <a class="icon-btn" href="index.html" aria-label="Início" title="Início">
-          <img src="icons/inicio.png" alt="">
-        </a>
-        <a class="icon-btn" href="pesquisa.html" aria-label="Pesquisar" title="Pesquisar">
-          <img src="icons/pesquisar.png" alt="">
-        </a>
-      </nav>
-    </div>
-  </header>
-
-  <div class="wrap">
-    <h2>Pesquisa de Conteúdo Jurídico</h2>
-    <p>Digite um termo (artigo, súmula, jurisprudência ou palavra-chave) e clique em <b>Buscar</b>.</p>
-
-    <div class="search-box">
-      <input id="busca" type="text" placeholder="Ex: artigo 5º, súmula 381, dano moral..." />
-      <button id="btnBuscar">Buscar</button>
-    </div>
-
-    <div id="resultados"></div>
-    <div class="more-wrap" style="display:none"><button id="btnMais" class="btn">Carregar mais</button></div>
-  </div>
-
-  <div id="toast" class="toast" aria-live="polite"></div>
-
-  <!-- Barra flutuante -->
-  <div id="dl-bar-selecao" aria-live="polite">
-    <button id="dl-enviar" disabled>Enviar</button>
-    <button id="dl-limpar">Limpar</button>
-  </div>
-
 <script>
-/* ===== pesquisa.js (com botão Buscar + lote) ===== */
+/* ===== pesquisa.js (lazy loading com cache) ===== */
 (function(){
   const $=(s,r=document)=>r.querySelector(s);
   const $$=(s,r=document)=>[...r.querySelectorAll(s)];
@@ -149,52 +17,50 @@
   // Config
   const KEY='dl_pesquisa_selecionados';
   const arquivos = [
+    "data/julgados_direito_administrativo.json",
+    "data/julgados_direito_ambiental.json",
+    "data/julgados_direito_bancario.json",
     "data/penal.json",
     "data/processo_penal.json",
     "data/sumula_stf.json",
-    "data/sumulas_vinculantes_stf.json",
-    "data/sumula_stj.json",
+    "data/sumulas_stj.json",
     "data/sumulas_tse.json",
-    "data/teses_stf.json",
+    "data/sumulas_vinculantes_stf.json",
     "data/temas_repetitivos_stj.json",
+    "data/teses_stf.json"
   ];
   const MAX_SNIPPET = 400;
-  const PAGE_SIZE = 40; // render por lote
+  const PAGE_SIZE = 40;
+
+  const cache = {}; // 🔹 guarda os arquivos já carregados
 
   const getCarrinho = ()=>JSON.parse(localStorage.getItem(KEY)||'[]');
   const setCarrinho = (arr)=>localStorage.setItem(KEY, JSON.stringify(arr));
-  const dedupPush = (arr, item)=>{
-    const k = item.id || item._id || (item.fonte+':'+(item.texto||'').slice(0,50));
-    if(!arr.some(x => x.id === k)){ arr.push({...item, id: k}); }
-    return arr;
-  };
+  const dedupPush = (arr, item)=>{ if(!arr.some(x => x.id === item.id)){ arr.push(item); } return arr; };
 
-  // Carregar dados com "fonte" e texto normalizado
-  async function carregarDados(){
-    const dados=[];
-    for(const arq of arquivos){
-      try{
-        const tag = arq.split('/').pop().replace(/\.json$/,'');
-        const r=await fetch(arq); if(!r.ok) continue;
-        const j=await r.json();
-        (Array.isArray(j)? j : []).forEach((it, idx)=>{
-          const _id = it.id || `${tag}_${idx}`;
-          const texto = (it.texto || '').trim();
-          dados.push({ ...it, _id, fonte: tag, textoNorm: norm(texto) });
-        });
-      }catch(e){ console.warn("Erro ao carregar",arq,e); }
+  async function loadFile(arq){
+    if(cache[arq]) return cache[arq]; // já em cache
+    try{
+      const tag = arq.split('/').pop().replace(/\.json$/,'');
+      const r=await fetch(arq);
+      if(!r.ok) return [];
+      const j=await r.json();
+      const arr = (Array.isArray(j)? j : []).map((it, idx)=>({
+        ...it,
+        id: it.id || `${tag}_${idx}`,
+        fonte: tag,
+        textoNorm: norm(it.texto||"")
+      }));
+      cache[arq] = arr; // guarda em cache
+      return arr;
+    }catch(e){
+      console.warn("Erro ao carregar", arq, e);
+      return [];
     }
-    return dados;
   }
 
-  let baseDados=[];     // tudo
-  let lastResults=[];   // últimos achados filtrados
-  let pageIndex=0;      // página atual dos achados
-
-  carregarDados().then(d=>{
-    baseDados=d;
-    toast("Base carregada com sucesso!");
-  });
+  let lastResults=[];   
+  let pageIndex=0;      
 
   // Render em lote
   function renderBatch(append=false){
@@ -224,96 +90,76 @@
       const copiar=document.createElement("button");
       copiar.textContent="Copiar";
       copiar.className="btn";
-      copiar.addEventListener("click",async()=>{
-        try{ await navigator.clipboard.writeText(item.texto||''); toast("Copiado!"); }
-        catch{ toast("Erro ao copiar."); }
+      copiar.addEventListener("click",async()=>{ 
+        try{ await navigator.clipboard.writeText(item.texto||''); toast("Copiado!"); } 
+        catch{ toast("Erro ao copiar."); } 
       });
 
       const selBtn=document.createElement("button");
       selBtn.className="btn-alt";
-      const key = item.id||item._id;
-      const syncBtn = (on)=>{ selBtn.textContent = on ? "Selecionado" : "Selecionar"; selBtn.classList.toggle('is-selected', on); };
-      syncBtn(carrinho.some(x => x.id === key));
-      selBtn.addEventListener("click",()=>{
+      const key=item.id;
+      const sync=(on)=>{ selBtn.textContent=on?"Selecionado":"Selecionar"; selBtn.classList.toggle('is-selected',on); };
+      sync(carrinho.some(x=>x.id===key));
+      selBtn.addEventListener("click",()=>{ 
         let arr=getCarrinho();
-        const obj = { id:key, fonte:item.fonte, texto:item.texto };
-        const isIn = arr.some(x => x.id === key);
-        if (isIn){ arr = arr.filter(x => x.id !== key); syncBtn(false); }
-        else { arr = dedupPush(arr, obj); syncBtn(true); }
+        const isIn=arr.some(x=>x.id===key);
+        if(isIn){ arr=arr.filter(x=>x.id!==key); sync(false); }
+        else { arr=dedupPush(arr,{id:key,fonte:item.fonte,texto:item.texto}); sync(true); }
         setCarrinho(arr); updateBar();
       });
 
       actions.appendChild(copiar);
       actions.appendChild(selBtn);
       div.appendChild(actions);
-
       resultados.appendChild(div);
     }
 
-    // controla botão "Carregar mais"
     pageIndex++;
     const hasMore = pageIndex*PAGE_SIZE < lastResults.length;
     moreWrap.style.display = hasMore ? "flex" : "none";
     updateBar();
   }
 
-  function updateBar(){
-    const c=getCarrinho().length;
-    $('#dl-enviar').disabled = c===0;
-  }
+  function updateBar(){ $('#dl-enviar').disabled = getCarrinho().length===0; }
+  function toggleBar(show){ $('#dl-bar-selecao').style.display=show?'flex':'none'; }
 
-  function toggleBar(show){
-    const bar = $('#dl-bar-selecao');
-    bar.style.display = show ? 'flex' : 'none';
-    wrap.style.paddingBottom = show ? `calc(var(--bar-h) + 16px + var(--safe-bottom))` : '22px';
-  }
-
-  // Executa busca (click ou Enter)
   async function executarBusca(){
     const termo = busca.value.trim();
     resultados.innerHTML="";
     moreWrap.style.display="none";
     pageIndex=0;
 
-    if(!termo){
-      toggleBar(false);
-      return;
-    }
+    if(!termo){ toggleBar(false); return; }
 
     btnBuscar.disabled = true;
     document.body.style.cursor = 'progress';
     try{
       const termoNorm = norm(termo);
-      // filtro O(N) – rápido o suficiente; se crescer MUITO, trocamos pra index (FlexSearch)
-      lastResults = baseDados.filter(x => (x.textoNorm || "").includes(termoNorm));
-      if(!lastResults.length){
-        resultados.innerHTML = "<p>Nenhum resultado encontrado.</p>";
-        toggleBar(false);
-      }else{
-        toggleBar(true);
-        renderBatch(false);
+      let achados=[];
+
+      // 🔹 Carrega arquivos sob demanda
+      for(const arq of arquivos){
+        const dados = await loadFile(arq);
+        const filtro = dados.filter(x => (x.textoNorm||"").includes(termoNorm));
+        achados.push(...filtro);
       }
+
+      lastResults = achados;
+      if(!lastResults.length){ resultados.innerHTML="<p>Nenhum resultado encontrado.</p>"; toggleBar(false); }
+      else { toggleBar(true); renderBatch(false); }
+
     }finally{
-      btnBuscar.disabled = false;
-      document.body.style.cursor = '';
+      btnBuscar.disabled=false;
+      document.body.style.cursor='';
     }
   }
 
   // Eventos
   btnBuscar.addEventListener("click", executarBusca);
   $("#btnMais").addEventListener("click", ()=> renderBatch(true));
-  busca.addEventListener("keydown", (e)=>{ if(e.key==="Enter"){ e.preventDefault(); executarBusca(); } });
+  busca.addEventListener("keydown",(e)=>{ if(e.key==="Enter"){ e.preventDefault(); executarBusca(); } });
 
-  // Barra: enviar / limpar
-  $('#dl-enviar').addEventListener('click', ()=> { window.location.href = 'index.html#pesquisa'; });
-  $('#dl-limpar').addEventListener('click', ()=> {
-    localStorage.removeItem(KEY);
-    updateBar();
-    // mantém os resultados, só desmarca
-    [...$$('.btn-alt.is-selected', resultados)].forEach(b=>b.classList.remove('is-selected'));
-    [...$$('.btn-alt', resultados)].forEach(b=>{ if(b.textContent==="Selecionado") b.textContent="Selecionar"; });
-  });
+  $('#dl-enviar').addEventListener('click', ()=>{ window.location.href='index.html#pesquisa'; });
+  $('#dl-limpar').addEventListener('click', ()=>{ localStorage.removeItem(KEY); updateBar(); [...$$('.btn-alt.is-selected')].forEach(b=>b.classList.remove('is-selected')); });
 })();
 </script>
-</body>
-</html>
