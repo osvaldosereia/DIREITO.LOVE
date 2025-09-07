@@ -1,20 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>direito.love — Pesquisa</title>
+  <meta name="theme-color" content="#F5C400" />
+  <meta name="description" content="Pesquisa de artigos, súmulas, jurisprudências e logo jurídicos no direito.love" />
+  <meta name="keywords" content="pesquisa jurídica, direito, OAB, concursos, jurisprudência, súmulas" />
+  <meta name="author" content="direito.love" />
+  <meta name="robots" content="index, follow" />
+  <link rel="icon" href="favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="favicon-180.png" />
+
+  <style>
+    :root{
+      --bg:#FFFDF0; --surface:#ffffff; --text:#001840; --border:#e5e7eb;
+      --primary:#102A71; --highlight:#F5C400; --highlight-light:#FFDC5F;
+      --radius:10px; --shadow:0 4px 16px rgba(0,0,0,.05);
+      --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --bar-h: 64px;
+      --success:#16a34a;
+      --muted-btn:#e5e7eb;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font:400 13px/1.4 var(--font);}
+    .topbar{position:sticky; top:0; z-index:100; background:var(--highlight); border-bottom:1px solid rgba(0,0,0,.08)}
+    .topbar__inner{max-width:1160px; margin:0 auto; padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px}
+    .brand__logo{height:36px; width:auto; display:block}
+    .wrap{max-width:900px;margin:0 auto;padding:22px; transition:padding-bottom .2s ease;}
+    h2{margin:0 0 10px;color:var(--primary)}
+    .search-box{display:flex; gap:10px; align-items:center; margin:20px 0;}
+    #busca{flex:1; padding:10px 12px; border:2px solid var(--primary); border-radius:8px; font-size:15px}
+    #btnBuscar{appearance:none; border:none; background:var(--primary); color:#fff; padding:10px 14px; border-radius:8px; font-size:14px; cursor:pointer;}
+    #btnBuscar:disabled{opacity:.7; cursor:progress}
+    .result{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
+      padding:12px 14px;margin:12px 0;position:relative}
+    .result p{margin:0;font-size:13px;line-height:1.4}
+    .filetag{margin:0 0 6px 0;font-weight:700}
+    .actions{margin-top:8px;display:flex;justify-content:space-between;gap:8px}
+    .btn{appearance:none;border:none;background:var(--highlight);color:#000;padding:6px 10px;border-radius:8px;font-size:13px;cursor:pointer;transition:.15s}
+    .btn:hover{background:var(--highlight-light)}
+    .btn-alt{appearance:none;border:none;background:var(--primary);color:#fff;padding:6px 10px;border-radius:8px;font-size:13px;cursor:pointer;transition:.15s}
+    .btn-alt:hover{background:#264399}
+    .btn-alt.is-selected{ background: var(--success); color:#fff; }
+    .btn-alt.is-selected:hover{ filter:brightness(.95); }
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;
+      padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:60}
+    .toast.show{opacity:1}
+    #dl-bar-selecao{position:fixed; left:50%; transform:translateX(-50%); bottom:calc(12px + var(--safe-bottom)); z-index:9999;
+      background:#111; color:#fff; padding:10px 12px; border-radius:12px; display:none; align-items:center; gap:8px; box-shadow:0 6px 20px rgba(0,0,0,.25); font:500 14px/1.2 var(--font); pointer-events:none;}
+    #dl-bar-selecao button{border:0; padding:8px 12px; border-radius:10px; cursor:pointer; pointer-events:auto;}
+    #dl-enviar{ background: var(--primary); color:#fff; } #dl-enviar:hover{ background:#264399; } #dl-enviar:disabled{ opacity:.5; filter:grayscale(.3) }
+    #dl-limpar{ background: var(--muted-btn); color:#111; } #dl-limpar:hover{ background:#d6dae1 }
+  </style>
+</head>
+<body>
+  <header class="topbar" role="banner">
+    <div class="topbar__inner">
+      <a class="brand" href="index.html" aria-label="Início">
+        <img class="brand__logo" src="icons/logo.png" alt="direito.love" />
+      </a>
+      <nav class="topbar__actions" aria-label="Ações">
+        <a class="icon-btn" href="index.html" aria-label="Início" title="Início"><img src="icons/inicio.png" alt=""></a>
+        <a class="icon-btn" href="pesquisa.html" aria-label="Pesquisar" title="Pesquisar"><img src="icons/pesquisar.png" alt=""></a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <h2>Pesquisa de Conteúdo Jurídico</h2>
+    <div class="search-box">
+      <input id="busca" type="text" placeholder="Ex: artigo 5º, súmula 381, dano moral..." />
+      <button id="btnBuscar">Buscar</button>
+    </div>
+    <div id="resultados"></div>
+  </div>
+
+  <div id="toast" class="toast" aria-live="polite"></div>
+  <div id="dl-bar-selecao" aria-live="polite">
+    <button id="dl-enviar" disabled>Enviar</button>
+    <button id="dl-limpar">Limpar</button>
+  </div>
+
 <script>
-/* ===== pesquisa.js (lazy loading com cache) ===== */
 (function(){
   const $=(s,r=document)=>r.querySelector(s);
   const $$=(s,r=document)=>[...r.querySelectorAll(s)];
   const resultados=$("#resultados");
   const busca=$("#busca");
   const btnBuscar=$("#btnBuscar");
-  const btnMais=$("#btnMais");
-  const moreWrap=$(".more-wrap");
-  const wrap=$(".wrap");
   const toast=(msg,t=1600)=>{const el=$("#toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
-
-  // Normaliza (ignora acentos/ç)
   const norm=(s="")=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 
-  // Config
   const KEY='dl_pesquisa_selecionados';
   const arquivos = [
     "data/julgados_direito_administrativo.json",
@@ -29,137 +107,58 @@
     "data/temas_repetitivos_stj.json",
     "data/teses_stf.json"
   ];
-  const MAX_SNIPPET = 400;
-  const PAGE_SIZE = 40;
 
-  const cache = {}; // 🔹 guarda os arquivos já carregados
-
-  const getCarrinho = ()=>JSON.parse(localStorage.getItem(KEY)||'[]');
-  const setCarrinho = (arr)=>localStorage.setItem(KEY, JSON.stringify(arr));
-  const dedupPush = (arr, item)=>{ if(!arr.some(x => x.id === item.id)){ arr.push(item); } return arr; };
-
-  async function loadFile(arq){
-    if(cache[arq]) return cache[arq]; // já em cache
+  const cache={};
+  async function carregarArquivo(arq){
+    if(cache[arq]) return cache[arq];
     try{
-      const tag = arq.split('/').pop().replace(/\.json$/,'');
-      const r=await fetch(arq);
-      if(!r.ok) return [];
+      const r=await fetch(arq); if(!r.ok) return [];
       const j=await r.json();
-      const arr = (Array.isArray(j)? j : []).map((it, idx)=>({
+      const tag = arq.split('/').pop().replace(/\.json$/,'');
+      const arr=(Array.isArray(j)?j:[]).map((it,idx)=>({
         ...it,
-        id: it.id || `${tag}_${idx}`,
         fonte: tag,
-        textoNorm: norm(it.texto||"")
+        textoNorm: norm(it.texto||''),
+        _id: it.id || `${tag}_${idx}`
       }));
-      cache[arq] = arr; // guarda em cache
+      cache[arq]=arr;
       return arr;
-    }catch(e){
-      console.warn("Erro ao carregar", arq, e);
-      return [];
-    }
+    }catch{ return []; }
   }
-
-  let lastResults=[];   
-  let pageIndex=0;      
-
-  // Render em lote
-  function renderBatch(append=false){
-    const carrinho = getCarrinho();
-    const start = pageIndex*PAGE_SIZE;
-    const end = Math.min(lastResults.length, start+PAGE_SIZE);
-    if(!append){ resultados.innerHTML=""; }
-
-    for(let i=start;i<end;i++){
-      const item = lastResults[i];
-      const div=document.createElement("div");
-      div.className="result";
-
-      const fonteP = document.createElement('p');
-      fonteP.className = 'filetag';
-      fonteP.innerHTML = `<strong>${(item.fonte||'').trim()}</strong>`;
-      div.appendChild(fonteP);
-
-      const p=document.createElement("p");
-      const txt = (item.texto||'').trim();
-      p.textContent = txt.length>MAX_SNIPPET ? (txt.substring(0,MAX_SNIPPET)+"...") : txt;
-      div.appendChild(p);
-
-      const actions=document.createElement("div");
-      actions.className="actions";
-
-      const copiar=document.createElement("button");
-      copiar.textContent="Copiar";
-      copiar.className="btn";
-      copiar.addEventListener("click",async()=>{ 
-        try{ await navigator.clipboard.writeText(item.texto||''); toast("Copiado!"); } 
-        catch{ toast("Erro ao copiar."); } 
-      });
-
-      const selBtn=document.createElement("button");
-      selBtn.className="btn-alt";
-      const key=item.id;
-      const sync=(on)=>{ selBtn.textContent=on?"Selecionado":"Selecionar"; selBtn.classList.toggle('is-selected',on); };
-      sync(carrinho.some(x=>x.id===key));
-      selBtn.addEventListener("click",()=>{ 
-        let arr=getCarrinho();
-        const isIn=arr.some(x=>x.id===key);
-        if(isIn){ arr=arr.filter(x=>x.id!==key); sync(false); }
-        else { arr=dedupPush(arr,{id:key,fonte:item.fonte,texto:item.texto}); sync(true); }
-        setCarrinho(arr); updateBar();
-      });
-
-      actions.appendChild(copiar);
-      actions.appendChild(selBtn);
-      div.appendChild(actions);
-      resultados.appendChild(div);
-    }
-
-    pageIndex++;
-    const hasMore = pageIndex*PAGE_SIZE < lastResults.length;
-    moreWrap.style.display = hasMore ? "flex" : "none";
-    updateBar();
-  }
-
-  function updateBar(){ $('#dl-enviar').disabled = getCarrinho().length===0; }
-  function toggleBar(show){ $('#dl-bar-selecao').style.display=show?'flex':'none'; }
 
   async function executarBusca(){
-    const termo = busca.value.trim();
+    const termo=busca.value.trim();
     resultados.innerHTML="";
-    moreWrap.style.display="none";
-    pageIndex=0;
-
-    if(!termo){ toggleBar(false); return; }
-
-    btnBuscar.disabled = true;
-    document.body.style.cursor = 'progress';
+    if(!termo) return;
+    btnBuscar.disabled=true;
+    document.body.style.cursor='progress';
     try{
-      const termoNorm = norm(termo);
+      const termoNorm=norm(termo);
       let achados=[];
-
-      // 🔹 Carrega arquivos sob demanda
       for(const arq of arquivos){
-        const dados = await loadFile(arq);
-        const filtro = dados.filter(x => (x.textoNorm||"").includes(termoNorm));
-        achados.push(...filtro);
+        const dados=await carregarArquivo(arq);
+        const subset=dados.filter(x=>x.textoNorm.includes(termoNorm));
+        achados=achados.concat(subset);
       }
-
-      lastResults = achados;
-      if(!lastResults.length){ resultados.innerHTML="<p>Nenhum resultado encontrado.</p>"; toggleBar(false); }
-      else { toggleBar(true); renderBatch(false); }
-
+      if(!achados.length){ resultados.innerHTML="<p>Nenhum resultado encontrado.</p>"; return; }
+      achados.forEach(item=>{
+        const div=document.createElement("div");
+        div.className="result";
+        div.innerHTML=`
+          <p class="filetag"><strong>${item.fonte}</strong></p>
+          <p>${item.texto}</p>
+        `;
+        resultados.appendChild(div);
+      });
     }finally{
       btnBuscar.disabled=false;
       document.body.style.cursor='';
     }
   }
 
-  // Eventos
   btnBuscar.addEventListener("click", executarBusca);
-  $("#btnMais").addEventListener("click", ()=> renderBatch(true));
-  busca.addEventListener("keydown",(e)=>{ if(e.key==="Enter"){ e.preventDefault(); executarBusca(); } });
-
-  $('#dl-enviar').addEventListener('click', ()=>{ window.location.href='index.html#pesquisa'; });
-  $('#dl-limpar').addEventListener('click', ()=>{ localStorage.removeItem(KEY); updateBar(); [...$$('.btn-alt.is-selected')].forEach(b=>b.classList.remove('is-selected')); });
+  busca.addEventListener("keydown",(e)=>{if(e.key==="Enter"){e.preventDefault();executarBusca();}});
 })();
 </script>
+</body>
+</html>
