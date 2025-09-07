@@ -22,20 +22,57 @@
       --primary:#102A71; --highlight:#F5C400; --highlight-light:#FFDC5F;
       --radius:10px; --shadow:0 4px 16px rgba(0,0,0,.05);
       --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
+
       --safe-bottom: env(safe-area-inset-bottom, 0px);
-      --bar-h: 64px; /* altura aprox. da barra */
-      --success:#16a34a;           /* verde sucesso (Selecionado) */
-      --muted-btn:#e5e7eb;         /* cinza do botão Limpar */
+      --bar-h: 64px;
+
+      --success:#16a34a;   /* verde sucesso (Selecionado) */
+      --muted-btn:#e5e7eb; /* cinza do botão Limpar */
     }
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);color:var(--text);font:400 13px/1.4 var(--font);}
-    .topbar{position:sticky;top:0;z-index:30;background:var(--highlight);border-bottom:2px solid var(--primary);
-      display:flex;justify-content:space-between;align-items:center;padding:4px 8%;}
-    .topbar .logo a{text-decoration:none;cursor:default;display:inline-block;}
-    .topbar .logo img{height:40px;width:auto}
-    .nav-buttons{display:flex;gap:12px}
-    .nav-buttons img{height:26px;width:26px;cursor:pointer;transition:transform .15s}
-    .nav-buttons img:hover{transform:scale(1.1)}
+
+    /* ===== TOPBAR (igual ao index) ===== */
+    .topbar{
+      position:sticky; top:0; z-index:100;
+      background:var(--highlight);
+      border-bottom:1px solid rgba(0,0,0,.08);
+      transition: box-shadow .18s ease, padding .18s ease;
+    }
+    .topbar.is-scrolled{ box-shadow:0 6px 18px rgba(0,0,0,.08); }
+    .topbar__inner{
+      max-width:1160px; margin:0 auto;
+      padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .topbar.is-scrolled .topbar__inner{ padding:8px 16px; }
+    .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; color:#111; }
+    .brand__logo{ height:26px; width:auto; display:block; }
+    .brand__name{ font:700 18px/1 var(--font); letter-spacing:.2px; }
+    .topbar__actions{ display:flex; align-items:center; gap:8px; }
+    .icon-btn{
+      display:inline-grid; place-items:center;
+      width:36px; height:36px; border-radius:10px;
+      background:rgba(255,255,255,.85);
+      border:1px solid rgba(0,0,0,.06);
+      box-shadow:0 1px 0 rgba(255,255,255,.6) inset;
+      transition: transform .12s ease, background .15s ease;
+    }
+    .icon-btn:hover{ transform:translateY(-1px); background:#fff; }
+    .icon-btn img{ width:20px; height:20px; display:block; }
+    .pill-btn{
+      appearance:none; border:1px solid rgba(0,0,0,.1);
+      background:#fff; color:#111; padding:8px 12px; border-radius:999px; cursor:pointer;
+      font:600 13px/1 var(--font);
+      transition: background .15s ease, transform .12s ease;
+    }
+    .pill-btn:hover{ background:#f6f6f6; transform:translateY(-1px); }
+    .pill-btn.hidden{ display:none; }
+    @media (max-width:640px){
+      .brand__name{ font-size:16px; }
+      .topbar__inner{ padding:8px 12px; }
+    }
+
+    /* ===== PÁGINA ===== */
     .wrap{max-width:900px;margin:0 auto;padding:22px; transition:padding-bottom .2s ease;}
     h2{margin:0 0 10px;color:var(--primary)}
     .search-box{margin:20px 0}
@@ -75,17 +112,13 @@
       border:0; padding:8px 12px; border-radius:10px; cursor:pointer; pointer-events:auto;
     }
     /* cores diferentes na barra */
-    #dl-bar-selecao #dl-enviar{
-      background: var(--primary); color:#fff;
-    }
+    #dl-bar-selecao #dl-enviar{ background: var(--primary); color:#fff; }
     #dl-bar-selecao #dl-enviar:hover{ background:#264399; }
     #dl-bar-selecao #dl-enviar:disabled{ opacity:.5; filter:grayscale(.3); }
-    #dl-bar-selecao #dl-limpar{
-      background: var(--muted-btn); color:#111;
-    }
+    #dl-bar-selecao #dl-limpar{ background: var(--muted-btn); color:#111; }
     #dl-bar-selecao #dl-limpar:hover{ background:#d6dae1; }
 
-    /* Mobile touch targets um pouquinho maiores */
+    /* Mobile */
     @media (max-width: 480px){
       .btn,.btn-alt{ padding:8px 12px; }
       .pick{ gap:10px; }
@@ -93,12 +126,22 @@
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="logo"><a href="index.html"><img src="icons/logo.png" alt="direito.love"></a></div>
-    <nav class="nav-buttons">
-      <a href="index.html" aria-label="Início"><img src="icons/inicio.png" alt="Início"></a>
-      <a href="pesquisa.html" aria-label="Pesquisar"><img src="icons/pesquisar.png" alt="Pesquisar"></a>
-    </nav>
+  <!-- TOPBAR -->
+  <header class="topbar" role="banner">
+    <div class="topbar__inner">
+      <a class="brand" href="index.html" aria-label="Início">
+        <img class="brand__logo" src="icons/logo.png" alt="direito.love" />
+      </a>
+      <nav class="topbar__actions" aria-label="Ações">
+        <a class="icon-btn" href="index.html" aria-label="Início" title="Início">
+          <img src="icons/inicio.png" alt="">
+        </a>
+        <a class="icon-btn" href="pesquisa.html" aria-label="Pesquisar" title="Pesquisar">
+          <img src="icons/pesquisar.png" alt="">
+        </a>
+        <button id="btn-install" class="pill-btn hidden" aria-label="Instalar app">Instalar app</button>
+      </nav>
+    </div>
   </header>
 
   <div class="wrap">
@@ -110,7 +153,7 @@
     <div id="resultados"></div>
   </div>
 
-  <div id="toast" class="toast"></div>
+  <div id="toast" class="toast" aria-live="polite"></div>
 
   <!-- Barra flutuante: só 2 botões -->
   <div id="dl-bar-selecao" aria-live="polite">
@@ -119,6 +162,34 @@
   </div>
 
 <script>
+/* ===== topbar.js (sombra no scroll + PWA install) ===== */
+(function(){
+  const header = document.querySelector('.topbar');
+  const installBtn = document.getElementById('btn-install');
+  let deferredPrompt = null;
+
+  const onScroll = () => {
+    if (window.scrollY > 2) header.classList.add('is-scrolled');
+    else header.classList.remove('is-scrolled');
+  };
+  window.addEventListener('scroll', onScroll, { passive:true });
+  onScroll();
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault(); deferredPrompt = e;
+    installBtn?.classList.remove('hidden');
+  });
+  installBtn?.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    try{ await deferredPrompt.userChoice; }catch{}
+    deferredPrompt = null; installBtn.classList.add('hidden');
+  });
+})();
+</script>
+
+<script>
+/* ===== pesquisa.js ===== */
 (function(){
   const $=(s,r=document)=>r.querySelector(s);
   const $$=(s,r=document)=>[...r.querySelectorAll(s)];
@@ -128,13 +199,13 @@
   const toast=(msg,t=1600)=>{const el=$("#toast");el.textContent=msg;el.classList.add("show");
     setTimeout(()=>el.classList.remove("show"),t);};
 
-  // === Config ===
+  // Config
   const KEY='dl_pesquisa_selecionados';
   const arquivos = [
-    "data/penal.json",
-    "data/processo_penal.json",
+    "data/cp.json",
+    "data/cpp.json",
     "data/jurisprudencia.json",
-    "data/sumula_stf.json"
+    "data/cm.json"
   ];
   const MAX_SNIPPET = 400;
 
@@ -148,7 +219,7 @@
     return arr;
   };
 
-  // === Carregar dados com "fonte" (nome do arquivo sem .json) ===
+  // Carregar dados com "fonte" (nome do arquivo sem .json)
   async function carregarDados(){
     const dados=[];
     for(const arq of arquivos){
@@ -172,7 +243,7 @@
     if(busca.value.trim()) filtrarRender();
   });
 
-  // === Render ===
+  // Render
   function renderizarResultados(lista){
     resultados.innerHTML="";
     if(!lista.length){
@@ -180,7 +251,7 @@
       toggleBar(false);
       return;
     }
-    toggleBar(true); // mostra barra (com Enviar desabilitado se nada marcado)
+    toggleBar(true);
 
     const carrinho = getCarrinho();
 
@@ -271,7 +342,7 @@
     const bar = $('#dl-bar-selecao');
     bar.style.display = show ? 'flex' : 'none';
     // evita que a barra cubra o último item
-    wrap.style.paddingBottom = show ? `calc(var(--bar-h) + 16px + var(--safe-bottom))` : '22px';
+    document.querySelector('.wrap').style.paddingBottom = show ? `calc(var(--bar-h) + 16px + var(--safe-bottom))` : '22px';
   }
 
   // barra: enviar / limpar
