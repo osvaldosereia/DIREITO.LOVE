@@ -97,47 +97,62 @@
   carregarDados().then(d=>{baseDados=d;toast("Base carregada com sucesso!")});
 
   function renderizarResultados(lista){
-    resultados.innerHTML="";
-    if(!lista.length){resultados.innerHTML="<p>Nenhum resultado encontrado.</p>";return;}
-
-    lista.forEach(item=>{
-      const div=document.createElement("div");
-      div.className="result";
-
-      if(item.titulo){
-        const h3=document.createElement("h3");
-        h3.textContent=item.titulo;
-        div.appendChild(h3);
-      }
-
-      const p=document.createElement("p");
-      let textoOriginal=item.texto;
-      p.textContent = textoOriginal.length>150 ? textoOriginal.substring(0,150)+"..." : textoOriginal;
-
-      const actions=document.createElement("div");
-      actions.className="actions";
-
-      const copiar=document.createElement("button");
-      copiar.textContent="Copiar";
-      copiar.className="btn";
-      copiar.addEventListener("click",async()=>{
-        try{await navigator.clipboard.writeText(item.texto);toast("Copiado!");}
-        catch{toast("Erro ao copiar.");}
-      });
-
-      const usarTema=document.createElement("a");
-      usarTema.textContent="Usar Tema";
-      usarTema.className="btn-alt";
-      usarTema.href=`index.html?tema=${encodeURIComponent(item.titulo || item.texto.substring(0,80))}`;
-
-      actions.appendChild(copiar);
-      actions.appendChild(usarTema);
-
-      div.appendChild(p);
-      div.appendChild(actions);
-      resultados.appendChild(div);
-    });
+  resultados.innerHTML="";
+  if(!lista.length){
+    resultados.innerHTML="<p>Nenhum resultado encontrado.</p>";
+    return;
   }
+
+  lista.forEach(item=>{
+    const div=document.createElement("div");
+    div.className="result";
+
+    // título
+    if(item.titulo){
+      const h3=document.createElement("h3");
+      h3.textContent=item.titulo;
+      div.appendChild(h3);
+    }
+
+    // texto resumido (máx. 200 caracteres)
+    const p=document.createElement("p");
+    let textoOriginal=item.texto;
+    if(textoOriginal.length>200){
+      p.textContent=textoOriginal.substring(0,200)+"...";
+    }else{
+      p.textContent=textoOriginal;
+    }
+    div.appendChild(p);
+
+    // botões
+    const actions=document.createElement("div");
+    actions.className="actions";
+
+    const copiar=document.createElement("button");
+    copiar.textContent="Copiar";
+    copiar.className="btn";
+    copiar.addEventListener("click",async()=>{
+      try{
+        await navigator.clipboard.writeText(item.texto);
+        toast("Copiado!");
+      }catch{
+        toast("Erro ao copiar.");
+      }
+    });
+
+    const usarTema=document.createElement("a");
+    usarTema.textContent="Usar Tema";
+    usarTema.className="btn-alt";
+    usarTema.href=`index.html?tema=${encodeURIComponent(item.titulo || item.texto.substring(0,80))}`;
+
+    actions.appendChild(copiar);
+    actions.appendChild(usarTema);
+
+    div.appendChild(actions);
+    resultados.appendChild(div);
+  });
+}
+
 
   busca.addEventListener("input",()=>{
     const termo=busca.value.toLowerCase().trim();
