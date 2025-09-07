@@ -36,9 +36,14 @@
     h2{margin:0 0 10px;color:var(--primary)}
     .search-box{margin:20px 0}
     #busca{width:100%;padding:10px 12px;border:2px solid var(--primary);border-radius:8px;font-size:15px}
+
     .result{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
       padding:12px 14px;margin:12px 0;position:relative}
     .result p{margin:0;font-size:13px;line-height:1.4}
+    .filetag{margin:0 0 6px 0;font-weight:700} /* mesma fonte/tamanho do texto, só bold */
+    .pick{display:flex;align-items:center;gap:6px;margin-bottom:8px;font-weight:500}
+    .pick input{width:16px;height:16px;cursor:pointer}
+
     .actions{margin-top:8px;display:flex;justify-content:space-between;gap:8px}
     .btn{appearance:none;border:none;background:var(--highlight);color:#000;padding:6px 10px;border-radius:8px;
       font-size:13px;cursor:pointer;transition:.15s}
@@ -46,9 +51,22 @@
     .btn-alt{appearance:none;border:none;background:var(--primary);color:#fff;padding:6px 10px;border-radius:8px;
       font-size:13px;cursor:pointer;transition:.15s}
     .btn-alt:hover{background:#264399}
+
     .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;
       padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:60}
     .toast.show{opacity:1}
+
+    /* Barra flutuante de seleção */
+    #dl-bar-selecao{
+      position:fixed; left:50%; transform:translateX(-50%);
+      bottom:16px; z-index:9999; background:#111; color:#fff;
+      padding:10px 14px; border-radius:12px; display:flex; align-items:center; gap:10px;
+      box-shadow:0 6px 20px rgba(0,0,0,.25); font: 500 14px/1.2 var(--font);
+    }
+    #dl-bar-selecao button{
+      border:0; padding:8px 12px; border-radius:10px; cursor:pointer; background:#fff; color:#111;
+    }
+    #dl-bar-selecao button:disabled{ opacity:.5; cursor:not-allowed; }
   </style>
 </head>
 <body>
@@ -71,57 +89,106 @@
 
   <div id="toast" class="toast"></div>
 
+  <!-- Barra flutuante: seleção múltipla -->
+  <div id="dl-bar-selecao" style="display:none" aria-live="polite">
+    <span class="count">0 selecionado(s)</span>
+    <button id="dl-enviar" disabled>Enviar para o Index</button>
+    <button id="dl-limpar">Limpar</button>
+  </div>
+
 <script>
 (function(){
   const $=(s,r=document)=>r.querySelector(s);
+  const $$=(s,r=document)=>[...r.querySelectorAll(s)];
   const resultados=$("#resultados");
   const busca=$("#busca");
   const toast=(msg,t=1600)=>{const el=$("#toast");el.textContent=msg;el.classList.add("show");
     setTimeout(()=>el.classList.remove("show"),t);};
 
-  // Agora só usa o JSON com id + texto
-var arquivos = [
-  "data/cp.json",
-  "data/cpp.json",
-  "data/jurisprudencia.json",
-  "data/cm.json"
-];
+  // === Config ===
+  const KEY='dl_pesquisa_selecionados';
+  const arquivos = [
+    "data/cp.json",
+    "data/cpp.json",
+    "data/jurisprudencia.json",
+    "data/cm.json"
+  ];
+  const MAX_SNIPPET = 400;
 
+  const getCarrinho = ()=>JSON.parse(localStorage.getItem(KEY)||'[]');
+  const setCarrinho = (arr)=>localStorage.setItem(KEY, JSON.stringify(arr));
+  const dedupPush = (arr, item)=>{
+    const k = item.id || item._id || (item.fonte+':'+(item.texto||'').slice(0,50));
+    if(!arr.some(x => (x.id && x.id===k))){
+      arr.push({...item, id: k});
+    }
+    return arr;
+  };
+
+  // === Carregar dados com "fonte" (nome do arquivo sem .json) ===
   async function carregarDados(){
     const dados=[];
     for(const arq of arquivos){
       try{
+        const tag = arq.split('/').pop().replace(/\.json$/,''); // ex: cpp
         const r=await fetch(arq); if(!r.ok) continue;
-        const j=await r.json(); dados.push(...j);
-      }catch(e){console.warn("Erro ao carregar",arq);}
+        const j=await r.json();
+        (Array.isArray(j)? j : []).forEach((it, idx)=>{
+          const _id = it.id || `${tag}_${idx}`;
+          dados.push({ ...it, _id, fonte: tag });
+        });
+      }catch(e){ console.warn("Erro ao carregar",arq,e); }
     }
     return dados;
   }
 
   let baseDados=[];
-  carregarDados().then(d=>{baseDados=d;toast("Base carregada com sucesso!")});
+  carregarDados().then(d=>{
+    baseDados=d;
+    toast("Base carregada com sucesso!");
+    // Se voltar com termo digitado (autocomplete do navegador)
+    if(busca.value.trim()) filtrarRender();
+  });
 
+  // === Render ===
   function renderizarResultados(lista){
     resultados.innerHTML="";
     if(!lista.length){
       resultados.innerHTML="<p>Nenhum resultado encontrado.</p>";
       return;
     }
+    const carrinho = getCarrinho();
+    $('#dl-bar-selecao').style.display = 'flex';
+    updateBar();
 
     lista.forEach(item=>{
       const div=document.createElement("div");
       div.className="result";
 
-      // texto resumido (máx. 400 caracteres)
+      // checkbox seleção
+      const pick=document.createElement('label');
+      pick.className='pick';
+      const chk=document.createElement('input');
+      chk.type='checkbox';
+      // estado inicial se já está no carrinho
+      chk.checked = carrinho.some(x => x.id === (item.id||item._id));
+      pick.appendChild(chk);
+      pick.appendChild(document.createTextNode('Selecionar'));
+      div.appendChild(pick);
+
+      // linha com fonte em negrito (mesmo tamanho da fonte do texto)
+      const fonteP = document.createElement('p');
+      fonteP.className = 'filetag';
+      fonteP.innerHTML = `<strong>${(item.fonte||'').trim()}</strong>`;
+      div.appendChild(fonteP);
+
+      // texto (com snippet)
       const p=document.createElement("p");
-      if(item.texto.length>400){
-        p.textContent=item.texto.substring(0,400)+"...";
-      }else{
-        p.textContent=item.texto;
-      }
+      const txt = (item.texto||'').trim();
+      p.textContent = txt.length>MAX_SNIPPET ? (txt.substring(0,MAX_SNIPPET)+"...") : txt;
       div.appendChild(p);
 
-      // botões
+      // ações
       const actions=document.createElement("div");
       actions.className="actions";
 
@@ -130,7 +197,7 @@ var arquivos = [
       copiar.className="btn";
       copiar.addEventListener("click",async()=>{
         try{
-          await navigator.clipboard.writeText(item.texto);
+          await navigator.clipboard.writeText(item.texto||'');
           toast("Copiado!");
         }catch{
           toast("Erro ao copiar.");
@@ -141,26 +208,60 @@ var arquivos = [
       usarTema.textContent="Usar Tema";
       usarTema.className="btn-alt";
       usarTema.addEventListener("click",()=>{
-        localStorage.setItem("temaSelecionado", item.texto);
-        window.location.href = "index.html";
+        // unifica fluxo: manda só este item pro index via carrinho
+        const obj = { id: item.id||item._id, fonte:item.fonte, texto:item.texto };
+        setCarrinho([obj]);
+        window.location.href = "index.html#pesquisa";
       });
 
       actions.appendChild(copiar);
       actions.appendChild(usarTema);
-
       div.appendChild(actions);
+
+      // lógica do checkbox
+      chk.addEventListener('change',()=>{
+        let arr=getCarrinho();
+        const obj = { id: item.id||item._id, fonte:item.fonte, texto:item.texto };
+        if(chk.checked){
+          arr = dedupPush(arr, obj);
+        }else{
+          arr = arr.filter(x => x.id !== obj.id);
+        }
+        setCarrinho(arr);
+        updateBar();
+      });
+
       resultados.appendChild(div);
     });
   }
 
-  busca.addEventListener("input",()=>{
+  function updateBar(){
+    const c=getCarrinho().length;
+    $('#dl-bar-selecao .count').textContent = `${c} selecionado(s)`;
+    $('#dl-enviar').disabled = c===0;
+  }
+
+  // barra: enviar / limpar
+  $('#dl-enviar').addEventListener('click', ()=> {
+    window.location.href = 'index.html#pesquisa';
+  });
+  $('#dl-limpar').addEventListener('click', ()=> {
+    localStorage.removeItem(KEY);
+    updateBar();
+    // também desmarca os checkboxes na tela
+    $$('.pick input', resultados).forEach(i=>{ i.checked=false; });
+  });
+
+  function filtrarRender(){
     const termo=busca.value.toLowerCase().trim();
-    if(!termo){resultados.innerHTML="";return;}
+    if(!termo){resultados.innerHTML="";$('#dl-bar-selecao').style.display='none';return;}
     const achados=baseDados.filter(x=>
-      x.texto && x.texto.toLowerCase().includes(termo)
+      (x.texto||'').toLowerCase().includes(termo)
     );
     renderizarResultados(achados);
-  });
+  }
+
+  busca.addEventListener("input",filtrarRender);
 })();
 </script>
 </body>
