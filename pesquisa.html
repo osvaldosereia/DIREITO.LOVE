@@ -38,7 +38,6 @@
     #busca{width:100%;padding:10px 12px;border:2px solid var(--primary);border-radius:8px;font-size:15px}
     .result{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
       padding:12px 14px;margin:12px 0;position:relative}
-    .result h3{margin:0 0 6px;color:var(--primary);font-size:14px}
     .result p{margin:0;font-size:13px;line-height:1.4}
     .actions{margin-top:8px;display:flex;justify-content:space-between;gap:8px}
     .btn{appearance:none;border:none;background:var(--highlight);color:#000;padding:6px 10px;border-radius:8px;
@@ -80,7 +79,8 @@
   const toast=(msg,t=1600)=>{const el=$("#toast");el.textContent=msg;el.classList.add("show");
     setTimeout(()=>el.classList.remove("show"),t);};
 
-  const arquivos=["data/cp.json","data/sumulas.json","data/jurisprudencia.json"];
+  // Agora só usa o JSON com id + texto
+  const arquivos=["data/codigo_penal_regra_rigida.json"];
 
   async function carregarDados(){
     const dados=[];
@@ -97,69 +97,62 @@
   carregarDados().then(d=>{baseDados=d;toast("Base carregada com sucesso!")});
 
   function renderizarResultados(lista){
-  resultados.innerHTML="";
-  if(!lista.length){
-    resultados.innerHTML="<p>Nenhum resultado encontrado.</p>";
-    return;
-  }
-
-  lista.forEach(item=>{
-    const div=document.createElement("div");
-    div.className="result";
-
-    // título
-    if(item.titulo){
-      const h3=document.createElement("h3");
-      h3.textContent=item.titulo;
-      div.appendChild(h3);
+    resultados.innerHTML="";
+    if(!lista.length){
+      resultados.innerHTML="<p>Nenhum resultado encontrado.</p>";
+      return;
     }
 
-    // texto resumido (máx. 200 caracteres)
-    const p=document.createElement("p");
-    let textoOriginal=item.texto;
-    if(textoOriginal.length>200){
-      p.textContent=textoOriginal.substring(0,200)+"...";
-    }else{
-      p.textContent=textoOriginal;
-    }
-    div.appendChild(p);
+    lista.forEach(item=>{
+      const div=document.createElement("div");
+      div.className="result";
 
-    // botões
-    const actions=document.createElement("div");
-    actions.className="actions";
-
-    const copiar=document.createElement("button");
-    copiar.textContent="Copiar";
-    copiar.className="btn";
-    copiar.addEventListener("click",async()=>{
-      try{
-        await navigator.clipboard.writeText(item.texto);
-        toast("Copiado!");
-      }catch{
-        toast("Erro ao copiar.");
+      // texto resumido (máx. 200 caracteres)
+      const p=document.createElement("p");
+      if(item.texto.length>200){
+        p.textContent=item.texto.substring(0,200)+"...";
+      }else{
+        p.textContent=item.texto;
       }
+      div.appendChild(p);
+
+      // botões
+      const actions=document.createElement("div");
+      actions.className="actions";
+
+      const copiar=document.createElement("button");
+      copiar.textContent="Copiar";
+      copiar.className="btn";
+      copiar.addEventListener("click",async()=>{
+        try{
+          await navigator.clipboard.writeText(item.texto);
+          toast("Copiado!");
+        }catch{
+          toast("Erro ao copiar.");
+        }
+      });
+
+      const usarTema=document.createElement("button");
+      usarTema.textContent="Usar Tema";
+      usarTema.className="btn-alt";
+      usarTema.addEventListener("click",()=>{
+        localStorage.setItem("temaSelecionado", item.texto);
+        window.location.href = "index.html";
+      });
+
+      actions.appendChild(copiar);
+      actions.appendChild(usarTema);
+
+      div.appendChild(actions);
+      resultados.appendChild(div);
     });
-
-    const usarTema=document.createElement("a");
-    usarTema.textContent="Usar Tema";
-    usarTema.className="btn-alt";
-    usarTema.href=`index.html?tema=${encodeURIComponent(item.titulo || item.texto.substring(0,80))}`;
-
-    actions.appendChild(copiar);
-    actions.appendChild(usarTema);
-
-    div.appendChild(actions);
-    resultados.appendChild(div);
-  });
-}
-
+  }
 
   busca.addEventListener("input",()=>{
     const termo=busca.value.toLowerCase().trim();
     if(!termo){resultados.innerHTML="";return;}
     const achados=baseDados.filter(x=>
-      (x.titulo && x.titulo.toLowerCase().includes(termo))||
-      (x.texto && x.texto.toLowerCase().includes(termo))
+      x.texto && x.texto.toLowerCase().includes(termo)
     );
     renderizarResultados(achados);
   });
