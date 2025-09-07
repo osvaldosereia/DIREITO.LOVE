@@ -32,7 +32,7 @@
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);color:var(--text);font:400 13px/1.4 var(--font);}
 
-    /* ===== TOPBAR (igual ao index) ===== */
+    /* ===== TOPBAR ===== */
     .topbar{
       position:sticky; top:0; z-index:100;
       background:var(--highlight);
@@ -47,7 +47,6 @@
     .topbar.is-scrolled .topbar__inner{ padding:8px 16px; }
     .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; color:#111; }
     .brand__logo{ height:26px; width:auto; display:block; }
-    .brand__name{ font:700 18px/1 var(--font); letter-spacing:.2px; }
     .topbar__actions{ display:flex; align-items:center; gap:8px; }
     .icon-btn{
       display:inline-grid; place-items:center;
@@ -68,7 +67,6 @@
     .pill-btn:hover{ background:#f6f6f6; transform:translateY(-1px); }
     .pill-btn.hidden{ display:none; }
     @media (max-width:640px){
-      .brand__name{ font-size:16px; }
       .topbar__inner{ padding:8px 12px; }
     }
 
@@ -81,9 +79,7 @@
     .result{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
       padding:12px 14px;margin:12px 0;position:relative}
     .result p{margin:0;font-size:13px;line-height:1.4}
-    .filetag{margin:0 0 6px 0;font-weight:700} /* mesma fonte/tamanho do texto, só bold */
-    .pick{display:flex;align-items:center;gap:6px;margin-bottom:8px;font-weight:500}
-    .pick input{width:16px;height:16px;cursor:pointer}
+    .filetag{margin:0 0 6px 0;font-weight:700}
 
     .actions{margin-top:8px;display:flex;justify-content:space-between;gap:8px}
     .btn{appearance:none;border:none;background:var(--highlight);color:#000;padding:6px 10px;border-radius:8px;
@@ -92,7 +88,6 @@
     .btn-alt{appearance:none;border:none;background:var(--primary);color:#fff;padding:6px 10px;border-radius:8px;
       font-size:13px;cursor:pointer;transition:.15s}
     .btn-alt:hover{background:#264399}
-    /* quando selecionado: verde */
     .btn-alt.is-selected{ background: var(--success); color:#fff; }
     .btn-alt.is-selected:hover{ filter:brightness(.95); }
 
@@ -100,28 +95,25 @@
       padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:60}
     .toast.show{opacity:1}
 
-    /* Barra flutuante de seleção — minimalista pra não atrapalhar */
+    /* Barra flutuante */
     #dl-bar-selecao{
       position:fixed; left:50%; transform:translateX(-50%);
       bottom:calc(12px + var(--safe-bottom)); z-index:9999; background:#111; color:#fff;
       padding:10px 12px; border-radius:12px; display:none; align-items:center; gap:8px;
       box-shadow:0 6px 20px rgba(0,0,0,.25); font: 500 14px/1.2 var(--font);
-      pointer-events:none; /* não intercepta cliques fora dos botões */
+      pointer-events:none;
     }
     #dl-bar-selecao button{
       border:0; padding:8px 12px; border-radius:10px; cursor:pointer; pointer-events:auto;
     }
-    /* cores diferentes na barra */
     #dl-bar-selecao #dl-enviar{ background: var(--primary); color:#fff; }
     #dl-bar-selecao #dl-enviar:hover{ background:#264399; }
     #dl-bar-selecao #dl-enviar:disabled{ opacity:.5; filter:grayscale(.3); }
     #dl-bar-selecao #dl-limpar{ background: var(--muted-btn); color:#111; }
     #dl-bar-selecao #dl-limpar:hover{ background:#d6dae1; }
 
-    /* Mobile */
     @media (max-width: 480px){
       .btn,.btn-alt{ padding:8px 12px; }
-      .pick{ gap:10px; }
     }
   </style>
 </head>
@@ -162,7 +154,7 @@
   </div>
 
 <script>
-/* ===== topbar.js (sombra no scroll + PWA install) ===== */
+/* ===== topbar.js ===== */
 (function(){
   const header = document.querySelector('.topbar');
   const installBtn = document.getElementById('btn-install');
@@ -199,6 +191,12 @@
   const toast=(msg,t=1600)=>{const el=$("#toast");el.textContent=msg;el.classList.add("show");
     setTimeout(()=>el.classList.remove("show"),t);};
 
+  // >>> Busca sem acento/ç
+  const norm = (s="") => s
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
+
   // Config
   const KEY='dl_pesquisa_selecionados';
   const arquivos = [
@@ -206,11 +204,10 @@
     "data/processo_penal.json",
     "data/sumula_stf.json",
     "data/sumulas_vinculantes_stf.json",
-   "data/sumula_stj.json",
-   "data/sumulas_tse.json",
-   "data/teses_stf.json",
-   "data/temas_repetitivos_stj.json",
-
+    "data/sumula_stj.json",
+    "data/sumulas_tse.json",
+    "data/teses_stf.json",
+    "data/temas_repetitivos_stj.json",
   ];
   const MAX_SNIPPET = 400;
 
@@ -224,17 +221,23 @@
     return arr;
   };
 
-  // Carregar dados com "fonte" (nome do arquivo sem .json)
+  // Carregar dados com "fonte" e texto normalizado
   async function carregarDados(){
     const dados=[];
     for(const arq of arquivos){
       try{
-        const tag = arq.split('/').pop().replace(/\.json$/,''); // ex: cpp
+        const tag = arq.split('/').pop().replace(/\.json$/,'');
         const r=await fetch(arq); if(!r.ok) continue;
         const j=await r.json();
         (Array.isArray(j)? j : []).forEach((it, idx)=>{
           const _id = it.id || `${tag}_${idx}`;
-          dados.push({ ...it, _id, fonte: tag });
+          const texto = (it.texto || '').trim();
+          dados.push({
+            ...it,
+            _id,
+            fonte: tag,
+            textoNorm: norm(texto)
+          });
         });
       }catch(e){ console.warn("Erro ao carregar",arq,e); }
     }
@@ -261,20 +264,12 @@
     const carrinho = getCarrinho();
 
     lista.forEach(item=>{
+      const selected = carrinho.some(x => x.id === (item.id||item._id));
+
       const div=document.createElement("div");
       div.className="result";
 
-      // checkbox seleção (topo)
-      const pick=document.createElement('label');
-      pick.className='pick';
-      const chk=document.createElement('input');
-      chk.type='checkbox';
-      chk.checked = carrinho.some(x => x.id === (item.id||item._id));
-      pick.appendChild(chk);
-      pick.appendChild(document.createTextNode('Selecionar'));
-      div.appendChild(pick);
-
-      // linha com fonte em negrito (mesmo tamanho do texto)
+      // fonte (em negrito)
       const fonteP = document.createElement('p');
       fonteP.className = 'filetag';
       fonteP.innerHTML = `<strong>${(item.fonte||'').trim()}</strong>`;
@@ -301,36 +296,35 @@
         }catch{ toast("Erro ao copiar."); }
       });
 
-      // Selecionar (botão que acompanha o estado do checkbox)
+      // Selecionar (único controle de seleção)
       const selBtn=document.createElement("button");
       selBtn.className="btn-alt";
-      const setSelLabel = ()=>{
-        selBtn.textContent = chk.checked ? "Selecionado" : "Selecionar";
-        selBtn.classList.toggle('is-selected', chk.checked); // muda cor quando selecionado
+      const syncBtn = (on)=> {
+        selBtn.textContent = on ? "Selecionado" : "Selecionar";
+        selBtn.classList.toggle('is-selected', on);
       };
-      setSelLabel();
+      syncBtn(selected);
+
       selBtn.addEventListener("click",()=>{
-        chk.checked = !chk.checked;
-        chk.dispatchEvent(new Event('change'));
+        let arr=getCarrinho();
+        const key = item.id||item._id;
+        const obj = { id: key, fonte:item.fonte, texto:item.texto };
+
+        const isIn = arr.some(x => x.id === key);
+        if (isIn){
+          arr = arr.filter(x => x.id !== key);
+          syncBtn(false);
+        }else{
+          arr = dedupPush(arr, obj);
+          syncBtn(true);
+        }
+        setCarrinho(arr);
+        updateBar();
       });
 
       actions.appendChild(copiar);
       actions.appendChild(selBtn);
       div.appendChild(actions);
-
-      // lógica do checkbox
-      chk.addEventListener('change',()=>{
-        let arr=getCarrinho();
-        const obj = { id: item.id||item._id, fonte:item.fonte, texto:item.texto };
-        if(chk.checked){
-          arr = dedupPush(arr, obj);
-        }else{
-          arr = arr.filter(x => x.id !== obj.id);
-        }
-        setCarrinho(arr);
-        setSelLabel();
-        updateBar();
-      });
 
       resultados.appendChild(div);
     });
@@ -346,8 +340,7 @@
   function toggleBar(show){
     const bar = $('#dl-bar-selecao');
     bar.style.display = show ? 'flex' : 'none';
-    // evita que a barra cubra o último item
-    document.querySelector('.wrap').style.paddingBottom = show ? `calc(var(--bar-h) + 16px + var(--safe-bottom))` : '22px';
+    wrap.style.paddingBottom = show ? `calc(var(--bar-h) + 16px + var(--safe-bottom))` : '22px';
   }
 
   // barra: enviar / limpar
@@ -357,14 +350,17 @@
   $('#dl-limpar').addEventListener('click', ()=> {
     localStorage.removeItem(KEY);
     updateBar();
-    $$('.pick input', resultados).forEach(i=>{ i.checked=false; });
+    // re-renderiza a lista atual para atualizar os botões
+    filtrarRender();
   });
 
+  // Filtro (ignora acentos/ç)
   function filtrarRender(){
-    const termo=busca.value.toLowerCase().trim();
+    const termo = busca.value.trim();
     if(!termo){resultados.innerHTML=""; toggleBar(false); return;}
-    const achados=baseDados.filter(x=>
-      (x.texto||'').toLowerCase().includes(termo)
+    const termoNorm = norm(termo);
+    const achados = baseDados.filter(x =>
+      (x.textoNorm || "").includes(termoNorm)
     );
     renderizarResultados(achados);
   }
