@@ -22,6 +22,8 @@
       --primary:#102A71; --highlight:#F5C400; --highlight-light:#FFDC5F;
       --radius:10px; --shadow:0 4px 16px rgba(0,0,0,.05);
       --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --bar-h: 64px; /* altura aprox. da barra */
     }
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);color:var(--text);font:400 13px/1.4 var(--font);}
@@ -32,7 +34,7 @@
     .nav-buttons{display:flex;gap:12px}
     .nav-buttons img{height:26px;width:26px;cursor:pointer;transition:transform .15s}
     .nav-buttons img:hover{transform:scale(1.1)}
-    .wrap{max-width:900px;margin:0 auto;padding:22px}
+    .wrap{max-width:900px;margin:0 auto;padding:22px; transition:padding-bottom .2s ease;}
     h2{margin:0 0 10px;color:var(--primary)}
     .search-box{margin:20px 0}
     #busca{width:100%;padding:10px 12px;border:2px solid var(--primary);border-radius:8px;font-size:15px}
@@ -56,17 +58,25 @@
       padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:60}
     .toast.show{opacity:1}
 
-    /* Barra flutuante de seleção */
+    /* Barra flutuante de seleção — minimalista pra não atrapalhar */
     #dl-bar-selecao{
       position:fixed; left:50%; transform:translateX(-50%);
-      bottom:16px; z-index:9999; background:#111; color:#fff;
-      padding:10px 14px; border-radius:12px; display:flex; align-items:center; gap:10px;
+      bottom:calc(12px + var(--safe-bottom)); z-index:9999; background:#111; color:#fff;
+      padding:10px 12px; border-radius:12px; display:none; align-items:center; gap:8px;
       box-shadow:0 6px 20px rgba(0,0,0,.25); font: 500 14px/1.2 var(--font);
+      pointer-events:none; /* não intercepta cliques fora dos botões */
     }
     #dl-bar-selecao button{
       border:0; padding:8px 12px; border-radius:10px; cursor:pointer; background:#fff; color:#111;
+      pointer-events:auto; /* os botões continuam clicáveis */
     }
     #dl-bar-selecao button:disabled{ opacity:.5; cursor:not-allowed; }
+
+    /* Mobile touch targets um pouquinho maiores */
+    @media (max-width: 480px){
+      .btn,.btn-alt{ padding:8px 12px; }
+      .pick{ gap:10px; }
+    }
   </style>
 </head>
 <body>
@@ -89,10 +99,9 @@
 
   <div id="toast" class="toast"></div>
 
-  <!-- Barra flutuante: seleção múltipla -->
-  <div id="dl-bar-selecao" style="display:none" aria-live="polite">
-    <span class="count">0 selecionado(s)</span>
-    <button id="dl-enviar" disabled>Enviar para o Index</button>
+  <!-- Barra flutuante: só 2 botões -->
+  <div id="dl-bar-selecao" aria-live="polite">
+    <button id="dl-enviar" disabled>Enviar</button>
     <button id="dl-limpar">Limpar</button>
   </div>
 
@@ -102,13 +111,14 @@
   const $$=(s,r=document)=>[...r.querySelectorAll(s)];
   const resultados=$("#resultados");
   const busca=$("#busca");
+  const wrap=$(".wrap");
   const toast=(msg,t=1600)=>{const el=$("#toast");el.textContent=msg;el.classList.add("show");
     setTimeout(()=>el.classList.remove("show"),t);};
 
   // === Config ===
   const KEY='dl_pesquisa_selecionados';
   const arquivos = [
-    "data/codigo_penal.json",
+    "data/cp.json",
     "data/cpp.json",
     "data/jurisprudencia.json",
     "data/cm.json"
@@ -119,7 +129,7 @@
   const setCarrinho = (arr)=>localStorage.setItem(KEY, JSON.stringify(arr));
   const dedupPush = (arr, item)=>{
     const k = item.id || item._id || (item.fonte+':'+(item.texto||'').slice(0,50));
-    if(!arr.some(x => (x.id && x.id===k))){
+    if(!arr.some(x => x.id === k)){
       arr.push({...item, id: k});
     }
     return arr;
@@ -146,7 +156,6 @@
   carregarDados().then(d=>{
     baseDados=d;
     toast("Base carregada com sucesso!");
-    // Se voltar com termo digitado (autocomplete do navegador)
     if(busca.value.trim()) filtrarRender();
   });
 
@@ -155,34 +164,34 @@
     resultados.innerHTML="";
     if(!lista.length){
       resultados.innerHTML="<p>Nenhum resultado encontrado.</p>";
+      toggleBar(false);
       return;
     }
+    toggleBar(true); // mostra barra (com Enviar desabilitado se nada marcado)
+
     const carrinho = getCarrinho();
-    $('#dl-bar-selecao').style.display = 'flex';
-    updateBar();
 
     lista.forEach(item=>{
       const div=document.createElement("div");
       div.className="result";
 
-      // checkbox seleção
+      // checkbox seleção (topo)
       const pick=document.createElement('label');
       pick.className='pick';
       const chk=document.createElement('input');
       chk.type='checkbox';
-      // estado inicial se já está no carrinho
       chk.checked = carrinho.some(x => x.id === (item.id||item._id));
       pick.appendChild(chk);
       pick.appendChild(document.createTextNode('Selecionar'));
       div.appendChild(pick);
 
-      // linha com fonte em negrito (mesmo tamanho da fonte do texto)
+      // linha com fonte em negrito (mesmo tamanho do texto)
       const fonteP = document.createElement('p');
       fonteP.className = 'filetag';
       fonteP.innerHTML = `<strong>${(item.fonte||'').trim()}</strong>`;
       div.appendChild(fonteP);
 
-      // texto (com snippet)
+      // texto (snippet)
       const p=document.createElement("p");
       const txt = (item.texto||'').trim();
       p.textContent = txt.length>MAX_SNIPPET ? (txt.substring(0,MAX_SNIPPET)+"...") : txt;
@@ -192,6 +201,7 @@
       const actions=document.createElement("div");
       actions.className="actions";
 
+      // Copiar
       const copiar=document.createElement("button");
       copiar.textContent="Copiar";
       copiar.className="btn";
@@ -199,23 +209,21 @@
         try{
           await navigator.clipboard.writeText(item.texto||'');
           toast("Copiado!");
-        }catch{
-          toast("Erro ao copiar.");
-        }
+        }catch{ toast("Erro ao copiar."); }
       });
 
-      const usarTema=document.createElement("button");
-      usarTema.textContent="Usar Tema";
-      usarTema.className="btn-alt";
-      usarTema.addEventListener("click",()=>{
-        // unifica fluxo: manda só este item pro index via carrinho
-        const obj = { id: item.id||item._id, fonte:item.fonte, texto:item.texto };
-        setCarrinho([obj]);
-        window.location.href = "index.html#pesquisa";
+      // Selecionar (em vez de "Usar Tema")
+      const selBtn=document.createElement("button");
+      selBtn.className="btn-alt";
+      const setSelLabel = ()=> selBtn.textContent = chk.checked ? "Selecionado" : "Selecionar";
+      setSelLabel();
+      selBtn.addEventListener("click",()=>{
+        chk.checked = !chk.checked;
+        chk.dispatchEvent(new Event('change'));
       });
 
       actions.appendChild(copiar);
-      actions.appendChild(usarTema);
+      actions.appendChild(selBtn);
       div.appendChild(actions);
 
       // lógica do checkbox
@@ -228,17 +236,26 @@
           arr = arr.filter(x => x.id !== obj.id);
         }
         setCarrinho(arr);
+        setSelLabel();
         updateBar();
       });
 
       resultados.appendChild(div);
     });
+
+    updateBar();
   }
 
   function updateBar(){
     const c=getCarrinho().length;
-    $('#dl-bar-selecao .count').textContent = `${c} selecionado(s)`;
     $('#dl-enviar').disabled = c===0;
+  }
+
+  function toggleBar(show){
+    const bar = $('#dl-bar-selecao');
+    bar.style.display = show ? 'flex' : 'none';
+    // evita que a barra cubra o último item
+    wrap.style.paddingBottom = show ? `calc(var(--bar-h) + 16px + var(--safe-bottom))` : '22px';
   }
 
   // barra: enviar / limpar
@@ -248,13 +265,12 @@
   $('#dl-limpar').addEventListener('click', ()=> {
     localStorage.removeItem(KEY);
     updateBar();
-    // também desmarca os checkboxes na tela
     $$('.pick input', resultados).forEach(i=>{ i.checked=false; });
   });
 
   function filtrarRender(){
     const termo=busca.value.toLowerCase().trim();
-    if(!termo){resultados.innerHTML="";$('#dl-bar-selecao').style.display='none';return;}
+    if(!termo){resultados.innerHTML=""; toggleBar(false); return;}
     const achados=baseDados.filter(x=>
       (x.texto||'').toLowerCase().includes(termo)
     );
