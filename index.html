@@ -21,38 +21,18 @@
 
   <style>
     :root{
-      --bg:#FFFDF0;
-      --surface:#ffffff;
-      --text:#001840;
-      --border:#e5e7eb;
-      --primary:#102A71;
-      --highlight:#F5C400;
-      --highlight-light:#FFDC5F;
-      --radius:10px;
-      --shadow:0 4px 16px rgba(0,0,0,.05);
-      --gap:16px;
-      --aside-width:420px;
-      --prompt-width:400px;
+      --bg:#FFFDF0; --surface:#ffffff; --text:#001840; --border:#e5e7eb;
+      --primary:#102A71; --highlight:#F5C400; --highlight-light:#FFDC5F;
+      --radius:10px; --shadow:0 4px 16px rgba(0,0,0,.05);
+      --gap:16px; --aside-width:420px; --prompt-width:400px;
       --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
     }
     *{box-sizing:border-box}
-    body{
-      margin:0; background:var(--bg); color:var(--text);
-      font:400 15px/1.3 var(--font); -webkit-font-smoothing:antialiased;
-    }
-    .topbar{
-      position:sticky; top:0; z-index:30;
-      background:var(--highlight); border-bottom:2px solid var(--primary);
-      display:flex; justify-content:space-between; align-items:center;
-      padding:4px 8%;
-    }
+    body{margin:0;background:var(--bg);color:var(--text);font:400 15px/1.3 var(--font);}
+    .topbar{position:sticky;top:0;z-index:30;background:var(--highlight);border-bottom:2px solid var(--primary);
+      display:flex;justify-content:space-between;align-items:center;padding:4px 8%;}
     .topbar .logo img{height:40px;width:auto}
-    .topbar .logo a{
-      display:inline-block;
-      text-decoration:none;
-      cursor:default; /* não parece clicável */
-      -webkit-tap-highlight-color: transparent; /* remove highlight no iOS */
-    }
+    .topbar .logo a{display:inline-block;text-decoration:none;cursor:default;-webkit-tap-highlight-color:transparent}
     .nav-buttons{display:flex;gap:12px}
     .nav-buttons img{height:26px;width:26px;cursor:pointer;transition:transform .15s}
     .nav-buttons img:hover{transform:scale(1.1)}
@@ -62,16 +42,8 @@
     .builder{padding:18px}
     .builder h2{margin:0 0 12px;font-size:20px;font-weight:700;color:var(--primary)}
     label[for=tema],.section-title{font-size:14px;color:var(--primary);margin:8px 0}
-    #tema{
-      width:100%;
-      border:2px solid var(--primary);
-      background:#fdfdfd;
-      color:var(--text);
-      padding:10px 12px;
-      border-radius:8px;
-      font-size:15px;
-      outline:none;
-    }
+    #tema{width:100%;border:2px solid var(--primary);background:#fdfdfd;color:var(--text);
+      padding:10px 12px;border-radius:8px;font-size:15px;outline:none;}
     #tema::placeholder{color:#9aa3af}
     .sessao-lista{display:grid;grid-template-columns:1fr;gap:4px;margin:10px 0;padding:0;list-style:none}
     @media(min-width:900px){.sessao-lista{grid-template-columns:1fr 1fr;column-gap:20px}}
@@ -86,7 +58,8 @@
     .aside{position:sticky;top:56px;padding:12px}
     .stack{max-width:var(--prompt-width);margin:0 auto}
     .ad .box{width:min(var(--prompt-width),100%);aspect-ratio:400/180;border:1px dashed var(--border);border-radius:10px;background:#fff;color:#999;display:flex;align-items:center;justify-content:center;font-size:13px}
-    textarea#saida{width:min(var(--prompt-width),100%);min-height:30vh;resize:vertical;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:#fff;color:#001840;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13.5px;display:block;margin:0 auto}
+    textarea#saida{width:min(var(--prompt-width),100%);min-height:30vh;resize:vertical;padding:10px 12px;border-radius:8px;border:1px solid var(--border);
+      background:#fff;color:#001840;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13.5px;display:block;margin:0 auto}
     .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:60}
     .toast.show{opacity:1}
     .info{margin-top:6px;font-size:12px;color:#666}
@@ -94,9 +67,7 @@
 </head>
 <body>
   <header class="topbar">
-    <div class="logo">
-      <a href="index.html"><img src="icons/logo.png" alt="direito.love"></a>
-    </div>
+    <div class="logo"><a href="index.html"><img src="icons/logo.png" alt="direito.love"></a></div>
     <nav class="nav-buttons">
       <a href="index.html" aria-label="Início"><img src="icons/inicio.png" alt="Início"></a>
       <a href="pesquisa.html" aria-label="Pesquisar"><img src="icons/pesquisar.png" alt="Pesquisar"></a>
@@ -158,44 +129,7 @@
   const $$=(s,r=document)=>[...r.querySelectorAll(s)];
   const toast=(msg,t=1600)=>{const el=$("#toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
 
-  const BASE_PROMPT=`Você deve assumir a persona de um professo de direito muito didático e dedicado. O professor é assessorado por especialistas em criação de apostilas para estudantes de direito e pesquisadores de súmulas e jurisprudências. Todos fazem parte da equipe **direito.love**.
-
-📌 Tema escolhido: [INSERIR TEMA AQUI]
-📌 Sessões a serem seguidas: [INSERIR AQUI A SEQUÊNCIA DE SESSÕES DEFINIDA PELO USUÁRIO]
-
----
-
-### Regras obrigatórias de escrita:
-
-1. **Seguir exatamente a sequência de sessões definida pelo usuário.**
-   - Nenhuma sessão pode ser omitida.
-   - Cada sessão deve ser aberta com um **título claro** e, se necessário, subtítulos.
-
-2. **Entrega por blocos:**
-   - Apresentar no máximo **3 sessões por vez**.
-   - Ao final de cada bloco, perguntar:
-     ➡️ “Deseja que eu continue para as próximas sessões?”
-   - Só prossiga após autorização.
-
-3. **Formatação:**
-   - Pular **duas linhas** antes de cada nova sessão.
-   - Usar uma **linha separadora (---)** para dividir os blocos.
-   - Estruturar o conteúdo em **parágrafos curtos e claros**.
-   - Quando houver quadro comparativo, **organizar em tabela textual simples**.
-   - Quando houver questões, numerá-las (1, 2, 3…) e apresentar alternativas (A, B, C, D, E), logo após incluir gabarito comentado.
-   - Base legal deve vir unicamente do Planalto Governo.
-   - Evite números de julgados; apresente apenas entendimentos.
-   - A busca deve ser feita na web.
-
-4. **Linguagem:**
-   - Clara, simples e didática, mas mantendo rigor jurídico.
-
----
-
-### Encerramento:
-Ao finalizar todas as sessões solicitadas, conclua sempre com:
-
-💚 direito.love`;
+  const BASE_PROMPT=`Você deve assumir a persona de um professo de direito muito didático e dedicado. ...`;
 
   const temaEl=$("#tema"),criarBtn=$("#criar"),limparBtn=$("#limpar"),saida=$("#saida"),copiar2=$("#copiar2"),novo2=$("#novo2");
 
@@ -225,27 +159,26 @@ Ao finalizar todas as sessões solicitadas, conclua sempre com:
   temaEl.addEventListener("keydown",e=>{if(e.key==="Enter"&&!criarBtn.disabled){e.preventDefault();criarBtn.click();}});
 })();
 
-// Esconde o bloco de anúncio se estiver vazio
-window.addEventListener("load", ()=>{
-  const adBox=document.getElementById("ad-box");
-  const adContainer=document.getElementById("ad-container");
-  if(adBox && adContainer){
-    if(!adBox.innerHTML.trim()){ // só esconde se estiver realmente vazio
-      adContainer.style.display="none";
-    }
+// Preenche o campo tema automaticamente
+document.addEventListener("DOMContentLoaded", () => {
+  const temaInput = document.getElementById("tema");
+
+  // Primeiro tenta pelo localStorage (vindo da pesquisa)
+  const temaSelecionado = localStorage.getItem("temaSelecionado");
+  if (temaSelecionado && temaInput) {
+    temaInput.value = temaSelecionado;
+    localStorage.removeItem("temaSelecionado");
+  }
+
+  // Fallback: query string (links antigos)
+  const params = new URLSearchParams(window.location.search);
+  const temaQuery = params.get("tema");
+  if (temaQuery && temaInput && !temaInput.value) {
+    temaInput.value = temaQuery;
   }
 });
-// Preenche o campo tema automaticamente se vier por query string
-const params = new URLSearchParams(window.location.search);
-const temaQuery = params.get("tema");
-if (temaQuery) {
-  document.addEventListener("DOMContentLoaded", () => {
-    const temaInput = document.getElementById("tema");
-    if (temaInput) temaInput.value = temaQuery;
-  });
-}
-
 </script>
+
 <script>
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("service-worker.js")
