@@ -185,6 +185,18 @@ if ("serviceWorker" in navigator) {
     .then(() => console.log("✅ Service Worker registrado"))
     .catch(err => console.warn("Erro SW:", err));
 }
+// 🔹 Preenche o campo "tema" se veio via URL (?tema=...)
+window.addEventListener("DOMContentLoaded", ()=>{
+  const params = new URLSearchParams(window.location.search);
+  const temaParam = params.get("tema");
+  if(temaParam){
+    temaEl.value = temaParam;
+    updateCTA(); // habilita o botão Criar Prompt
+    temaEl.focus();
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+});
+
 </script>
 
 </body>
