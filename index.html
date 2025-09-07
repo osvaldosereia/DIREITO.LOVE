@@ -235,6 +235,16 @@ window.addEventListener("load", ()=>{
     }
   }
 });
+// Preenche o campo tema automaticamente se vier por query string
+const params = new URLSearchParams(window.location.search);
+const temaQuery = params.get("tema");
+if (temaQuery) {
+  document.addEventListener("DOMContentLoaded", () => {
+    const temaInput = document.getElementById("tema");
+    if (temaInput) temaInput.value = temaQuery;
+  });
+}
+
 </script>
 <script>
 if ("serviceWorker" in navigator) {
