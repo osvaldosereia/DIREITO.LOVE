@@ -24,6 +24,8 @@
       --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
       --safe-bottom: env(safe-area-inset-bottom, 0px);
       --bar-h: 64px; /* altura aprox. da barra */
+      --success:#16a34a;           /* verde sucesso (Selecionado) */
+      --muted-btn:#e5e7eb;         /* cinza do botão Limpar */
     }
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);color:var(--text);font:400 13px/1.4 var(--font);}
@@ -53,6 +55,9 @@
     .btn-alt{appearance:none;border:none;background:var(--primary);color:#fff;padding:6px 10px;border-radius:8px;
       font-size:13px;cursor:pointer;transition:.15s}
     .btn-alt:hover{background:#264399}
+    /* quando selecionado: verde */
+    .btn-alt.is-selected{ background: var(--success); color:#fff; }
+    .btn-alt.is-selected:hover{ filter:brightness(.95); }
 
     .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;
       padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:60}
@@ -67,10 +72,18 @@
       pointer-events:none; /* não intercepta cliques fora dos botões */
     }
     #dl-bar-selecao button{
-      border:0; padding:8px 12px; border-radius:10px; cursor:pointer; background:#fff; color:#111;
-      pointer-events:auto; /* os botões continuam clicáveis */
+      border:0; padding:8px 12px; border-radius:10px; cursor:pointer; pointer-events:auto;
     }
-    #dl-bar-selecao button:disabled{ opacity:.5; cursor:not-allowed; }
+    /* cores diferentes na barra */
+    #dl-bar-selecao #dl-enviar{
+      background: var(--primary); color:#fff;
+    }
+    #dl-bar-selecao #dl-enviar:hover{ background:#264399; }
+    #dl-bar-selecao #dl-enviar:disabled{ opacity:.5; filter:grayscale(.3); }
+    #dl-bar-selecao #dl-limpar{
+      background: var(--muted-btn); color:#111;
+    }
+    #dl-bar-selecao #dl-limpar:hover{ background:#d6dae1; }
 
     /* Mobile touch targets um pouquinho maiores */
     @media (max-width: 480px){
@@ -212,10 +225,13 @@
         }catch{ toast("Erro ao copiar."); }
       });
 
-      // Selecionar (em vez de "Usar Tema")
+      // Selecionar (botão que acompanha o estado do checkbox)
       const selBtn=document.createElement("button");
       selBtn.className="btn-alt";
-      const setSelLabel = ()=> selBtn.textContent = chk.checked ? "Selecionado" : "Selecionar";
+      const setSelLabel = ()=>{
+        selBtn.textContent = chk.checked ? "Selecionado" : "Selecionar";
+        selBtn.classList.toggle('is-selected', chk.checked); // muda cor quando selecionado
+      };
       setSelLabel();
       selBtn.addEventListener("click",()=>{
         chk.checked = !chk.checked;
