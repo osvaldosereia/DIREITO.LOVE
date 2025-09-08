@@ -139,25 +139,21 @@
 
   // ------------------------ Normalização ------------------------
   const norm=(s="")=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-  // Mapeia o texto para uma forma "jurídica" neutra (art, paragrafo, inciso, alinea etc.)
   function normalizeLegal(s){
     let t=norm(s);
-    // símbolos/abreviações → termos
     t=t.replace(/§+/g,' paragrafo ');
     t=t.replace(/\bpar\.?\b/g,' paragrafo ');
     t=t.replace(/\bart\.?\b|\bartigo\b/g,' art ');
     t=t.replace(/\binc\.?\b/g,' inciso ');
     t=t.replace(/\bal\.?\b/g,' alinea ');
-    t=t.replace(/\bunico\b/g,' unico '); // (norm já tirou acento)
-    // remove "º/ª" ou "o/a" pós-número: 1º, 2o, 3a → 1,2,3
+    t=t.replace(/\bunico\b/g,' unico ');
     t=t.replace(/(\d+)\s*[ºªoa]\b/g,'$1');
-    // limpa aspas/parênteses e espaços duplicados
     t=t.replace(/["'()]/g,' ').replace(/\s+/g,' ').trim();
     return t;
   }
   const STOP=new Set(['de','da','do','das','dos','e','ou','a','o','as','os','no','na','nos','nas','para','por','em','um','uma','ao','à','que','com','sem','sobre','entre','ate']);
 
-  // Palavra inteira (sem “dastro”→“cadastro”)
+  // Palavra inteira
   const esc=(s)=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   function hasWhole(hay, word){
     if(!word) return true;
@@ -165,17 +161,13 @@
     return re.test(hay);
   }
   function hasAllWords(hay, words){ for(const w of words){ if(!hasWhole(hay,w)) return false; } return true; }
-
-  // Romanos (I, II, III, IV...) → minúsculo (ii, iv…)
   const romanLower=(s='')=>String(s).replace(/[^ivxlcdm]/gi,'').toLowerCase();
 
   // ------------------------ Parser de consulta jurídica ------------------------
-  // Suporta: Art 150 CP | Art. 150 § 1º, II, a, CP | Artigo 150 do Código Penal | caput | etc.
   function parseLegalQuery(raw){
-    const base = normalizeLegal(raw);          // texto já 'juridificado'
+    const base = normalizeLegal(raw);
     const padded = ` ${base} `;
 
-    // Mapa de códigos (alias)
     const alias=[
       {re:/\b(cp|codigo penal)\b/, fonte:'codigo_penal'},
       {re:/\b(cpp|codigo de processo penal)\b/, fonte:'codigo_processo_penal'},
@@ -188,34 +180,17 @@
     let fonteFilter=null;
     for(const a of alias){ if(a.re.test(padded)){ fonteFilter=a.fonte; break; } }
 
-    // Artigo
-    let artNum=null;
-    { const m=padded.match(/\bart\s*([0-9][0-9a-z\-]*)\b/); if(m) artNum=m[1]; }
-
-    // Parágrafo
-    let paragrafo=null;
-    { const m=padded.match(/\bparagrafo\s*(unico|\d+)\b/); if(m) paragrafo=m[1]; }
-
-    // Inciso (romano)
-    let inciso=null;
-    { const m=padded.match(/\binciso\s*([ivxlcdm]+)\b/); if(m) inciso=romanLower(m[1]); }
-
-    // Alínea (letra)
-    let alinea=null;
-    { const m=padded.match(/\balinea\s*([a-z])\b/); if(m) alinea=m[1].toLowerCase(); }
-
+    let artNum=null; { const m=padded.match(/\bart\s*([0-9][0-9a-z\-]*)\b/); if(m) artNum=m[1]; }
+    let paragrafo=null; { const m=padded.match(/\bparagrafo\s*(unico|\d+)\b/); if(m) paragrafo=m[1]; }
+    let inciso=null; { const m=padded.match(/\binciso\s*([ivxlcdm]+)\b/); if(m) inciso=romanLower(m[1]); }
+    let alinea=null; { const m=padded.match(/\balinea\s*([a-z])\b/); if(m) alinea=m[1].toLowerCase(); }
     const caput = /\bcaput\b/.test(padded);
 
-    // Tokens gerais (sem stopwords) a partir da forma jurídica neutra
     let tokens = base.split(' ').filter(Boolean).filter(t=>!STOP.has(t));
-
-    // Remove termos do nome do código se fonte conhecida (evita "codigo", "penal", etc. pesarem)
     if(fonteFilter){
       const drop=new Set(['cp','cpp','cc','cpc','ctn','cdc','ctb','codigo','penal','processo','civil','defesa','consumidor','tributario','nacional','transito','brasileiro','do','da','de']);
       tokens=tokens.filter(t=>!drop.has(t));
     }
-
-    // Garante presença dos marcadores estruturais
     const out=new Set(tokens);
     if(artNum){ out.add('art'); out.add(String(artNum)); }
     if(paragrafo){ out.add('paragrafo'); out.add(String(paragrafo)); }
@@ -287,7 +262,7 @@
           dados.push({
             ...it, _id, fonte:tag,
             textoNorm: norm(texto),
-            textoLegal: normalizeLegal(texto) // versão "jurídica" p/ busca estruturada
+            textoLegal: normalizeLegal(texto)
           });
         });
       }catch(e){ console.warn('Erro ao carregar',arq,e); }
@@ -314,9 +289,13 @@
   }
   window.addEventListener('resize', ajustarSnapOffset);
 
-  // ------------------------ Renderização ------------------------
-  let baseDados=[], lastResults=[], pageIndex=0, firstByFonte={};
+  // ------------------------ Estado (UMA SÓ declaração) ------------------------
+  let baseDados = [];
+  let lastResults = [];
+  let pageIndex = 0;
+  let firstByFonte = {};
 
+  // ------------------------ Renderização ------------------------
   function renderMiniRelatorio(results){
     const contagem=results.reduce((acc,it)=>{const f=normalizarFonte(it.fonte); acc[f]=(acc[f]||0)+1; return acc;}, {});
     miniRelatorio.innerHTML='';
@@ -382,7 +361,6 @@
   function toggleBar(show){ const bar=$('#dl-bar-selecao'); bar.style.display=show?'flex':'none'; wrap.style.paddingBottom=show?`calc(var(--bar-h) + 16px + var(--safe-bottom))`:'22px'; }
 
   // ------------------------ Busca ------------------------
-  let firstByFonte={};
   async function executarBusca(){
     const termoRaw=busca.value.trim();
     resultados.innerHTML=''; moreWrap.style.display='none'; pageIndex=0;
@@ -399,11 +377,11 @@
         if(!fonteOkUI) return false;
         if(fonteFilter && fNorm!==fonteFilter) return false;
 
-        const hay = x.textoLegal || x.textoNorm; // busca na forma jurídica
+        const hay = x.textoLegal || x.textoNorm;
         return hasAllWords(hay, words);
       });
 
-      firstByFonte={};
+      firstByFonte = {}; // <-- apenas reatribui, sem let
       for(let i=0;i<lastResults.length;i++){ const f=normalizarFonte(lastResults[i].fonte); if(firstByFonte[f]===undefined) firstByFonte[f]=i; }
 
       if(!lastResults.length){
@@ -425,21 +403,7 @@
     [...$$('.btn-alt', resultados)].forEach(b=>{ if(b.textContent==='Selecionado') b.textContent='Selecionar'; });
   });
 
-  function popularFiltroOnce(){
-    filtroSelect.innerHTML='';
-    filtroSelect.add(new Option('Todas as fontes','todas',true,true));
-    filtroSelect.add(new Option('Notícias (todas)','noticias',false,false));
-    const vistos=new Set();
-    for(const arq of arquivos){
-      const tag=arq.split('/').pop().replace(/\.json$/,'');
-      if(tag.startsWith('noticias')) continue;
-      if(vistos.has(tag)) continue; vistos.add(tag);
-      filtroSelect.add(new Option(nomesAmigaveis[tag]||tag, tag));
-    }
-  }
-  popularFiltroOnce();
-
-  let baseDados=[];
+  popularFiltro();
   carregarDados().then(d=>{ baseDados=d; toast('Base carregada com sucesso!'); });
 
 })();
