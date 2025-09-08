@@ -132,18 +132,118 @@
 (function(){
   const $=(s,r=document)=>r.querySelector(s);
   const $$=(s,r=document)=>[...r.querySelectorAll(s)];
-  const resultados=$("#resultados");
-  const busca=$("#busca");
-  const btnBuscar=$("#btnBuscar");
-  const btnMais=$("#btnMais");
-  const moreWrap=$(".more-wrap");
-  const wrap=$(".wrap");
-  const miniRelatorio=$("#miniRelatorio");
-  const filtroSelect=$("#filtroFonte");
-  const toast=(msg,t=1600)=>{const el=$("#toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
-  const norm=(s="")=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  const resultados=$("#resultados"), busca=$("#busca"), btnBuscar=$("#btnBuscar");
+  const btnMais=$("#btnMais"), moreWrap=$(".more-wrap"), wrap=$(".wrap");
+  const miniRelatorio=$("#miniRelatorio"), filtroSelect=$("#filtroFonte");
+  const toast=(m,t=1600)=>{const el=$("#toast");el.textContent=m;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
 
-  const arquivos = [
+  // ------------------------ Normalização ------------------------
+  const norm=(s="")=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  // Mapeia o texto para uma forma "jurídica" neutra (art, paragrafo, inciso, alinea etc.)
+  function normalizeLegal(s){
+    let t=norm(s);
+    // símbolos/abreviações → termos
+    t=t.replace(/§+/g,' paragrafo ');
+    t=t.replace(/\bpar\.?\b/g,' paragrafo ');
+    t=t.replace(/\bart\.?\b|\bartigo\b/g,' art ');
+    t=t.replace(/\binc\.?\b/g,' inciso ');
+    t=t.replace(/\bal\.?\b/g,' alinea ');
+    t=t.replace(/\bunico\b/g,' unico '); // (norm já tirou acento)
+    // remove "º/ª" ou "o/a" pós-número: 1º, 2o, 3a → 1,2,3
+    t=t.replace(/(\d+)\s*[ºªoa]\b/g,'$1');
+    // limpa aspas/parênteses e espaços duplicados
+    t=t.replace(/["'()]/g,' ').replace(/\s+/g,' ').trim();
+    return t;
+  }
+  const STOP=new Set(['de','da','do','das','dos','e','ou','a','o','as','os','no','na','nos','nas','para','por','em','um','uma','ao','à','que','com','sem','sobre','entre','ate']);
+
+  // Palavra inteira (sem “dastro”→“cadastro”)
+  const esc=(s)=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  function hasWhole(hay, word){
+    if(!word) return true;
+    const re=new RegExp(`(^|[^a-z0-9])${esc(word)}([^a-z0-9]|$)`,'i');
+    return re.test(hay);
+  }
+  function hasAllWords(hay, words){ for(const w of words){ if(!hasWhole(hay,w)) return false; } return true; }
+
+  // Romanos (I, II, III, IV...) → minúsculo (ii, iv…)
+  const romanLower=(s='')=>String(s).replace(/[^ivxlcdm]/gi,'').toLowerCase();
+
+  // ------------------------ Parser de consulta jurídica ------------------------
+  // Suporta: Art 150 CP | Art. 150 § 1º, II, a, CP | Artigo 150 do Código Penal | caput | etc.
+  function parseLegalQuery(raw){
+    const base = normalizeLegal(raw);          // texto já 'juridificado'
+    const padded = ` ${base} `;
+
+    // Mapa de códigos (alias)
+    const alias=[
+      {re:/\b(cp|codigo penal)\b/, fonte:'codigo_penal'},
+      {re:/\b(cpp|codigo de processo penal)\b/, fonte:'codigo_processo_penal'},
+      {re:/\b(cc|codigo civil)\b/, fonte:'codigo_civil'},
+      {re:/\b(cpc|codigo de processo civil)\b/, fonte:'codigo_processo_civil'},
+      {re:/\b(ctn|codigo tributario nacional)\b/, fonte:'codigo_tributario_nacional'},
+      {re:/\b(cdc|codigo de defesa do consumidor)\b/, fonte:'codigo_defesa_consumidor'},
+      {re:/\b(ctb|codigo de transito brasileiro)\b/, fonte:'codigo_transito_brasileiro'}
+    ];
+    let fonteFilter=null;
+    for(const a of alias){ if(a.re.test(padded)){ fonteFilter=a.fonte; break; } }
+
+    // Artigo
+    let artNum=null;
+    { const m=padded.match(/\bart\s*([0-9][0-9a-z\-]*)\b/); if(m) artNum=m[1]; }
+
+    // Parágrafo
+    let paragrafo=null;
+    { const m=padded.match(/\bparagrafo\s*(unico|\d+)\b/); if(m) paragrafo=m[1]; }
+
+    // Inciso (romano)
+    let inciso=null;
+    { const m=padded.match(/\binciso\s*([ivxlcdm]+)\b/); if(m) inciso=romanLower(m[1]); }
+
+    // Alínea (letra)
+    let alinea=null;
+    { const m=padded.match(/\balinea\s*([a-z])\b/); if(m) alinea=m[1].toLowerCase(); }
+
+    const caput = /\bcaput\b/.test(padded);
+
+    // Tokens gerais (sem stopwords) a partir da forma jurídica neutra
+    let tokens = base.split(' ').filter(Boolean).filter(t=>!STOP.has(t));
+
+    // Remove termos do nome do código se fonte conhecida (evita "codigo", "penal", etc. pesarem)
+    if(fonteFilter){
+      const drop=new Set(['cp','cpp','cc','cpc','ctn','cdc','ctb','codigo','penal','processo','civil','defesa','consumidor','tributario','nacional','transito','brasileiro','do','da','de']);
+      tokens=tokens.filter(t=>!drop.has(t));
+    }
+
+    // Garante presença dos marcadores estruturais
+    const out=new Set(tokens);
+    if(artNum){ out.add('art'); out.add(String(artNum)); }
+    if(paragrafo){ out.add('paragrafo'); out.add(String(paragrafo)); }
+    if(inciso){ out.add('inciso'); out.add(inciso); }
+    if(alinea){ out.add('alinea'); out.add(alinea); }
+    if(caput){ out.add('caput'); }
+
+    return { words:[...out], fonteFilter };
+  }
+
+  // ------------------------ Dados & Fontes ------------------------
+  const MAX_SNIPPET=400, PAGE_SIZE=10;
+  const nomesAmigaveis={
+    noticias:'Notícias',
+    noticias_migalhas_1:'Notícias Migalhas',
+    noticias_migalhas_2:'Notícias Migalhas',
+    noticias_migalhas_3:'Notícias Migalhas',
+    sumula_stf:'Súmulas STF', sumulas_stj:'Súmulas STJ', sumulas_tse:'Súmulas TSE',
+    sumulas_vinculantes_stf:'Súmulas Vinculantes STF', temas_repetitivos_stj:'Temas Repetitivos STJ', teses_stf:'Teses STF',
+    codigo_tributario_nacional:'Código Tributário Nacional', codigo_penal:'Código Penal',
+    codigo_civil:'Código Civil', codigo_processo_penal:'Código de Processo Penal', codigo_processo_civil:'Código de Processo Civil',
+    julgados_direito_administrativo:'Julgados de Direito Administrativo', julgados_direito_ambiental:'Julgados de Direito Ambiental',
+    julgados_direito_bancario:'Julgados de Direito Bancário', julgados_direito_civil:'Julgados de Direito Civil',
+    julgados_direito_constitucional:'Julgados de Direito Constitucional', julgados_direito_eleitoral:'Julgados de Direito Eleitoral',
+    julgados_direito_empresarial:'Julgados de Direito Empresarial', codigo_defesa_consumidor:'Código de Defesa do Consumidor',
+    codigo_transito_brasileiro:'Código de Trânsito Brasileiro'
+  };
+  const arquivos=[
     "data/julgados_direito_administrativo.json",
     "data/julgados_direito_ambiental.json",
     "data/julgados_direito_bancario.json",
@@ -166,292 +266,182 @@
     "data/codigo_civil.json",
     "data/codigo_tributario_nacional.json",
     "data/codigo_defesa_consumidor.json",
-    "data/codigo_transito_brasileiro.json",
-    "data/codigo_eleitoral.json",
-    "data/codigo_florestal.json"
+    "data/codigo_transito_brasileiro.json"
   ];
-
-  const nomesAmigaveis = {
-    "noticias": "Notícias",
-    "noticias_migalhas_1": "Notícias Migalhas",
-    "noticias_migalhas_2": "Notícias Migalhas",
-    "noticias_migalhas_3": "Notícias Migalhas",
-    "sumula_stf": "Súmulas STF",
-    "sumulas_stj": "Súmulas STJ",
-    "sumulas_tse": "Súmulas TSE",
-    "sumulas_vinculantes_stf": "Súmulas Vinculantes STF",
-    "temas_repetitivos_stj": "Temas Repetitivos STJ",
-    "teses_stf": "Teses STF",
-    "codigo_tributario_nacional": "Código Tributário Nacional",
-    "codigo_penal": "Código Penal",
-    "codigo_civil": "Código Civil",
-    "codigo_processo_penal": "Código de Processo Penal",
-    "codigo_processo_civil": "Código de Processo Civil",
-    "julgados_direito_administrativo": "Julgados de Direito Administrativo",
-    "julgados_direito_ambiental": "Julgados de Direito Ambiental",
-    "julgados_direito_bancario": "Julgados de Direito Bancário",
-    "julgados_direito_civil": "Julgados de Direito Civil",
-    "julgados_direito_constitucional": "Julgados de Direito Constitucional",
-    "julgados_direito_eleitoral": "Julgados de Direito Eleitoral",
-    "julgados_direito_empresarial": "Julgados de Direito Empresarial",
-    "codigo_defesa_consumidor": "Código de Defesa do Consumidor",
-    "codigo_transito_brasileiro": "Código de Trânsito Brasileiro",
-    "codigo_eleitoral": "Código Eleitoral",
-    "codigo_florestal": "Código Florestal"
-  };
-
   const KEY='dl_pesquisa_selecionados';
-  const MAX_SNIPPET = 400;
-  const PAGE_SIZE = 10;
-
-  const getCarrinho = ()=>JSON.parse(localStorage.getItem(KEY)||'[]');
-  const setCarrinho = (arr)=>localStorage.setItem(KEY, JSON.stringify(arr));
-  const dedupPush = (arr, item)=>{
-    const k = item.id || item._id || (item.fonte+':'+(item.texto||'').slice(0,50));
-    if(!arr.some(x => x.id === k)){ arr.push({...item, id: k}); }
-    return arr;
-  };
-
-  const normalizarFonte = (f)=> f && f.startsWith('noticias') ? 'noticias' : f;
-
-  function popularFiltro(){
-    filtroSelect.innerHTML = '';
-    const optTodas = new Option('Todas as fontes', 'todas', true, true);
-    filtroSelect.add(optTodas);
-    const optNoticias = new Option('Notícias (todas)', 'noticias', false, false);
-    filtroSelect.add(optNoticias);
-    const vistos = new Set();
-    for(const arq of arquivos){
-      const tag = arq.split('/').pop().replace(/\.json$/,'');
-      if(tag.startsWith('noticias')) continue;
-      if(vistos.has(tag)) continue;
-      vistos.add(tag);
-      const label = nomesAmigaveis[tag] || tag;
-      filtroSelect.add(new Option(label, tag, false, false));
-    }
-  }
+  const getCarrinho=()=>JSON.parse(localStorage.getItem(KEY)||'[]');
+  const setCarrinho=(a)=>localStorage.setItem(KEY, JSON.stringify(a));
+  const dedupPush=(arr,item)=>{ const k=item.id||item._id||(item.fonte+':'+(item.texto||'').slice(0,50)); if(!arr.some(x=>x.id===k)) arr.push({...item,id:k}); return arr; };
+  const normalizarFonte=(f)=> f&&f.startsWith('noticias') ? 'noticias' : f;
 
   async function carregarDados(){
     const dados=[];
     for(const arq of arquivos){
       try{
-        const tag = arq.split('/').pop().replace(/\.json$/,'');
+        const tag=arq.split('/').pop().replace(/\.json$/,'');
         const r=await fetch(arq); if(!r.ok) continue;
         const j=await r.json();
-        (Array.isArray(j)? j : []).forEach((it, idx)=>{
-          const _id   = it.id || `${tag}_${idx}`;
-          const texto = (it.texto || '').trim();
-          dados.push({ ...it, _id, fonte: tag, textoNorm: norm(texto) });
+        (Array.isArray(j)?j:[]).forEach((it,idx)=>{
+          const _id=it.id||`${tag}_${idx}`;
+          const texto=(it.texto||'').trim();
+          dados.push({
+            ...it, _id, fonte:tag,
+            textoNorm: norm(texto),
+            textoLegal: normalizeLegal(texto) // versão "jurídica" p/ busca estruturada
+          });
         });
-      }catch(e){ console.warn("Erro ao carregar",arq,e); }
+      }catch(e){ console.warn('Erro ao carregar',arq,e); }
     }
     return dados;
   }
 
-  let baseDados=[]; let lastResults=[]; let pageIndex=0; let firstByFonte={};
-
+  // ------------------------ UI auxiliares ------------------------
+  function popularFiltro(){
+    filtroSelect.innerHTML='';
+    filtroSelect.add(new Option('Todas as fontes','todas',true,true));
+    filtroSelect.add(new Option('Notícias (todas)','noticias',false,false));
+    const vistos=new Set();
+    for(const arq of arquivos){
+      const tag=arq.split('/').pop().replace(/\.json$/,'');
+      if(tag.startsWith('noticias')) continue;
+      if(vistos.has(tag)) continue; vistos.add(tag);
+      filtroSelect.add(new Option(nomesAmigaveis[tag]||tag, tag));
+    }
+  }
   function ajustarSnapOffset(){
-    const top = document.querySelector('.topbar');
-    const off = (top?.offsetHeight || 0) + (miniRelatorio?.offsetHeight || 0) + 8;
+    const top=$('.topbar'); const off=(top?.offsetHeight||0)+(miniRelatorio?.offsetHeight||0)+8;
     document.documentElement.style.setProperty('--snap-offset', off+'px');
   }
   window.addEventListener('resize', ajustarSnapOffset);
 
-  popularFiltro();
-  carregarDados().then(d=>{ baseDados=d; toast("Base carregada com sucesso!"); });
+  // ------------------------ Renderização ------------------------
+  let baseDados=[], lastResults=[], pageIndex=0, firstByFonte={};
 
   function renderMiniRelatorio(results){
-    const contagem = results.reduce((acc, it)=>{
-      const f = normalizarFonte(it.fonte);
-      acc[f] = (acc[f]||0) + 1;
-      return acc;
-    }, {});
-    miniRelatorio.innerHTML = '';
-    const goto = document.createElement('select');
-    goto.id = 'gotoFonte';
-    const placeholder = new Option('Ir para…', '', true, true);
-    placeholder.disabled = true;
-    goto.add(placeholder);
-    const fontes = Object.keys(contagem).sort((a,b)=>{
-      const la=(nomesAmigaveis[a]||a).toLowerCase();
-      const lb=(nomesAmigaveis[b]||b).toLowerCase();
-      return la.localeCompare(lb);
-    });
-    for(const f of fontes){
-      const label = (nomesAmigaveis[f] || f);
-      goto.add(new Option(`${label} — ${contagem[f]}`, f));
-    }
-    goto.addEventListener('change', ()=>{
-      const f = goto.value;
-      if(!f) return;
-      const idx = firstByFonte[f];
-      if(idx !== undefined){
-        const neededBatches = Math.floor(idx / PAGE_SIZE) + 1;
-        while(pageIndex < neededBatches){ renderBatch(true); }
-      }
-      ajustarSnapOffset();
-      const primeiro = document.querySelector(`.result[data-fonte="${f}"]`);
-      if(primeiro) primeiro.scrollIntoView({behavior:'smooth', block:'start'});
-      goto.selectedIndex = 0;
+    const contagem=results.reduce((acc,it)=>{const f=normalizarFonte(it.fonte); acc[f]=(acc[f]||0)+1; return acc;}, {});
+    miniRelatorio.innerHTML='';
+    const goto=document.createElement('select'); goto.id='gotoFonte';
+    const ph=new Option('Ir para…','',true,true); ph.disabled=true; goto.add(ph);
+    Object.keys(contagem).sort((a,b)=>( (nomesAmigaveis[a]||a).localeCompare(nomesAmigaveis[b]||b) ))
+      .forEach(f=> goto.add(new Option(`${nomesAmigaveis[f]||f} — ${contagem[f]}`, f)) );
+    goto.addEventListener('change',()=>{
+      const f=goto.value; if(!f) return;
+      const idx=firstByFonte[f]; if(idx!==undefined){ const need=Math.floor(idx/PAGE_SIZE)+1; while(pageIndex<need){ renderBatch(true); } }
+      ajustarSnapOffset(); document.querySelector(`.result[data-fonte="${f}"]`)?.scrollIntoView({behavior:'smooth',block:'start'});
+      goto.selectedIndex=0;
     });
     miniRelatorio.appendChild(goto);
-    miniRelatorio.style.display = 'flex';
+    miniRelatorio.style.display='flex';
     ajustarSnapOffset();
   }
 
   function renderBatch(append=false){
-    const carrinho = getCarrinho();
-    const start = pageIndex*PAGE_SIZE;
-    const end = Math.min(lastResults.length, start+PAGE_SIZE);
-    if(!append){ resultados.innerHTML=""; }
+    const start=pageIndex*PAGE_SIZE, end=Math.min(lastResults.length,start+PAGE_SIZE);
+    if(!append) resultados.innerHTML='';
+    const carrinho=getCarrinho();
     for(let i=start;i<end;i++){
-      const item = lastResults[i];
-      const fNorm = normalizarFonte(item.fonte);
+      const item=lastResults[i], fNorm=normalizarFonte(item.fonte);
+      const div=document.createElement('div'); div.className='result'; div.setAttribute('data-fonte', fNorm);
 
-      const div=document.createElement("div");
-      div.className="result";
-      div.setAttribute('data-fonte', fNorm);
-
-      const fonteP=document.createElement('p');
-      fonteP.className='filetag';
-      const nomeBonito = nomesAmigaveis[fNorm] || nomesAmigaveis[item.fonte] || item.fonte;
-      fonteP.innerHTML=`<strong>${nomeBonito}</strong>`;
+      const fonteP=document.createElement('p'); fonteP.className='filetag';
+      fonteP.innerHTML=`<strong>${nomesAmigaveis[fNorm]||nomesAmigaveis[item.fonte]||item.fonte}</strong>`;
       div.appendChild(fonteP);
 
-      const p=document.createElement("p");
-      const txt=(item.texto||'').trim();
-
-      const isLong = txt.length > MAX_SNIPPET;
-      p.textContent = isLong ? (txt.substring(0, MAX_SNIPPET) + "…") : txt;
-      div.appendChild(p);
-
-      if (isLong) {
-        const toggle = document.createElement("button");
-        toggle.type = "button";
-        toggle.className = "toggle-more";
-        toggle.textContent = "Ver mais";
-        toggle.setAttribute("data-expanded","0");
-        toggle.addEventListener("click", () => {
-          const expanded = toggle.getAttribute("data-expanded") === "1";
-          if (expanded) {
-            p.textContent = txt.substring(0, MAX_SNIPPET) + "…";
-            toggle.textContent = "Ver mais";
-            toggle.setAttribute("data-expanded","0");
-          } else {
-            p.textContent = txt;
-            toggle.textContent = "Ver menos";
-            toggle.setAttribute("data-expanded","1");
-          }
-        });
-        p.after(toggle);
+      const p=document.createElement('p'); const txt=(item.texto||'').trim();
+      const isLong=txt.length>MAX_SNIPPET; p.textContent=isLong?txt.substring(0,MAX_SNIPPET)+'…':txt; div.appendChild(p);
+      if(isLong){
+        const tg=document.createElement('button'); tg.type='button'; tg.className='toggle-more';
+        tg.textContent='Ver mais'; tg.dataset.expanded='0';
+        tg.addEventListener('click',()=>{ const on=tg.dataset.expanded==='1';
+          if(on){ p.textContent=txt.substring(0,MAX_SNIPPET)+'…'; tg.textContent='Ver mais'; tg.dataset.expanded='0'; }
+          else { p.textContent=txt; tg.textContent='Ver menos'; tg.dataset.expanded='1'; }
+        }); p.after(tg);
       }
 
-      const actions=document.createElement("div");
-      actions.className="actions";
-
+      const actions=document.createElement('div'); actions.className='actions';
       if(item.url){
-        const verNoticia=document.createElement("a");
-        verNoticia.textContent="Ver notícia";
-        verNoticia.href=item.url;
-        verNoticia.target="_blank";
-        verNoticia.rel="noopener noreferrer";
-        verNoticia.className="btn-news";
-        actions.appendChild(verNoticia);
-      } else {
-        const copiar=document.createElement("button");
-        copiar.textContent="Copiar";
-        copiar.className="btn";
-        copiar.addEventListener("click",async()=>{
-          try{await navigator.clipboard.writeText(item.texto||'');toast("Copiado!");}
-          catch{toast("Erro ao copiar.");}
-        });
-
-        const selBtn=document.createElement("button");
-        selBtn.className="btn-alt";
-        const key=item.id||item._id;
-        const syncBtn=(on)=>{selBtn.textContent=on?"Selecionado":"Selecionar";selBtn.classList.toggle('is-selected', on);};
-        syncBtn(carrinho.some(x => x.id === key));
-        selBtn.addEventListener("click",()=>{
-          let arr=getCarrinho();
-          const obj = { id:key, fonte:item.fonte, texto:item.texto };
-          const isIn = arr.some(x => x.id === key);
-          if (isIn){ arr = arr.filter(x => x.id !== key); syncBtn(false); }
-          else { arr = dedupPush(arr, obj); syncBtn(true); }
-          setCarrinho(arr);
-          updateBar(); // atualiza botão e visibilidade
-        });
-
-        actions.appendChild(copiar);
-        actions.appendChild(selBtn);
-      }
-
-      div.appendChild(actions);
-      resultados.appendChild(div);
-    }
-    pageIndex++;
-    const hasMore = pageIndex*PAGE_SIZE < lastResults.length;
-    moreWrap.style.display = hasMore ? "flex" : "none";
-    updateBar();
-  }
-
-  function updateBar(){
-    const hasSel = getCarrinho().length>0;
-    $('#dl-enviar').disabled = !hasSel;
-    toggleBar(hasSel);
-  }
-
-  function toggleBar(show){
-    const bar = $('#dl-bar-selecao');
-    bar.style.display = show ? 'flex' : 'none';
-    wrap.style.paddingBottom = show ? `calc(var(--bar-h) + 16px + var(--safe-bottom))` : '22px';
-  }
-
-  async function executarBusca(){
-    const termo = busca.value.trim();
-    resultados.innerHTML=""; moreWrap.style.display="none"; pageIndex=0;
-    if(!termo){ miniRelatorio.style.display="none"; toggleBar(false); return; }
-    btnBuscar.disabled = true; document.body.style.cursor = 'progress';
-    try{
-      const termoNorm = norm(termo);
-      const filtroVal = filtroSelect.value;
-      lastResults = baseDados.filter(x=>{
-        const fNorm = normalizarFonte(x.fonte);
-        const fonteOk = (filtroVal==='todas') ? true
-                        : (filtroVal==='noticias' ? fNorm==='noticias' : x.fonte===filtroVal);
-        return fonteOk && (x.textoNorm||'').includes(termoNorm);
-      });
-      firstByFonte = {};
-      for(let i=0;i<lastResults.length;i++){
-        const f = normalizarFonte(lastResults[i].fonte);
-        if(firstByFonte[f] === undefined) firstByFonte[f] = i;
-      }
-      if(!lastResults.length){
-        resultados.innerHTML = "<p>Nenhum resultado encontrado.</p>";
-        miniRelatorio.style.display = "none";
-        toggleBar(getCarrinho().length>0);
+        const a=document.createElement('a'); a.textContent='Ver notícia'; a.href=item.url; a.target='_blank'; a.rel='noopener noreferrer'; a.className='btn-news'; actions.appendChild(a);
       }else{
-        renderMiniRelatorio(lastResults);
-        renderBatch(false);
-        // barra só aparece se houver seleção (updateBar cuida disso)
+        const copiar=document.createElement('button'); copiar.textContent='Copiar'; copiar.className='btn';
+        copiar.addEventListener('click',async()=>{ try{ await navigator.clipboard.writeText(item.texto||''); toast('Copiado!'); }catch{ toast('Erro ao copiar.'); } });
+        const sel=document.createElement('button'); sel.className='btn-alt';
+        const key=item.id||item._id; const sync=(on)=>{ sel.textContent=on?'Selecionado':'Selecionar'; sel.classList.toggle('is-selected',on); };
+        sync(carrinho.some(x=>x.id===key));
+        sel.addEventListener('click',()=>{ let arr=getCarrinho(); const obj={id:key,fonte:item.fonte,texto:item.texto};
+          if(arr.some(x=>x.id===key)){ arr=arr.filter(x=>x.id!==key); sync(false); } else { arr=dedupPush(arr,obj); sync(true); }
+          setCarrinho(arr); updateBar();
+        });
+        actions.appendChild(copiar); actions.appendChild(sel);
       }
-    }finally{
-      btnBuscar.disabled = false; document.body.style.cursor = '';
+      div.appendChild(actions); resultados.appendChild(div);
     }
+    pageIndex++; moreWrap.style.display = (pageIndex*PAGE_SIZE < lastResults.length) ? 'flex' : 'none'; updateBar();
   }
 
-  btnBuscar.addEventListener("click", executarBusca);
-  $("#btnMais").addEventListener("click", ()=> renderBatch(true));
-  busca.addEventListener("keydown", (e)=>{ if(e.key==="Enter"){ e.preventDefault(); executarBusca(); } });
+  function updateBar(){ const hasSel=getCarrinho().length>0; $('#dl-enviar').disabled=!hasSel; toggleBar(hasSel); }
+  function toggleBar(show){ const bar=$('#dl-bar-selecao'); bar.style.display=show?'flex':'none'; wrap.style.paddingBottom=show?`calc(var(--bar-h) + 16px + var(--safe-bottom))`:'22px'; }
 
-  // Navega para o index mantendo seleção no localStorage
-  $('#dl-enviar').addEventListener('click', ()=> { window.location.href = 'index.html#pesquisa'; });
+  // ------------------------ Busca ------------------------
+  let firstByFonte={};
+  async function executarBusca(){
+    const termoRaw=busca.value.trim();
+    resultados.innerHTML=''; moreWrap.style.display='none'; pageIndex=0;
+    if(!termoRaw){ miniRelatorio.style.display='none'; toggleBar(false); return; }
+    btnBuscar.disabled=true; document.body.style.cursor='progress';
+    try{
+      const {words, fonteFilter} = parseLegalQuery(termoRaw);
+      const filtroVal=filtroSelect.value;
 
-  $('#dl-limpar').addEventListener('click', ()=> {
-    localStorage.removeItem(KEY);
-    updateBar();
+      lastResults = baseDados.filter(x=>{
+        const fNorm=normalizarFonte(x.fonte);
+        const fonteOkUI = (filtroVal==='todas') ? true
+                        : (filtroVal==='noticias' ? fNorm==='noticias' : x.fonte===filtroVal);
+        if(!fonteOkUI) return false;
+        if(fonteFilter && fNorm!==fonteFilter) return false;
+
+        const hay = x.textoLegal || x.textoNorm; // busca na forma jurídica
+        return hasAllWords(hay, words);
+      });
+
+      firstByFonte={};
+      for(let i=0;i<lastResults.length;i++){ const f=normalizarFonte(lastResults[i].fonte); if(firstByFonte[f]===undefined) firstByFonte[f]=i; }
+
+      if(!lastResults.length){
+        resultados.innerHTML='<p>Nenhum resultado encontrado.</p>'; miniRelatorio.style.display='none'; toggleBar(getCarrinho().length>0);
+      }else{
+        renderMiniRelatorio(lastResults); renderBatch(false);
+      }
+    }finally{ btnBuscar.disabled=false; document.body.style.cursor=''; }
+  }
+
+  // ------------------------ Eventos & Boot ------------------------
+  btnBuscar.addEventListener('click', executarBusca);
+  $("#btnMais").addEventListener('click', ()=>renderBatch(true));
+  busca.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); executarBusca(); } });
+
+  $('#dl-enviar').addEventListener('click', ()=>{ window.location.href='index.html#pesquisa'; });
+  $('#dl-limpar').addEventListener('click', ()=>{ localStorage.removeItem(KEY); updateBar();
     [...$$('.btn-alt.is-selected', resultados)].forEach(b=>b.classList.remove('is-selected'));
-    [...$$('.btn-alt', resultados)].forEach(b=>{ if(b.textContent==="Selecionado") b.textContent="Selecionar"; });
+    [...$$('.btn-alt', resultados)].forEach(b=>{ if(b.textContent==='Selecionado') b.textContent='Selecionar'; });
   });
+
+  function popularFiltroOnce(){
+    filtroSelect.innerHTML='';
+    filtroSelect.add(new Option('Todas as fontes','todas',true,true));
+    filtroSelect.add(new Option('Notícias (todas)','noticias',false,false));
+    const vistos=new Set();
+    for(const arq of arquivos){
+      const tag=arq.split('/').pop().replace(/\.json$/,'');
+      if(tag.startsWith('noticias')) continue;
+      if(vistos.has(tag)) continue; vistos.add(tag);
+      filtroSelect.add(new Option(nomesAmigaveis[tag]||tag, tag));
+    }
+  }
+  popularFiltroOnce();
+
+  let baseDados=[];
+  carregarDados().then(d=>{ baseDados=d; toast('Base carregada com sucesso!'); });
+
 })();
 </script>
 </body>
