@@ -27,46 +27,21 @@
       --gap:16px; --aside-width:420px; --prompt-width:400px;
       --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
       --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --success:#16a34a;
+      --danger:#ef4444;
+      --danger-hover:#f87171;
+      --chip-border:#e5e7eb;
     }
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);color:var(--text);font:400 15px/1.3 var(--font);}
 
-    /* ===== TOPBAR (igual à Pesquisa) ===== */
-    .topbar{
-      position:sticky; top:0; z-index:100;
-      background:var(--highlight);
-      border-bottom:1px solid rgba(0,0,0,.08);
-      transition: box-shadow .18s ease, padding .18s ease;
-    }
-    .topbar.is-scrolled{ box-shadow:0 6px 18px rgba(0,0,0,.08); }
-    .topbar__inner{
-      max-width:1160px; margin:0 auto;
-      padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px;
-    }
-    .topbar.is-scrolled .topbar__inner{ padding:8px 16px; }
-    .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; color:#111; }
-    .brand__logo{ height:36px; width:auto; display:block; }
-
-    .topbar__actions{ display:flex; align-items:center; gap:8px; }
-    .chip{
-      padding:6px 14px; border-radius:20px; background:#fff; border:1px solid var(--border);
-      font-size:13px; color:var(--primary); text-decoration:none; font-weight:500; transition:.15s
-    }
-    .chip:hover{ background:var(--highlight-light) }
-    .chip[aria-current="page"]{ background:#fffbe1; border-color:#e6d375 }
-
-    .pill-btn{
-      appearance:none; border:1px solid rgba(0,0,0,.1);
-      background:#fff; color:#111; padding:8px 12px; border-radius:999px; cursor:pointer;
-      font:600 13px/1 var(--font);
-      transition: background .15s ease, transform .12s ease;
-    }
-    .pill-btn:hover{ background:#f6f6f6; transform:translateY(-1px); }
-    .pill-btn.hidden{ display:none; }
-
-    @media (max-width:640px){
-      .topbar__inner{ padding:8px 12px; }
-    }
+    /* ===== TOPBAR (igual da pesquisa) ===== */
+    .topbar{position:sticky; top:0; z-index:100; background:var(--highlight); border-bottom:1px solid rgba(0,0,0,.08)}
+    .topbar__inner{max-width:1160px; margin:0 auto; padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px}
+    .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:#111}
+    .brand__logo{height:36px; width:auto; display:block}
+    .chip{padding:6px 14px; border-radius:20px; background:#fff; border:1px solid var(--chip-border); font-size:13px; color:var(--primary); text-decoration:none; font-weight:500; transition:.15s}
+    .chip:hover{background:var(--highlight-light)}
 
     /* ===== LAYOUT ===== */
     .wrap{display:grid;gap:var(--gap);grid-template-columns:1fr;padding:18px;max-width:1400px;margin:0 auto}
@@ -92,19 +67,14 @@
     .aside{position:sticky;top:56px;padding:12px}
     .stack{max-width:var(--prompt-width);margin:0 auto}
 
-    /* Área de anúncio: fica escondida quando não há ad */
-    .ad{ display:none; margin-bottom:12px; }
-    .ad .box{
-      width:min(var(--prompt-width),100%); aspect-ratio:400/180;
-      border:1px dashed var(--border); border-radius:10px;
-      background:#fff; color:#999; display:flex;
-      align-items:center; justify-content:center; font-size:13px;
-    }
+    /* Anúncio: oculto por padrão; só aparece se tiver conteúdo real */
+    .ad{display:none; margin-bottom:12px;}
+    .ad.show{display:block;}
+    .ad .box{width:min(var(--prompt-width),100%);aspect-ratio:400/180;border:1px dashed var(--border);border-radius:10px;background:#fff;color:#999;display:flex;align-items:center;justify-content:center;font-size:13px}
 
-    textarea#saida{
-      width:min(var(--prompt-width),100%);min-height:30vh;resize:vertical;padding:10px 12px;border-radius:8px;border:1px solid var(--border);
-      background:#fff;color:#001840;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13.5px;display:block;margin:0 auto
-    }
+    textarea#saida{width:min(var(--prompt-width),100%);min-height:30vh;resize:vertical;padding:10px 12px;border-radius:8px;border:1px solid var(--border);
+      background:#fff;color:#001840;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13.5px;display:block;margin:0 auto}
+
     .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:60}
     .toast.show{opacity:1}
     .info{margin-top:6px;font-size:12px;color:#666}
@@ -118,9 +88,8 @@
         <img class="brand__logo" src="icons/logo.png" alt="direito.love" />
       </a>
       <nav class="topbar__actions" aria-label="Ações">
-        <a class="chip" href="index.html" aria-current="page">Prompt</a>
+        <a class="chip" href="index.html">Prompt</a>
         <a class="chip" href="pesquisa.html">Pesquisar</a>
-        <button id="btn-install" class="pill-btn hidden" aria-label="Instalar app">Instalar app</button>
       </nav>
     </div>
   </header>
@@ -128,8 +97,10 @@
   <div class="wrap">
     <main class="builder card">
       <h2>Criador de Prompts para Estudantes de Direito</h2>
+
       <label for="tema">Tema</label>
       <input id="tema" maxlength="120" placeholder="Digite aqui o Tema. Seja específico." autocomplete="off" />
+
       <div class="section-title"><b>Selecione como quer estudar:</b></div>
       <ul class="sessao-lista" id="sessao-lista">
         <li><input type="checkbox" id="s1"><label for="s1">Conceitos e Definições</label></li>
@@ -153,6 +124,7 @@
         <li><input type="checkbox" id="s19"><label for="s19">Dicas de Prova (OAB/Concursos)</label></li>
         <li><input type="checkbox" id="s20"><label for="s20">Referências Bibliográficas</label></li>
       </ul>
+
       <div class="actions">
         <button id="criar" class="btn primary" disabled>Criar Prompt</button>
         <button id="limpar" class="btn">Limpar</button>
@@ -162,8 +134,8 @@
 
     <aside class="aside card">
       <div class="stack">
-        <!-- Ad container: fica oculto se não houver anúncio carregado -->
-        <div class="ad" id="ad-container"><div class="box" id="ad-box"></div></div>
+        <!-- Ad container escondido; só fica .show quando houver conteúdo real -->
+        <div class="ad" id="ad-container"><div id="ad-box"></div></div>
 
         <textarea id="saida" readonly placeholder="(vazio)"></textarea>
         <div class="actions" style="margin:10px auto 0;width:min(var(--prompt-width),100%);">
@@ -235,7 +207,6 @@ Ao finalizar todas as sessões solicitadas, conclua sempre com:
     if (qs && !temaEl.value) temaEl.value = qs;
     updateCTA();
   }
-
   prefillTema();
 
   temaEl.addEventListener("input",updateCTA);
@@ -274,87 +245,35 @@ Ao finalizar todas as sessões solicitadas, conclua sempre com:
     if(e.key==="Enter"&&!criarBtn.disabled){e.preventDefault();criarBtn.click();}
   });
 })();
-
-/* ===== topbar.js (sombra no scroll + PWA install + chip ativo) ===== */
-(function(){
-  const header = document.querySelector('.topbar');
-  const installBtn = document.getElementById('btn-install');
-  let deferredPrompt = null;
-
-  const onScroll = () => {
-    if (window.scrollY > 2) header.classList.add('is-scrolled');
-    else header.classList.remove('is-scrolled');
-  };
-  window.addEventListener('scroll', onScroll, { passive:true });
-  onScroll();
-
-  // marca chip ativo automaticamente
-  (function markActive(){
-    const here = location.pathname.split('/').pop() || 'index.html';
-    document.querySelectorAll('.topbar__actions .chip').forEach(a=>{
-      const href = a.getAttribute('href') || '';
-      if (here === href) a.setAttribute('aria-current','page');
-      else a.removeAttribute('aria-current');
-    });
-  })();
-
-  // PWA install
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault(); deferredPrompt = e;
-    installBtn?.classList.remove('hidden');
-  });
-  installBtn?.addEventListener('click', async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    try{ await deferredPrompt.userChoice; }catch{}
-    deferredPrompt = null; installBtn.classList.add('hidden');
-  });
-})();
-
-/* ===== Ad visibility (esconde quando não há anúncio) ===== */
-(function(){
-  const $=(s,r=document)=>r.querySelector(s);
-  const adContainer = $('#ad-container');
-  const adBox = $('#ad-box');
-
-  function hasLoadedAd(){
-    if (!adBox) return false;
-    // Adsense default slot
-    const ins = adBox.querySelector('ins.adsbygoogle');
-    if (ins && ins.offsetHeight > 0 && ins.offsetWidth > 0) return true;
-    // Iframe ou qualquer conteúdo de rede de ads
-    if (adBox.querySelector('iframe')) return true;
-    // Qualquer nó visível adicionado
-    for (const el of adBox.children){
-      const r = el.getBoundingClientRect();
-      if (r.width > 0 && r.height > 0) return true;
-    }
-    return false;
-  }
-
-  function updateVisibility(){
-    if (!adContainer) return;
-    adContainer.style.display = hasLoadedAd() ? 'block' : 'none';
-  }
-
-  // Observa mudanças (ads carregam assíncrono)
-  if (adBox){
-    const obs = new MutationObserver(updateVisibility);
-    obs.observe(adBox, {childList:true, subtree:true, attributes:true});
-    // checagens de segurança
-    setTimeout(updateVisibility, 200);
-    setTimeout(updateVisibility, 1500);
-  }
-})();
 </script>
 
 <script>
-/* Service Worker */
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker.js")
-    .then(() => console.log("✅ Service Worker registrado"))
-    .catch(err => console.warn("Erro SW:", err));
-}
+/* ===== Ad visibility: esconde se não houver conteúdo real ===== */
+(function(){
+  const ad = document.getElementById('ad-container');
+  const box = document.getElementById('ad-box');
+  if(!ad || !box) return;
+
+  function hasRealAd(el){
+    // considera real se houver iframe, <ins class="adsbygoogle">, <img>, ou data-flag
+    return !!(el.querySelector('iframe, ins.adsbygoogle, img, [data-has-ad], [data-ad]'));
+  }
+
+  function sync(){
+    if(hasRealAd(box)){ ad.classList.add('show'); }
+    else { ad.classList.remove('show'); }
+  }
+
+  // Observa mudanças (Adsense/outsystems normalmente injeta iframe)
+  const mo = new MutationObserver(sync);
+  mo.observe(box, { childList:true, subtree:true, attributes:true });
+
+  // Exponhe helper para inserir manualmente um anúncio
+  window.dlShowAd = (html) => { box.innerHTML = html || ''; sync(); };
+
+  // Checagem inicial
+  sync();
+})();
 </script>
 
 <script>
@@ -366,13 +285,13 @@ if ("serviceWorker" in navigator) {
   const set = (arr) => localStorage.setItem(KEY, JSON.stringify(arr));
   const firstLine = (s='') => String(s).split('\n')[0].trim();
 
-  // Descobre campo do prompt/composer de forma resiliente
+  // ✅ Prioriza textarea grande (#saida), e só cai em input se não houver textarea
   const findPromptField = () =>
-    $('#prompt') ||
-    $('#composer textarea') ||
+    document.querySelector('#saida') ||
+    document.querySelector('#prompt') ||
+    document.querySelector('#composer textarea') ||
     document.querySelector('textarea[name="prompt"]') ||
-    $('#tema') ||
-    document.querySelector('textarea') ||
+    document.querySelector('textarea:not([readonly])') ||
     document.querySelector('input[type="text"]');
 
   const renderBox = (items) => {
@@ -390,15 +309,9 @@ if ("serviceWorker" in navigator) {
         #dl-box-achados ul{ margin:0 0 10px 18px; padding:0; }
         #dl-box-achados li{ margin:4px 0; }
         #dl-box-achados .actions{ display:flex; gap:8px; }
-
-        /* Destaque dos botões */
-        #dl-inserir{
-          border:1px solid #148d3f; background:#16a34a; color:#fff; padding:8px 12px; border-radius:10px; cursor:pointer;
-        }
+        #dl-inserir{ border:1px solid #148d3f; background:#16a34a; color:#fff; padding:8px 12px; border-radius:10px; cursor:pointer; }
         #dl-inserir:hover{ background:#22c55e; }
-        #dl-limpar{
-          border:1px solid #dc2626; background:#ef4444; color:#fff; padding:8px 12px; border-radius:10px; cursor:pointer;
-        }
+        #dl-limpar{ border:1px solid #dc2626; background:#ef4444; color:#fff; padding:8px 12px; border-radius:10px; cursor:pointer; }
         #dl-limpar:hover{ background:#f87171; }
       </style>
       <h3>🔎 Achados da pesquisa (${items.length})</h3>
@@ -422,26 +335,31 @@ if ("serviceWorker" in navigator) {
     const parent=(field&&field.closest&&field.closest('form, section, main'))||document.body;
     parent.insertBefore(box, parent.firstChild);
 
+    // ✅ Insere o TEXTO COMPLETO; evita truncar (remove readonly temporariamente)
     $('#dl-inserir').addEventListener('click', () => {
       const f = findPromptField();
       const bloco = items.map(i => {
         if (i.texto) {
           const tag = (i.fonte||'').toUpperCase();
-          return `${tag ? `**${tag}**\n` : ''}${i.texto}`;
+          return `${tag ? `**${tag}**\n` : ''}${i.texto}`; // texto completo
         } else {
           return `- ${i.title || ''}${i.title && i.url ? ' — ' : ''}${i.url || ''}`;
         }
       }).join("\n\n");
 
-      if (f) {
-        const sep = (f.value||'').trim() ? '\n\n' : '';
-        f.value = (f.value || '') + sep + '🔎 Achados da pesquisa:\n' + bloco + '\n';
-        f.focus();
-        localStorage.removeItem(KEY);
-        document.getElementById('dl-box-achados')?.remove();
-      } else {
-        alert("Campo de prompt não encontrado. Cole manualmente:\n\n" + bloco);
-      }
+      if (!f) { alert("Campo de prompt não encontrado. Cole manualmente:\n\n" + bloco); return; }
+
+      const wasRO = f.hasAttribute('readonly'); // ex.: #saida readonly
+      if (wasRO) f.removeAttribute('readonly');
+
+      const sep = (f.value||'').trim() ? '\n\n' : '';
+      f.value = (f.value || '') + sep + '🔎 Achados da pesquisa:\n' + bloco + '\n';
+
+      if (wasRO) f.setAttribute('readonly','');
+      f.focus();
+
+      localStorage.removeItem(KEY);
+      document.getElementById('dl-box-achados')?.remove();
     });
 
     document.getElementById('dl-limpar').addEventListener('click', () => {
@@ -465,14 +383,14 @@ if ("serviceWorker" in navigator) {
 })();
 </script>
 
-<style>
-  /* Só no mobile (até 480px) */
-  @media (max-width: 480px){
-    #dl-box-achados{ font-size:11px !important; line-height:1.35 !important; }
-    #dl-box-achados h3{ font-size:12px !important; }
-    #dl-box-achados li{ line-height:1.35 !important; }
-  }
-</style>
+<script>
+/* Service Worker (opcional) */
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js")
+    .then(() => console.log("✅ Service Worker registrado"))
+    .catch(err => console.warn("Erro SW:", err));
+}
+</script>
 
 </body>
 </html>
