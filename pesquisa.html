@@ -18,21 +18,36 @@
       --radius:12px; --shadow:0 4px 16px rgba(0,0,0,.05);
       --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
       --safe-bottom: env(safe-area-inset-bottom, 0px);
-      --bar-h: 64px;
+      --bar-h: 56px;
       --success:#16a34a;
       --muted-btn:#e5e7eb;
       --news-btn:#16a34a;
       --news-btn-hover:#22c55e;
       --snap-offset: 96px;
+      --btn-pad-y: 6px;    /* altura menor */
+      --btn-pad-x: 10px;   /* largura menor */
+      --btn-font: 12.5px;  /* fonte menor */
+      --btn-min-h: 34px;   /* antes ~44px */
+      --btn-min-w: 96px;   /* antes 110-180px */
+      --chip-pad-y: 6px;   /* chips topbar no mesmo padrão */
+      --chip-pad-x: 10px;
+      --chip-font: 12.5px;
+      --chip-radius: 8px;
     }
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);color:var(--text);font:400 13px/1.4 var(--font);}
+
     /* Topbar */
     .topbar{position:sticky; top:0; z-index:100; background:var(--highlight); border-bottom:1px solid rgba(0,0,0,.08)}
     .topbar__inner{max-width:1160px; margin:0 auto; padding:8px 12px; display:flex; align-items:center; justify-content:space-between; gap:12px}
     .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:#111}
-    .brand__logo{height:36px}
-    .chip{padding:6px 14px; border-radius:20px; background:#fff; border:1px solid var(--border); font-size:13px; color:var(--primary); text-decoration:none; font-weight:600; transition:.15s}
+    .brand__logo{height:32px}
+    .chip{
+      padding:var(--chip-pad-y) var(--chip-pad-x);
+      border-radius:var(--chip-radius);
+      background:#fff; border:1px solid var(--border);
+      font-size:var(--chip-font); color:var(--primary); text-decoration:none; font-weight:600; transition:.15s
+    }
     .chip:hover{background:var(--highlight-light)}
 
     /* Layout */
@@ -40,7 +55,11 @@
     h2{margin:0 0 10px;color:var(--primary)}
     .search-box{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:20px 0;}
     #busca{flex:1; padding:10px 12px; border:2px solid var(--primary); border-radius:8px; font-size:15px}
-    #btnBuscar{appearance:none; border:none; background:var(--primary); color:#fff; padding:10px 14px; border-radius:8px; font-size:14px; cursor:pointer;}
+    #btnBuscar{
+      appearance:none; border:1px solid var(--primary); background:var(--primary); color:#fff;
+      padding:var(--btn-pad-y) var(--btn-pad-x); border-radius:8px; font-size:var(--btn-font); cursor:pointer;
+      min-height:var(--btn-min-h); min-width:var(--btn-min-w);
+    }
     #btnBuscar:disabled{opacity:.7; cursor:progress}
 
     /* Acordeões de categorias */
@@ -59,7 +78,7 @@
 
     .cat-body{ padding: 10px 14px; }
     .cat-more{ display:flex; justify-content:center; padding: 4px 14px 12px; }
-    .cat-more .btn{ min-width:180px }
+    .cat-more .btn{ min-width: var(--btn-min-w); }
 
     /* Card de resultado */
     .result{
@@ -71,18 +90,31 @@
       background:#f1f5f9; color:#0f172a; margin:0 0 8px 0;
     }
     .result p{margin:0;font-size:13px;line-height:1.55}
-    .actions{margin-top:10px;display:flex;gap:10px;align-items:center}
-    .btn{appearance:none;border:none;background:var(--highlight);color:#000;padding:10px 12px;border-radius:8px;
-      font-size:13px;cursor:pointer;transition:.15s; min-height:44px; min-width:110px;}
+    .actions{margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+    /* Botões menores e padronizados */
+    .btn{
+      appearance:none;border:1px solid var(--border);background:var(--highlight);color:#000;
+      padding:var(--btn-pad-y) var(--btn-pad-x);border-radius:8px;
+      font-size:var(--btn-font);cursor:pointer;transition:.15s; min-height:var(--btn-min-h); min-width:var(--btn-min-w);
+    }
     .btn:hover{background:var(--highlight-light)}
-    .btn-alt{appearance:none;border:none;background:var(--primary);color:#fff;padding:10px 12px;border-radius:8px;
-      font-size:13px;cursor:pointer;transition:.15s; min-height:44px; min-width:110px;}
+    .btn-alt{
+      appearance:none;border:1px solid #0f2a71;background:var(--primary);color:#fff;
+      padding:var(--btn-pad-y) var(--btn-pad-x);border-radius:8px;
+      font-size:var(--btn-font);cursor:pointer;transition:.15s; min-height:var(--btn-min-h); min-width:var(--btn-min-w);
+    }
     .btn-alt:hover{background:#264399}
-    .btn-alt.is-selected{ background: var(--success); color:#fff; }
+    .btn-alt.is-selected{ background: var(--success); color:#fff; border-color:#168a44; }
     .btn-alt.is-selected:hover{ filter:brightness(.95); }
-    .btn-news{background:var(--news-btn);color:#fff;text-decoration:none;display:inline-block;padding:10px 12px;border-radius:8px;font-size:13px;margin-left:auto; min-height:44px; min-width:110px;}
+    .btn-news{
+      background:var(--news-btn);color:#fff;text-decoration:none;display:inline-block;
+      padding:var(--btn-pad-y) var(--btn-pad-x);border-radius:8px;font-size:var(--btn-font);
+      min-height:var(--btn-min-h); min-width:var(--btn-min-w); margin-left:auto; border:1px solid #0e8f42;
+    }
     .btn-news:hover{background:var(--news-btn-hover)}
-    .toggle-more{ margin-left:6px; background:none; border:0; color:var(--primary); cursor:pointer; font-size:12px; padding:4px 6px; line-height:1; }
+
+    .toggle-more{ margin-left:6px; background:none; border:0; color:var(--primary); cursor:pointer; font-size:12px; padding:2px 4px; line-height:1; }
 
     /* Barra seleção */
     .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;
@@ -90,17 +122,21 @@
     .toast.show{opacity:1}
     #dl-bar-selecao{
       position:fixed; left:50%; transform:translateX(-50%);
-      bottom:calc(12px + var(--safe-bottom)); z-index:9999; background:#111; color:#fff;
-      padding:10px 12px; border-radius:12px; display:none; align-items:center; gap:8px;
-      box-shadow:0 6px 20px rgba(0,0,0,.25); font: 500 14px/1.2 var(--font);
+      bottom:calc(10px + var(--safe-bottom)); z-index:9999; background:#111; color:#fff;
+      padding:8px 10px; border-radius:12px; display:none; align-items:center; gap:8px;
+      box-shadow:0 6px 20px rgba(0,0,0,.25); font: 500 13px/1.2 var(--font);
       pointer-events:none;
     }
-    #dl-bar-selecao button{border:0; padding:8px 12px; border-radius:10px; cursor:pointer; pointer-events:auto;}
-    #dl-enviar{ background: var(--primary); color:#fff; } #dl-enviar:hover{ background:#264399; } #dl-enviar:disabled{ opacity:.5; filter:grayscale(.3) }
-    #dl-limpar{ background: var(--muted-btn); color:#111; } #dl-limpar:hover{ background:#d6dae1 }
+    #dl-bar-selecao button{
+      border:1px solid var(--border); padding:var(--btn-pad-y) var(--btn-pad-x);
+      border-radius:8px; cursor:pointer; pointer-events:auto; font-size:var(--btn-font);
+      min-height:var(--btn-min-h); min-width:var(--btn-min-w);
+    }
+    #dl-enviar{ background: var(--primary); color:#fff; border-color:#0f2a71; } #dl-enviar:hover{ background:#264399; } #dl-enviar:disabled{ opacity:.5; filter:grayscale(.3) }
+    #dl-limpar{ background:#fff; color:#111; } #dl-limpar:hover{ background:#f2f4f7 }
 
     @media (max-width: 600px){
-      .actions{ gap:12px; }
+      .actions{ gap:8px; }
     }
   </style>
 </head>
@@ -147,6 +183,9 @@
   const wrap=$(".wrap");
   const toast=(m,t=1600)=>{const el=$("#toast");el.textContent=m;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
 
+  // -------- Config: abrir primeira categoria automaticamente? --------
+  const AUTO_OPEN_FIRST = false; // deixe true se quiser abrir a primeira
+
   // ---------- Normalização e parsing jurídico ----------
   const norm=(s="")=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
   function normalizeLegal(s){
@@ -170,7 +209,6 @@
   function parseLegalQuery(raw){
     const base = normalizeLegal(raw);
     const padded = ` ${base} `;
-    // Alias de códigos (mantemos só para reforçar tokens; não filtramos a fonte!)
     const alias=[
       {re:/\b(cp|codigo penal)\b/, tag:'cp'},
       {re:/\b(cpp|codigo de processo penal)\b/, tag:'cpp'},
@@ -181,8 +219,6 @@
       {re:/\b(ctb|codigo de transito brasileiro)\b/, tag:'ctb'}
     ];
     let tokens = base.split(' ').filter(Boolean).filter(t=>!STOP.has(t));
-
-    // extrair partes jurídicas (art, §, inciso, alínea, caput)
     let artNum=null; { const m=padded.match(/\bart\s*([0-9][0-9a-z\-]*)\b/); if(m) artNum=m[1]; }
     let paragrafo=null; { const m=padded.match(/\bparagrafo\s*(unico|\d+)\b/); if(m) paragrafo=m[1]; }
     let inciso=null; { const m=padded.match(/\binciso\s*([ivxlcdm]+)\b/); if(m) inciso=romanLower(m[1]); }
@@ -195,7 +231,6 @@
     if(inciso){ out.add('inciso'); out.add(inciso); }
     if(alinea){ out.add('alinea'); out.add(alinea); }
     if(caput){ out.add('caput'); }
-    // não filtramos por código, mas manter tokens ajuda em matches
     for(const a of alias){ if(a.re.test(padded)) out.add(a.tag); }
 
     return { words:[...out] };
@@ -255,37 +290,15 @@
     codigo_transito_brasileiro: "Código de Trânsito Brasileiro"
   };
 
-  // Agrupamento em categorias (catId -> predicate e rótulo)
   const catOrder = ["noticias", "codigos", "sumulas", "julgados", "temas_repetitivos_stj", "teses_stf", "outros"];
   const categorias = {
-    noticias: {
-      label: "Notícias",
-      match: f => f.startsWith("noticias")
-    },
-    codigos: {
-      label: "Códigos",
-      match: f => f.startsWith("codigo_")
-    },
-    sumulas: {
-      label: "Súmulas",
-      match: f => f.startsWith("sumula") || f.startsWith("sumulas_") || f==="sumulas_vinculantes_stf"
-    },
-    julgados: {
-      label: "Julgados",
-      match: f => f.startsWith("julgados_")
-    },
-    temas_repetitivos_stj: {
-      label: "Temas Repetitivos STJ",
-      match: f => f==="temas_repetitivos_stj"
-    },
-    teses_stf: {
-      label: "Teses STF",
-      match: f => f==="teses_stf"
-    },
-    outros: {
-      label: "Outros",
-      match: f => true // fallback
-    }
+    noticias: { label: "Notícias", match: f => f.startsWith("noticias") },
+    codigos: { label: "Códigos", match: f => f.startsWith("codigo_") },
+    sumulas: { label: "Súmulas", match: f => f.startsWith("sumula") || f.startsWith("sumulas_") || f==="sumulas_vinculantes_stf" },
+    julgados: { label: "Julgados", match: f => f.startsWith("julgados_") },
+    temas_repetitivos_stj: { label: "Temas Repetitivos STJ", match: f => f==="temas_repetitivos_stj" },
+    teses_stf: { label: "Teses STF", match: f => f==="teses_stf" },
+    outros: { label: "Outros", match: f => true }
   };
 
   const normalizarFonte = (f)=> f && f.startsWith('noticias') ? 'noticias' : f;
@@ -317,9 +330,10 @@
   const MAX_SNIPPET=400, PAGE_SIZE=10;
   let baseDados=[];
 
-  // ---------- Util: criar card ----------
+  // ---------- Util: card ----------
   function buildCard(item, carrinho){
     const fNorm = normalizarFonte(item.fonte);
+    const isNoticias = fNorm === 'noticias';
     const nomeBonito = nomesAmigaveis[fNorm] || nomesAmigaveis[item.fonte] || item.fonte;
 
     const div=document.createElement("div");
@@ -347,14 +361,19 @@
 
     const actions=document.createElement("div"); actions.className="actions";
 
+    // Texto para seleção (para notícias, usamos título+url se não houver 'texto')
     const copyText = (item.texto && item.texto.trim())
       ? item.texto
       : [item.titulo || item.title || '', item.url || ''].filter(Boolean).join(' — ');
 
-    const copiar=document.createElement("button"); copiar.textContent='Copiar'; copiar.className='btn';
-    copiar.addEventListener("click",async()=>{ try{ await navigator.clipboard.writeText(copyText||''); toast('Copiado!'); }catch{ toast('Erro ao copiar.'); } });
-    actions.appendChild(copiar);
+    // Copiar: APENAS se NÃO for notícia
+    if(!isNoticias){
+      const copiar=document.createElement("button"); copiar.textContent='Copiar'; copiar.className='btn';
+      copiar.addEventListener("click",async()=>{ try{ await navigator.clipboard.writeText(copyText||''); toast('Copiado!'); }catch{ toast('Erro ao copiar.'); } });
+      actions.appendChild(copiar);
+    }
 
+    // Selecionar: sempre
     const sel=document.createElement("button"); sel.className='btn-alt';
     const key = item.id || item._id || ( (item.fonte||'') + ':' + (copyText||'').slice(0,50) );
     const sync=(on)=>{ sel.textContent=on?'Selecionado':'Selecionar'; sel.classList.toggle('is-selected',on); };
@@ -368,6 +387,7 @@
     });
     actions.appendChild(sel);
 
+    // Ver notícia (se houver URL)
     if(item.url){
       const a=document.createElement('a'); a.textContent='Ver notícia'; a.href=item.url; a.target='_blank'; a.rel='noopener noreferrer'; a.className='btn-news';
       actions.appendChild(a);
@@ -377,9 +397,8 @@
     return div;
   }
 
-  // ---------- Render categorias (acordeões) ----------
+  // ---------- Agrupar e renderizar categorias ----------
   function groupResults(items){
-    // monta buckets por categoria
     const groups = {};
     for(const id of Object.keys(categorias)){
       groups[id] = { label: categorias[id].label, items: [], rendered: 0 };
@@ -393,7 +412,6 @@
       }
       groups[bucket].items.push(it);
     });
-    // remove vazios e ordena categorias por count desc (com ordem base como desempate)
     const list = Object.entries(groups)
       .filter(([,g])=>g.items.length>0)
       .sort((a,b)=>{
@@ -455,8 +473,8 @@
 
       categoriasEl.appendChild(det);
 
-      // abre a primeira automaticamente
-      if(!firstOpened){ det.open = true; firstOpened = true; }
+      // Abrir automaticamente? (config acima)
+      if(AUTO_OPEN_FIRST && !firstOpened){ det.open = true; firstOpened = true; }
     }
   }
 
@@ -469,7 +487,7 @@
   function toggleBar(show){
     const bar=$('#dl-bar-selecao');
     bar.style.display=show?'flex':'none';
-    wrap.style.paddingBottom = show ? `calc(var(--bar-h) + 16px + var(--safe-bottom))` : '22px';
+    wrap.style.paddingBottom = show ? `calc(var(--bar-h) + 14px + var(--safe-bottom))` : '22px';
   }
   $('#dl-enviar').addEventListener('click', ()=>{ window.location.href='index.html#pesquisa'; });
   $('#dl-limpar').addEventListener('click', ()=>{ localStorage.removeItem(KEY); updateBar(); });
@@ -482,13 +500,10 @@
     btnBuscar.disabled=true; document.body.style.cursor='progress';
     try{
       const { words } = parseLegalQuery(termoRaw);
-
-      // busca SEM filtrar por fonte (sempre em tudo)
       const all = baseDados.filter(x=>{
         const hay = x.textoLegal || x.textoNorm;
         return hasAllWords(hay, words);
       });
-
       const groups = groupResults(all);
       renderCategorias(groups);
       updateBar();
