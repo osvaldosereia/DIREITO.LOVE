@@ -355,27 +355,52 @@ if ("serviceWorker" in navigator) {
     .then(() => console.log("✅ Service Worker registrado"))
     .catch(err => console.warn("Erro SW:", err));
 }
-</script>
-
 <script>
-/* direito.love — index-importa-pesquisa.js (receber múltiplos achados, texto ou links) */
+/* direito.love — index-importa-pesquisa.js (corrigido: insere TEXTO COMPLETO) */
 (() => {
   const KEY = 'dl_pesquisa_selecionados';
-  const $ = (s, r=document)=>r.querySelector(s);
+  const $   = (s, r=document)=>r.querySelector(s);
   const get = () => JSON.parse(localStorage.getItem(KEY) || '[]');
   const set = (arr) => localStorage.setItem(KEY, JSON.stringify(arr));
   const firstLine = (s='') => String(s).split('\n')[0].trim();
 
-  // Descobre campo do prompt/composer de forma resiliente
-  const findPromptField = () =>
-    $('#prompt') ||
-    $('#composer textarea') ||
-    document.querySelector('textarea[name="prompt"]') ||
-    $('#tema') ||
-    document.querySelector('textarea') ||
-    document.querySelector('input[type="text"]');
+  // Prioriza o textarea grande do Index (#saida). Só cai em outras opções se não existir.
+  function findPromptField(){
+    return (
+      document.querySelector('#saida') ||
+      document.querySelector('#prompt') ||
+      document.querySelector('#composer textarea') ||
+      document.querySelector('textarea[name="prompt"]') ||
+      document.querySelector('textarea') ||
+      document.querySelector('input[type="text"]')
+    );
+  }
 
-  const renderBox = (items) => {
+  // Insere conteúdo completo com segurança (remove readonly/disabled/maxlength temporariamente)
+  function safeAppendToField(field, fullText){
+    if (!field) return false;
+
+    const wasRO       = field.hasAttribute('readonly');
+    const wasDisabled = field.hasAttribute('disabled');
+    const hadMax      = field.hasAttribute('maxlength');
+    const prevMax     = field.getAttribute('maxlength');
+
+    if (wasRO)       field.removeAttribute('readonly');
+    if (wasDisabled) field.removeAttribute('disabled');
+    if (hadMax)      field.removeAttribute('maxlength');
+
+    const sep = (field.value || '').trim() ? '\n\n' : '';
+    field.value = (field.value || '') + sep + '🔎 Achados da pesquisa:\n' + fullText + '\n';
+
+    if (hadMax && prevMax !== null) field.setAttribute('maxlength', prevMax);
+    if (wasDisabled) field.setAttribute('disabled', '');
+    if (wasRO)       field.setAttribute('readonly', '');
+
+    field.focus();
+    return true;
+  }
+
+  function renderBox(items){
     if (!items.length || $('#dl-box-achados')) return;
 
     const box = document.createElement('section');
@@ -390,15 +415,9 @@ if ("serviceWorker" in navigator) {
         #dl-box-achados ul{ margin:0 0 10px 18px; padding:0; }
         #dl-box-achados li{ margin:4px 0; }
         #dl-box-achados .actions{ display:flex; gap:8px; }
-
-        /* Destaque dos botões */
-        #dl-inserir{
-          border:1px solid #148d3f; background:#16a34a; color:#fff; padding:8px 12px; border-radius:10px; cursor:pointer;
-        }
+        #dl-inserir{ border:1px solid #148d3f; background:#16a34a; color:#fff; padding:8px 12px; border-radius:10px; cursor:pointer; }
         #dl-inserir:hover{ background:#22c55e; }
-        #dl-limpar{
-          border:1px solid #dc2626; background:#ef4444; color:#fff; padding:8px 12px; border-radius:10px; cursor:pointer;
-        }
+        #dl-limpar{ border:1px solid #dc2626; background:#ef4444; color:#fff; padding:8px 12px; border-radius:10px; cursor:pointer; }
         #dl-limpar:hover{ background:#f87171; }
       </style>
       <h3>🔎 Achados da pesquisa (${items.length})</h3>
@@ -418,41 +437,42 @@ if ("serviceWorker" in navigator) {
       </div>
     `;
 
-    const field=findPromptField();
-    const parent=(field&&field.closest&&field.closest('form, section, main'))||document.body;
+    // tenta posicionar perto do campo-alvo
+    const field = findPromptField();
+    const parent = (field && field.closest && field.closest('form, section, main')) || document.body;
     parent.insertBefore(box, parent.firstChild);
 
+    // Monta o BLOCO com o TEXTO COMPLETO (sem truncar)
     $('#dl-inserir').addEventListener('click', () => {
       const f = findPromptField();
       const bloco = items.map(i => {
         if (i.texto) {
           const tag = (i.fonte||'').toUpperCase();
-          return `${tag ? `**${tag}**\n` : ''}${i.texto}`;
+          return `${tag ? `**${tag}**\n` : ''}${i.texto}`; // <-- TEXTO INTEIRO
         } else {
           return `- ${i.title || ''}${i.title && i.url ? ' — ' : ''}${i.url || ''}`;
         }
       }).join("\n\n");
 
-      if (f) {
-        const sep = (f.value||'').trim() ? '\n\n' : '';
-        f.value = (f.value || '') + sep + '🔎 Achados da pesquisa:\n' + bloco + '\n';
-        f.focus();
-        localStorage.removeItem(KEY);
-        document.getElementById('dl-box-achados')?.remove();
-      } else {
-        alert("Campo de prompt não encontrado. Cole manualmente:\n\n" + bloco);
-      }
+      if (!f) { alert("Campo de prompt não encontrado. Cole manualmente:\n\n" + bloco); return; }
+
+      safeAppendToField(f, bloco);
+
+      // limpa seleção e caixa
+      localStorage.removeItem(KEY);
+      document.getElementById('dl-box-achados')?.remove();
     });
 
     document.getElementById('dl-limpar').addEventListener('click', () => {
       localStorage.removeItem(KEY);
       document.getElementById('dl-box-achados')?.remove();
     });
-  };
+  }
 
   window.addEventListener('DOMContentLoaded', () => {
     const itens = get();
     if (location.hash === '#pesquisa' || itens.length) {
+      // de-dup
       const uniq=[]; const seen=new Set();
       itens.forEach(i => {
         const k = i.id || (i.fonte+':'+(i.texto||'' ).slice(0,50));
@@ -464,6 +484,7 @@ if ("serviceWorker" in navigator) {
   });
 })();
 </script>
+
 
 <style>
   /* Só no mobile (até 480px) */
