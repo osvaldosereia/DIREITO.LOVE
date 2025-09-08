@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>direito.love — Pesquisa</title>
   <meta name="theme-color" content="#F5C400" />
-  <meta name="description" content="Pesquisa de artigos, súmulas, jurisprudências e logo jurídicos no direito.love" />
+  <meta name="description" content="Pesquisa de artigos, súmulas, jurisprudências e conteúdos jurídicos no direito.love" />
   <meta name="keywords" content="pesquisa jurídica, direito, OAB, concursos, jurisprudência, súmulas" />
   <meta name="author" content="direito.love" />
   <meta name="robots" content="index, follow" />
@@ -82,7 +82,6 @@
     #dl-enviar{ background: var(--primary); color:#fff; } #dl-enviar:hover{ background:#264399; } #dl-enviar:disabled{ opacity:.5; filter:grayscale(.3) }
     #dl-limpar{ background: var(--muted-btn); color:#111; } #dl-limpar:hover{ background:#d6dae1 }
 
-    /* botão Ver mais/Ver menos */
     .toggle-more{
       margin-left:6px; background:none; border:0; color:var(--primary); cursor:pointer; font-size:12px; padding:0;
     }
@@ -167,7 +166,7 @@
     "data/codigo_civil.json",
     "data/codigo_tributario_nacional.json",
     "data/codigo_defesa_consumidor.json",
-    "data/codigo_transito_brasileiro.json",
+    "data/codigo_transito_brasileiro.json"
   ];
 
   const nomesAmigaveis = {
@@ -194,7 +193,7 @@
     "julgados_direito_eleitoral": "Julgados de Direito Eleitoral",
     "julgados_direito_empresarial": "Julgados de Direito Empresarial",
     "codigo_defesa_consumidor": "Código de Defesa do Consumidor",
-    "codigo_transito_brasileiro": "Código de Trânsito Brasileiro",
+    "codigo_transito_brasileiro": "Código de Trânsito Brasileiro"
   };
 
   const KEY='dl_pesquisa_selecionados';
@@ -318,7 +317,6 @@
       const p=document.createElement("p");
       const txt=(item.texto||'').trim();
 
-      // ====== Opção 2: Ver mais / Ver menos ======
       const isLong = txt.length > MAX_SNIPPET;
       p.textContent = isLong ? (txt.substring(0, MAX_SNIPPET) + "…") : txt;
       div.appendChild(p);
@@ -343,7 +341,6 @@
         });
         p.after(toggle);
       }
-      // ===========================================
 
       const actions=document.createElement("div");
       actions.className="actions";
@@ -353,6 +350,7 @@
         verNoticia.textContent="Ver notícia";
         verNoticia.href=item.url;
         verNoticia.target="_blank";
+        verNoticia.rel="noopener noreferrer";
         verNoticia.className="btn-news";
         actions.appendChild(verNoticia);
       } else {
@@ -375,7 +373,8 @@
           const isIn = arr.some(x => x.id === key);
           if (isIn){ arr = arr.filter(x => x.id !== key); syncBtn(false); }
           else { arr = dedupPush(arr, obj); syncBtn(true); }
-          setCarrinho(arr); updateBar();
+          setCarrinho(arr);
+          updateBar(); // atualiza botão e visibilidade
         });
 
         actions.appendChild(copiar);
@@ -391,7 +390,12 @@
     updateBar();
   }
 
-  function updateBar(){ $('#dl-enviar').disabled = getCarrinho().length===0; }
+  function updateBar(){
+    const hasSel = getCarrinho().length>0;
+    $('#dl-enviar').disabled = !hasSel;
+    toggleBar(hasSel);
+  }
+
   function toggleBar(show){
     const bar = $('#dl-bar-selecao');
     bar.style.display = show ? 'flex' : 'none';
@@ -420,11 +424,11 @@
       if(!lastResults.length){
         resultados.innerHTML = "<p>Nenhum resultado encontrado.</p>";
         miniRelatorio.style.display = "none";
-        toggleBar(false);
+        toggleBar(getCarrinho().length>0);
       }else{
         renderMiniRelatorio(lastResults);
-        toggleBar(true);
         renderBatch(false);
+        // barra só aparece se houver seleção (updateBar cuida disso)
       }
     }finally{
       btnBuscar.disabled = false; document.body.style.cursor = '';
@@ -435,7 +439,9 @@
   $("#btnMais").addEventListener("click", ()=> renderBatch(true));
   busca.addEventListener("keydown", (e)=>{ if(e.key==="Enter"){ e.preventDefault(); executarBusca(); } });
 
+  // Navega para o index mantendo seleção no localStorage
   $('#dl-enviar').addEventListener('click', ()=> { window.location.href = 'index.html#pesquisa'; });
+
   $('#dl-limpar').addEventListener('click', ()=> {
     localStorage.removeItem(KEY);
     updateBar();
