@@ -50,7 +50,7 @@
     .builder{padding:18px}
     .builder h2{margin:0 0 12px;font-size:20px;font-weight:700;color:var(--primary)}
     label[for=tema],.section-title{font-size:14px;color:var(--primary);margin:8px 0}
-    #tema{width:100%;border:2px solid var(--primary);background:#fdfdfd;color:var(--text);
+    #tema{width:100%;border:2px solid var(--primary);background:#fdfdfd;color:#000;
       padding:10px 12px;border-radius:8px;font-size:15px;outline:none;}
     #tema::placeholder{color:#9aa3af}
     .sessao-lista{display:grid;grid-template-columns:1fr;gap:4px;margin:10px 0;padding:0;list-style:none}
@@ -268,7 +268,7 @@ Ao finalizar todas as sessões solicitadas, conclua sempre com:
   const mo = new MutationObserver(sync);
   mo.observe(box, { childList:true, subtree:true, attributes:true });
 
-  // Exponhe helper para inserir manualmente um anúncio
+  // Exponha helper para inserir manualmente um anúncio
   window.dlShowAd = (html) => { box.innerHTML = html || ''; sync(); };
 
   // Checagem inicial
@@ -302,7 +302,9 @@ Ao finalizar todas as sessões solicitadas, conclua sempre com:
     box.innerHTML = `
       <style>
         #dl-box-achados{
-          margin:16px 0; padding:14px; border:1px solid #e5e5e5; border-radius:12px; background:#fafafa;
+          width:min(var(--prompt-width),100%);
+          margin:0 auto 12px;
+          padding:14px; border:1px solid #e5e5e5; border-radius:12px; background:#fafafa;
           font: 500 14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Arial;
         }
         #dl-box-achados h3{ margin:0 0 8px 0; font-size:15px; }
@@ -331,8 +333,14 @@ Ao finalizar todas as sessões solicitadas, conclua sempre com:
       </div>
     `;
 
-    const field=findPromptField();
-    const parent=(field&&field.closest&&field.closest('form, section, main'))||document.body;
+    const field = findPromptField();
+    // 👉 Insere preferencialmente na coluna do prompt (.stack). Fallbacks seguros.
+    const parent =
+      (field && field.closest && field.closest('.stack, .aside, main, section, form')) ||
+      document.querySelector('.stack') ||
+      document.querySelector('.wrap') ||
+      document.body;
+
     parent.insertBefore(box, parent.firstChild);
 
     // ✅ Insere o TEXTO COMPLETO; evita truncar (remove readonly temporariamente)
