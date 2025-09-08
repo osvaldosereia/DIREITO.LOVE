@@ -28,6 +28,9 @@
       /* Botão VER NOTÍCIA (verde) */
       --news-btn:#16a34a;
       --news-btn-hover:#22c55e;
+
+      /* Offset para scroll (topbar + mini-relatório) */
+      --snap-offset: 120px; /* fallback */
     }
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);color:var(--text);font:400 13px/1.4 var(--font);}
@@ -37,8 +40,6 @@
     .topbar__inner{max-width:1160px; margin:0 auto; padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px}
     .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:#111}
     .brand__logo{height:36px}
-
-    /* Chips no topo */
     .chip{padding:6px 14px; border-radius:20px; background:#fff; border:1px solid var(--border); font-size:13px; color:var(--primary); text-decoration:none; font-weight:500; transition:.15s}
     .chip:hover{background:var(--highlight-light)}
 
@@ -48,20 +49,27 @@
 
     .search-box{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:20px 0;}
     #busca{flex:1; padding:10px 12px; border:2px solid var(--primary); border-radius:8px; font-size:15px}
-    #filtroFonte{padding:10px; border:2px solid var(--primary); border-radius:8px; font-size:14px; min-width:220px}
+    #filtroFonte{padding:10px; border:2px solid var(--primary); border-radius:8px; font-size:14px; min-width:220px; background:#fff}
+
     #btnBuscar{appearance:none; border:none; background:var(--primary); color:#fff; padding:10px 14px; border-radius:8px; font-size:14px; cursor:pointer;}
     #btnBuscar:disabled{opacity:.7; cursor:progress}
 
-    /* Mini-relatório (fixo abaixo da topbar) */
+    /* Mini-relatório (agora com select "Ir para…") */
     .mini-relatorio{
       position:sticky; top:54px; background:#fff7d6;
       padding:8px 16px; display:none; gap:8px; flex-wrap:wrap;
       border-bottom:1px solid var(--border); z-index:90; justify-content:center;
     }
-    .mini-relatorio .chip{background:#fff;}
+    #gotoFonte{
+      padding:10px; border:2px solid var(--primary); border-radius:8px; font-size:14px; min-width:240px; background:#fff;
+    }
 
-    .result{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
-      padding:12px 14px;margin:12px 0;position:relative}
+    .result{
+      background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
+      padding:12px 14px;margin:12px 0;position:relative;
+      /* compensa topbar + mini-relatório */
+      scroll-margin-top: var(--snap-offset);
+    }
     .result p{margin:0;font-size:13px;line-height:1.4}
     .filetag{margin:0 0 6px 0;font-weight:700}
 
@@ -119,7 +127,7 @@
     </div>
   </header>
 
-  <!-- Mini-relatório (inicialmente oculto) -->
+  <!-- Mini-relatório (select "Ir para…") -->
   <div id="miniRelatorio" class="mini-relatorio"></div>
 
   <div class="wrap">
@@ -161,7 +169,7 @@
   const toast=(msg,t=1600)=>{const el=$("#toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
   const norm=(s="")=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 
-  /* === Lista COMPLETA de arquivos (como você pediu) === */
+  /* === Lista COMPLETA de arquivos === */
   const arquivos = [
     "data/julgados_direito_administrativo.json",
     "data/julgados_direito_ambiental.json",
@@ -183,7 +191,7 @@
     "data/teses_stf.json"
   ];
 
-  /* Nomes mais amigáveis */
+  /* Nomes amigáveis */
   const nomesAmigaveis = {
     "noticias": "Notícias",
     "noticias_migalhas_1": "Notícias Migalhas",
@@ -267,6 +275,15 @@
   let baseDados=[];     // tudo
   let lastResults=[];   // últimos achados
   let pageIndex=0;      // paginação
+  let firstByFonte={};  // índice do primeiro item por fonte (normalizada)
+
+  // Ajusta offset do scroll (topbar + mini)
+  function ajustarSnapOffset(){
+    const top = document.querySelector('.topbar');
+    const off = (top?.offsetHeight || 0) + (miniRelatorio?.offsetHeight || 0) + 8;
+    document.documentElement.style.setProperty('--snap-offset', off+'px');
+  }
+  window.addEventListener('resize', ajustarSnapOffset);
 
   // Inicialização
   popularFiltro();
@@ -275,29 +292,56 @@
     toast("Base carregada com sucesso!");
   });
 
-  /* Render do mini-relatório (agrupado) */
+  /* Render do mini-relatório como SELECT "Ir para…" */
   function renderMiniRelatorio(results){
+    // contagem agregada por fonte normalizada
     const contagem = results.reduce((acc, it)=>{
       const f = normalizarFonte(it.fonte);
       acc[f] = (acc[f]||0) + 1;
       return acc;
     }, {});
 
+    // monta o select
     miniRelatorio.innerHTML = '';
-    Object.keys(contagem).sort().forEach(f=>{
-      const chip = document.createElement('a');
-      chip.className = 'chip';
-      const label = (nomesAmigaveis[f] || f);
-      chip.textContent = `${label}: ${contagem[f]}`;
-      chip.href = '#';
-      chip.addEventListener('click', (e)=>{
-        e.preventDefault();
-        const primeiro = document.querySelector(`[data-fonte="${f}"]`);
-        if(primeiro) primeiro.scrollIntoView({behavior:'smooth'});
-      });
-      miniRelatorio.appendChild(chip);
+    const goto = document.createElement('select');
+    goto.id = 'gotoFonte';
+    const placeholder = new Option('Ir para…', '', true, true);
+    placeholder.disabled = true;
+    goto.add(placeholder);
+
+    // ordena por label amigável
+    const fontes = Object.keys(contagem).sort((a,b)=>{
+      const la=(nomesAmigaveis[a]||a).toLowerCase();
+      const lb=(nomesAmigaveis[b]||b).toLowerCase();
+      return la.localeCompare(lb);
     });
+
+    for(const f of fontes){
+      const label = (nomesAmigaveis[f] || f);
+      goto.add(new Option(`${label} — ${contagem[f]}`, f));
+    }
+
+    // handler: auto-carrega lotes até conter o primeiro item da fonte e rola
+    goto.addEventListener('change', ()=>{
+      const f = goto.value;
+      if(!f) return;
+      const idx = firstByFonte[f];
+      if(idx !== undefined){
+        const neededBatches = Math.floor(idx / PAGE_SIZE) + 1;
+        while(pageIndex < neededBatches){
+          renderBatch(true);
+        }
+      }
+      ajustarSnapOffset();
+      const primeiro = document.querySelector(`.result[data-fonte="${f}"]`);
+      if(primeiro) primeiro.scrollIntoView({behavior:'smooth', block:'start'});
+      // volta para placeholder
+      goto.selectedIndex = 0;
+    });
+
+    miniRelatorio.appendChild(goto);
     miniRelatorio.style.display = 'flex';
+    ajustarSnapOffset();
   }
 
   /* Render em lote (10 por vez) */
@@ -411,12 +455,18 @@
         return fonteOk && (x.textoNorm||'').includes(termoNorm);
       });
 
+      // mapeia o primeiro índice por fonte normalizada
+      firstByFonte = {};
+      for(let i=0;i<lastResults.length;i++){
+        const f = normalizarFonte(lastResults[i].fonte);
+        if(firstByFonte[f] === undefined) firstByFonte[f] = i;
+      }
+
       if(!lastResults.length){
         resultados.innerHTML = "<p>Nenhum resultado encontrado.</p>";
         miniRelatorio.style.display = "none";
         toggleBar(false);
       }else{
-        // mini-relatório + resultados (paginado)
         renderMiniRelatorio(lastResults);
         toggleBar(true);
         renderBatch(false);
