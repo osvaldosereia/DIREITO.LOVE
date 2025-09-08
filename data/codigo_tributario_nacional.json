@@ -1,0 +1,934 @@
+[
+  {
+    "id": "ctn_art_1",
+    "texto": "Art. 1 — Esta Lei regula, com fundamento na Emenda Constitucional nº 18, de 1º de dezembro de 1965, o sistema tributário nacional e estabelece, com fundamento no art. 5º, inciso XV, alínea b, da Constituição Federal, as normas gerais de direito tributário aplicáveis à União, aos Estados, ao Distrito Federal e aos Municípios, sem prejuízo da respectiva legislação complementar, supletiva ou regulamentar.\n\nLIVRO PRIMEIRO\n\nSISTEMA TRIBUTÁRIO NACIONAL\n\nTÍTULO I\n\nDisposições Gerais"
+  },
+  {
+    "id": "ctn_art_2",
+    "texto": "Art. 2 — O sistema tributário nacional é regido pelo disposto na Emenda Constitucional nº 18, de 1º de dezembro de 1965, em leis complementares, em resoluções do Senado Federal e, nos limites das respectivas competências, em leis federais, nas Constituições e em leis estaduais, e em leis municipais."
+  },
+  {
+    "id": "ctn_art_3",
+    "texto": "Art. 3 — Tributo é toda prestação pecuniária compulsória, em moeda ou cujo valor nela se possa exprimir, que não constitua sanção de ato ilícito, instituída em lei e cobrada mediante atividade administrativa plenamente vinculada."
+  },
+  {
+    "id": "ctn_art_4",
+    "texto": "Art. 4 — A natureza jurídica específica do tributo é determinada pelo fato gerador da respectiva obrigação, sendo irrelevantes para qualificá-la:\n\nI - a denominação e demais características formais adotadas pela lei;\n\nI\nI - a destinação legal do produto da sua arrecadação."
+  },
+  {
+    "id": "ctn_art_5",
+    "texto": "Art. 5 — Os tributos são impostos, taxas e contribuições de melhoria.\n\nTÍTULO II\n\nCompetência Tributária\n\nCAPÍTULO I\n\nDisposições Gerais"
+  },
+  {
+    "id": "ctn_art_6",
+    "texto": "Art. 6 — A atribuição constitucional de competência tributária compreende a competência legislativa plena, ressalvadas as limitações contidas na Constituição Federal, nas Constituições dos Estados e nas Leis Orgânicas do Distrito Federal e dos Municípios, e observado o disposto nesta Lei.\n\nParágrafo único. Os tributos cuja receita seja distribuída, no todo ou em parte, a outras pessoas jurídicas de direito público pertencerá à competência legislativa daquela a que tenham sido atribuídos."
+  },
+  {
+    "id": "ctn_art_7",
+    "texto": "Art. 7 — A competência tributária é indelegável, salvo atribuição das funções de arrecadar ou fiscalizar tributos, ou de executar leis, serviços, atos ou decisões administrativas em matéria tributária, conferida por uma pessoa jurídica de direito público a outra, nos termos do \n§ 3º do art. 18 da Constituição.\n\n§ 1º A atribuição compreende as garantias e os privilégios processuais que competem à pessoa jurídica de direito público que a conferir.\n\n§ 2º A atribuição pode ser revogada, a qualquer tempo, por ato unilateral da pessoa jurídica de direito público que a tenha conferido.\n\n§ 3º Não constitui delegação de competência o cometimento, a pessoas de direito privado, do encargo ou da função de arrecadar tributos."
+  },
+  {
+    "id": "ctn_art_8",
+    "texto": "Art. 8 — O não-exercício da competência tributária não a defere a pessoa jurídica de direito público diversa daquela a que a Constituição a tenha atribuído.\n\nCAPÍTULO II\n\nLimitações da Competência Tributária\n\nSeção I\n\nDisposições Gerais"
+  },
+  {
+    "id": "ctn_art_9",
+    "texto": "Art. 9 — É vedado à União, aos Estados, ao Distrito Federal e aos Municípios:\n\nI - instituir ou majorar tributo sem que a lei o estabeleça, ressalvado, quanto à majoração, o disposto nos arts. 21, 26 e 65;\n\nI\nI - cobrar impôsto sôbre o patrimônio e a renda com base em lei posterior à data inicial do exercício financeiro a que corresponda;\n\nI\nII - estabelecer limitações ao tráfego, no território nacional, de pessoas ou mercadorias, por meio de tributos interestaduais ou intermunicipais;\n\nI\nV - cobrar impôsto sôbre:\n\na) o patrimônio, a renda ou os serviços uns dos outros;\n\nb) templos de qualquer culto;\n\nc) o patrimônio, a renda ou serviços de partidos políticos e de instituições de educação ou de assistência social, observados os requisitos fixados na Seção II dêste Capítulo;\n\n \nc) o patrimônio, a renda ou serviços dos partidos políticos, inclusive suas fundações, das entidades sindicais dos trabalhadores, das instituições de educação e de assistência social, sem fins lucrativos, observados os requisitos fixados na Seção II deste Capítulo;       (Redação dada pela Lei Complementar nº 104, de 2001)\n\nd) papel destinado exclusivamente à impressão de jornais, periódicos e livros.\n\n§ 1º O disposto no inciso IV não exclui a atribuição, por lei, às entidades nêle referidas, da condição de responsáveis pelos tributos que lhes caiba reter na fonte, e não as dispensa da prática de atos, previstos em lei, assecuratórios do cumprimento de obrigações tributárias por terceiros.\n\n§ 2º O disposto na alínea a do inciso IV aplica-se, exclusivamente, aos serviços próprios das pessoas jurídicas de direito público a que se refere este artigo, e inerentes aos seus objetivos."
+  },
+  {
+    "id": "ctn_art_10",
+    "texto": "Art. 10 — É vedado à União instituir tributo que não seja uniforme em todo o território nacional, ou que importe distinção ou preferência em favor de determinado Estado ou Município."
+  },
+  {
+    "id": "ctn_art_11",
+    "texto": "Art. 11 — É vedado aos Estados, ao Distrito Federal e aos Municípios estabelecer diferença tributária entre bens de qualquer natureza, em razão da sua procedência ou do seu destino.\n\nSEÇÃO II\n\nDisposições Especiais"
+  },
+  {
+    "id": "ctn_art_12",
+    "texto": "Art. 12 — O disposto na alínea a do inciso IV do art. 9º, observado o disposto nos seus §\n§ 1º e 2º, é extensivo às autarquias criadas pela União, pelos Estados, pelo Distrito Federal ou pelos Municípios, tão-somente no que se refere ao patrimônio, à renda ou aos serviços vinculados às suas finalidades essenciais, ou delas decorrentes."
+  },
+  {
+    "id": "ctn_art_13",
+    "texto": "Art. 13 — O disposto na alínea a do inciso IV do art. 9º não se aplica aos serviços públicos concedidos, cujo tratamento tributário é estabelecido pelo poder concedente, no que se refere aos tributos de sua competência, ressalvado o que dispõe o \nparágrafo único.\n\nParágrafo único. Mediante lei especial e tendo em vista o interêsse comum, a União pode instituir isenção de tributos federais, estaduais e municipais para os serviços públicos que conceder, observado o disposto no \n§ 1º do art. 9º."
+  },
+  {
+    "id": "ctn_art_14",
+    "texto": "Art. 14 — O disposto na alínea c do inciso IV do art. 9º é subordinado à observância dos seguintes requisitos pelas entidades nêle referidas:\n\nI - não distribuírem qualquer parcela de seu patrimônio ou de suas rendas, a título de lucro ou participação no seu resultado;\n\nI – não distribuírem qualquer parcela de seu patrimônio ou de suas rendas, a qualquer título;     (Redação dada pela Lcp nº 104, de 2001)\n\nI\nI - aplicarem integralmente, no País, os seus recursos na manutenção dos seus objetivos institucionais;\n\nI\nII - manterem escrituração de suas receitas e despesas em livros revestidos de formalidades capazes de assegurar sua exatidão.\n\n§ 1º Na falta de cumprimento do disposto neste artigo, ou no \n§ 1º do art. 9º, a autoridade competente pode suspender a aplicação do benefício.\n\n§ 2º Os serviços a que se refere a alínea c do inciso IV do art. 9º são exclusivamente, os diretamente relacionados com os objetivos institucionais das entidades de que trata este artigo, previstos nos respectivos estatutos ou atos constitutivos."
+  },
+  {
+    "id": "ctn_art_15",
+    "texto": "Art. 15 — Somente a União, nos seguintes casos excepcionais, pode instituir empréstimos compulsórios:\n\nI - guerra externa, ou sua iminência;\n\nI\nI - calamidade pública que exija auxílio federal impossível de atender com os recursos orçamentários disponíveis;\n\nI\nII - conjuntura que exija a absorção temporária de poder aquisitivo.\n\nParágrafo único. A lei fixará obrigatoriamente o prazo do empréstimo e as condições de seu resgate, observando, no que for aplicável, o disposto nesta lei.\n\nTÍTULO III\n\nImpostos\n\nCAPÍTULO I\n\nDisposições Gerais"
+  },
+  {
+    "id": "ctn_art_16",
+    "texto": "Art. 16 — Imposto é o tributo cuja obrigação tem por fato gerador uma situação independente de qualquer atividade estatal específica, relativa ao contribuinte."
+  },
+  {
+    "id": "ctn_art_17",
+    "texto": "Art. 17 — Os impostos componentes do sistema tributário nacional são exclusivamente os que constam dêste Título, com as competências e limitações nele previstas."
+  },
+  {
+    "id": "ctn_art_18",
+    "texto": "Art. 18 — Compete:\n\nI - à União, instituir, nos Territórios Federais, os impostos atribuídos aos Estados e, se aqueles não forem divididos em Municípios, cumulativamente, os atribuídos a êstes;\n\nI\nI - ao Distrito Federal e aos Estados não divididos em Municípios, instituir, cumulativamente, os impostos atribuídos aos Estados e aos Municípios."
+  },
+  {
+    "id": "ctn_art_18_A",
+    "texto": "Art. 18-A — Para fins da incidência do imposto de que trata o inciso II do caput do art. 155 da Constituição Federal, os combustíveis, o gás natural, a energia elétrica, as comunicações e o transporte coletivo são considerados bens e serviços essenciais e indispensáveis, que não podem ser tratados como supérfluos.   (Incluído pela Lei Complementar nº 194, de 2022)\n\nParágrafo único. Para efeito do disposto neste artigo:   (Incluído pela Lei Complementar nº 194, de 2022)\n\nI - é vedada a fixação de alíquotas sobre as operações referidas no caput deste artigo em patamar superior ao das operações em geral, considerada a essencialidade dos bens e serviços;   (Incluído pela Lei Complementar nº 194, de 2022)\n\nI\nI - é facultada ao ente federativo competente a aplicação de alíquotas reduzidas em relação aos bens referidos no caput deste artigo, como forma de beneficiar os consumidores em geral; e   (Incluído pela Lei Complementar nº 194, de 2022)\n\nI\nII - é vedada a fixação de alíquotas reduzidas de que trata o inciso II deste parágrafo, para os combustíveis, a energia elétrica e o gás natural, em percentual superior ao da alíquota vigente por ocasião da publicação deste artigo.   (Incluído pela Lei Complementar nº 194, de 2022)   (Revogado pela Lei Complementar nº 201, de 2023)\n\nCAPÍTULO II\n\nImpostos sôbre o Comércio Exterior\n\nSeção I\n\nImpôsto sôbre a Importação"
+  },
+  {
+    "id": "ctn_art_19",
+    "texto": "Art. 19 — O impôsto, de competência da União, sôbre a importação de produtos estrangeiros tem como fato gerador a entrada dêstes no território nacional."
+  },
+  {
+    "id": "ctn_art_20",
+    "texto": "Art. 20 — A base de cálculo do impôsto é:\n\nI - quando a alíquota seja específica, a unidade de medida adotada pela lei tributária;\n\nI\nI - quando a alíquota seja ad valorem, o preço normal que o produto, ou seu similar, alcançaria, ao tempo da importação, em uma venda em condições de livre concorrência, para entrega no porto ou lugar de entrada do produto no País;\n\nI\nII - quando se trate de produto apreendido ou abandonado, levado a leilão, o preço da arrematação."
+  },
+  {
+    "id": "ctn_art_21",
+    "texto": "Art. 21 — O Poder Executivo pode, nas condições e nos limites estabelecidos em lei, alterar as alíquotas ou as bases de cálculo do impôsto, a fim de ajustá-lo aos objetivos da política cambial e do comércio exterior."
+  },
+  {
+    "id": "ctn_art_22",
+    "texto": "Art. 22 — Contribuinte do impôsto é:\n\nI - o importador ou quem a lei a ele equiparar;\n\nI\nI - o arrematante de produtos apreendidos ou abandonados.\n\nSeção II\n\nImpôsto sôbre a Exportação"
+  },
+  {
+    "id": "ctn_art_23",
+    "texto": "Art. 23 — O impôsto, de competência da União, sôbre a exportação, para o estrangeiro, de produtos nacionais ou nacionalizados tem como fato gerador a saída dêstes do território nacional."
+  },
+  {
+    "id": "ctn_art_24",
+    "texto": "Art. 24 — A base de cálculo do impôsto é:\n\nI - quando a alíquota seja específica, a unidade de medida adotada pela lei tributária;\n\nI\nI - quando a alíquota seja ad valorem, o preço normal que o produto, ou seu similar, alcançaria, ao tempo da exportação, em uma venda em condições de livre concorrência.\n\nParágrafo único. Para os efeitos do inciso II, considera-se a entrega como efetuada no porto ou lugar da saída do produto, deduzidos os tributos diretamente incidentes sôbre a operação de exportação e, nas vendas efetuadas a prazo superior aos correntes no mercado internacional o custo do financiamento."
+  },
+  {
+    "id": "ctn_art_25",
+    "texto": "Art. 25 — A lei pode adotar como base de cálculo a parcela do valor ou do preço, referidos no artigo anterior, excedente de valor básico, fixado de acordo com os critérios e dentro dos limites por ela estabelecidos."
+  },
+  {
+    "id": "ctn_art_26",
+    "texto": "Art. 26 — O Poder Executivo pode, nas condições e nos limites estabelecidos em lei, alterar as alíquotas ou as bases de cálculo do impôsto, a fim de ajustá-los aos objetivos da política cambial e do comércio exterior."
+  },
+  {
+    "id": "ctn_art_27",
+    "texto": "Art. 27 — Contribuinte do impôsto é o exportador ou quem a lei a êle equiparar."
+  },
+  {
+    "id": "ctn_art_28",
+    "texto": "Art. 28 — A receita líquida do impôsto destina-se à formação de reservas monetárias, na forma da lei.\n\nCAPÍTULO III\n\nImpostos sôbre o Patrimônio e a Renda\n\nSeção I\n\nImpôsto sôbre a Propriedade Territorial Rural"
+  },
+  {
+    "id": "ctn_art_29",
+    "texto": "Art. 29 — O impôsto, de competência da União, sobre a propriedade territorial rural tem como fato gerador a propriedade, o domínio útil ou a posse de imóvel por natureza, como definido na lei civil, localizado fora da zona urbana do Município."
+  },
+  {
+    "id": "ctn_art_30",
+    "texto": "Art. 30 — A base do cálculo do impôsto é o valor fundiário."
+  },
+  {
+    "id": "ctn_art_31",
+    "texto": "Art. 31 — Contribuinte do impôsto é o proprietário do imóvel, o titular de seu domínio útil, ou o seu possuidor a qualquer título.\n\nSeção II\n\nImpôsto sôbre a Propriedade Predial e Territorial Urbana"
+  },
+  {
+    "id": "ctn_art_32",
+    "texto": "Art. 32 — O impôsto, de competência dos Municípios, sôbre a propriedade predial e territorial urbana tem como fato gerador a propriedade, o domínio útil ou a posse de bem imóvel por natureza ou por acessão física, como definido na lei civil, localizado na zona urbana do Município.\n\n \n§ 1º Para os efeitos dêste impôsto, entende-se como zona urbana a definida em lei municipal; observado o requisito mínimo da existência de melhoramentos indicados em pelo menos 2 (doi\ns) dos incisos seguintes, construídos ou mantidos pelo Poder Público:\n\n \nI - meio-fio ou calçamento, com canalização de águas pluviais;\n\n \nII - abastecimento de água;\n\n \nIII - sistema de esgotos sanitários;\n\n \nIV - rêde de iluminação pública, com ou sem posteamento para distribuição domiciliar;\n\n \nV - escola primária ou pôsto de saúde a uma distância máxima de 3 (trê\ns) quilômetros do imóvel considerado.\n\n \n§ 2º A lei municipal pode considerar urbanas as áreas urbanizáveis, ou de expansão urbana, constantes de loteamentos aprovados pelos órgãos competentes, destinados à habitação, à indústria ou ao comércio, mesmo que localizados fora das zonas definidas nos têrmos do parágrafo anterior."
+  },
+  {
+    "id": "ctn_art_33",
+    "texto": "Art. 33 — A base do cálculo do impôsto é o valor venal do imóvel.\n\n \nParágrafo único. Na determinação da base de cálculo, não se considera o valor dos bens móveis mantidos, em caráter permanente ou temporário, no imóvel, para efeito de sua utilização, exploração, aformoseamento ou comodidade."
+  },
+  {
+    "id": "ctn_art_34",
+    "texto": "Art. 34 — Contribuinte do impôsto é o proprietário do imóvel, o titular do seu domínio útil, ou o seu possuidor a qualquer título.\n\nSeção III\n\nImpôsto sôbre a Transmissão de Bens Imóveis e de Direitos a êles Relativos"
+  },
+  {
+    "id": "ctn_art_35",
+    "texto": "Art. 35 — O impôsto, de competência dos Estados, sôbre a transmissão de bens imóveis e de direitos a êles relativos tem como fato gerador:\n\nI - a transmissão, a qualquer título, da propriedade ou do domínio útil de bens imóveis por natureza ou por acessão física, como definidos na lei civil;\n\nI\nI - a transmissão, a qualquer título, de direitos reais sobre imóveis, exceto os direitos reais de garantia;\n\nI\nII - a cessão de direitos relativos às transmissões referidas nos incisos I e II.\n\nParágrafo único. Nas transmissões causa mortis, ocorrem tantos fatos geradores distintos quantos sejam os herdeiros ou legatários."
+  },
+  {
+    "id": "ctn_art_36",
+    "texto": "Art. 36 — Ressalvado o disposto no artigo seguinte, o impôsto não incide sôbre a transmissão dos bens ou direitos referidos no artigo anterior:\n\nI - quando efetuada para sua incorporação ao patrimônio de pessoa jurídica em pagamento de capital nela subscrito;\n\nI\nI - quando decorrente da incorporação ou da fusão de uma pessoa jurídica por outra ou com outra.\n\nParágrafo único. O impôsto não incide sôbre a transmissão aos mesmos alienantes, dos bens e direitos adquiridos na forma do inciso I dêste artigo, em decorrência da sua desincorporação do patrimônio da pessoa jurídica a que foram conferidos."
+  },
+  {
+    "id": "ctn_art_37",
+    "texto": "Art. 37 — O disposto no artigo anterior não se aplica quando a pessoa jurídica adquirente tenha como atividade preponderante a venda ou locação de propriedade imobiliária ou a cessão de direitos relativos à sua aquisição.\n\n§ 1º Considera-se caracterizada a atividade preponderante referida neste artigo quando mais de 50% (cinqüenta por cent\no) da receita operacional da pessoa jurídica adquirente, nos 2 (doi\ns) anos anteriores e nos 2 (doi\ns) anos subseqüentes à aquisição, decorrer de transações mencionadas neste artigo.\n\n§ 2º Se a pessoa jurídica adquirente iniciar suas atividades após a aquisição, ou menos de 2 (doi\ns) anos antes dela, apurar-se-á a preponderância referida no parágrafo anterior levando em conta os 3 (trê\ns) primeiros anos seguintes à data da aquisição.\n\n§ 3º Verificada a preponderância referida neste artigo, tornar-se-á devido o impôsto, nos termos da lei vigente à data da aquisição, sôbre o valor do bem ou direito nessa data.\n\n§ 4º O disposto neste artigo não se aplica à transmissão de bens ou direitos, quando realizada em conjunto com a da totalidade do patrimônio da pessoa jurídica alienante."
+  },
+  {
+    "id": "ctn_art_38",
+    "texto": "Art. 38 — A base de cálculo do impôsto é o valor venal dos bens ou direitos transmitidos."
+  },
+  {
+    "id": "ctn_art_39",
+    "texto": "Art. 39 — A alíquota do impôsto não excederá os limites fixados em resolução do Senado Federal, que distinguirá, para efeito de aplicação de alíquota mais baixa, as transmissões que atendam à política nacional de habitação.                 (Vide Ato Complementar nº 27, de 1966)"
+  },
+  {
+    "id": "ctn_art_40",
+    "texto": "Art. 40 — O montante do impôsto é dedutível do devido à União, a título do impôsto de que trata o art. 43, sôbre o provento decorrente da mesma transmissão."
+  },
+  {
+    "id": "ctn_art_41",
+    "texto": "Art. 41 — O impôsto compete ao Estado da situação do imóvel transmitido, ou sôbre que versarem os direitos cedidos, mesmo que a mutação patrimonial decorra de sucessão aberta no estrangeiro."
+  },
+  {
+    "id": "ctn_art_42",
+    "texto": "Art. 42 — Contribuinte do impôsto é qualquer das partes na operação tributada, como dispuser a lei.\n\nSeção IV\n\nImpôsto sôbre a Renda e Proventos de Qualquer Natureza"
+  },
+  {
+    "id": "ctn_art_43",
+    "texto": "Art. 43 — O impôsto, de competência da União, sôbre a renda e proventos de qualquer natureza tem como fato gerador a aquisição da disponibilidade econômica ou jurídica:\n\nI - de renda, assim entendido o produto do capital, do trabalho ou da combinação de ambos;\n\nI\nI - de proventos de qualquer natureza, assim entendidos os acréscimos patrimoniais não compreendidos no inciso anterior.\n\n§ 1o A incidência do imposto independe da denominação da receita ou do rendimento, da localização, condição jurídica ou nacionalidade da fonte, da origem e da forma de percepção.           (Incluído pela Lcp nº 104, de 2001)\n\n§ 2o Na hipótese de receita ou de rendimento oriundos do exterior, a lei estabelecerá as condições e o momento em que se dará sua disponibilidade, para fins de incidência do imposto referido neste artigo.            (Incluído pela Lcp nº 104, de 2001)"
+  },
+  {
+    "id": "ctn_art_44",
+    "texto": "Art. 44 — A base de cálculo do impôsto é o montante, real, arbitrado ou presumido, da renda ou dos proventos tributáveis."
+  },
+  {
+    "id": "ctn_art_45",
+    "texto": "Art. 45 — Contribuinte do impôsto é o titular da disponibilidade a que se refere o artigo 43, sem prejuízo de atribuir a lei essa condição ao possuidor, a qualquer título, dos bens produtores de renda ou dos proventos tributáveis.\n\nParágrafo único. A lei pode atribuir à fonte pagadora da renda ou dos proventos tributáveis a condição de responsável pelo impôsto cuja retenção e recolhimento lhe caibam.\n\nCAPÍTULO IV\n\nImpostos sôbre a Produção e a Circulação\n\nSeção I\n\nImpôsto sôbre Produtos Industrializados"
+  },
+  {
+    "id": "ctn_art_46",
+    "texto": "Art. 46 — O impôsto, de competência da União, sôbre produtos industrializados tem como fato gerador:\n\nI - o seu desembaraço aduaneiro, quando de procedência estrangeira;\n\nI\nI - a sua saída dos estabelecimentos a que se refere o parágrafo único do art. 51;\n\nI\nII - a sua arrematação, quando apreendido ou abandonado e levado a leilão.\n\nParágrafo único. Para os efeitos deste impôsto, considera-se industrializado o produto que tenha sido submetido a qualquer operação que lhe modifique a natureza ou a finalidade, ou o aperfeiçoe para o consumo."
+  },
+  {
+    "id": "ctn_art_47",
+    "texto": "Art. 47 — A base de cálculo do impôsto é:\n\nI - no caso do inciso I do artigo anterior, o preço normal, como definido no inciso II do art. 20, acrescido do montante:\n\na) do impôsto sôbre a importação;\n\nb) das taxas exigidas para entrada do produto no País;\n\nc) dos encargos cambiais efetivamente pagos pelo importador ou dêle exigíveis;\n\nI\nI - no caso do inciso II do artigo anterior:\n\na) o valor da operação de que decorrer a saída da mercadoria;\n\nb) na falta do valor a que se refere a alínea anterior, o preço corrente da mercadoria, ou sua similar, no mercado atacadista da praça do remetente;\n\nI\nII - no caso do inciso III do artigo anterior, o preço da arrematação."
+  },
+  {
+    "id": "ctn_art_48",
+    "texto": "Art. 48 — O impôsto é seletivo em função da essencialidade dos produtos."
+  },
+  {
+    "id": "ctn_art_49",
+    "texto": "Art. 49 — O impôsto é não-cumulativo, dispondo a lei de forma que o montante devido resulte da diferença a maior, em determinado período, entre o impôsto referente aos produtos saídos do estabelecimento e o pago relativamente aos produtos nêle entrados.\n\nParágrafo único. O saldo verificado, em determinado período, em favor do contribuinte transfere-se para o período ou períodos seguintes."
+  },
+  {
+    "id": "ctn_art_50",
+    "texto": "Art. 50 — Os produtos sujeitos ao impôsto, quando remetidos de um para outro Estado, ou do ou para o Distrito Federal, serão acompanhados de nota fiscal de modêlo especial, emitida em séries próprias e contendo, além dos elementos necessários ao contrôle fiscal, os dados indispensáveis à elaboração da estatística do comércio por cabotagem e demais vias internas."
+  },
+  {
+    "id": "ctn_art_51",
+    "texto": "Art. 51 — Contribuinte do impôsto é:\n\nI - o importador ou quem a lei a êle equiparar;\n\nI\nI - o industrial ou quem a lei a êle equiparar;\n\nI\nII - o comerciante de produtos sujeitos ao impôsto, que os forneça aos contribuintes definidos no inciso anterior;\n\nI\nV - o arrematante de produtos apreendidos ou abandonados, levados a leilão.\n\nParágrafo único. Para os efeitos dêste impôsto, considera-se contribuinte autônomo qualquer estabelecimento de importador, industrial, comerciante ou arrematante.\n\nSeção II\n\nImpôsto Estadual sôbre Operações Relativas à Circulação de Mercadorias"
+  },
+  {
+    "id": "ctn_art_52",
+    "texto": "Art. 52 — O impôsto, de competência dos Estados, sôbre operações relativas à circulação de mercadorias tem como fato gerador a saída destas de estabelecimentos comercial, industrial ou produtor."
+  },
+  {
+    "id": "ctn_art_52_2",
+    "texto": "Art. 52 — O impôsto, de competência dos Estados, sôbre operações relativas a circulação de mercadorias tem como fato gerador:            (Redação dada pelo Ato Complementar nº 34, de 1967)            (Revogado pelo Decreto-lei nº 406, de 1968).\n\nI - a saída de mercadorias de estabelecimento comercial, industrial ou produtor;           (Incluído pelo Ato Complementar nº 34, de 1967)             (Revogado pelo Decreto-lei nº 406, de 1968).\n\n \nII - a entrada de mercadoria estrangeira em estabelecimento da emprêsa que houver realizado a importação, observado o disposto nos §\n§ 6º e 7º, do art. 58;            (Incluído pelo Ato Complementar nº 34, de 1967)            (Revogado pelo Ato Complementar nº 36, de 1967)\n\nI\nII - o fornecimento de alimentação, bebidas e outras mercadorias, nos restautantes, bares, cafés e estabelecimentos similares.            (Incluído pelo Ato Complementar nº 34, de 1967)              (Revogado pelo Decreto-lei nº 406, de 1968).\n\n \n§ 1º Equipara-se à saída a transmissão da propriedade de mercadoria, quando esta não transitar pelo estabelecimento do transmitente.           (Revogado pelo Decreto-lei nº 406, de 1968).\n\n§ 2º Quando a mercadoria seja transferida para armazém-geral, no mesmo Estado, a saída considera-se ocorrida no lugar do estabelecimento remetente:            (Revogado pelo Decreto-lei nº 406, de 1968).\n\nI - no momento da retirada da mercadoria do armazém, salvo se para retornar ao estabelecimento da origem;            (Revogado pelo Decreto-lei nº 406, de 1968).\n\nI\nI - no momento da transmissão da propriedade da mercadoria.           (Revogado pelo Decreto-lei nº 406, de 1968).\n\n§ 3º O impôsto não incide:           (Revogado pelo Decreto-lei nº 406, de 1968).\n\nI - sôbre a saída decorrente da venda a varejo, diretamente a consumidor, de gêneros de primeira necessidade, definidos como tais por ato do Poder Executivo estadual;            (Revogado pelo Decreto-lei nº 406, de 1968).\n\nI\nI - sôbre a alienação fiduciária, em garantia;          (Revogado pelo Decreto-lei nº 406, de 1968)\n\nI\nI – sobre a alienação fiduciária em garantia, bem como na operação posterior ao vencimento do contrato de financiamento respectivo, efetuado pelo credor em razão do inadimplemento do devedor.            (Vide Lei nº \n5.589, de 1970)\n\nI\nII - VETADO.\n\nI\nII - Sôbre a saída de vasilhame utilizado no transporte da mercadoria, desde que tenha de retornar a estabelecimento do remetente.             (Incluído pelo Ato Complementar nº 31, de1966)           (Revogado pelo Decreto-lei nº 406, de 1968).    \n\nI\nV – sôbre o fornecimento de materiais pelos empreiteiros de obras hidráulicas ou de contrução civil, quando adquiridos de terceiros.               (Incluído pelo Ato Complementar nº 34, de 1967)            (Vide Ato Complementar nº 35, de 1967)          (Revogado pelo Decreto-lei nº 406, de 1968).\n\n§ 4º VETADO.         (Revogado pelo Decreto-lei nº 406, de 1968)."
+  },
+  {
+    "id": "ctn_art_53",
+    "texto": "Art. 53 — A base de cálculo do impôsto é:           (Revogado pelo Decreto-lei nº 406, de 1968).:\n\nI - o valor da operação de que decorrer a saída da mercadoria;    (Revogado pelo Decreto-lei nº 406, de 1968).\n\nI\nI - na falta do valor a que se refere o inciso anterior, o preço corrente da mercadoria, ou sua similar, no mercado atacadista da praça do remetente.                  (Revogado pelo Decreto-lei nº 406, de 1968).\n\n§ 1º O montante do impôsto de que trata o artigo 46 não integra a base de cálculo definida neste artigo:              (Revogado pelo Decreto-lei nº 406, de 1968).\n\nI - quando a operação constitua fato gerador de ambos os tributos, como definido nos arts. 46 e 52;             (Revogado pelo Decreto-lei nº 406, de 1968).\n\nI\nI - em relação a produtos sujeitos ao impôsto de que trata o artigo 46, com base de cálculo relacionada com o preço máximo de venda no varejo marcado pelo fabricante;                (Revogado pelo Decreto-lei nº 406, de 1968).\n\n§ 2º Na saída para outro Estado, a base de cálculo definida neste artigo:             (Revogado pelo Decreto-lei nº 406, de 1968).\n\nI - não inclui as despesas de frete e seguro;              (Revogado pelo Decreto-lei nº 406, de 1968).\n\nI\nI - não pode exceder, nas transferências para estabelecimento do próprio remetente ou seu representante, o preço de venda do estabelecimento destinatário, no momento da remessa, diminuído de 20% (vinte por cent\no) e ainda das despesas de frete e seguro.             (Vide Ato Complementar nº 34, de 1967)               (Revogado pelo Decreto-lei nº 406, de 1968).\n\n3º Na saída decorrente do fornecimento de mercadorias, nas operações mistas de que trata o \n§ 2º do artigo 71, a base de cálculo será 50% (cinqüenta por cent\no) do valor total da operação.     \n\n§ 3º Na saída decorrente do fornecimento de mercadorias nas operações mistas de que trata o \n§ 2º do artigo 71, a base de cálculo é o preço de aquisição das mercadorias, acrescido da percentagem de 30% (trinta por cent\no) e, incluído, no preço, se incidente na operação, o imposto sobre produtos industrializados.             (Redação dada pelo Ato Complementar nº 34, de 1967)              (Revogado pelo Decreto-lei nº 406, de 1968).\n\n§ 4º O montante do imposto sobre circulação de mercadorias integra o valor ou preço a que se referem os incisos I e II deste artigo constituindo o respectivo destaque nos documentos fiscais, quando exigido pela legislação tributária, mera indicação para os fins do disposto no artigo \n54.           (Incluído pelo Ato Complementar nº 27, de 1966)            (Revogado pelo Decreto-lei nº 406, de 1968).\n\n§ 5º Nas operações de venda de mercadorias aos agentes encarregados da execução da política de garantia de preços mínimos, a base de cálculo é o valor líquido da operação, assim entendido o preço mínimo fixado pela autoridade federal, deduzido das despesas de transporte, seguro e comissões.            (Incluído pelo Ato Complementar nº 34, de 1967)             (Revogado pelo Decreto-lei nº 406, de 1968)."
+  },
+  {
+    "id": "ctn_art_54",
+    "texto": "Art. 54 — O impôsto é não-cumulativo, dispondo a lei de forma que o montante devido resulte da diferença a maior, em determinado período, entre o impôsto referente às mercadorias saídas do estabelecimento e o pago relativamente às mercadorias nêle entradas.               (Revogado pelo Decreto-lei nº 406, de 1968).\n\n§ 1º O saldo verificado, em determinado período, em favor do contribuinte transfere-se para o período ou períodos seguintes.             (Revogado pelo Decreto-lei nº 406, de 1968).\n\n§ 2º A lei poderá facultar aos produtores a opção pelo abatimento de uma percentagem fixa, a título do montante do impôsto pago relativamente às mercadorias entradas no respectivo estabelecimento.               (Revogado pelo Decreto-lei nº 406, de 1968)."
+  },
+  {
+    "id": "ctn_art_55",
+    "texto": "Art. 55 — Em substituição ao sistema de que trata o artigo anterior, poderá a lei dispor que o impôsto devido resulte da diferença a maior entre o montante do impôsto relativo à operação a tributar e o pago na incidência anterior sôbre a mesma mercadoria.                 (Revogado pelo Decreto-lei nº 406, de 1968)."
+  },
+  {
+    "id": "ctn_art_56",
+    "texto": "Art. 56 — Para os efeitos do disposto nos arts. 54 e 55, nas remessas de mercadorias para fora do Estado, o montante do impôsto relativo à operação de que decorram figurará destacadamente em nota fiscal, obedecendo, com as adaptações previstas na legislação estadual, ao modêlo de que trata o art. \n50.                 (Revogado pelo Decreto-lei nº 406, de 1968)."
+  },
+  {
+    "id": "ctn_art_57",
+    "texto": "Art. 57 — A alíquota do impôsto é uniforme para tôdas as mercadorias, não excedendo, nas saídas decorrentes de operações que as destinem a contribuinte localizado em outro Estado, o limite fixado em Resolução do Senado Federal.             (Vide Ato Complementar nº 27, de 1966)               (Revogado pelo Decreto-lei nº 406, de 1968).\n\nParágrafo único. O limite a que se refere êste artigo substituirá a alíquota fixada na lei do Estado, quando esta lhe fôr superior.                (Revogado pelo Decreto-lei nº 406, de 1968).\n\n  Art. \n58.Contribuinte do impôsto é o comerciante, industrial ou produtor que promova a saída da mercadoria.             (Revogado pelo Decreto-lei nº 406, de 1968).\n\n§ 1º Equipara-se a comerciante, industrial ou produtor qualquer pessoa, natural ou jurídica, que pratique, com habitualidade, operações relativas à circulação de mercadorias.             (Revogado pelo Decreto-lei nº 406, de 1968)\n\n§ 2º A lei pode atribuir a condição de responsável:              (Revogado pelo Decreto-lei nº 406, de 1968).\n\nI - ao comerciante ou industrial, quanto ao impôsto devido por produtor pela saída de mercadoria a êles destinada;             (Revogado pelo Decreto-lei nº 406, de 1968).\n\nI\nI - ao industrial ou comerciante atacadista, quanto ao impôsto devido por comerciante varejista, mediante acréscimo, ao preço da mercadoria a êle remetida, de percentagem não excedente de 30% (trinta por cent\no) que a lei estadual fixar;\n\nI\nI - ao industrial ou comerciante atacadista, quanto ao impôsto devido por comerciante varejista, mediante acréscimo:              (Redação dada pelo Ato Complementar nº 34, de 1967)\n\na) da margem de lucro atribuída ao revendedor, no caso de mercadoria com preço máximo de venda no varejo marcado pelo fabricante ou fixado pela autoridade competente;             (Incluída pelo Ato Complementar nº 34, de 1967)            (Revogado pelo Decreto-lei nº 406, de 1968).\n\nb) de percentagem de 30% (trinta por cent\no) calculada sobre o preço total cobrado pelo vendedor, neste incluído, se incidente na operação, o imposto a que se refere o art. 46, nos demais casos.               (Incluída pelo Ato Complementar nº 34, de 1967)           (Revogado pelo Decreto-lei nº 406, de 1968).\n\nI\nII - à cooperativa de produtores, quanto ao impôsto relativo às mercadorias a ela entregues por seus associados.             (Revogado pelo Decreto-lei nº 406, de 1968).\n\n§ 3º A lei pode considerar como contribuinte autônomo cada estabelecimento, permanente ou temporário, do comerciante, industrial ou produtor, inclusive quaisquer veículos utilizados por aquêles no comércio ambulante. (Revogado pelo Decreto-lei nº 406, de 1968).\n\n§ 4º Os órgãos da administração pública centralizada e as autarquias e empresas públicas, federais, estaduais ou municipais, que explorem ou mantenham serviços de compra e revenda de mercadorias, ou de venda ao público de mercadoria de sua produção, ainda que exclusivamente ao seu pessoal, ficam sujeitos ao recolhimento do imposto sobre circulação de mercadorias.             (Incluído pelo Ato Complementar nº 34, de 1967)              (Revogado pelo Decreto-lei nº 406, de 1968).\n\n§ 5º O encarregado de estabelecimento dos órgãos ou entidades previstos no parágrafo anterior que autorizar a saída ou alienação de mercadoria sem cumprimento das obrigações, principais ou acessórias, relativas ao imposto sobre circulação de mercadorias, nos termos da legislação estadual aplicável, ficará solidariamente responsável por essas obrigações.       (Incluído pelo Ato Complementar nº 34, de 1967)        (Revogado pelo Decreto-lei nº 406, de 1968).\n\n§ 6º  No caso do inciso II do art. 52, contribuinte é qualquer pessoa jurídica de direito privado, ou empresa individual a ela equiparada, excluídas as concessionárias de serviços públicos e as sociedades de economia mista que exerçam atividades em regime de monopólio instituído por lei.          (Incluído pelo Ato Complementar nº 34, de 1967)             (Revogado pelo Ato Complementar nº 36, de 1967)             (Revogado pelo Decreto-lei nº 406, de 1968).\n\n§ 7º Para os efeitos do parágrafo anterior, equipara-se a industrial as empresas de prestação de serviços.          (Incluído pelo Ato Complementar nº 34, de 1967)            (Revogado pelo Ato Complementar nº 36, de 1967)   (Revogado pelo Decreto-lei nº 406, de 1968).\n\n Seção III\n\nImpôsto Municipal sôbre Operações Relativas à Circulação de Mercadorias"
+  },
+  {
+    "id": "ctn_art_59",
+    "texto": "Art. 59 — O Município poderá cobrar o impôsto a que se refere o art. 52, relativamente aos fatos geradores ocorridos em seu território.           (Revogado pelo Ato Complementar nº 31, de 1966)"
+  },
+  {
+    "id": "ctn_art_60",
+    "texto": "Art. 60 — A base de cálculo do impôsto é o montante devido ao Estado a título do impôsto de que trata o art. 52, e sua alíquota, não excedente de 30% (trinta por cent\no), é uniforme para tôdas as mercadorias.              (Vide Ato Complementar nº 27, de 1966)            (Revogado pelo Ato Complementar nº 31, de 1966)"
+  },
+  {
+    "id": "ctn_art_61",
+    "texto": "Art. 61 — O Município observará a legislação estadual relativa ao impôsto de que trata o art. 52, tendo a respectiva fiscalização acesso aos livros e demais documentos fiscais nela previstos, mas não poderá impor aos contribuintes ou responsáveis obrigações acessórias, salvo nos casos em que a cobrança do impôsto lhe é assegurada pelo artigo seguinte.               (Revogado pelo Ato Complementar nº 31, de 1966)\n\nParágrafo único. As infrações à legislação dêste impôsto poderão ser punidas pela autoridade municipal com multas não superiores a 30% (trinta por cent\no) do montante que resultaria da aplicação da legislação estadual a infração idêntica.             (Revogado pelo Ato Complementar nº 31, de 1966)"
+  },
+  {
+    "id": "ctn_art_62",
+    "texto": "Art. 62 — Ressalvado o disposto no \n§ 3º do art. 52, é assegurada ao Município a cobrança do impôsto nos casos em que da lei estadual resultar suspensão ou exclusão de créditos, assim como a antecipação ou o diferimento de incidências relativamente ao impôsto de que trata aquele artigo.                (Revogado pelo Ato Complementar nº 31, de 1966)\n\nParágrafo único. Nas hipóteses previstas neste artigo, o Município cobrará o impôsto como se a operação fosse tributada pelo Estado.                 (Revogado pelo Ato Complementar nº 31, de 1966)\n\n Seção IV\n\nImpôsto sôbre Operações de Crédito, Câmbio e Seguro, e sôbre Operações Relativas a Títulos e Valôres Mobiliários"
+  },
+  {
+    "id": "ctn_art_63",
+    "texto": "Art. 63 — O impôsto, de competência da União, sôbre operações de crédito, câmbio e seguro, e sôbre operações relativas a títulos e valôres mobiliários tem como fato gerador:\n\nI - quanto às operações de crédito, a sua efetivação pela entrega total ou parcial do montante ou do valor que constitua o objeto da obrigação, ou sua colocação à disposição do interessado;\n\nI\nI - quanto às operações de câmbio, a sua efetivação pela entrega de moeda nacional ou estrangeira, ou de documento que a represente, ou sua colocação à disposição do interessado em montante equivalente à moeda estrangeira ou nacional entregue ou posta à disposição por êste;\n\nI\nII - quanto às operações de seguro, a sua efetivação pela emissão da apólice ou do documento equivalente, ou recebimento do prêmio, na forma da lei aplicável;\n\nI\nV - quanto às operações relativas a títulos e valôres mobiliários, a emissão, transmissão, pagamento ou resgate dêstes, na forma da lei aplicável.\n\nParágrafo único. A incidência definida no inciso I exclui a definida no inciso IV, e reciprocamente, quanto à emissão, ao pagamento ou resgate do título representativo de uma mesma operação de crédito."
+  },
+  {
+    "id": "ctn_art_64",
+    "texto": "Art. 64 — A base de cálculo do impôsto é:\n\nI - quanto às operações de crédito, o montante da obrigação, compreendendo o principal e os juros;\n\nI\nI - quanto às operações de câmbio, o respectivo montante em moeda nacional, recebido, entregue ou posto à disposição;\n\nI\nII - quanto às operações de seguro, o montante do prêmio;\n\nI\nV - quanto às operações relativas a títulos e valôres mobiliários:\n\na) na emissão, o valor nominal mais o ágio, se houver;\n\nb) na transmissão, o preço ou o valor nominal, ou o valor da cotação em Bôlsa, como determinar a lei;\n\nc) no pagamento ou resgate, o preço."
+  },
+  {
+    "id": "ctn_art_65",
+    "texto": "Art. 65 — O Poder Executivo pode, nas condições e nos limites estabelecidos em lei, alterar as alíquotas ou as bases de cálculo do impôsto, a fim de ajustá-lo aos objetivos da política monetária."
+  },
+  {
+    "id": "ctn_art_66",
+    "texto": "Art. 66 — Contribuinte do impôsto é qualquer das partes na operação tributada, como dispuser a lei."
+  },
+  {
+    "id": "ctn_art_67",
+    "texto": "Art. 67 — A receita líquida do impôsto destina-se à formação de reservas monetárias, na forma da lei.\n\nSeção V\n\nImpôsto sôbre Serviços de Transportes e Comunicações"
+  },
+  {
+    "id": "ctn_art_68",
+    "texto": "Art. 68 — O impôsto, de competência da União, sôbre serviços de transportes e comunicações tem como fato gerador:\n\nI - a prestação do serviço de transporte, por qualquer via, de pessoas, bens, mercadorias ou valôres, salvo quando o trajeto se contenha inteiramente no território de um mesmo Município;\n\nI\nI - a prestação do serviço de comunicações, assim se entendendo a transmissão e o recebimento, por qualquer processo, de mensagens escritas, faladas ou visuais, salvo quando os pontos de transmissão e de recebimento se situem no território de um mesmo Município e a mensagem em curso não possa ser captada fora dêsse território."
+  },
+  {
+    "id": "ctn_art_69",
+    "texto": "Art. 69 — A base de cálculo do impôsto é o preço do serviço."
+  },
+  {
+    "id": "ctn_art_70",
+    "texto": "Art. 70 — Contribuinte do impôsto é o prestador do serviço.\n\n Seção VI\n\nImpôsto sôbre Serviços de Qualquer Natureza"
+  },
+  {
+    "id": "ctn_art_71",
+    "texto": "Art. 71 — O impôsto, de competência dos Municípios, sôbre serviços de qualquer natureza tem como fato gerador a prestação, por emprêsa ou profissional autônomo, com ou sem estabelecimento fixo, de serviço que não configure, por si só, fato gerador de impôsto de competência da União ou dos Estados.             (Revogado pelo Decreto-lei nº 406, de 1968).\n\n§ 1º Para os efeitos dêste artigo, considera-se serviço: \n\nI - o fornecimento de trabalho, com ou sem utilização de máquinas, ferramentas ou veículos, a usuários ou consumidores finais; \n\nI\nI - a locação de bens imóveis;            (Vide Ato Complementar nº 27, de 1966)  \n\nI\nII - locação de espaço em bens imóveis, a título de hospedagem ou para guarda de bens de qualquer natureza. \n\n \nIV - jogos e diversões públicas.            (Incluído pelo Ato Complementar nº 27, de 1966) \n\n§ 1º Para os efeitos dêste artigo considera-se serviço:             (Redação dada pelo Ato Complementar nº 34, de 1967)       (Revogado pelo Decreto-lei nº 406, de 1968).\n\nI - locação de bens móveis;             (Redação dada pelo Ato Complementar nº 34, de 1967)  (Revogado pelo Decreto-lei nº 406, de 1968).\n\nI\nI - locação de espaço em bens imóveis, a título de hospedagem ou para guarda de bens de qualquer natureza;    (Redação dada pelo Ato Complementar nº 34, de 1967)   (Revogado pelo Decreto-lei nº 406, de 1968).\n\nI\nII - jogos e diversões públicas;           (Redação dada pelo Ato Complementar nº 34, de 1967)    (Revogado pelo Decreto-lei nº 406, de 1968).\n\nI\nV - beneficiamento, confecção, lavagem, tingimento, galvanoplastia, reparo, consêrto, restauração, acondicionamento, recondicionamento e operações similares, quando relacionadas com mercadorias não destinadas à produção industrial ou à comercialização;           (Redação dada pelo Ato Complementar nº 34, de 1967)    (Vide Ato Complementar nº 35, de 1967)       (Revogado pelo Decreto-lei nº 406, de 1968).\n\n \nV - execução, por administração ou empreitada, de obras hidráulica ou de construção civil, excluídas as contratadas com a União, Estados, Distrito Federal e Municípios, autarquias e emprêsas concessionárias de serviços públicos assim como as respectivas subempreitadas;             (Incluído pelo Ato Complementar nº 34, de 1967)       (Vide Ato Complementar nº 35, de 1967)       (Revogado pelo Decreto-lei nº 406, de 1968).\n\nV\nI - demais formas de fornecimento de trabalho, com ou sem utilização de máquinas, ferramentas ou veículos.               (Incluído pelo Ato Complementar nº 34, de 1967)      (Revogado pelo Decreto-lei nº 406, de 1968).\n\n§ 2º As atividades a que se refere o parágrafo anterior, quando acompanhadas do fornecimento de mercadorias, serão consideradas de caráter misto para efeito de aplicação do disposto no \n§ 4º do art. 53, salvo se a prestação do serviço constituir o seu objeto essencial e contribuir com mais de 75% (setenta e cinco por cent\no) da receita média mensal da atividade.\n\n§ 2º As atividades a que se refere o parágrafo anterior, quando acompanhadas do fornecimento de mercadorias, serão consideradas de caráter misto para efeito de aplicação do disposto no \n§ 3º do artigo 53, salvo se a prestação do serviço constituir o seu objeto essencial e contribuir com mais de 75% (setenta e cinco por cent\no) da receita média mensal da atividade.             (Redação dada pelo Decreto Lei nº 28, de 1966)\n\n§ 2º Os serviços a que se refere o inciso IV do parágrafo anterior, quando acompanhados do fornecimento de mercadorias, serão considerados de caráter misto, para efeito de aplicação do disposto no \n§ 3º do art. 53, salvo se a prestação de serviço constituir seu objeto essencial e contribuir com mais de 75 % (setenta e cinco por cent\no) da receita média mensal da atividade.             (Redação dada pelo Ato Complementar nº 34, de 1967)             (Revogado pelo Decreto-lei nº 406, de 1968)."
+  },
+  {
+    "id": "ctn_art_72",
+    "texto": "Art. 72 — A base de cálculo do impôsto é o preço do serviço, salvo:               (Revogado pelo Decreto-lei nº 406, de 1968).\n\nI - quando se trate de prestação de serviço sob a forma de trabalho pessoal do próprio contribuinte, caso em que o impôsto será calculado, por meio de alíquotas fixas ou variáveis, em função da natureza do serviço e outros fatôres pertinentes, não compreendida nestes a renda proveniente da remuneração do próprio trabalho;            (Revogado pelo Decreto-lei nº 406, de 1968).\n\nI\nI - quando a prestação do serviço tenha como parte integrante operação sujeita ao impôsto de que trata o art. 52, caso em que êste impôsto será calculado sôbre 50% (cinqüenta por cent\no) do valor total da operação.\n\nI\nI – Nas operações mistas a que se refere o \n§ 2º do artigo anterior, caso em que o imposto será calculado sobre o valor total da operação, deduzido da parcela que serviu de base ao calculo do imposto sobre circulação de mercadorias, na forma do \n§ 3º do artigo \n53.              (Redação dada pelo Ato Complementar nº 34, de 1967)             (Revogado pelo Decreto-lei nº 406, de 1968).\n\nI\nII – Na execução de obras hidráulicas ou de construção civil, caso em que o imposto será calculado sobre o preço total da operação deduzido das parcelas correspondentes:           (Incluído pelo Ato Complementar nº 34, de 1967)             (Revogado pelo Decreto-lei nº 406, de 1968).\n\na) ao valor dos materiais adquiridos de terceiros, quando fornecidos pelo prestador do serviço;               (Incluída pelo Ato Complementar nº 34, de 1967)                (Revogado pelo Decreto-lei nº 406, de 1968).\n\nb) do valor das subempreitadas, já tributadas pelo imposto.                (Incluída pelo Ato Complementar nº 34, de 1967)               (Revogado pelo Decreto-lei nº 406, de 1968)."
+  },
+  {
+    "id": "ctn_art_73",
+    "texto": "Art. 73 — Contribuinte do impôsto é o prestador do serviço.               (Revogado pelo Decreto-lei nº 406, de 1968).\n\n CAPÍTULO V\n\nImpostos Especiais\n\nSeção I\n\nImpôsto sôbre Operações Relativas a Combustíveis, Lubrificantes, Energia Elétrica e Minerais do País"
+  },
+  {
+    "id": "ctn_art_74",
+    "texto": "Art. 74 — O impôsto, de competência da União, sôbre operações relativas a combustíveis, lubrificantes, energia elétrica e minerais do País tem como fato gerador:\n\nI - a produção, como definida no art. 46 e seu parágrafo único;\n\nI\nI - a importação, como definida no art. 19;\n\nI\nII - a circulação, como definida no art. 52;\n\nI\nV - a distribuição, assim entendida a colocação do produto no estabelecimento consumidor ou em local de venda ao público;\n\nV - o consumo, assim entendida a venda do produto ao público.\n\n§ 1º Para os efeitos dêste impôsto a energia elétrica considera-se produto industrializado.\n\n§ 2º O impôsto incide, uma só vez sôbre uma das operações previstas em cada inciso dêste artigo, como dispuser a lei, e exclui quaisquer outros tributos, sejam quais forem sua natureza ou competência, incidentes sôbre aquelas operações."
+  },
+  {
+    "id": "ctn_art_75",
+    "texto": "Art. 75 — A lei observará o disposto neste Título relativamente:\n\nI - ao impôsto sôbre produtos industrializados, quando a incidência seja sôbre a produção ou sôbre o consumo;\n\nI\nI - ao impôsto sôbre a importação, quando a incidência seja sôbre essa operação;\n\nI\nII - ao impôsto sôbre operações relativas à circulação de mercadorias, quando a incidência seja sôbre a distribuição.\n\nSeção II\n\nImpostos Extraordinários"
+  },
+  {
+    "id": "ctn_art_76",
+    "texto": "Art. 76 — Na iminência ou no caso de guerra externa, a União pode instituir, temporariamente, impostos extraordinários compreendidos ou não entre os referidos nesta Lei, suprimidos, gradativamente, no prazo máximo de cinco anos, contados da celebração da paz.\n\nTÍTULO IV\n\nTaxas"
+  },
+  {
+    "id": "ctn_art_77",
+    "texto": "Art. 77 — As taxas cobradas pela União, pelos Estados, pelo Distrito Federal ou pelos Municípios, no âmbito de suas respectivas atribuições, têm como fato gerador o exercício regular do poder de polícia, ou a utilização, efetiva ou potencial, de serviço público específico e divisível, prestado ao contribuinte ou posto à sua disposição.\n\nParágrafo único. A taxa não pode ter base de cálculo ou fato gerador idênticos aos que correspondam a imposto nem ser calculada em função do capital das empresas.           (Vide Ato Complementar nº 34, de 1967)"
+  },
+  {
+    "id": "ctn_art_78",
+    "texto": "Art. 78 — Considera-se poder de polícia atividade da administração pública que, limitando ou disciplinando direito, interêsse, ou liberdade, regula a prática de ato ou a abstenção de fato, em razão de interêsse público concernente à segurança, à higiene, à ordem, aos costumes, à tranqüilidade pública, ou ao respeito à propriedade e aos direitos individuais ou coletivos."
+  },
+  {
+    "id": "ctn_art_78_2",
+    "texto": "Art. 78 — Considera-se poder de polícia atividade da administração pública que, limitando ou disciplinando direito, interêsse ou liberdade, regula a prática de ato ou abstenção de fato, em razão de intêresse público concernente à segurança, à higiene, à ordem, aos costumes, à disciplina da produção e do mercado, ao exercício de atividades econômicas dependentes de concessão ou autorização do Poder Público, à tranqüilidade pública ou ao respeito à propriedade e aos direitos individuais ou coletivos.               (Redação dada pelo Ato Complementar nº 31, de 1966)\n\nParágrafo único. Considera-se regular o exercício do poder de polícia quando desempenhado pelo órgão competente nos limites da lei aplicável, com observância do processo legal e, tratando-se de atividade que a lei tenha como discricionária, sem abuso ou desvio de poder."
+  },
+  {
+    "id": "ctn_art_79",
+    "texto": "Art. 79 — Os serviços públicos a que se refere o art. 77 consideram-se:\n\nI - utilizados pelo contribuinte:\n\na) efetivamente, quando por êle usufruídos a qualquer título;\n\nb) potencialmente, quando, sendo de utilização compulsória, sejam postos à sua disposição mediante atividade administrativa em efetivo funcionamento;\n\nI\nI - específicos, quando possam ser destacados em unidades autônomas de intervenção, de utilidade, ou de necessidades públicas;\n\nI\nII - divisíveis, quando suscetíveis de utilização, separadamente, por parte de cada um dos seus usuários."
+  },
+  {
+    "id": "ctn_art_80",
+    "texto": "Art. 80 — Para efeito de instituição e cobrança de taxas, consideram-se compreendidas no âmbito das atribuições da União, dos Estados, do Distrito Federal ou dos Municípios, aquelas que, segundo a Constituição Federal, as Constituições dos Estados, as Leis Orgânicas do Distrito Federal e dos Municípios e a legislação com elas compatível, competem a cada uma dessas pessoas de direito público.\n\nTÍTULO V\n\nContribuição de Melhoria"
+  },
+  {
+    "id": "ctn_art_81",
+    "texto": "Art. 81 — A contribuição de melhoria cobrada pela União, pelos Estados, pelo Distrito Federal ou pelos Municípios, no âmbito de suas respectivas atribuições, é instituída para fazer face ao custo de obras públicas de que decorra valorização imobiliária, tendo como limite total a despesa realizada e como limite individual o acréscimo de valor que da obra resultar para cada imóvel beneficiado."
+  },
+  {
+    "id": "ctn_art_82",
+    "texto": "Art. 82 — A lei relativa à contribuição de melhoria observará os seguintes requisitos mínimos:\n\nI - publicação prévia dos seguintes elementos:\n\na) memorial descritivo do projeto;\n\nb) orçamento do custo da obra;\n\nc) determinação da parcela do custo da obra a ser financiada pela contribuição;\n\nd) delimitação da zona beneficiada;\n\ne) determinação do fator de absorção do benefício da valorização para tôda a zona ou para cada uma das áreas diferenciadas, nela contidas;\n\nI\nI - fixação de prazo não inferior a 30 (trint\na) dias, para impugnação pelos interessados, de qualquer dos elementos referidos no inciso anterior;\n\nI\nII - regulamentação do processo administrativo de instrução e julgamento da impugnação a que se refere o inciso anterior, sem prejuízo da sua apreciação judicial.\n\n§ 1º A contribuição relativa a cada imóvel será determinada pelo rateio da parcela do custo da obra a que se refere a alínea c, do inciso I, pelos imóveis situados na zona beneficiada em função dos respectivos fatôres individuais de valorização.\n\n§ 2º Por ocasião do respectivo lançamento, cada contribuinte deverá ser notificado do montante da contribuição, da forma e dos prazos de seu pagamento e dos elementos que integraram o respectivo cálculo.\n\nTÍTULO VI\n\nDistribuições de Receitas Tributárias\n\nCAPÍTULO I\n\nDisposições Gerais"
+  },
+  {
+    "id": "ctn_art_83",
+    "texto": "Art. 83 — Sem prejuízo das demais disposições dêste Título, os Estados e Municípios que celebrem com a União convênios destinados a assegurar ampla e eficiente coordenação dos respectivos programas de investimentos e serviços públicos, especialmente no campo da política tributária, poderão participar de até 10% (dez por cent\no) da arrecadação efetuada, nos respectivos territórios, proveniente do impôsto referido no art. 43, incidente sôbre o rendimento das pessoas físicas, e no art. 46, excluído o incidente sôbre o fumo e bebidas alcoólicas.\n\nParágrafo único. O processo das distribuições previstas neste artigo será regulado nos convênios nêle referidos."
+  },
+  {
+    "id": "ctn_art_84",
+    "texto": "Art. 84 — A lei federal pode cometer aos Estados, ao Distrito Federal ou aos Municípios o encargo de arrecadar os impostos de competência da União cujo produto lhes seja distribuído no todo ou em parte.\n\nParágrafo único. O disposto neste artigo, aplica-se à arrecadação dos impostos de competência dos Estados, cujo produto êstes venham a distribuir, no todo ou em parte, aos respectivos Municípios.\n\nCAPÍTULO II\n\nImpôsto sôbre a Propriedade Territorial Rural e sobre a Renda e Proventos de qualquer natureza"
+  },
+  {
+    "id": "ctn_art_85",
+    "texto": "Art. 85 — Serão distribuídos pela União:\n\nI - aos Municípios da localização dos imóveis, o produto da arrecadação do impôsto a que se refere o artigo 29;\n\nI\nI - aos Estados, ao Distrito Federal e aos Municípios, o produto da arrecadação, na fonte, do impôsto a que se refere o art. 43, incidente sôbre a renda das obrigações de sua dívida pública e sôbre os proventos dos seus servidores e dos de suas autarquias.\n\n§ 1º Independentemente de ordem das autoridades superiores e sob pena de demissão, as autoridades arrecadadoras dos impostos a que se refere êste artigo farão entrega, aos Estados, ao Distrito Federal e aos Municípios, das importâncias recebidas, à medida que forem sendo arrecadadas, em prazo não superior a 30 (trint\na) dias, a contar da data de cada recolhimento.\n\n§ 2º A lei poderá autorizar os Estados, o Distrito Federal e os Municípios a incorporar definitivamente à sua receita o produto da arrecadação do impôsto a que se refere o inciso II, estipulando as obrigações acessórias a serem cumpridas por aquêles no interesse da arrecadação, pela União, do impôsto a ela devido pelos titulares da renda ou dos proventos tributados.\n\n§ 3º A lei poderá dispor que uma parcela, não superior a 20% (vinte por cent\no), do impôsto de que trata o inciso I seja destinada ao custeio do respectivo serviço de lançamento e arrecadação.            (Suspensa a execução pela RSF nº 337, de 1983)\n\nCAPÍTULO III\n\nFundos de Participação dos Estados e dos Municípios\n\nSeção I\n\nConstituição dos Fundos"
+  },
+  {
+    "id": "ctn_art_86",
+    "texto": "Art. 86 — Do produto da arrecadação dos impostos a que se referem os arts. 43 e 46, 80% (oitenta por cent\no) constituem receita da União e o restante será distribuído à razão de 10% (dez por cent\no) ao Fundo de Participação dos Estados e do Distrito Federal e 10 % (dez por cent\no) ao Fundo de Participação dos Municípios.             (Revogado pela Lei Complementar nº 143, de 2013)       (Produção de efeit\no)\n\nParágrafo único. Para cálculo da percentagem destinada aos Fundos de Participação, exclui-se do produto da arrecadação do impôsto a que se refere o art. 43ª parcela distribuída nos têrmos do inciso II do artigo anterior.           (Revogado pela Lei Complementar nº 143, de 2013)        (Produção de efeit\no)"
+  },
+  {
+    "id": "ctn_art_87",
+    "texto": "Art. 87 — O Banco do Brasil S.A., à medida em que fôr recebendo as comunicações do recolhimento dos impostos a que se refere o artigo anterior, para escrituração na conta \"Receita da União\", efetuará automaticamente o destaque de 20% (vinte por cent\no), que creditará, em partes iguais, ao Fundo de Participação dos Estados e do Distrito Federal e ao Fundo de Participação dos Municípios.            (Revogado pela Lei Complementar nº 143, de 2013)        (Produção de efeit\no)\n\nParágrafo único. Os totais relativos a cada impôsto, creditados mensalmente a cada um dos Fundos, serão comunicados pelo Banco do Brasil S.A. ao Tribunal de Contas da União até o último dia útil do mês subseqüente.           (Revogado pela Lei Complementar nº 143, de 2013)         (Produção de efeit\no)\n\nSeção II\n\nCritério de Distribuição do Fundo de Participação dos Estados \n\n           (Revogado pela Lei Complementar nº 143, de 2013)     (Produção de efeit\no)"
+  },
+  {
+    "id": "ctn_art_88",
+    "texto": "Art. 88 — O Fundo de Participação dos Estados e do Distrito Federal, a que se refere o art. 86, será distribuído da seguinte forma:         (Revogado pela Lei Complementar nº 143, de 2013)   (Produção de efeit\no)\n\nI - 5% (cinco por cent\no), proporcionalmente à superfície de cada entidade participante;          (Revogado pela Lei Complementar nº 143, de 2013)   (Produção de efeit\no)\n\nI\nI - 95% (noventa e cinco por cent\no), proporcionalmente ao coeficiente individual de participação, resultante do produto do fator representativo da população pelo fator representativo do inverso da renda per capita, de cada entidade participante, como definidos nos artigos seguintes.         (Revogado pela Lei Complementar nº 143, de 2013)   (Produção de efeit\no)\n\nParágrafo único. Para os efeitos do disposto neste artigo, consideram-se:          (Revogado pela Lei Complementar nº 143, de 2013)   (Produção de efeit\no)\n\nI - a superfície territorial apurada e a população estimada, quanto à cada entidade participante, pelo Instituto Brasileiro de Geografia e Estatística;         (Revogado pela Lei Complementar nº 143, de 2013)   (Produção de efeit\no)\n\nI\nI - a renda per capita, relativa a cada entidade participante, no último ano para o qual existam estimativas efetuadas pela Fundação Getúlio Vargas.           (Revogado pela Lei Complementar nº 143, de 2013)   (Produção de efeit\no)"
+  },
+  {
+    "id": "ctn_art_89",
+    "texto": "Art. 89 — O fator representativo da população a que se refere o inciso II do artigo anterior, será estabelecido da seguinte forma:            (Revogado pela Lei Complementar nº 143, de 2013)   (Produção de efeit\no)\n\nPercentagem que a população da entidade participante representa da população total do País:\n\nFator\n\nI - Até 2% ...........................................................................\n\n2,0\n\nI\nI – Acima de 2% até 5%:\n\n \n  \na) pelos primeiros 2% ................... .....................................\n\n2,0\n\n  \nb) para cada 0,3% ou fração excedente, mais .....................\n\n0,3\n\nI\nII - acima de 5% até 10%:\n\n \n  \na) pelos primeiros 5% ........................................... .............\n\n5,0\n\n  \nb) para cada 0,5% ou fração excedente, mais .....................\n\n0,5\n\nI\nV - acima de 10% ......................................... .....................\n\n10,0\n\nParágrafo único. Para os efeitos dêste artigo, considera-se como população total do País a soma das populações estimadas a que se refere o inciso I do parágrafo único do artigo anterior.           (Revogado pela Lei Complementar nº 143, de 2013)   (Produção de efeit\no)"
+  },
+  {
+    "id": "ctn_art_90",
+    "texto": "Art. 90 — O fator representativo do inverso da renda per capita, a que se refere o inciso II do art. 88, será estabelecido da seguinte forma:\n\nInverso do índice relativo à renda per capita da entidade participante:\n\nFator\n\nAté 0,0045 ...............................................................\n\n0,4\n\nAcima de 0,0045 até 0,0055 .....................................\n\n0,5\n\nAcima de 0,0055 até 0,0065 .....................................\n\n0,6\n\nAcima de 0,0065 até 0,0075 .....................................\n\n0,7\n\nAcima de 0,0075 até 0,0085 .....................................\n\n0,8\n\nAcima de 0,0085 até 0,0095 .....................................\n\n0,9\n\nAcima de 0,0095 até 0,0110 .....................................\n\n1,0\n\nAcima de 0,0110 até 0,0130 .....................................\n\n1,2\n\nAcima de 0,0130 até 0,0150 .....................................\n\n1,4\n\nAcima de 0,0150 até 0,0170 .....................................\n\n1,6\n\nAcima de 0,0170 até 0,0190 .....................................\n\n1,8\n\nAcima de 0,0190 até 0,0220 .....................................\n\n2,0\n\nAcima de 0,220 ............................................... .........\n\n2,5\n\nParágrafo único. Para os efeitos dêste artigo, determina-se o índice relativo à renda per capita de cada entidade participante, tomando-se como 100 (ce\nm) a renda per capita média do País.\n\nSeção III\n\nCritério de Distribuição do Fundo de Participação dos Municípios"
+  },
+  {
+    "id": "ctn_art_91",
+    "texto": "Art. 91 — A distribuição do Fundo de Participação dos Municípios, a que se refere o art. 86, far-se-á atribuindo, a cada Município, um coeficiente individual de participação, estabelecido da seguinte forma:\n\nCategoria do Município segundo seu\n\nnúmero de habitantes:\n\n                                                                                                      COEFICIENTE\n\nI - até \n10.000, para cada \n2.000 ou fração excedente ............................. 0,2\n\nI\nI - acima de \n10.000 até \n30.000:\n\na) pelos primeiros \n10.000 .................................................................. 1,0\n\nb) para cada \n4.000 ou fração excedente, mais ..................................... 0,2\n\nI\nII - acima de \n30.000 até \n60.000:\n\na) pelos primeiros \n30.000 .................................................................. 2,0\n\nb) para cada \n6.000 ou fração excedente, mais .................................... 0,2\n\nI\nV - acima de \n60.000 até 100.000:\n\na) pelos primeiros \n60.000 .................................................................. 3,0\n\nb) para cada \n8.000 ou fração excedente, mais ............................... ..... 0,2\n\nV - acima de 100.000 ................................................................... .... 4,0\n\n§ 1º Para os efeitos dêste artigo, consideram-se os Municípios regularmente instalados até 31 de julho dos anos de milésimos 0 (zer\no) e 5 (cinc\no), atribuindo-se a cada Município instalado nos anos intermediários uma parcela deduzida das quotas dos Municípios de que se desmembrarem calculada proporcionalmente ao número de habitantes das áreas a êle incorporadas.\n\n§ 2º Os limites das faixas de números de habitantes previstas neste artigo serão reajustados sempre que, por meio de recenseamento demográfico geral, seja conhecida oficialmente a população total do País, estabelecendo-se os novos limites na proporção do aumento percentual daquela população, por referência ao recenseamento de 1960.\n\n§ 3º Aos Municípios resultantes de fusão de outras unidades será atribuída quota equivalente à soma das quotas individuais dessas unidades até que se opere a revisão nos anos de milésimos 0 (zer\no) e 5 (cinc\no)."
+  },
+  {
+    "id": "ctn_art_91_2",
+    "texto": "Art. 91 — Do Fundo de Participação dos Municípios a que se refere o art. 86, serão atribuídos:             (Redação dada pelo Ato Complementar nº 35, de 1967)\n\nI - 10% (dez por cent\no) aos Municípios das Capitais dos Estados;               (Redação dada pelo Ato Complementar nº 35, de 1967)\n\nI\nI - 90% (noventa por cent\no) aos demais Municípios do País.            (Redação dada pelo Ato Complementar nº 35, de 1967)\n\n§ 1º A parcela de que trata o inciso I será distribuída proporcionalmente a um coeficiente individual de participação, resultante do produto dos seguintes fatôres:             (Redação dada pelo Ato Complementar nº 35, de 1967)\n\na) fator representativo da população, assim estabelecido:               (Redação dada pelo Ato Complementar nº 35, de 1967)\n\nPercentual da População de cada Município em relação à do conjunto das Capitais:\n\nFator:\n\nAté 2% ................................................................................ ................................. 2\n\nMais de 2% até 5%:\n\nPelos primeiros 2%............................................................................... .................. 2\n\nCada 0,5% ou fração excedente, mais................................................................... 0,5\n\nMais de 5% ................................................................................ .......................... 5\n\nb) Fator representativo do inverso da renda per capita do respectivo Estado, de conformidade com o disposto no art. \n90.             (Redação dada pelo Ato Complementar nº 35, de 1967)\n\n \n§ 2º A distribuição da parcela a que se refere o inciso II dêste artigo far-se-á atribuindo-se a cada Município um coeficiente individual de participação determinado na forma seguinte:             (Redação dada pelo Ato Complementar nº 35, de 1967)             (Vide Decreto nº \n69.680, de 1971)           (Vide Decreto nº \n86.309, de 1981)\n\nCategoria do Município segundo seu número de habitantes: \n\nCoeficiente\n\na) Até \n10.000, para cada \n2.000 ou fração excedente.......................................... 0,2  \n\nb) Acima de \n10.000 até \n30.000:\n\nPelos primeiros \n10.000........................................................................... ............ 1,0  \n\nPara cada \n4.000 ou fração excedente, mais....................................................... 0,2 \n\nc) Acima de \n30.000 até \n60.000:\n\nPelos primeiros \n30.000........................................................................... ............ 2,0 \n\nPara cada \n6.000 ou fração excedente, mais....................................................... 0,2 \n\nd) Acima de \n60.000 até 100.000:\n\nPelos primeiros \n60.000........................................................................... ............ 3,0\n\nPara cada \n8.000 ou fração excedente, mais....................................................... 0,2\n\ne) Acima de 100.000.......................................................................... ................. 4,0 \n\n       \n§ 2º - A distribuição da parcela a que se refere o item II deste artigo, deduzido o percentual referido no artigo 3º do Decreto-lei que estabelece a redação deste parágrafo, far-se-á atribuindo-se a cada Município um coeficiente individual de participação determinado na forma seguinte:             (Redação dada pelo Decreto Lei nº \n1.881, de 1981)             (Vide Lei Complementar nº 91, de 1997)   \n\nCategoria do Município, segundo seu número de habitantes\n\nCoeficiente\n\na) Até \n16.980\n\nPelos primeiros \n10.188\n\n0,6\n\nPara cada \n3.396, ou fração excedente, mais\n\n0,2\n\nb) Acima de \n16.980 até \n50.940\n\nPelos primeiros \n16.980\n\n1,0\n\nPara cada \n6.792 ou fração excedente, mais\n\n0,2\n\nc) Acima de \n50.940 até 101,880\n\nPelos primeiros \n50.940\n\n2,0\n\nPara cada \n10.188 ou fração excedente, mais\n\n0,2\n\nd) Acima de 101.880 até 156.216\n\nPelos primeiros 101.880\n\n3,0\n\nPara cada \n13.584 ou fração excedente, mais\n\n0,2\n\ne) Acima de 156.216\n\n4,0\n\n§ 3º Para os efeitos dêste artigo, consideram-se os Municípios regularmente instalados até 21 de julho dos anos milésimos 0 (zer\no) e 5 (cinc\no), atribuindo-se a cada Município instalado nos anos intermediários uma parcela deduzida das quotas dos Municípios de que se desmembrarem, calculada proporcionalmente ao número de habitantes das áreas a ele incorporadas.             (Redação dada pelo Ato Complementar nº 35, de 1967)\n\n§ 3º Para os efeitos deste artigo, consideram-se os municípios regularmente instalados, fazendo-se a revisão das quotas anualmente, a partir de 1989, com base em dados oficiais de população produzidos pela Fundação Instituto Brasileiro de Geografia e Estatística - IBGE.        (Redação dada pela Lei Complementar nº 59, de 1988)\n\n§ 4º Os limites das faixas de número de habitantes previstas neste artigo serão reajustados sempre que por meio de recenseamento demográfico geral seja conhecida oficialmente a população total do País, estabelecendo-se novos limites na proporção do aumento percentual daquela população, por referência de recenseamento de 1960.            (Incluído pelo Ato Complementar nº 35, de 1967)\n\n§ 4º - Os limites das faixas de número de habitantes previstos no deste artigo serão reajustados sempre que, por meio de recenseamento demográfico geral, seja conhecida oficialmente a população total do País, estabelecendo-se novos limites na proporção do aumento percentual daquela população, tendo por referência o recenseamento imediatamente anterior.           (Redação dada pelo Decreto Lei nº \n1.881, de 1981)           (Revogado pela Lei Complementar nº 91, de 1997)\n\n§ 5º Aos Municípios resultantes de fusão de outras unidades será atribuída quota equivalente à soma das quotas individuais dessas unidades, até que se opere a revisão nos anos milésimos 0 (zer\no) e 5 (cinc\no).             (Incluído pelo Ato Complementar nº 35, de 1967)           (Revogado pela Lei Complementar nº 91, de 1997)\n\n Seção IV\n\nCálculo e Pagamento das Quotas Estaduais e Municipais"
+  },
+  {
+    "id": "ctn_art_92",
+    "texto": "Art. 92 — Até o último dia útil de cada exercício, o Tribunal de Contas da União comunicará ao Banco do Brasil S.A. os coeficientes individuais de participação de cada Estado e do Distrito Federal, calculados na forma do disposto no art. 88, e de cada Município, calculados na forma do disposto no art. 91, que prevalecerão para todo o exercício subseqüente."
+  },
+  {
+    "id": "ctn_art_92_2",
+    "texto": "Art. 92 — O Tribunal de Contas da União comunicará ao Banco do Brasil S.A., conforme os prazos a seguir especificados, os coeficientes individuais de participação nos fundos previstos no art. 159, inciso I, alíneas “a”, “b” e “d”, da Constituição Federal que prevalecerão no exercício subsequente:          (Redação dada pela Lei Complementar nº 143, de 2013)      (Produção de efeit\no)          (Vide Lei Complementar nº 143, de 2013)\n\nI - até o último dia útil do mês de março de cada exercício financeiro, para cada Estado e para o Distrito Federal;           (Incluído pela Lei Complementar nº 143, de 2013)      (Produção de efeit\no)\n\nI\nI - até o último dia útil de cada exercício financeiro, para cada Município.            (Incluído pela Lei Complementar nº 143, de 2013)      (Produção de efeit\no)\n\nParágrafo único.  Far-se-á nova comunicação sempre que houver, transcorrido o prazo fixado no inciso I do caput, a criação de novo Estado a ser implantado no exercício subsequente.            (Incluído pela Lei Complementar nº 143, de 2013)   (Produção de efeit\no)"
+  },
+  {
+    "id": "ctn_art_93",
+    "texto": "Art. 93 — Até o último dia útil de cada mês, o Banco do Brasil S.A. creditará a cada Estado, ao Distrito Federal e a cada Município as quotas a êles devidas, em parcelas distintas para cada um dos impostos a que se refere o art. 86, calculadas com base nos totais creditados ao Fundo correspondente, no mês anterior.         (Revogado pela Lei Complementar nº 143, de 2013)       (Produção de efeit\no)\n\n§ 1º Os créditos determinados por êste artigo serão efetuados em contas especiais, abertas automàticamente pelo Banco do Brasil S.A., em sua agência na Capital de cada Estado, no Distrito Federal e na sede de cada Município, ou, em sua falta na agência mais próxima.          (Revogado pela Lei Complementar nº 143, de 2013)      (Produção de efeit\no)\n\n§ 2º O cumprimento do disposto neste artigo será comunicado pelo Banco do Brasil S.A. ao Tribunal de Contas da União, discriminadamente, até o último dia útil do mês subseqüente.           (Revogado pela Lei Complementar nº 143, de 2013)   (Produção de efeit\no)\n\nSeção V\n\nComprovação da Aplicação das Quotas Estaduais e Municipais\n\n      (Revogado pela Lei Complementar nº 143, de 2013)   (Produção de efeit\no)"
+  },
+  {
+    "id": "ctn_art_94",
+    "texto": "Art. 94 — Do total recebido nos têrmos dêste Capítulo, os Estados, o Distrito Federal e os Municípios destinarão obrigatòriamente 50% (cinqüenta por cent\no), pelo menos, ao seu orçamento de despesas de capital como definidas em lei de normas gerais de direito financeiro.             (Revogado pela Lei Complementar nº 143, de 2013)      (Produção de efeit\no)\n\n§ 1º Para comprovação do cumprimento do disposto neste artigo, as pessoas jurídicas de direito público, nêle referidas remeterão ao Tribunal de Contas da União:            (Revogado pela Lei Complementar nº 143, de 2013)   (Produção de efeit\no)\n\nI - cópia autêntica da parte permanente das contas do Poder Executivo, relativas ao exercício anterior;                (Revogado pela Lei Complementar nº 143, de 2013)     (Produção de efeit\no)\n\nI\nI - cópia autêntica do ato de aprovação, pelo Poder Legislativo, das contas a que se refere o inciso anterior;                 (Revogado pela Lei Complementar nº 143, de 2013)      (Produção de efeit\no)\n\nI\nII - prova da observância dos requisitos aplicáveis, previstos, em lei de normas gerais de direito financeiro, relativamente ao orçamento e aos balanços do exercício anterior.               (Revogado pela Lei Complementar nº 143, de 2013)      (Produção de efeit\no)\n\n§ 2º O Tribunal de Contas da União poderá suspender o pagamento das distribuições previstas no artigo 86, nos casos:                (Revogado pela Lei Complementar nº 143, de 2013)      (Produção de efeit\no)\n\nI - de ausência ou vício da comprovação a que se refere o parágrafo anterior;               (Revogado pela Lei Complementar nº 143, de 2013)       (Produção de efeit\no)\n\nI\nI - de falta de cumprimento ou cumprimento incorreto do disposto neste artigo, apurados diretamente ou por diligência determinada às suas Delegações nos Estados, mesmo que tenha sido apresentada a comprovação a que se refere o parágrafo anterior.               (Revogado pela Lei Complementar nº 143, de 2013)        (Produção de efeit\no)\n\n§ 3º A sanção prevista no parágrafo anterior subsistirá até comprovação, a juízo do Tribunal, de ter sido sanada a falta que determinou sua imposição, e não produzirá efeitos quanto à responsabilidade civil, penal ou administrativa do Governador ou Prefeito.                (Revogado pela Lei Complementar nº 143, de 2013)        (Produção de efeit\no)\n\nCAPÍTULO IV\n\nImpôsto sôbre Operações Relativas a Combustíveis, Lubrificantes, Energia Elétrica e Minerais do País"
+  },
+  {
+    "id": "ctn_art_95",
+    "texto": "Art. 95 — Do produto da arrecadação do impôsto a que se refere o artigo 74 serão distribuídas aos Estados, ao Distrito Federal e aos Municípios 60% (sessenta por cent\no) do que incidir sôbre operações relativas a combustíveis, lubrificantes e energia elétrica, e 90% (noventa por cent\no) do que incidir sôbre operações relativas a minerais do País.          (Revogado pela Lei Complementar nº 143, de 2013)       (Produção de efeit\no)\n\nParágrafo único. A distribuição prevista neste artigo será regulada em resolução do Senado Federal, proporcionalmente à superfície, à produção e ao consumo, nos respectivos territórios, dos produtos a que se refere o impôsto.           (Revogado pelo Ato Complementar nº 35, de 1967)  \n\n LIVRO SEGUNDO\n\nNORMAS GERAIS DE DIREITO TRIBUTÁRIO\n\nTÍTULO I\n\nLegislação Tributária\n\nCAPÍTULO I\n\nDisposições Gerais\n\nSeção I\n\nDisposição Preliminar"
+  },
+  {
+    "id": "ctn_art_96",
+    "texto": "Art. 96 — A expressão \"legislação tributária\" compreende as leis, os tratados e as convenções internacionais, os decretos e as normas complementares que versem, no todo ou em parte, sobre tributos e relações jurídicas a eles pertinentes.\n\nSeção II\n\nLeis, Tratados e Convenções Internacionais e Decretos"
+  },
+  {
+    "id": "ctn_art_97",
+    "texto": "Art. 97 — Sòmente a lei pode estabelecer:\n\nI - a instituição de tributos, ou a sua extinção;\n\nI\nI - a majoração de tributos, ou sua redução, ressalvado o disposto nos arts. 21, 26, 39, 57 e 65;\n\nI\nII - a definição do fato gerador da obrigação tributária principal, ressalvado o disposto no inciso I do \n§ 3º do art. 52, e do seu sujeito passivo;\n\nI\nV - a fixação de alíquota do tributo e da sua base de cálculo, ressalvado o disposto nos arts. 21, 26, 39, 57 e 65;\n\nV - a cominação de penalidades para as ações ou omissões contrárias a seus dispositivos, ou para outras infrações nela definidas;\n\nV\nI - as hipóteses de exclusão, suspensão e extinção de créditos tributários, ou de dispensa ou redução de penalidades.\n\n§ 1º Equipara-se à majoração do tributo a modificação da sua base de cálculo, que importe em torná-lo mais oneroso.\n\n§ 2º Não constitui majoração de tributo, para os fins do disposto no inciso II dêste artigo, a atualização do valor monetário da respectiva base de cálculo."
+  },
+  {
+    "id": "ctn_art_98",
+    "texto": "Art. 98 — Os tratados e as convenções internacionais revogam ou modificam a legislação tributária interna, e serão observados pela que lhes sobrevenha."
+  },
+  {
+    "id": "ctn_art_99",
+    "texto": "Art. 99 — O conteúdo e o alcance dos decretos restringem-se aos das leis em função das quais sejam expedidos, determinados com observância das regras de interpretação estabelecidas nesta Lei.\n\nSeção III\n\nNormas Complementares"
+  },
+  {
+    "id": "ctn_art_100",
+    "texto": "Art. 100 — São normas complementares das leis, dos tratados e das convenções internacionais e dos decretos:\n\nI - os atos normativos expedidos pelas autoridades administrativas;\n\nI\nI - as decisões dos órgãos singulares ou coletivos de jurisdição administrativa, a que a lei atribua eficácia normativa;\n\nI\nII - as práticas reiteradamente observadas pelas autoridades administrativas;\n\nI\nV - os convênios que entre si celebrem a União, os Estados, o Distrito Federal e os Municípios.\n\nParágrafo único. A observância das normas referidas neste artigo exclui a imposição de penalidades, a cobrança de juros de mora e a atualização do valor monetário da base de cálculo do tributo.\n\nCAPÍTULO II\n\nVigência da Legislação Tributária"
+  },
+  {
+    "id": "ctn_art_101",
+    "texto": "Art. 101 — A vigência, no espaço e no tempo, da legislação tributária rege-se pelas disposições legais aplicáveis às normas jurídicas em geral, ressalvado o previsto neste Capítulo."
+  },
+  {
+    "id": "ctn_art_102",
+    "texto": "Art. 102 — A legislação tributária dos Estados, do Distrito Federal e dos Municípios vigora, no País, fora dos respectivos territórios, nos limites em que lhe reconheçam extraterritorialidade os convênios de que participem, ou do que disponham esta ou outras leis de normas gerais expedidas pela União."
+  },
+  {
+    "id": "ctn_art_103",
+    "texto": "Art. 103 — Salvo disposição em contrário, entram em vigor:\n\nI - os atos administrativos a que se refere o inciso I do art. 100, na data da sua publicação;\n\nI\nI - as decisões a que se refere o inciso II do art. 100, quanto a seus efeitos normativos, 30 (trint\na) dias após a data da sua publicação;\n\nI\nII - os convênios a que se refere o inciso IV do art. 100, na data nêles prevista."
+  },
+  {
+    "id": "ctn_art_104",
+    "texto": "Art. 104 — Entram em vigor no primeiro dia do exercício seguinte àquele em que ocorra a sua publicação os dispositivos de lei, referentes a impostos sobre o patrimônio ou a renda:\n\nI - que instituem ou majoram tais impostos;\n\nI\nI - que definem novas hipóteses de incidência;\n\nI\nII - que extinguem ou reduzem isenções, salvo se a lei dispuser de maneira mais favorável ao contribuinte, e observado o disposto no artigo 178.\n\nCAPÍTULO III\n\nAplicação da Legislação Tributária"
+  },
+  {
+    "id": "ctn_art_105",
+    "texto": "Art. 105 — A legislação tributária aplica-se imediatamente aos fatos geradores futuros e aos pendentes, assim entendidos aquêles cuja ocorrência tenha tido início mas não esteja completa nos têrmos do artigo 116."
+  },
+  {
+    "id": "ctn_art_106",
+    "texto": "Art. 106 — A lei aplica-se a ato ou fato pretérito:\n\nI - em qualquer caso, quando seja expressamente interpretativa, excluída a aplicação de penalidade à infração dos dispositivos interpretados;\n\nI\nI - tratando-se de ato não definitivamente julgado:\n\na) quando deixe de defini-lo como infração;\n\nb) quando deixe de tratá-lo como contrário a qualquer exigência de ação ou omissão, desde que não tenha sido fraudulento e não tenha implicado em falta de pagamento de tributo;\n\nc) quando lhe comine penalidade menos severa que a prevista na lei vigente ao tempo da sua prática.\n\nCAPÍTULO IV\n\nInterpretação e Integração da Legislação Tributária"
+  },
+  {
+    "id": "ctn_art_107",
+    "texto": "Art. 107 — A legislação tributária será interpretada conforme o disposto neste Capítulo."
+  },
+  {
+    "id": "ctn_art_108",
+    "texto": "Art. 108 — Na ausência de disposição expressa, a autoridade competente para aplicar a legislação tributária utilizará sucessivamente, na ordem indicada:\n\nI - a analogia;\n\nI\nI - os princípios gerais de direito tributário;\n\nI\nII - os princípios gerais de direito público;\n\nI\nV - a eqüidade.\n\n§ 1º O emprêgo da analogia não poderá resultar na exigência de tributo não previsto em lei.\n\n§ 2º O emprêgo da eqüidade não poderá resultar na dispensa do pagamento de tributo devido."
+  },
+  {
+    "id": "ctn_art_109",
+    "texto": "Art. 109 — Os princípios gerais de direito privado utilizam-se para pesquisa da definição, do conteúdo e do alcance de seus institutos, conceitos e formas, mas não para definição dos respectivos efeitos tributários."
+  },
+  {
+    "id": "ctn_art_110",
+    "texto": "Art. 110 — A lei tributária não pode alterar a definição, o conteúdo e o alcance de institutos, conceitos e formas de direito privado, utilizados, expressa ou implicitamente, pela Constituição Federal, pelas Constituições dos Estados, ou pelas Leis Orgânicas do Distrito Federal ou dos Municípios, para definir ou limitar competências tributárias."
+  },
+  {
+    "id": "ctn_art_111",
+    "texto": "Art. 111 — Interpreta-se literalmente a legislação tributária que disponha sôbre:\n\n \nI - suspensão ou exclusão do crédito tributário;\n\nI\nI - outorga de isenção;\n\nI\nII - dispensa do cumprimento de obrigações tributárias acessórias."
+  },
+  {
+    "id": "ctn_art_112",
+    "texto": "Art. 112 — A lei tributária que define infrações, ou lhe comina penalidades, interpreta-se da maneira mais favorável ao acusado, em caso de dúvida quanto:\n\nI - à capitulação legal do fato;\n\nI\nI - à natureza ou às circunstâncias materiais do fato, ou à natureza ou extensão dos seus efeitos;\n\nI\nII - à autoria, imputabilidade, ou punibilidade;\n\nI\nV - à natureza da penalidade aplicável, ou à sua graduação.\n\nTÍTULO II\n\nObrigação Tributária\n\nCAPÍTULO I\n\nDisposições Gerais"
+  },
+  {
+    "id": "ctn_art_113",
+    "texto": "Art. 113 — A obrigação tributária é principal ou acessória.\n\n§ 1º A obrigação principal surge com a ocorrência do fato gerador, tem por objeto o pagamento de tributo ou penalidade pecuniária e extingue-se juntamente com o crédito dela decorrente.\n\n§ 2º A obrigação acessória decorre da legislação tributária e tem por objeto as prestações, positivas ou negativas, nela previstas no interêsse da arrecadação ou da fiscalização dos tributos.\n\n§ 3º A obrigação acessória, pelo simples fato da sua inobservância, converte-se em obrigação principal relativamente à penalidade pecuniária.\n\nCAPÍTULO II\n\nFato Gerador"
+  },
+  {
+    "id": "ctn_art_114",
+    "texto": "Art. 114 — Fato gerador da obrigação principal é a situação definida em lei como necessária e suficiente à sua ocorrência."
+  },
+  {
+    "id": "ctn_art_115",
+    "texto": "Art. 115 — Fato gerador da obrigação acessória é qualquer situação que, na forma da legislação aplicável, impõe a prática ou a abstenção de ato que não configure obrigação principal."
+  },
+  {
+    "id": "ctn_art_116",
+    "texto": "Art. 116 — Salvo disposição de lei em contrário, considera-se ocorrido o fato gerador e existentes os seus efeitos:\n\nI - tratando-se de situação de fato, desde o momento em que o se verifiquem as circunstâncias materiais necessárias a que produza os efeitos que normalmente lhe são próprios;\n\nI\nI - tratando-se de situação jurídica, desde o momento em que esteja definitivamente constituída, nos têrmos de direito aplicável.\n\nParágrafo único. A autoridade administrativa poderá desconsiderar atos ou negócios jurídicos praticados com a finalidade de dissimular a ocorrência do fato gerador do tributo ou a natureza dos elementos constitutivos da obrigação tributária, observados os procedimentos a serem estabelecidos em lei ordinária.            (Incluído pela Lcp nº 104, de 2001)"
+  },
+  {
+    "id": "ctn_art_117",
+    "texto": "Art. 117 — Para os efeitos do inciso II do artigo anterior e salvo disposição de lei em contrário, os atos ou negócios jurídicos condicionais reputam-se perfeitos e acabados:\n\nI - sendo suspensiva a condição, desde o momento de seu implemento;\n\nI\nI - sendo resolutória a condição, desde o momento da prática do ato ou da celebração do negócio."
+  },
+  {
+    "id": "ctn_art_118",
+    "texto": "Art. 118 — A definição legal do fato gerador é interpretada abstraindo-se:\n\nI - da validade jurídica dos atos efetivamente praticados pelos contribuintes, responsáveis, ou terceiros, bem como da natureza do seu objeto ou dos seus efeitos;\n\nI\nI - dos efeitos dos fatos efetivamente ocorridos.\n\nCAPÍTULO III\n\nSujeito Ativo"
+  },
+  {
+    "id": "ctn_art_119",
+    "texto": "Art. 119 — Sujeito ativo da obrigação é a pessoa jurídica de direito público, titular da competência para exigir o seu cumprimento."
+  },
+  {
+    "id": "ctn_art_120",
+    "texto": "Art. 120 — Salvo disposição de lei em contrário, a pessoa jurídica de direito público, que se constituir pelo desmembramento territorial de outra, sub-roga-se nos direitos desta, cuja legislação tributária aplicará até que entre em vigor a sua própria.\n\nCAPÍTULO IV\n\nSujeito Passivo\n\nSeção I\n\nDisposições Gerais"
+  },
+  {
+    "id": "ctn_art_121",
+    "texto": "Art. 121 — Sujeito passivo da obrigação principal é a pessoa obrigada ao pagamento de tributo ou penalidade pecuniária.\n\nParágrafo único. O sujeito passivo da obrigação principal diz-se:\n\nI - contribuinte, quando tenha relação pessoal e direta com a situação que constitua o respectivo fato gerador;\n\nI\nI - responsável, quando, sem revestir a condição de contribuinte, sua obrigação decorra de disposição expressa de lei."
+  },
+  {
+    "id": "ctn_art_122",
+    "texto": "Art. 122 — Sujeito passivo da obrigação acessória é a pessoa obrigada às prestações que constituam o seu objeto."
+  },
+  {
+    "id": "ctn_art_123",
+    "texto": "Art. 123 — Salvo disposições de lei em contrário, as convenções particulares, relativas à responsabilidade pelo pagamento de tributos, não podem ser opostas à Fazenda Pública, para modificar a definição legal do sujeito passivo das obrigações tributárias correspondentes.\n\nSeção II\n\nSolidariedade"
+  },
+  {
+    "id": "ctn_art_124",
+    "texto": "Art. 124 — São solidàriamente obrigadas:\n\nI - as pessoas que tenham interêsse comum na situação que constitua o fato gerador da obrigação principal;\n\nI\nI - as pessoas expressamente designadas por lei.\n\nParágrafo único. A solidariedade referida neste artigo não comporta benefício de ordem."
+  },
+  {
+    "id": "ctn_art_125",
+    "texto": "Art. 125 — Salvo disposição de lei em contrário, são os seguintes os efeitos da solidariedade:\n\nI - o pagamento efetuado por um dos obrigados aproveita aos demais;\n\nI\nI - a isenção ou remissão de crédito exonera todos os obrigados, salvo se outorgada pessoalmente a um dêles, subsistindo, nesse caso, a solidariedade quanto aos demais pelo saldo;\n\nI\nII - a interrupção da prescrição, em favor ou contra um dos obrigados, favorece ou prejudica aos demais.\n\nSeção III\n\nCapacidade Tributária"
+  },
+  {
+    "id": "ctn_art_126",
+    "texto": "Art. 126 — A capacidade tributária passiva independe:\n\nI - da capacidade civil das pessoas naturais;\n\nI\nI - de achar-se a pessoa natural sujeita a medidas que importem privação ou limitação do exercício de atividades civis, comerciais ou profissionais, ou da administração direta de seus bens ou negócios;\n\nI\nII - de estar a pessoa jurídica regularmente constituída, bastando que configure uma unidade econômica ou profissional.\n\nSeção IV\n\nDomicílio Tributário"
+  },
+  {
+    "id": "ctn_art_127",
+    "texto": "Art. 127 — Na falta de eleição, pelo contribuinte ou responsável, de domicílio tributário, na forma da legislação aplicável, considera-se como tal:\n\nI - quanto às pessoas naturais, a sua residência habitual, ou, sendo esta incerta ou desconhecida, o centro habitual de sua atividade;\n\nI\nI - quanto às pessoas jurídicas de direito privado ou às firmas individuais, o lugar da sua sede, ou, em relação aos atos ou fatos que derem origem à obrigação, o de cada estabelecimento;\n\nI\nII - quanto às pessoas jurídicas de direito público, qualquer de suas repartições no território da entidade tributante.\n\n§ 1º Quando não couber a aplicação das regras fixadas em qualquer dos incisos deste artigo, considerar-se-á como domicílio tributário do contribuinte ou responsável o lugar da situação dos bens ou da ocorrência dos atos ou fatos que deram origem à obrigação.\n\n§ 2º A autoridade administrativa pode recusar o domicílio eleito, quando impossibilite ou dificulte a arrecadação ou a fiscalização do tributo, aplicando-se então a regra do parágrafo anterior.\n\nCAPÍTULO V\n\nResponsabilidade Tributária\n\nSeção I\n\nDisposição Geral"
+  },
+  {
+    "id": "ctn_art_128",
+    "texto": "Art. 128 — Sem prejuízo do disposto neste capítulo, a lei pode atribuir de modo expresso a responsabilidade pelo crédito tributário a terceira pessoa, vinculada ao fato gerador da respectiva obrigação, excluindo a responsabilidade do contribuinte ou atribuindo-a a êste em caráter supletivo do cumprimento total ou parcial da referida obrigação.\n\nSeção II\n\nResponsabilidade dos Sucessores"
+  },
+  {
+    "id": "ctn_art_129",
+    "texto": "Art. 129 — O disposto nesta Seção aplica-se por igual aos créditos tributários definitivamente constituídos ou em curso de constituição à data dos atos nela referidos, e aos constituídos posteriormente aos mesmos atos, desde que relativos a obrigações tributárias surgidas até a referida data."
+  },
+  {
+    "id": "ctn_art_130",
+    "texto": "Art. 130 — Os créditos tributários relativos a impostos cujo fato gerador seja a propriedade, o domínio útil ou a posse de bens imóveis, e bem assim os relativos a taxas pela prestação de serviços referentes a tais bens, ou a contribuições de melhoria, sub-rogam-se na pessoa dos respectivos adquirentes, salvo quando conste do título a prova de sua quitação.\n\nParágrafo único. No caso de arrematação em hasta pública, a sub-rogação ocorre sôbre o respectivo preço."
+  },
+  {
+    "id": "ctn_art_131",
+    "texto": "Art. 131 — São pessoalmente responsáveis:\n\nI - o adquirente ou remitente, pelos tributos relativos aos bens adquiridos ou remidos com inobservância do disposto no art. 191;\n\nI - o adquirente ou remitente, pelos tributos relativos aos bens adquiridos ou remidos;           (Redação dada pelo Decreto Lei nº 28, de 1966)\n\nI\nI - o sucessor a qualquer título e o cônjuge meeiro, pelos tributos devidos pelo de cujus até a data da partilha ou adjudicação, limitada esta responsabilidade ao montante do quinhão do legado ou da meação;\n\nI\nII - o espólio, pelos tributos devidos pelo de cujus até a data da abertura da sucessão."
+  },
+  {
+    "id": "ctn_art_132",
+    "texto": "Art. 132 — A pessoa jurídica de direito privado que resultar de fusão, transformação ou incorporação de outra ou em outra é responsável pelos tributos devidos até à data do ato pelas pessoas jurídicas de direito privado fusionadas, transformadas ou incorporadas.\n\nParágrafo único. O disposto neste artigo aplica-se aos casos de extinção de pessoas jurídicas de direito privado, quando a exploração da respectiva atividade seja continuada por qualquer sócio remanescente, ou seu espólio, sob a mesma ou outra razão social, ou sob firma individual."
+  },
+  {
+    "id": "ctn_art_133",
+    "texto": "Art. 133 — A pessoa natural ou jurídica de direito privado que adquirir de outra, por qualquer título, fundo de comércio ou estabelecimento comercial, industrial ou profissional, e continuar a respectiva exploração, sob a mesma ou outra razão social ou sob firma ou nome individual, responde pelos tributos, relativos ao fundo ou estabelecimento adquirido, devidos até à data do ato:\n\nI - integralmente, se o alienante cessar a exploração do comércio, indústria ou atividade;\n\nI\nI - subsidiàriamente com o alienante, se êste prosseguir na exploração ou iniciar dentro de seis meses a contar da data da alienação, nova atividade no mesmo ou em outro ramo de comércio, indústria ou profissão.\n\n§ 1o O disposto no caput deste artigo não se aplica na hipótese de alienação judicial:              (Incluído pela Lcp nº 118, de 2005)\n\nI – em processo de falência;             (Incluído pela Lcp nº 118, de 2005)\n\nI\nI – de filial ou unidade produtiva isolada, em processo de recuperação judicial.          (Incluído pela Lcp nº 118, de 2005)\n\n§ 2o Não se aplica o disposto no \n§ 1o deste artigo quando o adquirente for:              (Incluído pela Lcp nº 118, de 2005)\n\nI – sócio da sociedade falida ou em recuperação judicial, ou sociedade controlada pelo devedor falido ou em recuperação judicial;             (Incluído pela Lcp nº 118, de 2005)\n\nI\nI – parente, em linha reta ou colateral até o 4o (quart\no) grau, consangüíneo ou afim, do devedor falido ou em recuperação judicial ou de qualquer de seus sócios; ou              (Incluído pela Lcp nº 118, de 2005)\n\nI\nII – identificado como agente do falido ou do devedor em recuperação judicial com o objetivo de fraudar a sucessão tributária.         (Incluído pela Lcp nº 118, de 2005)\n\n§ 3o Em processo da falência, o produto da alienação judicial de empresa, filial ou unidade produtiva isolada permanecerá em conta de depósito à disposição do juízo de falência pelo prazo de 1 (u\nm) ano, contado da data de alienação, somente podendo ser utilizado para o pagamento de créditos extraconcursais ou de créditos que preferem ao tributário.             (Incluído pela Lcp nº 118, de 2005)\n\nSeção III\n\nResponsabilidade de Terceiros"
+  },
+  {
+    "id": "ctn_art_134",
+    "texto": "Art. 134 — Nos casos de impossibilidade de exigência do cumprimento da obrigação principal pelo contribuinte, respondem solidàriamente com êste nos atos em que intervierem ou pelas omissões de que forem responsáveis:\n\nI - os pais, pelos tributos devidos por seus filhos menores;\n\nI\nI - os tutores e curadores, pelos tributos devidos por seus tutelados ou curatelados;\n\nI\nII - os administradores de bens de terceiros, pelos tributos devidos por êstes;\n\nI\nV - o inventariante, pelos tributos devidos pelo espólio;\n\nV - o síndico e o comissário, pelos tributos devidos pela massa falida ou pelo concordatário;\n\nV\nI - os tabeliães, escrivães e demais serventuários de ofício, pelos tributos devidos sôbre os atos praticados por êles, ou perante êles, em razão do seu ofício;\n\nV\nII - os sócios, no caso de liquidação de sociedade de pessoas.\n\nParágrafo único. O disposto neste artigo só se aplica, em matéria de penalidades, às de caráter moratório."
+  },
+  {
+    "id": "ctn_art_135",
+    "texto": "Art. 135 — São pessoalmente responsáveis pelos créditos correspondentes a obrigações tributárias resultantes de atos praticados com excesso de podêres ou infração de lei, contrato social ou estatutos:\n\nI - as pessoas referidas no artigo anterior;\n\nI\nI - os mandatários, prepostos e empregados;\n\nI\nII - os diretores, gerentes ou representantes de pessoas jurídicas de direito privado.\n\nSeção IV\n\nResponsabilidade por Infrações"
+  },
+  {
+    "id": "ctn_art_136",
+    "texto": "Art. 136 — Salvo disposição de lei em contrário, a responsabilidade por infrações da legislação tributária independe da intenção do agente ou do responsável e da efetividade, natureza e extensão dos efeitos do ato."
+  },
+  {
+    "id": "ctn_art_137",
+    "texto": "Art. 137 — A responsabilidade é pessoal ao agente:\n\nI - quanto às infrações conceituadas por lei como crimes ou contravenções, salvo quando praticadas no exercício regular de administração, mandato, função, cargo ou emprego, ou no cumprimento de ordem expressa emitida por quem de direito;\n\nI\nI - quanto às infrações em cuja definição o dolo específico do agente seja elementar;\n\nI\nII - quanto às infrações que decorram direta e exclusivamente de dolo específico:\n\na) das pessoas referidas no artigo 134, contra aquelas por quem respondem;\n\nb) dos mandatários, prepostos ou empregados, contra seus mandantes, preponentes ou empregadores;\n\nc) dos diretores, gerentes ou representantes de pessoas jurídicas de direito privado, contra estas."
+  },
+  {
+    "id": "ctn_art_138",
+    "texto": "Art. 138 — A responsabilidade é excluída pela denúncia espontânea da infração, acompanhada, se fôr o caso, do pagamento do tributo devido e dos juros de mora, ou do depósito da importância arbitrada pela autoridade administrativa, quando o montante do tributo dependa de apuração.\n\nParágrafo único. Não se considera espontânea a denúncia apresentada após o início de qualquer procedimento administrativo ou medida de fiscalização, relacionados com a infração.\n\nTÍTULO III\n\nCrédito Tributário\n\nCAPÍTULO I\n\nDisposições Gerais"
+  },
+  {
+    "id": "ctn_art_139",
+    "texto": "Art. 139 — O crédito tributário decorre da obrigação principal e tem a mesma natureza desta."
+  },
+  {
+    "id": "ctn_art_140",
+    "texto": "Art. 140 — As circunstâncias que modificam o crédito tributário, sua extensão ou seus efeitos, ou as garantias ou os privilégios a êle atribuídos, ou que excluem sua exigibilidade não afetam a obrigação tributária que lhe deu origem."
+  },
+  {
+    "id": "ctn_art_141",
+    "texto": "Art. 141 — O crédito tributário regularmente constituído sòmente se modifica ou extingue, ou tem sua exigibilidade suspensa ou excluída, nos casos previstos nesta lei, fora dos quais não podem ser dispensadas, sob pena de responsabilidade funcional na forma da lei, a sua efetivação ou as respectivas garantias.\n\nCAPÍTULO II\n\nConstituição do Crédito Tributário\n\nSeção I\n\nLançamento"
+  },
+  {
+    "id": "ctn_art_142",
+    "texto": "Art. 142 — Compete privativamente à autoridade administrativa constituir o crédito tributário pelo lançamento, assim entendido o procedimento administrativo tendente a verificar a ocorrência do fato gerador da obrigação correspondente, determinar a matéria tributável, calcular o montante do tributo devido, identificar o sujeito passivo e, sendo caso, propor a aplicação da penalidade cabível.\n\n \nParágrafo único. A atividade administrativa de lançamento é vinculada e obrigatória, sob pena de responsabilidade funcional."
+  },
+  {
+    "id": "ctn_art_143",
+    "texto": "Art. 143 — Salvo disposição de lei em contrário, quando o valor tributário esteja expresso em moeda estrangeira, no lançamento far-se-á sua conversão em moeda nacional ao câmbio do dia da ocorrência do fato gerador da obrigação."
+  },
+  {
+    "id": "ctn_art_144",
+    "texto": "Art. 144 — O lançamento reporta-se à data da ocorrência do fato gerador da obrigação e rege-se pela lei então vigente, ainda que posteriormente modificada ou revogada.\n\n \n§ 1º Aplica-se ao lançamento a legislação que, posteriormente à ocorrência do fato gerador da obrigação, tenha instituído novos critérios de apuração ou processos de fiscalização, ampliado os podêres de investigação das autoridades administrativas, ou outorgado ao crédito maiores garantias ou privilégios, exceto, neste último caso, para o efeito de atribuir responsabilidade tributária a terceiros.\n\n \n§ 2º O disposto neste artigo não se aplica aos impostos lançados por períodos certos de tempo, desde que a respectiva lei fixe expressamente a data em que o fato gerador se considera ocorrido."
+  },
+  {
+    "id": "ctn_art_145",
+    "texto": "Art. 145 — O lançamento regularmente notificado ao sujeito passivo só pode ser alterado em virtude de:\n\nI - impugnação do sujeito passivo;\n\nI\nI - recurso de ofício;\n\nI\nII - iniciativa de ofício da autoridade administrativa, nos casos previstos no artigo 149."
+  },
+  {
+    "id": "ctn_art_146",
+    "texto": "Art. 146 — A modificação introduzida, de ofício ou em conseqüência de decisão administrativa ou judicial, nos critérios jurídicos adotados pela autoridade administrativa no exercício do lançamento sòmente pode ser efetivada, em relação a um mesmo sujeito passivo, quanto a fato gerador ocorrido posteriormente à sua introdução.\n\nSeção II\n\nModalidades de Lançamento"
+  },
+  {
+    "id": "ctn_art_147",
+    "texto": "Art. 147 — O lançamento é efetuado com base na declaração do sujeito passivo ou de terceiro, quando um ou outro, na forma da legislação tributária, presta à autoridade administrativa informações sôbre matéria de fato, indispensáveis à sua efetivação.\n\n§ 1º A retificação da declaração por iniciativa do próprio declarante, quando vise a reduzir ou a excluir tributo, só é admissível mediante comprovação do êrro em que se funde, e antes de notificado o lançamento.\n\n§ 2º Os erros contidos na declaração e apuráveis pelo seu exame serão retificados de ofício pela autoridade administrativa a que competir a revisão daquela."
+  },
+  {
+    "id": "ctn_art_148",
+    "texto": "Art. 148 — Quando o cálculo do tributo tenha por base, ou tome em consideração, o valor ou o preço de bens, direitos, serviços ou atos jurídicos, a autoridade lançadora, mediante processo regular, arbitrará aquele valor ou preço, sempre que sejam omissos ou não mereçam fé as declarações ou os esclarecimentos prestados, ou os documentos expedidos pelo sujeito passivo ou pelo terceiro legalmente obrigado, ressalvada, em caso de contestação, avaliação contraditória, administrativa ou judicial."
+  },
+  {
+    "id": "ctn_art_149",
+    "texto": "Art. 149 — O lançamento é efetuado e revisto de ofício pela autoridade administrativa nos seguintes casos:\n\n \nI - quando a lei assim o determine;\n\n \nII - quando a declaração não seja prestada, por quem de direito, no prazo e na forma da legislação tributária;\n\n  \nIII - quando a pessoa legalmente obrigada, embora tenha prestado declaração nos têrmos do inciso anterior, deixe de atender, no prazo e na forma da legislação tributária, a pedido de esclarecimento formulado pela autoridade administrativa, recuse-se a prestá-lo ou não o preste satisfatòriamente, a juízo daquela autoridade;\n\n  \nIV - quando se comprove falsidade, êrro ou omissão quanto a qualquer elemento definido na legislação tributária como sendo de declaração obrigatória;\n\n   \nV - quando se comprove omissão ou inexatidão, por parte da pessoa legalmente obrigada, no exercício da atividade a que se refere o artigo seguinte;\n\n  \nVI - quando se comprove ação ou omissão do sujeito passivo, ou de terceiro legalmente obrigado, que dê lugar à aplicação de penalidade pecuniária;\n\n  \nVII - quando se comprove que o sujeito passivo, ou terceiro em benefício daquele, agiu com dolo, fraude ou simulação;\n\n  \nVIII - quando deva ser apreciado fato não conhecido ou não provado por ocasião do lançamento anterior;\n\nI\nX - quando se comprove que, no lançamento anterior, ocorreu fraude ou falta funcional da autoridade que o efetuou, ou omissão, pela mesma autoridade, de ato ou formalidade essencial.\n\nParágrafo único. A revisão do lançamento só pode ser iniciada enquanto não extinto o direito da Fazenda Pública."
+  },
+  {
+    "id": "ctn_art_150",
+    "texto": "Art. 150 — O lançamento por homologação, que ocorre quanto aos tributos cuja legislação atribua ao sujeito passivo o dever de antecipar o pagamento sem prévio exame da autoridade administrativa, opera-se pelo ato em que a referida autoridade, tomando conhecimento da atividade assim exercida pelo obrigado, expressamente a homologa.\n\n§ 1º O pagamento antecipado pelo obrigado nos têrmos dêste artigo extingue o crédito, sob condição resolutória da ulterior homologação do lançamento.\n\n§ 2º Não influem sôbre a obrigação tributária quaisquer atos anteriores à homologação, praticados pelo sujeito passivo ou por terceiro, visando à extinção total ou parcial do crédito.\n\n§ 3º Os atos a que se refere o parágrafo anterior serão, porém, considerados na apuração do saldo porventura devido e, sendo o caso, na imposição de penalidade, ou sua graduação.\n\n§ 4º Se a lei não fixar prazo a homologação, será êle de cinco anos, a contar da ocorrência do fato gerador; expirado êsse prazo sem que a Fazenda Pública se tenha pronunciado, considera-se homologado o lançamento e definitivamente extinto o crédito, salvo se comprovada a ocorrência de dolo, fraude ou simulação.\n\nCAPÍTULO III\n\nSuspensão do Crédito Tributário\n\nSeção I\n\nDisposições Gerais"
+  },
+  {
+    "id": "ctn_art_151",
+    "texto": "Art. 151 — Suspendem a exigibilidade do crédito tributário:\n\n  \nI - moratória;\n\n \nII - o depósito do seu montante integral;\n\n  \nIII - as reclamações e os recursos, nos têrmos das leis reguladoras do processo tributário administrativo;\n\n  \nIV - a concessão de medida liminar em mandado de segurança.\n\n  \nV – a concessão de medida liminar ou de tutela antecipada, em outras espécies de ação judicial;            (Incluído pela Lcp nº 104, de 2001)    \n\n  \nVI – o parcelamento.               (Incluído pela Lcp nº 104, de 2001)  \n\n  \nParágrafo único. O disposto neste artigo não dispensa o cumprimento das obrigações assessórios dependentes da obrigação principal cujo crédito seja suspenso, ou dela conseqüentes.\n\nSeção II\n\nMoratória"
+  },
+  {
+    "id": "ctn_art_152",
+    "texto": "Art. 152 — A moratória somente pode ser concedida:\n\nI - em caráter geral:\n\na) pela pessoa jurídica de direito público competente para instituir o tributo a que se refira;\n\nb) pela União, quanto a tributos de competência dos Estados, do Distrito Federal ou dos Municípios, quando simultâneamente concedida quanto aos tributos de competência federal e às obrigações de direito privado;\n\nI\nI - em caráter individual, por despacho da autoridade administrativa, desde que autorizada por lei nas condições do inciso anterior.\n\nParágrafo único. A lei concessiva de moratória pode circunscrever expressamente a sua aplicabilidade à determinada região do território da pessoa jurídica de direito público que a expedir, ou a determinada classe ou categoria de sujeitos passivos."
+  },
+  {
+    "id": "ctn_art_153",
+    "texto": "Art. 153 — A lei que conceda moratória em caráter geral ou autorize sua concessão em caráter individual especificará, sem prejuízo de outros requisitos:\n\nI - o prazo de duração do favor;\n\nI\nI - as condições da concessão do favor em caráter individual;\n\nI\nII - sendo caso:\n\na) os tributos a que se aplica;\n\nb) o número de prestações e seus vencimentos, dentro do prazo a que se refere o inciso I, podendo atribuir a fixação de uns e de outros à autoridade administrativa, para cada caso de concessão em caráter individual;\n\nc) as garantias que devem ser fornecidas pelo beneficiado no caso de concessão em caráter individual."
+  },
+  {
+    "id": "ctn_art_154",
+    "texto": "Art. 154 — Salvo disposição de lei em contrária, a moratória sòmente abrange os créditos definitivamente constituídos à data da lei ou do despacho que a conceder, ou cujo lançamento já tenha sido iniciado àquela data por ato regularmente notificado ao sujeito passivo.\n\n \nParágrafo único. A moratória não aproveita aos casos de dolo, fraude ou simulação do sujeito passivo ou do terceiro em benefício daquele."
+  },
+  {
+    "id": "ctn_art_155",
+    "texto": "Art. 155 — A concessão da moratória em caráter individual não gera direito adquirido e será revogado de ofício, sempre que se apure que o beneficiado não satisfazia ou deixou de satisfazer as condições ou não cumprira ou deixou de cumprir os requisitos para a concessão do favor, cobrando-se o crédito acrescido de juros de mora:\n\nI - com imposição da penalidade cabível, nos casos de dolo ou simulação do beneficiado, ou de terceiro em benefício daquele;\n\nI\nI - sem imposição de penalidade, nos demais casos.\n\nParágrafo único. No caso do inciso I dêste artigo, o tempo decorrido entre a concessão da moratória e sua revogação não se computa para efeito da prescrição do direito à cobrança do crédito; no caso do inciso II dêste artigo, a revogação só pode ocorrer antes de prescrito o referido direito."
+  },
+  {
+    "id": "ctn_art_155_A",
+    "texto": "Art. 155-A — O parcelamento será concedido na forma e condição estabelecidas em lei específica.            (Incluído pela Lcp nº 104, de 2001)\n\n§ 1o Salvo disposição de lei em contrário, o parcelamento do crédito tributário não exclui a incidência de juros e multas.            (Incluído pela Lcp nº 104, de 2001)\n\n§ 2o Aplicam-se, subsidiariamente, ao parcelamento as disposições desta Lei, relativas à moratória.           (Incluído pela Lcp nº 104, de 2001)\n\n§ 3o Lei específica disporá sobre as condições de parcelamento dos créditos tributários do devedor em recuperação judicial.            (Incluído pela Lcp nº 118, de 2005)\n\n \n§ 4o A inexistência da lei específica a que se refere o \n§ 3o deste artigo importa na aplicação das leis gerais de parcelamento do ente da Federação ao devedor em recuperação judicial, não podendo, neste caso, ser o prazo de parcelamento inferior ao concedido pela lei federal específica.              (Incluído pela Lcp nº 118, de 2005)\n\nCAPÍTULO IV\n\nExtinção do Crédito Tributário\n\nSeção I\n\nModalidades de Extinção"
+  },
+  {
+    "id": "ctn_art_156",
+    "texto": "Art. 156 — Extinguem o crédito tributário:\n\nI - o pagamento;\n\nI\nI - a compensação;\n\nI\nII - a transação;\n\nI\nV - remissão;\n\nV - a prescrição e a decadência;\n\nV\nI - a conversão de depósito em renda;\n\nV\nII - o pagamento antecipado e a homologação do lançamento nos termos do disposto no artigo 150 e seus §\n§ 1º e 4º;\n\nV\nIII - a consignação em pagamento, nos termos do disposto no \n§ 2º do artigo 164;\n\nI\nX - a decisão administrativa irreformável, assim entendida a definitiva na órbita administrativa, que não mais possa ser objeto de ação anulatória;\n\nX - a decisão judicial passada em julgado.\n\nX\nI – a dação em pagamento em bens imóveis, na forma e condições estabelecidas em lei.              (Incluído pela Lcp nº 104, de \n10.1.2001)         (Vide Lei nº \n13.259, de 2016)\n\nParágrafo único. A lei disporá quanto aos efeitos da extinção total ou parcial do crédito sôbre a ulterior verificação da irregularidade da sua constituição, observado o disposto nos artigos 144 e 149.\n\nSeção II\n\nPagamento"
+  },
+  {
+    "id": "ctn_art_157",
+    "texto": "Art. 157 — A imposição de penalidade não ilide o pagamento integral do crédito tributário."
+  },
+  {
+    "id": "ctn_art_158",
+    "texto": "Art. 158 — O pagamento de um crédito não importa em presunção de pagamento:\n\nI - quando parcial, das prestações em que se decomponha;\n\nI\nI - quando total, de outros créditos referentes ao mesmo ou a outros tributos."
+  },
+  {
+    "id": "ctn_art_159",
+    "texto": "Art. 159 — Quando a legislação tributária não dispuser a respeito, o pagamento é efetuado na repartição competente do domicílio do sujeito passivo."
+  },
+  {
+    "id": "ctn_art_160",
+    "texto": "Art. 160 — Quando a legislação tributária não fixar o tempo do pagamento, o vencimento do crédito ocorre trinta dias depois da data em que se considera o sujeito passivo notificado do lançamento.\n\nParágrafo único. A legislação tributária pode conceder desconto pela antecipação do pagamento, nas condições que estabeleça."
+  },
+  {
+    "id": "ctn_art_161",
+    "texto": "Art. 161 — O crédito não integralmente pago no vencimento é acrescido de juros de mora, seja qual fôr o motivo determinante da falta, sem prejuízo da imposição das penalidades cabíveis e da aplicação de quaisquer medidas de garantia previstas nesta Lei ou em lei tributária.\n\n§ 1º Se a lei não dispuser de modo diverso, os juros de mora são calculados à taxa de um por cento ao mês.\n\n§ 2º O disposto neste artigo não se aplica na pendência de consulta formulada pelo devedor dentro do prazo legal para pagamento do crédito."
+  },
+  {
+    "id": "ctn_art_162",
+    "texto": "Art. 162 — O pagamento é efetuado:\n\nI - em moeda corrente, cheque ou vale postal;\n\nI\nI - nos casos previstos em lei, em estampilha, em papel selado, ou por processo mecânico.\n\n§ 1º A legislação tributária pode determinar as garantias exigidas para o pagamento por cheque ou vale postal, desde que não o torne impossível ou mais oneroso que o pagamento em moeda corrente.\n\n \n§ 2º O crédito pago por cheque sòmente se considera extinto com o resgate dêste pelo sacado.\n\n \n§ 3º O crédito pagável em estampilha considera-se extinto com a inutilização regular daquela, ressalvado o disposto no art. 150.\n\n \n§ 4º A perda ou destruição da estampilha, ou o êrro no pagamento por esta modalidade, não dão direito a restituição, salvo nos casos expressamente previstos na legislação tributária, ou naquelas em que o êrro seja imputável à autoridade administrativa.\n\n \n§ 5º O pagamento em papel selado ou por processo mecânico equipara-se ao pagamento em estampilha."
+  },
+  {
+    "id": "ctn_art_163",
+    "texto": "Art. 163 — Existindo simultaneamente dois ou mais débitos vencidos do mesmo sujeito passivo para com a mesma pessoa jurídica de direito público, relativos ao mesmo ou a diferentes tributos ou provenientes de penalidade pecuniária ou juros de mora, a autoridade administrativa competente para receber o pagamento determinará a respectiva imputação, obedecidas as seguintes regras, na ordem em que enumeradas:\n\nI - em primeiro lugar, aos débitos por obrigação própria, e em segundo lugar aos decorrentes de responsabilidade tributária;\n\nI\nI - primeiramente, às contribuições de melhoria, depois às taxas e por fim aos impostos;\n\nI\nII - na ordem crescente dos prazos de prescrição;\n\nI\nV - na ordem decrescente dos montantes."
+  },
+  {
+    "id": "ctn_art_164",
+    "texto": "Art. 164 — A importância de crédito tributário pode ser consignada judicialmente pelo sujeito passivo, nos casos:\n\nI - de recusa de recebimento, ou subordinação dêste ao pagamento de outro tributo ou de penalidade, ou ao cumprimento de obrigação acessória;\n\nI\nI - de subordinação do recebimento ao cumprimento de exigências administrativas sem fundamento legal;\n\nI\nII - de exigência, por mais de uma pessoa jurídica de direito público, de tributo idêntico sôbre um mesmo fato gerador.\n\n§ 1º A consignação só pode versar sobre o crédito que o consignante se propõe pagar.\n\n \n§ 2º Julgada procedente a consignação, o pagamento se reputa efetuado e a importância consignada é convertida em renda; julgada improcedente a consignação no todo ou em parte, cobra-se o crédito acrescido de juros de mora, sem prejuízo das penalidades cabíveis.\n\nSeção III\n\nPagamento Indevido"
+  },
+  {
+    "id": "ctn_art_165",
+    "texto": "Art. 165 — O sujeito passivo tem direito, independentemente de prévio protesto, à restituição total ou parcial do tributo, seja qual fôr a modalidade do seu pagamento, ressalvado o disposto no \n§ 4º do art. 162, nos seguintes casos:\n\nI - cobrança ou pagamento espontâneo de tributo indevido ou maior que o devido em face da legislação tributária aplicável, ou da natureza ou circunstâncias materiais do fato gerador efetivamente ocorrido;\n\nI\nI - êrro na edificação do sujeito passivo, na determinação da alíquota aplicável, no cálculo do montante do débito ou na elaboração ou conferência de qualquer documento relativo ao pagamento;\n\nI\nII - reforma, anulação, revogação ou rescisão de decisão condenatória."
+  },
+  {
+    "id": "ctn_art_166",
+    "texto": "Art. 166 — A restituição de tributos que comportem, por sua natureza, transferência do respectivo encargo financeiro sòmente será feita a quem prove haver assumido o referido encargo, ou, no caso de tê-lo transferido a terceiro, estar por êste expressamente autorizado a recebê-la."
+  },
+  {
+    "id": "ctn_art_167",
+    "texto": "Art. 167 — A restituição total ou parcial do tributo dá lugar à restituição, na mesma proporção, dos juros de mora e das penalidades pecuniárias, salvo as referentes a infrações de caráter formal não prejudicadas pela causa da restituição.\n\n \nParágrafo único. A restituição vence juros não capitalizáveis, a partir do trânsito em julgado da decisão definitiva que a determinar."
+  },
+  {
+    "id": "ctn_art_168",
+    "texto": "Art. 168 — O direito de pleitear a restituição extingue-se com o decurso do prazo de 5 (cinc\no) anos, contados:\n\nI - nas hipótese dos incisos I e II do art. 165, da data da extinção do crédito tributário;            (Vide art 3 da LCp nº 118, de 2005)\n\nI\nI - na hipótese do inciso III do art. 165, da data em que se tornar definitiva a decisão administrativa ou passar em julgado a decisão judicial que tenha reformado, anulado, revogado ou rescindido a decisão condenatória."
+  },
+  {
+    "id": "ctn_art_169",
+    "texto": "Art. 169 — Prescreve em dois anos a ação anulatória da decisão administrativa que denegar a restituição.\n\n \nParágrafo único. O prazo de prescrição é interrompido pelo início da ação judicial, recomeçando o seu curso, por metade, a partir da data da intimação validamente feita ao representante judicial da Fazenda Pública interessada.\n\nSeção IV\n\nDemais Modalidades de Extinção"
+  },
+  {
+    "id": "ctn_art_170",
+    "texto": "Art. 170 — A lei pode, nas condições e sob as garantias que estipular, ou cuja estipulação em cada caso atribuir à autoridade administrativa, autorizar a compensação de créditos tributários com créditos líquidos e certos, vencidos ou vincendos, do sujeito passivo contra a Fazenda Pública.            (Vide Decreto nº \n7.212, de 2010)\n\n \nParágrafo único. Sendo vincendo o crédito do sujeito passivo, a lei determinará, para os efeitos dêste artigo, a apuração do seu montante, não podendo, porém, cominar redução maior que a correspondente ao juro de 1% (um por cent\no) ao mês pelo tempo a decorrer entre a data da compensação e a do vencimento."
+  },
+  {
+    "id": "ctn_art_170_A",
+    "texto": "Art. 170-A — É vedada a compensação mediante o aproveitamento de tributo, objeto de contestação judicial pelo sujeito passivo, antes do trânsito em julgado da respectiva decisão judicial.                (Incluído pela Lcp nº 104, de 2001)"
+  },
+  {
+    "id": "ctn_art_171",
+    "texto": "Art. 171 — A lei pode facultar, nas condições que estabeleça, aos sujeitos ativo e passivo da obrigação tributária celebrar transação que, mediante concessões mútuas, importe em determinação de litígio e conseqüente extinção de crédito tributário.\n\n \nParágrafo único. A lei indicará a autoridade competente para autorizar a transação em cada caso."
+  },
+  {
+    "id": "ctn_art_172",
+    "texto": "Art. 172 — A lei pode autorizar a autoridade administrativa a conceder, por despacho fundamentado, remissão total ou parcial do crédito tributário, atendendo:\n\nI - à situação econômica do sujeito passivo;\n\nI\nI - ao êrro ou ignorância excusáveis do sujeito passivo, quanto a matéria de fato;\n\nI\nII - à diminuta importância do crédito tributário;\n\nI\nV - a considerações de eqüidade, em relação com as características pessoais ou materiais do caso;\n\nV - a condições peculiares a determinada região do território da entidade tributante.\n\nParágrafo único. O despacho referido neste artigo não gera direito adquirido, aplicando-se, quando cabível, o disposto no artigo 155."
+  },
+  {
+    "id": "ctn_art_173",
+    "texto": "Art. 173 — O direito de a Fazenda Pública constituir o crédito tributário extingue-se após 5 (cinc\no) anos, contados:\n\nI - do primeiro dia do exercício seguinte àquele em que o lançamento poderia ter sido efetuado;\n\nI\nI - da data em que se tornar definitiva a decisão que houver anulado, por vício formal, o lançamento anteriormente efetuado.\n\nParágrafo único. O direito a que se refere êste artigo extingue-se definitivamente com o decurso do prazo nêle previsto, contado da data em que tenha sido iniciada a constituição do crédito tributário pela notificação, ao sujeito passivo, de qualquer medida preparatória indispensável ao lançamento."
+  },
+  {
+    "id": "ctn_art_174",
+    "texto": "Art. 174 — A ação para a cobrança do crédito tributário prescreve em cinco anos, contados da data da sua constituição definitiva.\n\nParágrafo único. A prescrição se interrompe:\n\nI - pela citação pessoal feita ao devedor;\n\nI – pelo despacho do juiz que ordenar a citação em execução fiscal;               (Redação dada pela Lcp nº 118, de 2005)\n\nI\nI - pelo protesto judicial;\n\nI\nI - pelo protesto judicial ou extrajudicial;     (Redação dada pela Lei Complementar nº 208, de 2024)\n\nI\nII - por qualquer ato judicial que constitua em mora o devedor;\n\nI\nV - por qualquer ato inequívoco ainda que extrajudicial, que importe em reconhecimento do débito pelo devedor.\n\nCAPÍTULO V\n\nExclusão de Crédito Tributário\n\nSeção I\n\nDisposições Gerais"
+  },
+  {
+    "id": "ctn_art_175",
+    "texto": "Art. 175 — Excluem o crédito tributário:\n\nI - a isenção;\n\nI\nI - a anistia.\n\nParágrafo único. a exclusão do crédito tributário não dispensa o cumprimento das obrigações acessórias dependentes da obrigação principal cujo crédito seja excluído, ou dela conseqüentes.\n\nSeção II\n\nIsenção"
+  },
+  {
+    "id": "ctn_art_176",
+    "texto": "Art. 176 — A isenção, ainda quando prevista em contrato, é sempre decorrente de lei que especifique as condições e requisitos exigidos para a sua concessão, os tributos a que se aplica e, sendo caso, o prazo de sua duração.\n\n \nParágrafo único. a isenção pode ser restrita a determinada região do território da entidade tributante, em função de condições a ela peculiares."
+  },
+  {
+    "id": "ctn_art_177",
+    "texto": "Art. 177 — Salvo disposição de lei em contrário, a isenção não é extensiva:\n\nI - às taxas e às contribuições de melhoria;\n\nI\nI - aos tributos instituídos posteriormente à sua concessão."
+  },
+  {
+    "id": "ctn_art_178",
+    "texto": "Art. 178 — A isenção, salvo se concedida por prazo certo ou em função de determinadas condições, pode ser revogada ou modificada por lei a qualquer tempo, observado o disposto no inciso III do art. 104."
+  },
+  {
+    "id": "ctn_art_178_2",
+    "texto": "Art. 178 — A isenção, salvo se concedida por prazo certo e em função de determinadas condições, pode ser revogada ou modificada por lei, a qualquer tempo, observado o disposto no inciso III do art. 104.                 (Redação dada pela Lei Complementar nº 24, de 1975)"
+  },
+  {
+    "id": "ctn_art_179",
+    "texto": "Art. 179 — A isenção, quando não concedida em caráter geral, é efetivada, em cada caso, por despacho da autoridade administrativa, em requerimento com o qual o interessado faça prova do preenchimento das condições e do cumprimento dos requisitos previstos em lei ou contrato para sua concessão.\n\n§ 1º Tratando-se de tributo lançado por período certo de tempo, o despacho referido neste artigo será renovado antes da expiração de cada período, cessando automàticamente os seus efeitos a partir do primeiro dia do período para o qual o interessado deixar de promover a continuidade do reconhecimento da isenção.\n\n§ 2º O despacho referido neste artigo não gera direito adquirido, aplicando-se, quando cabível, o disposto no art. 155.\n\nSeção III\n\nAnistia"
+  },
+  {
+    "id": "ctn_art_180",
+    "texto": "Art. 180 — A anistia abrange exclusivamente as infrações cometidas anteriormente à vigência da lei que a concede, não se aplicando:\n\nI - aos atos qualificados em lei como crimes ou contravenções e aos que, mesmo sem essa qualificação, sejam praticados com dolo, fraude ou simulação pelo sujeito passivo ou por terceiro em benefício daquele;\n\nI\nI - salvo disposição em contrário, às infrações resultantes de conluio entre duas ou mais pessoas naturais ou jurídicas."
+  },
+  {
+    "id": "ctn_art_181",
+    "texto": "Art. 181 — A anistia pode ser concedida:\n\nI - em caráter geral;\n\nI\nI - limitadamente:\n\na) às infrações da legislação relativa a determinado tributo;\n\nb) às infrações punidas com penalidades pecuniárias até determinado montante, conjugadas ou não com penalidades de outra natureza;\n\nc) a determinada região do território da entidade tributante, em função de condições a ela peculiares;\n\nd) sob condição do pagamento de tributo no prazo fixado pela lei que a conceder, ou cuja fixação seja atribuída pela mesma lei à autoridade administrativa."
+  },
+  {
+    "id": "ctn_art_182",
+    "texto": "Art. 182 — A anistia, quando não concedida em caráter geral, é efetivada, em cada caso, por despacho da autoridade administrativa, em requerimento com o qual o interessado faça prova do preenchimento das condições e do cumprimento dos requisitos previstos em lei para sua concessão.\n\nParágrafo único. O despacho referido neste artigo não gera direito adquirido, aplicando-se, quando cabível, o disposto no art. 155.\n\nCAPÍTULO VI\n\nGarantias e Privilégios do Crédito Tributário\n\nSeção I\n\nDisposições Gerais"
+  },
+  {
+    "id": "ctn_art_183",
+    "texto": "Art. 183 — A enumeração das garantias atribuídas neste Capítulo ao crédito tributário não exclui outras que sejam expressamente previstas em lei, em função da natureza ou das características do tributo a que se refiram.\n\nParágrafo único. A natureza das garantias atribuídas ao crédito tributário não altera a natureza dêste nem a da obrigação tributária a que corresponda."
+  },
+  {
+    "id": "ctn_art_184",
+    "texto": "Art. 184 — Sem prejuízo dos privilégios especiais sôbre determinados bens, que sejam previstos em lei, responde pelo pagamento do crédito tributário a totalidade dos bens e das rendas, de qualquer origem ou natureza, do sujeito passivo, seu espólio ou sua massa falida, inclusive os gravados por ônus real ou cláusula de inalienabilidade ou impenhorabilidade, seja qual for a data da constituição do ônus ou da cláusula, excetuados unicamente os bens e rendas que a lei declare absolutamente impenhoráveis."
+  },
+  {
+    "id": "ctn_art_185",
+    "texto": "Art. 185 — Presume-se fraudulenta a alienação ou oneração de bens ou rendas, ou seu começo, por sujeito passivo em débito para com a Fazenda Pública por crédito tributário regularmente inscrito como dívida ativa em fase de execução."
+  },
+  {
+    "id": "ctn_art_185_2",
+    "texto": "Art. 185 — Presume-se fraudulenta a alienação ou oneração de bens ou rendas, ou seu comêço, por sujeito passivo em débito para com a Fazenda Pública, por crédito tributário regularmente inscrito como dívida ativa.           (Redação dada pela Lcp nº 118, de 2005)\n\nParágrafo único. O disposto neste artigo não se aplica na hipótese de terem sido reservados pelo devedor bens ou rendas suficientes ao total pagamento da dívida em fase de execução.\n\nParágrafo único. O disposto neste artigo não se aplica na hipótese de terem sido reservados, pelo devedor, bens ou rendas suficientes ao total pagamento da dívida inscrita.                (Redação dada pela Lcp nº 118, de 2005)"
+  },
+  {
+    "id": "ctn_art_185_A",
+    "texto": "Art. 185-A — Na hipótese de o devedor tributário, devidamente citado, não pagar nem apresentar bens à penhora no prazo legal e não forem encontrados bens penhoráveis, o juiz determinará a indisponibilidade de seus bens e direitos, comunicando a decisão, preferencialmente por meio eletrônico, aos órgãos e entidades que promovem registros de transferência de bens, especialmente ao registro público de imóveis e às autoridades supervisoras do mercado bancário e do mercado de capitais, a fim de que, no âmbito de suas atribuições, façam cumprir a ordem judicial.               (Incluído pela Lcp nº 118, de 2005)\n\n§ 1o A indisponibilidade de que trata o caput deste artigo limitar-se-á ao valor total exigível, devendo o juiz determinar o imediato levantamento da indisponibilidade dos bens ou valores que excederem esse limite.     (Incluído pela Lcp nº 118, de 2005)\n\n§ 2o Os órgãos e entidades aos quais se fizer a comunicação de que trata o caput deste artigo enviarão imediatamente ao juízo a relação discriminada dos bens e direitos cuja indisponibilidade houverem promovido.           (Incluído pela Lcp nº 118, de 2005)\n\nSeção II\n\nPreferências"
+  },
+  {
+    "id": "ctn_art_186",
+    "texto": "Art. 186 — O crédito tributário prefere a qualquer outro, seja qual fôr a natureza ou o tempo da constituição dêste, ressalvados os créditos decorrentes da legislação do trabalho."
+  },
+  {
+    "id": "ctn_art_186_2",
+    "texto": "Art. 186 — O crédito tributário prefere a qualquer outro, seja qual for sua natureza ou o tempo de sua constituição, ressalvados os créditos decorrentes da legislação do trabalho ou do acidente de trabalho.            (Redação dada pela Lcp nº 118, de 2005)\n\n \nParágrafo único. Na falência:               (Incluído pela Lcp nº 118, de 2005)\n\nI – o crédito tributário não prefere aos créditos extraconcursais ou às importâncias passíveis de restituição, nos termos da lei     falimentar, nem aos créditos com garantia real, no limite do valor do bem gravado;              (Incluído pela Lcp nº 118, de 2005)\n\nI\nI – a lei poderá estabelecer limites e condições para a preferência dos créditos decorrentes da legislação do trabalho; e               (Incluído pela Lcp nº 118, de 2005)\n\nI\nII – a multa tributária prefere apenas aos créditos subordinados.             (Incluído pela Lcp nº 118, de 2005)"
+  },
+  {
+    "id": "ctn_art_187",
+    "texto": "Art. 187 — A cobrança judicial do crédito tributário não é sujeita a concurso de credores ou habilitação em falência, concordata, inventário ou arrolamento."
+  },
+  {
+    "id": "ctn_art_187_2",
+    "texto": "Art. 187 — A cobrança judicial do crédito tributário não é sujeita a concurso de credores ou habilitação em falência, recuperação judicial, concordata, inventário ou arrolamento.   (Redação dada pela Lcp nº 118, de 2005)(Vide ADPF 357)\n\n \nParágrafo único. O concurso de preferência sòmente se verifica entre pessoas jurídicas de direito público, na seguinte ordem:        (Vide ADPF 357)\n\nI - União;      (Vide ADPF 357)\n\nI\nI - Estados, Distrito Federal e Territórios, conjuntamente e pró rata;       (Vide ADPF 357)\n\nI\nII - Municípios, conjuntamente e pró rata.       (Vide ADPF 357)"
+  },
+  {
+    "id": "ctn_art_188",
+    "texto": "Art. 188 — São encargos da massa falida, pagáveis preferencialmente a quaisquer outros e às dívidas da massa, os créditos tributários vencidos e vincendos, exigíveis no decurso do processo de falência."
+  },
+  {
+    "id": "ctn_art_188_2",
+    "texto": "Art. 188 — São extraconcursais os créditos tributários decorrentes de fatos geradores ocorridos no curso do processo de falência.               (Redação dada pela Lcp nº 118, de 2005)\n\n \n§ 1º Contestado o crédito tributário, o juiz remeterá as partes ao processo competente, mandando reservar bens suficientes à extinção total do crédito e seus acrescidos, se a massa não puder efetuar a garantia da instância por outra forma, ouvido, quanto à natureza e valor dos bens reservados, o representante da Fazenda Pública interessada.\n\n§ 2º O disposto neste artigo aplica-se aos processos de concordata."
+  },
+  {
+    "id": "ctn_art_189",
+    "texto": "Art. 189 — São pagos preferencialmente a quaisquer créditos habilitados em inventário ou arrolamento, ou a outros encargos do monte, os créditos tributários vencidos ou vincendos, a cargo do de cujus ou de seu espólio, exigíveis no decurso do processo de inventário ou arrolamento.\n\nParágrafo único. Contestado o crédito tributário, proceder-se-á na forma do disposto no \n§ 1º do artigo anterior."
+  },
+  {
+    "id": "ctn_art_190",
+    "texto": "Art. 190 — São pagos preferencialmente a quaisquer outros os créditos tributários vencidos ou vincendos, a cargo de pessoas jurídicas de direito privado em liquidação judicial ou voluntária, exigíveis no decurso da liquidação."
+  },
+  {
+    "id": "ctn_art_191",
+    "texto": "Art. 191 — Não será concedida concordata nem declarada a extinção das obrigações do falido, sem que o requerente faça prova da quitação de todos os tributos relativos à sua atividade mercantil."
+  },
+  {
+    "id": "ctn_art_191_2",
+    "texto": "Art. 191 — A extinção das obrigações do falido requer prova de quitação de todos os tributos.               (Redação dada pela Lcp nº 118, de 2005)"
+  },
+  {
+    "id": "ctn_art_191_A",
+    "texto": "Art. 191-A — A concessão de recuperação judicial depende da apresentação da prova de quitação de todos os tributos, observado o disposto nos arts. 151, 205 e 206 desta Lei.              (Incluído pela Lcp nº 118, de 2005)"
+  },
+  {
+    "id": "ctn_art_192",
+    "texto": "Art. 192 — Nenhuma sentença de julgamento de partilha ou adjudicação será proferida sem prova da quitação de todos os tributos relativos aos bens do espólio, ou às suas rendas."
+  },
+  {
+    "id": "ctn_art_193",
+    "texto": "Art. 193 — Salvo quando expressamente autorizado por lei, nenhum departamento da administração pública da União, dos Estados, do Distrito Federal, ou dos Municípios, ou sua autarquia, celebrará contrato ou aceitará proposta em concorrência pública sem que o contratante ou proponente faça prova da quitação de todos os tributos devidos à Fazenda Pública interessada, relativos à atividade em cujo exercício contrata ou concorre.\n\nTÍTULO IV\n\nAdministração Tributária\n\nCAPÍTULO I\n\nFiscalização"
+  },
+  {
+    "id": "ctn_art_194",
+    "texto": "Art. 194 — A legislação tributária, observado o disposto nesta Lei, regulará, em caráter geral, ou especificamente em função da natureza do tributo de que se tratar, a competência e os poderes das autoridades administrativas em matéria de fiscalização da sua aplicação.\n\nParágrafo único. A legislação a que se refere êste artigo aplica-se às pessoas naturais ou jurídicas, contribuintes ou não, inclusive às que gozem de imunidade tributária ou de isenção de caráter pessoal."
+  },
+  {
+    "id": "ctn_art_195",
+    "texto": "Art. 195 — Para os efeitos da legislação tributária, não têm aplicação quaisquer disposições legais excludentes ou limitativas do direito de examinar mercadorias, livros, arquivos, documentos, papéis e efeitos comerciais ou fiscais, dos comerciantes industriais ou produtores, ou da obrigação dêstes de exibi-los.\n\nParágrafo único. Os livros obrigatórios de escrituração comercial e fiscal e os comprovantes dos lançamentos nêles efetuados serão conservados até que ocorra a prescrição dos créditos tributários decorrentes das operações a que se refiram."
+  },
+  {
+    "id": "ctn_art_196",
+    "texto": "Art. 196 — A autoridade administrativa que proceder ou presidir a quaisquer diligências de fiscalização lavrará os têrmos necessários para que se documente o início do procedimento, na forma da legislação aplicável, que fixará prazo máximo para a conclusão daquelas.\n\nParágrafo único. Os têrmos a que se refere êste artigo serão lavrados, sempre que possível, em um dos livros fiscais exibidos; quando lavrados em separado dêles se entregará, à pessoa sujeita à fiscalização, cópia autenticada pela autoridade a que se refere êste artigo."
+  },
+  {
+    "id": "ctn_art_197",
+    "texto": "Art. 197 — Mediante intimação escrita, são obrigados a prestar à autoridade administrativa tôdas as informações de que disponham com relação aos bens, negócios ou atividades de terceiros:\n\nI - os tabeliães, escrivães e demais serventuários de ofício;\n\nI\nI - os bancos, casas bancárias, Caixas Econômicas e demais instituições financeiras;\n\nI\nII - as emprêsas de administração de bens;\n\nI\nV - os corretores, leiloeiros e despachantes oficiais;\n\nV - os inventariantes;\n\nV\nI - os síndicos, comissários e liquidatários;\n\nV\nII - quaisquer outras entidades ou pessoas que a lei designe, em razão de seu cargo, ofício, função, ministério, atividade ou profissão.\n\n \nParágrafo único. A obrigação prevista neste artigo não abrange a prestação de informações quanto a fatos sobre os quais o informante esteja legalmente obrigado a observar segredo em razão de cargo, ofício, função, ministério, atividade ou profissão."
+  },
+  {
+    "id": "ctn_art_198",
+    "texto": "Art. 198 — Sem prejuízo do disposto na legislação criminal, é vedada a divulgação, para qualquer fim, por parte da Fazenda Pública ou de seus funcionários, de qualquer informação, obtida em razão do ofício, sôbre a situação econômica ou financeira dos sujeitos passivos ou de terceiros e sôbre a natureza e o estado dos seus negócios ou atividades.\n         \nParágrafo único. Excetuam-se do disposto neste artigo, únicamente, os casos previstos no artigo seguinte e os de requisição regular da autoridade judiciária no interêsse da justiça."
+  },
+  {
+    "id": "ctn_art_198_2",
+    "texto": "Art. 198 — Sem prejuízo do disposto na legislação criminal, é vedada a divulgação, por parte da Fazenda Pública ou de seus servidores, de informação obtida em razão do ofício sobre a situação econômica ou financeira do sujeito passivo ou de terceiros e sobre a natureza e o estado de seus negócios ou atividades.              (Redação dada pela Lcp nº 104, de 2001)\n\n§ 1o Excetuam-se do disposto neste artigo, além dos casos previstos no art. 199, os seguintes:                (Redação dada pela Lcp nº 104, de 2001)\n\nI – requisição de autoridade judiciária no interesse da justiça;             (Incluído pela Lcp nº 104, de 2001)\n\nI\nI – solicitações de autoridade administrativa no interesse da Administração Pública, desde que seja comprovada a instauração regular de processo administrativo, no órgão ou na entidade respectiva, com o objetivo de investigar o sujeito passivo a que se refere a informação, por prática de infração administrativa.               (Incluído pela Lcp nº 104, de 2001)\n\n§ 2o O intercâmbio de informação sigilosa, no âmbito da Administração Pública, será realizado mediante processo regularmente instaurado, e a entrega será feita pessoalmente à autoridade solicitante, mediante recibo, que formalize a transferência e assegure a preservação do sigilo.                (Incluído pela Lcp nº 104, de 2001)\n\n \n§ 3o Não é vedada a divulgação de informações relativas a:            (Incluído pela Lcp nº 104, de 2001)\n\nI – representações fiscais para fins penais;              (Incluído pela Lcp nº 104, de 2001)\n\nI\nI – inscrições na Dívida Ativa da Fazenda Pública;             (Incluído pela Lcp nº 104, de 2001)\n\nI\nII – parcelamento ou moratória.                (Incluído pela Lcp nº 104, de 2001)\n\nI\nII - parcelamento ou moratória; e     (Redação dada pela Lei Complementar nº 187, de 2021)\n\nI\nV - incentivo, renúncia, benefício ou imunidade de natureza tributária cujo beneficiário seja pessoa jurídica.       (Incluído pela Lei Complementar nº 187, de 2021)\n\n§ 4º Sem prejuízo do disposto no art. 197, a administração tributária poderá requisitar informações cadastrais e patrimoniais de sujeito passivo de crédito tributário a órgãos ou entidades, públicos ou privados, que, inclusive por obrigação legal, operem cadastros e registros ou controlem operações de bens e direitos. (Incluído pela Lei Complementar nº 208, de 2024)\n\n§ 5º Independentemente da requisição prevista no \n§ 4º deste artigo, os órgãos e as entidades da administração pública direta e indireta de qualquer dos Poderes colaborarão com a administração tributária visando ao compartilhamento de bases de dados de natureza cadastral e patrimonial de seus administrados e supervisionados.     (Incluído pela Lei Complementar nº 208, de 2024)"
+  },
+  {
+    "id": "ctn_art_199",
+    "texto": "Art. 199 — A Fazenda Pública da União e as dos Estados, do Distrito Federal e dos Municípios prestar-se-ão mutuamente assistência para a fiscalização dos tributos respectivos e permuta de informações, na forma estabelecida, em caráter geral ou específico, por lei ou convênio.\n\nParágrafo único. A Fazenda Pública da União, na forma estabelecida em tratados, acordos ou convênios, poderá permutar informações com Estados estrangeiros no interesse da arrecadação e da fiscalização de tributos.              (Incluído pela Lcp nº 104, de 2001)"
+  },
+  {
+    "id": "ctn_art_200",
+    "texto": "Art. 200 — As autoridades administrativas federais poderão requisitar o auxílio da fôrça pública federal, estadual ou municipal, e recìprocamente, quando vítimas de embaraço ou desacato no exercício de suas funções, ou quando necessário à efetivação de medida prevista na legislação tributária, ainda que não se configure fato definido em lei como crime ou contravenção.\n\nCAPÍTULO II\n\nDívida Ativa"
+  },
+  {
+    "id": "ctn_art_201",
+    "texto": "Art. 201 — Constitui dívida ativa tributária a proveniente de crédito dessa natureza, regularmente inscrita na repartição administrativa competente, depois de esgotado o prazo fixado, para pagamento, pela lei ou por decisão final proferida em processo regular.\n\nParágrafo único. A fluência de juros de mora não exclui, para os efeitos deste artigo, a liquidez do crédito."
+  },
+  {
+    "id": "ctn_art_202",
+    "texto": "Art. 202 — O termo de inscrição da dívida ativa, autenticado pela autoridade competente, indicará obrigatoriamente:\n\nI - o nome do devedor e, sendo caso, o dos co-responsáveis, bem como, sempre que possível, o domicílio ou a residência de um e de outros;\n\nI\nI - a quantia devida e a maneira de calcular os juros de mora acrescidos;\n\nI\nII - a origem e natureza do crédito, mencionada especificamente a disposição da lei em que seja fundado;\n\nI\nV - a data em que foi inscrita;\n\nV - sendo caso, o número do processo administrativo de que se originar o crédito.\n\nParágrafo único. A certidão conterá, além dos requisitos deste artigo, a indicação do livro e da folha da inscrição."
+  },
+  {
+    "id": "ctn_art_203",
+    "texto": "Art. 203 — A omissão de quaisquer dos requisitos previstos no artigo anterior, ou o erro a eles relativo, são causas de nulidade da inscrição e do processo de cobrança dela decorrente, mas a nulidade poderá ser sanada até a decisão de primeira instância, mediante substituição da certidão nula, devolvido ao sujeito passivo, acusado ou interessado o prazo para defesa, que somente poderá versar sobre a parte modificada."
+  },
+  {
+    "id": "ctn_art_204",
+    "texto": "Art. 204 — A dívida regularmente inscrita goza da presunção de certeza e liquidez e tem o efeito de prova pré-constituída.\n\nParágrafo único. A presunção a que se refere este artigo é relativa e pode ser ilidida por prova inequívoca, a cargo do sujeito passivo ou do terceiro a que aproveite.\n\nCAPÍTULO III\n\nCertidões Negativas"
+  },
+  {
+    "id": "ctn_art_205",
+    "texto": "Art. 205 — A lei poderá exigir que a prova da quitação de determinado tributo, quando exigível, seja feita por certidão negativa, expedida à vista de requerimento do interessado, que contenha todas as informações necessárias à identificação de sua pessoa, domicílio fiscal e ramo de negócio ou atividade e indique o período a que se refere o pedido.\n\nParágrafo único. A certidão negativa será sempre expedida nos termos em que tenha sido requerida e será fornecida dentro de 10 (de\nz) dias da data da entrada do requerimento na repartição."
+  },
+  {
+    "id": "ctn_art_206",
+    "texto": "Art. 206 — Tem os mesmos efeitos previstos no artigo anterior a certidão de que conste a existência de créditos não vencidos, em curso de cobrança executiva em que tenha sido efetivada a penhora, ou cuja exigibilidade esteja suspensa."
+  },
+  {
+    "id": "ctn_art_207",
+    "texto": "Art. 207 — Independentemente de disposição legal permissiva, será dispensada a prova de quitação de tributos, ou o seu suprimento, quando se tratar de prática de ato indispensável para evitar a caducidade de direito, respondendo, porém, todos os participantes no ato pelo tributo porventura devido, juros de mora e penalidades cabíveis, exceto as relativas a infrações cuja responsabilidade seja pessoal ao infrator."
+  },
+  {
+    "id": "ctn_art_208",
+    "texto": "Art. 208 — A certidão negativa expedida com dolo ou fraude, que contenha erro contra a Fazenda Pública, responsabiliza pessoalmente o funcionário que a expedir, pelo crédito tributário e juros de mora acrescidos.\n\nParágrafo único. O disposto neste artigo não exclui a responsabilidade criminal e funcional que no caso couber.\n\nDisposições Finais e Transitórias"
+  },
+  {
+    "id": "ctn_art_209",
+    "texto": "Art. 209 — A expressão \"Fazenda Pública\", quando empregada nesta Lei sem qualificação, abrange a Fazenda Pública da União, dos Estados, do Distrito Federal e dos Municípios."
+  },
+  {
+    "id": "ctn_art_210",
+    "texto": "Art. 210 — Os prazos fixados nesta Lei ou legislação tributária serão contínuos, excluindo-se na sua contagem o dia de início e incluindo-se o de vencimento.\n\nParágrafo único. Os prazos só se iniciam ou vencem em dia de expediente normal na repartição em que corra o processo ou deva ser praticado o ato."
+  },
+  {
+    "id": "ctn_art_211",
+    "texto": "Art. 211 — Incumbe ao Conselho Técnico de Economia e Finanças, do Ministério da Fazenda, prestar assistência técnica aos governos estaduais e municipais, com o objetivo de assegurar a uniforme aplicação da presente Lei."
+  },
+  {
+    "id": "ctn_art_212",
+    "texto": "Art. 212 — Os Poderes Executivos federal, estaduais e municipais expedirão, por decreto, dentro de 90 (novent\na) dias da entrada em vigor desta Lei, a consolidação, em texto único, da legislação vigente, relativa a cada um dos tributos, repetindo-se esta providência até o dia 31 de janeiro de cada ano."
+  },
+  {
+    "id": "ctn_art_213",
+    "texto": "Art. 213 — Os Estados pertencentes a uma mesma região geo-econômica celebrarão entre si convênios para o estabelecimento de alíquota uniforme para o imposto a que se refere o artigo \n52.\n\nParágrafo único. Os Municípios de um mesmo Estado procederão igualmente, no que se refere à fixação da alíquota de que trata o artigo \n60."
+  },
+  {
+    "id": "ctn_art_214",
+    "texto": "Art. 214 — O Poder Executivo promoverá a realização de convênios com os Estados, para excluir ou limitar a incidência do imposto sobre operações relativas à circulação de mercadorias, no caso de exportação para o exterior."
+  },
+  {
+    "id": "ctn_art_215",
+    "texto": "Art. 215 — A lei estadual pode autorizar o Poder Executivo a reajustar, no exercício de 1967, a alíquota de imposto a que se refere o artigo 52, dentro de limites e segundo critérios por ela estabelecidos."
+  },
+  {
+    "id": "ctn_art_216",
+    "texto": "Art. 216 — O Poder Executivo proporá as medidas legislativas adequadas a possibilitar, sem compressão dos investimentos previstos na proposta orçamentária de 1967, o cumprimento do disposto no artigo 21 da Emenda Constitucional nº 18, de 1965."
+  },
+  {
+    "id": "ctn_art_217",
+    "texto": "Art. 217 — As disposições desta Lei, notadamente as dos arts 17, 74, \n§ 2º e 77, parágrafo único, bem como a do art. 54 da Lei \n5.025, de 10 de junho de 1966, não excluem a incidência e a exigibilidade:             (Incluído pelo Decreto-lei nº 27, de 1966)\n\nI - da \"contribuição sindical\", denominação que passa a ter o imposto sindical de que tratam os arts 578 e seguintes, da Consolidação das Leis do Trabalho, sem prejuízo do disposto no art. 16 da Lei \n4.589, de 11 de dezembro de 1964;                (Incluído pelo Decreto-lei nº 27, de 1966)\n\n \nII - das denominadas \"quotas de previdência\" a que aludem os arts 71 e 74 da Lei \n3.807, de 26 de agosto de 1960 com as alterações determinadas pelo art. 34 da Lei \n4.863, de 29 de novembro de 1965, que integram a contribuição da União para a previdência social, de que trata o art. 157, item XVI, da Constituição Federal;            (Incluído pelo Decreto-lei nº 27, de 1966)               (Vide Ato Complementar nº 27, de 1966)\n\nI\nII - da contribuição destinada a constituir o \"Fundo de Assistência\" e \"Previdência do Trabalhador Rural\", de que trata o art. 158 da Lei \n4.214, de 2 de março de 1963;               (Incluído pelo Decreto-lei nº 27, de 1966)\n\nI\nV - da contribuição destinada ao Fundo de Garantia do Tempo de Serviço, criada pelo art. 2º da Lei \n5.107, de 13 de setembro de 1966;               (Incluído pelo Decreto-lei nº 27, de 1966)\n\nV - das contribuições enumeradas no \n§ 2º do art. 34 da Lei \n4.863, de 29 de novembro de 1965, com as alterações decorrentes do disposto nos arts 22 e 23 da Lei \n5.107, de 13 de setembro de 1966, e outras de fins sociais criadas por lei.              (Incluído pelo Decreto-lei nº 27, de 1966)"
+  },
+  {
+    "id": "ctn_art_218",
+    "texto": "Art. 218 — Esta Lei entrará em vigor, em todo o território nacional, no dia 1º de janeiro de 1967, revogadas as disposições em contrário, especialmente a Lei nº 854, de 10 de outubro de 1949.                 (Renumerado do art. 217 pelo Decreto-lei nº 27, de 1966)\n\nBrasília, 25 de outubro de 1966; 145º da Independência e 78º da República.\n\nH. CASTELLO BRANCO\nOctavio Bulhões\nCarlos Medeiros Silva\n\nEste texto não substitui o publicado no DOU de \n27.10.1966, e retificado em \n31.10.1966\n\n*"
+  }
+]
