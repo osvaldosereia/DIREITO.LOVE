@@ -50,7 +50,7 @@
     .builder{padding:18px}
     .builder h2{margin:0 0 12px;font-size:20px;font-weight:700;color:var(--primary)}
     label[for=tema],.section-title{font-size:14px;color:var(--primary);margin:8px 0}
-    #tema{width:100%;border:2px solid var(--primary);background:#fdfdfd;color:#000;
+    #tema{width:100%;border:2px solid var(--primary);background:#fdfdfd;color:var(--text);
       padding:10px 12px;border-radius:8px;font-size:15px;outline:none;}
     #tema::placeholder{color:#9aa3af}
     .sessao-lista{display:grid;grid-template-columns:1fr;gap:4px;margin:10px 0;padding:0;list-style:none}
@@ -67,7 +67,7 @@
     .aside{position:sticky;top:56px;padding:12px}
     .stack{max-width:var(--prompt-width);margin:0 auto}
 
-    /* Anúncio: oculto por padrão; só aparece se tiver conteúdo real */
+    /* Anúncio: oculto por padrão; só aparece se houver conteúdo real */
     .ad{display:none; margin-bottom:12px;}
     .ad.show{display:block;}
     .ad .box{width:min(var(--prompt-width),100%);aspect-ratio:400/180;border:1px dashed var(--border);border-radius:10px;background:#fff;color:#999;display:flex;align-items:center;justify-content:center;font-size:13px}
@@ -135,7 +135,7 @@
     <aside class="aside card">
       <div class="stack">
         <!-- Ad container escondido; só fica .show quando houver conteúdo real -->
-        <div class="ad" id="ad-container"><div id="ad-box"></div></div>
+        <div class="ad" id="ad-container"><div class="box" id="ad-box"></div></div>
 
         <textarea id="saida" readonly placeholder="(vazio)"></textarea>
         <div class="actions" style="margin:10px auto 0;width:min(var(--prompt-width),100%);">
@@ -264,11 +264,11 @@ Ao finalizar todas as sessões solicitadas, conclua sempre com:
     else { ad.classList.remove('show'); }
   }
 
-  // Observa mudanças (Adsense/outsystems normalmente injeta iframe)
+  // Observa mudanças (Adsense/terceiros costumam injetar iframe)
   const mo = new MutationObserver(sync);
   mo.observe(box, { childList:true, subtree:true, attributes:true });
 
-  // Exponha helper para inserir manualmente um anúncio
+  // Helper para você testar/inserir manualmente
   window.dlShowAd = (html) => { box.innerHTML = html || ''; sync(); };
 
   // Checagem inicial
@@ -285,13 +285,13 @@ Ao finalizar todas as sessões solicitadas, conclua sempre com:
   const set = (arr) => localStorage.setItem(KEY, JSON.stringify(arr));
   const firstLine = (s='') => String(s).split('\n')[0].trim();
 
-  // ✅ Prioriza textarea grande (#saida), e só cai em input se não houver textarea
+  // ✅ Prioriza a textarea grande (#saida) e NÃO usa #tema (evita maxlength=120)
   const findPromptField = () =>
     document.querySelector('#saida') ||
     document.querySelector('#prompt') ||
     document.querySelector('#composer textarea') ||
     document.querySelector('textarea[name="prompt"]') ||
-    document.querySelector('textarea:not([readonly])') ||
+    document.querySelector('textarea') ||
     document.querySelector('input[type="text"]');
 
   const renderBox = (items) => {
@@ -302,15 +302,14 @@ Ao finalizar todas as sessões solicitadas, conclua sempre com:
     box.innerHTML = `
       <style>
         #dl-box-achados{
-          width:min(var(--prompt-width),100%);
-          margin:0 auto 12px;
-          padding:14px; border:1px solid #e5e5e5; border-radius:12px; background:#fafafa;
+          margin:16px 0; padding:14px; border:1px solid #e5e5e5; border-radius:12px; background:#fafafa;
           font: 500 14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Arial;
         }
         #dl-box-achados h3{ margin:0 0 8px 0; font-size:15px; }
         #dl-box-achados ul{ margin:0 0 10px 18px; padding:0; }
         #dl-box-achados li{ margin:4px 0; }
         #dl-box-achados .actions{ display:flex; gap:8px; }
+        /* Botões destacados */
         #dl-inserir{ border:1px solid #148d3f; background:#16a34a; color:#fff; padding:8px 12px; border-radius:10px; cursor:pointer; }
         #dl-inserir:hover{ background:#22c55e; }
         #dl-limpar{ border:1px solid #dc2626; background:#ef4444; color:#fff; padding:8px 12px; border-radius:10px; cursor:pointer; }
@@ -334,22 +333,16 @@ Ao finalizar todas as sessões solicitadas, conclua sempre com:
     `;
 
     const field = findPromptField();
-    // 👉 Insere preferencialmente na coluna do prompt (.stack). Fallbacks seguros.
-    const parent =
-      (field && field.closest && field.closest('.stack, .aside, main, section, form')) ||
-      document.querySelector('.stack') ||
-      document.querySelector('.wrap') ||
-      document.body;
-
+    const parent = (field && field.closest && field.closest('form, section, main')) || document.body;
     parent.insertBefore(box, parent.firstChild);
 
-    // ✅ Insere o TEXTO COMPLETO; evita truncar (remove readonly temporariamente)
+    // ✅ Insere o TEXTO COMPLETO no destino; remove readonly temporariamente se existir
     $('#dl-inserir').addEventListener('click', () => {
       const f = findPromptField();
       const bloco = items.map(i => {
         if (i.texto) {
           const tag = (i.fonte||'').toUpperCase();
-          return `${tag ? `**${tag}**\n` : ''}${i.texto}`; // texto completo
+          return `${tag ? `**${tag}**\n` : ''}${i.texto}`; // texto completo do JSON
         } else {
           return `- ${i.title || ''}${i.title && i.url ? ' — ' : ''}${i.url || ''}`;
         }
@@ -357,15 +350,15 @@ Ao finalizar todas as sessões solicitadas, conclua sempre com:
 
       if (!f) { alert("Campo de prompt não encontrado. Cole manualmente:\n\n" + bloco); return; }
 
-      const wasRO = f.hasAttribute('readonly'); // ex.: #saida readonly
+      const wasRO = f.hasAttribute('readonly');
       if (wasRO) f.removeAttribute('readonly');
 
       const sep = (f.value||'').trim() ? '\n\n' : '';
       f.value = (f.value || '') + sep + '🔎 Achados da pesquisa:\n' + bloco + '\n';
 
       if (wasRO) f.setAttribute('readonly','');
-      f.focus();
 
+      f.focus();
       localStorage.removeItem(KEY);
       document.getElementById('dl-box-achados')?.remove();
     });
