@@ -24,12 +24,12 @@
       --news-btn:#16a34a;
       --news-btn-hover:#22c55e;
       --snap-offset: 96px;
-      --btn-pad-y: 6px;    /* altura menor */
-      --btn-pad-x: 10px;   /* largura menor */
-      --btn-font: 12.5px;  /* fonte menor */
-      --btn-min-h: 34px;   /* antes ~44px */
-      --btn-min-w: 96px;   /* antes 110-180px */
-      --chip-pad-y: 6px;   /* chips topbar no mesmo padrão */
+      --btn-pad-y: 6px;
+      --btn-pad-x: 10px;
+      --btn-font: 12.5px;
+      --btn-min-h: 34px;
+      --btn-min-w: 96px;
+      --chip-pad-y: 6px;
       --chip-pad-x: 10px;
       --chip-font: 12.5px;
       --chip-radius: 8px;
@@ -92,7 +92,7 @@
     .result p{margin:0;font-size:13px;line-height:1.55}
     .actions{margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 
-    /* Botões menores e padronizados */
+    /* Botões */
     .btn{
       appearance:none;border:1px solid var(--border);background:var(--highlight);color:#000;
       padding:var(--btn-pad-y) var(--btn-pad-x);border-radius:8px;
@@ -183,60 +183,98 @@
   const wrap=$(".wrap");
   const toast=(m,t=1600)=>{const el=$("#toast");el.textContent=m;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
 
-  // -------- Config: abrir primeira categoria automaticamente? --------
-  const AUTO_OPEN_FIRST = false; // deixe true se quiser abrir a primeira
+  // Config: manter categorias fechadas por padrão
+  const AUTO_OPEN_FIRST = false;
 
-  // ---------- Normalização e parsing jurídico ----------
-  const norm=(s="")=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-  function normalizeLegal(s){
-    let t=norm(s);
-    t=t.replace(/§+/g,' paragrafo ');
-    t=t.replace(/\bpar\.?\b/g,' paragrafo ');
-    t=t.replace(/\bart\.?\b|\bartigo\b/g,' art ');
-    t=t.replace(/\binc\.?\b/g,' inciso ');
-    t=t.replace(/\bal\.?\b/g,' alinea ');
-    t=t.replace(/\bunico\b/g,' unico ');
-    t=t.replace(/(\d+)\s*[ºªoa]\b/g,'$1');
-    t=t.replace(/["'()]/g,' ').replace(/\s+/g,' ').trim();
-    return t;
-  }
-  const STOP=new Set(['de','da','do','das','dos','e','ou','a','o','as','os','no','na','nos','nas','para','por','em','um','uma','ao','à','que','com','sem','sobre','entre','ate']);
-  const esc=(s)=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  /* ======================= Utils & Normalização ======================= */
+  const norm = (s="") => s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   function hasWhole(hay, word){ if(!word) return true; const re=new RegExp(`(^|[^a-z0-9])${esc(word)}([^a-z0-9]|$)`,'i'); return re.test(hay); }
   function hasAllWords(hay, words){ for(const w of words){ if(!hasWhole(hay,w)) return false; } return true; }
-  const romanLower=(s='')=>String(s).replace(/[^ivxlcdm]/gi,'').toLowerCase();
+  const romanLower = s => String(s).replace(/[^ivxlcdm]/gi,'').toLowerCase();
+  function normalizeLegal(s){
+    let t = norm(s);
+    t = t.replace(/\bpar\.?\b/g, ' paragrafo ');
+    t = t.replace(/\bart\.?\b|\bartigo\b/g, ' art ');
+    t = t.replace(/\binc\.?\b/g, ' inciso ');
+    t = t.replace(/\bal\.?\b/g, ' alinea ');
+    t = t.replace(/(\d+)\s*[ºªoa]\b/g, '$1');
+    t = t.replace(/["'()]/g, ' ').replace(/\s+/g, ' ').trim();
+    return t;
+  }
+  function normalizarFonte(f){ return f && f.startsWith('noticias') ? 'noticias' : f; }
 
+  /* ======================= Mapeamentos & Intent ======================= */
+  function fonteFromQueryPad(base){
+    const padded = ` ${base} `;
+    const map = [
+      { re:/\b(cp|cpb|codigo penal( brasileiro)?)\b/,              fonte:'codigo_penal' },
+      { re:/\b(cpp|codigo de processo penal)\b/,                    fonte:'codigo_processo_penal' },
+      { re:/\b(cc|codigo civil)\b/,                                 fonte:'codigo_civil' },
+      { re:/\b(cpc|codigo de processo civil)\b/,                    fonte:'codigo_processo_civil' },
+      { re:/\b(ctn|codigo tributario nacional)\b/,                  fonte:'codigo_tributario_nacional' },
+      { re:/\b(cdc|codigo de defesa do consumidor)\b/,              fonte:'codigo_defesa_consumidor' },
+      { re:/\b(ctb|codigo de transito brasileiro)\b/,               fonte:'codigo_transito_brasileiro' }
+    ];
+    for(const a of map){ if(a.re.test(padded)) return a.fonte; }
+    return null;
+  }
+  function tribunalFromQuery(base){
+    const padded = ` ${base} `;
+    if (/\bstf\b|supremo\b/.test(padded)) return 'stf';
+    if (/\bstj\b/.test(padded)) return 'stj';
+    if (/\btse\b|eleitoral\b/.test(padded)) return 'tse';
+    return null;
+  }
+  function classifyIntent(base){
+    const padded = ` ${base} `;
+    if (/\bnoticia(s)?\b|migalhas\b/.test(padded)) return 'noticias';
+    if (/\bs[uú]mula\b|\bsv\b|vinculante\b/.test(padded)) return 'sumula';
+    if (/\btema(s)?(\s+repetitivo(s)?)?\b/.test(padded)) return 'tema';
+    if (/\btese(s)?\b/.test(padded)) return 'tese';
+    if (/\b(adi|adpf|adc|resp|aresp|re|are|hc|rms|agint|agrg|edcl|edv)\b/i.test(padded)) return 'juris';
+    if (/\bart(\.|igo)?\b|\bparagrafo\b|\binciso\b|\balinea\b/.test(padded) || fonteFromQueryPad(base)) return 'codigo';
+    return 'geral';
+  }
+
+  /* ======================= Parser de consulta ======================= */
   function parseLegalQuery(raw){
     const base = normalizeLegal(raw);
     const padded = ` ${base} `;
-    const alias=[
-      {re:/\b(cp|codigo penal)\b/, tag:'cp'},
-      {re:/\b(cpp|codigo de processo penal)\b/, tag:'cpp'},
-      {re:/\b(cc|codigo civil)\b/, tag:'cc'},
-      {re:/\b(cpc|codigo de processo civil)\b/, tag:'cpc'},
-      {re:/\b(ctn|codigo tributario nacional)\b/, tag:'ctn'},
-      {re:/\b(cdc|codigo de defesa do consumidor)\b/, tag:'cdc'},
-      {re:/\b(ctb|codigo de transito brasileiro)\b/, tag:'ctb'}
-    ];
-    let tokens = base.split(' ').filter(Boolean).filter(t=>!STOP.has(t));
-    let artNum=null; { const m=padded.match(/\bart\s*([0-9][0-9a-z\-]*)\b/); if(m) artNum=m[1]; }
+    const fonteFilter = fonteFromQueryPad(base);
+    const tribHint = tribunalFromQuery(base);
+    const intent = classifyIntent(base);
+
+    let artNum=null; { const m=padded.match(/\bart\s*([0-9]{1,4})(?:[\-]?[a-z])?\b/); if(m) artNum=m[1]; }
     let paragrafo=null; { const m=padded.match(/\bparagrafo\s*(unico|\d+)\b/); if(m) paragrafo=m[1]; }
     let inciso=null; { const m=padded.match(/\binciso\s*([ivxlcdm]+)\b/); if(m) inciso=romanLower(m[1]); }
     let alinea=null; { const m=padded.match(/\balinea\s*([a-z])\b/); if(m) alinea=m[1].toLowerCase(); }
     const caput = /\bcaput\b/.test(padded);
 
+    let sumulaNum=null; { const m=(raw.match(/\bs[úu]mula(?:\s+vinculante)?\s*(\d{1,4})/i) || raw.match(/\bsv\s*(\d{1,4})\b/i)); if(m) sumulaNum=m[1]; }
+    let temaNum=null;   { const m=raw.match(/\btema(?:\s+repetitivo)?\s*(\d{1,4})\b/i); if(m) temaNum=m[1]; }
+    let teseNum=null;   { const m=raw.match(/\btese\s*(\d{1,4})\b/i); if(m) teseNum=m[1]; }
+
+    const STOP=new Set(['de','da','do','das','dos','e','ou','a','o','as','os','no','na','nos','nas','para','por','em','um','uma','ao','à','que','com','sem','sobre','entre','ate','dois','tres','quatro','cinco']);
+    let tokens = base.split(' ').filter(Boolean).filter(t=>!STOP.has(t));
+    if(fonteFilter){
+      const drop=new Set(['cp','cpb','cpp','cc','cpc','ctn','cdc','ctb','codigo','penal','processo','civil','defesa','consumidor','tributario','nacional','transito','brasileiro','do','da','de']);
+      tokens=tokens.filter(t=>!drop.has(t));
+    }
     const out=new Set(tokens);
     if(artNum){ out.add('art'); out.add(String(artNum)); }
     if(paragrafo){ out.add('paragrafo'); out.add(String(paragrafo)); }
     if(inciso){ out.add('inciso'); out.add(inciso); }
     if(alinea){ out.add('alinea'); out.add(alinea); }
     if(caput){ out.add('caput'); }
-    for(const a of alias){ if(a.re.test(padded)) out.add(a.tag); }
+    if(sumulaNum){ out.add(String(sumulaNum)); }
+    if(temaNum){ out.add(String(temaNum)); }
+    if(teseNum){ out.add(String(teseNum)); }
 
-    return { words:[...out] };
+    return { words:[...out], fonteFilter, tribHint, intent, artNum, paragrafo, inciso, alinea, caput, sumulaNum, temaNum, teseNum };
   }
 
-  // ---------- Fontes, categorias e nomes ----------
+  /* ======================= Dados & nomes ======================= */
   const arquivos = [
     "data/julgados_direito_administrativo.json",
     "data/julgados_direito_ambiental.json",
@@ -301,14 +339,7 @@
     outros: { label: "Outros", match: f => true }
   };
 
-  const normalizarFonte = (f)=> f && f.startsWith('noticias') ? 'noticias' : f;
-
-  // ---------- Carregar base ----------
-  const KEY='dl_pesquisa_selecionados';
-  const getCarrinho=()=>JSON.parse(localStorage.getItem(KEY)||'[]');
-  const setCarrinho=(a)=>localStorage.setItem(KEY, JSON.stringify(a));
-  const dedupPush=(arr,item)=>{ const k=item.id||item._id||(item.fonte+':'+(item.texto||'').slice(0,50)); if(!arr.some(x=>x.id===k)) arr.push({...item,id:k}); return arr; };
-
+  /* ======================= Carregar dados (com índice) ======================= */
   async function carregarDados(){
     const dados=[];
     for(const arq of arquivos){
@@ -317,20 +348,171 @@
         const r=await fetch(arq); if(!r.ok) continue;
         const j=await r.json();
         (Array.isArray(j)?j:[]).forEach((it,idx)=>{
-          const _id=it.id||`${tag}_${idx}`;
-          const texto=(it.texto||'').trim();
-          dados.push({ ...it, _id, fonte:tag, textoNorm: norm(texto), textoLegal: normalizeLegal(texto) });
+          const _id = it.id || `${tag}_${idx}`;
+
+          // Agrega campos prováveis para montar o texto exibido/índice
+          const parts=[];
+          if(it.titulo) parts.push(String(it.titulo));
+          if(it.ementa) parts.push(String(it.ementa));
+          if(it.resumo) parts.push(String(it.resumo));
+          if(it.texto)  parts.push(String(it.texto));
+          if(it.caput)  parts.push(String(it.caput));
+          if(Array.isArray(it.paragrafos)) parts.push(it.paragrafos.join(' '));
+          if(Array.isArray(it.incisos))    parts.push(it.incisos.join(' '));
+          if(it.sumula) parts.push(String(it.sumula));
+          if(it.conteudo) parts.push(String(it.conteudo));
+          if(it.artigo)   parts.push(String(it.artigo));
+          const textoIndex = parts.join(' • ').trim();
+
+          const textoNorm  = norm(textoIndex);
+          const textoLegal = normalizeLegal(textoIndex);
+
+          // Metadados estruturados
+          let artNumDoc=null;
+          if (it.artigo){
+            const m=String(it.artigo).match(/art\.?\s*([0-9]{1,4})/i);
+            if(m) artNumDoc=m[1];
+          }
+          if(!artNumDoc && /^codigo_/.test(tag)){
+            const m2=textoIndex.match(/art\.?\s*([0-9]{1,4})/i);
+            if(m2) artNumDoc=m2[1];
+          }
+
+          let sumulaNumDoc=null; {
+            const m1=textoIndex.match(/S[úu]mula(?: Vinculante)?\s*(\d{1,4})/i);
+            if(m1) sumulaNumDoc=m1[1];
+          }
+          let temaNumDoc=null; {
+            const m2=textoIndex.match(/\bTema(?: Repetitivo)?\s*(\d{1,4})\b/i);
+            if(m2) temaNumDoc=m2[1];
+          }
+          let teseNumDoc=null; {
+            const m3=textoIndex.match(/\bTese\s*(\d{1,4})\b/i);
+            if(m3) teseNumDoc=m3[1];
+          }
+
+          let tribDoc=null;
+          if (/sumula_stf|sumulas_vinculantes_stf|teses_stf/.test(tag)) tribDoc='stf';
+          else if (/sumulas_stj|temas_repetitivos_stj/.test(tag)) tribDoc='stj';
+          else if (/sumulas_tse/.test(tag)) tribDoc='tse';
+
+          dados.push({
+            ...it,
+            _id,
+            fonte:tag,
+            texto:textoIndex,
+            textoNorm,
+            textoLegal,
+            artNum:artNumDoc,
+            sumulaNum:sumulaNumDoc,
+            temaNum:temaNumDoc,
+            teseNum:teseNumDoc,
+            tribDoc
+          });
         });
       }catch(e){ console.warn('Erro ao carregar',arq,e); }
     }
     return dados;
   }
 
-  // ---------- Estado ----------
-  const MAX_SNIPPET=400, PAGE_SIZE=10;
-  let baseDados=[];
+  /* ======================= Busca Flex (c/ ranking) ======================= */
+  let baseDados=[];  // preenchido no boot
 
-  // ---------- Util: card ----------
+  function scoreDoc(doc, q){
+    let s = 0;
+
+    if (q.intent === 'noticias' && normalizarFonte(doc.fonte)==='noticias') s += 8;
+
+    if (q.intent === 'sumula'){
+      if (/^sumulas?_|^sumula_/.test(doc.fonte)) s += 7;
+      if (q.tribHint && doc.tribDoc === q.tribHint) s += 4;
+      if (q.sumulaNum && String(doc.sumulaNum||'')===String(q.sumulaNum)) s += 8;
+    }
+
+    if (q.intent === 'tema'){
+      if (doc.fonte === 'temas_repetitivos_stj') s += 7;
+      if (q.temaNum && String(doc.temaNum||'')===String(q.temaNum)) s += 8;
+    }
+
+    if (q.intent === 'tese'){
+      if (doc.fonte === 'teses_stf') s += 7;
+      if (q.teseNum && String(doc.teseNum||'')===String(q.teseNum)) s += 8;
+    }
+
+    if (q.intent === 'codigo'){
+      if (q.fonteFilter && normalizarFonte(doc.fonte)===q.fonteFilter) s += 7;
+      if (q.artNum && String(doc.artNum||'')===String(q.artNum)) s += 8;
+      if (q.paragrafo && hasWhole(doc.textoLegal,'paragrafo') && hasWhole(doc.textoLegal,String(q.paragrafo))) s += 2;
+      if (q.inciso && hasWhole(doc.textoLegal,'inciso') && hasWhole(doc.textoLegal,String(q.inciso))) s += 2;
+      if (q.alinea && hasWhole(doc.textoLegal,'alinea') && hasWhole(doc.textoLegal,String(q.alinea))) s += 2;
+    }
+
+    if (q.intent === 'juris'){
+      if (/^julgados_/.test(doc.fonte)) s += 6;
+      if (q.tribHint && doc.tribDoc === q.tribHint) s += 2;
+    }
+
+    if (q.words?.length){ for(const w of q.words){ if(hasWhole(doc.textoLegal,w)) s += 1; } }
+
+    return s;
+  }
+
+  function escolherCandidatos(q, base){
+    const f = normalizarFonte;
+    if (q.intent==='noticias')        return base.filter(d=>f(d.fonte)==='noticias');
+    if (q.intent==='sumula')          return base.filter(d => /^sumulas?_|^sumula_/.test(d.fonte));
+    if (q.intent==='tema')            return base.filter(d => d.fonte==='temas_repetitivos_stj');
+    if (q.intent==='tese')            return base.filter(d => d.fonte==='teses_stf');
+    if (q.intent==='codigo'){
+      if (q.fonteFilter) return base.filter(d => f(d.fonte)===q.fonteFilter);
+      return base.filter(d => /^codigo_/.test(d.fonte));
+    }
+    if (q.intent==='juris')           return base.filter(d => /^julgados_/.test(d.fonte));
+    return base; // geral
+  }
+
+  function buscarFlex(termoRaw){
+    const q = parseLegalQuery(termoRaw||'');
+    let cand = escolherCandidatos(q, baseDados);
+
+    // Estrutural
+    let struct = [];
+    if (q.intent==='codigo' && q.artNum){
+      struct = cand.filter(d => String(d.artNum||'')===String(q.artNum));
+    } else if (q.intent==='sumula' && q.sumulaNum){
+      struct = cand.filter(d => String(d.sumulaNum||'')===String(q.sumulaNum));
+    } else if (q.intent==='tema' && q.temaNum){
+      struct = cand.filter(d => String(d.temaNum||'')===String(q.temaNum));
+    } else if (q.intent==='tese' && q.teseNum){
+      struct = cand.filter(d => String(d.teseNum||'')===String(q.teseNum));
+    }
+
+    // Textual (palavras inteiras)
+    const text = cand.filter(d => hasAllWords(d.textoLegal, q.words||[]));
+
+    // Unir
+    const byId=new Map(); for(const x of struct) byId.set(x._id,x); for(const x of text) byId.set(x._id,x);
+    let results = Array.from(byId.values());
+
+    // Fallback leve
+    if (!results.length){
+      if (q.intent==='codigo' && q.artNum) results = cand.filter(d => hasWhole(d.textoLegal,'art') && hasWhole(d.textoLegal,String(q.artNum)));
+      if (q.intent==='sumula' && q.sumulaNum && !results.length) results = cand.filter(d => hasWhole(d.textoLegal,String(q.sumulaNum)));
+      if (q.intent==='tema' && q.temaNum && !results.length) results = cand.filter(d => hasWhole(d.textoLegal,String(q.temaNum)));
+      if (q.intent==='tese' && q.teseNum && !results.length) results = cand.filter(d => hasWhole(d.textoLegal,String(q.teseNum)));
+    }
+
+    // Ranking
+    results.sort((a,b)=> scoreDoc(b,q)-scoreDoc(a,q));
+    return results;
+  }
+
+  /* ======================= Selecão & UI ======================= */
+  const KEY='dl_pesquisa_selecionados';
+  const getCarrinho=()=>JSON.parse(localStorage.getItem(KEY)||'[]');
+  const setCarrinho=(a)=>localStorage.setItem(KEY, JSON.stringify(a));
+  const dedupPush=(arr,item)=>{ const k=item.id||item._id||(item.fonte+':'+(item.texto||'').slice(0,50)); if(!arr.some(x=>x.id===k)) arr.push({...item,id:k}); return arr; };
+
   function buildCard(item, carrinho){
     const fNorm = normalizarFonte(item.fonte);
     const isNoticias = fNorm === 'noticias';
@@ -346,6 +528,7 @@
 
     const p=document.createElement("p");
     const txt=(item.texto||'').trim();
+    const MAX_SNIPPET=400;
     const isLong=txt.length>MAX_SNIPPET;
     p.textContent=isLong?txt.substring(0,MAX_SNIPPET)+'…':txt;
     div.appendChild(p);
@@ -361,12 +544,12 @@
 
     const actions=document.createElement("div"); actions.className="actions";
 
-    // Texto para seleção (para notícias, usamos título+url se não houver 'texto')
+    // Texto para seleção (para notícias, usa título+url quando não há 'texto')
     const copyText = (item.texto && item.texto.trim())
       ? item.texto
       : [item.titulo || item.title || '', item.url || ''].filter(Boolean).join(' — ');
 
-    // Copiar: APENAS se NÃO for notícia
+    // Copiar: NÃO exibir para notícias
     if(!isNoticias){
       const copiar=document.createElement("button"); copiar.textContent='Copiar'; copiar.className='btn';
       copiar.addEventListener("click",async()=>{ try{ await navigator.clipboard.writeText(copyText||''); toast('Copiado!'); }catch{ toast('Erro ao copiar.'); } });
@@ -397,7 +580,6 @@
     return div;
   }
 
-  // ---------- Agrupar e renderizar categorias ----------
   function groupResults(items){
     const groups = {};
     for(const id of Object.keys(categorias)){
@@ -430,6 +612,8 @@
       return;
     }
     let firstOpened = false;
+    const PAGE_SIZE = 10;
+
     for(const [catId, group] of entries){
       const det = document.createElement('details');
       det.className='cat';
@@ -450,7 +634,6 @@
       det.appendChild(body);
       det.appendChild(more);
 
-      // render por demanda
       function renderBatch(append=false){
         const carrinho=getCarrinho();
         const start = group.rendered;
@@ -464,21 +647,16 @@
         more.style.display = (group.rendered < group.items.length) ? 'flex' : 'none';
       }
 
-      det.addEventListener('toggle', ()=>{
-        if(det.open && group.rendered===0){
-          renderBatch(false);
-        }
-      });
+      det.addEventListener('toggle', ()=>{ if(det.open && group.rendered===0){ renderBatch(false); } });
       moreBtn.addEventListener('click', ()=> renderBatch(true) );
 
       categoriasEl.appendChild(det);
 
-      // Abrir automaticamente? (config acima)
       if(AUTO_OPEN_FIRST && !firstOpened){ det.open = true; firstOpened = true; }
     }
   }
 
-  // ---------- Barra seleção ----------
+  /* ======================= Barra seleção ======================= */
   function updateBar(){
     const hasSel = getCarrinho().length>0;
     $('#dl-enviar').disabled=!hasSel;
@@ -492,19 +670,15 @@
   $('#dl-enviar').addEventListener('click', ()=>{ window.location.href='index.html#pesquisa'; });
   $('#dl-limpar').addEventListener('click', ()=>{ localStorage.removeItem(KEY); updateBar(); });
 
-  // ---------- Busca ----------
+  /* ======================= Busca ======================= */
   async function executarBusca(){
     const termoRaw=busca.value.trim();
     categoriasEl.innerHTML='';
     if(!termoRaw){ toggleBar(getCarrinho().length>0); return; }
     btnBuscar.disabled=true; document.body.style.cursor='progress';
     try{
-      const { words } = parseLegalQuery(termoRaw);
-      const all = baseDados.filter(x=>{
-        const hay = x.textoLegal || x.textoNorm;
-        return hasAllWords(hay, words);
-      });
-      const groups = groupResults(all);
+      const results = buscarFlex(termoRaw);
+      const groups = groupResults(results);
       renderCategorias(groups);
       updateBar();
     }finally{
@@ -512,11 +686,10 @@
     }
   }
 
-  // ---------- Eventos ----------
+  /* ======================= Eventos & Boot ======================= */
   btnBuscar.addEventListener('click', executarBusca);
   busca.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); executarBusca(); } });
 
-  // ---------- Boot ----------
   carregarDados().then(d=>{ baseDados=d; toast('Base carregada com sucesso!'); });
 
 })();
