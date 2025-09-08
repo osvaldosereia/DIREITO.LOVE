@@ -1,4 +1,4 @@
-const CACHE_NAME = "direito-love-v1";
+const CACHE_NAME = "direito-love-v3";
 const URLS_TO_CACHE = [
   "/",
   "/index.html",
