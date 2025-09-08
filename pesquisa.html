@@ -3,114 +3,81 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>direito.love — Pesquisa</title>
+  <title>direito.love</title>
   <meta name="theme-color" content="#F5C400" />
-  <meta name="description" content="Pesquisa de artigos, súmulas, jurisprudências e logo jurídicos no direito.love" />
-  <meta name="keywords" content="pesquisa jurídica, direito, OAB, concursos, jurisprudência, súmulas" />
+
+  <!-- SEO -->
+  <meta name="description" content="direito.love — Criador de Prompts para estudo jurídico, OAB e concursos." />
+  <meta name="keywords" content="direito, OAB, concursos, súmulas, jurisprudência, estudo jurídico" />
   <meta name="author" content="direito.love" />
   <meta name="robots" content="index, follow" />
+
+  <!-- Favicon -->
   <link rel="icon" href="favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="favicon-180.png" />
+
+  <!-- Manifest -->
+  <link rel="manifest" href="manifest.json">
 
   <style>
     :root{
       --bg:#FFFDF0; --surface:#ffffff; --text:#001840; --border:#e5e7eb;
       --primary:#102A71; --highlight:#F5C400; --highlight-light:#FFDC5F;
       --radius:10px; --shadow:0 4px 16px rgba(0,0,0,.05);
+      --gap:16px; --aside-width:420px; --prompt-width:400px;
       --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
-
       --safe-bottom: env(safe-area-inset-bottom, 0px);
-      --bar-h: 64px;
-
       --success:#16a34a;
-      --muted-btn:#e5e7eb;
-
-      /* Botão VER NOTÍCIA (verde) */
-      --news-btn:#16a34a;
-      --news-btn-hover:#22c55e;
-
-      /* Offset para scroll (topbar + mini-relatório) */
-      --snap-offset: 120px; /* fallback */
+      --danger:#ef4444;
+      --danger-hover:#f87171;
+      --chip-border:#e5e7eb;
     }
     *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--text);font:400 13px/1.4 var(--font);}
+    body{margin:0;background:var(--bg);color:var(--text);font:400 15px/1.3 var(--font);}
 
-    /* TOPBAR */
+    /* ===== TOPBAR (igual da pesquisa) ===== */
     .topbar{position:sticky; top:0; z-index:100; background:var(--highlight); border-bottom:1px solid rgba(0,0,0,.08)}
     .topbar__inner{max-width:1160px; margin:0 auto; padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px}
     .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:#111}
-    .brand__logo{height:36px}
-    .chip{padding:6px 14px; border-radius:20px; background:#fff; border:1px solid var(--border); font-size:13px; color:var(--primary); text-decoration:none; font-weight:500; transition:.15s}
+    .brand__logo{height:36px; width:auto; display:block}
+    .chip{padding:6px 14px; border-radius:20px; background:#fff; border:1px solid var(--chip-border); font-size:13px; color:var(--primary); text-decoration:none; font-weight:500; transition:.15s}
     .chip:hover{background:var(--highlight-light)}
 
-    /* Página */
-    .wrap{max-width:900px;margin:0 auto;padding:22px; transition:padding-bottom .2s ease;}
-    h2{margin:0 0 10px;color:var(--primary)}
-
-    .search-box{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:20px 0;}
-    #busca{flex:1; padding:10px 12px; border:2px solid var(--primary); border-radius:8px; font-size:15px}
-    #filtroFonte{padding:10px; border:2px solid var(--primary); border-radius:8px; font-size:14px; min-width:220px; background:#fff}
-
-    #btnBuscar{appearance:none; border:none; background:var(--primary); color:#fff; padding:10px 14px; border-radius:8px; font-size:14px; cursor:pointer;}
-    #btnBuscar:disabled{opacity:.7; cursor:progress}
-
-    /* Mini-relatório (agora com select "Ir para…") */
-    .mini-relatorio{
-      position:sticky; top:54px; background:#fff7d6;
-      padding:8px 16px; display:none; gap:8px; flex-wrap:wrap;
-      border-bottom:1px solid var(--border); z-index:90; justify-content:center;
-    }
-    #gotoFonte{
-      padding:10px; border:2px solid var(--primary); border-radius:8px; font-size:14px; min-width:240px; background:#fff;
-    }
-
-    .result{
-      background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
-      padding:12px 14px;margin:12px 0;position:relative;
-      /* compensa topbar + mini-relatório */
-      scroll-margin-top: var(--snap-offset);
-    }
-    .result p{margin:0;font-size:13px;line-height:1.4}
-    .filetag{margin:0 0 6px 0;font-weight:700}
-
-    .actions{margin-top:8px;display:flex;gap:8px;align-items:center}
-    .btn{appearance:none;border:none;background:var(--highlight);color:#000;padding:6px 10px;border-radius:8px;
-      font-size:13px;cursor:pointer;transition:.15s}
+    /* ===== LAYOUT ===== */
+    .wrap{display:grid;gap:var(--gap);grid-template-columns:1fr;padding:18px;max-width:1400px;margin:0 auto}
+    @media(min-width:1100px){.wrap{grid-template-columns:minmax(0,1fr) var(--aside-width);align-items:start}}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .builder{padding:18px}
+    .builder h2{margin:0 0 12px;font-size:20px;font-weight:700;color:var(--primary)}
+    label[for=tema],.section-title{font-size:14px;color:var(--primary);margin:8px 0}
+    #tema{width:100%;border:2px solid var(--primary);background:#fdfdfd;color:var(--text);
+      padding:10px 12px;border-radius:8px;font-size:15px;outline:none;}
+    #tema::placeholder{color:#9aa3af}
+    .sessao-lista{display:grid;grid-template-columns:1fr;gap:4px;margin:10px 0;padding:0;list-style:none}
+    @media(min-width:900px){.sessao-lista{grid-template-columns:1fr 1fr;column-gap:20px}}
+    .sessao-lista li{display:flex;align-items:center;gap:6px;padding:2px 0;font-size:14px}
+    .sessao-lista input[type=checkbox]{accent-color:var(--primary);cursor:pointer}
+    .sessao-lista label{cursor:pointer}
+    .actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+    .btn{appearance:none;border:none;background:var(--highlight);color:#000;padding:9px 14px;border-radius:8px;font-size:14px;cursor:pointer;transition:.15s}
     .btn:hover{background:var(--highlight-light)}
-    .btn-alt{appearance:none;border:none;background:var(--primary);color:#fff;padding:6px 10px;border-radius:8px;
-      font-size:13px;cursor:pointer;transition:.15s}
-    .btn-alt:hover{background:#264399}
-    .btn-alt.is-selected{ background: var(--success); color:#fff; }
-    .btn-alt.is-selected:hover{ filter:brightness(.95); }
+    .btn.primary{background:var(--primary);color:#fff;font-weight:700}
+    .btn.primary:hover{background:#264399}
 
-    /* VER NOTÍCIA (verde à direita) */
-    .btn-news{background:var(--news-btn);color:#fff;text-decoration:none;display:inline-block;padding:6px 10px;border-radius:8px;font-size:13px;margin-left:auto}
-    .btn-news:hover{background:var(--news-btn-hover)}
+    .aside{position:sticky;top:56px;padding:12px}
+    .stack{max-width:var(--prompt-width);margin:0 auto}
 
-    .more-wrap{display:flex; justify-content:center; margin:16px 0}
-    #btnMais{min-width:180px}
+    /* Anúncio: oculto por padrão; só aparece se tiver conteúdo real */
+    .ad{display:none; margin-bottom:12px;}
+    .ad.show{display:block;}
+    .ad .box{width:min(var(--prompt-width),100%);aspect-ratio:400/180;border:1px dashed var(--border);border-radius:10px;background:#fff;color:#999;display:flex;align-items:center;justify-content:center;font-size:13px}
 
-    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;
-      padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:60}
+    textarea#saida{width:min(var(--prompt-width),100%);min-height:30vh;resize:vertical;padding:10px 12px;border-radius:8px;border:1px solid var(--border);
+      background:#fff;color:#001840;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13.5px;display:block;margin:0 auto}
+
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:60}
     .toast.show{opacity:1}
-
-    /* Barra flutuante seleção */
-    #dl-bar-selecao{
-      position:fixed; left:50%; transform:translateX(-50%);
-      bottom:calc(12px + var(--safe-bottom)); z-index:9999; background:#111; color:#fff;
-      padding:10px 12px; border-radius:12px; display:none; align-items:center; gap:8px;
-      box-shadow:0 6px 20px rgba(0,0,0,.25); font: 500 14px/1.2 var(--font);
-      pointer-events:none;
-    }
-    #dl-bar-selecao button{border:0; padding:8px 12px; border-radius:10px; cursor:pointer; pointer-events:auto;}
-    #dl-enviar{ background: var(--primary); color:#fff; } #dl-enviar:hover{ background:#264399; } #dl-enviar:disabled{ opacity:.5; filter:grayscale(.3) }
-    #dl-limpar{ background: var(--muted-btn); color:#111; } #dl-limpar:hover{ background:#d6dae1 }
-
-    @media (max-width: 600px){
-      /* No mobile o filtro aparece antes do input */
-      #filtroFonte{order:-1; width:100%}
-      .btn,.btn-alt{ padding:8px 12px; }
-    }
+    .info{margin-top:6px;font-size:12px;color:#666}
   </style>
 </head>
 <body>
@@ -127,376 +94,303 @@
     </div>
   </header>
 
-  <!-- Mini-relatório (select "Ir para…") -->
-  <div id="miniRelatorio" class="mini-relatorio"></div>
-
   <div class="wrap">
-    <h2>Pesquisa de Conteúdo Jurídico</h2>
-    <p>Digite um termo (artigo, súmula, jurisprudência ou palavra-chave) e clique em <b>Buscar</b>.</p>
+    <main class="builder card">
+      <h2>Criador de Prompts para Estudantes de Direito</h2>
 
-    <div class="search-box">
-      <select id="filtroFonte" aria-label="Filtrar por fonte"></select>
-      <input id="busca" type="text" placeholder="Ex: artigo 5º, súmula 381, dano moral..." />
-      <button id="btnBuscar">Buscar</button>
-    </div>
+      <label for="tema">Tema</label>
+      <input id="tema" maxlength="120" placeholder="Digite aqui o Tema. Seja específico." autocomplete="off" />
 
-    <div id="resultados"></div>
-    <div class="more-wrap" style="display:none"><button id="btnMais" class="btn">Carregar mais</button></div>
+      <div class="section-title"><b>Selecione como quer estudar:</b></div>
+      <ul class="sessao-lista" id="sessao-lista">
+        <li><input type="checkbox" id="s1"><label for="s1">Conceitos e Definições</label></li>
+        <li><input type="checkbox" id="s2"><label for="s2">Base Legal Essencial</label></li>
+        <li><input type="checkbox" id="s3"><label for="s3">Jurisprudência Majoritária</label></li>
+        <li><input type="checkbox" id="s4"><label for="s4">Doutrina Relevante</label></li>
+        <li><input type="checkbox" id="s5"><label for="s5">Exemplos e Casos Práticos</label></li>
+        <li><input type="checkbox" id="s6"><label for="s6">Quadro Comparativo</label></li>
+        <li><input type="checkbox" id="s7"><label for="s7">Questões de Fixação</label></li>
+        <li><input type="checkbox" id="s8"><label for="s8">Debates, Críticas e Tendências</label></li>
+        <li><input type="checkbox" id="s9"><label for="s9">Súmulas e Enunciados</label></li>
+        <li><input type="checkbox" id="s10"><label for="s10">Estrutura de Peça / Modelos</label></li>
+        <li><input type="checkbox" id="s11"><label for="s11">Checklist de Peça</label></li>
+        <li><input type="checkbox" id="s12"><label for="s12">Raciocínio Jurídico (passo a passo)</label></li>
+        <li><input type="checkbox" id="s13"><label for="s13">Mapa Mental</label></li>
+        <li><input type="checkbox" id="s14"><label for="s14">Flashcards</label></li>
+        <li><input type="checkbox" id="s15"><label for="s15">Erros Comuns</label></li>
+        <li><input type="checkbox" id="s16"><label for="s16">Checklist Final de Revisão</label></li>
+        <li><input type="checkbox" id="s17"><label for="s17">Casos Famosos / Leading Cases</label></li>
+        <li><input type="checkbox" id="s18"><label for="s18">Atualizações Recentes</label></li>
+        <li><input type="checkbox" id="s19"><label for="s19">Dicas de Prova (OAB/Concursos)</label></li>
+        <li><input type="checkbox" id="s20"><label for="s20">Referências Bibliográficas</label></li>
+      </ul>
+
+      <div class="actions">
+        <button id="criar" class="btn primary" disabled>Criar Prompt</button>
+        <button id="limpar" class="btn">Limpar</button>
+      </div>
+      <div class="info">Selecione as sessões que deseja incluir no prompt.</div>
+    </main>
+
+    <aside class="aside card">
+      <div class="stack">
+        <!-- Ad container escondido; só fica .show quando houver conteúdo real -->
+        <div class="ad" id="ad-container"><div id="ad-box"></div></div>
+
+        <textarea id="saida" readonly placeholder="(vazio)"></textarea>
+        <div class="actions" style="margin:10px auto 0;width:min(var(--prompt-width),100%);">
+          <button id="copiar2" class="btn">Copiar</button>
+          <button id="novo2" class="btn">Novo</button>
+        </div>
+      </div>
+    </aside>
   </div>
 
-  <div id="toast" class="toast" aria-live="polite"></div>
-
-  <!-- Barra flutuante -->
-  <div id="dl-bar-selecao" aria-live="polite">
-    <button id="dl-enviar" disabled>Enviar para o Prompt</button>
-    <button id="dl-limpar">Limpar</button>
-  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script>
-/* ===== pesquisa.js (mantém seleção + copiar + paginação) ===== */
+/* ===== app.js ===== */
 (function(){
   const $=(s,r=document)=>r.querySelector(s);
   const $$=(s,r=document)=>[...r.querySelectorAll(s)];
-  const resultados=$("#resultados");
-  const busca=$("#busca");
-  const btnBuscar=$("#btnBuscar");
-  const btnMais=$("#btnMais");
-  const moreWrap=$(".more-wrap");
-  const wrap=$(".wrap");
-  const miniRelatorio=$("#miniRelatorio");
-  const filtroSelect=$("#filtroFonte");
-
   const toast=(msg,t=1600)=>{const el=$("#toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
-  const norm=(s="")=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 
-  /* === Lista COMPLETA de arquivos === */
-  const arquivos = [
-    "data/julgados_direito_administrativo.json",
-    "data/julgados_direito_ambiental.json",
-    "data/julgados_direito_bancario.json",
-    "data/julgados_direito_civil.json",
-    "data/julgados_direito_constitucional.json",
-    "data/julgados_direito_eleitoral.json",
-    "data/julgados_direito_empresarial.json",
-    "data/noticias_migalhas_1.json",
-    "data/noticias_migalhas_2.json",
-    "data/noticias_migalhas_3.json",
-    "data/codigo_penal.json",
-    "data/codigo_processo_penal.json",
-    "data/sumula_stf.json",
-    "data/sumulas_stj.json",
-    "data/sumulas_tse.json",
-    "data/sumulas_vinculantes_stf.json",
-    "data/temas_repetitivos_stj.json",
-    "data/teses_stf.json",
-    "data/codigo_processo_civil.json",
-    "data/codigo_civil.json",
-    "data/codigo_tributario_nacional.json",
-  ];
+  const BASE_PROMPT = `Você deve assumir a persona de um **professor especialistas em todas as áreas do Direito brasileiro**, voce possui uma didática impecável, e foi convidado pelo **direito.love** para auxiliar estudante de direito em questão (se souber o nome dele pode usar).
 
-  /* Nomes amigáveis */
-  const nomesAmigaveis = {
-    "noticias": "Notícias",
-    "noticias_migalhas_1": "Notícias Migalhas",
-    "noticias_migalhas_2": "Notícias Migalhas",
-    "noticias_migalhas_3": "Notícias Migalhas",
+📌 Tema escolhido: [INSERIR TEMA AQUI]
+📌 Sessões a serem seguidas: [INSERIR AQUI A SEQUÊNCIA DE SESSÕES DEFINIDA PELO USUÁRIO]
 
-    "sumula_stf": "Súmulas STF",
-    "sumulas_stj": "Súmulas STJ",
-    "sumulas_tse": "Súmulas TSE",
-    "sumulas_vinculantes_stf": "Súmulas Vinculantes STF",
-    "temas_repetitivos_stj": "Temas Repetitivos STJ",
-    "teses_stf": "Teses STF",
-    "codigo_tributario_nacional": "Código Tributário Nacional",
+---
 
-    "codigo_penal": "Código Penal",
-    "codigo_penal": "Código Civil",
-    "codigo_processo_penal": "Código de Processo Penal",
-    "codigo_processo_civil": "Código de Processo Civil",
+### Regras obrigatórias de escrita:
 
-    "julgados_direito_administrativo": "Julgados de Direito Administrativo",
-    "julgados_direito_ambiental": "Julgados de Direito Ambiental",
-    "julgados_direito_bancario": "Julgados de Direito Bancário",
-    "julgados_direito_civil": "Julgados de Direito Civil",
-    "julgados_direito_constitucional": "Julgados de Direito Constitucional",
-    "julgados_direito_eleitoral": "Julgados de Direito Eleitoral",
-    "julgados_direito_empresarial": "Julgados de Direito Empresarial"
-  };
+1. **Seguir exatamente a sequência de sessões definida pelo usuário.**
+   - Nenhuma sessão pode ser omitida.
+   - Cada sessão deve ser aberta com um **título claro** e, se necessário, subtítulos.
 
-  const KEY='dl_pesquisa_selecionados';
-  const MAX_SNIPPET = 400;
-  const PAGE_SIZE = 10;
+2. **Entrega por blocos:**
+   - Apresentar no máximo **3 sessões por vez**.
+   - Ao final de cada bloco, perguntar:
+     ➡️ “Deseja que eu continue para as próximas sessões?”
+   - Só prossiga após autorização.
 
-  const getCarrinho = ()=>JSON.parse(localStorage.getItem(KEY)||'[]');
-  const setCarrinho = (arr)=>localStorage.setItem(KEY, JSON.stringify(arr));
-  const dedupPush = (arr, item)=>{
-    const k = item.id || item._id || (item.fonte+':'+(item.texto||'').slice(0,50));
-    if(!arr.some(x => x.id === k)){ arr.push({...item, id: k}); }
-    return arr;
-  };
+3. **Formatação:**
+   - Usar uma **linha separadora (---)** para dividir os blocos.
+   - Estruturar o conteúdo em **parágrafos curtos e claros**.
+   - Quando houver quadro comparativo, **organizar em tabela textual simples**.
+   - Quando houver questões, numerá-las (1, 2, 3…) e apresentar alternativas (A, B, C, D, E), logo após incluir gabarito comentado.
+   - Base legal deve vir unicamente do Planalto Governo.
+   - Evite números de julgados; apresente apenas entendimentos.
+   
+4. **Linguagem:**
+   - Clara, simples e didática, mas mantendo rigor jurídico.
 
-  /* Agrupador: normaliza "noticias_*" -> "noticias" */
-  const normalizarFonte = (f)=> f && f.startsWith('noticias') ? 'noticias' : f;
+---
 
-  /* Popular o <select> de filtro dinamicamente a partir de 'arquivos' */
-  function popularFiltro(){
-    filtroSelect.innerHTML = '';
-    const optTodas = new Option('Todas as fontes', 'todas', true, true);
-    filtroSelect.add(optTodas);
+### Encerramento:
+Ao finalizar todas as sessões solicitadas, conclua sempre com:
 
-    // opção agregada para notícias
-    const optNoticias = new Option('Notícias (todas)', 'noticias', false, false);
-    filtroSelect.add(optNoticias);
+💚 direito.love`;
 
-    // opções para cada arquivo, exceto os de notícias (já agregados)
-    const vistos = new Set();
-    for(const arq of arquivos){
-      const tag = arq.split('/').pop().replace(/\.json$/,'');
-      if(tag.startsWith('noticias')) continue; // agregados no "Notícias"
-      if(vistos.has(tag)) continue;
-      vistos.add(tag);
-      const label = nomesAmigaveis[tag] || tag;
-      filtroSelect.add(new Option(label, tag, false, false));
-    }
+  const temaEl=$("#tema"),criarBtn=$("#criar"),limparBtn=$("#limpar"),saida=$("#saida"),copiar2=$("#copiar2"),novo2=$("#novo2");
+
+  function updateCTA(){
+    const checked=[...$$(".sessao-lista input:checked")];
+    criarBtn.disabled=!(temaEl.value.trim()&&checked.length);
   }
 
-  /* Carregar todos os dados */
-  async function carregarDados(){
-    const dados=[];
-    for(const arq of arquivos){
-      try{
-        const tag = arq.split('/').pop().replace(/\.json$/,'');
-        const r=await fetch(arq); if(!r.ok) continue;
-        const j=await r.json();
-        (Array.isArray(j)? j : []).forEach((it, idx)=>{
-          const _id   = it.id || `${tag}_${idx}`;
-          const texto = (it.texto || '').trim();
-          dados.push({ ...it, _id, fonte: tag, textoNorm: norm(texto) });
-        });
-      }catch(e){ console.warn("Erro ao carregar",arq,e); }
-    }
-    return dados;
+  // Prefill: localStorage (vindo da pesquisa) e querystring (?tema=)
+  function prefillTema(){
+    const ls = localStorage.getItem("temaSelecionado");
+    if (ls) { temaEl.value = ls; localStorage.removeItem("temaSelecionado"); }
+    const qs = new URLSearchParams(location.search).get("tema");
+    if (qs && !temaEl.value) temaEl.value = qs;
+    updateCTA();
   }
+  prefillTema();
 
-  let baseDados=[];     // tudo
-  let lastResults=[];   // últimos achados
-  let pageIndex=0;      // paginação
-  let firstByFonte={};  // índice do primeiro item por fonte (normalizada)
+  temaEl.addEventListener("input",updateCTA);
+  $$(".sessao-lista input").forEach(cb=>cb.addEventListener("change",updateCTA));
 
-  // Ajusta offset do scroll (topbar + mini)
-  function ajustarSnapOffset(){
-    const top = document.querySelector('.topbar');
-    const off = (top?.offsetHeight || 0) + (miniRelatorio?.offsetHeight || 0) + 8;
-    document.documentElement.style.setProperty('--snap-offset', off+'px');
-  }
-  window.addEventListener('resize', ajustarSnapOffset);
-
-  // Inicialização
-  popularFiltro();
-  carregarDados().then(d=>{
-    baseDados=d;
-    toast("Base carregada com sucesso!");
+  criarBtn.addEventListener("click",()=>{
+    const tema=temaEl.value.trim();
+    const checked=[...$$(".sessao-lista input:checked")].map(cb=>cb.nextElementSibling.textContent);
+    if(!tema){toast("Digite um tema.");return;}
+    if(!checked.length){toast("Selecione ao menos 1 sessão.");return;}
+    const prompt=BASE_PROMPT
+      .replace("[INSERIR TEMA AQUI]",tema)
+      .replace("[INSERIR AQUI A SEQUÊNCIA DE SESSÕES DEFINIDA PELO USUÁRIO]",checked.join(" → "));
+    saida.value=prompt;toast("Prompt criado!");
   });
 
-  /* Render do mini-relatório como SELECT "Ir para…" */
-  function renderMiniRelatorio(results){
-    // contagem agregada por fonte normalizada
-    const contagem = results.reduce((acc, it)=>{
-      const f = normalizarFonte(it.fonte);
-      acc[f] = (acc[f]||0) + 1;
-      return acc;
-    }, {});
+  limparBtn.addEventListener("click",()=>{
+    temaEl.value="";saida.value="";
+    $$(".sessao-lista input").forEach(cb=>cb.checked=false);
+    updateCTA();toast("Tudo limpo.");
+  });
 
-    // monta o select
-    miniRelatorio.innerHTML = '';
-    const goto = document.createElement('select');
-    goto.id = 'gotoFonte';
-    const placeholder = new Option('Ir para…', '', true, true);
-    placeholder.disabled = true;
-    goto.add(placeholder);
+  copiar2.addEventListener("click",async()=>{
+    const text=saida.value;if(!text.trim()){toast("Nada para copiar.");return;}
+    try{await navigator.clipboard.writeText(text);toast("Copiado!");}
+    catch(e){toast("Erro ao copiar.");}
+  });
 
-    // ordena por label amigável
-    const fontes = Object.keys(contagem).sort((a,b)=>{
-      const la=(nomesAmigaveis[a]||a).toLowerCase();
-      const lb=(nomesAmigaveis[b]||b).toLowerCase();
-      return la.localeCompare(lb);
-    });
+  novo2.addEventListener("click",()=>{
+    temaEl.value="";saida.value="";
+    $$(".sessao-lista input").forEach(cb=>cb.checked=false);
+    updateCTA();toast("Pronto para novo tema.");temaEl.focus();window.scrollTo({top:0,behavior:"smooth"});
+  });
 
-    for(const f of fontes){
-      const label = (nomesAmigaveis[f] || f);
-      goto.add(new Option(`${label} — ${contagem[f]}`, f));
-    }
-
-    // handler: auto-carrega lotes até conter o primeiro item da fonte e rola
-    goto.addEventListener('change', ()=>{
-      const f = goto.value;
-      if(!f) return;
-      const idx = firstByFonte[f];
-      if(idx !== undefined){
-        const neededBatches = Math.floor(idx / PAGE_SIZE) + 1;
-        while(pageIndex < neededBatches){
-          renderBatch(true);
-        }
-      }
-      ajustarSnapOffset();
-      const primeiro = document.querySelector(`.result[data-fonte="${f}"]`);
-      if(primeiro) primeiro.scrollIntoView({behavior:'smooth', block:'start'});
-      // volta para placeholder
-      goto.selectedIndex = 0;
-    });
-
-    miniRelatorio.appendChild(goto);
-    miniRelatorio.style.display = 'flex';
-    ajustarSnapOffset();
-  }
-
-  /* Render em lote (10 por vez) */
-  function renderBatch(append=false){
-    const carrinho = getCarrinho();
-    const start = pageIndex*PAGE_SIZE;
-    const end = Math.min(lastResults.length, start+PAGE_SIZE);
-    if(!append){ resultados.innerHTML=""; }
-
-    for(let i=start;i<end;i++){
-      const item = lastResults[i];
-      const fNorm = normalizarFonte(item.fonte);
-
-      const div=document.createElement("div");
-      div.className="result";
-      div.setAttribute('data-fonte', fNorm);
-
-      const fonteP=document.createElement('p');
-      fonteP.className='filetag';
-      const nomeBonito = nomesAmigaveis[fNorm] || nomesAmigaveis[item.fonte] || item.fonte;
-      fonteP.innerHTML=`<strong>${nomeBonito}</strong>`;
-      div.appendChild(fonteP);
-
-      const p=document.createElement("p");
-      const txt=(item.texto||'').trim();
-      p.textContent = txt.length>MAX_SNIPPET ? (txt.substring(0,MAX_SNIPPET)+"...") : txt;
-      div.appendChild(p);
-
-      const actions=document.createElement("div");
-      actions.className="actions";
-
-      if(item.url){
-        // Botão à direita, verde
-        const verNoticia=document.createElement("a");
-        verNoticia.textContent="Ver notícia";
-        verNoticia.href=item.url;
-        verNoticia.target="_blank";
-        verNoticia.className="btn-news";
-        actions.appendChild(verNoticia);
-      } else {
-        const copiar=document.createElement("button");
-        copiar.textContent="Copiar";
-        copiar.className="btn";
-        copiar.addEventListener("click",async()=>{
-          try{await navigator.clipboard.writeText(item.texto||'');toast("Copiado!");}
-          catch{toast("Erro ao copiar.");}
-        });
-
-        const selBtn=document.createElement("button");
-        selBtn.className="btn-alt";
-        const key=item.id||item._id;
-        const syncBtn=(on)=>{selBtn.textContent=on?"Selecionado":"Selecionar";selBtn.classList.toggle('is-selected', on);};
-        syncBtn(carrinho.some(x => x.id === key));
-        selBtn.addEventListener("click",()=>{
-          let arr=getCarrinho();
-          const obj = { id:key, fonte:item.fonte, texto:item.texto };
-          const isIn = arr.some(x => x.id === key);
-          if (isIn){ arr = arr.filter(x => x.id !== key); syncBtn(false); }
-          else { arr = dedupPush(arr, obj); syncBtn(true); }
-          setCarrinho(arr); updateBar();
-        });
-
-        actions.appendChild(copiar);
-        actions.appendChild(selBtn);
-      }
-
-      div.appendChild(actions);
-      resultados.appendChild(div);
-    }
-
-    pageIndex++;
-    const hasMore = pageIndex*PAGE_SIZE < lastResults.length;
-    moreWrap.style.display = hasMore ? "flex" : "none";
-    updateBar();
-  }
-
-  function updateBar(){
-    const c=getCarrinho().length;
-    $('#dl-enviar').disabled = c===0;
-  }
-
-  function toggleBar(show){
-    const bar = $('#dl-bar-selecao');
-    bar.style.display = show ? 'flex' : 'none';
-    wrap.style.paddingBottom = show ? `calc(var(--bar-h) + 16px + var(--safe-bottom))` : '22px';
-  }
-
-  /* Executa busca */
-  async function executarBusca(){
-    const termo = busca.value.trim();
-    resultados.innerHTML="";
-    moreWrap.style.display="none";
-    pageIndex=0;
-
-    if(!termo){
-      miniRelatorio.style.display="none";
-      toggleBar(false);
-      return;
-    }
-
-    btnBuscar.disabled = true;
-    document.body.style.cursor = 'progress';
-    try{
-      const termoNorm = norm(termo);
-      const filtroVal = filtroSelect.value; // 'todas' | 'noticias' | tag exata
-
-      lastResults = baseDados.filter(x=>{
-        const fNorm = normalizarFonte(x.fonte);
-        const fonteOk = (filtroVal==='todas') ? true
-                        : (filtroVal==='noticias' ? fNorm==='noticias' : x.fonte===filtroVal);
-        return fonteOk && (x.textoNorm||'').includes(termoNorm);
-      });
-
-      // mapeia o primeiro índice por fonte normalizada
-      firstByFonte = {};
-      for(let i=0;i<lastResults.length;i++){
-        const f = normalizarFonte(lastResults[i].fonte);
-        if(firstByFonte[f] === undefined) firstByFonte[f] = i;
-      }
-
-      if(!lastResults.length){
-        resultados.innerHTML = "<p>Nenhum resultado encontrado.</p>";
-        miniRelatorio.style.display = "none";
-        toggleBar(false);
-      }else{
-        renderMiniRelatorio(lastResults);
-        toggleBar(true);
-        renderBatch(false);
-      }
-    }finally{
-      btnBuscar.disabled = false;
-      document.body.style.cursor = '';
-    }
-  }
-
-  /* Eventos */
-  btnBuscar.addEventListener("click", executarBusca);
-  $("#btnMais").addEventListener("click", ()=> renderBatch(true));
-  busca.addEventListener("keydown", (e)=>{ if(e.key==="Enter"){ e.preventDefault(); executarBusca(); } });
-
-  // Barra: enviar / limpar
-  $('#dl-enviar').addEventListener('click', ()=> { window.location.href = 'index.html#pesquisa'; });
-  $('#dl-limpar').addEventListener('click', ()=> {
-    localStorage.removeItem(KEY);
-    updateBar();
-    [...$$('.btn-alt.is-selected', resultados)].forEach(b=>b.classList.remove('is-selected'));
-    [...$$('.btn-alt', resultados)].forEach(b=>{ if(b.textContent==="Selecionado") b.textContent="Selecionar"; });
+  temaEl.addEventListener("keydown",e=>{
+    if(e.key==="Enter"&&!criarBtn.disabled){e.preventDefault();criarBtn.click();}
   });
 })();
 </script>
+
+<script>
+/* ===== Ad visibility: esconde se não houver conteúdo real ===== */
+(function(){
+  const ad = document.getElementById('ad-container');
+  const box = document.getElementById('ad-box');
+  if(!ad || !box) return;
+
+  function hasRealAd(el){
+    // considera real se houver iframe, <ins class="adsbygoogle">, <img>, ou data-flag
+    return !!(el.querySelector('iframe, ins.adsbygoogle, img, [data-has-ad], [data-ad]'));
+  }
+
+  function sync(){
+    if(hasRealAd(box)){ ad.classList.add('show'); }
+    else { ad.classList.remove('show'); }
+  }
+
+  // Observa mudanças (Adsense/outsystems normalmente injeta iframe)
+  const mo = new MutationObserver(sync);
+  mo.observe(box, { childList:true, subtree:true, attributes:true });
+
+  // Exponhe helper para inserir manualmente um anúncio
+  window.dlShowAd = (html) => { box.innerHTML = html || ''; sync(); };
+
+  // Checagem inicial
+  sync();
+})();
+</script>
+
+<script>
+/* direito.love — index-importa-pesquisa.js (receber múltiplos achados, texto ou links) */
+(() => {
+  const KEY = 'dl_pesquisa_selecionados';
+  const $ = (s, r=document)=>r.querySelector(s);
+  const get = () => JSON.parse(localStorage.getItem(KEY) || '[]');
+  const set = (arr) => localStorage.setItem(KEY, JSON.stringify(arr));
+  const firstLine = (s='') => String(s).split('\n')[0].trim();
+
+  // ✅ Prioriza textarea grande (#saida), e só cai em input se não houver textarea
+  const findPromptField = () =>
+    document.querySelector('#saida') ||
+    document.querySelector('#prompt') ||
+    document.querySelector('#composer textarea') ||
+    document.querySelector('textarea[name="prompt"]') ||
+    document.querySelector('textarea:not([readonly])') ||
+    document.querySelector('input[type="text"]');
+
+  const renderBox = (items) => {
+    if (!items.length || $('#dl-box-achados')) return;
+
+    const box = document.createElement('section');
+    box.id = 'dl-box-achados';
+    box.innerHTML = `
+      <style>
+        #dl-box-achados{
+          margin:16px 0; padding:14px; border:1px solid #e5e5e5; border-radius:12px; background:#fafafa;
+          font: 500 14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Arial;
+        }
+        #dl-box-achados h3{ margin:0 0 8px 0; font-size:15px; }
+        #dl-box-achados ul{ margin:0 0 10px 18px; padding:0; }
+        #dl-box-achados li{ margin:4px 0; }
+        #dl-box-achados .actions{ display:flex; gap:8px; }
+        #dl-inserir{ border:1px solid #148d3f; background:#16a34a; color:#fff; padding:8px 12px; border-radius:10px; cursor:pointer; }
+        #dl-inserir:hover{ background:#22c55e; }
+        #dl-limpar{ border:1px solid #dc2626; background:#ef4444; color:#fff; padding:8px 12px; border-radius:10px; cursor:pointer; }
+        #dl-limpar:hover{ background:#f87171; }
+      </style>
+      <h3>🔎 Achados da pesquisa (${items.length})</h3>
+      <ul>
+        ${items.map(i => {
+          if (i.texto) {
+            const tag = (i.fonte||'').toUpperCase();
+            return `<li><strong>${tag}</strong> — ${firstLine(i.texto)}</li>`;
+          } else {
+            return `<li>${i.title ? i.title+' — ' : ''}${i.url ? `<a href="${i.url}" target="_blank" rel="noopener">${i.url}</a>` : ''}</li>`;
+          }
+        }).join('')}
+      </ul>
+      <div class="actions">
+        <button id="dl-inserir">Inserir no prompt</button>
+        <button id="dl-limpar">Descartar</button>
+      </div>
+    `;
+
+    const field=findPromptField();
+    const parent=(field&&field.closest&&field.closest('form, section, main'))||document.body;
+    parent.insertBefore(box, parent.firstChild);
+
+    // ✅ Insere o TEXTO COMPLETO; evita truncar (remove readonly temporariamente)
+    $('#dl-inserir').addEventListener('click', () => {
+      const f = findPromptField();
+      const bloco = items.map(i => {
+        if (i.texto) {
+          const tag = (i.fonte||'').toUpperCase();
+          return `${tag ? `**${tag}**\n` : ''}${i.texto}`; // texto completo
+        } else {
+          return `- ${i.title || ''}${i.title && i.url ? ' — ' : ''}${i.url || ''}`;
+        }
+      }).join("\n\n");
+
+      if (!f) { alert("Campo de prompt não encontrado. Cole manualmente:\n\n" + bloco); return; }
+
+      const wasRO = f.hasAttribute('readonly'); // ex.: #saida readonly
+      if (wasRO) f.removeAttribute('readonly');
+
+      const sep = (f.value||'').trim() ? '\n\n' : '';
+      f.value = (f.value || '') + sep + '🔎 Achados da pesquisa:\n' + bloco + '\n';
+
+      if (wasRO) f.setAttribute('readonly','');
+      f.focus();
+
+      localStorage.removeItem(KEY);
+      document.getElementById('dl-box-achados')?.remove();
+    });
+
+    document.getElementById('dl-limpar').addEventListener('click', () => {
+      localStorage.removeItem(KEY);
+      document.getElementById('dl-box-achados')?.remove();
+    });
+  };
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const itens = get();
+    if (location.hash === '#pesquisa' || itens.length) {
+      const uniq=[]; const seen=new Set();
+      itens.forEach(i => {
+        const k = i.id || (i.fonte+':'+(i.texto||'' ).slice(0,50));
+        if(!seen.has(k)){ seen.add(k); uniq.push(i); }
+      });
+      set(uniq);
+      renderBox(uniq);
+    }
+  });
+})();
+</script>
+
+<script>
+/* Service Worker (opcional) */
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js")
+    .then(() => console.log("✅ Service Worker registrado"))
+    .catch(err => console.warn("Erro SW:", err));
+}
+</script>
+
 </body>
 </html>
