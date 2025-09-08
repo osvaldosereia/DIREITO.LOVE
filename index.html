@@ -358,29 +358,18 @@ if ("serviceWorker" in navigator) {
 </script>
 
 <script>
-/* direito.love — index-importa-pesquisa.js (receber múltiplos achados, texto ou links) */
+/* direito.love — index-importa-pesquisa.js (agora insere no #tema) */
 (() => {
   const KEY = 'dl_pesquisa_selecionados';
   const $ = (s, r=document)=>r.querySelector(s);
   const get = () => JSON.parse(localStorage.getItem(KEY) || '[]');
   const set = (arr) => localStorage.setItem(KEY, JSON.stringify(arr));
 
-  // Escapar HTML e criar snippet
-  const esc = (s='') => String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  const snip = (s='', n=240) => {
+  const esc = (s='') => String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&gt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const snip = (s='', n=260) => {
     const t = String(s).replace(/\s+/g,' ').trim();
     return t.length > n ? t.slice(0,n) + '…' : t;
   };
-
-  // Prioriza a área grande de saída (#saida); só cai no #tema se não houver outro campo
-  const findPromptField = () =>
-    document.querySelector('#saida') ||
-    document.querySelector('#prompt') ||
-    document.querySelector('#composer textarea') ||
-    document.querySelector('textarea[name="prompt"]') ||
-    document.querySelector('#tema') ||
-    document.querySelector('textarea') ||
-    document.querySelector('input[type="text"]');
 
   const renderBox = (items) => {
     if (!items.length || $('#dl-box-achados')) return;
@@ -389,71 +378,74 @@ if ("serviceWorker" in navigator) {
     box.id = 'dl-box-achados';
     box.innerHTML = `
       <style>
-        #dl-box-achados{ margin:16px 0; padding:14px; border:1px solid #e5e5e5; border-radius:12px; background:#fafafa; font:500 14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Arial; }
+        #dl-box-achados{ margin:16px 0; padding:14px; border:1px solid #e5e5e5; border-radius:12px; background:#fafafa; font:500 14px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Arial; }
         #dl-box-achados h3{ margin:0 0 8px 0; font-size:15px; }
         #dl-box-achados ul{ margin:0 0 10px 18px; padding:0; }
         #dl-box-achados li{ margin:6px 0; }
         #dl-box-achados details > summary{ cursor:pointer; list-style:revert; }
         #dl-box-achados pre.dl-full{ white-space:pre-wrap; background:#fff; border:1px solid #e5e5e5; padding:8px; border-radius:8px; margin-top:6px; max-height:50vh; overflow:auto; }
         #dl-box-achados .actions{ display:flex; gap:8px; margin-top:10px; }
-        #dl-inserir{ border:1px solid #148d3f; background:#16a34a; color:#fff; padding:8px 12px; border-radius:10px; cursor:pointer; }
-        #dl-inserir:hover{ background:#22c55e; }
+        #dl-inserir{ border:1px solid #0f3b9e; background:#0f3b9e; color:#fff; padding:8px 12px; border-radius:10px; cursor:pointer; }
+        #dl-inserir:hover{ filter:brightness(1.05); }
         #dl-limpar{ border:1px solid #dc2626; background:#ef4444; color:#fff; padding:8px 12px; border-radius:10px; cursor:pointer; }
-        #dl-limpar:hover{ background:#f87171; }
+        #dl-limpar:hover{ filter:brightness(1.05); }
       </style>
       <h3>🔎 Achados da pesquisa (${items.length})</h3>
       <ul>
-        ${items.map(i => {
-          // item com texto completo
-          if (i.texto) {
-            const tag = (i.fonte||'').toUpperCase();
-            return `<li>
-              <details>
-                <summary><strong>${tag}</strong> — ${snip(i.texto, 260)}</summary>
-                <pre class="dl-full">${esc(i.texto)}</pre>
-              </details>
-            </li>`;
-          }
-          // item apenas com link/título
-          return `<li>${i.title ? esc(i.title)+' — ' : ''}${i.url ? `<a href="${i.url}" target="_blank" rel="noopener">${esc(i.url)}</a>` : ''}</li>`;
-        }).join('')}
+        ${items.map(i => i.texto
+          ? `<li>
+               <details>
+                 <summary><strong>${(i.fonte||'').toUpperCase()}</strong> — ${snip(i.texto, 260)}</summary>
+                 <pre class="dl-full">${esc(i.texto)}</pre>
+               </details>
+             </li>`
+          : `<li>${i.title ? esc(i.title)+' — ' : ''}${i.url ? `<a href="${i.url}" target="_blank" rel="noopener">${esc(i.url)}</a>` : ''}</li>`
+        ).join('')}
       </ul>
       <div class="actions">
-        <button id="dl-inserir">Inserir no prompt</button>
+        <button id="dl-inserir">Inserir no tema</button>
         <button id="dl-limpar">Descartar</button>
       </div>
     `;
 
-    // Tenta inserir perto do formulário principal
-    const field=findPromptField();
     const container = document.querySelector('.builder') || document.querySelector('main') || document.body;
     container.insertBefore(box, container.firstChild);
 
-    // Inserir no prompt — usa o TEXTO INTEGRAL
+    // Inserir no TEMA (campo #tema). Se não existir, cai no #saida.
     $('#dl-inserir').addEventListener('click', () => {
       const itens = get();
-      const f = findPromptField();
-      const bloco = itens.map(i => {
-        if (i.texto) {
-          const tag = (i.fonte||'').toUpperCase();
-          return `${tag ? `**${tag}**\n` : ''}${i.texto}`;
-        } else {
-          return `- ${i.title || ''}${i.title && i.url ? ' — ' : ''}${i.url || ''}`;
-        }
-      }).join("\n\n");
+      const tema = document.getElementById('tema');
+      const saida = document.getElementById('saida');
 
-      if (f) {
-        const sep = (f.value||'').trim() ? '\n\n' : '';
-        f.value = (f.value || '') + sep + '🔎 Achados da pesquisa:\n' + bloco + '\n';
-        f.focus();
-        localStorage.removeItem(KEY);
-        $('#dl-box-achados')?.remove();
+      // Combina todos os textos escolhidos (completo). Links viram "título — URL".
+      const full = itens.map(i => i.texto
+        ? i.texto
+        : [i.title || '', i.url || ''].filter(Boolean).join(' — ')
+      ).join('\n\n');
+
+      // Para input[type=text], melhor virar linha única
+      const oneLine = full.replace(/\s*\n+\s*/g, ' ').replace(/\s{2,}/g, ' ').trim();
+
+      if (tema) {
+        // garante que não há limite
+        tema.removeAttribute('maxlength');
+        // se já houver algo, adiciona espaço separador
+        tema.value = (tema.value ? (tema.value + ' ') : '') + oneLine;
+        tema.focus();
+        tema.dispatchEvent(new Event('input', {bubbles:true}));
+      } else if (saida) {
+        // fallback: cola na saída grande
+        const sep = (saida.value||'').trim() ? '\n\n' : '';
+        saida.value = (saida.value || '') + sep + full + '\n';
+        saida.focus();
       } else {
-        alert("Campo de prompt não encontrado. Cole manualmente:\n\n" + bloco);
+        alert("Campo 'Tema' não encontrado.");
       }
+
+      localStorage.removeItem(KEY);
+      $('#dl-box-achados')?.remove();
     });
 
-    // Limpar seleção
     $('#dl-limpar').addEventListener('click', () => {
       localStorage.removeItem(KEY);
       $('#dl-box-achados')?.remove();
@@ -461,13 +453,12 @@ if ("serviceWorker" in navigator) {
   };
 
   document.addEventListener('DOMContentLoaded', () => {
-    // Remove limite do #tema (evita cortes se algum fluxo ainda usar esse campo)
+    // Remove limite do Tema (evita cortes)
     const tema = document.getElementById('tema');
     if (tema) tema.removeAttribute('maxlength');
 
     const itens = get();
     if (location.hash === '#pesquisa' || itens.length) {
-      // de-dup leve
       const uniq=[]; const seen=new Set();
       itens.forEach(i => {
         const k = i.id || (i.fonte+':'+(i.texto||'').slice(0,50));
