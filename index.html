@@ -18,14 +18,13 @@
       --safe-bottom: env(safe-area-inset-bottom, 0px);
       --snap-offset: 96px;
 
-      /* Mesma escala de botões da /pesquisa */
+      /* Tamanho dos botões (igual /pesquisa) */
       --btn-pad-y: 6px;
       --btn-pad-x: 10px;
       --btn-font: 12.5px;
       --btn-min-h: 34px;
       --btn-min-w: 96px;
 
-      /* Cores extras */
       --success:#16a34a;
     }
     *{box-sizing:border-box}
@@ -42,7 +41,7 @@
     }
     .chip:hover{background:var(--highlight-light)}
 
-    /* Layout (sem “box” de fundo grandão) */
+    /* Layout leve (sem “boxzão” de fundo) */
     .wrap{max-width:900px;margin:0 auto;padding:18px}
     h2{margin:0 0 12px;color:var(--primary);font-size:20px}
 
@@ -55,6 +54,7 @@
     }
     #tema::placeholder{color:#9aa3af}
 
+    /* Aviso abaixo do tema */
     .notice{
       display:none; margin:8px 0 10px;
       background:#fff7d6; border:1px solid #f3dd94; color:#5b4400;
@@ -62,7 +62,7 @@
     }
     .notice.show{ display:block; }
 
-    /* Categorias (acordeões) — mesmos estilos da /pesquisa */
+    /* Categorias (acordeões) — mesmo espírito da /pesquisa */
     #categorias{ margin-top: 10px; }
     .cat{
       background:#fff; border:1px solid var(--border); border-radius:12px; box-shadow: var(--shadow);
@@ -85,6 +85,7 @@
     .opt-title{grid-column:1; margin:0 0 6px 0; font-weight:700; color:#0f172a}
     .opt-desc{grid-column:1; margin:0; color:#1f2937}
     .opt-actions{grid-column:2; margin:0; justify-self:end; align-self:start; display:flex}
+
     .btn, .btn-ghost, .btn-alt{
       padding:var(--btn-pad-y) var(--btn-pad-x); border-radius:8px; font-size:var(--btn-font);
       min-height:var(--btn-min-h); min-width:var(--btn-min-w); cursor:pointer; transition:.15s;
@@ -100,24 +101,32 @@
     .btn.success{ background: var(--success); color:#fff; border:1px solid #168a44; }
     .btn.success:hover{ filter:brightness(.96); }
 
-    /* Prévia (leve, sem card gigante) */
-    .preview{ margin:16px 0 6px; }
-    .preview h3{ margin:0 0 6px; color:var(--primary); font-size:16px }
+    /* Prévia (leve) */
+    .preview{ margin:16px 0 6px; display:none; }
+    .preview h3{ margin:0 0 6px; color:#primary; font-size:16px }
     #saida{ width:100%; min-height:30vh; resize:vertical; padding:10px 12px; border-radius:10px; border:1px solid var(--border);
       background:#fff; color:#001840; font: 13.5px/1.45 ui-monospace, Menlo, Consolas, monospace; }
 
-    /* Modal */
-    .modal{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:200; }
-    .modal.show{ display:flex; }
-    .modal__overlay{ position:absolute; inset:0; background:rgba(0,0,0,.35); }
-    .modal__content{
-      position:relative; background:#fff; border:1px solid var(--border); border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,.2);
-      width:min(92vw,420px); padding:16px;
+    /* Barra fixa de ações (igual conceito da /pesquisa) */
+    #ix-bar{
+      position:fixed; left:50%; transform:translateX(-50%);
+      bottom:calc(12px + var(--safe-bottom)); z-index:9999; background:#111; color:#fff;
+      padding:10px 12px; border-radius:12px; display:none; align-items:center; gap:8px;
+      box-shadow:0 6px 20px rgba(0,0,0,.25); font: 600 13px/1 var(--font);
+      pointer-events:none;
     }
-    .modal__title{ margin:0 0 10px; color:#0f172a; font-size:16px; font-weight:800 }
-    .modal__actions{ display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap }
+    #ix-bar button{
+      border:0; padding:var(--btn-pad-y) var(--btn-pad-x); border-radius:10px; cursor:pointer; pointer-events:auto;
+      font-size:var(--btn-font); min-height:var(--btn-min-h);
+    }
+    #ix-primary.btn{ background:var(--primary); color:#fff; border:1px solid #0f2a71; }
+    #ix-primary.btn:hover{ background:#264399; }
+    #ix-primary.success{ background: var(--success); border-color:#168a44; }
+    #ix-secondary{ background:#e5e7eb; color:#111; }
+    #ix-secondary:hover{ background:#d6dae1; }
+    #ix-bar[aria-hidden="true"]{ display:none; }
 
-    /* Mobile: diminuir só as descrições */
+    /* Mobile: descrições menores */
     @media (max-width: 600px){
       .opt-desc{ font-size:11.5px; line-height:1.35; }
       .option-card{ padding:10px 12px; }
@@ -151,31 +160,23 @@
     <section id="categorias"></section>
 
     <!-- Prévia do Prompt -->
-    <div class="preview" id="preview" style="display:none">
+    <div class="preview" id="preview">
       <h3>Prévia do Prompt</h3>
       <textarea id="saida" readonly placeholder="(vazio)"></textarea>
     </div>
   </div>
 
-  <!-- Modal de ação -->
-  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
-    <div class="modal__overlay"></div>
-    <div class="modal__content">
-      <h3 id="modalTitle" class="modal__title">O que deseja fazer?</h3>
-      <div class="modal__actions">
-        <button id="modalPrimary" class="btn primary">Gerar Prompt</button>
-        <button id="modalSecondary" class="btn-ghost">Limpar</button>
-      </div>
-    </div>
+  <!-- Barra fixa de ações -->
+  <div id="ix-bar" aria-hidden="true" aria-live="polite">
+    <button id="ix-primary" class="btn">Gerar Prompt</button>
+    <button id="ix-secondary" class="btn-ghost">Limpar</button>
   </div>
-
-  <div id="toast" class="notice" style="position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:250;display:none;"></div>
 
 <script>
 (function(){
   const $=(s,r=document)=>r.querySelector(s);
   const $$=(s,r=document)=>[...r.querySelectorAll(s)];
-  const showToast=(m,t=1600)=>{const el=$("#toast");el.textContent=m;el.style.display='block';setTimeout(()=>el.style.display='none',t);};
+  const showNotice=(on)=>$('#importNotice').classList.toggle('show', !!on);
 
   /* ===== CATS & DIRECTIVES ===== */
   const CATS = [
@@ -275,7 +276,7 @@ No final, assine com: 💚 direito.love`;
         const actions=document.createElement('div'); actions.className='opt-actions';
 
         const btnSel=document.createElement('button'); btnSel.className='btn-alt btn-select'; btnSel.textContent='Selecionar';
-        const sync=()=>{ const on=selected.has(it.id); btnSel.textContent=on?'Selecionado':'Selecionar'; btnSel.classList.toggle('is-selected',on); };
+        const sync=()=>{ const on=selected.has(it.id); btnSel.textContent=on?'Selecionado':'Selecionar'; btnSel.classList.toggle('is-selected',on); updateBar(); };
         btnSel.addEventListener('click',()=>{ if(selected.has(it.id)) selected.delete(it.id); else selected.add(it.id); sync(); });
         sync();
 
@@ -293,8 +294,8 @@ No final, assine com: 💚 direito.love`;
   const temaEl=$("#tema"), saida=$("#saida"), preview=$("#preview");
   function buildPrompt(){
     const tema=(temaEl.value||'').trim();
-    if(!tema){ showToast('Digite um tema.'); return ''; }
-    if(!selected.size){ showToast('Selecione ao menos 1 sessão.'); return ''; }
+    if(!tema){ return ''; }
+    if(!selected.size){ return ''; }
 
     const order=[]; for(const cat of CATS) for(const it of cat.items) if(selected.has(it.id)) order.push(it);
     const seq=order.map(it=>it.label).join(' → ');
@@ -309,63 +310,65 @@ No final, assine com: 💚 direito.love`;
     return lines.join('\n');
   }
 
-  /* ===== Modal ===== */
-  const modal=$("#modal"), modalPrimary=$("#modalPrimary"), modalSecondary=$("#modalSecondary"), modalTitle=$("#modalTitle");
+  /* ===== Barra fixa ===== */
+  const bar=$("#ix-bar"), btnPrimary=$("#ix-primary"), btnSecondary=$("#ix-secondary");
   let hasPrompt=false; // muda após gerar
 
-  function openModal(mode){ // 'pre' ou 'post'
-    if(mode==='pre'){
-      modalTitle.textContent='O que deseja fazer?';
-      modalPrimary.textContent='Gerar Prompt';
-      modalPrimary.className='btn primary';
-      modalSecondary.textContent='Limpar';
-      modalSecondary.className='btn-ghost';
+  function ready(){ return (temaEl.value||'').trim().length>0 && selected.size>0; }
+  function updateBar(){
+    const show = ready();
+    bar.setAttribute('aria-hidden', show ? 'false' : 'true');
+    bar.style.display = show ? 'flex' : 'none';
+    // estado do conjunto de botões
+    if(!hasPrompt){
+      btnPrimary.textContent='Gerar Prompt';
+      btnPrimary.className='btn'; // azul aplicado via id
+      btnPrimary.id='ix-primary';
+      btnPrimary.classList.remove('success');
+      btnSecondary.textContent='Limpar';
     }else{
-      modalTitle.textContent='Prompt pronto!';
-      modalPrimary.textContent='Copiar Prompt';
-      modalPrimary.className='btn success';
-      modalSecondary.textContent='Novo';
-      modalSecondary.className='btn-ghost';
+      btnPrimary.textContent='Copiar Prompt';
+      btnPrimary.classList.add('success'); // verde
+      btnSecondary.textContent='Novo';
     }
-    modal.classList.add('show'); modal.setAttribute('aria-hidden','false');
   }
-  function closeModal(){ modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); }
 
-  modal.addEventListener('click', (e)=>{ if(e.target.classList.contains('modal__overlay')) closeModal(); });
-
-  modalPrimary.addEventListener('click', async()=>{
+  btnPrimary.addEventListener('click', async ()=>{
+    if(!ready()) return;
     if(!hasPrompt){
       const txt=buildPrompt(); if(!txt) return;
-      saida.value=txt; preview.style.display='block'; hasPrompt=true; openModal('post');
-      showToast('Prompt criado!');
+      saida.value=txt; preview.style.display='block'; hasPrompt=true; updateBar();
+      // rolar até a prévia
+      preview.scrollIntoView({behavior:'smooth', block:'start'});
     }else{
-      // Copiar
-      try{ await navigator.clipboard.writeText(saida.value||''); showToast('Prompt copiado!'); }catch{ showToast('Erro ao copiar.'); }
-      closeModal();
+      try{ await navigator.clipboard.writeText(saida.value||''); }catch{}
     }
   });
 
   function resetAll(){
     temaEl.value=''; saida.value=''; preview.style.display='none'; hasPrompt=false;
-    selected.clear(); $$('.btn-select.is-selected').forEach(b=>b.classList.remove('is-selected'));
+    selected.clear();
+    $$('.btn-select.is-selected').forEach(b=>b.classList.remove('is-selected'));
     $$('.btn-select').forEach(b=>b.textContent='Selecionar');
-    $('#importNotice')?.classList.remove('show');
+    showNotice(false);
+    updateBar();
   }
 
-  modalSecondary.addEventListener('click', ()=>{
+  btnSecondary.addEventListener('click', ()=>{
     if(!hasPrompt){ // Limpar
-      resetAll(); closeModal();
+      resetAll();
+      window.scrollTo({top:0,behavior:'smooth'});
     }else{ // Novo
-      resetAll(); closeModal(); temaEl.focus(); window.scrollTo({top:0,behavior:'smooth'});
+      resetAll();
+      temaEl.focus();
     }
   });
 
-  // Abre o modal assim que o tema for definido
-  let openedOnce=false;
+  // Tema: mostra aviso e atualiza barra
   temaEl.addEventListener('input', ()=>{
     const has=(temaEl.value||'').trim().length>0;
-    $('#importNotice').classList.toggle('show', has);
-    if(has && !openedOnce){ openModal('pre'); openedOnce=true; }
+    showNotice(has);
+    updateBar();
   });
 
   // Importar direto da pesquisa (#pesquisa)
@@ -378,9 +381,8 @@ No final, assine com: 💚 direito.love`;
                       .filter(Boolean).join('\n\n');
         if(full.trim()){
           temaEl.value=full.replace(/\s+\n\s+/g,'\n').trim();
-          $('#importNotice')?.classList.add('show');
-          openedOnce=true; // evita abrir 2x
-          openModal('pre'); // já chama o modal quando vem da pesquisa
+          showNotice(true);
+          updateBar(); // só aparece quando também tiver seleção
         }
         localStorage.removeItem(KEY);
       }
@@ -389,6 +391,7 @@ No final, assine com: 💚 direito.love`;
 
   /* Boot */
   renderCategorias();
+  updateBar();
 })();
 </script>
 </body>
