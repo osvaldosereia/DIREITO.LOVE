@@ -15,7 +15,7 @@
     :root{
       --bg:#FFFDF0; --surface:#ffffff; --text:#001840; --border:#e5e7eb;
       --primary:#102A71; --highlight:#F5C400; --highlight-light:#FFDC5F;
-      --radius:10px; --shadow:0 4px 16px rgba(0,0,0,.05);
+      --radius:12px; --shadow:0 4px 16px rgba(0,0,0,.05);
       --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
       --safe-bottom: env(safe-area-inset-bottom, 0px);
       --bar-h: 64px;
@@ -23,51 +23,68 @@
       --muted-btn:#e5e7eb;
       --news-btn:#16a34a;
       --news-btn-hover:#22c55e;
-      --snap-offset: 120px;
+      --snap-offset: 96px;
     }
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);color:var(--text);font:400 13px/1.4 var(--font);}
+    /* Topbar */
     .topbar{position:sticky; top:0; z-index:100; background:var(--highlight); border-bottom:1px solid rgba(0,0,0,.08)}
-    .topbar__inner{max-width:1160px; margin:0 auto; padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px}
+    .topbar__inner{max-width:1160px; margin:0 auto; padding:8px 12px; display:flex; align-items:center; justify-content:space-between; gap:12px}
     .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:#111}
     .brand__logo{height:36px}
-    .chip{padding:6px 14px; border-radius:20px; background:#fff; border:1px solid var(--border); font-size:13px; color:var(--primary); text-decoration:none; font-weight:500; transition:.15s}
+    .chip{padding:6px 14px; border-radius:20px; background:#fff; border:1px solid var(--border); font-size:13px; color:var(--primary); text-decoration:none; font-weight:600; transition:.15s}
     .chip:hover{background:var(--highlight-light)}
+
+    /* Layout */
     .wrap{max-width:900px;margin:0 auto;padding:22px; transition:padding-bottom .2s ease;}
     h2{margin:0 0 10px;color:var(--primary)}
     .search-box{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:20px 0;}
     #busca{flex:1; padding:10px 12px; border:2px solid var(--primary); border-radius:8px; font-size:15px}
-    #filtroFonte{padding:10px; border:2px solid var(--primary); border-radius:8px; font-size:14px; min-width:220px; background:#fff}
     #btnBuscar{appearance:none; border:none; background:var(--primary); color:#fff; padding:10px 14px; border-radius:8px; font-size:14px; cursor:pointer;}
     #btnBuscar:disabled{opacity:.7; cursor:progress}
-    .mini-relatorio{
-      position:sticky; top:54px; background:#fff7d6;
-      padding:8px 16px; display:none; gap:8px; flex-wrap:wrap;
-      border-bottom:1px solid var(--border); z-index:90; justify-content:center;
+
+    /* Acordeões de categorias */
+    #categorias{ margin-top: 10px; }
+    .cat{
+      background:var(--surface); border:1px solid var(--border); border-radius:12px; box-shadow: var(--shadow);
+      margin:12px 0; overflow:hidden; scroll-margin-top: var(--snap-offset);
     }
-    #gotoFonte{
-      padding:10px; border:2px solid var(--primary); border-radius:8px; font-size:14px; min-width:240px; background:#fff;
+    .cat > summary{
+      list-style:none; cursor:pointer; padding:10px 14px; font-weight:800; color:var(--primary);
+      display:flex; align-items:center; justify-content:space-between;
     }
+    .cat > summary::-webkit-details-marker{ display:none; }
+    .cat[open] > summary{ background:#fff7d6; }
+    .cat-count{ font-weight:700; background:#0f172a0d; color:#0f172a; padding:2px 8px; border-radius:999px; font-size:12px; }
+
+    .cat-body{ padding: 10px 14px; }
+    .cat-more{ display:flex; justify-content:center; padding: 4px 14px 12px; }
+    .cat-more .btn{ min-width:180px }
+
+    /* Card de resultado */
     .result{
-      background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
-      padding:12px 14px;margin:12px 0;position:relative;
-      scroll-margin-top: var(--snap-offset);
+      background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);
+      padding:12px 14px;margin:10px 0;position:relative;
     }
-    .result p{margin:0;font-size:13px;line-height:1.4}
-    .filetag{margin:0 0 6px 0;font-weight:700}
-    .actions{margin-top:8px;display:flex;gap:8px;align-items:center}
-    .btn{appearance:none;border:none;background:var(--highlight);color:#000;padding:6px 10px;border-radius:8px;
-      font-size:13px;cursor:pointer;transition:.15s}
+    .filetag{
+      display:inline-block; font-weight:700; font-size:12px; padding:2px 8px; border-radius:999px;
+      background:#f1f5f9; color:#0f172a; margin:0 0 8px 0;
+    }
+    .result p{margin:0;font-size:13px;line-height:1.55}
+    .actions{margin-top:10px;display:flex;gap:10px;align-items:center}
+    .btn{appearance:none;border:none;background:var(--highlight);color:#000;padding:10px 12px;border-radius:8px;
+      font-size:13px;cursor:pointer;transition:.15s; min-height:44px; min-width:110px;}
     .btn:hover{background:var(--highlight-light)}
-    .btn-alt{appearance:none;border:none;background:var(--primary);color:#fff;padding:6px 10px;border-radius:8px;
-      font-size:13px;cursor:pointer;transition:.15s}
+    .btn-alt{appearance:none;border:none;background:var(--primary);color:#fff;padding:10px 12px;border-radius:8px;
+      font-size:13px;cursor:pointer;transition:.15s; min-height:44px; min-width:110px;}
     .btn-alt:hover{background:#264399}
     .btn-alt.is-selected{ background: var(--success); color:#fff; }
     .btn-alt.is-selected:hover{ filter:brightness(.95); }
-    .btn-news{background:var(--news-btn);color:#fff;text-decoration:none;display:inline-block;padding:6px 10px;border-radius:8px;font-size:13px;margin-left:auto}
+    .btn-news{background:var(--news-btn);color:#fff;text-decoration:none;display:inline-block;padding:10px 12px;border-radius:8px;font-size:13px;margin-left:auto; min-height:44px; min-width:110px;}
     .btn-news:hover{background:var(--news-btn-hover)}
-    .more-wrap{display:flex; justify-content:center; margin:16px 0}
-    #btnMais{min-width:180px}
+    .toggle-more{ margin-left:6px; background:none; border:0; color:var(--primary); cursor:pointer; font-size:12px; padding:4px 6px; line-height:1; }
+
+    /* Barra seleção */
     .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;
       padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:60}
     .toast.show{opacity:1}
@@ -82,13 +99,8 @@
     #dl-enviar{ background: var(--primary); color:#fff; } #dl-enviar:hover{ background:#264399; } #dl-enviar:disabled{ opacity:.5; filter:grayscale(.3) }
     #dl-limpar{ background: var(--muted-btn); color:#111; } #dl-limpar:hover{ background:#d6dae1 }
 
-    .toggle-more{
-      margin-left:6px; background:none; border:0; color:var(--primary); cursor:pointer; font-size:12px; padding:0;
-    }
-
     @media (max-width: 600px){
-      #filtroFonte{order:-1; width:100%}
-      .btn,.btn-alt{ padding:8px 12px; }
+      .actions{ gap:12px; }
     }
   </style>
 </head>
@@ -105,20 +117,17 @@
     </div>
   </header>
 
-  <div id="miniRelatorio" class="mini-relatorio"></div>
-
   <div class="wrap">
     <h2>Pesquisa de Conteúdo Jurídico</h2>
     <p>Digite um termo (artigo, súmula, jurisprudência ou palavra-chave) e clique em <b>Buscar</b>.</p>
 
     <div class="search-box">
-      <select id="filtroFonte" aria-label="Filtrar por fonte"></select>
-      <input id="busca" type="text" placeholder="Ex: artigo 5º, súmula 381, dano moral..." />
+      <input id="busca" type="text" placeholder="Ex: art. 150 CP, súmula 381, dano moral..." />
       <button id="btnBuscar">Buscar</button>
     </div>
 
-    <div id="resultados"></div>
-    <div class="more-wrap" style="display:none"><button id="btnMais" class="btn">Carregar mais</button></div>
+    <!-- Contêiner dos acordeões de categorias -->
+    <section id="categorias"></section>
   </div>
 
   <div id="toast" class="toast" aria-live="polite"></div>
@@ -132,12 +141,13 @@
 (function(){
   const $=(s,r=document)=>r.querySelector(s);
   const $$=(s,r=document)=>[...r.querySelectorAll(s)];
-  const resultados=$("#resultados"), busca=$("#busca"), btnBuscar=$("#btnBuscar");
-  const btnMais=$("#btnMais"), moreWrap=$(".more-wrap"), wrap=$(".wrap");
-  const miniRelatorio=$("#miniRelatorio"), filtroSelect=$("#filtroFonte");
+  const categoriasEl=$("#categorias");
+  const busca=$("#busca");
+  const btnBuscar=$("#btnBuscar");
+  const wrap=$(".wrap");
   const toast=(m,t=1600)=>{const el=$("#toast");el.textContent=m;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
 
-  // ------------------------ Normalização ------------------------
+  // ---------- Normalização e parsing jurídico ----------
   const norm=(s="")=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
   function normalizeLegal(s){
     let t=norm(s);
@@ -152,73 +162,47 @@
     return t;
   }
   const STOP=new Set(['de','da','do','das','dos','e','ou','a','o','as','os','no','na','nos','nas','para','por','em','um','uma','ao','à','que','com','sem','sobre','entre','ate']);
-
-  // Palavra inteira
   const esc=(s)=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-  function hasWhole(hay, word){
-    if(!word) return true;
-    const re=new RegExp(`(^|[^a-z0-9])${esc(word)}([^a-z0-9]|$)`,'i');
-    return re.test(hay);
-  }
+  function hasWhole(hay, word){ if(!word) return true; const re=new RegExp(`(^|[^a-z0-9])${esc(word)}([^a-z0-9]|$)`,'i'); return re.test(hay); }
   function hasAllWords(hay, words){ for(const w of words){ if(!hasWhole(hay,w)) return false; } return true; }
   const romanLower=(s='')=>String(s).replace(/[^ivxlcdm]/gi,'').toLowerCase();
 
-  // ------------------------ Parser de consulta jurídica ------------------------
   function parseLegalQuery(raw){
     const base = normalizeLegal(raw);
     const padded = ` ${base} `;
-
+    // Alias de códigos (mantemos só para reforçar tokens; não filtramos a fonte!)
     const alias=[
-      {re:/\b(cp|codigo penal)\b/, fonte:'codigo_penal'},
-      {re:/\b(cpp|codigo de processo penal)\b/, fonte:'codigo_processo_penal'},
-      {re:/\b(cc|codigo civil)\b/, fonte:'codigo_civil'},
-      {re:/\b(cpc|codigo de processo civil)\b/, fonte:'codigo_processo_civil'},
-      {re:/\b(ctn|codigo tributario nacional)\b/, fonte:'codigo_tributario_nacional'},
-      {re:/\b(cdc|codigo de defesa do consumidor)\b/, fonte:'codigo_defesa_consumidor'},
-      {re:/\b(ctb|codigo de transito brasileiro)\b/, fonte:'codigo_transito_brasileiro'}
+      {re:/\b(cp|codigo penal)\b/, tag:'cp'},
+      {re:/\b(cpp|codigo de processo penal)\b/, tag:'cpp'},
+      {re:/\b(cc|codigo civil)\b/, tag:'cc'},
+      {re:/\b(cpc|codigo de processo civil)\b/, tag:'cpc'},
+      {re:/\b(ctn|codigo tributario nacional)\b/, tag:'ctn'},
+      {re:/\b(cdc|codigo de defesa do consumidor)\b/, tag:'cdc'},
+      {re:/\b(ctb|codigo de transito brasileiro)\b/, tag:'ctb'}
     ];
-    let fonteFilter=null;
-    for(const a of alias){ if(a.re.test(padded)){ fonteFilter=a.fonte; break; } }
+    let tokens = base.split(' ').filter(Boolean).filter(t=>!STOP.has(t));
 
+    // extrair partes jurídicas (art, §, inciso, alínea, caput)
     let artNum=null; { const m=padded.match(/\bart\s*([0-9][0-9a-z\-]*)\b/); if(m) artNum=m[1]; }
     let paragrafo=null; { const m=padded.match(/\bparagrafo\s*(unico|\d+)\b/); if(m) paragrafo=m[1]; }
     let inciso=null; { const m=padded.match(/\binciso\s*([ivxlcdm]+)\b/); if(m) inciso=romanLower(m[1]); }
     let alinea=null; { const m=padded.match(/\balinea\s*([a-z])\b/); if(m) alinea=m[1].toLowerCase(); }
     const caput = /\bcaput\b/.test(padded);
 
-    let tokens = base.split(' ').filter(Boolean).filter(t=>!STOP.has(t));
-    if(fonteFilter){
-      const drop=new Set(['cp','cpp','cc','cpc','ctn','cdc','ctb','codigo','penal','processo','civil','defesa','consumidor','tributario','nacional','transito','brasileiro','do','da','de']);
-      tokens=tokens.filter(t=>!drop.has(t));
-    }
     const out=new Set(tokens);
     if(artNum){ out.add('art'); out.add(String(artNum)); }
     if(paragrafo){ out.add('paragrafo'); out.add(String(paragrafo)); }
     if(inciso){ out.add('inciso'); out.add(inciso); }
     if(alinea){ out.add('alinea'); out.add(alinea); }
     if(caput){ out.add('caput'); }
+    // não filtramos por código, mas manter tokens ajuda em matches
+    for(const a of alias){ if(a.re.test(padded)) out.add(a.tag); }
 
-    return { words:[...out], fonteFilter };
+    return { words:[...out] };
   }
 
-  // ------------------------ Dados & Fontes ------------------------
-  const MAX_SNIPPET=400, PAGE_SIZE=10;
-  const nomesAmigaveis={
-    noticias:'Notícias',
-    noticias_migalhas_1:'Notícias Migalhas',
-    noticias_migalhas_2:'Notícias Migalhas',
-    noticias_migalhas_3:'Notícias Migalhas',
-    sumula_stf:'Súmulas STF', sumulas_stj:'Súmulas STJ', sumulas_tse:'Súmulas TSE',
-    sumulas_vinculantes_stf:'Súmulas Vinculantes STF', temas_repetitivos_stj:'Temas Repetitivos STJ', teses_stf:'Teses STF',
-    codigo_tributario_nacional:'Código Tributário Nacional', codigo_penal:'Código Penal',
-    codigo_civil:'Código Civil', codigo_processo_penal:'Código de Processo Penal', codigo_processo_civil:'Código de Processo Civil',
-    julgados_direito_administrativo:'Julgados de Direito Administrativo', julgados_direito_ambiental:'Julgados de Direito Ambiental',
-    julgados_direito_bancario:'Julgados de Direito Bancário', julgados_direito_civil:'Julgados de Direito Civil',
-    julgados_direito_constitucional:'Julgados de Direito Constitucional', julgados_direito_eleitoral:'Julgados de Direito Eleitoral',
-    julgados_direito_empresarial:'Julgados de Direito Empresarial', codigo_defesa_consumidor:'Código de Defesa do Consumidor',
-    codigo_transito_brasileiro:'Código de Trânsito Brasileiro'
-  };
-  const arquivos=[
+  // ---------- Fontes, categorias e nomes ----------
+  const arquivos = [
     "data/julgados_direito_administrativo.json",
     "data/julgados_direito_ambiental.json",
     "data/julgados_direito_bancario.json",
@@ -243,11 +227,74 @@
     "data/codigo_defesa_consumidor.json",
     "data/codigo_transito_brasileiro.json"
   ];
+
+  const nomesAmigaveis = {
+    noticias: "Notícias",
+    noticias_migalhas_1: "Notícias Migalhas",
+    noticias_migalhas_2: "Notícias Migalhas",
+    noticias_migalhas_3: "Notícias Migalhas",
+    sumula_stf: "Súmulas STF",
+    sumulas_stj: "Súmulas STJ",
+    sumulas_tse: "Súmulas TSE",
+    sumulas_vinculantes_stf: "Súmulas Vinculantes STF",
+    temas_repetitivos_stj: "Temas Repetitivos STJ",
+    teses_stf: "Teses STF",
+    codigo_tributario_nacional: "Código Tributário Nacional",
+    codigo_penal: "Código Penal",
+    codigo_civil: "Código Civil",
+    codigo_processo_penal: "Código de Processo Penal",
+    codigo_processo_civil: "Código de Processo Civil",
+    julgados_direito_administrativo: "Julgados de Direito Administrativo",
+    julgados_direito_ambiental: "Julgados de Direito Ambiental",
+    julgados_direito_bancario: "Julgados de Direito Bancário",
+    julgados_direito_civil: "Julgados de Direito Civil",
+    julgados_direito_constitucional: "Julgados de Direito Constitucional",
+    julgados_direito_eleitoral: "Julgados de Direito Eleitoral",
+    julgados_direito_empresarial: "Julgados de Direito Empresarial",
+    codigo_defesa_consumidor: "Código de Defesa do Consumidor",
+    codigo_transito_brasileiro: "Código de Trânsito Brasileiro"
+  };
+
+  // Agrupamento em categorias (catId -> predicate e rótulo)
+  const catOrder = ["noticias", "codigos", "sumulas", "julgados", "temas_repetitivos_stj", "teses_stf", "outros"];
+  const categorias = {
+    noticias: {
+      label: "Notícias",
+      match: f => f.startsWith("noticias")
+    },
+    codigos: {
+      label: "Códigos",
+      match: f => f.startsWith("codigo_")
+    },
+    sumulas: {
+      label: "Súmulas",
+      match: f => f.startsWith("sumula") || f.startsWith("sumulas_") || f==="sumulas_vinculantes_stf"
+    },
+    julgados: {
+      label: "Julgados",
+      match: f => f.startsWith("julgados_")
+    },
+    temas_repetitivos_stj: {
+      label: "Temas Repetitivos STJ",
+      match: f => f==="temas_repetitivos_stj"
+    },
+    teses_stf: {
+      label: "Teses STF",
+      match: f => f==="teses_stf"
+    },
+    outros: {
+      label: "Outros",
+      match: f => true // fallback
+    }
+  };
+
+  const normalizarFonte = (f)=> f && f.startsWith('noticias') ? 'noticias' : f;
+
+  // ---------- Carregar base ----------
   const KEY='dl_pesquisa_selecionados';
   const getCarrinho=()=>JSON.parse(localStorage.getItem(KEY)||'[]');
   const setCarrinho=(a)=>localStorage.setItem(KEY, JSON.stringify(a));
   const dedupPush=(arr,item)=>{ const k=item.id||item._id||(item.fonte+':'+(item.texto||'').slice(0,50)); if(!arr.some(x=>x.id===k)) arr.push({...item,id:k}); return arr; };
-  const normalizarFonte=(f)=> f&&f.startsWith('noticias') ? 'noticias' : f;
 
   async function carregarDados(){
     const dados=[];
@@ -259,151 +306,202 @@
         (Array.isArray(j)?j:[]).forEach((it,idx)=>{
           const _id=it.id||`${tag}_${idx}`;
           const texto=(it.texto||'').trim();
-          dados.push({
-            ...it, _id, fonte:tag,
-            textoNorm: norm(texto),
-            textoLegal: normalizeLegal(texto)
-          });
+          dados.push({ ...it, _id, fonte:tag, textoNorm: norm(texto), textoLegal: normalizeLegal(texto) });
         });
       }catch(e){ console.warn('Erro ao carregar',arq,e); }
     }
     return dados;
   }
 
-  // ------------------------ UI auxiliares ------------------------
-  function popularFiltro(){
-    filtroSelect.innerHTML='';
-    filtroSelect.add(new Option('Todas as fontes','todas',true,true));
-    filtroSelect.add(new Option('Notícias (todas)','noticias',false,false));
-    const vistos=new Set();
-    for(const arq of arquivos){
-      const tag=arq.split('/').pop().replace(/\.json$/,'');
-      if(tag.startsWith('noticias')) continue;
-      if(vistos.has(tag)) continue; vistos.add(tag);
-      filtroSelect.add(new Option(nomesAmigaveis[tag]||tag, tag));
+  // ---------- Estado ----------
+  const MAX_SNIPPET=400, PAGE_SIZE=10;
+  let baseDados=[];
+
+  // ---------- Util: criar card ----------
+  function buildCard(item, carrinho){
+    const fNorm = normalizarFonte(item.fonte);
+    const nomeBonito = nomesAmigaveis[fNorm] || nomesAmigaveis[item.fonte] || item.fonte;
+
+    const div=document.createElement("div");
+    div.className="result";
+
+    const fonteP=document.createElement('div');
+    fonteP.className='filetag';
+    fonteP.textContent = nomeBonito;
+    div.appendChild(fonteP);
+
+    const p=document.createElement("p");
+    const txt=(item.texto||'').trim();
+    const isLong=txt.length>MAX_SNIPPET;
+    p.textContent=isLong?txt.substring(0,MAX_SNIPPET)+'…':txt;
+    div.appendChild(p);
+
+    if(isLong){
+      const tg=document.createElement('button'); tg.type='button'; tg.className='toggle-more';
+      tg.textContent='Ver mais'; tg.dataset.expanded='0';
+      tg.addEventListener('click',()=>{ const on=tg.dataset.expanded==='1';
+        if(on){ p.textContent=txt.substring(0,MAX_SNIPPET)+'…'; tg.textContent='Ver mais'; tg.dataset.expanded='0'; }
+        else { p.textContent=txt; tg.textContent='Ver menos'; tg.dataset.expanded='1'; }
+      }); p.after(tg);
     }
-  }
-  function ajustarSnapOffset(){
-    const top=$('.topbar'); const off=(top?.offsetHeight||0)+(miniRelatorio?.offsetHeight||0)+8;
-    document.documentElement.style.setProperty('--snap-offset', off+'px');
-  }
-  window.addEventListener('resize', ajustarSnapOffset);
 
-  // ------------------------ Estado (UMA SÓ declaração) ------------------------
-  let baseDados = [];
-  let lastResults = [];
-  let pageIndex = 0;
-  let firstByFonte = {};
+    const actions=document.createElement("div"); actions.className="actions";
 
-  // ------------------------ Renderização ------------------------
-  function renderMiniRelatorio(results){
-    const contagem=results.reduce((acc,it)=>{const f=normalizarFonte(it.fonte); acc[f]=(acc[f]||0)+1; return acc;}, {});
-    miniRelatorio.innerHTML='';
-    const goto=document.createElement('select'); goto.id='gotoFonte';
-    const ph=new Option('Ir para…','',true,true); ph.disabled=true; goto.add(ph);
-    Object.keys(contagem).sort((a,b)=>( (nomesAmigaveis[a]||a).localeCompare(nomesAmigaveis[b]||b) ))
-      .forEach(f=> goto.add(new Option(`${nomesAmigaveis[f]||f} — ${contagem[f]}`, f)) );
-    goto.addEventListener('change',()=>{
-      const f=goto.value; if(!f) return;
-      const idx=firstByFonte[f]; if(idx!==undefined){ const need=Math.floor(idx/PAGE_SIZE)+1; while(pageIndex<need){ renderBatch(true); } }
-      ajustarSnapOffset(); document.querySelector(`.result[data-fonte="${f}"]`)?.scrollIntoView({behavior:'smooth',block:'start'});
-      goto.selectedIndex=0;
+    const copyText = (item.texto && item.texto.trim())
+      ? item.texto
+      : [item.titulo || item.title || '', item.url || ''].filter(Boolean).join(' — ');
+
+    const copiar=document.createElement("button"); copiar.textContent='Copiar'; copiar.className='btn';
+    copiar.addEventListener("click",async()=>{ try{ await navigator.clipboard.writeText(copyText||''); toast('Copiado!'); }catch{ toast('Erro ao copiar.'); } });
+    actions.appendChild(copiar);
+
+    const sel=document.createElement("button"); sel.className='btn-alt';
+    const key = item.id || item._id || ( (item.fonte||'') + ':' + (copyText||'').slice(0,50) );
+    const sync=(on)=>{ sel.textContent=on?'Selecionado':'Selecionar'; sel.classList.toggle('is-selected',on); };
+    sync(carrinho.some(x=>x.id===key));
+    sel.addEventListener('click',()=>{
+      let arr=getCarrinho();
+      const obj={ id:key, fonte:item.fonte, texto: copyText };
+      if(arr.some(x=>x.id===key)){ arr=arr.filter(x=>x.id!==key); sync(false); }
+      else { arr=dedupPush(arr,obj); sync(true); }
+      setCarrinho(arr); updateBar();
     });
-    miniRelatorio.appendChild(goto);
-    miniRelatorio.style.display='flex';
-    ajustarSnapOffset();
-  }
+    actions.appendChild(sel);
 
-  function renderBatch(append=false){
-    const start=pageIndex*PAGE_SIZE, end=Math.min(lastResults.length,start+PAGE_SIZE);
-    if(!append) resultados.innerHTML='';
-    const carrinho=getCarrinho();
-    for(let i=start;i<end;i++){
-      const item=lastResults[i], fNorm=normalizarFonte(item.fonte);
-      const div=document.createElement('div'); div.className='result'; div.setAttribute('data-fonte', fNorm);
-
-      const fonteP=document.createElement('p'); fonteP.className='filetag';
-      fonteP.innerHTML=`<strong>${nomesAmigaveis[fNorm]||nomesAmigaveis[item.fonte]||item.fonte}</strong>`;
-      div.appendChild(fonteP);
-
-      const p=document.createElement('p'); const txt=(item.texto||'').trim();
-      const isLong=txt.length>MAX_SNIPPET; p.textContent=isLong?txt.substring(0,MAX_SNIPPET)+'…':txt; div.appendChild(p);
-      if(isLong){
-        const tg=document.createElement('button'); tg.type='button'; tg.className='toggle-more';
-        tg.textContent='Ver mais'; tg.dataset.expanded='0';
-        tg.addEventListener('click',()=>{ const on=tg.dataset.expanded==='1';
-          if(on){ p.textContent=txt.substring(0,MAX_SNIPPET)+'…'; tg.textContent='Ver mais'; tg.dataset.expanded='0'; }
-          else { p.textContent=txt; tg.textContent='Ver menos'; tg.dataset.expanded='1'; }
-        }); p.after(tg);
-      }
-
-      const actions=document.createElement('div'); actions.className='actions';
-      if(item.url){
-        const a=document.createElement('a'); a.textContent='Ver notícia'; a.href=item.url; a.target='_blank'; a.rel='noopener noreferrer'; a.className='btn-news'; actions.appendChild(a);
-      }else{
-        const copiar=document.createElement('button'); copiar.textContent='Copiar'; copiar.className='btn';
-        copiar.addEventListener('click',async()=>{ try{ await navigator.clipboard.writeText(item.texto||''); toast('Copiado!'); }catch{ toast('Erro ao copiar.'); } });
-        const sel=document.createElement('button'); sel.className='btn-alt';
-        const key=item.id||item._id; const sync=(on)=>{ sel.textContent=on?'Selecionado':'Selecionar'; sel.classList.toggle('is-selected',on); };
-        sync(carrinho.some(x=>x.id===key));
-        sel.addEventListener('click',()=>{ let arr=getCarrinho(); const obj={id:key,fonte:item.fonte,texto:item.texto};
-          if(arr.some(x=>x.id===key)){ arr=arr.filter(x=>x.id!==key); sync(false); } else { arr=dedupPush(arr,obj); sync(true); }
-          setCarrinho(arr); updateBar();
-        });
-        actions.appendChild(copiar); actions.appendChild(sel);
-      }
-      div.appendChild(actions); resultados.appendChild(div);
+    if(item.url){
+      const a=document.createElement('a'); a.textContent='Ver notícia'; a.href=item.url; a.target='_blank'; a.rel='noopener noreferrer'; a.className='btn-news';
+      actions.appendChild(a);
     }
-    pageIndex++; moreWrap.style.display = (pageIndex*PAGE_SIZE < lastResults.length) ? 'flex' : 'none'; updateBar();
+
+    div.appendChild(actions);
+    return div;
   }
 
-  function updateBar(){ const hasSel=getCarrinho().length>0; $('#dl-enviar').disabled=!hasSel; toggleBar(hasSel); }
-  function toggleBar(show){ const bar=$('#dl-bar-selecao'); bar.style.display=show?'flex':'none'; wrap.style.paddingBottom=show?`calc(var(--bar-h) + 16px + var(--safe-bottom))`:'22px'; }
+  // ---------- Render categorias (acordeões) ----------
+  function groupResults(items){
+    // monta buckets por categoria
+    const groups = {};
+    for(const id of Object.keys(categorias)){
+      groups[id] = { label: categorias[id].label, items: [], rendered: 0 };
+    }
+    items.forEach(it=>{
+      const f = it.fonte || '';
+      let bucket = 'outros';
+      for(const id of Object.keys(categorias)){
+        if(id==='outros') continue;
+        if(categorias[id].match(f)){ bucket=id; break; }
+      }
+      groups[bucket].items.push(it);
+    });
+    // remove vazios e ordena categorias por count desc (com ordem base como desempate)
+    const list = Object.entries(groups)
+      .filter(([,g])=>g.items.length>0)
+      .sort((a,b)=>{
+        const diff = b[1].items.length - a[1].items.length;
+        if(diff!==0) return diff;
+        return catOrder.indexOf(a[0]) - catOrder.indexOf(b[0]);
+      });
+    return Object.fromEntries(list);
+  }
 
-  // ------------------------ Busca ------------------------
+  function renderCategorias(groups){
+    categoriasEl.innerHTML='';
+    const entries = Object.entries(groups);
+    if(entries.length===0){
+      categoriasEl.innerHTML = '<p>Nenhum resultado encontrado.</p>';
+      return;
+    }
+    let firstOpened = false;
+    for(const [catId, group] of entries){
+      const det = document.createElement('details');
+      det.className='cat';
+      det.dataset.cat = catId;
+
+      const sum = document.createElement('summary');
+      const title = document.createElement('span'); title.textContent = group.label;
+      const count = document.createElement('span'); count.className='cat-count'; count.textContent = group.items.length;
+      sum.appendChild(title); sum.appendChild(count);
+      det.appendChild(sum);
+
+      const body = document.createElement('div'); body.className='cat-body';
+      const more = document.createElement('div'); more.className='cat-more';
+      const moreBtn = document.createElement('button'); moreBtn.className='btn'; moreBtn.textContent='Carregar mais';
+      more.appendChild(moreBtn);
+      more.style.display='none';
+
+      det.appendChild(body);
+      det.appendChild(more);
+
+      // render por demanda
+      function renderBatch(append=false){
+        const carrinho=getCarrinho();
+        const start = group.rendered;
+        const end = Math.min(group.items.length, start+PAGE_SIZE);
+        if(!append){ body.innerHTML=''; }
+        for(let i=start;i<end;i++){
+          const card = buildCard(group.items[i], carrinho);
+          body.appendChild(card);
+        }
+        group.rendered = end;
+        more.style.display = (group.rendered < group.items.length) ? 'flex' : 'none';
+      }
+
+      det.addEventListener('toggle', ()=>{
+        if(det.open && group.rendered===0){
+          renderBatch(false);
+        }
+      });
+      moreBtn.addEventListener('click', ()=> renderBatch(true) );
+
+      categoriasEl.appendChild(det);
+
+      // abre a primeira automaticamente
+      if(!firstOpened){ det.open = true; firstOpened = true; }
+    }
+  }
+
+  // ---------- Barra seleção ----------
+  function updateBar(){
+    const hasSel = getCarrinho().length>0;
+    $('#dl-enviar').disabled=!hasSel;
+    toggleBar(hasSel);
+  }
+  function toggleBar(show){
+    const bar=$('#dl-bar-selecao');
+    bar.style.display=show?'flex':'none';
+    wrap.style.paddingBottom = show ? `calc(var(--bar-h) + 16px + var(--safe-bottom))` : '22px';
+  }
+  $('#dl-enviar').addEventListener('click', ()=>{ window.location.href='index.html#pesquisa'; });
+  $('#dl-limpar').addEventListener('click', ()=>{ localStorage.removeItem(KEY); updateBar(); });
+
+  // ---------- Busca ----------
   async function executarBusca(){
     const termoRaw=busca.value.trim();
-    resultados.innerHTML=''; moreWrap.style.display='none'; pageIndex=0;
-    if(!termoRaw){ miniRelatorio.style.display='none'; toggleBar(false); return; }
+    categoriasEl.innerHTML='';
+    if(!termoRaw){ toggleBar(getCarrinho().length>0); return; }
     btnBuscar.disabled=true; document.body.style.cursor='progress';
     try{
-      const {words, fonteFilter} = parseLegalQuery(termoRaw);
-      const filtroVal=filtroSelect.value;
+      const { words } = parseLegalQuery(termoRaw);
 
-      lastResults = baseDados.filter(x=>{
-        const fNorm=normalizarFonte(x.fonte);
-        const fonteOkUI = (filtroVal==='todas') ? true
-                        : (filtroVal==='noticias' ? fNorm==='noticias' : x.fonte===filtroVal);
-        if(!fonteOkUI) return false;
-        if(fonteFilter && fNorm!==fonteFilter) return false;
-
+      // busca SEM filtrar por fonte (sempre em tudo)
+      const all = baseDados.filter(x=>{
         const hay = x.textoLegal || x.textoNorm;
         return hasAllWords(hay, words);
       });
 
-      firstByFonte = {}; // <-- apenas reatribui, sem let
-      for(let i=0;i<lastResults.length;i++){ const f=normalizarFonte(lastResults[i].fonte); if(firstByFonte[f]===undefined) firstByFonte[f]=i; }
-
-      if(!lastResults.length){
-        resultados.innerHTML='<p>Nenhum resultado encontrado.</p>'; miniRelatorio.style.display='none'; toggleBar(getCarrinho().length>0);
-      }else{
-        renderMiniRelatorio(lastResults); renderBatch(false);
-      }
-    }finally{ btnBuscar.disabled=false; document.body.style.cursor=''; }
+      const groups = groupResults(all);
+      renderCategorias(groups);
+      updateBar();
+    }finally{
+      btnBuscar.disabled=false; document.body.style.cursor='';
+    }
   }
 
-  // ------------------------ Eventos & Boot ------------------------
+  // ---------- Eventos ----------
   btnBuscar.addEventListener('click', executarBusca);
-  $("#btnMais").addEventListener('click', ()=>renderBatch(true));
   busca.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); executarBusca(); } });
 
-  $('#dl-enviar').addEventListener('click', ()=>{ window.location.href='index.html#pesquisa'; });
-  $('#dl-limpar').addEventListener('click', ()=>{ localStorage.removeItem(KEY); updateBar();
-    [...$$('.btn-alt.is-selected', resultados)].forEach(b=>b.classList.remove('is-selected'));
-    [...$$('.btn-alt', resultados)].forEach(b=>{ if(b.textContent==='Selecionado') b.textContent='Selecionar'; });
-  });
-
-  popularFiltro();
+  // ---------- Boot ----------
   carregarDados().then(d=>{ baseDados=d; toast('Base carregada com sucesso!'); });
 
 })();
