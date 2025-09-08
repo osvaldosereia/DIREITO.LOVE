@@ -81,6 +81,12 @@
     #dl-bar-selecao button{border:0; padding:8px 12px; border-radius:10px; cursor:pointer; pointer-events:auto;}
     #dl-enviar{ background: var(--primary); color:#fff; } #dl-enviar:hover{ background:#264399; } #dl-enviar:disabled{ opacity:.5; filter:grayscale(.3) }
     #dl-limpar{ background: var(--muted-btn); color:#111; } #dl-limpar:hover{ background:#d6dae1 }
+
+    /* botão Ver mais/Ver menos */
+    .toggle-more{
+      margin-left:6px; background:none; border:0; color:var(--primary); cursor:pointer; font-size:12px; padding:0;
+    }
+
     @media (max-width: 600px){
       #filtroFonte{order:-1; width:100%}
       .btn,.btn-alt{ padding:8px 12px; }
@@ -294,20 +300,50 @@
     for(let i=start;i<end;i++){
       const item = lastResults[i];
       const fNorm = normalizarFonte(item.fonte);
+
       const div=document.createElement("div");
       div.className="result";
       div.setAttribute('data-fonte', fNorm);
+
       const fonteP=document.createElement('p');
       fonteP.className='filetag';
       const nomeBonito = nomesAmigaveis[fNorm] || nomesAmigaveis[item.fonte] || item.fonte;
       fonteP.innerHTML=`<strong>${nomeBonito}</strong>`;
       div.appendChild(fonteP);
+
       const p=document.createElement("p");
       const txt=(item.texto||'').trim();
-      p.textContent = txt.length>MAX_SNIPPET ? (txt.substring(0,MAX_SNIPPET)+"...") : txt;
+
+      // ====== Opção 2: Ver mais / Ver menos ======
+      const isLong = txt.length > MAX_SNIPPET;
+      p.textContent = isLong ? (txt.substring(0, MAX_SNIPPET) + "…") : txt;
       div.appendChild(p);
+
+      if (isLong) {
+        const toggle = document.createElement("button");
+        toggle.type = "button";
+        toggle.className = "toggle-more";
+        toggle.textContent = "Ver mais";
+        toggle.setAttribute("data-expanded","0");
+        toggle.addEventListener("click", () => {
+          const expanded = toggle.getAttribute("data-expanded") === "1";
+          if (expanded) {
+            p.textContent = txt.substring(0, MAX_SNIPPET) + "…";
+            toggle.textContent = "Ver mais";
+            toggle.setAttribute("data-expanded","0");
+          } else {
+            p.textContent = txt;
+            toggle.textContent = "Ver menos";
+            toggle.setAttribute("data-expanded","1");
+          }
+        });
+        p.after(toggle);
+      }
+      // ===========================================
+
       const actions=document.createElement("div");
       actions.className="actions";
+
       if(item.url){
         const verNoticia=document.createElement("a");
         verNoticia.textContent="Ver notícia";
@@ -323,6 +359,7 @@
           try{await navigator.clipboard.writeText(item.texto||'');toast("Copiado!");}
           catch{toast("Erro ao copiar.");}
         });
+
         const selBtn=document.createElement("button");
         selBtn.className="btn-alt";
         const key=item.id||item._id;
@@ -336,9 +373,11 @@
           else { arr = dedupPush(arr, obj); syncBtn(true); }
           setCarrinho(arr); updateBar();
         });
+
         actions.appendChild(copiar);
         actions.appendChild(selBtn);
       }
+
       div.appendChild(actions);
       resultados.appendChild(div);
     }
