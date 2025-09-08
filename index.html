@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>direito.love</title>
+  <meta name="theme-color" content="#F5C400" />
+
+  <!-- SEO -->
+  <meta name="description" content="direito.love — Criador de Prompts para estudo jurídico, OAB e concursos." />
+  <meta name="keywords" content="direito, OAB, concursos, súmulas, jurisprudência, estudo jurídico" />
+  <meta name="author" content="direito.love" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="favicon-180.png" />
+
+  <!-- Manifest -->
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    :root{
+      --bg:#FFFDF0; --surface:#ffffff; --text:#001840; --border:#e5e7eb;
+      --primary:#102A71; --highlight:#F5C400; --highlight-light:#FFDC5F;
+      --radius:10px; --shadow:0 4px 16px rgba(0,0,0,.05);
+      --gap:16px; --aside-width:420px; --prompt-width:400px;
+      --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font:400 15px/1.3 var(--font);}
+
+    /* ===== TOPBAR (igual à Pesquisa) ===== */
+    .topbar{
+      position:sticky; top:0; z-index:100;
+      background:var(--highlight);
+      border-bottom:1px solid rgba(0,0,0,.08);
+      transition: box-shadow .18s ease, padding .18s ease;
+    }
+    .topbar.is-scrolled{ box-shadow:0 6px 18px rgba(0,0,0,.08); }
+    .topbar__inner{
+      max-width:1160px; margin:0 auto;
+      padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .topbar.is-scrolled .topbar__inner{ padding:8px 16px; }
+    .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; color:#111; }
+    .brand__logo{ height:36px; width:auto; display:block; }
+
+    .topbar__actions{ display:flex; align-items:center; gap:8px; }
+    .chip{
+      padding:6px 14px; border-radius:20px; background:#fff; border:1px solid var(--border);
+      font-size:13px; color:var(--primary); text-decoration:none; font-weight:500; transition:.15s
+    }
+    .chip:hover{ background:var(--highlight-light) }
+    .chip[aria-current="page"]{ background:#fffbe1; border-color:#e6d375 }
+
+    .pill-btn{
+      appearance:none; border:1px solid rgba(0,0,0,.1);
+      background:#fff; color:#111; padding:8px 12px; border-radius:999px; cursor:pointer;
+      font:600 13px/1 var(--font);
+      transition: background .15s ease, transform .12s ease;
+    }
+    .pill-btn:hover{ background:#f6f6f6; transform:translateY(-1px); }
+    .pill-btn.hidden{ display:none; }
+
+    @media (max-width:640px){
+      .topbar__inner{ padding:8px 12px; }
+    }
+
+    /* ===== LAYOUT ===== */
+    .wrap{display:grid;gap:var(--gap);grid-template-columns:1fr;padding:18px;max-width:1400px;margin:0 auto}
+    @media(min-width:1100px){.wrap{grid-template-columns:minmax(0,1fr) var(--aside-width);align-items:start}}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .builder{padding:18px}
+    .builder h2{margin:0 0 12px;font-size:20px;font-weight:700;color:var(--primary)}
+    label[for=tema],.section-title{font-size:14px;color:var(--primary);margin:8px 0}
+    #tema{width:100%;border:2px solid var(--primary);background:#fdfdfd;color:var(--text);
+      padding:10px 12px;border-radius:8px;font-size:15px;outline:none;}
+    #tema::placeholder{color:#9aa3af}
+    .sessao-lista{display:grid;grid-template-columns:1fr;gap:4px;margin:10px 0;padding:0;list-style:none}
+    @media(min-width:900px){.sessao-lista{grid-template-columns:1fr 1fr;column-gap:20px}}
+    .sessao-lista li{display:flex;align-items:center;gap:6px;padding:2px 0;font-size:14px}
+    .sessao-lista input[type=checkbox]{accent-color:var(--primary);cursor:pointer}
+    .sessao-lista label{cursor:pointer}
+    .actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+    .btn{appearance:none;border:none;background:var(--highlight);color:#000;padding:9px 14px;border-radius:8px;font-size:14px;cursor:pointer;transition:.15s}
+    .btn:hover{background:var(--highlight-light)}
+    .btn.primary{background:var(--primary);color:#fff;font-weight:700}
+    .btn.primary:hover{background:#264399}
+
+    .aside{position:sticky;top:56px;padding:12px}
+    .stack{max-width:var(--prompt-width);margin:0 auto}
+
+    /* Área de anúncio: fica escondida quando não há ad */
+    .ad{ display:none; margin-bottom:12px; }
+    .ad .box{
+      width:min(var(--prompt-width),100%); aspect-ratio:400/180;
+      border:1px dashed var(--border); border-radius:10px;
+      background:#fff; color:#999; display:flex;
+      align-items:center; justify-content:center; font-size:13px;
+    }
+
+    textarea#saida{
+      width:min(var(--prompt-width),100%);min-height:30vh;resize:vertical;padding:10px 12px;border-radius:8px;border:1px solid var(--border);
+      background:#fff;color:#001840;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13.5px;display:block;margin:0 auto
+    }
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:60}
+    .toast.show{opacity:1}
+    .info{margin-top:6px;font-size:12px;color:#666}
+  </style>
+</head>
+<body>
+  <!-- TOPBAR -->
+  <header class="topbar" role="banner">
+    <div class="topbar__inner">
+      <a class="brand" href="index.html" aria-label="Início">
+        <img class="brand__logo" src="icons/logo.png" alt="direito.love" />
+      </a>
+      <nav class="topbar__actions" aria-label="Ações">
+        <a class="chip" href="index.html" aria-current="page">Prompt</a>
+        <a class="chip" href="pesquisa.html">Pesquisar</a>
+        <button id="btn-install" class="pill-btn hidden" aria-label="Instalar app">Instalar app</button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <main class="builder card">
+      <h2>Criador de Prompts para Estudantes de Direito</h2>
+      <label for="tema">Tema</label>
+      <input id="tema" maxlength="120" placeholder="Digite aqui o Tema. Seja específico." autocomplete="off" />
+      <div class="section-title"><b>Selecione como quer estudar:</b></div>
+      <ul class="sessao-lista" id="sessao-lista">
+        <li><input type="checkbox" id="s1"><label for="s1">Conceitos e Definições</label></li>
+        <li><input type="checkbox" id="s2"><label for="s2">Base Legal Essencial</label></li>
+        <li><input type="checkbox" id="s3"><label for="s3">Jurisprudência Majoritária</label></li>
+        <li><input type="checkbox" id="s4"><label for="s4">Doutrina Relevante</label></li>
+        <li><input type="checkbox" id="s5"><label for="s5">Exemplos e Casos Práticos</label></li>
+        <li><input type="checkbox" id="s6"><label for="s6">Quadro Comparativo</label></li>
+        <li><input type="checkbox" id="s7"><label for="s7">Questões de Fixação</label></li>
+        <li><input type="checkbox" id="s8"><label for="s8">Debates, Críticas e Tendências</label></li>
+        <li><input type="checkbox" id="s9"><label for="s9">Súmulas e Enunciados</label></li>
+        <li><input type="checkbox" id="s10"><label for="s10">Estrutura de Peça / Modelos</label></li>
+        <li><input type="checkbox" id="s11"><label for="s11">Checklist de Peça</label></li>
+        <li><input type="checkbox" id="s12"><label for="s12">Raciocínio Jurídico (passo a passo)</label></li>
+        <li><input type="checkbox" id="s13"><label for="s13">Mapa Mental</label></li>
+        <li><input type="checkbox" id="s14"><label for="s14">Flashcards</label></li>
+        <li><input type="checkbox" id="s15"><label for="s15">Erros Comuns</label></li>
+        <li><input type="checkbox" id="s16"><label for="s16">Checklist Final de Revisão</label></li>
+        <li><input type="checkbox" id="s17"><label for="s17">Casos Famosos / Leading Cases</label></li>
+        <li><input type="checkbox" id="s18"><label for="s18">Atualizações Recentes</label></li>
+        <li><input type="checkbox" id="s19"><label for="s19">Dicas de Prova (OAB/Concursos)</label></li>
+        <li><input type="checkbox" id="s20"><label for="s20">Referências Bibliográficas</label></li>
+      </ul>
+      <div class="actions">
+        <button id="criar" class="btn primary" disabled>Criar Prompt</button>
+        <button id="limpar" class="btn">Limpar</button>
+      </div>
+      <div class="info">Selecione as sessões que deseja incluir no prompt.</div>
+    </main>
+
+    <aside class="aside card">
+      <div class="stack">
+        <!-- Ad container: fica oculto se não houver anúncio carregado -->
+        <div class="ad" id="ad-container"><div class="box" id="ad-box"></div></div>
+
+        <textarea id="saida" readonly placeholder="(vazio)"></textarea>
+        <div class="actions" style="margin:10px auto 0;width:min(var(--prompt-width),100%);">
+          <button id="copiar2" class="btn">Copiar</button>
+          <button id="novo2" class="btn">Novo</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ===== app.js ===== */
+(function(){
+  const $=(s,r=document)=>r.querySelector(s);
+  const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+  const toast=(msg,t=1600)=>{const el=$("#toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
+
+  const BASE_PROMPT = `Você deve assumir a persona de um **professor especialistas em todas as áreas do Direito brasileiro**, voce possui uma didática impecável, e foi convidado pelo **direito.love** para auxiliar estudante de direito em questão (se souber o nome dele pode usar).
+
+📌 Tema escolhido: [INSERIR TEMA AQUI]
+📌 Sessões a serem seguidas: [INSERIR AQUI A SEQUÊNCIA DE SESSÕES DEFINIDA PELO USUÁRIO]
+
+---
+
+### Regras obrigatórias de escrita:
+
+1. **Seguir exatamente a sequência de sessões definida pelo usuário.**
+   - Nenhuma sessão pode ser omitida.
+   - Cada sessão deve ser aberta com um **título claro** e, se necessário, subtítulos.
+
+2. **Entrega por blocos:**
+   - Apresentar no máximo **3 sessões por vez**.
+   - Ao final de cada bloco, perguntar:
+     ➡️ “Deseja que eu continue para as próximas sessões?”
+   - Só prossiga após autorização.
+
+3. **Formatação:**
+   - Usar uma **linha separadora (---)** para dividir os blocos.
+   - Estruturar o conteúdo em **parágrafos curtos e claros**.
+   - Quando houver quadro comparativo, **organizar em tabela textual simples**.
+   - Quando houver questões, numerá-las (1, 2, 3…) e apresentar alternativas (A, B, C, D, E), logo após incluir gabarito comentado.
+   - Base legal deve vir unicamente do Planalto Governo.
+   - Evite números de julgados; apresente apenas entendimentos.
+   
+4. **Linguagem:**
+   - Clara, simples e didática, mas mantendo rigor jurídico.
+
+---
+
+### Encerramento:
+Ao finalizar todas as sessões solicitadas, conclua sempre com:
+
+💚 direito.love`;
+
+  const temaEl=$("#tema"),criarBtn=$("#criar"),limparBtn=$("#limpar"),saida=$("#saida"),copiar2=$("#copiar2"),novo2=$("#novo2");
+
+  function updateCTA(){
+    const checked=[...$$(".sessao-lista input:checked")];
+    criarBtn.disabled=!(temaEl.value.trim()&&checked.length);
+  }
+
+  // Prefill: localStorage (vindo da pesquisa) e querystring (?tema=)
+  function prefillTema(){
+    const ls = localStorage.getItem("temaSelecionado");
+    if (ls) { temaEl.value = ls; localStorage.removeItem("temaSelecionado"); }
+    const qs = new URLSearchParams(location.search).get("tema");
+    if (qs && !temaEl.value) temaEl.value = qs;
+    updateCTA();
+  }
+
+  prefillTema();
+
+  temaEl.addEventListener("input",updateCTA);
+  $$(".sessao-lista input").forEach(cb=>cb.addEventListener("change",updateCTA));
+
+  criarBtn.addEventListener("click",()=>{
+    const tema=temaEl.value.trim();
+    const checked=[...$$(".sessao-lista input:checked")].map(cb=>cb.nextElementSibling.textContent);
+    if(!tema){toast("Digite um tema.");return;}
+    if(!checked.length){toast("Selecione ao menos 1 sessão.");return;}
+    const prompt=BASE_PROMPT
+      .replace("[INSERIR TEMA AQUI]",tema)
+      .replace("[INSERIR AQUI A SEQUÊNCIA DE SESSÕES DEFINIDA PELO USUÁRIO]",checked.join(" → "));
+    saida.value=prompt;toast("Prompt criado!");
+  });
+
+  limparBtn.addEventListener("click",()=>{
+    temaEl.value="";saida.value="";
+    $$(".sessao-lista input").forEach(cb=>cb.checked=false);
+    updateCTA();toast("Tudo limpo.");
+  });
+
+  copiar2.addEventListener("click",async()=>{
+    const text=saida.value;if(!text.trim()){toast("Nada para copiar.");return;}
+    try{await navigator.clipboard.writeText(text);toast("Copiado!");}
+    catch(e){toast("Erro ao copiar.");}
+  });
+
+  novo2.addEventListener("click",()=>{
+    temaEl.value="";saida.value="";
+    $$(".sessao-lista input").forEach(cb=>cb.checked=false);
+    updateCTA();toast("Pronto para novo tema.");temaEl.focus();window.scrollTo({top:0,behavior:"smooth"});
+  });
+
+  temaEl.addEventListener("keydown",e=>{
+    if(e.key==="Enter"&&!criarBtn.disabled){e.preventDefault();criarBtn.click();}
+  });
+})();
+
+/* ===== topbar.js (sombra no scroll + PWA install + chip ativo) ===== */
+(function(){
+  const header = document.querySelector('.topbar');
+  const installBtn = document.getElementById('btn-install');
+  let deferredPrompt = null;
+
+  const onScroll = () => {
+    if (window.scrollY > 2) header.classList.add('is-scrolled');
+    else header.classList.remove('is-scrolled');
+  };
+  window.addEventListener('scroll', onScroll, { passive:true });
+  onScroll();
+
+  // marca chip ativo automaticamente
+  (function markActive(){
+    const here = location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.topbar__actions .chip').forEach(a=>{
+      const href = a.getAttribute('href') || '';
+      if (here === href) a.setAttribute('aria-current','page');
+      else a.removeAttribute('aria-current');
+    });
+  })();
+
+  // PWA install
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault(); deferredPrompt = e;
+    installBtn?.classList.remove('hidden');
+  });
+  installBtn?.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    try{ await deferredPrompt.userChoice; }catch{}
+    deferredPrompt = null; installBtn.classList.add('hidden');
+  });
+})();
+
+/* ===== Ad visibility (esconde quando não há anúncio) ===== */
+(function(){
+  const $=(s,r=document)=>r.querySelector(s);
+  const adContainer = $('#ad-container');
+  const adBox = $('#ad-box');
+
+  function hasLoadedAd(){
+    if (!adBox) return false;
+    // Adsense default slot
+    const ins = adBox.querySelector('ins.adsbygoogle');
+    if (ins && ins.offsetHeight > 0 && ins.offsetWidth > 0) return true;
+    // Iframe ou qualquer conteúdo de rede de ads
+    if (adBox.querySelector('iframe')) return true;
+    // Qualquer nó visível adicionado
+    for (const el of adBox.children){
+      const r = el.getBoundingClientRect();
+      if (r.width > 0 && r.height > 0) return true;
+    }
+    return false;
+  }
+
+  function updateVisibility(){
+    if (!adContainer) return;
+    adContainer.style.display = hasLoadedAd() ? 'block' : 'none';
+  }
+
+  // Observa mudanças (ads carregam assíncrono)
+  if (adBox){
+    const obs = new MutationObserver(updateVisibility);
+    obs.observe(adBox, {childList:true, subtree:true, attributes:true});
+    // checagens de segurança
+    setTimeout(updateVisibility, 200);
+    setTimeout(updateVisibility, 1500);
+  }
+})();
+</script>
+
+<script>
+/* Service Worker */
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js")
+    .then(() => console.log("✅ Service Worker registrado"))
+    .catch(err => console.warn("Erro SW:", err));
+}
+</script>
+
+<script>
+/* direito.love — index-importa-pesquisa.js (receber múltiplos achados, texto ou links) */
+(() => {
+  const KEY = 'dl_pesquisa_selecionados';
+  const $ = (s, r=document)=>r.querySelector(s);
+  const get = () => JSON.parse(localStorage.getItem(KEY) || '[]');
+  const set = (arr) => localStorage.setItem(KEY, JSON.stringify(arr));
+  const firstLine = (s='') => String(s).split('\n')[0].trim();
+
+  // Descobre campo do prompt/composer de forma resiliente
+  const findPromptField = () =>
+    $('#prompt') ||
+    $('#composer textarea') ||
+    document.querySelector('textarea[name="prompt"]') ||
+    $('#tema') ||
+    document.querySelector('textarea') ||
+    document.querySelector('input[type="text"]');
+
+  const renderBox = (items) => {
+    if (!items.length || $('#dl-box-achados')) return;
+
+    const box = document.createElement('section');
+    box.id = 'dl-box-achados';
+    box.innerHTML = `
+      <style>
+        #dl-box-achados{
+          margin:16px 0; padding:14px; border:1px solid #e5e5e5; border-radius:12px; background:#fafafa;
+          font: 500 14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Arial;
+        }
+        #dl-box-achados h3{ margin:0 0 8px 0; font-size:15px; }
+        #dl-box-achados ul{ margin:0 0 10px 18px; padding:0; }
+        #dl-box-achados li{ margin:4px 0; }
+        #dl-box-achados .actions{ display:flex; gap:8px; }
+
+        /* Destaque dos botões */
+        #dl-inserir{
+          border:1px solid #148d3f; background:#16a34a; color:#fff; padding:8px 12px; border-radius:10px; cursor:pointer;
+        }
+        #dl-inserir:hover{ background:#22c55e; }
+        #dl-limpar{
+          border:1px solid #dc2626; background:#ef4444; color:#fff; padding:8px 12px; border-radius:10px; cursor:pointer;
+        }
+        #dl-limpar:hover{ background:#f87171; }
+      </style>
+      <h3>🔎 Achados da pesquisa (${items.length})</h3>
+      <ul>
+        ${items.map(i => {
+          if (i.texto) {
+            const tag = (i.fonte||'').toUpperCase();
+            return `<li><strong>${tag}</strong> — ${firstLine(i.texto)}</li>`;
+          } else {
+            return `<li>${i.title ? i.title+' — ' : ''}${i.url ? `<a href="${i.url}" target="_blank" rel="noopener">${i.url}</a>` : ''}</li>`;
+          }
+        }).join('')}
+      </ul>
+      <div class="actions">
+        <button id="dl-inserir">Inserir no prompt</button>
+        <button id="dl-limpar">Descartar</button>
+      </div>
+    `;
+
+    const field=findPromptField();
+    const parent=(field&&field.closest&&field.closest('form, section, main'))||document.body;
+    parent.insertBefore(box, parent.firstChild);
+
+    $('#dl-inserir').addEventListener('click', () => {
+      const f = findPromptField();
+      const bloco = items.map(i => {
+        if (i.texto) {
+          const tag = (i.fonte||'').toUpperCase();
+          return `${tag ? `**${tag}**\n` : ''}${i.texto}`;
+        } else {
+          return `- ${i.title || ''}${i.title && i.url ? ' — ' : ''}${i.url || ''}`;
+        }
+      }).join("\n\n");
+
+      if (f) {
+        const sep = (f.value||'').trim() ? '\n\n' : '';
+        f.value = (f.value || '') + sep + '🔎 Achados da pesquisa:\n' + bloco + '\n';
+        f.focus();
+        localStorage.removeItem(KEY);
+        document.getElementById('dl-box-achados')?.remove();
+      } else {
+        alert("Campo de prompt não encontrado. Cole manualmente:\n\n" + bloco);
+      }
+    });
+
+    document.getElementById('dl-limpar').addEventListener('click', () => {
+      localStorage.removeItem(KEY);
+      document.getElementById('dl-box-achados')?.remove();
+    });
+  };
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const itens = get();
+    if (location.hash === '#pesquisa' || itens.length) {
+      const uniq=[]; const seen=new Set();
+      itens.forEach(i => {
+        const k = i.id || (i.fonte+':'+(i.texto||'' ).slice(0,50));
+        if(!seen.has(k)){ seen.add(k); uniq.push(i); }
+      });
+      set(uniq);
+      renderBox(uniq);
+    }
+  });
+})();
+</script>
+
+<style>
+  /* Só no mobile (até 480px) */
+  @media (max-width: 480px){
+    #dl-box-achados{ font-size:11px !important; line-height:1.35 !important; }
+    #dl-box-achados h3{ font-size:12px !important; }
+    #dl-box-achados li{ line-height:1.35 !important; }
+  }
+</style>
+
+</body>
+</html>
