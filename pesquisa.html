@@ -18,17 +18,13 @@
       --primary:#102A71; --highlight:#F5C400; --highlight-light:#FFDC5F;
       --radius:10px; --shadow:0 4px 16px rgba(0,0,0,.05);
       --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
-
       --safe-bottom: env(safe-area-inset-bottom, 0px);
       --bar-h: 64px;
-
       --success:#16a34a;
       --muted-btn:#e5e7eb;
     }
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);color:var(--text);font:400 13px/1.4 var(--font);}
-
-    /* TOPBAR */
     .topbar{position:sticky; top:0; z-index:100; background:var(--highlight); border-bottom:1px solid rgba(0,0,0,.08)}
     .topbar__inner{max-width:1160px; margin:0 auto; padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px}
     .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:#111}
@@ -36,21 +32,16 @@
     .topbar__actions{display:flex; gap:8px}
     .icon-btn{display:inline-grid; place-items:center; width:36px; height:36px; border-radius:10px; background:rgba(255,255,255,.85); border:1px solid rgba(0,0,0,.06)}
     .icon-btn img{width:20px; height:20px}
-
-    /* Página */
     .wrap{max-width:900px;margin:0 auto;padding:22px; transition:padding-bottom .2s ease;}
     h2{margin:0 0 10px;color:var(--primary)}
-
     .search-box{display:flex; gap:10px; align-items:center; margin:20px 0;}
     #busca{flex:1; padding:10px 12px; border:2px solid var(--primary); border-radius:8px; font-size:15px}
     #btnBuscar{appearance:none; border:none; background:var(--primary); color:#fff; padding:10px 14px; border-radius:8px; font-size:14px; cursor:pointer;}
     #btnBuscar:disabled{opacity:.7; cursor:progress}
-
     .result{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
       padding:12px 14px;margin:12px 0;position:relative}
     .result p{margin:0;font-size:13px;line-height:1.4}
     .filetag{margin:0 0 6px 0;font-weight:700}
-
     .actions{margin-top:8px;display:flex;justify-content:space-between;gap:8px}
     .btn{appearance:none;border:none;background:var(--highlight);color:#000;padding:6px 10px;border-radius:8px;
       font-size:13px;cursor:pointer;transition:.15s}
@@ -60,15 +51,11 @@
     .btn-alt:hover{background:#264399}
     .btn-alt.is-selected{ background: var(--success); color:#fff; }
     .btn-alt.is-selected:hover{ filter:brightness(.95); }
-
     .more-wrap{display:flex; justify-content:center; margin:16px 0}
     #btnMais{min-width:180px}
-
     .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;
       padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:60}
     .toast.show{opacity:1}
-
-    /* Barra flutuante */
     #dl-bar-selecao{
       position:fixed; left:50%; transform:translateX(-50%);
       bottom:calc(12px + var(--safe-bottom)); z-index:9999; background:#111; color:#fff;
@@ -79,7 +66,6 @@
     #dl-bar-selecao button{border:0; padding:8px 12px; border-radius:10px; cursor:pointer; pointer-events:auto;}
     #dl-enviar{ background: var(--primary); color:#fff; } #dl-enviar:hover{ background:#264399; } #dl-enviar:disabled{ opacity:.5; filter:grayscale(.3) }
     #dl-limpar{ background: var(--muted-btn); color:#111; } #dl-limpar:hover{ background:#d6dae1 }
-
     @media (max-width: 480px){
       .btn,.btn-alt{ padding:8px 12px; }
     }
@@ -106,26 +92,20 @@
   <div class="wrap">
     <h2>Pesquisa de Conteúdo Jurídico</h2>
     <p>Digite um termo (artigo, súmula, jurisprudência ou palavra-chave) e clique em <b>Buscar</b>.</p>
-
     <div class="search-box">
       <input id="busca" type="text" placeholder="Ex: artigo 5º, súmula 381, dano moral..." />
       <button id="btnBuscar">Buscar</button>
     </div>
-
     <div id="resultados"></div>
     <div class="more-wrap" style="display:none"><button id="btnMais" class="btn">Carregar mais</button></div>
   </div>
-
   <div id="toast" class="toast" aria-live="polite"></div>
-
-  <!-- Barra flutuante -->
   <div id="dl-bar-selecao" aria-live="polite">
     <button id="dl-enviar" disabled>Enviar</button>
     <button id="dl-limpar">Limpar</button>
   </div>
 
 <script>
-/* ===== pesquisa.js (10 por vez + botão “Carregar mais”) ===== */
 (function(){
   const $=(s,r=document)=>r.querySelector(s);
   const $$=(s,r=document)=>[...r.querySelectorAll(s)];
@@ -136,11 +116,7 @@
   const moreWrap=$(".more-wrap");
   const wrap=$(".wrap");
   const toast=(msg,t=1600)=>{const el=$("#toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
-
-  // Normaliza (ignora acentos/ç)
   const norm=(s="")=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-
-  // Config (incluí TODOS os seus arquivos)
   const KEY='dl_pesquisa_selecionados';
   const arquivos = [
     "data/julgados_direito_administrativo.json",
@@ -158,17 +134,12 @@
     "data/noticias_migalhas_2.json",
   ];
   const MAX_SNIPPET = 400;
-  const PAGE_SIZE = 10; // <<<<<< 10 por vez
+  const PAGE_SIZE = 10;
 
   const getCarrinho = ()=>JSON.parse(localStorage.getItem(KEY)||'[]');
   const setCarrinho = (arr)=>localStorage.setItem(KEY, JSON.stringify(arr));
-  const dedupPush = (arr, item)=>{
-    const k = item.id || item._id || (item.fonte+':'+(item.texto||'').slice(0,50));
-    if(!arr.some(x => x.id === k)){ arr.push({...item, id: k}); }
-    return arr;
-  };
+  const dedupPush = (arr, item)=>{const k=item.id||item._id||(item.fonte+':'+(item.texto||'').slice(0,50));if(!arr.some(x=>x.id===k)){arr.push({...item,id:k});}return arr;};
 
-  // Carregar dados com "fonte" e texto normalizado
   async function carregarDados(){
     const dados=[];
     for(const arq of arquivos){
@@ -176,139 +147,109 @@
         const tag = arq.split('/').pop().replace(/\.json$/,'');
         const r=await fetch(arq); if(!r.ok) continue;
         const j=await r.json();
-        (Array.isArray(j)? j : []).forEach((it, idx)=>{
-          const _id = it.id || `${tag}_${idx}`;
-          const texto = (it.texto || '').trim();
-          dados.push({ ...it, _id, fonte: tag, textoNorm: norm(texto) });
+        (Array.isArray(j)?j:[]).forEach((it, idx)=>{
+          const _id=it.id||`${tag}_${idx}`;
+          const texto=(it.texto||'').trim();
+          dados.push({...it,_id,fonte:tag,textoNorm:norm(texto)});
         });
       }catch(e){ console.warn("Erro ao carregar",arq,e); }
     }
     return dados;
   }
 
-  let baseDados=[];     // tudo
-  let lastResults=[];   // últimos achados filtrados
-  let pageIndex=0;      // página atual dos achados
+  let baseDados=[];let lastResults=[];let pageIndex=0;
+  carregarDados().then(d=>{baseDados=d;toast("Base carregada com sucesso!");});
 
-  carregarDados().then(d=>{
-    baseDados=d;
-    toast("Base carregada com sucesso!");
-  });
-
-  // Render em lote de 10
   function renderBatch(append=false){
-    const carrinho = getCarrinho();
-    const start = pageIndex*PAGE_SIZE;
-    const end = Math.min(lastResults.length, start+PAGE_SIZE);
-    if(!append){ resultados.innerHTML=""; }
-
+    const carrinho=getCarrinho();
+    const start=pageIndex*PAGE_SIZE;
+    const end=Math.min(lastResults.length,start+PAGE_SIZE);
+    if(!append){resultados.innerHTML="";}
     for(let i=start;i<end;i++){
-      const item = lastResults[i];
+      const item=lastResults[i];
       const div=document.createElement("div");
       div.className="result";
 
-      const fonteP = document.createElement('p');
-      fonteP.className = 'filetag';
-      fonteP.innerHTML = `<strong>${(item.fonte||'').trim()}</strong>`;
+      const fonteP=document.createElement('p');
+      fonteP.className='filetag';
+      fonteP.innerHTML=`<strong>${(item.fonte||'').trim()}</strong>`;
       div.appendChild(fonteP);
 
       const p=document.createElement("p");
-      const txt = (item.texto||'').trim();
-      p.textContent = txt.length>MAX_SNIPPET ? (txt.substring(0,MAX_SNIPPET)+"...") : txt;
+      const txt=(item.texto||'').trim();
+      p.textContent=txt.length>MAX_SNIPPET?(txt.substring(0,MAX_SNIPPET)+"..."):txt;
       div.appendChild(p);
 
       const actions=document.createElement("div");
       actions.className="actions";
 
-      const copiar=document.createElement("button");
-      copiar.textContent="Copiar";
-      copiar.className="btn";
-      copiar.addEventListener("click",async()=>{
-        try{ await navigator.clipboard.writeText(item.texto||''); toast("Copiado!"); }
-        catch{ toast("Erro ao copiar."); }
-      });
+      if(item.url){
+        const verNoticia=document.createElement("a");
+        verNoticia.textContent="Ver notícia";
+        verNoticia.href=item.url;
+        verNoticia.target="_blank";
+        verNoticia.className="btn-alt";
+        actions.appendChild(verNoticia);
+      } else {
+        const copiar=document.createElement("button");
+        copiar.textContent="Copiar";
+        copiar.className="btn";
+        copiar.addEventListener("click",async()=>{
+          try{await navigator.clipboard.writeText(item.texto||'');toast("Copiado!");}
+          catch{toast("Erro ao copiar.");}
+        });
 
-      const selBtn=document.createElement("button");
-      selBtn.className="btn-alt";
-      const key = item.id||item._id;
-      const syncBtn = (on)=>{ selBtn.textContent = on ? "Selecionado" : "Selecionar"; selBtn.classList.toggle('is-selected', on); };
-      syncBtn(carrinho.some(x => x.id === key));
-      selBtn.addEventListener("click",()=>{
-        let arr=getCarrinho();
-        const obj = { id:key, fonte:item.fonte, texto:item.texto };
-        const isIn = arr.some(x => x.id === key);
-        if (isIn){ arr = arr.filter(x => x.id !== key); syncBtn(false); }
-        else { arr = dedupPush(arr, obj); syncBtn(true); }
-        setCarrinho(arr); updateBar();
-      });
+        const selBtn=document.createElement("button");
+        selBtn.className="btn-alt";
+        const key=item.id||item._id;
+        const syncBtn=(on)=>{selBtn.textContent=on?"Selecionado":"Selecionar";selBtn.classList.toggle('is-selected',on);};
+        syncBtn(carrinho.some(x=>x.id===key));
+        selBtn.addEventListener("click",()=>{
+          let arr=getCarrinho();
+          const obj={id:key,fonte:item.fonte,texto:item.texto};
+          const isIn=arr.some(x=>x.id===key);
+          if(isIn){arr=arr.filter(x=>x.id!==key);syncBtn(false);}
+          else{arr=dedupPush(arr,obj);syncBtn(true);}
+          setCarrinho(arr);updateBar();
+        });
 
-      actions.appendChild(copiar);
-      actions.appendChild(selBtn);
+        actions.appendChild(copiar);
+        actions.appendChild(selBtn);
+      }
+
       div.appendChild(actions);
-
       resultados.appendChild(div);
     }
-
-    // controla botão "Carregar mais"
     pageIndex++;
-    const hasMore = pageIndex*PAGE_SIZE < lastResults.length;
-    moreWrap.style.display = hasMore ? "flex" : "none";
+    const hasMore=pageIndex*PAGE_SIZE<lastResults.length;
+    moreWrap.style.display=hasMore?"flex":"none";
     updateBar();
   }
 
-  function updateBar(){
-    const c=getCarrinho().length;
-    $('#dl-enviar').disabled = c===0;
-  }
+  function updateBar(){const c=getCarrinho().length;$('#dl-enviar').disabled=c===0;}
+  function toggleBar(show){const bar=$('#dl-bar-selecao');bar.style.display=show?'flex':'none';wrap.style.paddingBottom=show?`calc(var(--bar-h) + 16px + var(--safe-bottom))`:'22px';}
 
-  function toggleBar(show){
-    const bar = $('#dl-bar-selecao');
-    bar.style.display = show ? 'flex' : 'none';
-    wrap.style.paddingBottom = show ? `calc(var(--bar-h) + 16px + var(--safe-bottom))` : '22px';
-  }
-
-  // Executa busca (click ou Enter)
   async function executarBusca(){
-    const termo = busca.value.trim();
-    resultados.innerHTML="";
-    moreWrap.style.display="none";
-    pageIndex=0;
-
-    if(!termo){
-      toggleBar(false);
-      return;
-    }
-
-    btnBuscar.disabled = true;
-    document.body.style.cursor = 'progress';
+    const termo=busca.value.trim();
+    resultados.innerHTML="";moreWrap.style.display="none";pageIndex=0;
+    if(!termo){toggleBar(false);return;}
+    btnBuscar.disabled=true;document.body.style.cursor='progress';
     try{
-      const termoNorm = norm(termo);
-      lastResults = baseDados.filter(x => (x.textoNorm || "").includes(termoNorm));
-      if(!lastResults.length){
-        resultados.innerHTML = "<p>Nenhum resultado encontrado.</p>";
-        toggleBar(false);
-      }else{
-        toggleBar(true);
-        renderBatch(false); // mostra os primeiros 10
-      }
-    }finally{
-      btnBuscar.disabled = false;
-      document.body.style.cursor = '';
-    }
+      const termoNorm=norm(termo);
+      lastResults=baseDados.filter(x=>(x.textoNorm||"").includes(termoNorm));
+      if(!lastResults.length){resultados.innerHTML="<p>Nenhum resultado encontrado.</p>";toggleBar(false);}
+      else{toggleBar(true);renderBatch(false);}
+    }finally{btnBuscar.disabled=false;document.body.style.cursor='';}
   }
 
-  // Eventos
-  btnBuscar.addEventListener("click", executarBusca);
-  $("#btnMais").addEventListener("click", ()=> renderBatch(true));
-  busca.addEventListener("keydown", (e)=>{ if(e.key==="Enter"){ e.preventDefault(); executarBusca(); } });
-
-  // Barra: enviar / limpar
-  $('#dl-enviar').addEventListener('click', ()=> { window.location.href = 'index.html#pesquisa'; });
-  $('#dl-limpar').addEventListener('click', ()=> {
-    localStorage.removeItem(KEY);
-    updateBar();
-    [...$$('.btn-alt.is-selected', resultados)].forEach(b=>b.classList.remove('is-selected'));
-    [...$$('.btn-alt', resultados)].forEach(b=>{ if(b.textContent==="Selecionado") b.textContent="Selecionar"; });
+  btnBuscar.addEventListener("click",executarBusca);
+  $("#btnMais").addEventListener("click",()=>renderBatch(true));
+  busca.addEventListener("keydown",(e)=>{if(e.key==="Enter"){e.preventDefault();executarBusca();}});
+  $('#dl-enviar').addEventListener('click',()=>{window.location.href='index.html#pesquisa';});
+  $('#dl-limpar').addEventListener('click',()=>{
+    localStorage.removeItem(KEY);updateBar();
+    [...$$('.btn-alt.is-selected',resultados)].forEach(b=>b.classList.remove('is-selected'));
+    [...$$('.btn-alt',resultados)].forEach(b=>{if(b.textContent==="Selecionado")b.textContent="Selecionar";});
   });
 })();
 </script>
