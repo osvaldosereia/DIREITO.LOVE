@@ -148,7 +148,7 @@
       </a>
       <nav class="topbar__actions" aria-label="Ações">
         <a class="chip" href="index.html">Prompt</a>
-        <a class="chip" href="pesquisa.html">Pesquisar</a>
+        <a class="chip" href="pesquisa.html" aria-current="page">Pesquisar</a>
       </nav>
     </div>
   </header>
@@ -183,8 +183,7 @@
   const wrap=$(".wrap");
   const toast=(m,t=1600)=>{const el=$("#toast");el.textContent=m;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
 
-  // Config: manter categorias fechadas por padrão
-  const AUTO_OPEN_FIRST = false;
+  const AUTO_OPEN_FIRST = false; // todas as categorias fechadas
 
   /* ======================= Utils & Normalização ======================= */
   const norm = (s="") => s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
@@ -192,6 +191,12 @@
   function hasWhole(hay, word){ if(!word) return true; const re=new RegExp(`(^|[^a-z0-9])${esc(word)}([^a-z0-9]|$)`,'i'); return re.test(hay); }
   function hasAllWords(hay, words){ for(const w of words){ if(!hasWhole(hay,w)) return false; } return true; }
   const romanLower = s => String(s).replace(/[^ivxlcdm]/gi,'').toLowerCase();
+
+  function tokenizeLegal(s){
+    // normaliza e quebra em tokens alfanuméricos
+    const t = normalizeLegal(s);
+    return t.split(/[^a-z0-9]+/).filter(Boolean);
+  }
   function normalizeLegal(s){
     let t = norm(s);
     t = t.replace(/\bpar\.?\b/g, ' paragrafo ');
@@ -204,7 +209,7 @@
   }
   function normalizarFonte(f){ return f && f.startsWith('noticias') ? 'noticias' : f; }
 
-  /* ======================= Mapeamentos & Intent ======================= */
+  /* ======================= Intent & Mapas ======================= */
   function fonteFromQueryPad(base){
     const padded = ` ${base} `;
     const map = [
@@ -237,7 +242,7 @@
     return 'geral';
   }
 
-  /* ======================= Parser de consulta ======================= */
+  /* ======================= Parser com SEQUÊNCIA ======================= */
   function parseLegalQuery(raw){
     const base = normalizeLegal(raw);
     const padded = ` ${base} `;
@@ -245,6 +250,7 @@
     const tribHint = tribunalFromQuery(base);
     const intent = classifyIntent(base);
 
+    // extrai estrutura
     let artNum=null; { const m=padded.match(/\bart\s*([0-9]{1,4})(?:[\-]?[a-z])?\b/); if(m) artNum=m[1]; }
     let paragrafo=null; { const m=padded.match(/\bparagrafo\s*(unico|\d+)\b/); if(m) paragrafo=m[1]; }
     let inciso=null; { const m=padded.match(/\binciso\s*([ivxlcdm]+)\b/); if(m) inciso=romanLower(m[1]); }
@@ -255,23 +261,41 @@
     let temaNum=null;   { const m=raw.match(/\btema(?:\s+repetitivo)?\s*(\d{1,4})\b/i); if(m) temaNum=m[1]; }
     let teseNum=null;   { const m=raw.match(/\btese\s*(\d{1,4})\b/i); if(m) teseNum=m[1]; }
 
-    const STOP=new Set(['de','da','do','das','dos','e','ou','a','o','as','os','no','na','nos','nas','para','por','em','um','uma','ao','à','que','com','sem','sobre','entre','ate','dois','tres','quatro','cinco']);
-    let tokens = base.split(' ').filter(Boolean).filter(t=>!STOP.has(t));
-    if(fonteFilter){
-      const drop=new Set(['cp','cpb','cpp','cc','cpc','ctn','cdc','ctb','codigo','penal','processo','civil','defesa','consumidor','tributario','nacional','transito','brasileiro','do','da','de']);
-      tokens=tokens.filter(t=>!drop.has(t));
-    }
-    const out=new Set(tokens);
-    if(artNum){ out.add('art'); out.add(String(artNum)); }
-    if(paragrafo){ out.add('paragrafo'); out.add(String(paragrafo)); }
-    if(inciso){ out.add('inciso'); out.add(inciso); }
-    if(alinea){ out.add('alinea'); out.add(alinea); }
-    if(caput){ out.add('caput'); }
-    if(sumulaNum){ out.add(String(sumulaNum)); }
-    if(temaNum){ out.add(String(temaNum)); }
-    if(teseNum){ out.add(String(teseNum)); }
+    const STOP=new Set(['de','da','do','das','dos','e','ou','a','o','as','os','no','na','nos','nas','para','por','em','um','uma','ao','à','que','com','sem','sobre','entre','ate']);
+    const all = base.split(' ').filter(Boolean);
 
-    return { words:[...out], fonteFilter, tribHint, intent, artNum, paragrafo, inciso, alinea, caput, sumulaNum, temaNum, teseNum };
+    // sequência em ordem, sem stopwords repetidas
+    const seq = [];
+    for(const tok of all){
+      if(STOP.has(tok)) continue;
+      // normalizações já feitas em normalizeLegal
+      seq.push(tok);
+    }
+
+    // se tiver estrutura, prioriza sequência estruturada (para proximidade)
+    const structSeq = [];
+    if(artNum){ structSeq.push('art', String(artNum)); if(paragrafo){ structSeq.push('paragrafo', String(paragrafo)); } if(inciso){ structSeq.push('inciso', String(inciso)); } if(alinea){ structSeq.push('alinea', String(alinea)); } if(caput){ structSeq.push('caput'); } }
+    if(sumulaNum){ structSeq.push(String(sumulaNum)); }
+    if(temaNum){ structSeq.push(String(temaNum)); }
+    if(teseNum){ structSeq.push(String(teseNum)); }
+
+    // words (para fallback de uma palavra só)
+    const wordsSet=new Set(seq);
+    if(artNum){ wordsSet.add('art'); wordsSet.add(String(artNum)); }
+    if(paragrafo){ wordsSet.add('paragrafo'); wordsSet.add(String(paragrafo)); }
+    if(inciso){ wordsSet.add('inciso'); wordsSet.add(String(inciso)); }
+    if(alinea){ wordsSet.add('alinea'); wordsSet.add(String(alinea)); }
+    if(caput){ wordsSet.add('caput'); }
+    if(sumulaNum){ wordsSet.add(String(sumulaNum)); }
+    if(temaNum){ wordsSet.add(String(temaNum)); }
+    if(teseNum){ wordsSet.add(String(teseNum)); }
+
+    return {
+      intent, fonteFilter, tribHint,
+      artNum, paragrafo, inciso, alinea, caput, sumulaNum, temaNum, teseNum,
+      seq: structSeq.length>=2 ? structSeq : seq,     // usa sequência estruturada quando útil
+      words:[...wordsSet]
+    };
   }
 
   /* ======================= Dados & nomes ======================= */
@@ -339,7 +363,7 @@
     outros: { label: "Outros", match: f => true }
   };
 
-  /* ======================= Carregar dados (com índice) ======================= */
+  /* ======================= Carregar dados (tokens pré-computados) ======================= */
   async function carregarDados(){
     const dados=[];
     for(const arq of arquivos){
@@ -350,7 +374,6 @@
         (Array.isArray(j)?j:[]).forEach((it,idx)=>{
           const _id = it.id || `${tag}_${idx}`;
 
-          // Agrega campos prováveis para montar o texto exibido/índice
           const parts=[];
           if(it.titulo) parts.push(String(it.titulo));
           if(it.ementa) parts.push(String(it.ementa));
@@ -366,8 +389,9 @@
 
           const textoNorm  = norm(textoIndex);
           const textoLegal = normalizeLegal(textoIndex);
+          const tokens     = tokenizeLegal(textoIndex);
 
-          // Metadados estruturados
+          // metadados
           let artNumDoc=null;
           if (it.artigo){
             const m=String(it.artigo).match(/art\.?\s*([0-9]{1,4})/i);
@@ -403,6 +427,7 @@
             texto:textoIndex,
             textoNorm,
             textoLegal,
+            tokens,
             artNum:artNumDoc,
             sumulaNum:sumulaNumDoc,
             temaNum:temaNumDoc,
@@ -415,10 +440,43 @@
     return dados;
   }
 
-  /* ======================= Busca Flex (c/ ranking) ======================= */
-  let baseDados=[];  // preenchido no boot
+  /* ======================= Proximidade ======================= */
+  const MAX_GAP = 1; // <= 1 palavra não informada entre termos
+  function proximityScore(tokens, seq, maxGap=MAX_GAP){
+    if(!seq || seq.length<2) return -1; // sem sequência para testar
+    // encontra a menor “penalidade” caminhando pela sequência na ordem
+    // greedy: para cada termo, pega a primeira ocorrência após a posição atual com gap permitido
+    let pos = -1; let penalty = 0;
+    for(let i=0;i<seq.length;i++){
+      const term = seq[i];
+      // procurar índice >= pos+1
+      let found = -1;
+      for(let j=pos+1;j<tokens.length;j++){
+        if(tokens[j]===term){
+          // se não é o primeiro termo, verifica gap
+          if(pos>=0 && (j - pos - 1) > maxGap){ // muito longe
+            // ainda pode existir outra ocorrência mais próxima depois; então continue buscando até estourar
+            // mas se achar uma próxima ocorrência com gap válido, usamos ela
+            // vamos apenas marcar found e calcular a menor que respeite o gap
+            // melhor abordagem: procurar a primeira ocorrência que respeite o gap
+            // se nenhuma respeitar, falha
+            // então aqui não setamos found; seguimos procurando
+          }else{
+            found = j; break;
+          }
+        }
+      }
+      if(found===-1) return Number.NEGATIVE_INFINITY; // falhou proximidade
+      if(pos>=0) penalty += (found - pos - 1); // gap usado (0 ou 1 normalmente)
+      pos = found;
+    }
+    return penalty; // menor é melhor (0 perfeito; 1 aceitável)
+  }
 
-  function scoreDoc(doc, q){
+  /* ======================= Scoring & Busca Flex ======================= */
+  let baseDados=[];
+
+  function scoreDoc(doc, q, prox){
     let s = 0;
 
     if (q.intent === 'noticias' && normalizarFonte(doc.fonte)==='noticias') s += 8;
@@ -426,22 +484,22 @@
     if (q.intent === 'sumula'){
       if (/^sumulas?_|^sumula_/.test(doc.fonte)) s += 7;
       if (q.tribHint && doc.tribDoc === q.tribHint) s += 4;
-      if (q.sumulaNum && String(doc.sumulaNum||'')===String(q.sumulaNum)) s += 8;
+      if (q.sumulaNum && String(doc.sumulaNum||'')===String(q.sumulaNum)) s += 10;
     }
 
     if (q.intent === 'tema'){
       if (doc.fonte === 'temas_repetitivos_stj') s += 7;
-      if (q.temaNum && String(doc.temaNum||'')===String(q.temaNum)) s += 8;
+      if (q.temaNum && String(doc.temaNum||'')===String(q.temaNum)) s += 10;
     }
 
     if (q.intent === 'tese'){
       if (doc.fonte === 'teses_stf') s += 7;
-      if (q.teseNum && String(doc.teseNum||'')===String(q.teseNum)) s += 8;
+      if (q.teseNum && String(doc.teseNum||'')===String(q.teseNum)) s += 10;
     }
 
     if (q.intent === 'codigo'){
-      if (q.fonteFilter && normalizarFonte(doc.fonte)===q.fonteFilter) s += 7;
-      if (q.artNum && String(doc.artNum||'')===String(q.artNum)) s += 8;
+      if (q.fonteFilter && normalizarFonte(doc.fonte)===q.fonteFilter) s += 8;
+      if (q.artNum && String(doc.artNum||'')===String(q.artNum)) s += 12; // art bateu
       if (q.paragrafo && hasWhole(doc.textoLegal,'paragrafo') && hasWhole(doc.textoLegal,String(q.paragrafo))) s += 2;
       if (q.inciso && hasWhole(doc.textoLegal,'inciso') && hasWhole(doc.textoLegal,String(q.inciso))) s += 2;
       if (q.alinea && hasWhole(doc.textoLegal,'alinea') && hasWhole(doc.textoLegal,String(q.alinea))) s += 2;
@@ -453,6 +511,11 @@
     }
 
     if (q.words?.length){ for(const w of q.words){ if(hasWhole(doc.textoLegal,w)) s += 1; } }
+
+    // bônus por proximidade: pen = 0 => +8; pen = 1 => +6; (menor melhor)
+    if(Number.isFinite(prox) && prox>=0){
+      s += (prox===0 ? 8 : prox===1 ? 6 : Math.max(0, 5 - prox)); // degrada suavemente
+    }
 
     return s;
   }
@@ -475,7 +538,7 @@
     const q = parseLegalQuery(termoRaw||'');
     let cand = escolherCandidatos(q, baseDados);
 
-    // Estrutural
+    // Estrutural (sempre entra)
     let struct = [];
     if (q.intent==='codigo' && q.artNum){
       struct = cand.filter(d => String(d.artNum||'')===String(q.artNum));
@@ -487,24 +550,38 @@
       struct = cand.filter(d => String(d.teseNum||'')===String(q.teseNum));
     }
 
-    // Textual (palavras inteiras)
-    const text = cand.filter(d => hasAllWords(d.textoLegal, q.words||[]));
-
-    // Unir
-    const byId=new Map(); for(const x of struct) byId.set(x._id,x); for(const x of text) byId.set(x._id,x);
-    let results = Array.from(byId.values());
-
-    // Fallback leve
-    if (!results.length){
-      if (q.intent==='codigo' && q.artNum) results = cand.filter(d => hasWhole(d.textoLegal,'art') && hasWhole(d.textoLegal,String(q.artNum)));
-      if (q.intent==='sumula' && q.sumulaNum && !results.length) results = cand.filter(d => hasWhole(d.textoLegal,String(q.sumulaNum)));
-      if (q.intent==='tema' && q.temaNum && !results.length) results = cand.filter(d => hasWhole(d.textoLegal,String(q.temaNum)));
-      if (q.intent==='tese' && q.teseNum && !results.length) results = cand.filter(d => hasWhole(d.textoLegal,String(q.teseNum)));
+    // Textual com proximidade (se houver sequência útil)
+    let text=[];
+    if(q.seq && q.seq.length>=2){
+      for(const d of cand){
+        const pen = proximityScore(d.tokens, q.seq, MAX_GAP);
+        if(Number.isFinite(pen) && pen>=0){
+          text.push({doc:d, pen});
+        }
+      }
+    }else{
+      // fallback para 0/1 termo: palavras inteiras clássicas
+      for(const d of cand){
+        if(hasAllWords(d.textoLegal, q.words||[])) text.push({doc:d, pen:-1});
+      }
     }
 
-    // Ranking
-    results.sort((a,b)=> scoreDoc(b,q)-scoreDoc(a,q));
-    return results;
+    // Unir sem duplicar (manter penalidade)
+    const byId=new Map();
+    for(const x of struct){ byId.set(x._id, {doc:x, pen:-1}); }
+    for(const x of text){
+      const prev=byId.get(x.doc._id);
+      if(!prev || (prev.pen<0 && x.pen>=0) || (prev.pen>=0 && x.pen>=0 && x.pen<prev.pen)){
+        byId.set(x.doc._id, x);
+      }
+    }
+    let results = Array.from(byId.values());
+
+    // Ranking por score + proximidade
+    results.sort((a,b)=> scoreDoc(b.doc,q,b.pen) - scoreDoc(a.doc,q,a.pen) );
+
+    // devolve só os docs (o render não precisa da penalidade)
+    return results.map(x=>x.doc);
   }
 
   /* ======================= Selecão & UI ======================= */
@@ -513,10 +590,12 @@
   const setCarrinho=(a)=>localStorage.setItem(KEY, JSON.stringify(a));
   const dedupPush=(arr,item)=>{ const k=item.id||item._id||(item.fonte+':'+(item.texto||'').slice(0,50)); if(!arr.some(x=>x.id===k)) arr.push({...item,id:k}); return arr; };
 
+  const MAX_SNIPPET=400, PAGE_SIZE=10;
+
   function buildCard(item, carrinho){
     const fNorm = normalizarFonte(item.fonte);
     const isNoticias = fNorm === 'noticias';
-    const nomeBonito = nomesAmigaveis[fNorm] || nomesAmigaveis[item.fonte] || item.fonte;
+    const nomeBonito = (nomesAmigaveis[fNorm] || nomesAmigaveis[item.fonte] || item.fonte);
 
     const div=document.createElement("div");
     div.className="result";
@@ -528,7 +607,6 @@
 
     const p=document.createElement("p");
     const txt=(item.texto||'').trim();
-    const MAX_SNIPPET=400;
     const isLong=txt.length>MAX_SNIPPET;
     p.textContent=isLong?txt.substring(0,MAX_SNIPPET)+'…':txt;
     div.appendChild(p);
@@ -544,12 +622,11 @@
 
     const actions=document.createElement("div"); actions.className="actions";
 
-    // Texto para seleção (para notícias, usa título+url quando não há 'texto')
     const copyText = (item.texto && item.texto.trim())
       ? item.texto
       : [item.titulo || item.title || '', item.url || ''].filter(Boolean).join(' — ');
 
-    // Copiar: NÃO exibir para notícias
+    // Copiar: NÃO mostrar para notícias
     if(!isNoticias){
       const copiar=document.createElement("button"); copiar.textContent='Copiar'; copiar.className='btn';
       copiar.addEventListener("click",async()=>{ try{ await navigator.clipboard.writeText(copyText||''); toast('Copiado!'); }catch{ toast('Erro ao copiar.'); } });
@@ -612,7 +689,6 @@
       return;
     }
     let firstOpened = false;
-    const PAGE_SIZE = 10;
 
     for(const [catId, group] of entries){
       const det = document.createElement('details');
