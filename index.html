@@ -5,121 +5,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>direito.love — Criador de Prompts</title>
   <meta name="theme-color" content="#F5C400" />
-
-  <!-- SEO -->
   <meta name="description" content="direito.love — Criador de Prompts para estudo jurídico, OAB e concursos." />
-  <meta name="keywords" content="direito, OAB, concursos, súmulas, jurisprudência, estudo jurídico" />
-  <meta name="author" content="direito.love" />
-  <meta name="robots" content="index, follow" />
-
-  <!-- Favicon -->
   <link rel="icon" href="favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="favicon-180.png" />
-
-  <!-- Manifest -->
-  <link rel="manifest" href="manifest.json">
 
   <style>
     :root{
       --bg:#FFFDF0; --surface:#ffffff; --text:#001840; --border:#e5e7eb;
       --primary:#102A71; --highlight:#F5C400; --highlight-light:#FFDC5F;
       --radius:12px; --shadow:0 4px 16px rgba(0,0,0,.05);
-      --gap:16px; --aside-width:420px; --prompt-width:400px;
       --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
       --safe-bottom: env(safe-area-inset-bottom, 0px);
       --snap-offset: 96px;
 
-      /* Botões (padrão da pesquisa) */
+      /* Mesma escala de botões da /pesquisa */
       --btn-pad-y: 6px;
       --btn-pad-x: 10px;
       --btn-font: 12.5px;
       --btn-min-h: 34px;
       --btn-min-w: 96px;
 
-      /* Chips Topbar */
-      --chip-pad-y: 6px;
-      --chip-pad-x: 10px;
-      --chip-font: 12.5px;
-      --chip-radius: 8px;
+      /* Cores extras */
+      --success:#16a34a;
     }
     *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--text);font:400 14px/1.4 var(--font);}
+    body{margin:0;background:var(--bg);color:var(--text);font:400 13.5px/1.45 var(--font);}
 
-    /* ===== TOPBAR (padronizada com Pesquisa) ===== */
-    .topbar{
-      position:sticky; top:0; z-index:100;
-      background:var(--highlight);
-      border-bottom:1px solid rgba(0,0,0,.08);
-      transition: box-shadow .18s ease, padding .18s ease;
-    }
-    .topbar.is-scrolled{ box-shadow:0 6px 18px rgba(0,0,0,.08); }
-    .topbar__inner{
-      max-width:1160px; margin:0 auto;
-      padding:8px 12px; display:flex; align-items:center; justify-content:space-between; gap:12px;
-    }
-    .brand{ display:flex; align-items:center; gap:10px; text-decoration:none; color:#111; }
-    .brand__logo{ height:32px; width:auto; display:block; }
-
-    .topbar__actions{ display:flex; align-items:center; gap:8px; }
+    /* Topbar (padrão da /pesquisa) */
+    .topbar{position:sticky; top:0; z-index:100; background:var(--highlight); border-bottom:1px solid rgba(0,0,0,.08)}
+    .topbar__inner{max-width:1160px; margin:0 auto; padding:8px 12px; display:flex; align-items:center; justify-content:space-between; gap:12px}
+    .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:#111}
+    .brand__logo{height:32px}
     .chip{
-      padding:var(--chip-pad-y) var(--chip-pad-x);
-      border-radius:var(--chip-radius);
-      background:#fff; border:1px solid var(--border);
-      font-size:var(--chip-font); color:var(--primary); text-decoration:none; font-weight:600; transition:.15s
+      padding:6px 10px; border-radius:8px; background:#fff; border:1px solid var(--border);
+      font-size:12.5px; color:var(--primary); text-decoration:none; font-weight:600; transition:.15s
     }
-    .chip:hover{ background:var(--highlight-light) }
-    .chip[aria-current="page"]{ background:#fffbe1; border-color:#e6d375 }
+    .chip:hover{background:var(--highlight-light)}
 
-    .pill-btn{
-      appearance:none; border:1px solid rgba(0,0,0,.1);
-      background:#fff; color:#111; padding:var(--btn-pad-y) var(--btn-pad-x); border-radius:999px; cursor:pointer;
-      font:600 var(--btn-font)/1 var(--font);
-      transition: background .15s ease, transform .12s ease;
+    /* Layout (sem “box” de fundo grandão) */
+    .wrap{max-width:900px;margin:0 auto;padding:18px}
+    h2{margin:0 0 12px;color:var(--primary);font-size:20px}
+
+    /* Tema */
+    label[for=tema]{display:block; margin:10px 0 6px; color:var(--primary); font-weight:700}
+    #tema{
+      width:100%; min-height:110px; resize:vertical;
+      border:2px solid var(--primary); border-radius:10px; background:#fff; color:var(--text);
+      padding:10px 12px; font-size:14px; outline:none;
     }
-    .pill-btn:hover{ background:#f6f6f6; transform:translateY(-1px); }
-    .pill-btn.hidden{ display:none; }
+    #tema::placeholder{color:#9aa3af}
 
-    /* ===== LAYOUT ===== */
-    .wrap{display:grid;gap:var(--gap);grid-template-columns:1fr;padding:18px;max-width:1400px;margin:0 auto}
-    @media(min-width:1100px){.wrap{grid-template-columns:minmax(0,1fr) var(--aside-width);align-items:start}}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
-    .builder{padding:18px}
-    .builder h2{margin:0 0 12px;font-size:20px;font-weight:700;color:var(--primary)}
-
-    /* Aviso pós-import da pesquisa */
     .notice{
-      display:none; margin:8px 0 8px;
+      display:none; margin:8px 0 10px;
       background:#fff7d6; border:1px solid #f3dd94; color:#5b4400;
       padding:8px 12px; border-radius:10px; font-weight:600;
     }
     .notice.show{ display:block; }
 
-    /* Tema */
-    label[for=tema]{font-size:14px;color:var(--primary);margin:8px 0 6px; display:block}
-    #tema{
-      width:100%; min-height:110px; resize:vertical;
-      border:2px solid var(--primary); background:#fdfdfd; color:var(--text);
-      padding:10px 12px; border-radius:10px; font-size:14px; outline:none;
-    }
-    #tema::placeholder{color:#9aa3af}
-
-    .actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
-    .btn{
-      appearance:none;border:1px solid var(--border);background:var(--highlight);color:#000;
-      padding:var(--btn-pad-y) var(--btn-pad-x);border-radius:8px;font-size:var(--btn-font);
-      cursor:pointer;transition:.15s;min-height:var(--btn-min-h);min-width:var(--btn-min-w);
-    }
-    .btn:hover{background:var(--highlight-light)}
-    .btn.primary{background:var(--primary);color:#fff;border-color:#0f2a71;font-weight:700}
-    .btn.primary:hover{background:#264399}
-    .btn-ghost{appearance:none;border:1px solid var(--border);background:#fff;color:#111;
-      padding:var(--btn-pad-y) var(--btn-pad-x);border-radius:8px;font-size:var(--btn-font);min-height:var(--btn-min-h);min-width:var(--btn-min-w)}
-    .btn-ghost:hover{background:#f2f4f7}
-
-    /* Categorias (acordeões) */
+    /* Categorias (acordeões) — mesmos estilos da /pesquisa */
     #categorias{ margin-top: 10px; }
     .cat{
-      background:var(--surface); border:1px solid var(--border); border-radius:12px; box-shadow: var(--shadow);
+      background:#fff; border:1px solid var(--border); border-radius:12px; box-shadow: var(--shadow);
       margin:12px 0; overflow:hidden; scroll-margin-top: var(--snap-offset);
     }
     .cat > summary{
@@ -130,39 +76,56 @@
     .cat[open] > summary{ background:#fff7d6; }
     .cat-count{ font-weight:700; background:#0f172a0d; color:#0f172a; padding:2px 8px; border-radius:999px; font-size:12px; }
 
-    .cat-body{ padding: 10px 14px; }
+    /* Cards das opções: botão à direita */
     .option-card{
-      background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);
-      padding:12px 14px;margin:10px 0;position:relative;
+      background:#fff; border:1px solid var(--border); border-radius:10px; box-shadow:var(--shadow);
+      padding:12px 14px; margin:10px 0;
+      display:grid; grid-template-columns: 1fr auto; column-gap:10px; align-items:start;
     }
-    .opt-title{font-weight:700; margin:0 0 6px 0; color:#0f172a}
-    .opt-desc{margin:0; color:#1f2937}
-    .opt-actions{margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-    .btn-select.is-selected{ background: #16a34a; color:#fff; border-color:#168a44; }
-    .btn-select.is-selected:hover{ filter:brightness(.95); }
+    .opt-title{grid-column:1; margin:0 0 6px 0; font-weight:700; color:#0f172a}
+    .opt-desc{grid-column:1; margin:0; color:#1f2937}
+    .opt-actions{grid-column:2; margin:0; justify-self:end; align-self:start; display:flex}
+    .btn, .btn-ghost, .btn-alt{
+      padding:var(--btn-pad-y) var(--btn-pad-x); border-radius:8px; font-size:var(--btn-font);
+      min-height:var(--btn-min-h); min-width:var(--btn-min-w); cursor:pointer; transition:.15s;
+    }
+    .btn{appearance:none;border:1px solid var(--border);background:var(--highlight);color:#000;}
+    .btn:hover{background:var(--highlight-light)}
+    .btn-alt{appearance:none;border:1px solid #0f2a71;background:var(--primary);color:#fff;}
+    .btn-alt:hover{background:#264399}
+    .btn-alt.is-selected{ background: var(--success); color:#fff; border-color:#168a44; }
+    .btn-alt.is-selected:hover{ filter:brightness(.95); }
+    .btn-ghost{appearance:none;border:1px solid var(--border);background:#fff;color:#111;}
+    .btn-ghost:hover{background:#f2f4f7}
+    .btn.success{ background: var(--success); color:#fff; border:1px solid #168a44; }
+    .btn.success:hover{ filter:brightness(.96); }
 
-    /* Aside (saída) */
-    .aside{position:sticky;top:56px;padding:12px}
-    .stack{max-width:var(--prompt-width);margin:0 auto}
-    .ad{ display:none; margin-bottom:12px; }
-    .ad .box{
-      width:min(var(--prompt-width),100%); aspect-ratio:400/180;
-      border:1px dashed var(--border); border-radius:10px;
-      background:#fff; color:#999; display:flex;
-      align-items:center; justify-content:center; font-size:13px;
-    }
-    textarea#saida{
-      width:min(var(--prompt-width),100%);min-height:30vh;resize:vertical;padding:10px 12px;border-radius:10px;border:1px solid var(--border);
-      background:#fff;color:#001840;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13.5px;display:block;margin:0 auto
-    }
+    /* Prévia (leve, sem card gigante) */
+    .preview{ margin:16px 0 6px; }
+    .preview h3{ margin:0 0 6px; color:var(--primary); font-size:16px }
+    #saida{ width:100%; min-height:30vh; resize:vertical; padding:10px 12px; border-radius:10px; border:1px solid var(--border);
+      background:#fff; color:#001840; font: 13.5px/1.45 ui-monospace, Menlo, Consolas, monospace; }
 
-    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:60}
-    .toast.show{opacity:1}
-    .info{margin-top:6px;font-size:12px;color:#666}
+    /* Modal */
+    .modal{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:200; }
+    .modal.show{ display:flex; }
+    .modal__overlay{ position:absolute; inset:0; background:rgba(0,0,0,.35); }
+    .modal__content{
+      position:relative; background:#fff; border:1px solid var(--border); border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,.2);
+      width:min(92vw,420px); padding:16px;
+    }
+    .modal__title{ margin:0 0 10px; color:#0f172a; font-size:16px; font-weight:800 }
+    .modal__actions{ display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap }
+
+    /* Mobile: diminuir só as descrições */
+    @media (max-width: 600px){
+      .opt-desc{ font-size:11.5px; line-height:1.35; }
+      .option-card{ padding:10px 12px; }
+    }
   </style>
 </head>
 <body>
-  <!-- TOPBAR -->
+  <!-- Topbar -->
   <header class="topbar" role="banner">
     <div class="topbar__inner">
       <a class="brand" href="index.html" aria-label="Início">
@@ -171,125 +134,108 @@
       <nav class="topbar__actions" aria-label="Ações">
         <a class="chip" href="index.html" aria-current="page">Prompt</a>
         <a class="chip" href="pesquisa.html">Pesquisar</a>
-        <button id="btn-install" class="pill-btn hidden" aria-label="Instalar app">Instalar app</button>
       </nav>
     </div>
   </header>
 
   <div class="wrap">
-    <main class="builder card">
-      <h2>Criador de Prompts para Estudantes de Direito</h2>
+    <h2>Criador de Prompts para Estudantes de Direito</h2>
 
-      <div id="importNotice" class="notice">Pronto. Agora é só escolher os objetivos do seu estudo e gerar o prompt.</div>
+    <label for="tema">Digite o tema ou utilize a pesquisa para encontrar:</label>
+    <textarea id="tema" placeholder="Ex.: Responsabilidade civil por erro médico no atendimento de emergência — art. 37, §6º, CF; CDC; jurisprudência do STJ..."></textarea>
 
-      <label for="tema">Tema</label>
-      <textarea id="tema" placeholder="Digite aqui o Tema. Seja específico."></textarea>
+    <!-- Aviso abaixo do tema -->
+    <div id="importNotice" class="notice">Tema definido. Agora selecione as sessões do seu prompt.</div>
 
-      <!-- CATEGORIAS EM ACORDEÕES -->
-      <section id="categorias"></section>
+    <!-- Categorias -->
+    <section id="categorias"></section>
 
-      <div class="actions">
-        <button id="criar" class="btn primary" disabled>Gerar Prompt</button>
-        <button id="limpar" class="btn-ghost">Limpar</button>
-      </div>
-      <div class="info">Selecione os cards que deseja incluir no prompt.</div>
-    </main>
-
-    <aside class="aside card">
-      <div class="stack">
-        <!-- Ad container: fica oculto se não houver anúncio carregado -->
-        <div class="ad" id="ad-container"><div class="box" id="ad-box"></div></div>
-
-        <textarea id="saida" readonly placeholder="(vazio)"></textarea>
-        <div class="actions" style="margin:10px auto 0;width:min(var(--prompt-width),100%);">
-          <button id="copiar2" class="btn">Copiar</button>
-          <button id="novo2" class="btn">Novo</button>
-        </div>
-      </div>
-    </aside>
+    <!-- Prévia do Prompt -->
+    <div class="preview" id="preview" style="display:none">
+      <h3>Prévia do Prompt</h3>
+      <textarea id="saida" readonly placeholder="(vazio)"></textarea>
+    </div>
   </div>
 
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <!-- Modal de ação -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal__overlay"></div>
+    <div class="modal__content">
+      <h3 id="modalTitle" class="modal__title">O que deseja fazer?</h3>
+      <div class="modal__actions">
+        <button id="modalPrimary" class="btn primary">Gerar Prompt</button>
+        <button id="modalSecondary" class="btn-ghost">Limpar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="notice" style="position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:250;display:none;"></div>
 
 <script>
-/* ===== utils ===== */
 (function(){
   const $=(s,r=document)=>r.querySelector(s);
   const $$=(s,r=document)=>[...r.querySelectorAll(s)];
-  const toast=(msg,t=1600)=>{const el=$("#toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
+  const showToast=(m,t=1600)=>{const el=$("#toast");el.textContent=m;el.style.display='block';setTimeout(()=>el.style.display='none',t);};
 
-  /* ===== DADOS: categorias, itens e instruções ===== */
+  /* ===== CATS & DIRECTIVES ===== */
   const CATS = [
-    {
-      id:'fund', label:'Fundamentos', items:[
-        {id:'conceitos', label:'Conceitos e Definições', desc:'Definições objetivas, linguagem clara e diferenciações essenciais, com 1–2 exemplos curtos.'},
-        {id:'base-legal', label:'Base Legal Essencial', desc:'Listar artigos pertinentes (nº + ementa curtíssima) e diplomas aplicáveis. Sem transcrição integral.'},
-        {id:'doutrina', label:'Doutrina Relevante', desc:'Síntese de 2–3 autores e suas posições. Referência bibliográfica abreviada.'}
-      ]
-    },
-    {
-      id:'precedentes', label:'Precedentes e Enunciados', items:[
-        {id:'juris-maj', label:'Jurisprudência Majoritária', desc:'Tese dominante (STJ/STF) + 2–4 precedentes (número + ideia central).'},
-        {id:'sumulas', label:'Súmulas e Enunciados', desc:'Súmulas/Enunciados relevantes (nº + tese) — STF/STJ/TSE/FPPC/CJF.'},
-        {id:'leading', label:'Casos Famosos / Leading Cases', desc:'3–5 casos paradigmáticos e a contribuição de cada um.'}
-      ]
-    },
-    {
-      id:'analise', label:'Análise e Estratégia', items:[
-        {id:'raciocinio', label:'Raciocínio Jurídico (passo a passo)', desc:'Fluxo lógico (if/then) para resolver o caso, com premissas e conclusão.'},
-        {id:'quadro-comp', label:'Quadro Comparativo', desc:'Tabela simples: critérios x alternativas, vantagens/risco/efeito.'},
-        {id:'debates', label:'Debates, Críticas e Tendências', desc:'Controvérsias, críticas doutrinárias e tendências jurisprudenciais.'},
-        {id:'atualiz', label:'Atualizações Recentes', desc:'Mudanças relevantes (últimos 12–24 meses) — leis e julgados.'},
-        {id:'erros', label:'Erros Comuns', desc:'Armadilhas e confusões frequentes; como evitar.'}
-      ]
-    },
-    {
-      id:'pratica', label:'Prática Processual', items:[
-        {id:'modelo', label:'Estrutura de Peça / Modelos', desc:'Esqueleto com seções obrigatórias e frases-modelo editáveis.'},
-        {id:'check-peca', label:'Checklist de Peça', desc:'Checklist antes de protocolar: requisitos formais e materiais.'},
-        {id:'casos', label:'Exemplos e Casos Práticos', desc:'Cenários hipotéticos curtos mostrando aplicação do direito.'}
-      ]
-    },
-    {
-      id:'estudo', label:'Estudo & Provas', items:[
-        {id:'mapa', label:'Mapa Mental', desc:'Organograma textual (bullets hierárquicos) do tema.'},
-        {id:'flash', label:'Flashcards', desc:'Cartões Q/A curtos para memorização.'},
-        {id:'questoes', label:'Questões de Fixação', desc:'5–10 questões objetivas/discursivas; gabarito ao final.'},
-        {id:'check-final', label:'Checklist Final de Revisão', desc:'Checklist rápido para revisão pré-prova.'},
-        {id:'dicas', label:'Dicas de Prova (OAB/Concursos)', desc:'Estratégias, pegadinhas típicas e gestão de tempo.'}
-      ]
-    },
-    {
-      id:'refs', label:'Referências', items:[
-        {id:'bibliog', label:'Referências Bibliográficas', desc:'Lista comentada de obras e artigos para aprofundar.'}
-      ]
-    }
+    { id:'fund', label:'Fundamentos', items:[
+      {id:'conceitos', label:'Conceitos e Definições', desc:'Definições objetivas, linguagem clara e diferenciações essenciais, com 1–2 exemplos curtos.'},
+      {id:'base-legal', label:'Base Legal Essencial', desc:'Listar artigos pertinentes (nº + ementa curtíssima) e diplomas aplicáveis. Sem transcrição integral.'},
+      {id:'doutrina', label:'Doutrina Relevante', desc:'Síntese de 2–3 autores e suas posições. Referência bibliográfica abreviada.'},
+    ]},
+    { id:'precedentes', label:'Precedentes e Enunciados', items:[
+      {id:'juris-maj', label:'Jurisprudência Majoritária', desc:'Tese dominante (STJ/STF) + 2–4 precedentes (número + ideia central).'},
+      {id:'sumulas', label:'Súmulas e Enunciados', desc:'Súmulas/Enunciados relevantes (nº + tese) — STF/STJ/TSE/FPPC/CJF.'},
+      {id:'leading', label:'Casos Famosos / Leading Cases', desc:'3–5 casos paradigmáticos e a contribuição de cada um.'},
+    ]},
+    { id:'analise', label:'Análise e Estratégia', items:[
+      {id:'raciocinio', label:'Raciocínio Jurídico (passo a passo)', desc:'Fluxo lógico (if/then) para resolver o caso, com premissas e conclusão.'},
+      {id:'quadro-comp', label:'Quadro Comparativo', desc:'Tabela simples: critérios x alternativas, vantagens/risco/efeito.'},
+      {id:'debates', label:'Debates, Críticas e Tendências', desc:'Controvérsias, críticas doutrinárias e tendências jurisprudenciais.'},
+      {id:'atualiz', label:'Atualizações Recentes', desc:'Mudanças relevantes (últimos 12–24 meses) — leis e julgados.'},
+      {id:'erros', label:'Erros Comuns', desc:'Armadilhas e confusões frequentes; como evitar.'},
+    ]},
+    { id:'pratica', label:'Prática Processual', items:[
+      {id:'modelo', label:'Estrutura de Peça / Modelos', desc:'Esqueleto com seções obrigatórias e frases-modelo editáveis.'},
+      {id:'check-peca', label:'Checklist de Peça', desc:'Checklist antes de protocolar: requisitos formais e materiais.'},
+      {id:'casos', label:'Exemplos e Casos Práticos', desc:'Cenários hipotéticos curtos mostrando aplicação do direito.'},
+    ]},
+    { id:'estudo', label:'Estudo & Provas', items:[
+      {id:'mapa', label:'Mapa Mental', desc:'Organograma textual (bullets hierárquicos) do tema.'},
+      {id:'flash', label:'Flashcards', desc:'Cartões Q/A curtos para memorização.'},
+      {id:'questoes', label:'Questões de Fixação', desc:'5–10 questões objetivas/discursivas; gabarito ao final.'},
+      {id:'check-final', label:'Checklist Final de Revisão', desc:'Checklist rápido para revisão pré-prova.'},
+      {id:'dicas', label:'Dicas de Prova (OAB/Concursos)', desc:'Estratégias, pegadinhas típicas e gestão de tempo.'},
+    ]},
+    { id:'refs', label:'Referências', items:[
+      {id:'bibliog', label:'Referências Bibliográficas', desc:'Lista comentada de obras e artigos para aprofundar.'},
+    ]},
   ];
 
   const DIRECTIVES = {
-    'conceitos': 'Faça definições diretas, compare com institutos próximos e ilustre com 1–2 exemplos breves.',
-    'base-legal': 'Liste artigos (nº + ementa curtíssima) e diplomas; evite transcrever integral. Cite seções específicas quando útil.',
-    'doutrina': 'Resuma 2–3 posições doutrinárias com referência abreviada (Autor, Obra, ano/página quando possível).',
-    'juris-maj': 'Traga a tese dominante (STJ/STF) e 2–4 julgados com número e ideia central, em bullets.',
-    'sumulas': 'Liste súmulas/enunciados relevantes com nº e tese, agrupando por tribunal/comissão.',
-    'leading': 'Selecione 3–5 leading cases; para cada um: contexto, holding e impacto.',
-    'raciocinio': 'Apresente o raciocínio em passos: fatos → norma → subsunção → conclusão, usando if/then.',
-    'quadro-comp': 'Monte uma tabela simples (texto) comparando critérios-chave entre alternativas.',
-    'debates': 'Aponte controvérsias, críticas e tendências; indique prós/cons de cada posição.',
-    'atualiz': 'Liste alterações legislativas e julgados relevantes nos últimos 12–24 meses.',
-    'erros': 'Liste armadilhas comuns e como evitá-las, de forma objetiva.',
-    'modelo': 'Entregue um esqueleto de peça com cabeçalho, fatos, fundamentos, pedidos e fechamento; inclua frases-modelo.',
-    'check-peca': 'Faça um checklist passo a passo para validação antes de protocolar.',
-    'casos': 'Crie 2–3 cenários práticos curtos mostrando a aplicação do tema.',
-    'mapa': 'Produza um mapa mental textual com bullets hierárquicos.',
-    'flash': 'Crie 8–12 flashcards (pergunta → resposta curta).',
-    'questoes': 'Redija 5–10 questões objetivas/discursivas e traga o gabarito ao final.',
-    'check-final': 'Checklist conciso de revisão para provas.',
-    'dicas': 'Dê estratégias de prova, pegadinhas típicas e gestão de tempo.',
-    'bibliog': 'Liste referências essenciais (livros/artigos) com breve comentário de utilidade.'
+    'conceitos':'Faça definições diretas, compare com institutos próximos e ilustre com 1–2 exemplos breves.',
+    'base-legal':'Liste artigos (nº + ementa curtíssima) e diplomas; evite transcrever integral. Cite seções específicas quando útil.',
+    'doutrina':'Resuma 2–3 posições doutrinárias com referência abreviada (Autor, Obra, ano/página quando possível).',
+    'juris-maj':'Traga a tese dominante (STJ/STF) e 2–4 julgados com número e ideia central, em bullets.',
+    'sumulas':'Liste súmulas/enunciados relevantes com nº e tese, agrupando por tribunal/comissão.',
+    'leading':'Selecione 3–5 leading cases; para cada um: contexto, holding e impacto.',
+    'raciocinio':'Apresente o raciocínio em passos: fatos → norma → subsunção → conclusão, usando if/then.',
+    'quadro-comp':'Monte uma tabela simples (texto) comparando critérios-chave entre alternativas.',
+    'debates':'Aponte controvérsias, críticas e tendências; indique prós/cons de cada posição.',
+    'atualiz':'Liste alterações legislativas e julgados relevantes nos últimos 12–24 meses.',
+    'erros':'Liste armadilhas comuns e como evitá-las, de forma objetiva.',
+    'modelo':'Entregue um esqueleto de peça com cabeçalho, fatos, fundamentos, pedidos e fechamento; inclua frases-modelo.',
+    'check-peca':'Faça um checklist passo a passo para validação antes de protocolar.',
+    'casos':'Crie 2–3 cenários práticos curtos mostrando a aplicação do tema.',
+    'mapa':'Produza um mapa mental textual com bullets hierárquicos.',
+    'flash':'Crie 8–12 flashcards (pergunta → resposta curta).',
+    'questoes':'Redija 5–10 questões objetivas/discursivas e traga o gabarito ao final.',
+    'check-final':'Checklist conciso de revisão para provas.',
+    'dicas':'Dê estratégias de prova, pegadinhas típicas e gestão de tempo.',
+    'bibliog':'Liste referências essenciais (livros/artigos) com breve comentário de utilidade.',
   };
 
-  /* ===== PROMPT-BASE ===== */
   const BASE_PROMPT = `Você deve assumir a persona de um **professor especialista em todas as áreas do Direito brasileiro**, com didática impecável, convidado pelo **direito.love** para auxiliar um estudante de Direito.
 
 📌 Tema escolhido: [INSERIR TEMA AQUI]
@@ -305,48 +251,37 @@
 
 No final, assine com: 💚 direito.love`;
 
-  /* ===== RENDER UI (acordeões + cards) ===== */
+  /* ===== Render categorias ===== */
   const categoriasEl = $("#categorias");
   const selected = new Set();
 
   function renderCategorias(){
-    categoriasEl.innerHTML = '';
+    categoriasEl.innerHTML='';
     for(const cat of CATS){
-      const det = document.createElement('details');
-      det.className='cat'; det.dataset.cat=cat.id;
-
-      const sum = document.createElement('summary');
-      const title = document.createElement('span'); title.textContent = cat.label;
-      const count = document.createElement('span'); count.className='cat-count'; count.textContent = cat.items.length;
+      const det=document.createElement('details'); det.className='cat'; det.dataset.cat=cat.id;
+      const sum=document.createElement('summary');
+      const title=document.createElement('span'); title.textContent=cat.label;
+      const count=document.createElement('span'); count.className='cat-count'; count.textContent=cat.items.length;
       sum.appendChild(title); sum.appendChild(count);
       det.appendChild(sum);
 
-      const body = document.createElement('div'); body.className='cat-body';
+      const body=document.createElement('div'); body.className='cat-body';
 
       for(const it of cat.items){
-        const card = document.createElement('div'); card.className='option-card'; card.dataset.id=it.id;
+        const card=document.createElement('div'); card.className='option-card'; card.dataset.id=it.id;
 
-        const h = document.createElement('p'); h.className='opt-title'; h.textContent = it.label;
-        const d = document.createElement('p'); d.className='opt-desc'; d.textContent = it.desc;
+        const h=document.createElement('p'); h.className='opt-title'; h.textContent=it.label;
+        const d=document.createElement('p'); d.className='opt-desc'; d.textContent=it.desc;
+        const actions=document.createElement('div'); actions.className='opt-actions';
 
-        const actions = document.createElement('div'); actions.className='opt-actions';
-        const btnSel = document.createElement('button'); btnSel.className='btn btn-select'; btnSel.textContent='Selecionar';
-
-        const sync = ()=>{
-          const on = selected.has(it.id);
-          btnSel.textContent = on ? 'Selecionado' : 'Selecionar';
-          btnSel.classList.toggle('is-selected', on);
-          updateCTA();
-        };
-        btnSel.addEventListener('click', ()=>{
-          if(selected.has(it.id)) selected.delete(it.id); else selected.add(it.id);
-          sync();
-        });
+        const btnSel=document.createElement('button'); btnSel.className='btn-alt btn-select'; btnSel.textContent='Selecionar';
+        const sync=()=>{ const on=selected.has(it.id); btnSel.textContent=on?'Selecionado':'Selecionar'; btnSel.classList.toggle('is-selected',on); };
+        btnSel.addEventListener('click',()=>{ if(selected.has(it.id)) selected.delete(it.id); else selected.add(it.id); sync(); });
+        sync();
 
         actions.appendChild(btnSel);
         card.appendChild(h); card.appendChild(d); card.appendChild(actions);
         body.appendChild(card);
-        sync();
       }
 
       det.appendChild(body);
@@ -354,185 +289,107 @@ No final, assine com: 💚 direito.love`;
     }
   }
 
-  /* ===== CONTROLES ===== */
-  const temaEl=$("#tema"), criarBtn=$("#criar"), limparBtn=$("#limpar"), saida=$("#saida"), copiar2=$("#copiar2"), novo2=$("#novo2");
-
-  function updateCTA(){
-    const hasTema = !!(temaEl.value||'').trim();
-    const hasSel = selected.size>0;
-    criarBtn.disabled = !(hasTema && hasSel);
-  }
-
-  /* ===== GERAR PROMPT (inclui título + descrição + instruções por seção) ===== */
+  /* ===== Build Prompt ===== */
+  const temaEl=$("#tema"), saida=$("#saida"), preview=$("#preview");
   function buildPrompt(){
-    const tema = (temaEl.value||'').trim();
-    if(!tema){ toast("Digite um tema."); return ""; }
-    if(!selected.size){ toast("Selecione ao menos 1 card."); return ""; }
+    const tema=(temaEl.value||'').trim();
+    if(!tema){ showToast('Digite um tema.'); return ''; }
+    if(!selected.size){ showToast('Selecione ao menos 1 sessão.'); return ''; }
 
-    // ordem conforme exibição
-    const order = [];
-    for(const cat of CATS) for(const it of cat.items) if(selected.has(it.id)) order.push(it);
+    const order=[]; for(const cat of CATS) for(const it of cat.items) if(selected.has(it.id)) order.push(it);
+    const seq=order.map(it=>it.label).join(' → ');
+    const header=BASE_PROMPT.replace('[INSERIR TEMA AQUI]', tema).replace('[INSERIR AQUI A SEQUÊNCIA DE SESSÕES DEFINIDA PELO USUÁRIO]', seq);
 
-    const seq = order.map(it=>it.label).join(" → ");
-    const header = BASE_PROMPT
-      .replace("[INSERIR TEMA AQUI]", tema)
-      .replace("[INSERIR AQUI A SEQUÊNCIA DE SESSÕES DEFINIDA PELO USUÁRIO]", seq);
-
-    const lines = [header, '', '---', '### Seções com diretrizes detalhadas'];
+    const lines=[header,'','---','### Seções com diretrizes detalhadas'];
     for(const it of order){
       lines.push(`\n## ${it.label}`);
       if(it.desc) lines.push(`Descrição: ${it.desc}`);
       if(DIRECTIVES[it.id]) lines.push(`Instruções para a IA: ${DIRECTIVES[it.id]}`);
     }
-
     return lines.join('\n');
   }
 
-  criarBtn.addEventListener("click",()=>{
-    const txt = buildPrompt(); if(!txt) return;
-    saida.value = txt; toast("Prompt criado!");
-  });
+  /* ===== Modal ===== */
+  const modal=$("#modal"), modalPrimary=$("#modalPrimary"), modalSecondary=$("#modalSecondary"), modalTitle=$("#modalTitle");
+  let hasPrompt=false; // muda após gerar
 
-  limparBtn.addEventListener("click",()=>{
-    temaEl.value=""; saida.value=""; selected.clear();
-    document.querySelectorAll('.btn-select.is-selected').forEach(b=>b.classList.remove('is-selected'));
-    document.querySelectorAll('.btn-select').forEach(b=>b.textContent='Selecionar');
-    updateCTA(); toast("Tudo limpo.");
-    $("#importNotice")?.classList.remove('show');
-  });
-
-  copiar2.addEventListener("click",async()=>{
-    const text=saida.value;if(!text.trim()){toast("Nada para copiar.");return;}
-    try{await navigator.clipboard.writeText(text);toast("Copiado!");}
-    catch(e){toast("Erro ao copiar.");}
-  });
-
-  novo2.addEventListener("click",()=>{
-    temaEl.value="";saida.value="";
-    selected.clear();
-    document.querySelectorAll('.btn-select.is-selected').forEach(b=>b.classList.remove('is-selected'));
-    document.querySelectorAll('.btn-select').forEach(b=>b.textContent='Selecionar');
-    updateCTA();toast("Pronto para novo tema.");
-    temaEl.focus();window.scrollTo({top:0,behavior:"smooth"});
-    $("#importNotice")?.classList.remove('show');
-  });
-
-  temaEl.addEventListener("input",updateCTA);
-  temaEl.addEventListener("keydown",e=>{
-    if(e.key==="Enter"&&!e.shiftKey&&!criarBtn.disabled){e.preventDefault();criarBtn.click();}
-  });
-
-  /* ===== PREFILL (mantive compat. com query ?tema=) ===== */
-  (function prefillTema(){
-    const qs = new URLSearchParams(location.search).get("tema");
-    if (qs) temaEl.value = qs;
-    updateCTA();
-  })();
-
-  /* ===== TOPBAR: sombra/PWA/chip ativo (como no seu arquivo) ===== */
-  (function(){
-    const header = document.querySelector('.topbar');
-    const installBtn = document.getElementById('btn-install');
-    let deferredPrompt = null;
-
-    const onScroll = () => {
-      if (window.scrollY > 2) header.classList.add('is-scrolled');
-      else header.classList.remove('is-scrolled');
-    };
-    window.addEventListener('scroll', onScroll, { passive:true }); onScroll();
-
-    (function markActive(){
-      const here = location.pathname.split('/').pop() || 'index.html';
-      document.querySelectorAll('.topbar__actions .chip').forEach(a=>{
-        const href = a.getAttribute('href') || '';
-        if (here === href) a.setAttribute('aria-current','page');
-        else a.removeAttribute('aria-current');
-      });
-    })();
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault(); deferredPrompt = e;
-      installBtn?.classList.remove('hidden');
-    });
-    installBtn?.addEventListener('click', async () => {
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt();
-      try{ await deferredPrompt.userChoice; }catch{}
-      deferredPrompt = null; installBtn.classList.add('hidden');
-    });
-  })();
-
-  /* ===== ADS: mesma lógica para esconder container vazio ===== */
-  (function(){
-    const adContainer = document.getElementById('ad-container');
-    const adBox = document.getElementById('ad-box');
-    function hasLoadedAd(){
-      if (!adBox) return false;
-      const ins = adBox.querySelector('ins.adsbygoogle');
-      if (ins && ins.offsetHeight > 0 && ins.offsetWidth > 0) return true;
-      if (adBox.querySelector('iframe')) return true;
-      for (const el of adBox.children){
-        const r = el.getBoundingClientRect();
-        if (r.width > 0 && r.height > 0) return true;
-      }
-      return false;
+  function openModal(mode){ // 'pre' ou 'post'
+    if(mode==='pre'){
+      modalTitle.textContent='O que deseja fazer?';
+      modalPrimary.textContent='Gerar Prompt';
+      modalPrimary.className='btn primary';
+      modalSecondary.textContent='Limpar';
+      modalSecondary.className='btn-ghost';
+    }else{
+      modalTitle.textContent='Prompt pronto!';
+      modalPrimary.textContent='Copiar Prompt';
+      modalPrimary.className='btn success';
+      modalSecondary.textContent='Novo';
+      modalSecondary.className='btn-ghost';
     }
-    function updateVisibility(){
-      if (!adContainer) return;
-      adContainer.style.display = hasLoadedAd() ? 'block' : 'none';
-    }
-    if (adBox){
-      const obs = new MutationObserver(updateVisibility);
-      obs.observe(adBox, {childList:true, subtree:true, attributes:true});
-      setTimeout(updateVisibility, 200);
-      setTimeout(updateVisibility, 1500);
-    }
-  })();
+    modal.classList.add('show'); modal.setAttribute('aria-hidden','false');
+  }
+  function closeModal(){ modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); }
 
-  /* ===== IMPORTAÇÃO DIRETA DA PESQUISA (#pesquisa) =====
-     - Colei DIRETO no #tema (sem modal/lista).
-     - Mostro aviso acima ("Pronto. Agora é só...").
-     - Limpo o localStorage ao final para não repetir. */
+  modal.addEventListener('click', (e)=>{ if(e.target.classList.contains('modal__overlay')) closeModal(); });
+
+  modalPrimary.addEventListener('click', async()=>{
+    if(!hasPrompt){
+      const txt=buildPrompt(); if(!txt) return;
+      saida.value=txt; preview.style.display='block'; hasPrompt=true; openModal('post');
+      showToast('Prompt criado!');
+    }else{
+      // Copiar
+      try{ await navigator.clipboard.writeText(saida.value||''); showToast('Prompt copiado!'); }catch{ showToast('Erro ao copiar.'); }
+      closeModal();
+    }
+  });
+
+  function resetAll(){
+    temaEl.value=''; saida.value=''; preview.style.display='none'; hasPrompt=false;
+    selected.clear(); $$('.btn-select.is-selected').forEach(b=>b.classList.remove('is-selected'));
+    $$('.btn-select').forEach(b=>b.textContent='Selecionar');
+    $('#importNotice')?.classList.remove('show');
+  }
+
+  modalSecondary.addEventListener('click', ()=>{
+    if(!hasPrompt){ // Limpar
+      resetAll(); closeModal();
+    }else{ // Novo
+      resetAll(); closeModal(); temaEl.focus(); window.scrollTo({top:0,behavior:'smooth'});
+    }
+  });
+
+  // Abre o modal assim que o tema for definido
+  let openedOnce=false;
+  temaEl.addEventListener('input', ()=>{
+    const has=(temaEl.value||'').trim().length>0;
+    $('#importNotice').classList.toggle('show', has);
+    if(has && !openedOnce){ openModal('pre'); openedOnce=true; }
+  });
+
+  // Importar direto da pesquisa (#pesquisa)
   (function importFromPesquisa(){
     const KEY='dl_pesquisa_selecionados';
     try{
-      const arr = JSON.parse(localStorage.getItem(KEY)||'[]');
-      if ((location.hash === '#pesquisa' || arr.length) && arr.length){
-        // monta texto completo (títulos+URL quando não houver 'texto')
-        const full = arr.map(i => i.texto
-          ? String(i.texto).trim()
-          : [i.title||'', i.url||''].filter(Boolean).join(' — ')
-        ).filter(Boolean).join('\n\n');
-
-        // cola direto no campo Tema (substitui)
-        if (full.trim()){
-          temaEl.removeAttribute('maxlength'); // sem cortes
-          temaEl.value = full.replace(/\s+\n\s+/g, '\n').trim();
-          temaEl.focus();
-          temaEl.selectionStart = temaEl.selectionEnd = temaEl.value.length;
-          document.getElementById('importNotice')?.classList.add('show');
-          updateCTA();
+      const arr=JSON.parse(localStorage.getItem(KEY)||'[]');
+      if((location.hash==='#pesquisa'||arr.length) && arr.length){
+        const full=arr.map(i=> i.texto ? String(i.texto).trim() : [i.title||'', i.url||''].filter(Boolean).join(' — '))
+                      .filter(Boolean).join('\n\n');
+        if(full.trim()){
+          temaEl.value=full.replace(/\s+\n\s+/g,'\n').trim();
+          $('#importNotice')?.classList.add('show');
+          openedOnce=true; // evita abrir 2x
+          openModal('pre'); // já chama o modal quando vem da pesquisa
         }
-
-        // limpa para não reimportar em visitas futuras
         localStorage.removeItem(KEY);
       }
     }catch(e){}
   })();
 
-  /* ===== BOOT ===== */
+  /* Boot */
   renderCategorias();
-  updateCTA();
 })();
-</script>
-
-<script>
-/* Service Worker (mantido) */
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker.js")
-    .then(() => console.log("✅ Service Worker registrado"))
-    .catch(err => console.warn("Erro SW:", err));
-}
 </script>
 </body>
 </html>
