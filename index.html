@@ -4,100 +4,129 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>direito.love — Estudo Jurídico com IA</title>
-<meta name="theme-color" content="#F5C400" />
+<meta name="theme-color" content="#FFFFFF" />
 <link rel="icon" href="favicon.png" type="image/png" />
 <link rel="apple-touch-icon" href="favicon-180.png" />
 <link rel="manifest" href="manifest.json" />
 <style>
   :root{
-    --bg:#FFFDF0; --surface:#ffffff; --text:#001840; --border:#e5e7eb;
-    --primary:#102A71; --highlight:#F5C400; --highlight-light:#FFDC5F;
-    --radius:12px; --shadow:0 4px 16px rgba(0,0,0,.05);
+    /* Paleta minimal */
+    --bg:#FAFAFA; --surface:#ffffff; --text:#1f2937; --muted:#6b7280; --border:#e5e7eb;
+    --primary:#0D47A1; --primary-600:#1565C0; --accent:#F5C400;
+
+    /* Tipografia e ritmo */
     --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
+    --fs-12:12px; --fs-13:13px; --fs-14:14px; --fs-15:15px; --fs-16:16px;
 
-    --btn-pad-y:6px; --btn-pad-x:10px; --btn-font:12.5px; --btn-min-h:34px;
-    --chip-pad-y:6px; --chip-pad-x:10px; --chip-font:12.5px; --chip-radius:8px;
-    --mark-bg:#C8FACC;
-    --success:#16a34a; --success-border:#138a3e;
+    /* Componentes */
+    --radius:10px;
+    --btn-pad-y:8px; --btn-pad-x:14px; --btn-font:13.5px;
+    --mark-bg:#E6FAD8;
+
+    /* Sucesso */
+    --success:#2E7D32; --success-border:#236428;
   }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);font:400 13.5px/1.5 var(--font);}
 
-  /* Topbar */
-  .topbar{position:sticky;top:0;z-index:50;background:var(--highlight);border-bottom:1px solid rgba(0,0,0,.08)}
-  .topbar__inner{max-width:980px;margin:0 auto;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--text);font:400 var(--fs-14)/1.55 var(--font);}
+
+  /* Topbar minimal */
+  .topbar{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--border)}
+  .topbar__inner{max-width:980px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
   .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#111}
-  .brand__logo{height:32px}
-  .topbar__actions{display:flex;align-items:center;gap:8px}
+  .brand__logo{height:22px}
+  .topbar__actions{display:flex;align-items:center;gap:6px}
   .iconbtn{
-    appearance:none;border:1px solid rgba(0,0,0,.12);background:#fff;color:#111;
-    width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;
+    appearance:none;border:0;background:transparent;color:#111;
+    width:34px;height:34px;border-radius:999px;display:flex;align-items:center;justify-content:center;cursor:pointer;
     transition:.15s;
   }
-  .iconbtn:hover{background:#fff6cc}
+  .iconbtn:hover{background:#f3f4f6}
   .iconbtn svg{width:18px;height:18px;display:block}
 
-  .wrap{max-width:980px;margin:0 auto;padding:22px}
-  h1{margin:8px 0 4px;color:var(--primary);font-size:20px}
-  .muted{color:#334155}
+  /* Layout container */
+  .wrap{max-width:960px;margin:0 auto;padding:24px 16px}
 
-  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;margin:14px 0}
+  /* Títulos e textos */
+  h1{margin:0 0 8px 0;color:#0f172a;font-weight:600;font-size:var(--fs-16)}
+  .muted{color:var(--muted);font-size:var(--fs-13)}
+
+  /* Seções “mais planas” (em vez de cards altos) */
+  .section{padding:16px 14px;background:transparent;border:0;border-radius:0}
+  .section + .section{border-top:1px solid var(--border)}
+
+  /* Input */
   .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  #tema{flex:1;padding:10px 12px;border:2px solid var(--primary);border-radius:8px;font-size:15px}
+  #tema{flex:1;padding:10px 12px;border:1px solid var(--border);border-radius:12px;font-size:var(--fs-15);background:#fff}
+  #tema:focus{outline:none;border-color:#cbd5e1;box-shadow:0 0 0 3px rgba(29,78,216,.08)}
 
+  /* Botões pill leves */
   .btn{
-    appearance:none;border:1px solid var(--border);background:var(--highlight);color:#000;
-    padding:var(--btn-pad-y) var(--btn-pad-x);border-radius:8px;font-size:var(--btn-font);cursor:pointer;transition:.15s;min-height:var(--btn-min-h)
+    appearance:none;border:1px solid var(--border);background:#fff;color:#111;
+    padding:var(--btn-pad-y) var(--btn-pad-x);border-radius:999px;font-size:var(--btn-font);
+    cursor:pointer;transition:.15s
   }
-  .btn:hover{background:var(--highlight-light)}
-  .btn:active,.btn-alt:active{transform:translateY(1px) scale(.99)}
-  .btn-alt{
-    appearance:none;border:1px solid #0f2a71;background:var(--primary);color:#fff;
-    padding:var(--btn-pad-y) var(--btn-pad-x);border-radius:8px;font-size:var(--btn-font);cursor:pointer;transition:.15s;min-height:var(--btn-min-h)
-  }
-  .btn-alt:hover{background:#264399}
-  .btn[disabled],.btn-alt[disabled]{opacity:.8;cursor:default}
-  .btn-ok{ background:var(--success)!important; color:#fff!important; border-color:var(--success-border)!important; }
+  .btn:hover{background:#f6f7f8}
+  .btn-alt{border:1px solid var(--primary);background:var(--primary);color:#fff}
+  .btn-alt:hover{background:var(--primary-600);border-color:var(--primary-600)}
+  .btn[disabled],.btn-alt[disabled]{opacity:.75;cursor:default}
+  .btn-ok{background:var(--success)!important;color:#fff!important;border-color:var(--success-border)!important}
 
-  .acc{margin:12px 0;border:1px solid var(--border);border-radius:12px;background:#fff;box-shadow:var(--shadow)}
-  .acc>summary{list-style:none;cursor:pointer;padding:10px 14px;font-weight:800;color:var(--primary);display:flex;align-items:center;justify-content:space-between}
+  /* Acordeões minimal (lista com divisores) */
+  .acc{padding:10px 0;border-top:1px solid var(--border)}
+  .acc:first-of-type{border-top:0}
+  .acc>summary{
+    list-style:none;cursor:pointer;padding:6px 2px;display:flex;align-items:center;justify-content:space-between;
+    font-weight:500;color:#0f172a;
+  }
   .acc>summary::-webkit-details-marker{display:none}
-  .acc[open]>summary{background:#fff7d6}
-  .acc-body{padding:10px 14px}
-  .acc-count{font-weight:700;background:#0f172a0d;color:#0f172a;padding:2px 8px;border-radius:999px;font-size:12px}
+  .acc-body{padding:6px 2px 2px 2px}
+  .acc-count{font-weight:600;background:#f3f4f6;color:#0f172a;padding:2px 8px;border-radius:999px;font-size:var(--fs-12)}
 
-  .result{background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);padding:12px 14px;margin:10px 0}
-  .filetag{display:inline-block;font-weight:700;font-size:12px;padding:2px 8px;border-radius:999px;background:#f1f5f9;color:#0f172a;margin:0 0 8px 0}
-  .result p{margin:0}
+  /* Resultados sem “cartão”: linha com divisor */
+  .result{padding:10px 0;border-bottom:1px solid var(--border)}
+  .result:last-child{border-bottom:0}
+  .filetag{display:inline-block;font-weight:500;font-size:var(--fs-12);color:#475569;margin:0 0 6px 0;text-transform:uppercase;letter-spacing:.02em}
+  .result p{margin:0;font-size:var(--fs-14);line-height:1.5}
   .result .actions{margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 
+  /* Destaque de termos */
   mark{background:var(--mark-bg);padding:0 2px;border-radius:3px}
 
+  /* Prompt */
   #promptArea{display:none}
-  #promptOut{width:100%;min-height:160px;border:1px solid var(--border);border-radius:8px;padding:10px;background:#fff;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;white-space:pre-wrap}
-  .ia-row{display:none;flex-wrap:wrap;gap:8px;margin-top:8px}
-  .ia{padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:#fff;color:#111;text-decoration:none;font-size:12px}
-  .ia:hover{background:#f8fafc}
-  .chip-ghost{padding:6px 10px;border-radius:999px;border:1px dashed var(--border);background:#fff;color:#111;font-size:12px;cursor:pointer}
+  #promptOut{
+    width:100%;min-height:140px;border:1px solid var(--border);border-radius:12px;padding:12px;background:#fff;
+    font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;white-space:pre-wrap
+  }
+  .ia-row{display:none;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .ia{padding:6px 12px;border-radius:999px;border:1px solid var(--border);background:#fff;color:#111;text-decoration:none;font-size:var(--fs-13)}
+  .ia:hover{background:#f6f7f8}
+  .chip-ghost{padding:6px 12px;border-radius:999px;border:1px dashed var(--border);background:#fff;color:#111;font-size:var(--fs-13);cursor:pointer}
 
-  .callout-red{ background:#ffecec; border:1px solid #ffd4d4; color:#7a0e0e; padding:8px 10px; border-radius:8px; }
+  /* Callout (pedido anterior) */
+  .callout-red{background:#fff1f2;border:1px solid #ffe4e6;color:#7a0e0e;padding:8px 10px;border-radius:10px}
 
-  .modal-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.36); display:none; align-items:center; justify-content:center; z-index:80; }
-  .modal{ width:min(92vw, 560px); background:#fff; border:1px solid var(--border); border-radius:12px; box-shadow:0 20px 40px rgba(0,0,0,.2); padding:14px; }
-  .modal header{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px}
-  .modal h2{margin:0; color:var(--primary); font-size:18px}
-  .modal .close{appearance:none; border:1px solid var(--border); background:#fff; border-radius:10px; width:36px; height:36px; cursor:pointer}
-  .modal .content{color:#334155; font-size:13.5px; line-height:1.5}
+  /* Modal Sobre (clean) */
+  .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.36);display:none;align-items:center;justify-content:center;z-index:80}
+  .modal{width:min(92vw,560px);background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 20px 40px rgba(0,0,0,.2);padding:16px}
+  .modal header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+  .modal h2{margin:0;color:#0f172a;font-size:16px;font-weight:600}
+  .modal .close{appearance:none;border:1px solid var(--border);background:#fff;border-radius:12px;width:36px;height:36px;cursor:pointer}
+  .modal .content{color:var(--muted);font-size:var(--fs-14);line-height:1.55}
 
+  /* PWA FAB (mantido oculto—usamos ícone topo) */
   #installFab{position:fixed;right:14px;bottom:14px;z-index:60;display:none;background:#111;color:#fff;border:0;border-radius:999px;padding:10px 12px;gap:8px;align-items:center;box-shadow:0 6px 20px rgba(0,0,0,.25);cursor:pointer}
   #installFab svg{width:16px;height:16px;display:block}
 
-  #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:90}
+  /* Toast minimal (canto direito) */
+  #toast{position:fixed;right:18px;bottom:18px;background:#111;color:#fff;padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:90;font-size:var(--fs-13)}
   #toast.show{opacity:1}
 
   @media (max-width:600px){
-    h1{font-size:18px}
-    .result p{font-size:12.5px; line-height:1.45}
+    h1{font-size:15px}
+    #tema{font-size:15px}
   }
 </style>
 </head>
@@ -108,45 +137,56 @@
       <img class="brand__logo" src="icons/logo.png" alt="direito.love" />
     </a>
     <div class="topbar__actions">
+      <!-- Sobre -->
       <button id="btnAbout" class="iconbtn" type="button" title="Sobre">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="#111" stroke-width="2"/><path d="M12 10v6m0-9h.01" stroke="#111" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" stroke="#111" stroke-width="2"/>
+          <path d="M12 10v6m0-9h.01" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+        </svg>
       </button>
+      <!-- Baixar app (Android) -->
       <button id="btnInstallTop" class="iconbtn" type="button" title="Baixar app" style="display:none">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v10m0 0 4-4m-4 4-4-4M5 21h14a2 2 0 0 0 2-2v-4M3 15v4a2 2 0 0 0 2 2" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 3v10m0 0 4-4m-4 4-4-4M5 21h14a2 2 0 0 0 2-2v-4M3 15v4a2 2 0 0 0 2 2" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </button>
     </div>
   </div>
 </header>
 
 <main class="wrap" id="top">
-  <section id="temaSec" class="card">
-    <h1>Escreva aqui o tema do prompt (mínimo de 5 palavras)</h1>
+  <!-- TEMA -->
+  <section id="temaSec" class="section">
+    <h1>Escreva aqui o tema do prompt</h1>
     <div class="row" style="margin-top:8px">
       <input id="tema" type="text" placeholder="Ex.: responsabilidade civil por dano estético em cirurgia..." />
       <button id="btnAvancar" class="btn-alt" type="button">Avançar</button>
     </div>
-    <p class="muted callout-red" id="temaHint" style="margin:8px 2px 0 2px;display:none">Tema definido. Agora selecione as sugestões e estratégias abaixo.</p>
+    <p class="muted callout-red" id="temaHint" style="margin:10px 2px 0 2px;display:none">Tema definido. Agora selecione as sugestões e estratégias abaixo.</p>
   </section>
 
-  <section id="sugestoesSec" class="card" style="display:none">
+  <!-- SUGESTÕES -->
+  <section id="sugestoesSec" class="section" style="display:none">
     <div class="row" style="justify-content:space-between">
       <h1 style="margin:0">Sugestões para enriquecer seu tema</h1>
       <button id="btnRebuscar" class="btn" type="button">Rebuscar</button>
     </div>
     <p class="muted" style="margin-top:6px">Resultados agrupados por categoria. Clique em cada uma para abrir.</p>
-    <div id="sugestoesCats"></div>
+    <div id="sugestoesCats" style="margin-top:8px"></div>
   </section>
 
-  <section id="estrategiasSec" class="card" style="display:none">
+  <!-- ESTRATÉGIAS -->
+  <section id="estrategiasSec" class="section" style="display:none">
     <h1>Estratégias de estudo</h1>
     <p class="muted" style="margin-top:6px">Abra as categorias, adicione o que fizer sentido e depois gere o prompt.</p>
-    <div id="estrategiasCats"></div>
-    <div class="row" style="margin-top:10px;justify-content:flex-end">
+    <div id="estrategiasCats" style="margin-top:8px"></div>
+    <div class="row" style="margin-top:12px;justify-content:flex-end">
       <button id="btnGerar" class="btn-alt" type="button">Gerar Prompt</button>
     </div>
   </section>
 
-  <section id="promptArea" class="card">
+  <!-- PROMPT -->
+  <section id="promptArea" class="section" style="display:none">
     <h1>Prompt gerado</h1>
     <div id="promptOut"></div>
     <div class="row" style="margin-top:10px; align-items:center; gap:12px;">
@@ -178,7 +218,7 @@
       </button>
     </header>
     <div class="content">
-      <p>O direito.love ajuda estudantes a montar prompts de estudo de forma rápida e inteligente. Digite um tema, receba sugestões do nosso acervo (códigos, súmulas, julgados e jurisprudência), escolha as sessões do seu estudo e gere um prompt otimizado para a IA de sua preferência.</p>
+      <p>O direito.love ajuda estudantes a montar prompts de estudo de forma rápida e inteligente. Digite um tema, receba sugestões do nosso acervo (códigos, súmulas, julgados e jurisprudência), escolha as seções do seu estudo e gere um prompt otimizado para a IA de sua preferência.</p>
       <p>Funciona como PWA no Android: <b>Baixe o app</b> para acesso instantâneo e offline básico.</p>
     </div>
   </div>
@@ -214,7 +254,6 @@
   const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   const norm=(s="")=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 
-  // canônicos de códigos (usados para tirar do requisito de proximidade)
   const LAW_CANONS = [
     'codigo penal','codigo de processo penal','codigo civil','codigo de processo civil',
     'codigo tributario nacional','codigo de defesa do consumidor','codigo de transito brasileiro',
@@ -225,13 +264,11 @@
   ];
 
   const SYN = [
-    // marcadores estruturais
     { canon:'art',    pats:[/\bart(?:s|\.)?\b/giu,/\bartigo\b/giu] },
     { canon:'inciso', pats:[/\bincs?\.?\b/giu,/\binc\.?\b/giu,/\binciso\b/giu] },
     { canon:'alinea', pats:[/\bal\.?\b/giu,/\balinea\b/giu] },
     { canon:'paragrafo', pats:[/\bpar\.?\b/giu,/\b§+\b/giu] },
 
-    // códigos e siglas
     { canon:'codigo penal', pats:[/\bcp\b/giu,/\bcod(?:\.|igo)?\s+penal\b/giu] },
     { canon:'codigo de processo penal', pats:[/\bcpp\b/giu,/\bcod(?:\.|igo)?\s+de\s+processo\s+penal\b/giu] },
     { canon:'codigo civil', pats:[/\bcc\b/giu,/\bcod(?:\.|igo)?\s+civil\b/giu] },
@@ -250,14 +287,12 @@
     { canon:'codigo brasileiro de telecomunicacoes', pats:[/\bcod(?:\.|igo)?\s+brasileiro\s+de\s+telecomunicacoes\b/giu] },
     { canon:'consolidacao das leis do trabalho', pats:[/\bclt\b/giu,/\bconsolidac[aã]o\s+das\s+leis\s+do\s+trabalho\b/giu] },
 
-    // temas comuns
     { canon:'dano', pats:[/\bdanos?\b/giu] },
     { canon:'moral', pats:[/\bmorais\b/giu] },
     { canon:'estetico', pats:[/\best[eé]tic\w+\b/giu,/\besteic\w+\b/giu] },
     { canon:'medico', pats:[/\bm[eé]dic\w+\b/giu] },
     { canon:'erro medico', pats:[/\berro\s+medic\w+\b/giu,/\biatrogen\w+\b/giu,/\bimperici\w+\b/giu,/\bnegligenci\w+\b/giu,/\bimprudenci\w+\b/giu,/\berro\s+odontolog\w+\b/giu] },
 
-    // jurisprudência e afins
     { canon:'sumula', pats:[/\bs[uú]mulas?\b/giu,/\bsv\b/giu,/\bsumula\b/giu] },
     { canon:'jurisprudencia', pats:[/\bjurisprud[eê]nci\w+\b/giu,/\bprecedent\w+\b/giu,/\bleading\s+case\b/giu] },
     { canon:'tema repetitivo', pats:[/\btemas?\s+repetitiv\w+\b/giu] },
@@ -271,20 +306,20 @@
     // normalizar "art120", "art.120", "artigo120"
     t=t.replace(/\b(art(?:igo)?\.?)\s*(\d+[a-z\-]*)\b/giu,' art $2 ');
 
-    // remover pontos dentro de números (ex.: 13.709 -> 13709, 2.018 -> 2018)
+    // remover pontos dentro de números (13.709 -> 13709)
     t=t.replace(/\b\d{1,3}(?:\.\d{3})+(?:\/\d{2,4})?\b/g, m => m.replace(/\./g,''));
-    t=t.replace(/(\d)\.(?=\d)/g,'$1'); // fallback extra
+    t=t.replace(/(\d)\.(?=\d)/g,'$1'); // fallback
 
-    // suprimir marcações de grau/ordinais
+    // ordinais
     t=t.replace(/(\d+)\s*[ºªoa]\b/g,'$1');
 
-    // limpar pontuação solta
+    // pontuação solta
     t=t.replace(/["'()]/g,' ').replace(/\s+/g,' ').trim();
 
-    // unicizar "único"
+    // "único" sem acento
     t=t.replace(/\bunico\b/giu,' unico ');
 
-    // aplicar sinônimos/canônicos
+    // sinônimos/canônicos
     t=applySynonyms(' '+t+' ');
 
     return t.replace(/\s+/g,' ').trim();
@@ -302,7 +337,7 @@
     return html;
   }
 
-  /* ===== Regras de proximidade (cadeia) ===== */
+  /* ===== Proximidade (cadeia) ===== */
   function hasProxChain(hayTokens, targetsArr, requireDistinct, maxGap=2){
     if(!targetsArr.length) return false;
     const targetSet = new Set(targetsArr);
@@ -316,22 +351,18 @@
     }
     if(posByTok.size < requireDistinct) return false;
 
-    const occs=[];
-    for(const [tok, arr] of posByTok){ for(const p of arr){ occs.push({pos:p, tok}); } }
+    const occs=[]; for(const [tok,arr] of posByTok){ for(const p of arr){ occs.push({pos:p,tok}); } }
     occs.sort((a,b)=>a.pos-b.pos);
 
     for(let s=0;s<occs.length;s++){
-      let used=new Set([occs[s].tok]);
-      let last=occs[s].pos;
+      let used=new Set([occs[s].tok]); let last=occs[s].pos;
       for(let t=s+1;t<occs.length;t++){
-        const gap = occs[t].pos - last - 1;
-        if(gap <= maxGap){
+        const gap=occs[t].pos-last-1;
+        if(gap<=maxGap){
           if(!used.has(occs[t].tok)) used.add(occs[t].tok);
-          last = occs[t].pos;
-          if(used.size >= requireDistinct) return true;
-        } else {
-          break;
-        }
+          last=occs[t].pos;
+          if(used.size>=requireDistinct) return true;
+        }else{ break; }
       }
     }
     return false;
@@ -385,20 +416,20 @@
   }
   function ensureVisible(el){ el.scrollIntoView({behavior:'smooth',block:'start'}); }
 
-  /* ===== Busca profissional com proximidade e códigos fora do requisito ===== */
+  /* ===== Busca profissional ===== */
   function professionalSearch(raw, data){
     const qLegal = normalizeLegal(raw);
     const qTokensAll = tokensFromLegal(qLegal);
     const qDistinct = Array.from(new Set(qTokensAll));
 
-    // detectar menções a códigos (para não exigir proximidade deles)
+    // códigos na query não entram na exigência de proximidade
     const lawHits = LAW_CANONS.filter(c => qLegal.includes(c));
     const lawTokSet = new Set(lawHits.flatMap(c => tokensFromLegal(c)));
 
-    // targets para cadeia: tirar tokens de código e stopwords
+    // targets para cadeia
     let chainTargets = qDistinct.filter(t => !lawTokSet.has(t) && !STOP.has(t));
 
-    // regra de quantos termos distintos exigir na cadeia
+    // quantos distintos exigir (gap <=2)
     let requireDistinct, maxGap = 2;
     if (chainTargets.length <= 1){
       requireDistinct = 1;
@@ -418,7 +449,6 @@
       const hay = (it.textoLegal || it.textoNorm || '');
       const hTokens = tokensFromLegal(hay);
 
-      // precisa conter pelo menos um target
       if (!chainTargets.some(t => hTokens.includes(t))) continue;
 
       if (requireDistinct===1){
@@ -439,7 +469,7 @@
     const p=document.createElement('p'); const baseText=(item.texto&&item.texto.trim())||(item.titulo||'');
     p.innerHTML=highlightText(baseText,tokens); div.appendChild(p);
     const actions=document.createElement('div'); actions.className='actions';
-    const add=document.createElement('button'); add.className='btn-alt'; add.type='button'; add.textContent='Incluir no tema';
+    const add=document.createElement('button'); add.className='btn'; add.type='button'; add.textContent='Incluir no tema';
     add.addEventListener('click',()=>{
       const piece=item.texto?.trim()||[item.titulo||'',item.url||''].filter(Boolean).join(' — ');
       if(piece){
@@ -473,7 +503,7 @@
     sugCats.innerHTML='';
     const groups=groupByCategory(items);
     const entries=Object.entries(groups);
-    if(entries.length===0){ sugCats.innerHTML='<p>Nenhum resultado encontrado para o tema informado.</p>'; return; }
+    if(entries.length===0){ sugCats.innerHTML='<p class="muted">Nenhum resultado encontrado para o tema informado.</p>'; return; }
     for(const [catId,group] of entries){
       const det=document.createElement('details'); det.className='acc';
       const sum=document.createElement('summary'); const ttl=document.createElement('span'); ttl.textContent=group.label;
@@ -521,7 +551,7 @@
         const tag=document.createElement('div'); tag.className='filetag'; tag.textContent=nome; div.appendChild(tag);
         const p=document.createElement('p'); p.textContent=desc; div.appendChild(p);
         const actions=document.createElement('div'); actions.className='actions';
-        const btn=document.createElement('button'); btn.className='btn-alt'; btn.type='button'; btn.textContent='Adicionar ao prompt';
+        const btn=document.createElement('button'); btn.className='btn'; btn.type='button'; btn.textContent='Adicionar ao prompt';
         btn.addEventListener('click',()=>{
           selecionarEstrategia(nome,desc);
           toast('Sessão adicionada ao prompt.');
