@@ -3,872 +3,590 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>direito.love — App</title>
+<title>direito.love — Estudo & Pesquisa</title>
 <meta name="theme-color" content="#F5C400" />
-<meta name="description" content="Pesquisa jurídica e criador de prompts em uma única página — direito.love" />
 <link rel="icon" href="favicon.png" type="image/png" />
 <link rel="apple-touch-icon" href="favicon-180.png" />
 <style>
   :root{
-    --bg:#FFFDF0; --surface:#ffffff; --text:#001840; --border:#e5e7eb;
+    --bg:#FFFDF0; --surface:#fff; --text:#001840; --border:#e5e7eb;
     --primary:#102A71; --highlight:#F5C400; --highlight-light:#FFDC5F;
     --radius:12px; --shadow:0 4px 16px rgba(0,0,0,.05);
     --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
     --safe-bottom: env(safe-area-inset-bottom, 0px);
-    --bar-h: 56px; --success:#16a34a; --muted-btn:#e5e7eb;
-    --news-btn:#16a34a; --news-btn-hover:#22c55e; --snap-offset:96px;
-
-    /* botões compactos */
-    --btn-pad-y: 6px; --btn-pad-x: 10px; --btn-font: 12.5px;
-    --btn-min-h: 34px; --btn-min-w: 96px;
-
-    /* chips topbar */
-    --chip-pad-y: 6px; --chip-pad-x: 10px; --chip-font: 12.5px; --chip-radius: 8px;
-
-    /* marca-texto */
-    --mark-bg: #CFF8CF; --mark-text:#062a06;
+    --btn-py:6px; --btn-px:10px; --btn-f:12.5px; --btn-h:34px; --btn-w:96px;
+    --chip-py:6px; --chip-px:10px; --chip-f:12.5px; --chip-r:8px;
+    --mark-bg:#CFF8CF; --mark-t:#063106;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);font:400 13px/1.5 var(--font);}
+  body{margin:0;background:var(--bg);color:var(--text);font:400 13px/1.5 var(--font)}
 
   /* Topbar */
-  .topbar{position:sticky; top:0; z-index:100; background:var(--highlight); border-bottom:1px solid rgba(0,0,0,.08)}
-  .topbar__inner{max-width:1160px; margin:0 auto; padding:8px 12px; display:flex; align-items:center; justify-content:space-between; gap:12px}
-  .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:#111}
+  .topbar{position:sticky;top:0;z-index:100;background:var(--highlight);border-bottom:1px solid rgba(0,0,0,.08)}
+  .topbar__inner{max-width:1160px;margin:0 auto;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brand{display:flex;align-items:center;gap:10px;color:#111;text-decoration:none}
   .brand__logo{height:32px}
-  .nav__actions{display:flex; gap:8px; align-items:center}
-  .chip{
-    padding:var(--chip-pad-y) var(--chip-pad-x);
-    border-radius:var(--chip-radius);
-    background:#fff; border:1px solid var(--border);
-    font-size:var(--chip-font); color:var(--primary); text-decoration:none; font-weight:600; transition:.15s
-  }
+  .nav__actions{display:flex;gap:8px}
+  .chip{padding:var(--chip-py) var(--chip-px);border-radius:var(--chip-r);background:#fff;border:1px solid var(--border);font-size:var(--chip-f);color:var(--primary);text-decoration:none;font-weight:600;transition:.15s}
   .chip:hover{background:var(--highlight-light)}
-  .chip.is-active{background:#102A71; color:#fff; border-color:#0f2a71}
+  .chip.is-active{background:#0f1d4a;color:#fff;border-color:#0f1d4a}
 
-  /* Layout */
-  .wrap{max-width:980px;margin:0 auto;padding:22px; transition:padding-bottom .2s ease;}
-  h2{margin:0 0 10px;color:var(--primary)}
-  .muted{color:#475569}
+  /* Layout base */
+  .wrap{max-width:960px;margin:0 auto;padding:22px}
+  h2{margin:0 0 8px;color:var(--primary)}
+  .muted{color:#475569;margin-top:2px}
 
-  /* Busca */
-  .search-box{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:18px 0;}
-  #busca{flex:1; padding:10px 12px; border:2px solid var(--primary); border-radius:8px; font-size:15px}
-  #btnBuscar{
-    appearance:none; border:1px solid var(--primary); background:var(--primary); color:#fff;
-    padding:var(--btn-pad-y) var(--btn-pad-x); border-radius:8px; font-size:var(--btn-font); cursor:pointer;
-    min-height:var(--btn-min-h); min-width:var(--btn-min-w);
-  }
-  #btnBuscar:disabled{opacity:.7; cursor:progress}
-
-  .intent-chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 2px}
-  .intent{padding:4px 10px;border-radius:999px;border:1px solid var(--border);background:#fff;cursor:pointer;font:600 12.5px var(--font);color:#0f172a}
-  .intent.is-on{background:#eef2ff;border-color:#c7d2fe;color:#1e3a8a}
-
-  .hist{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
-  .hist button{border:1px dashed #cbd5e1;background:#fff;border-radius:999px;padding:4px 8px;cursor:pointer}
-
-  /* Melhores correspondências */
-  .best{display:grid;grid-template-columns:1fr;gap:10px;margin:8px 0}
-  @media (min-width: 720px){ .best{grid-template-columns:repeat(3,1fr);} }
-  .best .best-card{
-    background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);
-    padding:12px; display:flex; flex-direction:column; gap:6px;
-  }
-  .best .kicker{font:700 11px var(--font);color:#0f172a;background:#f1f5f9;display:inline-block;padding:2px 8px;border-radius:999px}
-  .best .t{font:700 13px;color:#0f172a}
-  .best .x{font-size:12.5px;color:#334155}
-  .best .a{display:flex;gap:6px;margin-top:auto;justify-content:flex-end}
-
-  /* Seções */
-  .section{display:none}
-  .section.is-on{display:block}
-
-  /* Acordeões categorias */
-  .cat{
-    background:var(--surface); border:1px solid var(--border); border-radius:12px; box-shadow: var(--shadow);
-    margin:12px 0; overflow:hidden; scroll-margin-top: var(--snap-offset);
-  }
-  .cat > summary{
-    list-style:none; cursor:pointer; padding:10px 14px; font-weight:800; color:var(--primary);
-    display:flex; align-items:center; justify-content:space-between;
-  }
-  .cat > summary::-webkit-details-marker{ display:none; }
-  .cat[open] > summary{ background:#fff7d6; }
-  .cat-count{ font-weight:700; background:#0f172a0d; color:#0f172a; padding:2px 8px; border-radius:999px; font-size:12px; }
-  .cat-body{ padding: 8px 14px; }
-  .cat-more{ display:flex; justify-content:center; padding: 2px 14px 12px; }
-  .cat-more .btn{ min-width: var(--btn-min-w); }
-
-  /* Card resultado */
-  .result{
-    background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);
-    padding:12px 14px;margin:10px 0;position:relative;
-  }
-  .filetag{
-    display:inline-block; font-weight:700; font-size:12px; padding:2px 8px; border-radius:999px;
-    background:#f1f5f9; color:#0f172a; margin:0 0 8px 0;
-  }
-  .result p{margin:0;font-size:13px;line-height:1.55}
-  mark{background:var(--mark-bg); color:var(--mark-text); padding:0 .1em; border-radius:3px}
-  .toggle-more{ margin-left:6px; background:none; border:0; color:var(--primary); cursor:pointer; font-size:12px; padding:2px 4px; line-height:1; }
-
-  /* Ações */
-  .actions{margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
-  .btn{
-    appearance:none;border:1px solid var(--border);background:var(--highlight);color:#000;
-    padding:var(--btn-pad-y) var(--btn-pad-x);border-radius:8px;
-    font-size:var(--btn-font);cursor:pointer;transition:.15s; min-height:var(--btn-min-h); min-width:var(--btn-min-w);
-  }
+  /* Botões menores */
+  .btn{appearance:none;border:1px solid var(--border);background:var(--highlight);color:#000;padding:var(--btn-py) var(--btn-px);border-radius:8px;font-size:var(--btn-f);cursor:pointer;min-height:var(--btn-h);min-width:var(--btn-w);transition:.15s}
   .btn:hover{background:var(--highlight-light)}
-  .btn-alt{
-    appearance:none;border:1px solid #0f2a71;background:var(--primary);color:#fff;
-    padding:var(--btn-pad-y) var(--btn-pad-x);border-radius:8px;
-    font-size:var(--btn-font);cursor:pointer;transition:.15s; min-height:var(--btn-min-h); min-width:var(--btn-min-w);
-  }
-  .btn-alt:hover{background:#264399}
-  .btn-alt.is-selected{ background: var(--success); color:#fff; border-color:#168a44; }
-  .btn-alt.is-selected:hover{ filter:brightness(.95); }
-  .btn-news{
-    background:var(--news-btn);color:#fff;text-decoration:none;display:inline-block;
-    padding:var(--btn-pad-y) var(--btn-pad-x);border-radius:8px;font-size:var(--btn-font);
-    min-height:var(--btn-min-h); min-width:var(--btn-min-w); border:1px solid #0e8f42;
-  }
-  .btn-news:hover{background:var(--news-btn-hover)}
+  .btn-alt{appearance:none;border:1px solid #0f2a71;background:var(--primary);color:#fff;padding:var(--btn-py) var(--btn-px);border-radius:8px;font-size:var(--btn-f);cursor:pointer;min-height:var(--btn-h);min-width:var(--btn-w);transition:.15s}
+  .btn-alt:hover{background:#27439a}
+  .btn-alt.is-selected{background:#16a34a;border-color:#148c41}
+  .btn-ghost{appearance:none;border:1px solid var(--border);background:#fff;color:#0f172a;padding:var(--btn-py) var(--btn-px);border-radius:8px;font-size:var(--btn-f);cursor:pointer;min-height:var(--btn-h);min-width:var(--btn-w)}
+  .btn-danger{background:#ef4444;color:#fff;border:1px solid #b91c1c}
 
-  /* Barra seleção Pesquisa */
-  .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;
-    padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:120}
+  /* Inputs */
+  .search-box{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0}
+  .text{flex:1;padding:10px 12px;border:2px solid var(--primary);border-radius:10px;font-size:15px;background:#fff}
+  .pills{display:flex;gap:8px;flex-wrap:wrap}
+  .pill{border:1px solid var(--border);background:#fff;border-radius:999px;padding:4px 10px;cursor:pointer;font-weight:600}
+  .pill.is-on{background:#0f2a71;color:#fff;border-color:#0f2a71}
+
+  /* Categorias (acordeões) */
+  .cat{background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);margin:12px 0;overflow:hidden}
+  .cat > summary{list-style:none;display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:10px 14px;font-weight:800;color:var(--primary)}
+  .cat > summary::-webkit-details-marker{display:none}
+  .cat[open] > summary{background:#fff7d6}
+  .cat-count{font-weight:700;background:#0f172a0d;color:#0f172a;padding:2px 8px;border-radius:999px;font-size:12px}
+  .cat-body{padding:10px 14px}
+  .cat-more{display:flex;justify-content:center;padding:6px 14px 12px}
+  .result{background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);padding:12px 14px;margin:10px 0}
+  .filetag{display:inline-block;font-weight:700;font-size:12px;padding:2px 8px;border-radius:999px;background:#f1f5f9;color:#0f172a;margin:0 0 8px 0}
+  .result p{margin:0;font-size:13px;line-height:1.55}
+  mark{background:var(--mark-bg);color:var(--mark-t);padding:0 .1em;border-radius:3px}
+  .actions{margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .btn-news{background:#16a34a;color:#fff;border:1px solid #0e8f42;padding:var(--btn-py) var(--btn-px);border-radius:8px;font-size:var(--btn-f);min-height:var(--btn-h);min-width:var(--btn-w);text-decoration:none}
+
+  /* Barra seleção (pesquisa) */
+  .bar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(12px + var(--safe-bottom));z-index:60;background:#111;color:#fff;padding:8px 10px;border-radius:12px;display:none;gap:8px;align-items:center;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+  .bar .btn, .bar .btn-alt{min-width:120px}
+
+  /* Prompt */
+  .section{display:none}
+  .section.is-active{display:block}
+  .hint{margin-top:8px;color:#0f2a71;font-weight:700;display:none}
+  .hint.show{display:block}
+  .grid{display:grid;grid-template-columns:1fr;gap:12px}
+  .card{background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:12px}
+  .opt{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border:1px dashed #d7dce5;border-radius:10px;padding:10px;margin:8px 0;background:#fafcff}
+  .opt__txt{max-width:70%}
+  .opt__txt h4{margin:0 0 6px}
+  .opt__toggle{white-space:nowrap}
+
+  /* Modal */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;align-items:center;justify-content:center;padding:20px;z-index:80}
+  .modal.show{display:flex}
+  .modal__box{background:#fff;max-width:820px;width:100%;border-radius:12px;box-shadow:var(--shadow);padding:14px}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:flex-end}
+  .textarea{width:100%;min-height:220px;border:1px solid var(--border);border-radius:10px;padding:10px;font-size:13px}
+  .chips{display:flex;gap:6px;flex-wrap:wrap}
+  .chip-link{padding:6px 10px;border-radius:999px;background:#0f2a71;color:#fff;text-decoration:none;font-weight:700;border:1px solid #0d2463}
+  .chip-link:hover{filter:brightness(1.05)}
+
+  /* Toast */
+  .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:90}
   .toast.show{opacity:1}
-  #dl-bar{position:fixed; left:50%; transform:translateX(-50%);
-    bottom:calc(10px + var(--safe-bottom)); z-index:110; background:#111; color:#fff;
-    padding:8px 10px; border-radius:12px; display:none; align-items:center; gap:8px;
-    box-shadow:0 6px 20px rgba(0,0,0,.25); font: 500 13px/1.2 var(--font); pointer-events:none;}
-  #dl-bar button{border:1px solid var(--border); padding:var(--btn-pad-y) var(--btn-pad-x);
-    border-radius:8px; cursor:pointer; pointer-events:auto; font-size:var(--btn-font);
-    min-height:var(--btn-min-h); min-width:var(--btn-min-w);}
-  #dl-send{ background: var(--primary); color:#fff; border-color:#0f2a71; } #dl-send:disabled{ opacity:.5; filter:grayscale(.3) }
-  #dl-clear{ background:#fff; color:#111; } #dl-clear:hover{ background:#f2f4f7 }
 
-  /* PROMPT */
-  .field{margin:12px 0}
-  .label{font-weight:700;color:#0f172a;margin-bottom:6px}
-  #tema{width:100%; padding:10px 12px; border:2px solid var(--primary); border-radius:8px; font-size:15px}
-  .note{margin:6px 0 0; color:#0f172a; background:#fff7d6; padding:8px 10px; border-radius:8px; display:none}
-
-  .goals{margin-top:6px}
-  .goal{background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);padding:12px;margin:10px 0}
-  .goal-head{display:flex; align-items:center; justify-content:space-between; gap:10px}
-  .goal-title{font-weight:800;color:#0f172a}
-  .goal-desc{color:#334155;margin:6px 0 0}
-  .goal .pick{margin-left:auto}
-
-  .prompt-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-
-  /* Modal Prompt */
-  .modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:150;padding:20px}
-  .modal__card{background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);max-width:900px;width:100%;max-height:80vh;display:flex;flex-direction:column}
-  .modal__head{padding:12px 14px;border-bottom:1px solid var(--border);font-weight:800;color:#0f172a}
-  .modal__body{padding:12px 14px;overflow:auto}
-  .modal__foot{padding:12px 14px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end}
-  .share-ias{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-  .share-ias .chip{font-weight:700}
-
-  /* mobile: reduzir micro-texto descritivo nos cards de objetivos */
-  @media (max-width: 600px){
-    .goal-desc{ font-size: 12px; line-height: 1.4; }
+  @media (min-width: 880px){
+    .grid{grid-template-columns:1.1fr .9fr}
+  }
+  @media (max-width:600px){
+    .opt__txt{max-width:100%}
   }
 </style>
 </head>
 <body>
-  <header class="topbar" role="banner">
+  <!-- Topbar -->
+  <header class="topbar">
     <div class="topbar__inner">
       <a class="brand" href="#prompt" aria-label="Início">
         <img class="brand__logo" src="icons/logo.png" alt="direito.love" />
       </a>
-      <nav class="nav__actions" aria-label="Ações">
-        <a class="chip" data-nav="#prompt" href="#prompt">Prompt</a>
-        <a class="chip" data-nav="#pesquisa" href="#pesquisa">Pesquisar</a>
+      <nav class="nav__actions">
+        <a id="navPrompt" class="chip is-active" href="#prompt">Prompt</a>
+        <a id="navSearch" class="chip" href="#pesquisa">Pesquisar</a>
       </nav>
     </div>
   </header>
 
   <main class="wrap">
-    <!-- PROMPT (sempre acessível) -->
-    <section id="sec-prompt" class="section">
-      <h2>Criador de Prompt</h2>
-      <p class="muted">Digite o tema ou utilize a pesquisa para encontrar.</p>
-
-      <div class="field">
-        <label class="label" for="tema">Digite o tema ou utilize a pesquisa para encontrar:</label>
-        <textarea id="tema" rows="3" placeholder="Ex.: Homicídio qualificado — comparativo com homicídio simples, jurisprudência dominante e súmulas aplicáveis"></textarea>
-        <div id="temaNote" class="note">Tema definido. Agora selecione as sessões do seu prompt.</div>
-      </div>
-
-      <div id="goals" class="goals"></div>
-
-      <div class="prompt-actions">
-        <button id="btnGerarOutline" class="btn-alt">Gerar Prompt (Outline)</button>
-        <button id="btnGerarFull" class="btn">Gerar Prompt (Completo)</button>
-        <button id="btnLimparTema" class="btn">Limpar</button>
-      </div>
-    </section>
-
-    <!-- PESQUISA (unificada) -->
+    <!-- ========== SEÇÃO PESQUISA ========== -->
     <section id="sec-pesquisa" class="section">
       <h2>Pesquisa de Conteúdo Jurídico</h2>
-      <p class="muted">Busque por tema, artigo, súmula, jurisprudência ou julgado. Resultados agrupados e com marca-texto.</p>
+      <p class="muted">Busque por <b>tema</b>, <b>artigo</b>, <b>súmula</b>, <b>jurisprudência</b> ou <b>julgado</b>. Resultados agrupados e com marca-texto.</p>
 
       <div class="search-box">
-        <input id="busca" type="text" placeholder="Ex.: art. 121 CP, súmula 381, dano moral, homicídio..." />
-        <button id="btnBuscar">Buscar</button>
+        <input id="busca" class="text" type="text" placeholder="Ex: art. 120 CP, súmula 381, crime de homicídio..." />
+        <button id="btnBuscar" class="btn-alt">Buscar</button>
       </div>
 
-      <div class="intent-chips" id="intentChips" aria-label="Intenção da busca">
-        <button class="intent is-on" data-intent="tema">Tema</button>
-        <button class="intent" data-intent="artigo">Artigo</button>
-        <button class="intent" data-intent="sumula">Súmula</button>
-        <button class="intent" data-intent="juris">Jurisprudência</button>
-        <button class="intent" data-intent="julgado">Julgado</button>
+      <div class="pills" id="quickPills">
+        <button class="pill is-on" data-mode="tema">Tema</button>
+        <button class="pill" data-mode="artigo">Artigo</button>
+        <button class="pill" data-mode="sumula">Súmula</button>
+        <button class="pill" data-mode="juris">Jurisprudência</button>
+        <button class="pill" data-mode="julgado">Julgado</button>
       </div>
 
-      <div id="hist" class="hist" aria-label="Histórico de buscas"></div>
-      <section id="best" class="best" aria-label="Melhores correspondências"></section>
+      <!-- Categorias -->
       <section id="categorias"></section>
+    </section>
+
+    <!-- ========== SEÇÃO PROMPT ========== -->
+    <section id="sec-prompt" class="section is-active">
+      <h2>Criador de Prompts para Estudantes de Direito</h2>
+
+      <div class="grid">
+        <div class="card">
+          <label for="tema"><b>Digite o tema ou utilize a pesquisa para encontrar:</b></label>
+          <textarea id="tema" class="textarea" placeholder="Ex.: Dano moral por inscrição indevida, Art. 120 do Código Penal, Homicídio qualificado..."></textarea>
+          <div id="temaHint" class="hint">Tema definido. Agora selecione as sessões do seu prompt.</div>
+        </div>
+
+        <div class="card">
+          <div class="row" style="justify-content:flex-end">
+            <button id="btnGerar" class="btn-alt">Gerar Prompt</button>
+            <button id="btnLimparTema" class="btn-ghost">Limpar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 8px">Sessões do seu prompt</h3>
+        <div id="opts"></div>
+      </div>
     </section>
   </main>
 
-  <!-- Barra seleção Pesquisa -->
-  <div id="dl-bar" aria-live="polite">
-    <button id="dl-send" disabled>Enviar para o Prompt</button>
-    <button id="dl-clear">Limpar seleção</button>
+  <!-- Barra seleção (pesquisa) -->
+  <div id="selectBar" class="bar" aria-live="polite">
+    <button id="barEnviar" class="btn-alt">Enviar para o Prompt</button>
+    <button id="barLimpar" class="btn-ghost">Limpar</button>
+  </div>
+
+  <!-- Modal do Prompt -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true">
+    <div class="modal__box">
+      <h3 style="margin:0 0 8px;color:#102A71">Seu Prompt</h3>
+      <textarea id="outPrompt" class="textarea" readonly></textarea>
+      <div class="row" style="margin-top:8px">
+        <button id="btnCopy" class="btn-alt">Copiar Prompt</button>
+        <button id="btnNovo" class="btn-ghost">Novo</button>
+        <button id="btnFechar" class="btn-danger">Fechar</button>
+      </div>
+      <div id="iaChips" style="display:none;margin-top:10px">
+        <p style="margin:10px 0 6px"><b>Abrir em uma IA:</b></p>
+        <div class="chips">
+          <a class="chip-link" target="_blank" href="https://chatgpt.com/">ChatGPT</a>
+          <a class="chip-link" target="_blank" href="https://claude.ai/new">Claude</a>
+          <a class="chip-link" target="_blank" href="https://gemini.google.com/app">Gemini</a>
+          <a class="chip-link" target="_blank" href="https://www.perplexity.ai/">Perplexity</a>
+          <a class="chip-link" target="_blank" href="https://copilot.microsoft.com/">Copilot</a>
+          <a class="chip-link" target="_blank" href="https://www.phind.com/">Phind</a>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Toast -->
   <div id="toast" class="toast" aria-live="polite"></div>
 
-  <!-- Modal Prompt -->
-  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal__card">
-      <div class="modal__head" id="modalTitle">Seu Prompt</div>
-      <div class="modal__body">
-        <textarea id="promptOut" rows="14" style="width:100%;border:1px solid var(--border);border-radius:10px;padding:10px"></textarea>
-        <div class="share-ias" id="shareIAS" style="display:none"></div>
-      </div>
-      <div class="modal__foot">
-        <span id="tokenInfo" class="muted" style="margin-right:auto"></span>
-        <button id="btnCopy" class="chip">Copiar</button>
-        <button id="btnNovo" class="chip">Novo</button>
-        <button id="btnClose" class="chip">Fechar</button>
-      </div>
-    </div>
-  </div>
-
 <script>
-(function(){
-  /* ===== Helpers & Router ===== */
-  const $=(s,r=document)=>r.querySelector(s);
-  const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+(() => {
+  /* ========= util ========= */
+  const $  = (s,r=document)=>r.querySelector(s);
+  const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
   const toast=(m,t=1600)=>{const el=$("#toast");el.textContent=m;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
+  const debounce=(fn,ms)=>{let id;return(...a)=>{clearTimeout(id);id=setTimeout(()=>fn(...a),ms);};};
 
-  const sections={ "#prompt": "#sec-prompt", "#pesquisa": "#sec-pesquisa" };
-  function setActiveNav(hash){
-    const h = sections[hash] ? hash : "#prompt";
-    for(const a of $$(".nav__actions .chip")) a.classList.toggle("is-active", a.getAttribute("data-nav")==h);
-    for(const id of Object.values(sections)) $(id).classList.remove("is-on");
-    $(sections[h]).classList.add("is-on");
-    if(h==="#pesquisa") ensureSearchBoot();
-    history.replaceState(null, "", h);
+  /* ========= router (hash) ========= */
+  const sectionsMap = {
+    prompt:  $("#sec-prompt"),
+    pesquisa:$("#sec-pesquisa"),
+  };
+  const navPrompt=$("#navPrompt"), navSearch=$("#navSearch");
+  function setActive(hash){
+    const key = (hash||'').replace(/^#/, '') || 'prompt';
+    for(const [k,el] of Object.entries(sectionsMap)){ el.classList.toggle('is-active', k===key); }
+    navPrompt.classList.toggle('is-active', key==='prompt');
+    navSearch.classList.toggle('is-active', key==='pesquisa');
   }
-  window.addEventListener("hashchange",()=>setActiveNav(location.hash));
-  setActiveNav(location.hash || "#prompt");
+  window.addEventListener('hashchange', ()=>setActive(location.hash));
+  setActive(location.hash);
 
-  /* ===== PROMPT: objetivos ===== */
-  const GOALS = [
-    {cat:"Fundamentos", items:[
-      {key:"conceitos", title:"Conceitos e Definições", desc:"Definições objetivas, linguagem clara e diferenciações essenciais, com 1–2 exemplos curtos."},
-      {key:"base_legal", title:"Base Legal Essencial", desc:"Artigos centrais com referência seca e observações breves."},
-      {key:"juris_majoritaria", title:"Jurisprudência Majoritária", desc:"Tese dominante STF/STJ e divergências relevantes."},
-      {key:"doutrina", title:"Doutrina Relevante", desc:"Síntese de doutrina e autores clássicos/modernos (2–3 linhas)."},
-    ]},
-    {cat:"Prática", items:[
-      {key:"exemplos", title:"Exemplos e Casos Práticos", desc:"Cenários curtos aplicando a regra/princípio (2–3 casos)."},
-      {key:"comparativo", title:"Quadro Comparativo", desc:"Comparar institutos próximos (diferenças-chave e quando usar)."},
-      {key:"estrutura_peca", title:"Estrutura de Peça / Modelos", desc:"Esqueleto objetivo de peça aplicável ao tema."},
-      {key:"checklist_peca", title:"Checklist de Peça", desc:"Itens essenciais para não esquecer ao redigir."},
-    ]},
-    {cat:"Memorização", items:[
-      {key:"mapa_mental", title:"Mapa Mental", desc:"Nós principais e conexões essenciais, sucinto."},
-      {key:"flashcards", title:"Flashcards", desc:"Perguntas e respostas rápidas para memorização."},
-      {key:"questoes_fixacao", title:"Questões de Fixação", desc:"5 questões (objetivas/discursivas) com gabarito."},
-      {key:"erros_comuns", title:"Erros Comuns", desc:"Armadilhas, interpretações erradas e como evitar."},
-    ]},
-    {cat:"Avançado", items:[
-      {key:"debates", title:"Debates, Críticas e Tendências", desc:"Controvérsias atuais e evolução do entendimento."},
-      {key:"sumulas_enunciados", title:"Súmulas e Enunciados", desc:"O que consolida e como incide neste tema."},
-      {key:"leading_cases", title:"Casos Famosos / Leading Cases", desc:"Principais precedentes e sua tese."},
-      {key:"atualizacoes", title:"Atualizações Recentes", desc:"Mudanças legislativas e julgados recentes pertinentes."},
-      {key:"checklist_final", title:"Checklist Final de Revisão", desc:"Lista rápida pra revisar antes da prova ou peça."},
-      {key:"dicas_prova", title:"Dicas de Prova (OAB/Concursos)", desc:"Como o tema costuma cair e pegadinhas típicas."},
-      {key:"raciocinio", title:"Raciocínio Jurídico (passo a passo)", desc:"Cadeia lógica para resolver questões/práticas."},
-      {key:"referencias", title:"Referências Bibliográficas", desc:"Autores e obras para aprofundar."},
-    ]}
+  /* ========= dados / arquivos ========= */
+  const arquivos = [
+    "data/julgados_direito_administrativo.json",
+    "data/julgados_direito_ambiental.json",
+    "data/julgados_direito_bancario.json",
+    "data/julgados_direito_civil.json",
+    "data/julgados_direito_constitucional.json",
+    "data/julgados_direito_eleitoral.json",
+    "data/julgados_direito_empresarial.json",
+    "data/noticias_migalhas_1.json",
+    "data/noticias_migalhas_2.json",
+    "data/noticias_migalhas_3.json",
+    "data/codigo_penal.json",
+    "data/codigo_processo_penal.json",
+    "data/sumula_stf.json",
+    "data/sumulas_stj.json",
+    "data/sumulas_tse.json",
+    "data/sumulas_vinculantes_stf.json",
+    "data/temas_repetitivos_stj.json",
+    "data/teses_stf.json",
+    "data/codigo_processo_civil.json",
+    "data/codigo_civil.json",
+    "data/codigo_tributario_nacional.json",
+    "data/codigo_defesa_consumidor.json",
+    "data/codigo_transito_brasileiro.json",
   ];
-  const temaEl=$("#tema"), temaNote=$("#temaNote");
-  let temaTimer=null;
-  temaEl.addEventListener("input", ()=>{
-    if(temaTimer) clearTimeout(temaTimer);
-    temaTimer=setTimeout(()=>{ if(temaEl.value.trim().length>0){ temaNote.style.display="block"; } }, 3000);
-  });
-  $("#btnLimparTema").addEventListener("click", ()=>{
-    temaEl.value=""; temaNote.style.display="none"; uncheckAllGoals();
-  });
+  const nomesAmigaveis = {
+    noticias: "Notícias",
+    noticias_migalhas_1:"Notícias Migalhas",
+    noticias_migalhas_2:"Notícias Migalhas",
+    noticias_migalhas_3:"Notícias Migalhas",
+    sumula_stf:"Súmulas STF", sumulas_stj:"Súmulas STJ", sumulas_tse:"Súmulas TSE",
+    sumulas_vinculantes_stf:"Súmulas Vinculantes STF",
+    temas_repetitivos_stj:"Temas Repetitivos STJ", teses_stf:"Teses STF",
+    codigo_tributario_nacional:"Código Tributário Nacional",
+    codigo_penal:"Código Penal", codigo_civil:"Código Civil",
+    codigo_processo_penal:"Código de Processo Penal", codigo_processo_civil:"Código de Processo Civil",
+    julgados_direito_administrativo:"Julgados de Direito Administrativo",
+    julgados_direito_ambiental:"Julgados de Direito Ambiental",
+    julgados_direito_bancario:"Julgados de Direito Bancário",
+    julgados_direito_civil:"Julgados de Direito Civil",
+    julgados_direito_constitucional:"Julgados de Direito Constitucional",
+    julgados_direito_eleitoral:"Julgados de Direito Eleitoral",
+    julgados_direito_empresarial:"Julgados de Direito Empresarial",
+    codigo_defesa_consumidor:"Código de Defesa do Consumidor",
+    codigo_transito_brasileiro:"Código de Trânsito Brasileiro",
+  };
+  const categorias = {
+    noticias: { label:"Notícias", match:f=>f.startsWith('noticias') },
+    codigos:  { label:"Códigos",  match:f=>f.startsWith('codigo_') },
+    sumulas:  { label:"Súmulas",  match:f=>f.startsWith('sumula') || f.startsWith('sumulas_') || f==='sumulas_vinculantes_stf' },
+    julgados: { label:"Julgados", match:f=>f.startsWith('julgados_') },
+    temas_repetitivos_stj:{ label:"Temas Repetitivos STJ", match:f=>f==='temas_repetitivos_stj' },
+    teses_stf:{ label:"Teses STF", match:f=>f==='teses_stf' },
+    outros:   { label:"Outros", match:_=>true },
+  };
+  const normalizarFonte=f=>f && f.startsWith('noticias') ? 'noticias' : f;
 
-  function renderGoals(){
-    const cont=$("#goals"); cont.innerHTML="";
-    GOALS.forEach(group=>{
-      const box=document.createElement("details");
-      box.className="goal"; box.open=false;
-      const sum=document.createElement("summary");
-      sum.className="goal-head";
-      const t=document.createElement("span"); t.className="goal-title"; t.textContent=group.cat;
-      sum.appendChild(t);
-      box.appendChild(sum);
-
-      group.items.forEach(it=>{
-        const row=document.createElement("div"); row.style.display="flex"; row.style.alignItems="flex-start"; row.style.gap="8px"; row.style.marginTop="10px";
-        const info=document.createElement("div"); info.style.flex="1";
-        const ttl=document.createElement("div"); ttl.className="goal-title"; ttl.style.fontWeight="700"; ttl.textContent=it.title;
-        const desc=document.createElement("div"); desc.className="goal-desc"; desc.textContent=it.desc;
-        info.appendChild(ttl); info.appendChild(desc);
-        const pick=document.createElement("button"); pick.className="btn-alt pick"; pick.dataset.key=it.key; pick.textContent="Selecionar";
-        pick.addEventListener("click",()=>{ pick.classList.toggle("is-selected"); pick.textContent = pick.classList.contains("is-selected") ? "Selecionado" : "Selecionar"; });
-        row.appendChild(info); row.appendChild(pick);
-        box.appendChild(row);
-      });
-      cont.appendChild(box);
-    });
+  /* ========= normalização / parsing ========= */
+  const norm=(s="")=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  function normalizeLegal(s){
+    let t=norm(s);
+    t=t.replace(/§+/g,' paragrafo ');
+    t=t.replace(/\bpar\.?\b/g,' paragrafo ');
+    t=t.replace(/\bart\.?\b|\bartigo\b/g,' art ');
+    t=t.replace(/\binc\.?\b/g,' inciso ');
+    t=t.replace(/\bal\.?\b/g,' alinea ');
+    t=t.replace(/\bunico\b/g,' unico ');
+    t=t.replace(/(\d+)\s*[ºªoa]\b/g,'$1');
+    t=t.replace(/["'()]/g,' ').replace(/\s+/g,' ').trim();
+    return t;
   }
-  function getSelectedGoals(){
-    const keys=[]; $$(".pick.is-selected").forEach(b=>keys.push(b.dataset.key)); return keys;
-  }
-  function uncheckAllGoals(){ $$(".pick.is-selected").forEach(b=>{b.classList.remove("is-selected"); b.textContent="Selecionar";}); }
-  renderGoals();
+  const STOP=new Set(['de','da','do','das','dos','e','ou','a','o','as','os','no','na','nos','nas','para','por','em','um','uma','ao','à','que','com','sem','sobre','entre','ate','dois','três','seu','sua']);
+  const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const hasWhole=(hay,word)=>!word||new RegExp(`(^|[^a-z0-9])${esc(word)}([^a-z0-9]|$)`,'i').test(hay);
 
-  function buildPrompt(mode){
-    const tema = temaEl.value.trim();
-    const sel = getSelectedGoals();
-    const findGoal=(k)=>GOALS.flatMap(g=>g.items).find(x=>x.key===k);
-    const parts=[];
-    parts.push(`TEMA: ${tema || "(defina o tema)"}\n`);
-    parts.push(`INSTRUÇÕES GERAIS:
-- Linguagem clara, objetiva e técnica.
-- Cite leis e súmulas quando pertinente (sem inventar).
-- Organize em seções com títulos curtos.
-- Use exemplos curtos quando cabível.\n`);
-    if(sel.length){
-      parts.push(`SESSÕES SOLICITADAS:`);
-      sel.forEach((k,i)=>{ const g=findGoal(k); parts.push(`${i+1}. ${g.title} — ${g.desc}`); });
-      parts.push("");
+  /* Proximidade: tokeniza e verifica se todas as palavras aparecem numa janela com gap≤1 */
+  function okProximity(text, words, gap=1){
+    const toks = normalizeLegal(text).split(' ').filter(Boolean);
+    const q = words.filter(w=>w && !STOP.has(w));
+    if(!q.length) return true;
+    const posmap = new Map();
+    q.forEach(w=>posmap.set(w,[]));
+    toks.forEach((t,i)=>{ q.forEach(w=>{ if(t===w) posmap.get(w).push(i); }); });
+    // precisa ter ao menos uma ocorrência de cada
+    for(const w of q){ if(posmap.get(w).length===0) return false; }
+    // brute-force pequeno: tenta alinhamentos iniciais
+    for(const p0 of posmap.get(q[0])){
+      let last = p0, ok = true;
+      for(let k=1;k<q.length;k++){
+        const arr = posmap.get(q[k]);
+        const next = arr.find(ix => ix>=last && (ix-last-1) <= gap);
+        if(next==null){ ok=false; break; }
+        last = next;
+      }
+      if(ok) return true;
     }
-    if(mode==="outline"){
-      parts.push(`SAÍDA ESPERADA (OUTLINE):
-- Exibir apenas a estrutura (títulos e bullets curtos) de cada sessão selecionada.
-- Indicar onde entrarão citações de lei/súmula/jurisprudência.`);
-    } else {
-      parts.push(`SAÍDA ESPERADA (COMPLETO):
-- Entregar conteúdo completo, bem formatado e objetivo, para cada sessão selecionada.
-- Sempre que possível, incluir 1–2 exemplos e observações práticas.`);
-    }
-    return parts.join("\n");
-  }
-  function estimateTokens(txt){
-    const words = txt.trim().split(/\s+/).length;
-    return Math.round(words*0.75);
-  }
-
-  const modal=$("#modal"), promptOut=$("#promptOut"), tokenInfo=$("#tokenInfo"), shareBox=$("#shareIAS");
-  $("#btnGerarOutline").addEventListener("click", ()=>{ const p=buildPrompt("outline"); promptOut.value=p; tokenInfo.textContent=`~${estimateTokens(p)} tokens`; shareBox.style.display="none"; openModal(); });
-  $("#btnGerarFull").addEventListener("click", ()=>{ const p=buildPrompt("full"); promptOut.value=p; tokenInfo.textContent=`~${estimateTokens(p)} tokens`; shareBox.style.display="none"; openModal(); });
-  function openModal(){ modal.style.display="flex"; }
-  function closeModal(){ modal.style.display="none"; }
-  $("#btnClose").addEventListener("click", closeModal);
-  $("#btnNovo").addEventListener("click", ()=>{
-    toast("Vamos começar de novo.");
-    promptOut.value=""; temaEl.value=""; temaNote.style.display="none"; uncheckAllGoals(); shareBox.style.display="none"; closeModal();
-  });
-  $("#btnCopy").addEventListener("click", async ()=>{
-    try{ await navigator.clipboard.writeText(promptOut.value||""); toast("Copiado!"); }catch{}
-    showIAChips(promptOut.value||"");
-  });
-  function showIAChips(text){
-    shareBox.innerHTML="";
-    const qs = encodeURIComponent(text.slice(0,8000));
-    const items = [
-      {label:"ChatGPT", href:"https://chat.openai.com/"},
-      {label:"Gemini", href:"https://gemini.google.com/app"},
-      {label:"Claude", href:"https://claude.ai/new"},
-      {label:"Perplexity", href:"https://www.perplexity.ai/search?q="+qs},
-      {label:"Phind", href:"https://www.phind.com/search?q="+qs},
-      {label:"NotebookLM", href:"https://notebooklm.google/"}
-    ];
-    items.forEach(it=>{
-      const a=document.createElement("a");
-      a.className="chip"; a.textContent=it.label; a.href=it.href; a.target="_blank"; a.rel="noopener";
-      a.addEventListener("click", async ()=>{ try{ await navigator.clipboard.writeText(promptOut.value||""); }catch{} });
-      shareBox.appendChild(a);
-    });
-    const close=document.createElement("button"); close.className="chip"; close.textContent="Fechar";
-    close.addEventListener("click",()=>{ shareBox.style.display="none"; closeModal(); toast("Tela reiniciada."); });
-    shareBox.appendChild(close);
-    shareBox.style.display="flex";
+    return false;
   }
 
-  /* ===== PESQUISA (lazy) ===== */
-  let searchBooted=false;
-  function ensureSearchBoot(){
-    if(searchBooted) return;
-    searchBooted=true;
-    initSearch();
+  /* Marca-texto: envolve tokens da query (limpos) com <mark> */
+  function highlight(text, words){
+    let html = text;
+    const uniq = [...new Set(words.filter(w=>w && !STOP.has(w)).sort((a,b)=>b.length-a.length))];
+    for(const w of uniq){
+      const re = new RegExp(`(^|[^\\p{L}\\p{N}])(${esc(w)})(?=[^\\p{L}\\p{N}]|$)`,'giu');
+      html = html.replace(re, (_,b,mid)=> `${b}<mark>${mid}</mark>`);
+    }
+    return html;
   }
 
-  function initSearch(){
-    const AUTO_OPEN_FIRST=false;
-    const MAX_SNIPPET=400, PAGE_SIZE=10;
+  function parseQuery(raw){
+    const base = normalizeLegal(raw);
+    const padded = ` ${base} `;
+    const alias=[/\\bcp\\b|\\bcodigo penal\\b/,/\\bcpp\\b|\\bcodigo de processo penal\\b/,/\\bcc\\b|\\bcodigo civil\\b/,/\\bcpc\\b|\\bcodigo de processo civil\\b/,/\\bctn\\b|\\bcodigo tributario nacional\\b/,/\\bcdc\\b|\\bcodigo de defesa do consumidor\\b/,/\\bctb\\b|\\bcodigo de transito brasileiro\\b/];
+    let tokens = base.split(' ').filter(Boolean).filter(t=>!STOP.has(t));
+    // normalizar menções
+    if(/\\bart\\b/.test(padded)){ const m=padded.match(/\\bart\\s*([0-9][0-9a-z\\-]*)\\b/); if(m) tokens = ['art', m[1], ...tokens]; }
+    alias.forEach(re=>{ if(re.test(padded)) tokens.push(base.match(re)?.[0].split(' ')[0]); });
+    return [...new Set(tokens)];
+  }
 
-    const intentChips=$("#intentChips");
-    let INTENT = localStorage.getItem("dl_intent") || "tema";
-    $$(".intent", intentChips).forEach(b=>b.classList.toggle("is-on", b.dataset.intent===INTENT));
-    intentChips.addEventListener("click",(e)=>{
-      const b=e.target.closest(".intent"); if(!b) return;
-      $$(".intent", intentChips).forEach(x=>x.classList.remove("is-on"));
-      b.classList.add("is-on"); INTENT=b.dataset.intent; localStorage.setItem("dl_intent", INTENT);
-    });
-
-    /* histórico */
-    const HIST_KEY="dl_hist_v1";
-    function loadHist(){ try{return JSON.parse(localStorage.getItem(HIST_KEY)||"[]");}catch{return [];} }
-    function pushHist(q){ if(!q) return; const arr=loadHist().filter(x=>x!==q); arr.unshift(q); localStorage.setItem(HIST_KEY, JSON.stringify(arr.slice(0,8))); renderHist(); }
-    function renderHist(){
-      const h=$("#hist"); const arr=loadHist(); h.innerHTML="";
-      arr.forEach(q=>{ const b=document.createElement("button"); b.textContent=q; b.addEventListener("click",()=>{ busca.value=q; executarBusca(); }); h.appendChild(b); });
-    }
-    renderHist();
-
-    /* normalização & parsing */
-    const norm=(s="")=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-    function normalizeLegal(s){
-      let t=norm(s);
-      t=t.replace(/§+/g,' paragrafo ');
-      t=t.replace(/\bpar\.?\b/g,' paragrafo ');
-      t=t.replace(/\bart\.?\b|\bartigo\b/g,' art ');
-      t=t.replace(/\binc\.?\b/g,' inciso ');
-      t=t.replace(/\bal\.?\b/g,' alinea ');
-      t=t.replace(/\bunico\b/g,' unico ');
-      t=t.replace(/(\d+)\s*[ºªoa]\b/g,'$1');
-      t=t.replace(/["'()]/g,' ').replace(/\s+/g,' ').trim();
-      return t;
-    }
-    const STOP=new Set(['de','da','do','das','dos','e','ou','a','o','as','os','no','na','nos','nas','para','por','em','um','uma','ao','à','que','com','sem','sobre','entre','ate']);
-    const romanLower=(s='')=>String(s).replace(/[^ivxlcdm]/gi,'').toLowerCase();
-    function parseQuery(raw){
-      const base = normalizeLegal(raw);
-      const padded = ` ${base} `;
-      let tokens = base.split(' ').filter(Boolean).filter(t=>!STOP.has(t));
-      let artNum=null; { const m=padded.match(/\bart\s*([0-9][0-9a-z\-]*)\b/); if(m) artNum=m[1]; }
-      let paragrafo=null; { const m=padded.match(/\bparagrafo\s*(unico|\d+)\b/); if(m) paragrafo=m[1]; }
-      let inciso=null; { const m=padded.match(/\binciso\s*([ivxlcdm]+)\b/); if(m) inciso=romanLower(m[1]); }
-      let alinea=null; { const m=padded.match(/\balinea\s*([a-z])\b/); if(m) alinea=m[1].toLowerCase(); }
-      const caput = /\bcaput\b/.test(padded);
-      const out=new Set(tokens);
-      if(artNum){ out.add('art'); out.add(String(artNum)); }
-      if(paragrafo){ out.add('paragrafo'); out.add(String(paragrafo)); }
-      if(inciso){ out.add('inciso'); out.add(inciso); }
-      if(alinea){ out.add('alinea'); out.add(alinea); }
-      if(caput){ out.add('caput'); }
-      return { words:[...out] };
-    }
-
-    /* proximidade gap<=1 */
-    function tokenize(hay){ return normalizeLegal(hay).split(/[^a-z0-9]+/).filter(Boolean); }
-    function indicesFor(words, target){
-      const idx=[]; for(let i=0;i<words.length;i++){ if(words[i]===target) idx.push(i); } return idx;
-    }
-    function proximityScore(hayTokens, qWords, gap=1){
-      for(const w of qWords){ if(!hayTokens.includes(w)) return -1; }
-      const pos = qWords.map(w=>indicesFor(hayTokens,w)[0]).filter(x=>x!==undefined);
-      const min = Math.min(...pos), max=Math.max(...pos);
-      const window = max-min+1;
-      const ideal = qWords.length + gap*(qWords.length-1);
-      return -Math.max(0, window - ideal);
-    }
-
-    /* highlight preservando acentos */
-    function highlightText(original, qWords){
-      if(!qWords || !qWords.length) return original;
-      const orig = Array.from(original);
-      const normPieces=[]; const map=[];
-      for(let i=0;i<orig.length;i++){
-        const n = orig[i].normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-        for(let k=0;k<n.length;k++){ normPieces.push(n[k]); map.push(i); }
-      }
-      const normStr = normPieces.join('');
-      const marks=[];
-      for(const w of qWords){
-        if(!w || w.length<2) continue;
-        const re=new RegExp(`(^|[^a-z0-9])(${w})([^a-z0-9]|$)`,'gi');
-        let m; while((m=re.exec(normStr))){
-          const s=m.index + (m[1]?m[1].length:0);
-          const e=s+(m[2]||'').length -1;
-          const sO = map[s], eO = map[e];
-          if(sO!=null && eO!=null){ marks.push([sO,eO]); }
-        }
-      }
-      if(!marks.length) return original;
-      marks.sort((a,b)=>a[0]-b[0]);
-      const merged=[]; let cur=marks[0];
-      for(let i=1;i<marks.length;i++){
-        const m=marks[i];
-        if(m[0] <= cur[1]+1){ cur[1] = Math.max(cur[1], m[1]); }
-        else { merged.push(cur); cur=m; }
-      }
-      merged.push(cur);
-      let out=""; let last=0;
-      merged.forEach(([s,e])=>{
-        out += original.slice(last,s) + '<mark>' + original.slice(s,e+1) + '</mark>';
-        last = e+1;
-      });
-      out += original.slice(last);
-      return out;
-    }
-
-    /* fontes */
-    const arquivos = [
-      "data/julgados_direito_administrativo.json",
-      "data/julgados_direito_ambiental.json",
-      "data/julgados_direito_bancario.json",
-      "data/julgados_direito_civil.json",
-      "data/julgados_direito_constitucional.json",
-      "data/julgados_direito_eleitoral.json",
-      "data/julgados_direito_empresarial.json",
-      "data/noticias_migalhas_1.json",
-      "data/noticias_migalhas_2.json",
-      "data/noticias_migalhas_3.json",
-      "data/codigo_penal.json",
-      "data/codigo_processo_penal.json",
-      "data/sumula_stf.json",
-      "data/sumulas_stj.json",
-      "data/sumulas_tse.json",
-      "data/sumulas_vinculantes_stf.json",
-      "data/temas_repetitivos_stj.json",
-      "data/teses_stf.json",
-      "data/codigo_processo_civil.json",
-      "data/codigo_civil.json",
-      "data/codigo_tributario_nacional.json",
-      "data/codigo_defesa_consumidor.json",
-      "data/codigo_transito_brasileiro.json"
-    ];
-    const nomesAmigaveis = {
-      noticias: "Notícias",
-      noticias_migalhas_1: "Notícias Migalhas",
-      noticias_migalhas_2: "Notícias Migalhas",
-      noticias_migalhas_3: "Notícias Migalhas",
-      sumula_stf: "Súmulas STF",
-      sumulas_stj: "Súmulas STJ",
-      sumulas_tse: "Súmulas TSE",
-      sumulas_vinculantes_stf: "Súmulas Vinculantes STF",
-      temas_repetitivos_stj: "Temas Repetitivos STJ",
-      teses_stf: "Teses STF",
-      codigo_tributario_nacional: "Código Tributário Nacional",
-      codigo_penal: "Código Penal",
-      codigo_civil: "Código Civil",
-      codigo_processo_penal: "Código de Processo Penal",
-      codigo_processo_civil: "Código de Processo Civil",
-      julgados_direito_administrativo: "Julgados de Direito Administrativo",
-      julgados_direito_ambiental: "Julgados de Direito Ambiental",
-      julgados_direito_bancario: "Julgados de Direito Bancário",
-      julgados_direito_civil: "Julgados de Direito Civil",
-      julgados_direito_constitucional: "Julgados de Direito Constitucional",
-      julgados_direito_eleitoral: "Julgados de Direito Eleitoral",
-      julgados_direito_empresarial: "Julgados de Direito Empresarial",
-      codigo_defesa_consumidor: "Código de Defesa do Consumidor",
-      codigo_transito_brasileiro: "Código de Trânsito Brasileiro"
-    };
-    const normalizarFonte=(f)=> f && f.startsWith('noticias') ? 'noticias' : f;
-
-    const catOrder = ["codigos","sumulas","julgados","temas_repetitivos_stj","teses_stf","noticias","outros"];
-    const categorias = {
-      codigos: { label:"Códigos", match:f=>f.startsWith("codigo_") },
-      sumulas: { label:"Súmulas", match:f=>f.startsWith("sumula")||f.startsWith("sumulas_")||f==="sumulas_vinculantes_stf" },
-      julgados:{ label:"Julgados", match:f=>f.startsWith("julgados_") },
-      temas_repetitivos_stj: { label:"Temas Repetitivos STJ", match:f=>f==="temas_repetitivos_stj" },
-      teses_stf: { label:"Teses STF", match:f=>f==="teses_stf" },
-      noticias: { label:"Notícias", match:f=>f.startsWith("noticias") },
-      outros: { label:"Outros", match: f=>true }
-    };
-
-    let baseDados=[];
-    async function carregarDados(){
-      const dados=[];
-      for(const arq of arquivos){
-        try{
-          const tag=arq.split('/').pop().replace(/\.json$/,'');
-          const r=await fetch(arq); if(!r.ok) continue;
-          const j=await r.json();
-          (Array.isArray(j)?j:[]).forEach((it,idx)=>{
-            const _id=it.id||`${tag}_${idx}`;
-            const texto=(it.texto||'').trim();
-            dados.push({ ...it, _id, fonte:tag, textoNorm: norm(texto), textoLegal: normalizeLegal(texto) });
-          });
-        }catch(e){ console.warn("Erro ao carregar", arq, e); }
-      }
-      baseDados=dados;
-      toast("Base carregada com sucesso!");
-    }
-    carregarDados();
-
-    const busca=$("#busca"), btnBuscar=$("#btnBuscar"), categoriasEl=$("#categorias"), bestEl=$("#best");
-    const KEY='dl_pesq_sel';
-    const getSel=()=>JSON.parse(localStorage.getItem(KEY)||'[]');
-    const setSel=(a)=>localStorage.setItem(KEY, JSON.stringify(a));
-    const dedupPush=(arr,item)=>{ const k=item.id||item._id||(item.fonte+':'+(item.texto||'').slice(0,50)); if(!arr.some(x=>x.id===k)) arr.push({...item,id:k}); return arr; };
-
-    function updateBar(){
-      const has = getSel().length>0; $("#dl-send").disabled=!has; $("#dl-bar").style.display= has ? "flex" : "none";
-    }
-    $("#dl-clear").addEventListener("click", ()=>{ localStorage.removeItem(KEY); updateBar(); });
-
-    $("#dl-send").addEventListener("click", ()=>{
-      const arr=getSel(); if(!arr.length) return;
-      const texto = arr.map(x=>x.texto).filter(Boolean).join("\n\n");
-      temaEl.value = (temaEl.value.trim() ? (temaEl.value.trim()+"\n\n") : "") + texto;
-      temaNote.style.display="block";
-      localStorage.removeItem(KEY); updateBar();
-      setActiveNav("#prompt");
-      toast("Conteúdo enviado ao tema. Selecione as sessões e gere o prompt.");
-    });
-
-    function actionChipsFor(item){
-      const f=normalizarFonte(item.fonte);
-      if(f==="noticias"){
-        return [
-          {label:"Atualização", tpl:"Transforme esta notícia jurídica em um resumo objetivo para estudo, indicando impacto prático e contexto."},
-          {label:"Impacto", tpl:"Explique o impacto prático desta notícia para a advocacia ou provas, com 2 pontos a favor e 2 contra."}
-        ];
-      } else if(f.startsWith("codigo_")){
-        return [
-          {label:"Explicar", tpl:"Explique o artigo em linguagem simples, com 1–2 exemplos práticos, sem perder rigor técnico."},
-          {label:"Quadro", tpl:"Monte um quadro comparativo entre este artigo e os correlatos do mesmo código, destacando diferenças-chave."},
-          {label:"Questões", tpl:"Crie 3 questões de prova (OAB/concursos) com gabarito baseadas neste artigo."}
-        ];
-      } else if(f.startsWith("sumula")){
-        return [
-          {label:"Resumo", tpl:"Explique esta súmula em linguagem acessível e aponte 2 situações típicas de aplicação."},
-          {label:"Flashcards", tpl:"Crie 6 flashcards objetivos para memorização desta súmula."}
-        ];
-      } else if(f.startsWith("julgados_") || f==="temas_repetitivos_stj" || f==="teses_stf"){
-        return [
-          {label:"Resumo", tpl:"Resuma o julgado/tema em até 10 linhas, destacando a tese jurídica aplicada."},
-          {label:"Questão", tpl:"Monte uma questão discursiva com base neste entendimento, com gabarito-resumo ao final."}
-        ];
-      }
-      return [{label:"Explicar", tpl:"Explique o conteúdo abaixo de forma clara e objetiva, com 1–2 exemplos."}];
-    }
-
-    function buildCard(item, qWords){
-      const fNorm = normalizarFonte(item.fonte);
-      const nomeBonito = nomesAmigaveis[fNorm] || nomesAmigaveis[item.fonte] || item.fonte;
-      const div=document.createElement("div"); div.className="result";
-
-      const tag=document.createElement("div"); tag.className="filetag"; tag.textContent=nomeBonito; div.appendChild(tag);
-
-      const p=document.createElement("p");
-      const txt=(item.texto||'').trim();
-      const isLong = txt.length>MAX_SNIPPET;
-      const short = txt.substring(0,MAX_SNIPPET)+(isLong?"…":"");
-      p.innerHTML = highlightText(short, qWords);
-      div.appendChild(p);
-
-      if(isLong){
-        const tg=document.createElement("button"); tg.type="button"; tg.className="toggle-more"; tg.textContent="Ver mais"; tg.dataset.expanded="0";
-        tg.addEventListener("click",()=>{
-          const on=tg.dataset.expanded==="1";
-          if(on){ p.innerHTML=highlightText(short, qWords); tg.textContent="Ver mais"; tg.dataset.expanded="0"; }
-          else { p.innerHTML=highlightText(txt, qWords); tg.textContent="Ver menos"; tg.dataset.expanded="1"; }
-        }); p.after(tg);
-      }
-
-      const actions=document.createElement("div"); actions.className="actions";
-
-      // chips de estudo enviam direto ao Tema
-      const chips = actionChipsFor(item);
-      chips.slice(0,3).forEach(c=>{
-        const b=document.createElement("button"); b.className="btn"; b.textContent=c.label;
-        b.addEventListener("click", ()=>{
-          const base = (item.texto && item.texto.trim()) ? item.texto : [item.titulo||item.title||"", item.url||""].filter(Boolean).join(" — ");
-          temaEl.value = `${temaEl.value.trim() ? (temaEl.value.trim()+"\n\n") : ""}${c.tpl}\n\n=== BASE ===\n${base}`;
-          temaNote.style.display="block";
-          setActiveNav("#prompt");
-          toast(`Adicionado ao tema: ${c.label}`);
-        });
-        actions.appendChild(b);
-      });
-
-      // selecionar (sempre disponível)
-      const sel=document.createElement("button"); sel.className="btn-alt"; sel.textContent="Selecionar";
-      const key=item.id||item._id||( (item.fonte||'')+':'+(txt||'').slice(0,50) );
-      const sync=(on)=>{ sel.textContent=on?'Selecionado':'Selecionar'; sel.classList.toggle('is-selected',on); };
-      sync(getSel().some(x=>x.id===key));
-      sel.addEventListener("click",()=>{
-        let arr=getSel();
-        const payload = (item.texto && item.texto.trim()) ? item.texto : [item.titulo||item.title||"", item.url||""].filter(Boolean).join(" — ");
-        const obj={ id:key, fonte:item.fonte, texto: payload };
-        if(arr.some(x=>x.id===key)){ arr=arr.filter(x=>x.id!==key); sync(false); } else { arr=dedupPush(arr,obj); sync(true); }
-        setSel(arr); updateBar();
-      });
-      actions.appendChild(sel);
-
-      // ver notícia (quando tiver URL)
-      if(item.url){
-        const a=document.createElement("a"); a.className="btn-news"; a.textContent="Ver notícia"; a.href=item.url; a.target="_blank"; a.rel="noopener";
-        actions.appendChild(a);
-      }
-
-      div.appendChild(actions);
-      return div;
-    }
-
-    function groupResults(items){
-      const groups={}; Object.keys(categorias).forEach(id=>groups[id]={label:categorias[id].label, items:[], rendered:0});
-      items.forEach(it=>{
-        const f=it.fonte||''; let bucket='outros';
-        for(const id of Object.keys(categorias)){ if(id==='outros') continue; if(categorias[id].match(f)){ bucket=id; break; } }
-        groups[bucket].items.push(it);
-      });
-      const list = Object.entries(groups).filter(([,g])=>g.items.length>0)
-        .sort((a,b)=>{ const diff=b[1].items.length-a[1].items.length; return diff!==0?diff:(catOrder.indexOf(a[0])-catOrder.indexOf(b[0])); });
-      return Object.fromEntries(list);
-    }
-
-    function renderBest(items, qWords){
-      const bestEl=$("#best"); bestEl.innerHTML="";
-      const seen=new Set(); const out=[];
-      for(const it of items){
-        const f=normalizarFonte(it.fonte);
-        const k = f.startsWith("codigo_") ? "codigos"
-              : f.startsWith("sumula")||f.startsWith("sumulas_")||f==="sumulas_vinculantes_stf" ? "sumulas"
-              : f.startsWith("julgados_")||f==="temas_repetitivos_stj"||f==="teses_stf" ? "julgados"
-              : f.startsWith("noticias") ? "noticias" : "outros";
-        if(!seen.has(k)){ seen.add(k); out.push({it, k}); }
-        if(out.length>=3) break;
-      }
-      out.forEach(({it,k})=>{
-        const card=document.createElement("div"); card.className="best-card";
-        const kicker=document.createElement("div"); kicker.className="kicker"; kicker.textContent=(categorias[k]?.label)||k;
-        const t=document.createElement("div"); t.className="t"; t.textContent=(it.titulo||it.title|| (nomesAmigaveis[normalizarFonte(it.fonte)]||it.fonte) );
-        const x=document.createElement("div"); x.className="x";
-        const txt=(it.texto||'').trim().substring(0,180)+"…";
-        x.innerHTML = highlightText(txt, qWords);
-        const a=document.createElement("div"); a.className="a";
-        const go=document.createElement("button"); go.className="btn"; go.textContent="Ver";
-        go.addEventListener("click",()=>{
-          const det = document.querySelector(`details[data-cat="${k}"]`);
-          if(det && !det.open) det.open=true;
-          det?.scrollIntoView({behavior:"smooth", block:"start"});
-        });
-        a.appendChild(go);
-        card.appendChild(kicker); card.appendChild(t); card.appendChild(x); card.appendChild(a);
-        bestEl.appendChild(card);
-      });
-    }
-
-    function renderCategorias(groups, qWords){
-      const categoriasEl=$("#categorias"); categoriasEl.innerHTML="";
-      const entries=Object.entries(groups);
-      if(entries.length===0){ categoriasEl.innerHTML='<p>Nenhum resultado encontrado.</p>'; return; }
-      let first=false;
-      for(const [catId, group] of entries){
-        const det=document.createElement("details"); det.className="cat"; det.dataset.cat=catId;
-        const sum=document.createElement("summary");
-        const title=document.createElement("span"); title.textContent=group.label;
-        const count=document.createElement("span"); count.className="cat-count"; count.textContent=group.items.length;
-        sum.appendChild(title); sum.appendChild(count);
-        det.appendChild(sum);
-
-        const body=document.createElement("div"); body.className="cat-body";
-        const more=document.createElement("div"); more.className="cat-more";
-        const moreBtn=document.createElement("button"); moreBtn.className="btn"; moreBtn.textContent="Carregar mais";
-        more.appendChild(moreBtn); more.style.display="none";
-
-        det.appendChild(body); det.appendChild(more);
-
-        function renderBatch(append=false){
-          const start=group.rendered, end=Math.min(group.items.length, start+PAGE_SIZE);
-          if(!append) body.innerHTML="";
-          for(let i=start;i<end;i++){ body.appendChild( buildCard(group.items[i], qWords) ); }
-          group.rendered=end;
-          more.style.display = (group.rendered < group.items.length) ? "flex" : "none";
-        }
-
-        det.addEventListener("toggle", ()=>{ if(det.open && group.rendered===0) renderBatch(false); });
-        moreBtn.addEventListener("click", ()=>renderBatch(true) );
-
-        categoriasEl.appendChild(det);
-        if(AUTO_OPEN_FIRST && !first){ det.open=true; first=true; }
-      }
-    }
-
-    function typeBoost(f){
-      const n=normalizarFonte(f);
-      if(localStorage.getItem("dl_intent")==="artigo") return n.startsWith("codigo_") ? 4 : 1;
-      if(localStorage.getItem("dl_intent")==="sumula") return (n.startsWith("sumula")||n.startsWith("sumulas_")||n==="sumulas_vinculantes_stf") ? 4 : 1;
-      if(localStorage.getItem("dl_intent")==="julgado") return n.startsWith("julgados_") ? 4 : 1;
-      if(localStorage.getItem("dl_intent")==="juris")   return (n==="temas_repetitivos_stj"||n==="teses_stf"||n.startsWith("julgados_")) ? 3 : 1;
-      return 1.2;
-    }
-
-    async function executarBusca(){
-      const termoRaw=busca.value.trim();
-      $("#categorias").innerHTML=""; $("#best").innerHTML="";
-      if(!termoRaw) { $("#dl-bar").style.display="none"; return; }
-      btnBuscar.disabled=true; document.body.style.cursor="progress";
+  /* ========= carregar base ========= */
+  let baseDados=[];
+  async function carregarDados(){
+    const dados=[];
+    for(const arq of arquivos){
       try{
-        const { words } = parseQuery(termoRaw);
-        const scored = baseDados.map(x=>{
-          const prox = proximityScore( tokenize(x.texto||""), words, 1 );
-          if(prox<0) return null;
-          const s = prox + typeBoost(x.fonte);
-          return {s, item:x};
-        }).filter(Boolean).sort((a,b)=>b.s - a.s).map(z=>z.item);
+        const tag=arq.split('/').pop().replace(/\\.json$/,'');
+        const r=await fetch(arq); if(!r.ok) continue;
+        const j=await r.json();
+        (Array.isArray(j)?j:[]).forEach((it,idx)=>{
+          const _id=it.id||`${tag}_${idx}`;
+          const texto=(it.texto||'').trim();
+          dados.push({ ...it, _id, fonte:tag, textoNorm:norm(texto), textoLegal:normalizeLegal(texto) });
+        });
+      }catch(e){ console.warn('Erro ao carregar',arq,e); }
+    }
+    baseDados = dados;
+    toast('Base carregada com sucesso!');
+  }
+  carregarDados();
 
-        const groups = groupResults(scored);
-        renderBest(scored.slice(0,30), words);
-        renderCategorias(groups, words);
-        updateBar();
-        pushHist(termoRaw);
-      }finally{
-        btnBuscar.disabled=false; document.body.style.cursor="";
+  /* ========= pesquisa ========= */
+  const MAX_SNIPPET=400, PAGE_SIZE=10;
+  const KEY='dl_pesq_sel';
+  const getCarrinho=()=>JSON.parse(localStorage.getItem(KEY)||'[]');
+  const setCarrinho=(a)=>localStorage.setItem(KEY, JSON.stringify(a));
+  const dedupPush=(arr,item)=>{ const k=item.id||item._id||(item.fonte+':'+(item.texto||'').slice(0,50)); if(!arr.some(x=>x.id===k)) arr.push({...item,id:k}); return arr; };
+  const categoriasEl=$("#categorias");
+  const busca=$("#busca");
+  const pills=$("#quickPills");
+  let searchMode='tema';
+
+  pills.addEventListener('click', e=>{
+    const b=e.target.closest('.pill'); if(!b) return;
+    $$('.pill',pills).forEach(x=>x.classList.remove('is-on'));
+    b.classList.add('is-on'); searchMode=b.dataset.mode||'tema';
+  });
+
+  function groupResults(items){
+    const groups={};
+    for(const id of Object.keys(categorias)){ groups[id]={label:categorias[id].label,items:[],rendered:0}; }
+    items.forEach(it=>{
+      const f=it.fonte||''; let buck='outros';
+      for(const id of Object.keys(categorias)){
+        if(id==='outros') continue;
+        if(categorias[id].match(f)){ buck=id; break; }
       }
+      groups[buck].items.push(it);
+    });
+    // ordenar por volume desc
+    return Object.fromEntries(Object.entries(groups).filter(([,g])=>g.items.length).sort((a,b)=>b[1].items.length-a[1].items.length));
+  }
+
+  function buildCard(item, words, carrinho){
+    const fNorm=normalizarFonte(item.fonte);
+    const isNoticias=fNorm==='noticias';
+    const nome=nomesAmigaveis[fNorm]||nomesAmigaveis[item.fonte]||item.fonte;
+    const div=document.createElement('div'); div.className='result';
+
+    const tag=document.createElement('div'); tag.className='filetag'; tag.textContent=nome; div.appendChild(tag);
+
+    const p=document.createElement('p'); const txt=(item.texto||'').trim();
+    const isLong = txt.length>MAX_SNIPPET;
+    const snippet = isLong ? (txt.substring(0,MAX_SNIPPET)+'…') : txt;
+    p.innerHTML = highlight(snippet, words);
+    div.appendChild(p);
+
+    if(isLong){
+      const tg=document.createElement('button'); tg.className='btn-ghost'; tg.textContent='Ver mais';
+      tg.addEventListener('click', ()=>{ if(tg.textContent==='Ver mais'){ p.innerHTML = highlight(txt, words); tg.textContent='Ver menos'; } else { p.innerHTML = highlight(snippet, words); tg.textContent='Ver mais'; }});
+      div.appendChild(tg);
     }
 
-    $("#btnBuscar").addEventListener("click", executarBusca);
-    $("#busca").addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); executarBusca(); } });
-    updateBar();
+    const actions=document.createElement('div'); actions.className='actions';
+
+    // copiar: NÃO para notícias
+    if(!isNoticias){
+      const copiar=document.createElement('button'); copiar.className='btn'; copiar.textContent='Copiar';
+      copiar.addEventListener('click', async()=>{ try{ await navigator.clipboard.writeText(item.texto||''); toast('Copiado!'); }catch{ toast('Erro ao copiar.'); } });
+      actions.appendChild(copiar);
+    }
+
+    // selecionar: sempre
+    const sel=document.createElement('button'); sel.className='btn-alt';
+    const key=item.id||item._id; const sync=(on)=>{ sel.textContent=on?'Selecionado':'Selecionar'; sel.classList.toggle('is-selected',on); };
+    sync(carrinho.some(x=>x.id===key));
+    sel.addEventListener('click',()=>{ let arr=getCarrinho(); const obj={id:key,fonte:item.fonte,texto:item.texto||item.titulo||''};
+      if(arr.some(x=>x.id===key)){ arr=arr.filter(x=>x.id!==key); sync(false); } else { arr=dedupPush(arr,obj); sync(true); }
+      setCarrinho(arr); updateSelectBar();
+    });
+    actions.appendChild(sel);
+
+    // ver notícia (se tiver url)
+    if(item.url){
+      const a=document.createElement('a'); a.className='btn-news'; a.textContent='Ver notícia'; a.href=item.url; a.target='_blank'; a.rel='noopener noreferrer';
+      actions.appendChild(a);
+    }
+
+    div.appendChild(actions);
+    return div;
   }
 
-  /* boot inicial */
-  const sectionsMap={ "#prompt": "#sec-prompt", "#pesquisa": "#sec-pesquisa" };
-  function setActiveNav(hash){
-    const h = sectionsMap[hash] ? hash : "#prompt";
-    for(const a of $$(".nav__actions .chip")) a.classList.toggle("is-active", a.getAttribute("data-nav")==h);
-    for(const id of Object.values(sectionsMap)) $(id).classList.remove("is-on");
-    $(sectionsMap[h]).classList.add("is-on");
-    if(h==="#pesquisa") ensureSearchBoot();
-    history.replaceState(null, "", h);
+  function renderCategorias(groups, words){
+    categoriasEl.innerHTML='';
+    const entries=Object.entries(groups);
+    if(!entries.length){ categoriasEl.innerHTML='<p>Nenhum resultado encontrado.</p>'; return; }
+    let first=false;
+    for(const [id,g] of entries){
+      const det=document.createElement('details'); det.className='cat';
+      const sum=document.createElement('summary'); const t=document.createElement('span'); t.textContent=g.label; const c=document.createElement('span'); c.className='cat-count'; c.textContent=g.items.length;
+      sum.appendChild(t); sum.appendChild(c); det.appendChild(sum);
+
+      const body=document.createElement('div'); body.className='cat-body'; det.appendChild(body);
+      const moreW=document.createElement('div'); moreW.className='cat-more'; const mbtn=document.createElement('button'); mbtn.className='btn'; mbtn.textContent='Carregar mais'; moreW.appendChild(mbtn); moreW.style.display='none'; det.appendChild(moreW);
+
+      function renderBatch(append=false){
+        const carrinho=getCarrinho();
+        const start=g.rendered; const end=Math.min(g.items.length, start+PAGE_SIZE);
+        if(!append) body.innerHTML='';
+        for(let i=start;i<end;i++){ body.appendChild(buildCard(g.items[i], words, carrinho)); }
+        g.rendered=end; moreW.style.display = (g.rendered<g.items.length)?'flex':'none';
+      }
+
+      det.addEventListener('toggle', ()=>{ if(det.open && g.rendered===0) renderBatch(false); });
+      mbtn.addEventListener('click', ()=>renderBatch(true));
+
+      categoriasEl.appendChild(det);
+      if(!first){ /* começa FECHADO por padrão */ first=true; }
+    }
   }
-  window.addEventListener("hashchange",()=>setActiveNav(location.hash));
-  setActiveNav(location.hash || "#prompt");
-})();
-</script>
+
+  function updateSelectBar(){
+    const bar=$("#selectBar");
+    const hasSel = getCarrinho().length>0;
+    bar.style.display = hasSel ? 'flex' : 'none';
+  }
+  $("#barLimpar").addEventListener('click', ()=>{ localStorage.removeItem(KEY); updateSelectBar(); [...$$('.btn-alt.is-selected', categoriasEl)].forEach(b=>b.classList.remove('is-selected')); [...$$('.btn-alt', categoriasEl)].forEach(b=>{ if(b.textContent==='Selecionado') b.textContent='Selecionar'; }); });
+
+  // enviar para prompt → cola no campo tema e troca para #prompt
+  $("#barEnviar").addEventListener('click', ()=>{
+    const arr=getCarrinho(); if(!arr.length) return;
+    const bloco = arr.map(x=> (x.texto||'').trim()).filter(Boolean).join('\n\n— — —\n\n');
+    const tema=$("#tema"); tema.value = (tema.value.trim() ? (tema.value.trim()+'\n\n') : '') + bloco;
+    localStorage.removeItem(KEY); updateSelectBar();
+    $("#temaHint").classList.add('show');
+    location.hash='#prompt';
+    toast('Conteúdo da pesquisa inserido no Tema.');
+  });
+
+  async function executarBusca(){
+    const raw = busca.value.trim();
+    categoriasEl.innerHTML='';
+    if(!raw){ updateSelectBar(); return; }
+    const words = parseQuery(raw);
+    // modo pode influenciar pesos no futuro; por ora só mantém flexível
+    const all = baseDados.filter(x => hasWhole(x.textoLegal, words[0]||'') && okProximity(x.texto, words, 1));
+    const groups=groupResults(all);
+    renderCategorias(groups, words);
+    updateSelectBar();
+  }
+  $("#btnBuscar").addEventListener('click', executarBusca);
+  busca.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); executarBusca(); } });
+
+  /* ========= Prompt ========= */
+  const optsData = [
+    ["conceitos","Conceitos & Definições","Definições objetivas, linguagem clara e diferenciações essenciais, com 1–2 exemplos curtos."],
+    ["baselegal","Base Legal Essencial","Artigos, incisos, parágrafos e súmulas diretamente aplicáveis ao tema, com citação literal quando necessário."],
+    ["juris","Jurisprudência Majoritária","Entendimento predominante (STJ/STF) e teses repetitivas. Indique se há divergências relevantes."],
+    ["doutrina","Doutrina Relevante","Pontos-chave de autores clássicos e contemporâneos. Traga posições contrastantes se houver."],
+    ["casos","Exemplos & Casos Práticos","Cenários típicos e aplicação dos requisitos, com estrutura de raciocínio e resultado esperado."],
+    ["comparativo","Quadro Comparativo","Similaridades/diferenças entre institutos próximos; tabela mental rápida quando couber."],
+    ["fixacao","Questões de Fixação","5–10 questões objetivas com gabarito e justificativa curta."],
+    ["debates","Debates, Críticas & Tendências","Controvérsias atuais, impactos práticos e movimentos recentes nos tribunais."],
+    ["sumulas","Súmulas & Enunciados","Lista das súmulas centrais (STJ/STF/TJs) com síntese aplicada ao tema."],
+    ["modelos","Estrutura de Peça / Modelos","Esqueleto de peça com tópicos obrigatórios e trechos sugeridos (ajuste de forma)."],
+    ["checklist","Checklist de Peça","Checklist final para revisão: requisitos, documentos e fundamentos mínimos."],
+    ["raciocinio","Raciocínio Jurídico (passo a passo)","Sequência lógica para analisar qualquer caso sobre o tema (perguntas-chave)."],
+    ["mapa","Mapa Mental","Mapa textual hierárquico, compacto, destacando palavras-chave."],
+    ["flash","Flashcards","10–20 cartões frente/verso com conceitos e fundamentos."],
+    ["erros","Erros Comuns","Armadilhas frequentes e como evitá-las (OAB/concursos/prática)."],
+    ["atual","Atualizações Recentes","Mudanças legislativas/jurisprudenciais relevantes dos últimos 24 meses."],
+    ["dicas","Dicas de Prova (OAB/Concursos)","Como a banca costuma cobrar, pegadinhas e gestão de tempo."],
+    ["refs","Referências Bibliográficas","Obras e artigos recomendados para aprofundamento."],
+  ];
+  const optsWrap=$("#opts");
+  function renderOpts(){
+    optsWrap.innerHTML='';
+    optsData.forEach(([id,titulo,desc])=>{
+      const row=document.createElement('div'); row.className='opt';
+      const txt=document.createElement('div'); txt.className='opt__txt';
+      txt.innerHTML=`<h4>${titulo}</h4><div class="muted">${desc}</div>`;
+      const tog=document.createElement('div'); tog.className='opt__toggle';
+      const b=document.createElement('button'); b.className='btn-ghost'; b.textContent='Selecionar'; b.dataset.id=id;
+      b.addEventListener('click',()=>{ const on=b.classList.toggle('is-on'); b.textContent=on?'Selecionado':'Selecionar'; });
+      tog.appendChild(b); row.appendChild(txt); row.appendChild(tog); optsWrap.appendChild(row);
+    });
+  }
+  renderOpts();
+
+  // dica após 3s do primeiro digito
+  const tema=$("#tema"), temaHint=$("#temaHint");
+  let typedOnce=false, hintTimer=null;
+  tema.addEventListener('input', ()=>{
+    if(!typedOnce && tema.value.trim().length>=1){
+      typedOnce=true;
+      clearTimeout(hintTimer);
+      hintTimer=setTimeout(()=>temaHint.classList.add('show'), 3000);
+    }
+  });
+
+  $("#btnLimparTema").addEventListener('click', ()=>{ tema.value=''; temaHint.classList.remove('show'); typedOnce=false; });
+
+  function montarPrompt(){
+    const temaTxt = tema.value.trim();
+    const escolhidas = [...$$('.opt .btn-ghost.is-on')].map(b=>b.dataset.id);
+    const blocos = escolhidas.map(id=>{
+      const item = optsData.find(x=>x[0]===id);
+      if(!item) return '';
+      return `### ${item[1]}\n${item[2]}`;
+    }).filter(Boolean).join('\n\n');
+    const core = `Você é um assistente jurídico. Elabore um material de estudo claro e objetivo sobre o tema abaixo, seguindo as sessões selecionadas.\n\n**Tema:** ${temaTxt || '(definir)'}\n\n${blocos ? `**Sessões selecionadas:**\n\n${blocos}` : 'Selecione sessões para detalhamento.'}`;
+    return core;
+  }
+
+  const modal=$("#modal"), out=$("#outPrompt"), iaChips=$("#iaChips");
+  $("#btnGerar").addEventListener('click', ()=>{
+    out.value = montarPrompt();
+    iaChips.style.display='none';
+    modal.classList.add('show');
+  });
+  $("#btnFechar").addEventListener('click', ()=>{ modal.classList.remove('show'); });
+  $("#btnNovo").addEventListener('click', ()=>{
+    tema.value=''; temaHint.classList.remove('show'); typedOnce=false;
+    [...$$('.opt .btn-ghost.is-on')].forEach(b=>{ b.classList.remove('is-on'); b.textContent='Selecionar'; });
+    out.value=''; iaChips.style.display='none'; modal.classList.remove('show');
+  });
+  $("#btnCopy").addEventListener('click', async()=>{
+    try{ await navigator.clipboard.writeText(out.value||''); toast('Copiado!'); iaChips.style.display='block'; }
+    catch{ toast('Erro ao copiar.'); }
+  });
+
+})();</script>
 </body>
 </html>
