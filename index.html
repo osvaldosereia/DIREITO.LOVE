@@ -27,7 +27,7 @@
   .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
   .brand__logo{height:28px}
   .topbar__actions{display:flex;align-items:center;gap:8px}
-  .iconbtn{appearance:none;border:1px solid var(--border);background:#fff;color:var(--text);width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;box-shadow:0 2px 4px rgba(10,15,25,.04)}
+  .iconbtn{appearance:none;border:1px solid var(--border);background:#fff;color:#0b1220;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;box-shadow:0 2px 4px rgba(10,15,25,.04)}
   .iconbtn:hover{background:#f8fafc}
   .iconbtn svg{width:18px;height:18px;display:block}
 
@@ -50,7 +50,7 @@
   .btn[disabled],.btn-alt[disabled]{opacity:.75;cursor:default}
   .btn-ok{background:var(--success)!important;color:#fff!important;border-color:var(--success-border)!important}
   .btn-sm{padding:6px 10px;min-height:28px;font-size:12px;border-radius:8px}
-  .btn-light{background:#fff;color:var(--text);border:1px solid var(--border)}
+  .btn-light{background:#fff;color:#0b1220;border:1px solid var(--border)}
   .btn-light:hover{background:#f8fafc}
 
   .acc{margin:12px 0;border:1px solid var(--border);border-radius:12px;background:#fff;box-shadow:var(--shadow)}
@@ -215,6 +215,12 @@
   const btnInstallTop=$("#btnInstallTop"), btnAbout=$("#btnAbout"), aboutBackdrop=$("#aboutBackdrop"), aboutClose=$("#aboutClose");
   const btnResetTop=$("#btnResetTop");
 
+  /* ===== HINTS (consultas do Código Penal) ===== */
+  let HINTS = [];
+  const HINT_WEIGHT = 10;     // quanto empurra pro topo quando casa
+  const HINT_STRICT = false;  // se true, mostra só os casados (opcional p/ teste)
+  const idxById = new Map();  // id -> item carregado (preenchido em carregarDados)
+
   /* ===== STOPWORDS / SIGLAS ===== */
   const STOP=new Set(['de','da','do','das','dos','e','ou','a','o','as','os','no','na','nos','nas','para','por','em','um','uma','ao','à','que','com','sem','sobre','entre','ate']);
   const ORGAOS=new Set(['stf','stj','tst','trt','trf','tse','tre','cnj','cjf','tj']);
@@ -342,6 +348,51 @@
 
   let baseDados=[];
 
+  /* ===== Hints: carregar consultas do CP ===== */
+  async function loadCPHints(){
+    try{
+      const r = await fetch('data/consultas_cp_full.json', { cache:'no-store' });
+      if(!r.ok) return;
+      const j = await r.json();
+      HINTS = (j.map || []).map(row => ({
+        targets: [row.id],
+        vars: (row.q || []).map(q => buildQueryTokens(q).tokens),
+        weight: HINT_WEIGHT
+      }));
+    }catch(e){
+      console.warn('Erro ao carregar consultas_cp_full.json', e);
+    }
+  }
+
+  function tokensMatchAll(qTokens, vTokens){
+    return vTokens.every(t => qTokens.includes(t));
+  }
+  function applyHintsBoost(rawQuery, resultsArr){
+    if(!HINTS.length) return 0;
+    const { tokens:qTokens } = buildQueryTokens(rawQuery);
+    let injected = 0;
+
+    for(const h of HINTS){
+      const matched = h.vars.some(v => tokensMatchAll(qTokens, v));
+      if(!matched) continue;
+
+      for(const tgtId of h.targets){
+        const art = idxById.get(tgtId);
+        if(!art) continue;
+
+        let entry = resultsArr.find(r => r.it._id === art._id);
+        if(entry){
+          entry.sc += h.weight || HINT_WEIGHT;
+        }else{
+          const baseScore = scoreItem(art, qTokens);
+          resultsArr.push({ it: art, sc: baseScore + (h.weight || HINT_WEIGHT) });
+          injected++;
+        }
+      }
+    }
+    return injected;
+  }
+
   async function carregarDados(){
     const dados=[]; 
     const pool=4;
@@ -369,6 +420,10 @@
               textoNorm:normalizeLegal(texto||titulo),
               textoLegal:normalizeLegal(texto||titulo)
             });
+
+            // Indexa por id para o mecanismo de hints
+            const pushed = dados[dados.length-1];
+            if (it.id) idxById.set(it.id, pushed);
           });
         }catch(e){ console.warn('Erro ao carregar', arq, e); }
       }
@@ -432,6 +487,9 @@
         }
       }
     }
+
+    // >>> BOOST dos hints do Código Penal
+    applyHintsBoost(raw, results);
 
     results.sort((a,b)=>b.sc-a.sc);
     return { results: results.map(r=>r.it), highlight: qTokens.slice(0,8) };
@@ -716,7 +774,8 @@
   loadState();
 
   async function boot(){
-    baseDados = await carregarDados();
+    await loadCPHints();             // ➊ carrega mapeamento CP
+    baseDados = await carregarDados(); // ➋ carrega base normal
     toast('Base carregada com sucesso!');
   }
   boot();
