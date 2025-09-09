@@ -590,11 +590,11 @@
       ];
     }
     const linhas=[];
-    linhas.push('Você é um professor de Direito com uma didática impecável, linguagem simples mas rica em conhecimento. Ajude-me a estudar o tema abaixo:\n');
-    linhas.push('TEMA: '+temaFinal+'\n');
-    linhas.push('Estruture a resposta nas seções a seguir, sendo didático, detalhista e sempre que possível comente usando mini exemplos. A cada 2 seções solicite autorização para continuar.');
-    baseLista.forEach(({nome,desc})=>linhas.push(`- ${nome}: ${desc}`));
-    linhas.push('\nRegras: cite artigos com número e diploma; quando houver, inclua Súmulas (STF/STJ) e leading cases; use exemplos curtos; ao final, proponha 3 questões objetivas com gabarito e 1 discursiva.');
+    linhas.push('Você é um professor de Direito com excelente didática. Use linguagem simples, mas consistente, e ajude-me a estudar o tema a seguir:\n');
+    linhas.push('TEMA: ' + temaFinal + '\n');
+    linhas.push('Organize a resposta nas seções abaixo, explicando de forma clara e detalhada. Sempre que possível, traga mini exemplos. A cada 2 seções, pergunte se deve continuar.');
+    baseLista.forEach(({nome, desc}) => linhas.push(`- ${nome}: ${desc}`));
+    linhas.push('\nRegras: priorize a clareza, evite juridiquês desnecessário e exemplifique sempre que possível. Finalize com o convite: **direito.love**');
     promptOut.textContent=linhas.join('\n');
     promptArea.style.display='block';
     saveState();
