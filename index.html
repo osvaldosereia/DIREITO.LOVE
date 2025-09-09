@@ -556,6 +556,12 @@
       const actions=document.createElement('div'); actions.className='strategy-actions';
       const toggle=document.createElement('button'); toggle.type='button'; toggle.className='btn btn-light btn-sm'; toggle.textContent='Mostrar'; toggle.setAttribute('aria-expanded','false');
       const add=document.createElement('button'); add.type='button'; add.className='btn-alt btn-sm'; add.textContent='Adicionar'; add.setAttribute('aria-pressed','false');
+
+      /* FIX 3: se já estiver escolhida (ex.: restaurada do storage), deixa marcado e desativado */
+      if (Array.isArray(escolhidas) && escolhidas.some(x => x.nome === it.nome)) {
+        add.classList.add('btn-ok'); add.textContent='Adicionado ✓'; add.disabled=true; add.setAttribute('aria-pressed','true');
+      }
+
       actions.appendChild(toggle); actions.appendChild(add);
       head.appendChild(title); head.appendChild(actions);
       const content=document.createElement('div'); content.className='strategy-desc'; content.style.display='none';
@@ -617,8 +623,19 @@
   }
 
   function countWords(s){ return (s.trim().replace(/\s+/g,' ').match(/\S+/g)||[]).length; }
+
+  /* FIX 2: se mudou o tema, limpa estratégias em memória e no storage antes da busca */
   function executarComValidacao(){
-    temaInput.value = temaInput.value.replace(/\s+/g,' ').trim();
+    const prevTema = (localStorage.getItem('dl_tema') || '').trim();
+    const newTema  = (temaInput.value || '').replace(/\s+/g,' ').trim();
+
+    if (prevTema && prevTema !== newTema) {
+      if (Array.isArray(escolhidas)) escolhidas.length = 0;
+      localStorage.removeItem('dl_estrategias');
+    }
+
+    temaInput.value = newTema;
+
     const n = countWords(temaInput.value);
     if(n < 5){ toast('Dica: use pelo menos 5 palavras pra resultados melhores.'); }
     saveState();
@@ -627,7 +644,7 @@
 
   // LISTENERS (inclui o do GERAR PROMPT e o RESET TOP)
   btnAvancar.addEventListener('click', executarComValidacao);
-  btnGerar.addEventListener('click', gerarPrompt);            // <— FIX: agora está ligado
+  btnGerar.addEventListener('click', gerarPrompt);
   btnResetTop.addEventListener('click', ()=>{ resetApp(); toast('Novo estudo'); setTimeout(()=>temaInput.focus(), 100); });
 
   temaInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); executarComValidacao(); } });
@@ -666,6 +683,10 @@
     temaInput.value='';
     localStorage.removeItem('dl_tema');
     localStorage.removeItem('dl_estrategias');
+
+    /* FIX 1: limpa também o array em memória */
+    if (Array.isArray(escolhidas)) escolhidas.length = 0;
+
     temaHint.style.display='none';
     sugestSec.style.display='none'; sugCats.innerHTML='';
     estrSec.style.display='none'; estrCats.innerHTML='';
