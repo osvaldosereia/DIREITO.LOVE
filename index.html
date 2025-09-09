@@ -18,14 +18,24 @@
     --btn-pad-y:6px; --btn-pad-x:10px; --btn-font:12.5px; --btn-min-h:34px;
     --chip-pad-y:6px; --chip-pad-x:10px; --chip-font:12.5px; --chip-radius:8px;
     --mark-bg:#C8FACC;
+    --success:#16a34a; --success-border:#138a3e;
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--text);font:400 13.5px/1.5 var(--font);}
 
+  /* Topbar */
   .topbar{position:sticky;top:0;z-index:50;background:var(--highlight);border-bottom:1px solid rgba(0,0,0,.08)}
-  .topbar__inner{max-width:980px;margin:0 auto;padding:8px 12px;display:flex;align-items:center;justify-content:flex-start;gap:12px}
+  .topbar__inner{max-width:980px;margin:0 auto;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;gap:12px}
   .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#111}
   .brand__logo{height:32px}
+  .topbar__actions{display:flex;align-items:center;gap:8px}
+  .iconbtn{
+    appearance:none;border:1px solid rgba(0,0,0,.12);background:#fff;color:#111;
+    width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;
+    transition:.15s;
+  }
+  .iconbtn:hover{background:#fff6cc}
+  .iconbtn svg{width:18px;height:18px;display:block}
 
   .wrap{max-width:980px;margin:0 auto;padding:22px}
   h1{margin:8px 0 4px;color:var(--primary);font-size:20px}
@@ -46,7 +56,11 @@
     padding:var(--btn-pad-y) var(--btn-pad-x);border-radius:8px;font-size:var(--btn-font);cursor:pointer;transition:.15s;min-height:var(--btn-min-h)
   }
   .btn-alt:hover{background:#264399}
-  .btn[disabled],.btn-alt[disabled]{opacity:.6;cursor:progress}
+  .btn[disabled],.btn-alt[disabled]{opacity:.8;cursor:default}
+
+  .btn-ok{
+    background:var(--success)!important; color:#fff!important; border-color:var(--success-border)!important;
+  }
 
   .acc{margin:12px 0;border:1px solid var(--border);border-radius:12px;background:#fff;box-shadow:var(--shadow)}
   .acc>summary{list-style:none;cursor:pointer;padding:10px 14px;font-weight:800;color:var(--primary);display:flex;align-items:center;justify-content:space-between}
@@ -69,10 +83,30 @@
   .ia:hover{background:#f8fafc}
   .chip-ghost{padding:6px 10px;border-radius:999px;border:1px dashed var(--border);background:#fff;color:#111;font-size:12px;cursor:pointer}
 
+  /* callout vermelho clarinho */
+  .callout-red{
+    background:#ffecec; border:1px solid #ffd4d4; color:#7a0e0e;
+    padding:8px 10px; border-radius:8px;
+  }
+
+  /* Modal Sobre */
+  .modal-backdrop{
+    position:fixed; inset:0; background:rgba(0,0,0,.36); display:none; align-items:center; justify-content:center; z-index:80;
+  }
+  .modal{
+    width:min(92vw, 560px); background:#fff; border:1px solid var(--border); border-radius:12px; box-shadow:0 20px 40px rgba(0,0,0,.2);
+    padding:14px;
+  }
+  .modal header{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px}
+  .modal h2{margin:0; color:var(--primary); font-size:18px}
+  .modal .close{appearance:none; border:1px solid var(--border); background:#fff; border-radius:10px; width:36px; height:36px; cursor:pointer}
+  .modal .content{color:#334155; font-size:13.5px; line-height:1.5}
+
+  /* PWA floating (mantido mas escondido, preferimos topbar) */
   #installFab{position:fixed;right:14px;bottom:14px;z-index:60;display:none;background:#111;color:#fff;border:0;border-radius:999px;padding:10px 12px;gap:8px;align-items:center;box-shadow:0 6px 20px rgba(0,0,0,.25);cursor:pointer}
   #installFab svg{width:16px;height:16px;display:block}
 
-  #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:70}
+  #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:90}
   #toast.show{opacity:1}
 
   @media (max-width:600px){
@@ -84,7 +118,19 @@
 <body>
 <header class="topbar">
   <div class="topbar__inner">
-    <a class="brand" href="#top" aria-label="Início"><img class="brand__logo" src="icons/logo.png" alt="direito.love" /></a>
+    <a class="brand" href="#top" aria-label="Início">
+      <img class="brand__logo" src="icons/logo.png" alt="direito.love" />
+    </a>
+    <div class="topbar__actions">
+      <!-- Sobre (ícone) -->
+      <button id="btnAbout" class="iconbtn" type="button" title="Sobre">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="#111" stroke-width="2"/><path d="M12 10v6m0-9h.01" stroke="#111" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <!-- Baixar app (Android) (ícone) -->
+      <button id="btnInstallTop" class="iconbtn" type="button" title="Baixar app" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v10m0 0 4-4m-4 4-4-4M5 21h14a2 2 0 0 0 2-2v-4M3 15v4a2 2 0 0 0 2 2" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -93,15 +139,15 @@
     <h1>Escreva aqui o tema do prompt (mínimo de 5 palavras)</h1>
     <div class="row" style="margin-top:8px">
       <input id="tema" type="text" placeholder="Ex.: responsabilidade civil por dano estético em cirurgia..." />
-      <button id="btnAvancar" class="btn-alt">Avançar</button>
+      <button id="btnAvancar" class="btn-alt" type="button">Avançar</button>
     </div>
-    <p class="muted" id="temaHint" style="margin:8px 2px 0 2px;display:none">Tema definido. Agora selecione as sugestões e estratégias abaixo.</p>
+    <p class="muted callout-red" id="temaHint" style="margin:8px 2px 0 2px;display:none">Tema definido. Agora selecione as sugestões e estratégias abaixo.</p>
   </section>
 
   <section id="sugestoesSec" class="card" style="display:none">
     <div class="row" style="justify-content:space-between">
       <h1 style="margin:0">Sugestões para enriquecer seu tema</h1>
-      <button id="btnRebuscar" class="btn">Rebuscar</button>
+      <button id="btnRebuscar" class="btn" type="button">Rebuscar</button>
     </div>
     <p class="muted" style="margin-top:6px">Resultados agrupados por categoria. Clique em cada uma para abrir.</p>
     <div id="sugestoesCats"></div>
@@ -112,7 +158,7 @@
     <p class="muted" style="margin-top:6px">Abra as categorias, adicione o que fizer sentido e depois gere o prompt.</p>
     <div id="estrategiasCats"></div>
     <div class="row" style="margin-top:10px;justify-content:flex-end">
-      <button id="btnGerar" class="btn-alt">Gerar Prompt</button>
+      <button id="btnGerar" class="btn-alt" type="button">Gerar Prompt</button>
     </div>
   </section>
 
@@ -120,8 +166,8 @@
     <h1>Prompt gerado</h1>
     <div id="promptOut"></div>
     <div class="row" style="margin-top:10px; align-items:center; gap:12px;">
-      <button id="btnCopy" class="btn">Copiar</button>
-      <button id="btnLimpar" class="btn" style="display:none;">Limpar</button>
+      <button id="btnCopy" class="btn" type="button">Copiar</button>
+      <button id="btnLimpar" class="btn" type="button" style="display:none;">Limpar</button>
       <div class="ia-row" id="iaRow">
         <a class="ia" data-ia="chatgpt" href="https://chat.openai.com/" target="_blank" rel="noopener">ChatGPT</a>
         <a class="ia" data-ia="claude"  href="https://claude.ai/new" target="_blank" rel="noopener">Claude</a>
@@ -129,7 +175,7 @@
         <a class="ia" data-ia="perplexity" href="https://www.perplexity.ai/" target="_blank" rel="noopener">Perplexity</a>
         <a class="ia" data-ia="copilot" href="https://copilot.microsoft.com/" target="_blank" rel="noopener">Copilot</a>
         <a class="ia" data-ia="phind"   href="https://www.phind.com/" target="_blank" rel="noopener">Phind</a>
-        <button id="btnFecharChips" class="chip-ghost" title="Fechar">Fechar</button>
+        <button id="btnFecharChips" class="chip-ghost" type="button" title="Fechar">Fechar</button>
       </div>
     </div>
     <p class="muted" style="margin:6px 0 0 0; display:none" id="dicaCliqueDireito">
@@ -138,6 +184,23 @@
   </section>
 </main>
 
+<!-- Modal Sobre -->
+<div id="aboutBackdrop" class="modal-backdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+    <header>
+      <h2 id="aboutTitle">Sobre o direito.love</h2>
+      <button class="close" id="aboutClose" type="button" aria-label="Fechar">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="#111" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </header>
+    <div class="content">
+      <p>O direito.love ajuda estudantes a montar prompts de estudo de forma rápida e inteligente. Digite um tema, receba sugestões do nosso acervo (códigos, súmulas, julgados e jurisprudência), escolha as sessões do seu estudo e gere um prompt otimizado para a IA de sua preferência.</p>
+      <p>Funciona como PWA no Android: <b>Baixe o app</b> para acesso instantâneo e offline básico.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PWA float (opcional) -->
 <button id="installFab" title="Instalar app">
   <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v10m0 0 4-4m-4 4-4-4M5 21h14a2 2 0 0 0 2-2v-4M3 15v4a2 2 0 0 0 2 2" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   <span>Baixar app</span>
@@ -157,12 +220,17 @@
   const promptArea=$("#promptArea"), promptOut=$("#promptOut"), btnCopy=$("#btnCopy"), btnLimpar=$("#btnLimpar");
   const iaRow=$("#iaRow"), dicaCliqueDireito=$("#dicaCliqueDireito"), btnFecharChips=$("#btnFecharChips");
 
-  /* =================== Normalização & sinônimos ampliados =================== */
+  // Topbar actions
+  const btnInstallTop=$("#btnInstallTop");
+  const btnAbout=$("#btnAbout");
+  const aboutBackdrop=$("#aboutBackdrop");
+  const aboutClose=$("#aboutClose");
+
+  /* ===== Normalização, sinônimos e busca (igual versão anterior expandida) ===== */
   const STOP=new Set(['de','da','do','das','dos','e','ou','a','o','as','os','no','na','nos','nas','para','por','em','um','uma','ao','à','que','com','sem','sobre','entre','ate']);
   const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   const norm=(s="")=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 
-  // Diplomas canônicos (para boosts e match)
   const CANON_LAWS = [
     'codigo penal','codigo de processo penal','codigo civil','codigo de processo civil','codigo tributario nacional',
     'codigo de defesa do consumidor','codigo de transito brasileiro','constituicao federal',
@@ -170,9 +238,7 @@
     'lei geral de protecao de dados','marco civil da internet','lei de drogas','lei de falencias','estatuto do idoso'
   ];
 
-  // Padrões ampliados (sinonímia e variações)
   const SYN = [
-    // penal — crimes comuns
     { canon:'homicidio', pats:[/\bhomicid\w+\b/iu] },
     { canon:'homicidio qualificado', pats:[/\bhomicid\w+\s+qualific\w+\b/iu] },
     { canon:'homicidio culposo', pats:[/\bhomicid\w+\s+culpos\w+\b/iu] },
@@ -184,7 +250,6 @@
     { canon:'lesao corporal', pats:[/\bles[aã]o\s+corpor\w+\b/iu,/\blesao\b/iu] },
     { canon:'violencia domestica', pats:[/\bviol[eê]ncia\s+dom[eé]stic\w+\b/iu] },
 
-    // civil/consumidor
     { canon:'responsabilidade civil', pats:[/\brc\b/iu,/\bresp\.?\s*civil\b/iu,/\bresponsab\w+\s+civil\b/iu] },
     { canon:'dano moral', pats:[/\bdanos?\s+morais?\b/iu] },
     { canon:'dano estetico', pats:[/\bdanos?\s+est[eé]tic\w+\b/iu,/\bdanos?\s+esteic\w+\b/iu] },
@@ -195,16 +260,13 @@
     { canon:'defeito no servico', pats:[/\bservi[cç]o\s+defeituos\w+\b/iu] },
     { canon:'vicio do produto', pats:[/\bv[ií]cio\s+do\s+produt\w+\b/iu] },
 
-    // trabalho
     { canon:'vinculo empregaticio', pats:[/\bv[ií]nculo\s+empregat\w+\b/iu] },
     { canon:'dano moral trabalhista', pats:[/\bdano\s+moral\s+trabalh\w+\b/iu] },
     { canon:'assedio moral', pats:[/\bass[eé]dio\s+moral\b/iu] },
 
-    // constitucional/adm
     { canon:'responsabilidade objetiva estado', pats:[/\bresponsab\w+\s+objetiv\w+\s+do?\s*estado\b/iu,/\bart\s*37\s*§?\s*6\b/iu] },
     { canon:'improbidade administrativa', pats:[/\bimprobidade\s+administrat\w+\b/iu] },
 
-    // diplomas (aliases)
     { canon:'codigo penal', pats:[/\bcp\b/iu,/\bcod\w+\s+penal\b/iu] },
     { canon:'codigo de processo penal', pats:[/\bcpp\b/iu,/\bcod\w+\s+de\s+processo\s+penal\b/iu] },
     { canon:'codigo civil', pats:[/\bcc\b/iu,/\bcod\w+\s+civil\b/iu] },
@@ -214,29 +276,22 @@
     { canon:'codigo de transito brasileiro', pats:[/\bctb\b/iu] },
     { canon:'consolidacao das leis do trabalho', pats:[/\bclt\b/iu] },
     { canon:'constituicao federal', pats:[/\bcf\/?88\b/iu,/\bconstitui[cç][aã]o\s*federal\b/iu,/\bcf\b/iu] },
-    { canon:'estatuto da crianca e do adolescente', pats:[/\beca\b/iu,/\bestatuto\s+da?\s*crian[cç]a\s+e\s+do?\s*adolescent\w+\b/iu] },
-    { canon:'lei maria da penha', pats:[/\blmp\b/iu,/\b11\.340\/?2006\b/iu,/\bmaria\s+da\s+penha\b/iu] },
+    { canon:'estatuto da crianca e do adolescente', pats:[/\beca\b/iu] },
+    { canon:'lei maria da penha', pats:[/\blmp\b/iu,/\b11\.340\/?2006\b/iu] },
     { canon:'lei geral de protecao de dados', pats:[/\blgpd\b/iu,/\b13\.709\/?2018\b/iu] },
-    { canon:'marco civil da internet', pats:[/\bmci\b/iu,/\b12\.965\/?2014\b/iu,/\bmarco\s+civil\s+da\s+internet\b/iu] },
-    { canon:'lei de drogas', pats:[/\blei\s+de\s+drogas\b/iu,/\b11\.343\/?2006\b/iu] },
-    { canon:'lei de falencias', pats:[/\b11\.101\/?2005\b/iu,/\blei\s+de\s+fal[eê]nci\w+\b/iu] },
-    { canon:'estatuto do idoso', pats:[/\b10\.741\/?2003\b/iu,/\bestatuto\s+do\s+idoso\b/iu] },
+    { canon:'marco civil da internet', pats:[/\bmci\b/iu,/\b12\.965\/?2014\b/iu] },
+    { canon:'lei de drogas', pats:[/\b11\.343\/?2006\b/iu] },
+    { canon:'lei de falencias', pats:[/\b11\.101\/?2005\b/iu] },
+    { canon:'estatuto do idoso', pats:[/\b10\.741\/?2003\b/iu] },
 
-    // termos processuais/juris
     { canon:'sumula', pats:[/\bs[uú]mulas?\b/iu,/\bsv\b/iu,/\bsumula\b/iu] },
     { canon:'jurisprudencia', pats:[/\bjurisprud[eê]nci\w+\b/iu,/\bprecedent\w+\b/iu,/\bleading\s+case\b/iu] },
     { canon:'tema repetitivo', pats:[/\btemas?\s+repetitiv\w+\b/iu] },
     { canon:'repercussao geral', pats:[/\brepercuss[aã]o\s+geral\b/iu] },
 
-    // grupos médicos/saúde típicos
     { canon:'erro medico', pats:[/\berro\s+medic\w+\b/iu,/\biatrogen\w+\b/iu,/\bimperici\w+\b/iu,/\bnegligenci\w+\b/iu,/\bimprudenci\w+\b/iu,/\berro\s+odontolog\w+\b/iu] },
   ];
-
-  function applySynonyms(t) {
-    for (const s of SYN) for (const p of s.pats) t = t.replace(p, ' ' + s.canon + ' ');
-    return t;
-  }
-
+  function applySynonyms(t) { for (const s of SYN) for (const p of s.pats) t = t.replace(p, ' ' + s.canon + ' '); return t; }
   function normalizeLegal(s){
     let t=norm(s);
     t=t.replace(/§+/g,' paragrafo ').replace(/\bpar\.?\b/g,' paragrafo ')
@@ -244,23 +299,13 @@
        .replace(/\bal\.?\b/g,' alinea ').replace(/\bunico\b/g,' unico ')
        .replace(/(\d+)\s*[ºªoa]\b/g,'$1')
        .replace(/["'()]/g,' ').replace(/\s+/g,' ').trim();
-
-    // lematização leve e correções comuns
-    t=t.replace(/\bdanos?\b/g,' dano ')
-       .replace(/\bmorais\b/g,' moral ')
-       .replace(/\best[eé]tic\w+\b/g,' estetico ')
-       .replace(/\besteic\w+\b/g,' estetico ')
+    t=t.replace(/\bdanos?\b/g,' dano ').replace(/\bmorais\b/g,' moral ')
+       .replace(/\best[eé]tic\w+\b/g,' estetico ').replace(/\besteic\w+\b/g,' estetico ')
        .replace(/\bm[eé]dic\w+\b/g,' medico ');
-
-    // aplicar sinônimos/ampliações
     t = applySynonyms(' '+t+' ');
     return t.replace(/\s+/g,' ').trim();
   }
-
-  function tokensFromLegal(s){
-    return s.split(/\s+/).filter(Boolean).filter(w=>!STOP.has(w));
-  }
-
+  function tokensFromLegal(s){ return s.split(/\s+/).filter(Boolean).filter(w=>!STOP.has(w)); }
   function highlightText(text,tokens){
     if(!tokens?.length) return text;
     let html=text; const used=new Set();
@@ -269,34 +314,22 @@
     }
     return html;
   }
-
   function proximityRegexFromTokens(tokens, n=2){
     if(!tokens.length) return null;
     const parts=tokens.map(w=>`\\b${esc(w)}\\b`);
     const gap=String.raw`(?:[^\p{L}\p{N}]+(?:\p{L}+\p{N}*)){0,${n}}[^\p{L}\p{N}]+`;
     try{ return new RegExp(parts.join(gap),'iu'); }catch{ return null; }
   }
-
-  // Parser estilo “STJ/STF”
   function parseQuery(raw){
-    const orig = raw.trim();
-    const legal = normalizeLegal(orig);
-
-    // campos
+    const legal = normalizeLegal(raw);
     const fields = {};
     legal.replace(/\b(fonte|titulo|texto):\(([^)]+)\)|\b(fonte|titulo|texto):(\S+)/giu, (_,a,b,c,d)=>{
-      const k=(a||c).toLowerCase();
-      const v=normalizeLegal(b||d);
-      fields[k]=(fields[k]||[]).concat(tokensFromLegal(v));
-      return '';
+      const k=(a||c).toLowerCase(); const v=normalizeLegal(b||d);
+      fields[k]=(fields[k]||[]).concat(tokensFromLegal(v)); return '';
     });
-
-    // frases e proximidade
     const phrases=[]; let rest=legal;
     rest=rest.replace(/"([^"]+)"\s*~\s*(\d+)/giu,(_,p,n)=>{ phrases.push({t:tokensFromLegal(normalizeLegal(p)), n:parseInt(n,10)}); return ' '; });
     rest=rest.replace(/"([^"]+)"/giu,(_,p)=>{ phrases.push({t:tokensFromLegal(normalizeLegal(p)), n:0}); return ' '; });
-
-    // termos E/OU/NAO
     const tokens = rest.split(/\s+/).filter(Boolean);
     const groups=[]; let cur=[];
     for(let i=0;i<tokens.length;i++){
@@ -307,31 +340,20 @@
       cur.push({type:'TERM', term:w});
     }
     if(cur.length) groups.push(cur);
-
-    function expandWild(t){
-      let s=esc(t).replace(/\\\$/g,'.*').replace(/\\\?/g,'.');
-      return new RegExp(`(^|[^\\p{L}\\p{N}])${s}([^\\p{L}\\p{N}]|$)`,'iu');
-    }
+    function expandWild(t){ let s=esc(t).replace(/\\\$/g,'.*').replace(/\\\?/g,'.'); return new RegExp(`(^|[^\\p{L}\\p{N}])${s}([^\\p{L}\\p{N}]|$)`,'iu'); }
     const clauses=groups.map(g=>{
-      const must=[], not=[];
-      for(const it of g){ if(it.type==='NOT') not.push(it.term); else must.push(it.term); }
+      const must=[], not=[]; for(const it of g){ if(it.type==='NOT') not.push(it.term); else must.push(it.term); }
       return { must, not, compiled: must.map(expandWild), compiledNot: not.map(expandWild) };
     });
-
-    // detectar art + número + diploma (para boost)
     const artMatch = legal.match(/\bart\s*([0-9][0-9a-z\-]*)\b/);
     const artNum = artMatch ? artMatch[1] : null;
     const lawHits = CANON_LAWS.filter(L => new RegExp(`\\b${esc(L)}\\b`,'iu').test(legal));
-
-    return { orig, legal, fields, phrases, clauses, artNum, lawHits };
+    return { legal, fields, phrases, clauses, artNum, lawHits };
   }
-
   function countHits(hay, regs){ let c=0; for(const r of regs){ if(r.test(hay)) c++; } return c; }
   function anyNeg(hay, regs){ for(const r of regs){ if(r.test(hay)) return true; } return false; }
-
   function fonteBoost(tokensSet, fonte){
-    const f=(fonte||'');
-    let s=0;
+    const f=(fonte||''); let s=0;
     if(tokensSet.has('art') && f.startsWith('codigo_')) s += 2;
     if(tokensSet.has('sumula') && (f.startsWith('sumula')||f.startsWith('sumulas_')||f==='sumulas_vinculantes_stf')) s += 2;
     if(tokensSet.has('erro') && tokensSet.has('medico')){
@@ -353,24 +375,17 @@
     if(lawHits.length && lawHits.some(L=>new RegExp(`\\b${esc(L)}\\b`,'iu').test(hay))) s+=2;
     return s;
   }
-
   function professionalSearch(raw, data){
     const parsed = parseQuery(raw);
     const tokensSet = new Set(tokensFromLegal(parsed.legal));
-
-    // proximidade a partir de frases
     const proxRegs = parsed.phrases.map(ph=>{
       if(!ph.n || ph.n===0) return {re:new RegExp(`\\b${esc(ph.t.join(' '))}\\b`,'iu'), weight:6};
       const re=proximityRegexFromTokens(ph.t, ph.n);
       return {re, weight: (ph.n<=1?5:ph.n<=2?3:2)};
     });
-
-    // filtros por campos
     const fonteFilter=parsed.fields.fonte||null;
     const tituloTerms=parsed.fields.titulo||[];
     const textoTerms=parsed.fields.texto||[];
-
-    // 1) pool por cláusulas (OU entre grupos)
     let pool = data.filter(it=>{
       const hay=(it.textoLegal||it.textoNorm||'');
       if(fonteFilter && fonteFilter.length){
@@ -387,33 +402,25 @@
       }
       if(tituloTerms.length && !tituloTerms.every(t=>new RegExp(`\\b${esc(t)}\\b`,'iu').test(it.titulo||''))) return false;
       if(textoTerms.length  && !textoTerms.every(t=>new RegExp(`\\b${esc(t)}\\b`,'iu').test(it.texto||''))) return false;
-
       if(parsed.clauses.length===0) return true;
       return parsed.clauses.some(cl=>{
         if(anyNeg(hay, cl.compiledNot)) return false;
         return cl.compiled.every(re=>re.test(hay));
       });
     });
-
-    // 2) fallback: >=2 tokens canônicos
     if(pool.length===0){
       const toks=tokensFromLegal(parsed.legal);
       pool=data.filter(it=>{
-        const hay=(it.textoLegal||it.textoNorm||'');
-        let c=0; for(const w of toks){ const re=new RegExp(`(^|[^\\p{L}\\p{N}])${esc(w)}([^\\p{L}\\p{N}]|$)`,'iu'); if(re.test(hay)) c++; }
+        const hay=(it.textoLegal||it.textoNorm||''); let c=0;
+        for(const w of toks){ const re=new RegExp(`(^|[^\\p{L}\\p{N}])${esc(w)}([^\\p{L}\\p{N}]|$)`,'iu'); if(re.test(hay)) c++; }
         return c>=Math.min(2,toks.length);
       });
     }
-
-    // 3) score + boosts
     function score(it){
-      const hay=(it.textoLegal||it.textoNorm||'');
-      let s=0;
+      const hay=(it.textoLegal||it.textoNorm||''); let s=0;
       for(const pr of proxRegs){ if(pr.re && pr.re.test(hay)) s+=pr.weight; }
-      if(parsed.clauses.length){
-        const best=Math.max(...parsed.clauses.map(cl=>countHits(hay, cl.compiled)));
-        s+=best;
-      }else{
+      if(parsed.clauses.length){ const best=Math.max(...parsed.clauses.map(cl=>countHits(hay, cl.compiled))); s+=best; }
+      else{
         const toks=tokensFromLegal(parsed.legal);
         const regs=toks.map(t=>new RegExp(`(^|[^\\p{L}\\p{N}])${esc(t)}([^\\p{L}\\p{N}]|$)`,'iu'));
         s+=countHits(hay, regs);
@@ -424,16 +431,13 @@
       s+=recencyBoost(it);
       return s;
     }
-
     const ranked = pool.map(x=>({x,s:score(x)})).filter(o=>o.s>0).sort((a,b)=>b.s-a.s).slice(0,400).map(o=>o.x);
-
-    const hl=[]; parsed.phrases.forEach(ph=>hl.push(...ph.t));
-    parsed.clauses.forEach(cl=>cl.must.forEach(t=>hl.push(t)));
+    const hl=[]; parsed.phrases.forEach(ph=>hl.push(...ph.t)); parsed.clauses.forEach(cl=>cl.must.forEach(t=>hl.push(t)));
     const fallbackHL = hl.length? hl : tokensFromLegal(parsed.legal);
     return {results: ranked, highlight: Array.from(new Set(fallbackHL))};
   }
 
-  /* =================== Dados & categorias =================== */
+  /* ============ Dados, categorias e UI dos cartões ============ */
   const arquivos=[
     "data/julgados_direito_administrativo.json","data/julgados_direito_ambiental.json","data/julgados_direito_bancario.json",
     "data/julgados_direito_civil.json","data/julgados_direito_constitucional.json","data/julgados_direito_eleitoral.json",
@@ -490,10 +494,16 @@
     const p=document.createElement('p'); const baseText=(item.texto&&item.texto.trim())||(item.titulo||'');
     p.innerHTML=highlightText(baseText,tokens); div.appendChild(p);
     const actions=document.createElement('div'); actions.className='actions';
-    const add=document.createElement('button'); add.className='btn-alt'; add.textContent='Incluir no tema';
+    const add=document.createElement('button'); add.className='btn-alt'; add.type='button'; add.textContent='Incluir no tema';
     add.addEventListener('click',()=>{
       const piece=item.texto?.trim()||[item.titulo||'',item.url||''].filter(Boolean).join(' — ');
-      if(piece){ if(temaInput.value && !temaInput.value.trim().endsWith('—')) temaInput.value=temaInput.value.trim()+' — '; temaInput.value+=piece; toast('Conteúdo adicionado ao tema.'); }
+      if(piece){
+        if(temaInput.value && !temaInput.value.trim().endsWith('—')) temaInput.value=temaInput.value.trim()+' — ';
+        temaInput.value+=piece;
+        toast('Conteúdo adicionado ao tema.');
+        add.classList.add('btn-ok'); add.textContent='Adicionado'; add.disabled=true;
+        temaHint.style.display='block';
+      }
     });
     actions.appendChild(add);
     if(item.url && fNorm==='noticias'){
@@ -530,7 +540,7 @@
     }
   }
 
-  /* =================== Estratégias de estudo =================== */
+  /* ============ Estratégias de estudo ============ */
   const ESTRATEGIAS={
     'Fundamentos':[
       ['Conceitos e Definições','Definições objetivas, linguagem clara e diferenciações essenciais, com 1–2 exemplos curtos.'],
@@ -552,7 +562,9 @@
     ]
   };
   const escolhidas=[];
-  function selecionarEstrategia(nome,desc){ if(!escolhidas.some(x=>x.nome===nome)) escolhidas.push({nome,desc}); }
+  function selecionarEstrategia(nome,desc){
+    if(!escolhidas.some(x=>x.nome===nome)) escolhidas.push({nome,desc});
+  }
 
   function renderEstrategias(){
     estrCats.innerHTML='';
@@ -567,8 +579,12 @@
         const tag=document.createElement('div'); tag.className='filetag'; tag.textContent=nome; div.appendChild(tag);
         const p=document.createElement('p'); p.textContent=desc; div.appendChild(p);
         const actions=document.createElement('div'); actions.className='actions';
-        const btn=document.createElement('button'); btn.className='btn-alt'; btn.textContent='Adicionar ao prompt';
-        btn.addEventListener('click',()=>{ selecionarEstrategia(nome,desc); toast('Sessão adicionada ao prompt.'); });
+        const btn=document.createElement('button'); btn.className='btn-alt'; btn.type='button'; btn.textContent='Adicionar ao prompt';
+        btn.addEventListener('click',()=>{
+          selecionarEstrategia(nome,desc);
+          toast('Sessão adicionada ao prompt.');
+          btn.classList.add('btn-ok'); btn.textContent='Adicionado'; btn.disabled=true;
+        });
         actions.appendChild(btn); div.appendChild(actions);
         body.appendChild(div);
       });
@@ -576,7 +592,7 @@
     }
   }
 
-  /* =================== Geração do Prompt =================== */
+  /* ============ Geração do Prompt (corrigido) ============ */
   function gerarPrompt(){
     const temaFinal=temaInput.value.trim();
     if(!temaFinal){ toast('Defina o tema antes.'); return; }
@@ -604,10 +620,10 @@
     toast('Prompt gerado.');
   }
 
-  /* =================== Execução da busca =================== */
+  /* ============ Execução da busca (tema livre, 1+ palavra) ============ */
   function executarBuscaDoTema(){
     const temaRaw=temaInput.value.trim();
-    if(temaRaw.split(/\s+/).length<5){ toast("Digite pelo menos 5 palavras."); temaInput.focus(); return; }
+    if(!temaRaw){ toast("Digite um tema."); temaInput.focus(); return; }
 
     temaHint.style.display='block'; sugestSec.style.display='block';
     btnRebuscar.disabled=true; btnRebuscar.textContent='Buscando…';
@@ -623,6 +639,7 @@
 
   btnAvancar.addEventListener('click', executarBuscaDoTema);
   btnRebuscar.addEventListener('click', executarBuscaDoTema);
+  btnGerar.addEventListener('click', gerarPrompt); // <— garante o bind
 
   /* Dica automática após 3s desde a 1ª digitação */
   let hintTimer=null, hinted=false;
@@ -672,14 +689,36 @@
   }
   boot();
 
+  // Modal Sobre
+  function openAbout(){ aboutBackdrop.style.display='flex'; aboutBackdrop.setAttribute('aria-hidden','false'); }
+  function closeAbout(){ aboutBackdrop.style.display='none'; aboutBackdrop.setAttribute('aria-hidden','true'); }
+  btnAbout.addEventListener('click', openAbout);
+  aboutClose.addEventListener('click', closeAbout);
+  aboutBackdrop.addEventListener('click', (e)=>{ if(e.target===aboutBackdrop) closeAbout(); });
+
+  // PWA (Android) — mostrar ícone na topbar se Android ou se evento disparar
   let deferredPrompt=null;
   const installFab=$("#installFab");
-  window.addEventListener('beforeinstallprompt', (e)=>{ e.preventDefault(); deferredPrompt=e; installFab.style.display='flex'; });
-  installFab.addEventListener('click', async()=>{
-    if(!deferredPrompt) return;
-    deferredPrompt.prompt(); const {outcome}=await deferredPrompt.userChoice;
-    if(outcome==='accepted') toast('Instalação iniciada.'); installFab.style.display='none'; deferredPrompt=null;
+  const isAndroid = /Android/i.test(navigator.userAgent || '');
+  if(isAndroid) btnInstallTop.style.display='flex';
+  window.addEventListener('beforeinstallprompt', (e)=>{
+    e.preventDefault(); deferredPrompt=e;
+    btnInstallTop.style.display='flex';
+    // Mantém FAB oculto por padrão
   });
+  function doInstall(){
+    if(deferredPrompt){
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(({outcome})=>{
+        if(outcome==='accepted') toast('Instalação iniciada.');
+        deferredPrompt=null;
+      });
+    }else{
+      toast('No Android, use “Adicionar à tela inicial” no menu do navegador.');
+    }
+  }
+  btnInstallTop.addEventListener('click', doInstall);
+  installFab.addEventListener('click', doInstall);
 })();
 </script>
 </body>
