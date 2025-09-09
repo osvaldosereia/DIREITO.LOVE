@@ -38,7 +38,7 @@
   .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin:16px 0}
   .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 
-  #tema{flex:1;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:15px;background:#fff;color:var(--text);transition:border-color .15s,box-shadow .15s}
+  #tema{flex:1;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:15px;background:#fff;color:#0b1220;transition:border-color .15s,box-shadow .15s}
   #tema::placeholder{color:#94a3b8}
   #tema:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(11,58,130,.12)}
 
@@ -62,7 +62,7 @@
 
   .result{background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:12px 14px;margin:10px 0}
   .filetag{display:inline-block;font-weight:700;font-size:12px;padding:2px 8px;border-radius:999px;background:#eef2ff;color:#0b1220;border:1px solid #c7d2fe;margin:0 0 8px 0}
-  .result p{margin:0;color:var(--text)}
+  .result p{margin:0;color:#0b1220}
   .result .actions{margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
 
   mark{background:var(--mark-bg);padding:0 2px;border-radius:3px}
@@ -89,9 +89,9 @@
 
   .strategy-card{background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:12px 14px;margin:10px 0}
   .strategy-head{display:flex;align-items:center;justify-content:space-between;padding-bottom:6px;border-bottom:1px solid var(--border)}
-  .strategy-title{font-size:16px;font-weight:600;color:var(--text)}
+  .strategy-title{font-size:16px;font-weight:600;color:#0b1220}
   .strategy-actions{display:flex;gap:8px;align-items:center}
-  .strategy-desc{margin-top:10px;color:var(--muted)}
+  .strategy-desc{margin-top:10px;color:#334155}
   .strategy-desc p{margin:.3rem 0}
 
   #installFab{position:fixed;right:14px;bottom:14px;z-index:60;display:none;background:#111;color:#fff;border:0;border-radius:999px;padding:10px 12px;gap:8px;align-items:center;box-shadow:0 8px 24px rgba(10,15,25,.3);cursor:pointer}
@@ -112,6 +112,13 @@
       <img class="brand__logo" src="icons/logo.png" alt="direito.love" />
     </a>
     <div class="topbar__actions">
+      <!-- NOVO: botão reset / novo estudo -->
+      <button id="btnResetTop" class="iconbtn" type="button" title="Novo estudo" aria-label="Novo estudo">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M21 12a9 9 0 1 1-3.16-6.87" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M21 3v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
       <button id="btnAbout" class="iconbtn" type="button" title="Sobre" aria-haspopup="dialog" aria-controls="aboutBackdrop">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 10v6m0-9h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
@@ -206,10 +213,11 @@
   const promptArea=$("#promptArea"), promptOut=$("#promptOut"), btnCopy=$("#btnCopy"), btnLimpar=$("#btnLimpar");
   const iaRow=$("#iaRow"), dicaCliqueDireito=$("#dicaCliqueDireito"), btnFecharChips=$("#btnFecharChips");
   const btnInstallTop=$("#btnInstallTop"), btnAbout=$("#btnAbout"), aboutBackdrop=$("#aboutBackdrop"), aboutClose=$("#aboutClose");
+  const btnResetTop=$("#btnResetTop");
 
   /* ===== STOPWORDS / SIGLAS ===== */
   const STOP=new Set(['de','da','do','das','dos','e','ou','a','o','as','os','no','na','nos','nas','para','por','em','um','uma','ao','à','que','com','sem','sobre','entre','ate']);
-  const ORGAOS=new Set(['stf','stj','tst','trt','trf','tse','tre','cnj','cjf','tj']); // mantidos mesmo com <=3 letras
+  const ORGAOS=new Set(['stf','stj','tst','trt','trf','tse','tre','cnj','cjf','tj']);
   const LAW_CANONS = [
     'codigo penal','codigo de processo penal','codigo civil','codigo de processo civil',
     'codigo tributario nacional','codigo de defesa do consumidor','codigo de transito brasileiro',
@@ -248,17 +256,11 @@
   /* ===== NORMALIZAÇÃO ===== */
   function normalizeLegal(s){
     let t=norm(s);
-    // padroniza "art <num>" com token numérico separado (evita "1" casar "11")
     t=t.replace(/\b(art(?:igo)?\.?)\s*(\d+[a-z\-]*)\b/giu,' art $2 ');
-    // remove pontos em números com milhar
     t=t.replace(/\b(\d{1,3})(?:\.(\d{3}))+(\b|\/\d{2,4}\b)?/g, (m)=>m.replace(/\./g,''));
-    // remove pontos entre dígitos "1.1" -> "11"
     t=t.replace(/(\d)\.(?=\d)/g,'$1');
-    // remove º/ª etc
     t=t.replace(/(\d+)\s*[ºªoa]\b/g,'$1');
-    // limpa aspas/parênteses e espaços
     t=t.replace(/["'()]/g,' ').replace(/\s+/g,' ').trim();
-    // unicidade de "unico"
     t=t.replace(/\bunico\b/giu,' unico ');
     t=applySynonyms(' '+t+' ');
     return t.replace(/\s+/g,' ').trim();
@@ -266,9 +268,7 @@
 
   function tokensFromLegal(s){ return s.split(/\s+/).filter(Boolean); }
   const isNum = w => /^\d+$/.test(w);
-  const isWord = w => /^[a-z\-]+$/.test(w);
 
-  /* ===== HIGHLIGHT ===== */
   function highlightText(text,tokens){
     if(!tokens?.length) return text;
     let html=text; const used=new Set();
@@ -278,13 +278,8 @@
     return html;
   }
 
-  /* ===== ARTIGO NO INÍCIO (até 5 tokens) ===== */
-  function parseArtNum(tok){ // extrai parte numérica inicial (ex.: "121-a" -> "121")
-    const m = String(tok||'').match(/^(\d+)/);
-    return m ? m[1] : null;
-  }
+  function parseArtNum(tok){ const m = String(tok||'').match(/^(\d+)/); return m ? m[1] : null; }
   function hasArtAtStart(tokens, queryArtNum){
-    // verifica "art <num>" entre os 5 primeiros tokens do texto
     const L = Math.min(5, tokens.length-1);
     for(let i=0;i<=L;i++){
       if(tokens[i]==='art'){
@@ -295,12 +290,9 @@
     return false;
   }
 
-  /* ===== SELEÇÃO DE TOKENS DA QUERY ===== */
   function buildQueryTokens(raw){
     const qNorm = normalizeLegal(raw);
     const qToks = tokensFromLegal(qNorm);
-
-    // detecta padrão de artigo na própria query (olha só os 5 primeiros tokens)
     let artNumQuery=null;
     const L = Math.min(5, qToks.length-1);
     for(let i=0;i<=L;i++){
@@ -309,22 +301,18 @@
         if(n){ artNumQuery=n; break; }
       }
     }
-
     const out=[];
     for(const w of qToks){
       if(isNum(w)){ out.push(w); continue; }
       if(ORGAOS.has(w)) { out.push(w); continue; }
       if(!STOP.has(w) && w.length>3){ out.push(w); continue; }
     }
-    // garante que "art" e o número do artigo estão nos tokens quando houver
     if(artNumQuery){ out.push('art'); out.push(artNumQuery); }
-    // remove duplicatas preservando ordem
     const uniq=[]; const seen=new Set();
     for(const t of out){ if(!seen.has(t)){ uniq.push(t); seen.add(t); } }
     return { tokens: uniq, artNumQuery };
   }
 
-  /* ===== DADOS E CATEGORIAS ===== */
   const arquivos=[
     "data/julgados_direito_administrativo.json","data/julgados_direito_ambiental.json","data/julgados_direito_bancario.json",
     "data/julgados_direito_civil.json","data/julgados_direito_constitucional.json","data/julgados_direito_eleitoral.json",
@@ -354,7 +342,6 @@
 
   let baseDados=[];
 
-  /* ===== Carregamento paralelo com limite + skeleton ===== */
   async function carregarDados(){
     const dados=[]; 
     const pool=4;
@@ -393,7 +380,6 @@
 
   function ensureVisible(el){ el.scrollIntoView({behavior:'smooth',block:'start'}); }
 
-  /* ===== Ranking simples ===== */
   function scoreItem(it, queryTokens){
     const hay = it.textoLegal||'';
     let s = 0;
@@ -406,30 +392,34 @@
     return s;
   }
 
-  /* ===== SEARCH: AND + regras numéricas + artigo-início ===== */
+  function hasArtAtStart(tokens, queryArtNum){
+    const L = Math.min(5, tokens.length-1);
+    for(let i=0;i<=L;i++){
+      if(tokens[i]==='art'){
+        const n = (String(tokens[i+1]||'').match(/^(\d+)/)||[])[1];
+        if(n && n === queryArtNum) return true;
+      }
+    }
+    return false;
+  }
+
   function professionalSearch(raw, data){
     const { tokens: qTokens, artNumQuery } = buildQueryTokens(raw);
     const results=[];
     for(const it of data){
       const tokens = tokensFromLegal(it.textoLegal||'');
-      // AND: todos os tokens devem existir (palavras >3, siglas e números)
       let ok = true;
       for(const q of qTokens){
         if(!tokens.includes(q)){ ok=false; break; }
       }
       if(!ok) continue;
-
-      // Se query tem artigo, exige "art <num>" entre os 5 primeiros tokens do texto
       if(artNumQuery){
         if(!hasArtAtStart(tokens, artNumQuery)) continue;
       }
-
       results.push({it, sc:scoreItem(it, qTokens)});
     }
 
-    // Fallback tolerante (se zero): exige ao menos 70% dos tokens
-    let final = results;
-    if(final.length===0 && qTokens.length>1){
+    if(results.length===0 && qTokens.length>1){
       for(const it of data){
         const tokens = tokensFromLegal(it.textoLegal||'');
         let hit=0;
@@ -437,17 +427,16 @@
         const need = Math.ceil(qTokens.length*0.7);
         if(hit>=need){
           if(!artNumQuery || hasArtAtStart(tokens, artNumQuery)){
-            final.push({it, sc:scoreItem(it, qTokens)+hit*0.1});
+            results.push({it, sc:scoreItem(it, qTokens)+hit*0.1});
           }
         }
       }
     }
 
-    final.sort((a,b)=>b.sc-a.sc);
-    return { results: final.map(r=>r.it), highlight: qTokens.slice(0,8) };
+    results.sort((a,b)=>b.sc-a.sc);
+    return { results: results.map(r=>r.it), highlight: qTokens.slice(0,8) };
   }
 
-  /* ===== UI de resultados ===== */
   function buildCard(item,tokens){
     const fNorm=normalizarFonte(item.fonte);
     const nomeBonito=nomesAmigaveis[fNorm]||nomesAmigaveis[item.fonte]||item.fonte;
@@ -495,7 +484,6 @@
     return Object.fromEntries(Object.entries(groups).filter(([,g])=>g.items.length>0).sort((a,b)=>b[1].items.length-a[1].items.length));
   }
 
-  // acordeão por categoria com lista + "Carregar mais" SEMPRE no final
   function createCategoryAcc(catId, group, tokens){
     const det=document.createElement('details'); det.className='acc';
     const sum=document.createElement('summary'); sum.setAttribute('aria-expanded','false');
@@ -505,7 +493,7 @@
     det.appendChild(sum);
 
     const body=document.createElement('div'); body.className='acc-body';
-    const list=document.createElement('div'); // container dos cards
+    const list=document.createElement('div'); 
     body.appendChild(list);
     det.appendChild(body);
 
@@ -525,7 +513,7 @@
     loadBtn.addEventListener('click', appendMore);
     loadWrap.appendChild(loadBtn);
 
-    body.appendChild(loadWrap); // SEMPRE no fim do body (após a lista)
+    body.appendChild(loadWrap);
     appendMore();
     return det;
   }
@@ -545,7 +533,6 @@
     }
   }
 
-  /* ===== Estratégias ===== */
   const ESTRATEGIAS_LIST=[
     {nome:'Resumo Explicativo',desc:'Retorno em linguagem simples e didática. Bom pra revisar pré-prova.',exemplo:'Ex.: “Explique em até 10 linhas o art. 121 do CP, com exemplos práticos.”'},
     {nome:'Questões Objetivas (OAB/Concursos)',desc:'Gera 10–15 questões múltipla escolha. Gabarito só no final.',exemplo:'Ex.: “Crie 10 questões objetivas sobre processo penal (estilo OAB).”'},
@@ -590,7 +577,6 @@
     });
   }
 
-  /* ===== Prompt ===== */
   function gerarPrompt(){
     const temaFinal=temaInput.value.trim();
     if(!temaFinal){ toast('Defina o tema antes.'); temaInput.focus(); return; }
@@ -616,26 +602,20 @@
     toast('Prompt gerado.');
   }
 
-  /* ===== Execução da Busca ===== */
   function executarBuscaDoTema(){
     const temaRaw=temaInput.value.trim();
     if(!temaRaw){ toast("Digite um tema."); temaInput.focus(); return; }
-
     temaHint.style.display='block';
     sugestSec.style.display='block';
-
     btnRebuscar.disabled=true; btnRebuscar.textContent='Buscando…';
-
     const {results, highlight} = professionalSearch(temaRaw, baseDados);
     renderSugeridos(results, highlight);
     estrSec.style.display='block';
     renderEstrategias();
     setTimeout(()=>{ if(sugestSec.style.display!=='none') ensureVisible(sugestSec); }, 50);
-
     btnRebuscar.disabled=false; btnRebuscar.textContent='Rebuscar';
   }
 
-  /* ===== Validação: mínimo 5 palavras (soft) + Enter ===== */
   function countWords(s){ return (s.trim().replace(/\s+/g,' ').match(/\S+/g)||[]).length; }
   function executarComValidacao(){
     temaInput.value = temaInput.value.replace(/\s+/g,' ').trim();
@@ -644,10 +624,14 @@
     saveState();
     executarBuscaDoTema();
   }
+
+  // LISTENERS (inclui o do GERAR PROMPT e o RESET TOP)
   btnAvancar.addEventListener('click', executarComValidacao);
+  btnGerar.addEventListener('click', gerarPrompt);            // <— FIX: agora está ligado
+  btnResetTop.addEventListener('click', ()=>{ resetApp(); toast('Novo estudo'); setTimeout(()=>temaInput.focus(), 100); });
+
   temaInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); executarComValidacao(); } });
 
-  // Dica automática após 3s
   let hintTimer=null, hinted=false;
   $("#tema").addEventListener('input', ()=>{
     saveState();
@@ -658,7 +642,6 @@
     }
   });
 
-  // Copiar -> chips + Fechar
   btnCopy.addEventListener('click', async()=>{
     try{
       await navigator.clipboard.writeText(promptOut.textContent||'');
@@ -695,7 +678,6 @@
   btnFecharChips.addEventListener('click', resetApp);
   btnLimpar.addEventListener('click', resetApp);
 
-  /* ===== Persistência ===== */
   function saveState(){
     try{
       localStorage.setItem('dl_tema', temaInput.value.trim());
@@ -712,7 +694,6 @@
   window.addEventListener('beforeunload', saveState);
   loadState();
 
-  /* ===== Boot & PWA ===== */
   async function boot(){
     baseDados = await carregarDados();
     toast('Base carregada com sucesso!');
