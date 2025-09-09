@@ -272,7 +272,12 @@
     return t.replace(/\s+/g,' ').trim();
   }
 
-  function tokensFromLegal(s){ return s.split(/\s+/).filter(Boolean); }
+  function tokensFromLegal(s){
+  return s
+    .split(/\s+/)
+    .map(w => w.replace(/^[^a-z0-9]+|[^a-z0-9]+$/gi, '')) // remove pontuação no início/fim
+    .filter(Boolean);
+}
   const isNum = w => /^\d+$/.test(w);
 
   function highlightText(text,tokens){
