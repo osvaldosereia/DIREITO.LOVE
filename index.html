@@ -18,7 +18,7 @@
     --bar-h: 56px; --success:#16a34a; --muted-btn:#e5e7eb;
     --news-btn:#16a34a; --news-btn-hover:#22c55e; --snap-offset:96px;
 
-    /* botões compactos (padrão geral) */
+    /* botões compactos */
     --btn-pad-y: 6px; --btn-pad-x: 10px; --btn-font: 12.5px;
     --btn-min-h: 34px; --btn-min-w: 96px;
 
@@ -36,6 +36,7 @@
   .topbar__inner{max-width:1160px; margin:0 auto; padding:8px 12px; display:flex; align-items:center; justify-content:space-between; gap:12px}
   .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:#111}
   .brand__logo{height:32px}
+  .nav__actions{display:flex; gap:8px; align-items:center}
   .chip{
     padding:var(--chip-pad-y) var(--chip-pad-x);
     border-radius:var(--chip-radius);
@@ -43,16 +44,14 @@
     font-size:var(--chip-font); color:var(--primary); text-decoration:none; font-weight:600; transition:.15s
   }
   .chip:hover{background:var(--highlight-light)}
-  .nav__actions{display:flex; gap:8px; align-items:center}
   .chip.is-active{background:#102A71; color:#fff; border-color:#0f2a71}
 
   /* Layout */
   .wrap{max-width:980px;margin:0 auto;padding:22px; transition:padding-bottom .2s ease;}
   h2{margin:0 0 10px;color:var(--primary)}
   .muted{color:#475569}
-  .sr{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
 
-  /* Busca / Pesquisa */
+  /* Busca */
   .search-box{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:18px 0;}
   #busca{flex:1; padding:10px 12px; border:2px solid var(--primary); border-radius:8px; font-size:15px}
   #btnBuscar{
@@ -69,7 +68,7 @@
   .hist{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
   .hist button{border:1px dashed #cbd5e1;background:#fff;border-radius:999px;padding:4px 8px;cursor:pointer}
 
-  /* “Melhores correspondências” */
+  /* Melhores correspondências */
   .best{display:grid;grid-template-columns:1fr;gap:10px;margin:8px 0}
   @media (min-width: 720px){ .best{grid-template-columns:repeat(3,1fr);} }
   .best .best-card{
@@ -80,6 +79,10 @@
   .best .t{font:700 13px;color:#0f172a}
   .best .x{font-size:12.5px;color:#334155}
   .best .a{display:flex;gap:6px;margin-top:auto;justify-content:flex-end}
+
+  /* Seções */
+  .section{display:none}
+  .section.is-on{display:block}
 
   /* Acordeões categorias */
   .cat{
@@ -110,7 +113,7 @@
   mark{background:var(--mark-bg); color:var(--mark-text); padding:0 .1em; border-radius:3px}
   .toggle-more{ margin-left:6px; background:none; border:0; color:var(--primary); cursor:pointer; font-size:12px; padding:2px 4px; line-height:1; }
 
-  /* Ações (botões pequenos) */
+  /* Ações */
   .actions{margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
   .btn{
     appearance:none;border:1px solid var(--border);background:var(--highlight);color:#000;
@@ -147,13 +150,12 @@
   #dl-send{ background: var(--primary); color:#fff; border-color:#0f2a71; } #dl-send:disabled{ opacity:.5; filter:grayscale(.3) }
   #dl-clear{ background:#fff; color:#111; } #dl-clear:hover{ background:#f2f4f7 }
 
-  /* Seção Prompt */
-  .section{display:none}
-  .section.is-on{display:block}
+  /* PROMPT */
   .field{margin:12px 0}
   .label{font-weight:700;color:#0f172a;margin-bottom:6px}
   #tema{width:100%; padding:10px 12px; border:2px solid var(--primary); border-radius:8px; font-size:15px}
   .note{margin:6px 0 0; color:#0f172a; background:#fff7d6; padding:8px 10px; border-radius:8px; display:none}
+
   .goals{margin-top:6px}
   .goal{background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);padding:12px;margin:10px 0}
   .goal-head{display:flex; align-items:center; justify-content:space-between; gap:10px}
@@ -162,12 +164,13 @@
   .goal .pick{margin-left:auto}
 
   .prompt-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+
+  /* Modal Prompt */
   .modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:150;padding:20px}
   .modal__card{background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);max-width:900px;width:100%;max-height:80vh;display:flex;flex-direction:column}
   .modal__head{padding:12px 14px;border-bottom:1px solid var(--border);font-weight:800;color:#0f172a}
   .modal__body{padding:12px 14px;overflow:auto}
   .modal__foot{padding:12px 14px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end}
-
   .share-ias{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
   .share-ias .chip{font-weight:700}
 
@@ -191,7 +194,7 @@
   </header>
 
   <main class="wrap">
-    <!-- PROMPT -->
+    <!-- PROMPT (sempre acessível) -->
     <section id="sec-prompt" class="section">
       <h2>Criador de Prompt</h2>
       <p class="muted">Digite o tema ou utilize a pesquisa para encontrar.</p>
@@ -202,9 +205,7 @@
         <div id="temaNote" class="note">Tema definido. Agora selecione as sessões do seu prompt.</div>
       </div>
 
-      <div id="goals" class="goals">
-        <!-- categorias de objetivos (expansíveis simples) -->
-      </div>
+      <div id="goals" class="goals"></div>
 
       <div class="prompt-actions">
         <button id="btnGerarOutline" class="btn-alt">Gerar Prompt (Outline)</button>
@@ -213,7 +214,7 @@
       </div>
     </section>
 
-    <!-- PESQUISA -->
+    <!-- PESQUISA (unificada) -->
     <section id="sec-pesquisa" class="section">
       <h2>Pesquisa de Conteúdo Jurídico</h2>
       <p class="muted">Busque por tema, artigo, súmula, jurisprudência ou julgado. Resultados agrupados e com marca-texto.</p>
@@ -232,10 +233,7 @@
       </div>
 
       <div id="hist" class="hist" aria-label="Histórico de buscas"></div>
-
       <section id="best" class="best" aria-label="Melhores correspondências"></section>
-
-      <!-- Categorias (acordeões) -->
       <section id="categorias"></section>
     </section>
   </main>
@@ -268,12 +266,11 @@
 
 <script>
 (function(){
-  // ===== Helpers =====
+  /* ===== Helpers & Router ===== */
   const $=(s,r=document)=>r.querySelector(s);
   const $$=(s,r=document)=>[...r.querySelectorAll(s)];
   const toast=(m,t=1600)=>{const el=$("#toast");el.textContent=m;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
 
-  // ===== Router =====
   const sections={ "#prompt": "#sec-prompt", "#pesquisa": "#sec-pesquisa" };
   function setActiveNav(hash){
     const h = sections[hash] ? hash : "#prompt";
@@ -286,7 +283,7 @@
   window.addEventListener("hashchange",()=>setActiveNav(location.hash));
   setActiveNav(location.hash || "#prompt");
 
-  // ===== PROMPT: objetivos =====
+  /* ===== PROMPT: objetivos ===== */
   const GOALS = [
     {cat:"Fundamentos", items:[
       {key:"conceitos", title:"Conceitos e Definições", desc:"Definições objetivas, linguagem clara e diferenciações essenciais, com 1–2 exemplos curtos."},
@@ -356,15 +353,12 @@
     const keys=[]; $$(".pick.is-selected").forEach(b=>keys.push(b.dataset.key)); return keys;
   }
   function uncheckAllGoals(){ $$(".pick.is-selected").forEach(b=>{b.classList.remove("is-selected"); b.textContent="Selecionar";}); }
-
   renderGoals();
 
-  // ===== Geração de Prompt =====
-  function buildPrompt(mode){ // mode: outline|full
+  function buildPrompt(mode){
     const tema = temaEl.value.trim();
     const sel = getSelectedGoals();
     const findGoal=(k)=>GOALS.flatMap(g=>g.items).find(x=>x.key===k);
-
     const parts=[];
     parts.push(`TEMA: ${tema || "(defina o tema)"}\n`);
     parts.push(`INSTRUÇÕES GERAIS:
@@ -372,16 +366,11 @@
 - Cite leis e súmulas quando pertinente (sem inventar).
 - Organize em seções com títulos curtos.
 - Use exemplos curtos quando cabível.\n`);
-
     if(sel.length){
       parts.push(`SESSÕES SOLICITADAS:`);
-      sel.forEach((k,i)=>{
-        const g=findGoal(k);
-        parts.push(`${i+1}. ${g.title} — ${g.desc}`);
-      });
+      sel.forEach((k,i)=>{ const g=findGoal(k); parts.push(`${i+1}. ${g.title} — ${g.desc}`); });
       parts.push("");
     }
-
     if(mode==="outline"){
       parts.push(`SAÍDA ESPERADA (OUTLINE):
 - Exibir apenas a estrutura (títulos e bullets curtos) de cada sessão selecionada.
@@ -391,19 +380,16 @@
 - Entregar conteúdo completo, bem formatado e objetivo, para cada sessão selecionada.
 - Sempre que possível, incluir 1–2 exemplos e observações práticas.`);
     }
-
     return parts.join("\n");
   }
   function estimateTokens(txt){
     const words = txt.trim().split(/\s+/).length;
-    // aprox 0.75 * words (heurística rápida)
     return Math.round(words*0.75);
   }
 
   const modal=$("#modal"), promptOut=$("#promptOut"), tokenInfo=$("#tokenInfo"), shareBox=$("#shareIAS");
   $("#btnGerarOutline").addEventListener("click", ()=>{ const p=buildPrompt("outline"); promptOut.value=p; tokenInfo.textContent=`~${estimateTokens(p)} tokens`; shareBox.style.display="none"; openModal(); });
   $("#btnGerarFull").addEventListener("click", ()=>{ const p=buildPrompt("full"); promptOut.value=p; tokenInfo.textContent=`~${estimateTokens(p)} tokens`; shareBox.style.display="none"; openModal(); });
-
   function openModal(){ modal.style.display="flex"; }
   function closeModal(){ modal.style.display="none"; }
   $("#btnClose").addEventListener("click", closeModal);
@@ -411,16 +397,13 @@
     toast("Vamos começar de novo.");
     promptOut.value=""; temaEl.value=""; temaNote.style.display="none"; uncheckAllGoals(); shareBox.style.display="none"; closeModal();
   });
-
-  // pós-cópia: mostra chips de IA e mantém texto no clipboard
   $("#btnCopy").addEventListener("click", async ()=>{
     try{ await navigator.clipboard.writeText(promptOut.value||""); toast("Copiado!"); }catch{}
     showIAChips(promptOut.value||"");
   });
-
   function showIAChips(text){
     shareBox.innerHTML="";
-    const qs = encodeURIComponent(text.slice(0,8000)); // segurança
+    const qs = encodeURIComponent(text.slice(0,8000));
     const items = [
       {label:"ChatGPT", href:"https://chat.openai.com/"},
       {label:"Gemini", href:"https://gemini.google.com/app"},
@@ -441,7 +424,7 @@
     shareBox.style.display="flex";
   }
 
-  // ===== PESQUISA (lazy boot) =====
+  /* ===== PESQUISA (lazy) ===== */
   let searchBooted=false;
   function ensureSearchBoot(){
     if(searchBooted) return;
@@ -450,18 +433,19 @@
   }
 
   function initSearch(){
-    // Estado e config
     const AUTO_OPEN_FIRST=false;
     const MAX_SNIPPET=400, PAGE_SIZE=10;
+
     const intentChips=$("#intentChips");
-    let INTENT="tema";
+    let INTENT = localStorage.getItem("dl_intent") || "tema";
+    $$(".intent", intentChips).forEach(b=>b.classList.toggle("is-on", b.dataset.intent===INTENT));
     intentChips.addEventListener("click",(e)=>{
       const b=e.target.closest(".intent"); if(!b) return;
       $$(".intent", intentChips).forEach(x=>x.classList.remove("is-on"));
-      b.classList.add("is-on"); INTENT=b.dataset.intent; saveIntent(INTENT);
+      b.classList.add("is-on"); INTENT=b.dataset.intent; localStorage.setItem("dl_intent", INTENT);
     });
 
-    // histórico
+    /* histórico */
     const HIST_KEY="dl_hist_v1";
     function loadHist(){ try{return JSON.parse(localStorage.getItem(HIST_KEY)||"[]");}catch{return [];} }
     function pushHist(q){ if(!q) return; const arr=loadHist().filter(x=>x!==q); arr.unshift(q); localStorage.setItem(HIST_KEY, JSON.stringify(arr.slice(0,8))); renderHist(); }
@@ -471,7 +455,7 @@
     }
     renderHist();
 
-    // normalização & parsing
+    /* normalização & parsing */
     const norm=(s="")=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
     function normalizeLegal(s){
       let t=norm(s);
@@ -487,49 +471,41 @@
     }
     const STOP=new Set(['de','da','do','das','dos','e','ou','a','o','as','os','no','na','nos','nas','para','por','em','um','uma','ao','à','que','com','sem','sobre','entre','ate']);
     const romanLower=(s='')=>String(s).replace(/[^ivxlcdm]/gi,'').toLowerCase();
-
     function parseQuery(raw){
       const base = normalizeLegal(raw);
       const padded = ` ${base} `;
       let tokens = base.split(' ').filter(Boolean).filter(t=>!STOP.has(t));
-
       let artNum=null; { const m=padded.match(/\bart\s*([0-9][0-9a-z\-]*)\b/); if(m) artNum=m[1]; }
       let paragrafo=null; { const m=padded.match(/\bparagrafo\s*(unico|\d+)\b/); if(m) paragrafo=m[1]; }
       let inciso=null; { const m=padded.match(/\binciso\s*([ivxlcdm]+)\b/); if(m) inciso=romanLower(m[1]); }
       let alinea=null; { const m=padded.match(/\balinea\s*([a-z])\b/); if(m) alinea=m[1].toLowerCase(); }
       const caput = /\bcaput\b/.test(padded);
-
       const out=new Set(tokens);
       if(artNum){ out.add('art'); out.add(String(artNum)); }
       if(paragrafo){ out.add('paragrafo'); out.add(String(paragrafo)); }
       if(inciso){ out.add('inciso'); out.add(inciso); }
       if(alinea){ out.add('alinea'); out.add(alinea); }
       if(caput){ out.add('caput'); }
-
       return { words:[...out] };
     }
 
-    // proximidade (tokens próximos com máx 1 gap)
+    /* proximidade gap<=1 */
     function tokenize(hay){ return normalizeLegal(hay).split(/[^a-z0-9]+/).filter(Boolean); }
     function indicesFor(words, target){
       const idx=[]; for(let i=0;i<words.length;i++){ if(words[i]===target) idx.push(i); } return idx;
     }
     function proximityScore(hayTokens, qWords, gap=1){
-      // todos presentes
       for(const w of qWords){ if(!hayTokens.includes(w)) return -1; }
-      // janela mínima que cobre todas
-      // heurística: pegue primeira ocorrência de cada; compute min/max e densidade
       const pos = qWords.map(w=>indicesFor(hayTokens,w)[0]).filter(x=>x!==undefined);
       const min = Math.min(...pos), max=Math.max(...pos);
       const window = max-min+1;
       const ideal = qWords.length + gap*(qWords.length-1);
-      return -Math.max(0, window - ideal); // mais próximo de 0 é melhor; valores mais altos (menos negativos) melhor
+      return -Math.max(0, window - ideal);
     }
 
-    // acentos -> highlight preservando texto original
+    /* highlight preservando acentos */
     function highlightText(original, qWords){
       if(!qWords || !qWords.length) return original;
-      // mapa de posições entre original e normalizado
       const orig = Array.from(original);
       const normPieces=[]; const map=[];
       for(let i=0;i<orig.length;i++){
@@ -549,7 +525,6 @@
         }
       }
       if(!marks.length) return original;
-      // fundir ranges
       marks.sort((a,b)=>a[0]-b[0]);
       const merged=[]; let cur=marks[0];
       for(let i=1;i<marks.length;i++){
@@ -558,7 +533,6 @@
         else { merged.push(cur); cur=m; }
       }
       merged.push(cur);
-      // construir
       let out=""; let last=0;
       merged.forEach(([s,e])=>{
         out += original.slice(last,s) + '<mark>' + original.slice(s,e+1) + '</mark>';
@@ -568,7 +542,7 @@
       return out;
     }
 
-    // fontes e categorias
+    /* fontes */
     const arquivos = [
       "data/julgados_direito_administrativo.json",
       "data/julgados_direito_ambiental.json",
@@ -633,7 +607,6 @@
       outros: { label:"Outros", match: f=>true }
     };
 
-    // carregar dados (lazy)
     let baseDados=[];
     async function carregarDados(){
       const dados=[];
@@ -652,36 +625,29 @@
       baseDados=dados;
       toast("Base carregada com sucesso!");
     }
-    carregarDados(); // inicia ao abrir a aba
+    carregarDados();
 
-    // UI pesquisa
     const busca=$("#busca"), btnBuscar=$("#btnBuscar"), categoriasEl=$("#categorias"), bestEl=$("#best");
     const KEY='dl_pesq_sel';
     const getSel=()=>JSON.parse(localStorage.getItem(KEY)||'[]');
     const setSel=(a)=>localStorage.setItem(KEY, JSON.stringify(a));
     const dedupPush=(arr,item)=>{ const k=item.id||item._id||(item.fonte+':'+(item.texto||'').slice(0,50)); if(!arr.some(x=>x.id===k)) arr.push({...item,id:k}); return arr; };
+
     function updateBar(){
       const has = getSel().length>0; $("#dl-send").disabled=!has; $("#dl-bar").style.display= has ? "flex" : "none";
     }
     $("#dl-clear").addEventListener("click", ()=>{ localStorage.removeItem(KEY); updateBar(); });
 
     $("#dl-send").addEventListener("click", ()=>{
-      const arr=getSel();
-      if(!arr.length) return;
+      const arr=getSel(); if(!arr.length) return;
       const texto = arr.map(x=>x.texto).filter(Boolean).join("\n\n");
       temaEl.value = (temaEl.value.trim() ? (temaEl.value.trim()+"\n\n") : "") + texto;
       temaNote.style.display="block";
-      // limpa seleção
       localStorage.removeItem(KEY); updateBar();
-      // muda para aba Prompt
       setActiveNav("#prompt");
       toast("Conteúdo enviado ao tema. Selecione as sessões e gere o prompt.");
     });
 
-    function saveIntent(i){ localStorage.setItem("dl_intent",""+i); }
-    (function restoreIntent(){ const x=localStorage.getItem("dl_intent"); if(x){ INTENT=x; $$(".intent", intentChips).forEach(b=>b.classList.toggle("is-on", b.dataset.intent===INTENT)); } })();
-
-    // chips de ação por tipo
     function actionChipsFor(item){
       const f=normalizarFonte(item.fonte);
       if(f==="noticias"){
@@ -734,7 +700,7 @@
 
       const actions=document.createElement("div"); actions.className="actions";
 
-      // chips de estudo
+      // chips de estudo enviam direto ao Tema
       const chips = actionChipsFor(item);
       chips.slice(0,3).forEach(c=>{
         const b=document.createElement("button"); b.className="btn"; b.textContent=c.label;
@@ -762,7 +728,7 @@
       });
       actions.appendChild(sel);
 
-      // ver notícia (se houver)
+      // ver notícia (quando tiver URL)
       if(item.url){
         const a=document.createElement("a"); a.className="btn-news"; a.textContent="Ver notícia"; a.href=item.url; a.target="_blank"; a.rel="noopener";
         actions.appendChild(a);
@@ -779,15 +745,13 @@
         for(const id of Object.keys(categorias)){ if(id==='outros') continue; if(categorias[id].match(f)){ bucket=id; break; } }
         groups[bucket].items.push(it);
       });
-      // ordenar por volume e ordem preferida
       const list = Object.entries(groups).filter(([,g])=>g.items.length>0)
         .sort((a,b)=>{ const diff=b[1].items.length-a[1].items.length; return diff!==0?diff:(catOrder.indexOf(a[0])-catOrder.indexOf(b[0])); });
       return Object.fromEntries(list);
     }
 
     function renderBest(items, qWords){
-      bestEl.innerHTML="";
-      // pegue no máx 3 de tipos distintos
+      const bestEl=$("#best"); bestEl.innerHTML="";
       const seen=new Set(); const out=[];
       for(const it of items){
         const f=normalizarFonte(it.fonte);
@@ -808,9 +772,7 @@
         const a=document.createElement("div"); a.className="a";
         const go=document.createElement("button"); go.className="btn"; go.textContent="Ver";
         go.addEventListener("click",()=>{
-          // rolar até a categoria correspondente
-          const cid = k;
-          const det = document.querySelector(`details[data-cat="${cid}"]`);
+          const det = document.querySelector(`details[data-cat="${k}"]`);
           if(det && !det.open) det.open=true;
           det?.scrollIntoView({behavior:"smooth", block:"start"});
         });
@@ -821,7 +783,7 @@
     }
 
     function renderCategorias(groups, qWords){
-      categoriasEl.innerHTML="";
+      const categoriasEl=$("#categorias"); categoriasEl.innerHTML="";
       const entries=Object.entries(groups);
       if(entries.length===0){ categoriasEl.innerHTML='<p>Nenhum resultado encontrado.</p>'; return; }
       let first=false;
@@ -856,28 +818,26 @@
       }
     }
 
-    // ranking por intenção
     function typeBoost(f){
       const n=normalizarFonte(f);
-      if(INTENT==="artigo") return n.startsWith("codigo_") ? 4 : 1;
-      if(INTENT==="sumula") return (n.startsWith("sumula")||n.startsWith("sumulas_")||n==="sumulas_vinculantes_stf") ? 4 : 1;
-      if(INTENT==="julgado") return n.startsWith("julgados_") ? 4 : 1;
-      if(INTENT==="juris")   return (n==="temas_repetitivos_stj"||n==="teses_stf"||n.startsWith("julgados_")) ? 3 : 1;
-      return 1.2; // tema: leve boost geral
+      if(localStorage.getItem("dl_intent")==="artigo") return n.startsWith("codigo_") ? 4 : 1;
+      if(localStorage.getItem("dl_intent")==="sumula") return (n.startsWith("sumula")||n.startsWith("sumulas_")||n==="sumulas_vinculantes_stf") ? 4 : 1;
+      if(localStorage.getItem("dl_intent")==="julgado") return n.startsWith("julgados_") ? 4 : 1;
+      if(localStorage.getItem("dl_intent")==="juris")   return (n==="temas_repetitivos_stj"||n==="teses_stf"||n.startsWith("julgados_")) ? 3 : 1;
+      return 1.2;
     }
 
     async function executarBusca(){
       const termoRaw=busca.value.trim();
-      categoriasEl.innerHTML=""; bestEl.innerHTML="";
+      $("#categorias").innerHTML=""; $("#best").innerHTML="";
       if(!termoRaw) { $("#dl-bar").style.display="none"; return; }
       btnBuscar.disabled=true; document.body.style.cursor="progress";
       try{
         const { words } = parseQuery(termoRaw);
         const scored = baseDados.map(x=>{
-          const hay = x.textoLegal || x.textoNorm;
-          const prox = proximityScore( tokenize(x.texto||""), words, 1 ); // gap<=1
+          const prox = proximityScore( tokenize(x.texto||""), words, 1 );
           if(prox<0) return null;
-          const s = prox + typeBoost(x.fonte); // simples e eficiente
+          const s = prox + typeBoost(x.fonte);
           return {s, item:x};
         }).filter(Boolean).sort((a,b)=>b.s - a.s).map(z=>z.item);
 
@@ -892,11 +852,22 @@
     }
 
     $("#btnBuscar").addEventListener("click", executarBusca);
-    busca.addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); executarBusca(); } });
-
+    $("#busca").addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); executarBusca(); } });
     updateBar();
   }
 
+  /* boot inicial */
+  const sectionsMap={ "#prompt": "#sec-prompt", "#pesquisa": "#sec-pesquisa" };
+  function setActiveNav(hash){
+    const h = sectionsMap[hash] ? hash : "#prompt";
+    for(const a of $$(".nav__actions .chip")) a.classList.toggle("is-active", a.getAttribute("data-nav")==h);
+    for(const id of Object.values(sectionsMap)) $(id).classList.remove("is-on");
+    $(sectionsMap[h]).classList.add("is-on");
+    if(h==="#pesquisa") ensureSearchBoot();
+    history.replaceState(null, "", h);
+  }
+  window.addEventListener("hashchange",()=>setActiveNav(location.hash));
+  setActiveNav(location.hash || "#prompt");
 })();
 </script>
 </body>
