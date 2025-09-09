@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>direito.love — Estudo Jurídico com IA</title>
 <meta name="theme-color" content="#F5C400" />
-<meta name="description" content="Crie prompts de estudo jurídicos com sugestões de códigos, súmulas, jurisprudências e julgados — tudo em uma única página." />
 <link rel="icon" href="favicon.png" type="image/png" />
 <link rel="apple-touch-icon" href="favicon-180.png" />
 <link rel="manifest" href="manifest.json" />
@@ -16,146 +15,95 @@
     --radius:12px; --shadow:0 4px 16px rgba(0,0,0,.05);
     --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
 
-    /* tamanhos compactos (mesmo padrão em toda a UI) */
-    --btn-pad-y: 6px;
-    --btn-pad-x: 10px;
-    --btn-font: 12.5px;
-    --btn-min-h: 34px;
-
-    --chip-pad-y: 6px;
-    --chip-pad-x: 10px;
-    --chip-font: 12.5px;
-    --chip-radius: 8px;
-
-    --mark-bg: #C8FACC; /* verde bem claro para marca-texto */
+    --btn-pad-y:6px; --btn-pad-x:10px; --btn-font:12.5px; --btn-min-h:34px;
+    --chip-pad-y:6px; --chip-pad-x:10px; --chip-font:12.5px; --chip-radius:8px;
+    --mark-bg:#C8FACC;
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--text);font:400 13.5px/1.5 var(--font);}
 
-  /* Topbar */
+  /* Topbar sem botões */
   .topbar{position:sticky;top:0;z-index:50;background:var(--highlight);border-bottom:1px solid rgba(0,0,0,.08)}
-  .topbar__inner{max-width:980px;margin:0 auto;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .topbar__inner{max-width:980px;margin:0 auto;padding:8px 12px;display:flex;align-items:center;justify-content:flex-start;gap:12px}
   .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#111}
   .brand__logo{height:32px}
-  .chip{
-    padding:var(--chip-pad-y) var(--chip-pad-x);
-    border-radius:var(--chip-radius);
-    background:#fff;border:1px solid var(--border);
-    font-size:var(--chip-font);color:var(--primary);text-decoration:none;font-weight:600;transition:.15s
-  }
-  .chip:hover{background:var(--highlight-light)}
 
-  /* container */
   .wrap{max-width:980px;margin:0 auto;padding:22px}
-
   h1{margin:8px 0 4px;color:var(--primary);font-size:20px}
   .muted{color:#334155}
 
-  /* bloco do tema */
-  .card{
-    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
-    padding:14px;margin:14px 0;
-  }
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;margin:14px 0}
   .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
   #tema{flex:1;padding:10px 12px;border:2px solid var(--primary);border-radius:8px;font-size:15px}
+
   .btn{
     appearance:none;border:1px solid var(--border);background:var(--highlight);color:#000;
     padding:var(--btn-pad-y) var(--btn-pad-x);border-radius:8px;font-size:var(--btn-font);cursor:pointer;transition:.15s;min-height:var(--btn-min-h)
   }
   .btn:hover{background:var(--highlight-light)}
+  .btn:active,.btn-alt:active{transform:translateY(1px) scale(.99)}
   .btn-alt{
     appearance:none;border:1px solid #0f2a71;background:var(--primary);color:#fff;
     padding:var(--btn-pad-y) var(--btn-pad-x);border-radius:8px;font-size:var(--btn-font);cursor:pointer;transition:.15s;min-height:var(--btn-min-h)
   }
   .btn-alt:hover{background:#264399}
-  .btn-ghost{
-    appearance:none;border:1px dashed var(--border);background:#fff;color:#0f172a;
-    padding:var(--btn-pad-y) var(--btn-pad-x);border-radius:8px;font-size:var(--btn-font);cursor:pointer;transition:.15s;min-height:var(--btn-min-h)
-  }
+  .btn[disabled],.btn-alt[disabled]{opacity:.6;cursor:progress}
 
-  /* acordeões */
   .acc{margin:12px 0;border:1px solid var(--border);border-radius:12px;background:#fff;box-shadow:var(--shadow)}
-  .acc>summary{
-    list-style:none;cursor:pointer;padding:10px 14px;font-weight:800;color:var(--primary);
-    display:flex;align-items:center;justify-content:space-between;
-  }
+  .acc>summary{list-style:none;cursor:pointer;padding:10px 14px;font-weight:800;color:var(--primary);display:flex;align-items:center;justify-content:space-between}
   .acc>summary::-webkit-details-marker{display:none}
   .acc[open]>summary{background:#fff7d6}
   .acc-body{padding:10px 14px}
   .acc-count{font-weight:700;background:#0f172a0d;color:#0f172a;padding:2px 8px;border-radius:999px;font-size:12px}
 
-  /* cards de resultado */
-  .result{
-    background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);
-    padding:12px 14px;margin:10px 0
-  }
-  .filetag{
-    display:inline-block;font-weight:700;font-size:12px;padding:2px 8px;border-radius:999px;background:#f1f5f9;color:#0f172a;margin:0 0 8px 0
-  }
+  .result{background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);padding:12px 14px;margin:10px 0}
+  .filetag{display:inline-block;font-weight:700;font-size:12px;padding:2px 8px;border-radius:999px;background:#f1f5f9;color:#0f172a;margin:0 0 8px 0}
   .result p{margin:0}
   .result .actions{margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 
   mark{background:var(--mark-bg);padding:0 2px;border-radius:3px}
 
-  /* prompt */
   #promptArea{display:none}
-  #promptOut{
-    width:100%;min-height:160px;border:1px solid var(--border);border-radius:8px;padding:10px;background:#fff;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;white-space:pre-wrap
-  }
+  #promptOut{width:100%;min-height:160px;border:1px solid var(--border);border-radius:8px;padding:10px;background:#fff;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;white-space:pre-wrap}
   .ia-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
   .ia{padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:#fff;color:#111;text-decoration:none;font-size:12px}
   .ia:hover{background:#f8fafc}
 
-  /* barra instalar app (Android) */
-  #installFab{
-    position:fixed;right:14px;bottom:14px;z-index:60;display:none;
-    background:#111;color:#fff;border:0;border-radius:999px;padding:10px 12px;gap:8px;align-items:center;box-shadow:0 6px 20px rgba(0,0,0,.25);cursor:pointer
-  }
+  #installFab{position:fixed;right:14px;bottom:14px;z-index:60;display:none;background:#111;color:#fff;border:0;border-radius:999px;padding:10px 12px;gap:8px;align-items:center;box-shadow:0 6px 20px rgba(0,0,0,.25);cursor:pointer}
   #installFab svg{width:16px;height:16px;display:block}
 
-  /* toast */
   #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#111;color:#fff;padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:70}
   #toast.show{opacity:1}
 
-  @media (max-width:600px){
-    h1{font-size:18px}
-  }
+  @media (max-width:600px){ h1{font-size:18px} }
 </style>
 </head>
 <body>
-<header class="topbar" role="banner">
+<header class="topbar">
   <div class="topbar__inner">
-    <a class="brand" href="#top" aria-label="Início"><img class="brand__logo" src="icons/logo.png" alt="direito.love"/></a>
-    <nav class="topbar__actions" aria-label="Navegação">
-      <a class="chip" href="#temaSec">Prompt</a>
-      <a class="chip" href="#sugestoesSec">Pesquisar</a>
-    </nav>
+    <a class="brand" href="#top" aria-label="Início"><img class="brand__logo" src="icons/logo.png" alt="direito.love" /></a>
   </div>
 </header>
 
 <main class="wrap" id="top">
-  <!-- Tema -->
   <section id="temaSec" class="card">
     <h1>Escreva aqui o tema do prompt (mínimo de 5 palavras)</h1>
     <div class="row" style="margin-top:8px">
-      <input id="tema" type="text" placeholder="Ex.: responsabilidade civil por erro médico em hospital público..." />
+      <input id="tema" type="text" placeholder="Ex.: responsabilidade civil por dano estético em cirurgia..." />
       <button id="btnAvancar" class="btn-alt">Avançar</button>
     </div>
     <p class="muted" id="temaHint" style="margin:8px 2px 0 2px;display:none">Tema definido. Agora selecione as sugestões e estratégias abaixo.</p>
   </section>
 
-  <!-- Sugestões (pesquisa integrada) -->
   <section id="sugestoesSec" class="card" style="display:none">
     <div class="row" style="justify-content:space-between">
       <h1 style="margin:0">Sugestões para enriquecer seu tema</h1>
       <button id="btnRebuscar" class="btn">Rebuscar</button>
     </div>
     <p class="muted" style="margin-top:6px">Resultados agrupados por categoria. Clique em cada uma para abrir.</p>
-
     <div id="sugestoesCats"></div>
   </section>
 
-  <!-- Estratégias -->
   <section id="estrategiasSec" class="card" style="display:none">
     <h1>Estratégias de estudo</h1>
     <p class="muted" style="margin-top:6px">Abra as categorias, adicione o que fizer sentido e depois gere o prompt.</p>
@@ -165,7 +113,6 @@
     </div>
   </section>
 
-  <!-- Prompt -->
   <section id="promptArea" class="card">
     <h1>Prompt gerado</h1>
     <div id="promptOut"></div>
@@ -183,7 +130,6 @@
   </section>
 </main>
 
-<!-- FAB instalar app (Android) -->
 <button id="installFab" title="Instalar app">
   <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v10m0 0 4-4m-4 4-4-4M5 21h14a2 2 0 0 0 2-2v-4M3 15v4a2 2 0 0 0 2 2" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   <span>Baixar app</span>
@@ -193,117 +139,95 @@
 
 <script>
 (function(){
-  // ----------------- helpers -----------------
-  const $ = (s,r=document)=>r.querySelector(s);
-  const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
-  const toast = (m,t=1600)=>{ const el=$("#toast"); el.textContent=m; el.classList.add("show"); setTimeout(()=>el.classList.remove("show"),t); };
-  const norm = (s="")=> s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-  const STOP = new Set(['de','da','do','das','dos','e','ou','a','o','as','os','no','na','nos','nas','para','por','em','um','uma','ao','à','que','com','sem','sobre','entre','ate','dois','três','quatro']);
-  const esc = s=> s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const $=(s,r=document)=>r.querySelector(s);
+  const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+  const toast=(m,t=1600)=>{const el=$("#toast");el.textContent=m;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
+  const temaInput=$("#tema"), btnAvancar=$("#btnAvancar"), temaHint=$("#temaHint");
+  const sugestSec=$("#sugestoesSec"), sugCats=$("#sugestoesCats"), btnRebuscar=$("#btnRebuscar");
+  const estrSec=$("#estrategiasSec"), estrCats=$("#estrategiasCats"), btnGerar=$("#btnGerar");
+  const promptArea=$("#promptArea"), promptOut=$("#promptOut"), btnCopy=$("#btnCopy");
 
-  // Normalização jurídica (art./§/inciso/…)
+  const STOP=new Set(['de','da','do','das','dos','e','ou','a','o','as','os','no','na','nos','nas','para','por','em','um','uma','ao','à','que','com','sem','sobre','entre','ate']);
+  const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const norm=(s="")=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+
+  // alias para variações comuns/erros (ex.: esteicos -> estetico)
   function normalizeLegal(s){
     let t=norm(s);
-    t=t.replace(/§+/g,' paragrafo ');
-    t=t.replace(/\bpar\.?\b/g,' paragrafo ');
-    t=t.replace(/\bart\.?\b|\bartigo\b/g,' art ');
-    t=t.replace(/\binc\.?\b/g,' inciso ');
-    t=t.replace(/\bal\.?\b/g,' alinea ');
-    t=t.replace(/\bunico\b/g,' unico ');
-    t=t.replace(/(\d+)\s*[ºªoa]\b/g,'$1'); // remove º,ª,o,a após número
-    t=t.replace(/["'()]/g,' ').replace(/\s+/g,' ').trim();
-    return t;
+    t=t.replace(/§+/g,' paragrafo ').replace(/\bpar\.?\b/g,' paragrafo ')
+       .replace(/\bart\.?\b|\bartigo\b/g,' art ').replace(/\binc\.?\b/g,' inciso ')
+       .replace(/\bal\.?\b/g,' alinea ').replace(/\bunico\b/g,' unico ')
+       .replace(/(\d+)\s*[ºªoa]\b/g,'$1')
+       .replace(/["'()]/g,' ').replace(/\s+/g,' ').trim();
+
+    // sinonímia/variação simples
+    t=t.replace(/\besteticos?\b/g,' estetico ')
+       .replace(/\besteicos?\b/g,' estetico ')     // erro comum sem acento
+       .replace(/\bmorais\b/g,' moral ')
+       .replace(/\bdanos?\b/g,' dano ')
+       .replace(/\bmedicos?\b/g,' medico ')
+       .replace(/\berro medico(s)?\b/g,' erro medico ');
+
+    return t.replace(/\s+/g,' ').trim();
   }
 
-  // Gera regex de proximidade (ordem dos termos), até N palavras entre
   function proximityRegexFromText(raw, maxGap=1){
-    const base = normalizeLegal(raw);
-    const toks = base.split(' ').filter(Boolean).filter(w=>!STOP.has(w));
-    if(toks.length===0) return null;
-    const kept = toks.slice(0,6); // evita regex gigante
-    const parts = kept.map(w=> `\\b${esc(w)}\\b` );
-    // entre termos: permite até maxGap palavras (\w+) separadas por não letras
-    const gap = String.raw`(?:[^\p{L}\p{N}]+(?:\p{L}+\p{N}*)){0,`+maxGap+`}[^\p{L}\p{N}]+`;
-    const pattern = parts.join(gap);
-    try{
-      return new RegExp(pattern,'iu'); // unicode, case-insens.
-    }catch(e){ return null; }
+    const base=normalizeLegal(raw);
+    const toks=base.split(' ').filter(Boolean).filter(w=>!STOP.has(w));
+    if(!toks.length) return null;
+    const kept=toks.slice(0,6);
+    const parts=kept.map(w=>`\\b${esc(w)}\\b`);
+    const gap=String.raw`(?:[^\p{L}\p{N}]+(?:\p{L}+\p{N}*)){0,${maxGap}}[^\p{L}\p{N}]+`;
+    try{ return new RegExp(parts.join(gap),'iu'); }catch{ return null; }
   }
-
-  // Verifica todas as palavras inteiras (sem "dastro"->"cadastro")
   function hasAllWholeWords(hay, words){
     for(const w of words){
-      const re = new RegExp(`(^|[^\\p{L}\\p{N}])${esc(w)}([^\\p{L}\\p{N}]|$)`,'iu');
+      const re=new RegExp(`(^|[^\\p{L}\\p{N}])${esc(w)}([^\\p{L}\\p{N}]|$)`,'iu');
       if(!re.test(hay)) return false;
     }
     return true;
   }
-
-  // Marca-texto nos tokens
-  function highlightText(text, tokens){
-    if(!tokens || !tokens.length) return text;
-    let html = text;
-    const used = new Set();
-    for(const tok of tokens){
-      if(!tok || used.has(tok)) continue;
-      used.add(tok);
-      const re = new RegExp(`\\b(${esc(tok)})\\b`,'giu');
-      html = html.replace(re,'<mark>$1</mark>');
+  function hasAtLeastKWords(hay, words, k){
+    let c=0; for(const w of words){ const re=new RegExp(`(^|[^\\p{L}\\p{N}])${esc(w)}([^\\p{L}\\p{N}]|$)`,'iu'); if(re.test(hay)) c++; }
+    return c>=k;
+  }
+  function highlightText(text,tokens){
+    if(!tokens?.length) return text;
+    let html=text; const used=new Set();
+    for(const tok of tokens){ if(!tok||used.has(tok)) continue; used.add(tok);
+      const re=new RegExp(`\\b(${esc(tok)})\\b`,'giu'); html=html.replace(re,'<mark>$1</mark>');
     }
     return html;
   }
 
-  // ----------------- dados -----------------
-  const arquivos = [
-    "data/julgados_direito_administrativo.json",
-    "data/julgados_direito_ambiental.json",
-    "data/julgados_direito_bancario.json",
-    "data/julgados_direito_civil.json",
-    "data/julgados_direito_constitucional.json",
-    "data/julgados_direito_eleitoral.json",
-    "data/julgados_direito_empresarial.json",
-    "data/noticias_migalhas_1.json",
-    "data/noticias_migalhas_2.json",
-    "data/noticias_migalhas_3.json",
-    "data/codigo_penal.json",
-    "data/codigo_processo_penal.json",
-    "data/sumula_stf.json",
-    "data/sumulas_stj.json",
-    "data/sumulas_tse.json",
-    "data/sumulas_vinculantes_stf.json",
-    "data/temas_repetitivos_stj.json",
-    "data/teses_stf.json",
-    "data/codigo_processo_civil.json",
-    "data/codigo_civil.json",
-    "data/codigo_tributario_nacional.json",
-    "data/codigo_defesa_consumidor.json",
-    "data/codigo_transito_brasileiro.json"
+  const arquivos=[
+    "data/julgados_direito_administrativo.json","data/julgados_direito_ambiental.json","data/julgados_direito_bancario.json",
+    "data/julgados_direito_civil.json","data/julgados_direito_constitucional.json","data/julgados_direito_eleitoral.json",
+    "data/julgados_direito_empresarial.json","data/noticias_migalhas_1.json","data/noticias_migalhas_2.json","data/noticias_migalhas_3.json",
+    "data/codigo_penal.json","data/codigo_processo_penal.json","data/sumula_stf.json","data/sumulas_stj.json","data/sumulas_tse.json",
+    "data/sumulas_vinculantes_stf.json","data/temas_repetitivos_stj.json","data/teses_stf.json","data/codigo_processo_civil.json",
+    "data/codigo_civil.json","data/codigo_tributario_nacional.json","data/codigo_defesa_consumidor.json","data/codigo_transito_brasileiro.json"
   ];
-  const nomesAmigaveis = {
-    noticias:"Notícias",
-    noticias_migalhas_1:"Notícias Migalhas", noticias_migalhas_2:"Notícias Migalhas", noticias_migalhas_3:"Notícias Migalhas",
-    sumula_stf:"Súmulas STF", sumulas_stj:"Súmulas STJ", sumulas_tse:"Súmulas TSE", sumulas_vinculantes_stf:"Súmulas Vinculantes STF",
-    temas_repetitivos_stj:"Temas Repetitivos STJ", teses_stf:"Teses STF",
-    codigo_penal:"Código Penal", codigo_processo_penal:"Código de Processo Penal", codigo_processo_civil:"Código de Processo Civil",
-    codigo_civil:"Código Civil", codigo_tributario_nacional:"Código Tributário Nacional",
-    codigo_defesa_consumidor:"Código de Defesa do Consumidor", codigo_transito_brasileiro:"Código de Trânsito Brasileiro",
-    julgados_direito_administrativo:"Julgados de Direito Administrativo", julgados_direito_ambiental:"Julgados de Direito Ambiental",
-    julgados_direito_bancario:"Julgados de Direito Bancário", julgados_direito_civil:"Julgados de Direito Civil",
-    julgados_direito_constitucional:"Julgados de Direito Constitucional", julgados_direito_eleitoral:"Julgados de Direito Eleitoral",
-    julgados_direito_empresarial:"Julgados de Direito Empresarial"
+  const nomesAmigaveis={noticias:"Notícias",noticias_migalhas_1:"Notícias Migalhas",noticias_migalhas_2:"Notícias Migalhas",noticias_migalhas_3:"Notícias Migalhas",
+    sumula_stf:"Súmulas STF",sumulas_stj:"Súmulas STJ",sumulas_tse:"Súmulas TSE",sumulas_vinculantes_stf:"Súmulas Vinculantes STF",
+    temas_repetitivos_stj:"Temas Repetitivos STJ",teses_stf:"Teses STF",codigo_penal:"Código Penal",codigo_processo_penal:"Código de Processo Penal",
+    codigo_processo_civil:"Código de Processo Civil",codigo_civil:"Código Civil",codigo_tributario_nacional:"Código Tributário Nacional",
+    codigo_defesa_consumidor:"Código de Defesa do Consumidor",codigo_transito_brasileiro:"Código de Trânsito Brasileiro",
+    julgados_direito_administrativo:"Julgados de Direito Administrativo",julgados_direito_ambiental:"Julgados de Direito Ambiental",
+    julgados_direito_bancario:"Julgados de Direito Bancário",julgados_direito_civil:"Julgados de Direito Civil",
+    julgados_direito_constitucional:"Julgados de Direito Constitucional",julgados_direito_eleitoral:"Julgados de Direito Eleitoral",
+    julgados_direito_empresarial:"Julgados de Direito Empresarial"};
+  const categorias={
+    codigos:{label:"Códigos",test:f=>f.startsWith('codigo_')},
+    sumulas:{label:"Súmulas",test:f=>f.startsWith('sumula')||f.startsWith('sumulas_')||f==='sumulas_vinculantes_stf'},
+    jurisprudencia:{label:"Jurisprudência",test:f=>f==='temas_repetitivos_stj'||f==='teses_stf'},
+    julgados:{label:"Julgados",test:f=>f.startsWith('julgados_')},
+    noticias:{label:"Notícias",test:f=>f.startsWith('noticias')},
+    outros:{label:"Outros",test:_=>true}
   };
-  const categorias = {
-    codigos: { label:"Códigos", test:f=>f.startsWith('codigo_') },
-    sumulas: { label:"Súmulas", test:f=>f.startsWith('sumula') || f.startsWith('sumulas_') || f==='sumulas_vinculantes_stf' },
-    jurisprudencia:{ label:"Jurisprudência", test:f=>f==='temas_repetitivos_stj' || f==='teses_stf' },
-    julgados: { label:"Julgados", test:f=>f.startsWith('julgados_') },
-    noticias: { label:"Notícias", test:f=>f.startsWith('noticias') },
-    outros: { label:"Outros", test:_=>true }
-  };
+  const normalizarFonte=f=>f&&f.startsWith('noticias')?'noticias':f;
 
-  const normalizarFonte = f => f && f.startsWith('noticias') ? 'noticias' : f;
-
-  let baseDados = [];
+  let baseDados=[];
   async function carregarDados(){
     const dados=[];
     for(const arq of arquivos){
@@ -312,282 +236,200 @@
         const r=await fetch(arq); if(!r.ok) continue;
         const j=await r.json();
         (Array.isArray(j)?j:[]).forEach((it,idx)=>{
-          const _id = it.id || `${tag}_${idx}`;
-          const texto = (it.texto || it.descricao || it.conteudo || '').trim();
-          const titulo = it.titulo || it.title || '';
-          dados.push({
-            ...it, _id, fonte:tag,
-            titulo, texto,
-            textoNorm: norm(texto || titulo),
-            textoLegal: normalizeLegal(texto || titulo)
-          });
+          const _id=it.id||`${tag}_${idx}`;
+          const texto=(it.texto||it.descricao||it.conteudo||'').trim();
+          const titulo=it.titulo||it.title||'';
+          dados.push({...it,_id,fonte:tag,titulo,texto,textoNorm:norm(texto||titulo),textoLegal:normalizeLegal(texto||titulo)});
         });
-      }catch(e){ console.warn('Erro ao carregar', arq, e); }
+      }catch(e){ console.warn('Erro ao carregar',arq,e); }
     }
     return dados;
   }
 
-  // ----------------- UI: sugestões -----------------
-  const temaInput = $("#tema");
-  const btnAvancar = $("#btnAvancar");
-  const temaHint = $("#temaHint");
-  const sugestSec = $("#sugestoesSec");
-  const sugCats = $("#sugestoesCats");
-  const btnRebuscar = $("#btnRebuscar");
-  const estrSec = $("#estrategiasSec");
-  const estrCats = $("#estrategiasCats");
-  const btnGerar = $("#btnGerar");
-  const promptArea = $("#promptArea");
-  const promptOut = $("#promptOut");
-  const btnCopy = $("#btnCopy");
+  function ensureVisible(el){ el.scrollIntoView({behavior:'smooth',block:'start'}); }
 
-  function ensureVisible(el){
-    el.scrollIntoView({behavior:'smooth', block:'start'});
-  }
-
-  // executa busca com proximidade + palavras inteiras
-  function executarBuscaDoTema(){
-    const temaRaw = temaInput.value.trim();
-    if(temaRaw.split(/\s+/).length < 5){
-      toast("Digite pelo menos 5 palavras para melhores resultados.");
-      temaInput.focus();
-      return;
-    }
-    temaHint.style.display='block';
-    sugestSec.style.display='block';
-    ensureVisible(sugestSec);
-
-    const prox = proximityRegexFromText(temaRaw, 1);
-    const tokenBase = normalizeLegal(temaRaw);
-    const tokens = tokenBase.split(' ').filter(Boolean).filter(w=>!STOP.has(w));
-
-    const resultados = baseDados.filter(x=>{
-      const hay = x.textoLegal || x.textoNorm;
-      if(!hasAllWholeWords(hay, tokens)) return false;
-      if(prox && !prox.test(hay)) return false;
-      return true;
+  function buildCard(item,tokens){
+    const fNorm=normalizarFonte(item.fonte);
+    const nomeBonito=nomesAmigaveis[fNorm]||nomesAmigaveis[item.fonte]||item.fonte;
+    const div=document.createElement('div'); div.className='result';
+    const tag=document.createElement('div'); tag.className='filetag'; tag.textContent=nomeBonito; div.appendChild(tag);
+    const p=document.createElement('p'); const baseText=(item.texto&&item.texto.trim())||(item.titulo||'');
+    p.innerHTML=highlightText(baseText,tokens); div.appendChild(p);
+    const actions=document.createElement('div'); actions.className='actions';
+    const add=document.createElement('button'); add.className='btn-alt'; add.textContent='Incluir no tema';
+    add.addEventListener('click',()=>{
+      const piece=item.texto?.trim()||[item.titulo||'',item.url||''].filter(Boolean).join(' — ');
+      if(piece){ if(temaInput.value && !temaInput.value.trim().endsWith('—')) temaInput.value=temaInput.value.trim()+' — '; temaInput.value+=piece; toast('Conteúdo adicionado ao tema.'); }
     });
-
-    renderSugeridos(resultados, tokens);
-  }
-
-  function buildResultCard(item, tokens){
-    const fNorm = normalizarFonte(item.fonte);
-    const nomeBonito = nomesAmigaveis[fNorm] || nomesAmigaveis[item.fonte] || item.fonte;
-
-    const div = document.createElement('div');
-    div.className = 'result';
-
-    const tag = document.createElement('div');
-    tag.className = 'filetag';
-    tag.textContent = nomeBonito;
-    div.appendChild(tag);
-
-    const p = document.createElement('p');
-    const baseText = (item.texto && item.texto.trim()) || (item.titulo || '');
-    p.innerHTML = highlightText(baseText, tokens);
-    div.appendChild(p);
-
-    const actions = document.createElement('div');
-    actions.className = 'actions';
-
-    const btnAdd = document.createElement('button');
-    btnAdd.className='btn-alt';
-    btnAdd.textContent = 'Incluir no tema';
-    btnAdd.addEventListener('click', ()=>{
-      const piece = item.texto?.trim() || [item.titulo||'', item.url||''].filter(Boolean).join(' — ');
-      if(piece){
-        if(temaInput.value && !temaInput.value.trim().endsWith('—')) temaInput.value = temaInput.value.trim() + ' — ';
-        temaInput.value += piece;
-        toast('Conteúdo adicionado ao tema.');
-      }
-    });
-    actions.appendChild(btnAdd);
-
+    actions.appendChild(add);
     if(item.url && fNorm==='noticias'){
-      const a = document.createElement('a');
-      a.textContent='Ver notícia';
-      a.href=item.url; a.target='_blank'; a.rel='noopener';
-      a.className='btn';
+      const a=document.createElement('a'); a.textContent='Ver notícia'; a.href=item.url; a.target='_blank'; a.rel='noopener'; a.className='btn';
       actions.appendChild(a);
     }
-
     div.appendChild(actions);
     return div;
   }
 
   function groupByCategory(items){
-    const groups = {};
-    for(const key in categorias){ groups[key] = {label:categorias[key].label, items:[]} }
+    const groups={}; for(const k in categorias){ groups[k]={label:categorias[k].label,items:[]} }
     for(const it of items){
-      const f = it.fonte || '';
-      let cat='outros';
-      for(const key in categorias){
-        if(key==='outros') continue;
-        if(categorias[key].test(f)){ cat=key; break; }
-      }
+      const f=it.fonte||''; let cat='outros';
+      for(const k in categorias){ if(k==='outros') continue; if(categorias[k].test(f)){ cat=k; break; } }
       groups[cat].items.push(it);
     }
-    // remove vazios e ordena por maior quantidade
-    return Object.fromEntries(
-      Object.entries(groups)
-        .filter(([,g])=>g.items.length>0)
-        .sort((a,b)=> b[1].items.length - a[1].items.length)
-    );
+    return Object.fromEntries(Object.entries(groups).filter(([,g])=>g.items.length>0).sort((a,b)=>b[1].items.length-a[1].items.length));
   }
 
-  function renderSugeridos(items, tokens){
+  function renderSugeridos(items,tokens){
     sugCats.innerHTML='';
-    const groups = groupByCategory(items);
-    const entries = Object.entries(groups);
-    if(entries.length===0){
-      sugCats.innerHTML='<p>Nenhum resultado encontrado para o tema informado.</p>';
-      return;
-    }
-    for(const [catId, group] of entries){
-      const det = document.createElement('details');
-      det.className='acc';
-      const sum = document.createElement('summary');
-      const ttl = document.createElement('span'); ttl.textContent = group.label;
-      const count = document.createElement('span'); count.className='acc-count'; count.textContent=group.items.length;
-      sum.appendChild(ttl); sum.appendChild(count);
-      det.appendChild(sum);
-
-      const body = document.createElement('div'); body.className='acc-body';
-      group.items.slice(0,12).forEach(it=> body.appendChild(buildResultCard(it,tokens)) );
-      det.appendChild(body);
-      sugCats.appendChild(det);
+    const groups=groupByCategory(items);
+    const entries=Object.entries(groups);
+    if(entries.length===0){ sugCats.innerHTML='<p>Nenhum resultado encontrado para o tema informado.</p>'; return; }
+    for(const [catId,group] of entries){
+      const det=document.createElement('details'); det.className='acc';
+      const sum=document.createElement('summary'); const ttl=document.createElement('span'); ttl.textContent=group.label;
+      const count=document.createElement('span'); count.className='acc-count'; count.textContent=group.items.length;
+      sum.appendChild(ttl); sum.appendChild(count); det.appendChild(sum);
+      const body=document.createElement('div'); body.className='acc-body';
+      group.items.slice(0,12).forEach(it=>body.appendChild(buildCard(it,tokens)));
+      det.appendChild(body); sugCats.appendChild(det);
     }
   }
 
-  // ----------------- Estratégias -----------------
-  const ESTRATEGIAS = {
-    'Fundamentos': [
+  function executarBuscaDoTema(){
+    const temaRaw=temaInput.value.trim();
+    if(temaRaw.split(/\s+/).length<5){ toast("Digite pelo menos 5 palavras."); temaInput.focus(); return; }
+    temaHint.style.display='block'; sugestSec.style.display='block';
+    btnRebuscar.disabled=true; btnRebuscar.textContent='Buscando…';
+
+    const prox1=proximityRegexFromText(temaRaw,1);
+    const tokenBase=normalizeLegal(temaRaw);
+    const tokens=tokenBase.split(' ').filter(Boolean).filter(w=>!STOP.has(w));
+
+    // 1) estrito: todas as palavras + proximidade 1
+    let results=baseDados.filter(x=>{ const hay=x.textoLegal||x.textoNorm; return hasAllWholeWords(hay,tokens) && (!prox1 || prox1.test(hay)); });
+
+    // 2) fallback: proximidade 2
+    if(results.length===0){
+      const prox2=proximityRegexFromText(temaRaw,2);
+      results=baseDados.filter(x=>{ const hay=x.textoLegal||x.textoNorm; return hasAllWholeWords(hay,tokens) && (!prox2 || prox2.test(hay)); });
+    }
+    // 3) fallback final: pelo menos 2 termos presentes (sem proximidade)
+    if(results.length===0){
+      results=baseDados.filter(x=>{ const hay=x.textoLegal||x.textoNorm; return hasAtLeastKWords(hay,tokens,Math.min(2,tokens.length)); });
+    }
+
+    renderSugeridos(results,tokens);
+    estrSec.style.display='block';
+    renderEstrategias();
+    setTimeout(()=>{ ensureVisible(sugestSec); }, 50);
+
+    btnRebuscar.disabled=false; btnRebuscar.textContent='Rebuscar';
+  }
+
+  btnAvancar.addEventListener('click', executarBuscaDoTema);
+  btnRebuscar.addEventListener('click', executarBuscaDoTema);
+
+  // Estratégias
+  const ESTRATEGIAS={
+    'Fundamentos':[
       ['Conceitos e Definições','Definições objetivas, linguagem clara e diferenciações essenciais, com 1–2 exemplos curtos.'],
       ['Base Legal Essencial','Citar e contextualizar os dispositivos legais diretamente relacionados ao tema.'],
       ['Súmulas e Enunciados','Apontar súmulas vinculantes, do STF, STJ, TJs e enunciados pertinentes.'],
       ['Doutrina Relevante','Síntese de 2–3 posições doutrinárias com autores e correntes.']
     ],
-    'Aplicação Prática': [
-      ['Exemplos e Casos Práticos','Construir mini-casos e hipóteses para treinar aplicação do conteúdo.'],
+    'Aplicação Prática':[
+      ['Exemplos e Casos Práticos','Mini-casos e hipóteses para treinar aplicação do conteúdo.'],
       ['Estrutura de Peça / Modelos','Esqueleto de peça processual ou roteiro de resposta dissertativa.'],
       ['Quadro Comparativo','Tabela com institutos correlatos, elementos e diferenças-chave.'],
       ['Raciocínio Jurídico (passo a passo)','Passos lógicos para resolver a questão do tema.']
     ],
-    'Revisão Rápida': [
+    'Revisão Rápida':[
       ['Checklist de Peça','Itens mínimos a conferir em uma peça prática.'],
       ['Erros Comuns','Armadilhas frequentes e como evitá-las.'],
       ['Flashcards','Termos, conceitos e artigos em formato de pergunta/resposta.'],
-      ['Dicas de Prova (OAB/Concursos)','Pontos de atenção, pegadinhas e gestão de tempo.']
+      ['Dicas de Prova (OAB/Concursos)','Pontos de atenção e gestão de tempo.']
     ]
   };
+  const escolhidas=[];
+  function selecionarEstrategia(nome,desc){ if(!escolhidas.some(x=>x.nome===nome)) escolhidas.push({nome,desc}); }
 
   function renderEstrategias(){
     estrCats.innerHTML='';
     for(const cat in ESTRATEGIAS){
-      const det = document.createElement('details');
-      det.className='acc';
-
-      const sum = document.createElement('summary');
-      const ttl = document.createElement('span'); ttl.textContent=cat;
-      const count = document.createElement('span'); count.className='acc-count'; count.textContent=ESTRATEGIAS[cat].length;
-      sum.appendChild(ttl); sum.appendChild(count);
-      det.appendChild(sum);
-
-      const body = document.createElement('div'); body.className='acc-body';
+      const det=document.createElement('details'); det.className='acc';
+      const sum=document.createElement('summary'); const ttl=document.createElement('span'); ttl.textContent=cat;
+      const count=document.createElement('span'); count.className='acc-count'; count.textContent=ESTRATEGIAS[cat].length;
+      sum.appendChild(ttl); sum.appendChild(count); det.appendChild(sum);
+      const body=document.createElement('div'); body.className='acc-body';
       ESTRATEGIAS[cat].forEach(([nome,desc])=>{
-        const div = document.createElement('div'); div.className='result';
-        const tag = document.createElement('div'); tag.className='filetag'; tag.textContent = nome; div.appendChild(tag);
-        const p = document.createElement('p'); p.textContent = desc; div.appendChild(p);
-        const actions = document.createElement('div'); actions.className='actions';
-        const btn = document.createElement('button'); btn.className='btn-alt'; btn.textContent='Adicionar ao prompt';
-        btn.addEventListener('click',()=>{
-          selecionarEstrategia(nome, desc);
-          toast('Sessão adicionada ao prompt.');
-        });
+        const div=document.createElement('div'); div.className='result';
+        const tag=document.createElement('div'); tag.className='filetag'; tag.textContent=nome; div.appendChild(tag);
+        const p=document.createElement('p'); p.textContent=desc; div.appendChild(p);
+        const actions=document.createElement('div'); actions.className='actions';
+        const btn=document.createElement('button'); btn.className='btn-alt'; btn.textContent='Adicionar ao prompt';
+        btn.addEventListener('click',()=>{ selecionarEstrategia(nome,desc); toast('Sessão adicionada ao prompt.'); });
         actions.appendChild(btn); div.appendChild(actions);
         body.appendChild(div);
       });
-      det.appendChild(body);
-      estrCats.appendChild(det);
+      det.appendChild(body); estrCats.appendChild(det);
     }
-  }
-
-  const escolhidas = []; // [{nome, desc}]
-  function selecionarEstrategia(nome, desc){
-    if(!escolhidas.some(x=>x.nome===nome)) escolhidas.push({nome,desc});
   }
 
   function gerarPrompt(){
-    const temaFinal = temaInput.value.trim();
+    const temaFinal=temaInput.value.trim();
     if(!temaFinal){ toast('Defina o tema antes.'); return; }
-    if(escolhidas.length===0){ toast('Selecione pelo menos uma sessão.'); return; }
 
-    const linhas = [];
-    linhas.push(`Você é um professor de Direito. Ajude-me a estudar o tema abaixo:`);
-    linhas.push('');
-    linhas.push(`TEMA: ${temaFinal}`);
-    linhas.push('');
-    linhas.push(`Estruture a resposta nas seções a seguir, sendo didático e objetivo:`);
-    for(const {nome,desc} of escolhidas){
-      linhas.push(`- ${nome}: ${desc}`);
+    // pacote padrão se o usuário não escolheu nada
+    let baseLista=escolhidas.slice();
+    if(baseLista.length===0){
+      baseLista=[
+        {nome:'Conceitos e Definições',desc:'Definições objetivas e diferenciações essenciais, com 1–2 exemplos curtos.'},
+        {nome:'Base Legal Essencial',desc:'Dispositivos legais diretamente relacionados ao tema.'},
+        {nome:'Súmulas e Enunciados',desc:'Súmulas vinculantes, STF/STJ e enunciados pertinentes.'},
+        {nome:'Raciocínio Jurídico (passo a passo)',desc:'Passos lógicos para resolver a questão do tema.'}
+      ];
     }
-    linhas.push('');
-    linhas.push(`Regras: cite artigos com número e diploma; quando houver, inclua Súmulas (STF/STJ) e leading cases; use exemplos curtos; ao final, proponha 3 questões objetivas com gabarito e 1 discursiva.`);
 
-    const out = linhas.join('\n');
-    promptOut.textContent = out;
+    const linhas=[];
+    linhas.push('Você é um professor de Direito. Ajude-me a estudar o tema abaixo:\n');
+    linhas.push('TEMA: '+temaFinal+'\n');
+    linhas.push('Estruture a resposta nas seções a seguir, sendo didático e objetivo:');
+    baseLista.forEach(({nome,desc})=>linhas.push(`- ${nome}: ${desc}`));
+    linhas.push('\nRegras: cite artigos com número e diploma; quando houver, inclua Súmulas (STF/STJ) e leading cases; use exemplos curtos; ao final, proponha 3 questões objetivas com gabarito e 1 discursiva.');
+
+    promptOut.textContent=linhas.join('\n');
     promptArea.style.display='block';
-    ensureVisible(promptArea);
+    setTimeout(()=>ensureVisible(promptArea),50);
+    toast('Prompt gerado.');
   }
 
-  // copiar prompt
-  btnCopy.addEventListener('click', async()=>{
-    try{
-      await navigator.clipboard.writeText(promptOut.textContent||'');
-      toast('Copiado!');
-    }catch{ toast('Erro ao copiar.'); }
-  });
+  btnGerar.addEventListener('click', gerarPrompt);
 
-  // chips de IA — clique direito copia e abre
+  btnCopy.addEventListener('click', async()=>{
+    try{ await navigator.clipboard.writeText(promptOut.textContent||''); toast('Copiado!'); }
+    catch{ toast('Erro ao copiar.'); }
+  });
   $$('.ia').forEach(a=>{
     a.addEventListener('contextmenu', async (ev)=>{
       ev.preventDefault();
-      try{ await navigator.clipboard.writeText(promptOut.textContent||''); toast('Copiado!'); }
-      catch{ /* ignore */ }
-      window.open(a.href, '_blank', 'noopener');
+      try{ await navigator.clipboard.writeText(promptOut.textContent||''); toast('Copiado!'); }catch{}
+      window.open(a.href,'_blank','noopener');
     });
   });
 
-  // ----------------- eventos principais -----------------
-  btnAvancar.addEventListener('click', ()=>{
-    executarBuscaDoTema();
-    estrSec.style.display='block';
-    renderEstrategias();
-    setTimeout(()=> ensureVisible(estrSec), 200);
-  });
-  btnRebuscar.addEventListener('click', executarBuscaDoTema);
-
-  // ----------------- boot -----------------
+  // Boot
   carregarDados().then(d=>{ baseDados=d; toast('Base carregada com sucesso!'); });
 
-  // ----------------- PWA install (Android) -----------------
-  let deferredPrompt = null;
-  const installFab = $("#installFab");
-  window.addEventListener('beforeinstallprompt', (e)=>{
-    e.preventDefault();
-    deferredPrompt = e;
-    installFab.style.display='flex';
-  });
+  // PWA (Android)
+  let deferredPrompt=null;
+  const installFab=$("#installFab");
+  window.addEventListener('beforeinstallprompt', (e)=>{ e.preventDefault(); deferredPrompt=e; installFab.style.display='flex'; });
   installFab.addEventListener('click', async()=>{
     if(!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if(outcome==='accepted') toast('Instalação iniciada.');
-    installFab.style.display='none';
-    deferredPrompt = null;
+    deferredPrompt.prompt(); const {outcome}=await deferredPrompt.userChoice;
+    if(outcome==='accepted') toast('Instalação iniciada.'); installFab.style.display='none'; deferredPrompt=null;
   });
-
 })();
 </script>
 </body>
