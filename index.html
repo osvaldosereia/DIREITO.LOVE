@@ -57,7 +57,6 @@
   }
   .btn-alt:hover{background:#264399}
   .btn[disabled],.btn-alt[disabled]{opacity:.8;cursor:default}
-
   .btn-ok{ background:var(--success)!important; color:#fff!important; border-color:var(--success-border)!important; }
 
   .acc{margin:12px 0;border:1px solid var(--border);border-radius:12px;background:#fff;box-shadow:var(--shadow)}
@@ -121,7 +120,7 @@
 
 <main class="wrap" id="top">
   <section id="temaSec" class="card">
-    <h1>Escreva aqui o tema do prompt</h1>
+    <h1>Escreva aqui o tema do prompt (mínimo de 5 palavras)</h1>
     <div class="row" style="margin-top:8px">
       <input id="tema" type="text" placeholder="Ex.: responsabilidade civil por dano estético em cirurgia..." />
       <button id="btnAvancar" class="btn-alt" type="button">Avançar</button>
@@ -185,6 +184,7 @@
   </div>
 </div>
 
+<!-- PWA float (opcional) -->
 <button id="installFab" title="Instalar app">
   <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v10m0 0 4-4m-4 4-4-4M5 21h14a2 2 0 0 0 2-2v-4M3 15v4a2 2 0 0 0 2 2" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   <span>Baixar app</span>
@@ -214,82 +214,42 @@
   const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   const norm=(s="")=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 
-  const CANON_LAWS = [
-    'codigo penal','codigo de processo penal','codigo civil','codigo de processo civil','codigo tributario nacional',
-    'codigo de defesa do consumidor','codigo de transito brasileiro','constituicao federal',
-    'consolidacao das leis do trabalho','estatuto da crianca e do adolescente','lei maria da penha',
-    'lei geral de protecao de dados','marco civil da internet','lei de drogas','lei de falencias','estatuto do idoso'
-  ];
-
   const SYN = [
-    { canon:'homicidio', pats:[/\bhomicid\w+\b/iu] },
-    { canon:'homicidio qualificado', pats:[/\bhomicid\w+\s+qualific\w+\b/iu] },
-    { canon:'homicidio culposo', pats:[/\bhomicid\w+\s+culpos\w+\b/iu] },
-    { canon:'homicidio doloso', pats:[/\bhomicid\w+\s+dolos\w+\b/iu] },
-    { canon:'latrocinio', pats:[/\blatrocin\w+\b/iu,/\broubo\s+seguido\s+de\s+mort\w+\b/iu] },
-    { canon:'furto', pats:[/\bfurt\w+\b/iu] },
-    { canon:'roubo', pats:[/\broub\w+\b/iu] },
-    { canon:'estelionato', pats:[/\bestelionat\w+\b/iu] },
-    { canon:'lesao corporal', pats:[/\bles[aã]o\s+corpor\w+\b/iu,/\blesao\b/iu] },
-    { canon:'violencia domestica', pats:[/\bviol[eê]ncia\s+dom[eé]stic\w+\b/iu] },
+    { canon:'art', pats:[/\bart\.?\b/giu,/\bartigo\b/giu] },
+    { canon:'inciso', pats:[/\bincs?\.?\b/giu,/\binc\.?\b/giu,/\binciso\b/giu] },
+    { canon:'alinea', pats:[/\bal\.?\b/giu,/\balinea\b/giu] },
+    { canon:'paragrafo', pats:[/\bpar\.?\b/giu,/\b§+\b/giu] },
 
-    { canon:'responsabilidade civil', pats:[/\brc\b/iu,/\bresp\.?\s*civil\b/iu,/\bresponsab\w+\s+civil\b/iu] },
-    { canon:'dano moral', pats:[/\bdanos?\s+morais?\b/iu] },
-    { canon:'dano estetico', pats:[/\bdanos?\s+est[eé]tic\w+\b/iu,/\bdanos?\s+esteic\w+\b/iu] },
-    { canon:'lucros cessantes', pats:[/\blucros?\s+cessant\w+\b/iu] },
-    { canon:'perda de uma chance', pats:[/\bperda\s+de\s+uma\s+chanc\w+\b/iu] },
-    { canon:'nexo causal', pats:[/\bnexo(\s+de)?\s+causal\w+\b/iu] },
-    { canon:'relacao de consumo', pats:[/\bcdc\b/iu,/\brela[cç][aã]o\s+de\s+consum\w+\b/iu] },
-    { canon:'defeito no servico', pats:[/\bservi[cç]o\s+defeituos\w+\b/iu] },
-    { canon:'vicio do produto', pats:[/\bv[ií]cio\s+do\s+produt\w+\b/iu] },
+    { canon:'codigo penal', pats:[/\bcp\b/giu,/\bcod\w+\s+penal\b/giu] },
+    { canon:'codigo de processo penal', pats:[/\bcpp\b/giu,/\bcod\w+\s+de\s+processo\s+penal\b/giu] },
+    { canon:'codigo civil', pats:[/\bcc\b/giu,/\bcod\w+\s+civil\b/giu] },
+    { canon:'codigo de processo civil', pats:[/\bcpc\b/giu,/\bcod\w+\s+de\s+processo\s+civil\b/giu] },
+    { canon:'codigo tributario nacional', pats:[/\bctn\b/giu] },
+    { canon:'codigo de defesa do consumidor', pats:[/\bcdc\b/giu] },
+    { canon:'codigo de transito brasileiro', pats:[/\bctb\b/giu] },
 
-    { canon:'vinculo empregaticio', pats:[/\bv[ií]nculo\s+empregat\w+\b/iu] },
-    { canon:'dano moral trabalhista', pats:[/\bdano\s+moral\s+trabalh\w+\b/iu] },
-    { canon:'assedio moral', pats:[/\bass[eé]dio\s+moral\b/iu] },
+    { canon:'dano', pats:[/\bdanos?\b/giu] },
+    { canon:'moral', pats:[/\bmorais\b/giu] },
+    { canon:'estetico', pats:[/\best[eé]tic\w+\b/giu,/\besteic\w+\b/giu] },
+    { canon:'medico', pats:[/\bm[eé]dic\w+\b/giu] },
+    { canon:'erro medico', pats:[/\berro\s+medic\w+\b/giu,/\biatrogen\w+\b/giu,/\bimperici\w+\b/giu,/\bnegligenci\w+\b/giu,/\bimprudenci\w+\b/giu,/\berro\s+odontolog\w+\b/giu] },
 
-    { canon:'responsabilidade objetiva estado', pats:[/\bresponsab\w+\s+objetiv\w+\s+do?\s*estado\b/iu,/\bart\s*37\s*§?\s*6\b/iu] },
-    { canon:'improbidade administrativa', pats:[/\bimprobidade\s+administrat\w+\b/iu] },
-
-    { canon:'codigo penal', pats:[/\bcp\b/iu,/\bcod\w+\s+penal\b/iu] },
-    { canon:'codigo de processo penal', pats:[/\bcpp\b/iu,/\bcod\w+\s+de\s+processo\s+penal\b/iu] },
-    { canon:'codigo civil', pats:[/\bcc\b/iu,/\bcod\w+\s+civil\b/iu] },
-    { canon:'codigo de processo civil', pats:[/\bcpc\b/iu,/\bcod\w+\s+de\s+processo\s+civil\b/iu] },
-    { canon:'codigo tributario nacional', pats:[/\bctn\b/iu] },
-    { canon:'codigo de defesa do consumidor', pats:[/\bcdc\b/iu] },
-    { canon:'codigo de transito brasileiro', pats:[/\bctb\b/iu] },
-    { canon:'consolidacao das leis do trabalho', pats:[/\bclt\b/iu] },
-    { canon:'constituicao federal', pats:[/\bcf\/?88\b/iu,/\bconstitui[cç][aã]o\s*federal\b/iu,/\bcf\b/iu] },
-    { canon:'estatuto da crianca e do adolescente', pats:[/\beca\b/iu] },
-    { canon:'lei maria da penha', pats:[/\blmp\b/iu,/\b11\.340\/?2006\b/iu] },
-    { canon:'lei geral de protecao de dados', pats:[/\blgpd\b/iu,/\b13\.709\/?2018\b/iu] },
-    { canon:'marco civil da internet', pats:[/\bmci\b/iu,/\b12\.965\/?2014\b/iu] },
-    { canon:'lei de drogas', pats:[/\b11\.343\/?2006\b/iu] },
-    { canon:'lei de falencias', pats:[/\b11\.101\/?2005\b/iu] },
-    { canon:'estatuto do idoso', pats:[/\b10\.741\/?2003\b/iu] },
-
-    { canon:'sumula', pats:[/\bs[uú]mulas?\b/iu,/\bsv\b/iu,/\bsumula\b/iu] },
-    { canon:'jurisprudencia', pats:[/\bjurisprud[eê]nci\w+\b/iu,/\bprecedent\w+\b/iu,/\bleading\s+case\b/iu] },
-    { canon:'tema repetitivo', pats:[/\btemas?\s+repetitiv\w+\b/iu] },
-    { canon:'repercussao geral', pats:[/\brepercuss[aã]o\s+geral\b/iu] },
-
-    { canon:'erro medico', pats:[/\berro\s+medic\w+\b/iu,/\biatrogen\w+\b/iu,/\bimperici\w+\b/iu,/\bnegligenci\w+\b/iu,/\bimprudenci\w+\b/iu,/\berro\s+odontolog\w+\b/iu] },
+    { canon:'sumula', pats:[/\bs[uú]mulas?\b/giu,/\bsv\b/giu,/\bsumula\b/giu] },
+    { canon:'jurisprudencia', pats:[/\bjurisprud[eê]nci\w+\b/giu,/\bprecedent\w+\b/giu,/\bleading\s+case\b/giu] },
+    { canon:'tema repetitivo', pats:[/\btemas?\s+repetitiv\w+\b/giu] },
+    { canon:'repercussao geral', pats:[/\brepercuss[aã]o\s+geral\b/giu] },
   ];
-  function applySynonyms(t) { for (const s of SYN) for (const p of s.pats) t = t.replace(p, ' ' + s.canon + ' '); return t; }
+  function applySynonyms(t){ for(const s of SYN){ for(const p of s.pats){ t = t.replace(p, ' '+s.canon+' '); } } return t; }
 
   function normalizeLegal(s){
     let t=norm(s);
-    t=t.replace(/§+/g,' paragrafo ').replace(/\bpar\.?\b/g,' paragrafo ')
-       .replace(/\bart\.?\b|\bartigo\b/g,' art ').replace(/\bincs?\.?\b|\binc\.?\b/g,' inciso ')
-       .replace(/\bal\.?\b/g,' alinea ').replace(/\bunico\b/g,' unico ')
-       .replace(/(\d+)\s*[ºªoa]\b/g,'$1')
-       .replace(/["'()]/g,' ').replace(/\s+/g,' ').trim();
-    t=t.replace(/\bdanos?\b/g,' dano ').replace(/\bmorais\b/g,' moral ')
-       .replace(/\best[eé]tic\w+\b/g,' estetico ').replace(/\besteic\w+\b/g,' estetico ')
-       .replace(/\bm[eé]dic\w+\b/g,' medico ');
-    t = applySynonyms(' '+t+' ');
+    t=t.replace(/(\d+)\s*[ºªoa]\b/g,'$1').replace(/["'()]/g,' ').replace(/\s+/g,' ').trim();
+    t=t.replace(/\bunico\b/giu,' unico ');
+    t=applySynonyms(' '+t+' ');
     return t.replace(/\s+/g,' ').trim();
   }
-  const tokensFromLegal = s => s.split(/\s+/).filter(Boolean).filter(w=>!STOP.has(w));
+  function tokensFromLegal(s){ return s.split(/\s+/).filter(Boolean); }
+  const isRelevant = w => w.length>=3 && !STOP.has(w);
 
   function highlightText(text,tokens){
     if(!tokens?.length) return text;
@@ -299,161 +259,46 @@
     }
     return html;
   }
-  function proximityRegexFromTokens(tokens, n=2){
-    if(!tokens.length) return null;
-    const parts=tokens.map(w=>`\\b${esc(w)}\\b`);
-    const gap=String.raw`(?:[^\p{L}\p{N}]+(?:\p{L}+\p{N}*)){0,${n}}[^\p{L}\p{N}]+`;
-    try{ return new RegExp(parts.join(gap),'iu'); }catch{ return null; }
-  }
 
-  /* ===== Parser leve (campos/aspas) ===== */
-  function parseQuery(raw){
-    const legal = normalizeLegal(raw);
-    const fields = {};
-    legal.replace(/\b(fonte|titulo|texto):\(([^)]+)\)|\b(fonte|titulo|texto):(\S+)/giu, (_,a,b,c,d)=>{
-      const k=(a||c).toLowerCase(); const v=normalizeLegal(b||d);
-      fields[k]=(fields[k]||[]).concat(tokensFromLegal(v)); return '';
-    });
-    const phrases=[]; let rest=legal;
-    rest=rest.replace(/"([^"]+)"\s*~\s*(\d+)/giu,(_,p,n)=>{ phrases.push({t:tokensFromLegal(normalizeLegal(p)), n:parseInt(n,10)}); return ' '; });
-    rest=rest.replace(/"([^"]+)"/giu,(_,p)=>{ phrases.push({t:tokensFromLegal(normalizeLegal(p)), n:0}); return ' '; });
-
-    return { legal:rest.trim(), fields, phrases };
-  }
-
-  /* ===== Scoring helpers ===== */
-  function countHits(hay, tokens){ let c=0; for(const w of tokens){ const re=new RegExp(`(^|[^\\p{L}\\p{N}])${esc(w)}([^\\p{L}\\p{N}]|$)`,'iu'); if(re.test(hay)) c++; } return c; }
-  function fonteBoost(tokensSet, fonte){
-    const f=(fonte||''); let s=0;
-    if(tokensSet.has('art') && f.startsWith('codigo_')) s += 2;
-    if(tokensSet.has('sumula') && (f.startsWith('sumula')||f.startsWith('sumulas_')||f==='sumulas_vinculantes_stf')) s += 2;
-    if(tokensSet.has('erro') && tokensSet.has('medico')){
-      if(f==='julgados_direito_civil' || f==='sumulas_stj' || f==='sumula_stf') s += 2;
-    }
-    return s;
-  }
-  function recencyBoost(item){
-    const f=(item.fonte||''); if(!f.startsWith('noticias')) return 0;
-    const ds=(item.data||item.data_pub||'').slice(0,10); if(!/^\d{4}-\d{2}-\d{2}$/.test(ds)) return 0;
-    const now=Date.now(), dt=new Date(ds+'T00:00:00Z').getTime();
-    const days=Math.max(0,(now-dt)/(1000*60*60*24));
-    return Math.max(0, 2.5*Math.exp(-days/20));
-  }
-  function articleBoost(hay, userText){
-    let s=0;
-    const artMatch = userText.match(/\bart\s*([0-9][0-9a-z\-]*)\b/);
-    if(artMatch){ const art=artMatch[1]; if(new RegExp(`\\bart\\s*${esc(art)}\\b`,'iu').test(hay)) s+=2; }
-    const lawHits = CANON_LAWS.filter(L => new RegExp(`\\b${esc(L)}\\b`,'iu').test(userText));
-    if(lawHits.length && lawHits.some(L=>new RegExp(`\\b${esc(L)}\\b`,'iu').test(hay))) s+=2;
-    return s;
-  }
-
-  /* ===== Busca profissional (regras adaptativas) ===== */
-  function professionalSearch(userRaw, data){
-    const parsed = parseQuery(userRaw);
-    const userNorm = parsed.legal;                       // já normalizado
-    const allTokens = tokensFromLegal(userNorm);
-    const relevantTokens = allTokens.filter(t => /\d{2,}|[a-z]{3,}/i.test(t)); // 3+ letras ou número 2+ dígitos
-    const tokensSet = new Set(allTokens);
-
-    // Regras adaptativas (baseado no que combinamos)
-    let minRequired;
-    if(allTokens.length<=1) minRequired = 1;
-    else if(allTokens.length<=4) minRequired = allTokens.length;
-    else minRequired = Math.min(4, relevantTokens.length || allTokens.length);
-
-    // Proximidade (peso, não filtro rígido)
-    const proxRe = proximityRegexFromTokens(relevantTokens.slice(0,6), 2);
-
-    // Campos/filtros opcionais (fonte:, titulo:, texto:)
-    const fonteFilter=parsed.fields.fonte||null;
-    const tituloTerms=parsed.fields.titulo||[];
-    const textoTerms=parsed.fields.texto||[];
-
-    let pool = data.filter(it=>{
-      const hay=(it.textoLegal||it.textoNorm||'');
-      if(fonteFilter && fonteFilter.length){
-        const f=(it.fonte||'');
-        const ok = fonteFilter.some(ff=>{
-          if(ff==='codigos') return f.startsWith('codigo_');
-          if(ff==='sumulas') return f.startsWith('sumula')||f.startsWith('sumulas_')||f==='sumulas_vinculantes_stf';
-          if(ff==='julgados') return f.startsWith('julgados_');
-          if(ff==='jurisprudencia') return (f==='temas_repetitivos_stj'||f==='teses_stf');
-          if(ff==='noticias') return f.startsWith('noticias');
-          return f.includes(ff);
-        });
-        if(!ok) return false;
+  /* ===== Regras de proximidade (o coração do ajuste) ===== */
+  function hasProxChain(hayTokens, targetsArr, requireDistinct, maxGap=2){
+    if(!targetsArr.length) return false;
+    const targetSet = new Set(targetsArr);
+    const posByTok = new Map();
+    for(let i=0;i<hayTokens.length;i++){
+      const w=hayTokens[i];
+      if(targetSet.has(w)){
+        if(!posByTok.has(w)) posByTok.set(w, []);
+        posByTok.get(w).push(i);
       }
-      if(tituloTerms.length && !tituloTerms.every(t=>new RegExp(`\\b${esc(t)}\\b`,'iu').test(it.titulo||''))) return false;
-      if(textoTerms.length  && !textoTerms.every(t=>new RegExp(`\\b${esc(t)}\\b`,'iu').test(it.texto||''))) return false;
-
-      // Regra de presença de termos
-      if(allTokens.length<=1){
-        return countHits(hay, relevantTokens)>0 || countHits(hay, allTokens)>0;
-      }else if(allTokens.length<=4){
-        return countHits(hay, allTokens)>=allTokens.length;
-      }else{
-        return countHits(hay, relevantTokens)>=minRequired;
-      }
-    });
-
-    // Fallback se ainda ficou vazio: pelo menos 2 termos (ou 1, se só houver 1)
-    if(pool.length===0){
-      const need = Math.min(2, allTokens.length||1);
-      pool=data.filter(it=>{
-        const hay=(it.textoLegal||it.textoNorm||'');
-        return countHits(hay, relevantTokens.length?relevantTokens:allTokens) >= need;
-      });
     }
+    if(posByTok.size < requireDistinct) return false;
 
-    // Score
-    function score(it){
-      const hay=(it.textoLegal||it.textoNorm||'');
-      let s=0;
-      const hitsRel = countHits(hay, relevantTokens);
-      const hitsAll = countHits(hay, allTokens);
-      s += hitsRel*1.2 + hitsAll*0.6;
+    // Flatten occurrences of target tokens
+    const occs=[];
+    for(const [tok, arr] of posByTok){ for(const p of arr){ occs.push({pos:p, tok}); } }
+    occs.sort((a,b)=>a.pos-b.pos);
 
-      // Frases entre aspas / proximidade "~n"
-      for(const ph of parsed.phrases){
-        if(ph.n===0){
-          const re=new RegExp(`\\b${esc(ph.t.join(' '))}\\b`,'iu');
-          if(re.test(hay)) s += 6;
-        }else{
-          const re=proximityRegexFromTokens(ph.t, ph.n);
-          if(re && re.test(hay)) s += (ph.n<=1?5:ph.n<=2?3:2);
+    // Try to build a chain where consecutive matches are <= maxGap non-targets apart
+    for(let s=0;s<occs.length;s++){
+      let used=new Set([occs[s].tok]);
+      let last=occs[s].pos;
+      for(let t=s+1;t<occs.length;t++){
+        const gap = occs[t].pos - last - 1; // words between last and this
+        if(gap <= maxGap){
+          if(!used.has(occs[t].tok)) used.add(occs[t].tok);
+          last = occs[t].pos;
+          if(used.size >= requireDistinct) return true;
+        } else {
+          // quebrou a cadeia — parar este start e tentar o próximo
+          break;
         }
       }
-
-      // Proximidade geral dos tokens
-      if(proxRe && proxRe.test(hay)) s += 2.5;
-
-      // Boosts (fonte, artigo + diploma, recência)
-      s += fonteBoost(tokensSet, it.fonte||'');
-      s += articleBoost(hay, userNorm);
-      s += recencyBoost(it);
-
-      // Penalização por bloco muito longo e genérico
-      const L=Math.max(50,(it.texto||it.titulo||'').length);
-      s -= 0.2*Math.log(L);
-
-      return s;
     }
-
-    const ranked = pool.map(x=>({x,s:score(x)}))
-                       .filter(o=>o.s>0)
-                       .sort((a,b)=>b.s-a.s)
-                       .slice(0,400)
-                       .map(o=>o.x);
-
-    const highlight = (parsed.phrases.length
-      ? Array.from(new Set(parsed.phrases.flatMap(ph=>ph.t)))
-      : (relevantTokens.length? relevantTokens : allTokens));
-
-    return {results: ranked, highlight};
+    return false;
   }
 
-  /* ===== Dados e UI ===== */
+  /* ===== Dados, categorias e helpers ===== */
   const arquivos=[
     "data/julgados_direito_administrativo.json","data/julgados_direito_ambiental.json","data/julgados_direito_bancario.json",
     "data/julgados_direito_civil.json","data/julgados_direito_constitucional.json","data/julgados_direito_eleitoral.json",
@@ -499,9 +344,57 @@
     }
     return dados;
   }
-
   function ensureVisible(el){ el.scrollIntoView({behavior:'smooth',block:'start'}); }
 
+  /* ===== Busca profissional COM as regras de proximidade ===== */
+  function professionalSearch(raw, data){
+    const qLegal = normalizeLegal(raw);
+    const qTokensAll = tokensFromLegal(qLegal);
+    const qDistinct = Array.from(new Set(qTokensAll));
+
+    // Seleção por regra:
+    let targets = qDistinct.slice();
+    let requireDistinct, maxGap = 2;
+
+    if (qDistinct.length === 1){
+      // 1 palavra: só precisa existir
+      requireDistinct = 1;
+    } else if (qDistinct.length === 2 || qDistinct.length === 3){
+      // 2 ou 3 palavras: todas e próximas (≤2 entre cada)
+      requireDistinct = qDistinct.length;
+    } else {
+      // 4+ palavras: considerar apenas relevantes (≥3 letras), exigir 4
+      targets = qDistinct.filter(isRelevant);
+      requireDistinct = Math.min(4, targets.length);
+      if (requireDistinct === 0) requireDistinct = Math.min(4, qDistinct.length); // fallback raro
+    }
+
+    const results = [];
+    const highlight = targets.length ? targets : qDistinct;
+
+    for (const it of data){
+      const hay = (it.textoLegal || it.textoNorm || '');
+      const hTokens = tokensFromLegal(hay);
+
+      // Checagem rápida: pelo menos 1 termo tem que aparecer
+      if (!targets.some(t => hTokens.includes(t))) continue;
+
+      // Regras de proximidade:
+      if (requireDistinct === 1){
+        // basta conter o termo 1x
+        results.push(it);
+      }else{
+        if (hasProxChain(hTokens, targets, requireDistinct, maxGap)){
+          results.push(it);
+        }
+      }
+    }
+
+    // Ordenação simples (pode evoluir com recency/boosts se quiser)
+    return { results, highlight };
+  }
+
+  /* ===== UI dos cartões / categorias ===== */
   function buildCard(item,tokens){
     const fNorm=normalizarFonte(item.fonte);
     const nomeBonito=nomesAmigaveis[fNorm]||nomesAmigaveis[item.fonte]||item.fonte;
@@ -578,9 +471,7 @@
     ]
   };
   const escolhidas=[];
-  function selecionarEstrategia(nome,desc){
-    if(!escolhidas.some(x=>x.nome===nome)) escolhidas.push({nome,desc});
-  }
+  function selecionarEstrategia(nome,desc){ if(!escolhidas.some(x=>x.nome===nome)) escolhidas.push({nome,desc}); }
   function renderEstrategias(){
     estrCats.innerHTML='';
     for(const cat in ESTRATEGIAS){
@@ -611,6 +502,7 @@
   function gerarPrompt(){
     const temaFinal=temaInput.value.trim();
     if(!temaFinal){ toast('Defina o tema antes.'); return; }
+
     let baseLista=escolhidas.slice();
     if(baseLista.length===0){
       baseLista=[
@@ -620,19 +512,21 @@
         {nome:'Raciocínio Jurídico (passo a passo)',desc:'Passos lógicos para resolver a questão do tema.'}
       ];
     }
+
     const linhas=[];
     linhas.push('Você é um professor de Direito. Ajude-me a estudar o tema abaixo:\n');
     linhas.push('TEMA: '+temaFinal+'\n');
     linhas.push('Estruture a resposta nas seções a seguir, sendo didático e objetivo:');
     baseLista.forEach(({nome,desc})=>linhas.push(`- ${nome}: ${desc}`));
     linhas.push('\nRegras: cite artigos com número e diploma; quando houver, inclua Súmulas (STF/STJ) e leading cases; use exemplos curtos; ao final, proponha 3 questões objetivas com gabarito e 1 discursiva.');
+
     promptOut.textContent=linhas.join('\n');
     promptArea.style.display='block';
     setTimeout(()=>ensureVisible(promptArea),50);
     toast('Prompt gerado.');
   }
 
-  /* ===== Execução da busca (adaptativa) ===== */
+  /* ===== Execução ===== */
   function executarBuscaDoTema(){
     const temaRaw=temaInput.value.trim();
     if(!temaRaw){ toast("Digite um tema."); temaInput.focus(); return; }
@@ -653,7 +547,7 @@
   btnRebuscar.addEventListener('click', executarBuscaDoTema);
   btnGerar.addEventListener('click', gerarPrompt);
 
-  /* Dica automática após 3s desde a 1ª digitação */
+  // Dica automática após 3s desde a 1ª digitação
   let hintTimer=null, hinted=false;
   temaInput.addEventListener('input', ()=>{
     if(hinted) return;
@@ -663,7 +557,7 @@
     }
   });
 
-  /* Copiar -> chips de IA + Fechar */
+  // Copiar -> chips de IA + Fechar
   btnCopy.addEventListener('click', async()=>{
     try{
       await navigator.clipboard.writeText(promptOut.textContent||'');
@@ -694,19 +588,21 @@
   btnFecharChips.addEventListener('click', resetApp);
   btnLimpar.addEventListener('click', resetApp);
 
-  /* Boot & PWA */
+  // Boot & PWA
   async function boot(){
     baseDados = await carregarDados();
     toast('Base carregada com sucesso!');
   }
   boot();
 
+  // Modal Sobre
   function openAbout(){ aboutBackdrop.style.display='flex'; aboutBackdrop.setAttribute('aria-hidden','false'); }
   function closeAbout(){ aboutBackdrop.style.display='none'; aboutBackdrop.setAttribute('aria-hidden','true'); }
   btnAbout.addEventListener('click', openAbout);
   aboutClose.addEventListener('click', closeAbout);
   aboutBackdrop.addEventListener('click', (e)=>{ if(e.target===aboutBackdrop) closeAbout(); });
 
+  // PWA (Android)
   let deferredPrompt=null;
   const installFab=$("#installFab");
   const isAndroid = /Android/i.test(navigator.userAgent || '');
