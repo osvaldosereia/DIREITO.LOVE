@@ -210,30 +210,54 @@
   const aboutClose=$("#aboutClose");
 
   /* ===== Normalização + Sinônimos ===== */
-  const STOP=new Set(['de','da','do','das','dos','e','ou','a','o','as','os','no','na','nos','nas','para','por','em','um','uma','ao','à','que','com','sem','sobre','entre','ate']);
+  const STOP=new Set(['de','da','do','das','dos','e','ou','a','o','as','os','no','na','nos','nas','para','por','em','um','uma','ao','à','que','com','sem','sobre','entre','ate','das','dos','do','da']);
   const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   const norm=(s="")=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 
+  // canônicos de códigos (usados para tirar do requisito de proximidade)
+  const LAW_CANONS = [
+    'codigo penal','codigo de processo penal','codigo civil','codigo de processo civil',
+    'codigo tributario nacional','codigo de defesa do consumidor','codigo de transito brasileiro',
+    'codigo eleitoral','codigo comercial','codigo penal militar','codigo de processo penal militar',
+    'codigo florestal','codigo das aguas','codigo de minas',
+    'codigo brasileiro de aeronautica','codigo brasileiro de telecomunicacoes',
+    'consolidacao das leis do trabalho'
+  ];
+
   const SYN = [
-    { canon:'art', pats:[/\bart\.?\b/giu,/\bartigo\b/giu] },
+    // marcadores estruturais
+    { canon:'art',    pats:[/\bart(?:s|\.)?\b/giu,/\bartigo\b/giu] },
     { canon:'inciso', pats:[/\bincs?\.?\b/giu,/\binc\.?\b/giu,/\binciso\b/giu] },
     { canon:'alinea', pats:[/\bal\.?\b/giu,/\balinea\b/giu] },
     { canon:'paragrafo', pats:[/\bpar\.?\b/giu,/\b§+\b/giu] },
 
-    { canon:'codigo penal', pats:[/\bcp\b/giu,/\bcod\w+\s+penal\b/giu] },
-    { canon:'codigo de processo penal', pats:[/\bcpp\b/giu,/\bcod\w+\s+de\s+processo\s+penal\b/giu] },
-    { canon:'codigo civil', pats:[/\bcc\b/giu,/\bcod\w+\s+civil\b/giu] },
-    { canon:'codigo de processo civil', pats:[/\bcpc\b/giu,/\bcod\w+\s+de\s+processo\s+civil\b/giu] },
-    { canon:'codigo tributario nacional', pats:[/\bctn\b/giu] },
-    { canon:'codigo de defesa do consumidor', pats:[/\bcdc\b/giu] },
-    { canon:'codigo de transito brasileiro', pats:[/\bctb\b/giu] },
+    // códigos e siglas
+    { canon:'codigo penal', pats:[/\bcp\b/giu,/\bcod(?:\.|igo)?\s+penal\b/giu] },
+    { canon:'codigo de processo penal', pats:[/\bcpp\b/giu,/\bcod(?:\.|igo)?\s+de\s+processo\s+penal\b/giu] },
+    { canon:'codigo civil', pats:[/\bcc\b/giu,/\bcod(?:\.|igo)?\s+civil\b/giu] },
+    { canon:'codigo de processo civil', pats:[/\bcpc\b/giu,/\bcod(?:\.|igo)?\s+de\s+processo\s+civil\b/giu] },
+    { canon:'codigo tributario nacional', pats:[/\bctn\b/giu,/\bcod(?:\.|igo)?\s+tributario\s+nacional\b/giu] },
+    { canon:'codigo de defesa do consumidor', pats:[/\bcdc\b/giu,/\bcod(?:\.|igo)?\s+de\s+defesa\s+do\s+consumidor\b/giu] },
+    { canon:'codigo de transito brasileiro', pats:[/\bctb\b/giu,/\bcod(?:\.|igo)?\s+de?\s*transito\b/giu] },
+    { canon:'codigo eleitoral', pats:[/\bce\b/giu,/\bcod(?:\.|igo)?\s+eleitoral\b/giu] },
+    { canon:'codigo comercial', pats:[/\bcod(?:\.|igo)?\s+comercial\b/giu] },
+    { canon:'codigo penal militar', pats:[/\bcpm\b/giu,/\bcod(?:\.|igo)?\s+penal\s+militar\b/giu] },
+    { canon:'codigo de processo penal militar', pats:[/\bcppm\b/giu,/\bcod(?:\.|igo)?\s+de\s+processo\s+penal\s+militar\b/giu] },
+    { canon:'codigo florestal', pats:[/\bcod(?:\.|igo)?\s+florestal\b/giu] },
+    { canon:'codigo das aguas', pats:[/\bcod(?:\.|igo)?\s+das\s+aguas\b/giu] },
+    { canon:'codigo de minas', pats:[/\bcod(?:\.|igo)?\s+de\s+minas\b/giu] },
+    { canon:'codigo brasileiro de aeronautica', pats:[/\bcba\b/giu,/\bcod(?:\.|igo)?\s+brasileiro\s+de\s+aeronautica\b/giu] },
+    { canon:'codigo brasileiro de telecomunicacoes', pats:[/\bcod(?:\.|igo)?\s+brasileiro\s+de\s+telecomunicacoes\b/giu] },
+    { canon:'consolidacao das leis do trabalho', pats:[/\bclt\b/giu,/\bconsolidac[aã]o\s+das\s+leis\s+do\s+trabalho\b/giu] },
 
+    // temas comuns
     { canon:'dano', pats:[/\bdanos?\b/giu] },
     { canon:'moral', pats:[/\bmorais\b/giu] },
     { canon:'estetico', pats:[/\best[eé]tic\w+\b/giu,/\besteic\w+\b/giu] },
     { canon:'medico', pats:[/\bm[eé]dic\w+\b/giu] },
     { canon:'erro medico', pats:[/\berro\s+medic\w+\b/giu,/\biatrogen\w+\b/giu,/\bimperici\w+\b/giu,/\bnegligenci\w+\b/giu,/\bimprudenci\w+\b/giu,/\berro\s+odontolog\w+\b/giu] },
 
+    // jurisprudência e afins
     { canon:'sumula', pats:[/\bs[uú]mulas?\b/giu,/\bsv\b/giu,/\bsumula\b/giu] },
     { canon:'jurisprudencia', pats:[/\bjurisprud[eê]nci\w+\b/giu,/\bprecedent\w+\b/giu,/\bleading\s+case\b/giu] },
     { canon:'tema repetitivo', pats:[/\btemas?\s+repetitiv\w+\b/giu] },
@@ -243,11 +267,29 @@
 
   function normalizeLegal(s){
     let t=norm(s);
-    t=t.replace(/(\d+)\s*[ºªoa]\b/g,'$1').replace(/["'()]/g,' ').replace(/\s+/g,' ').trim();
+
+    // normalizar "art120", "art.120", "artigo120"
+    t=t.replace(/\b(art(?:igo)?\.?)\s*(\d+[a-z\-]*)\b/giu,' art $2 ');
+
+    // remover pontos dentro de números (ex.: 13.709 -> 13709, 2.018 -> 2018)
+    t=t.replace(/\b\d{1,3}(?:\.\d{3})+(?:\/\d{2,4})?\b/g, m => m.replace(/\./g,''));
+    t=t.replace(/(\d)\.(?=\d)/g,'$1'); // fallback extra
+
+    // suprimir marcações de grau/ordinais
+    t=t.replace(/(\d+)\s*[ºªoa]\b/g,'$1');
+
+    // limpar pontuação solta
+    t=t.replace(/["'()]/g,' ').replace(/\s+/g,' ').trim();
+
+    // unicizar "único"
     t=t.replace(/\bunico\b/giu,' unico ');
+
+    // aplicar sinônimos/canônicos
     t=applySynonyms(' '+t+' ');
+
     return t.replace(/\s+/g,' ').trim();
   }
+
   function tokensFromLegal(s){ return s.split(/\s+/).filter(Boolean); }
   const isRelevant = w => w.length>=3 && !STOP.has(w);
 
@@ -260,7 +302,7 @@
     return html;
   }
 
-  /* ===== Regras de proximidade (o coração do ajuste) ===== */
+  /* ===== Regras de proximidade (cadeia) ===== */
   function hasProxChain(hayTokens, targetsArr, requireDistinct, maxGap=2){
     if(!targetsArr.length) return false;
     const targetSet = new Set(targetsArr);
@@ -274,23 +316,20 @@
     }
     if(posByTok.size < requireDistinct) return false;
 
-    // Flatten occurrences of target tokens
     const occs=[];
     for(const [tok, arr] of posByTok){ for(const p of arr){ occs.push({pos:p, tok}); } }
     occs.sort((a,b)=>a.pos-b.pos);
 
-    // Try to build a chain where consecutive matches are <= maxGap non-targets apart
     for(let s=0;s<occs.length;s++){
       let used=new Set([occs[s].tok]);
       let last=occs[s].pos;
       for(let t=s+1;t<occs.length;t++){
-        const gap = occs[t].pos - last - 1; // words between last and this
+        const gap = occs[t].pos - last - 1;
         if(gap <= maxGap){
           if(!used.has(occs[t].tok)) used.add(occs[t].tok);
           last = occs[t].pos;
           if(used.size >= requireDistinct) return true;
         } else {
-          // quebrou a cadeia — parar este start e tentar o próximo
           break;
         }
       }
@@ -298,7 +337,7 @@
     return false;
   }
 
-  /* ===== Dados, categorias e helpers ===== */
+  /* ===== Dados e categorias ===== */
   const arquivos=[
     "data/julgados_direito_administrativo.json","data/julgados_direito_ambiental.json","data/julgados_direito_bancario.json",
     "data/julgados_direito_civil.json","data/julgados_direito_constitucional.json","data/julgados_direito_eleitoral.json",
@@ -346,51 +385,48 @@
   }
   function ensureVisible(el){ el.scrollIntoView({behavior:'smooth',block:'start'}); }
 
-  /* ===== Busca profissional COM as regras de proximidade ===== */
+  /* ===== Busca profissional com proximidade e códigos fora do requisito ===== */
   function professionalSearch(raw, data){
     const qLegal = normalizeLegal(raw);
     const qTokensAll = tokensFromLegal(qLegal);
     const qDistinct = Array.from(new Set(qTokensAll));
 
-    // Seleção por regra:
-    let targets = qDistinct.slice();
+    // detectar menções a códigos (para não exigir proximidade deles)
+    const lawHits = LAW_CANONS.filter(c => qLegal.includes(c));
+    const lawTokSet = new Set(lawHits.flatMap(c => tokensFromLegal(c)));
+
+    // targets para cadeia: tirar tokens de código e stopwords
+    let chainTargets = qDistinct.filter(t => !lawTokSet.has(t) && !STOP.has(t));
+
+    // regra de quantos termos distintos exigir na cadeia
     let requireDistinct, maxGap = 2;
-
-    if (qDistinct.length === 1){
-      // 1 palavra: só precisa existir
+    if (chainTargets.length <= 1){
       requireDistinct = 1;
-    } else if (qDistinct.length === 2 || qDistinct.length === 3){
-      // 2 ou 3 palavras: todas e próximas (≤2 entre cada)
-      requireDistinct = qDistinct.length;
+    } else if (chainTargets.length <= 3){
+      requireDistinct = chainTargets.length;
     } else {
-      // 4+ palavras: considerar apenas relevantes (≥3 letras), exigir 4
-      targets = qDistinct.filter(isRelevant);
-      requireDistinct = Math.min(4, targets.length);
-      if (requireDistinct === 0) requireDistinct = Math.min(4, qDistinct.length); // fallback raro
+      const relev = chainTargets.filter(isRelevant);
+      chainTargets = relev.length ? relev : chainTargets;
+      requireDistinct = Math.min(4, chainTargets.length);
     }
+    if (chainTargets.length===0){ chainTargets = qDistinct.filter(t=>!STOP.has(t)); requireDistinct = Math.min(1, chainTargets.length); }
 
-    const results = [];
-    const highlight = targets.length ? targets : qDistinct;
+    const highlight = (chainTargets.length? chainTargets : qDistinct).slice(0,8);
 
-    for (const it of data){
+    const results=[];
+    for(const it of data){
       const hay = (it.textoLegal || it.textoNorm || '');
       const hTokens = tokensFromLegal(hay);
 
-      // Checagem rápida: pelo menos 1 termo tem que aparecer
-      if (!targets.some(t => hTokens.includes(t))) continue;
+      // precisa conter pelo menos um target
+      if (!chainTargets.some(t => hTokens.includes(t))) continue;
 
-      // Regras de proximidade:
-      if (requireDistinct === 1){
-        // basta conter o termo 1x
+      if (requireDistinct===1){
         results.push(it);
-      }else{
-        if (hasProxChain(hTokens, targets, requireDistinct, maxGap)){
-          results.push(it);
-        }
+      } else {
+        if (hasProxChain(hTokens, chainTargets, requireDistinct, maxGap)) results.push(it);
       }
     }
-
-    // Ordenação simples (pode evoluir com recency/boosts se quiser)
     return { results, highlight };
   }
 
@@ -514,9 +550,9 @@
     }
 
     const linhas=[];
-    linhas.push('Você é um professor de Direito. Ajude-me a estudar o tema abaixo:\n');
+    linhas.push('Você é um professor de Direito com uma didática impecável, linguagem simples mas rica em conhecimento. Ajude-me a estudar o tema abaixo:\n');
     linhas.push('TEMA: '+temaFinal+'\n');
-    linhas.push('Estruture a resposta nas seções a seguir, sendo didático e objetivo:');
+    linhas.push('Estruture a resposta nas seções a seguir, sendo didático, detalhista e sempre que possível comente usando mini exemplos. A cada 2 seções solicite autorização para continuar.');
     baseLista.forEach(({nome,desc})=>linhas.push(`- ${nome}: ${desc}`));
     linhas.push('\nRegras: cite artigos com número e diploma; quando houver, inclua Súmulas (STF/STJ) e leading cases; use exemplos curtos; ao final, proponha 3 questões objetivas com gabarito e 1 discursiva.');
 
