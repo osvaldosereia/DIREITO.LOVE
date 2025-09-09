@@ -58,9 +58,7 @@
   .btn-alt:hover{background:#264399}
   .btn[disabled],.btn-alt[disabled]{opacity:.8;cursor:default}
 
-  .btn-ok{
-    background:var(--success)!important; color:#fff!important; border-color:var(--success-border)!important;
-  }
+  .btn-ok{ background:var(--success)!important; color:#fff!important; border-color:var(--success-border)!important; }
 
   .acc{margin:12px 0;border:1px solid var(--border);border-radius:12px;background:#fff;box-shadow:var(--shadow)}
   .acc>summary{list-style:none;cursor:pointer;padding:10px 14px;font-weight:800;color:var(--primary);display:flex;align-items:center;justify-content:space-between}
@@ -83,26 +81,15 @@
   .ia:hover{background:#f8fafc}
   .chip-ghost{padding:6px 10px;border-radius:999px;border:1px dashed var(--border);background:#fff;color:#111;font-size:12px;cursor:pointer}
 
-  /* callout vermelho clarinho */
-  .callout-red{
-    background:#ffecec; border:1px solid #ffd4d4; color:#7a0e0e;
-    padding:8px 10px; border-radius:8px;
-  }
+  .callout-red{ background:#ffecec; border:1px solid #ffd4d4; color:#7a0e0e; padding:8px 10px; border-radius:8px; }
 
-  /* Modal Sobre */
-  .modal-backdrop{
-    position:fixed; inset:0; background:rgba(0,0,0,.36); display:none; align-items:center; justify-content:center; z-index:80;
-  }
-  .modal{
-    width:min(92vw, 560px); background:#fff; border:1px solid var(--border); border-radius:12px; box-shadow:0 20px 40px rgba(0,0,0,.2);
-    padding:14px;
-  }
+  .modal-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.36); display:none; align-items:center; justify-content:center; z-index:80; }
+  .modal{ width:min(92vw, 560px); background:#fff; border:1px solid var(--border); border-radius:12px; box-shadow:0 20px 40px rgba(0,0,0,.2); padding:14px; }
   .modal header{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px}
   .modal h2{margin:0; color:var(--primary); font-size:18px}
   .modal .close{appearance:none; border:1px solid var(--border); background:#fff; border-radius:10px; width:36px; height:36px; cursor:pointer}
   .modal .content{color:#334155; font-size:13.5px; line-height:1.5}
 
-  /* PWA floating (mantido mas escondido, preferimos topbar) */
   #installFab{position:fixed;right:14px;bottom:14px;z-index:60;display:none;background:#111;color:#fff;border:0;border-radius:999px;padding:10px 12px;gap:8px;align-items:center;box-shadow:0 6px 20px rgba(0,0,0,.25);cursor:pointer}
   #installFab svg{width:16px;height:16px;display:block}
 
@@ -122,11 +109,9 @@
       <img class="brand__logo" src="icons/logo.png" alt="direito.love" />
     </a>
     <div class="topbar__actions">
-      <!-- Sobre (ícone) -->
       <button id="btnAbout" class="iconbtn" type="button" title="Sobre">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="#111" stroke-width="2"/><path d="M12 10v6m0-9h.01" stroke="#111" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
-      <!-- Baixar app (Android) (ícone) -->
       <button id="btnInstallTop" class="iconbtn" type="button" title="Baixar app" style="display:none">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v10m0 0 4-4m-4 4-4-4M5 21h14a2 2 0 0 0 2-2v-4M3 15v4a2 2 0 0 0 2 2" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
@@ -136,7 +121,7 @@
 
 <main class="wrap" id="top">
   <section id="temaSec" class="card">
-    <h1>Escreva aqui o tema do prompt (mínimo de 5 palavras)</h1>
+    <h1>Escreva aqui o tema do prompt</h1>
     <div class="row" style="margin-top:8px">
       <input id="tema" type="text" placeholder="Ex.: responsabilidade civil por dano estético em cirurgia..." />
       <button id="btnAvancar" class="btn-alt" type="button">Avançar</button>
@@ -200,7 +185,6 @@
   </div>
 </div>
 
-<!-- PWA float (opcional) -->
 <button id="installFab" title="Instalar app">
   <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v10m0 0 4-4m-4 4-4-4M5 21h14a2 2 0 0 0 2-2v-4M3 15v4a2 2 0 0 0 2 2" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   <span>Baixar app</span>
@@ -220,13 +204,12 @@
   const promptArea=$("#promptArea"), promptOut=$("#promptOut"), btnCopy=$("#btnCopy"), btnLimpar=$("#btnLimpar");
   const iaRow=$("#iaRow"), dicaCliqueDireito=$("#dicaCliqueDireito"), btnFecharChips=$("#btnFecharChips");
 
-  // Topbar actions
   const btnInstallTop=$("#btnInstallTop");
   const btnAbout=$("#btnAbout");
   const aboutBackdrop=$("#aboutBackdrop");
   const aboutClose=$("#aboutClose");
 
-  /* ===== Normalização, sinônimos e busca (igual versão anterior expandida) ===== */
+  /* ===== Normalização + Sinônimos ===== */
   const STOP=new Set(['de','da','do','das','dos','e','ou','a','o','as','os','no','na','nos','nas','para','por','em','um','uma','ao','à','que','com','sem','sobre','entre','ate']);
   const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   const norm=(s="")=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
@@ -242,7 +225,7 @@
     { canon:'homicidio', pats:[/\bhomicid\w+\b/iu] },
     { canon:'homicidio qualificado', pats:[/\bhomicid\w+\s+qualific\w+\b/iu] },
     { canon:'homicidio culposo', pats:[/\bhomicid\w+\s+culpos\w+\b/iu] },
-    { canon:'homicidio doloso', pats:[/\bhomicid\w+\s+oloso\b/iu] },
+    { canon:'homicidio doloso', pats:[/\bhomicid\w+\s+dolos\w+\b/iu] },
     { canon:'latrocinio', pats:[/\blatrocin\w+\b/iu,/\broubo\s+seguido\s+de\s+mort\w+\b/iu] },
     { canon:'furto', pats:[/\bfurt\w+\b/iu] },
     { canon:'roubo', pats:[/\broub\w+\b/iu] },
@@ -292,6 +275,7 @@
     { canon:'erro medico', pats:[/\berro\s+medic\w+\b/iu,/\biatrogen\w+\b/iu,/\bimperici\w+\b/iu,/\bnegligenci\w+\b/iu,/\bimprudenci\w+\b/iu,/\berro\s+odontolog\w+\b/iu] },
   ];
   function applySynonyms(t) { for (const s of SYN) for (const p of s.pats) t = t.replace(p, ' ' + s.canon + ' '); return t; }
+
   function normalizeLegal(s){
     let t=norm(s);
     t=t.replace(/§+/g,' paragrafo ').replace(/\bpar\.?\b/g,' paragrafo ')
@@ -305,7 +289,8 @@
     t = applySynonyms(' '+t+' ');
     return t.replace(/\s+/g,' ').trim();
   }
-  function tokensFromLegal(s){ return s.split(/\s+/).filter(Boolean).filter(w=>!STOP.has(w)); }
+  const tokensFromLegal = s => s.split(/\s+/).filter(Boolean).filter(w=>!STOP.has(w));
+
   function highlightText(text,tokens){
     if(!tokens?.length) return text;
     let html=text; const used=new Set();
@@ -320,6 +305,8 @@
     const gap=String.raw`(?:[^\p{L}\p{N}]+(?:\p{L}+\p{N}*)){0,${n}}[^\p{L}\p{N}]+`;
     try{ return new RegExp(parts.join(gap),'iu'); }catch{ return null; }
   }
+
+  /* ===== Parser leve (campos/aspas) ===== */
   function parseQuery(raw){
     const legal = normalizeLegal(raw);
     const fields = {};
@@ -330,28 +317,12 @@
     const phrases=[]; let rest=legal;
     rest=rest.replace(/"([^"]+)"\s*~\s*(\d+)/giu,(_,p,n)=>{ phrases.push({t:tokensFromLegal(normalizeLegal(p)), n:parseInt(n,10)}); return ' '; });
     rest=rest.replace(/"([^"]+)"/giu,(_,p)=>{ phrases.push({t:tokensFromLegal(normalizeLegal(p)), n:0}); return ' '; });
-    const tokens = rest.split(/\s+/).filter(Boolean);
-    const groups=[]; let cur=[];
-    for(let i=0;i<tokens.length;i++){
-      const w=tokens[i];
-      if(/^(ou|or)$/i.test(w)){ if(cur.length) groups.push(cur), cur=[]; continue; }
-      if(/^(nao|not)$/i.test(w)){ const nxt=tokens[i+1]; if(nxt){ cur.push({type:'NOT', term:nxt}); i++; continue; } }
-      if(/^(e|and)$/i.test(w)){ continue; }
-      cur.push({type:'TERM', term:w});
-    }
-    if(cur.length) groups.push(cur);
-    function expandWild(t){ let s=esc(t).replace(/\\\$/g,'.*').replace(/\\\?/g,'.'); return new RegExp(`(^|[^\\p{L}\\p{N}])${s}([^\\p{L}\\p{N}]|$)`,'iu'); }
-    const clauses=groups.map(g=>{
-      const must=[], not=[]; for(const it of g){ if(it.type==='NOT') not.push(it.term); else must.push(it.term); }
-      return { must, not, compiled: must.map(expandWild), compiledNot: not.map(expandWild) };
-    });
-    const artMatch = legal.match(/\bart\s*([0-9][0-9a-z\-]*)\b/);
-    const artNum = artMatch ? artMatch[1] : null;
-    const lawHits = CANON_LAWS.filter(L => new RegExp(`\\b${esc(L)}\\b`,'iu').test(legal));
-    return { legal, fields, phrases, clauses, artNum, lawHits };
+
+    return { legal:rest.trim(), fields, phrases };
   }
-  function countHits(hay, regs){ let c=0; for(const r of regs){ if(r.test(hay)) c++; } return c; }
-  function anyNeg(hay, regs){ for(const r of regs){ if(r.test(hay)) return true; } return false; }
+
+  /* ===== Scoring helpers ===== */
+  function countHits(hay, tokens){ let c=0; for(const w of tokens){ const re=new RegExp(`(^|[^\\p{L}\\p{N}])${esc(w)}([^\\p{L}\\p{N}]|$)`,'iu'); if(re.test(hay)) c++; } return c; }
   function fonteBoost(tokensSet, fonte){
     const f=(fonte||''); let s=0;
     if(tokensSet.has('art') && f.startsWith('codigo_')) s += 2;
@@ -365,27 +336,40 @@
     const f=(item.fonte||''); if(!f.startsWith('noticias')) return 0;
     const ds=(item.data||item.data_pub||'').slice(0,10); if(!/^\d{4}-\d{2}-\d{2}$/.test(ds)) return 0;
     const now=Date.now(), dt=new Date(ds+'T00:00:00Z').getTime();
-    const days=Math.max(0,(now-dt)/(1000*60*60*24)); return Math.max(0, 2.5*Math.exp(-days/20));
+    const days=Math.max(0,(now-dt)/(1000*60*60*24));
+    return Math.max(0, 2.5*Math.exp(-days/20));
   }
-  function articleBoost(item, artNum, lawHits){
-    if(!artNum) return 0;
-    const hay=(item.textoLegal||item.textoNorm||'');
+  function articleBoost(hay, userText){
     let s=0;
-    if(new RegExp(`\\bart\\s*${esc(artNum)}\\b`,'iu').test(hay)) s+=2;
+    const artMatch = userText.match(/\bart\s*([0-9][0-9a-z\-]*)\b/);
+    if(artMatch){ const art=artMatch[1]; if(new RegExp(`\\bart\\s*${esc(art)}\\b`,'iu').test(hay)) s+=2; }
+    const lawHits = CANON_LAWS.filter(L => new RegExp(`\\b${esc(L)}\\b`,'iu').test(userText));
     if(lawHits.length && lawHits.some(L=>new RegExp(`\\b${esc(L)}\\b`,'iu').test(hay))) s+=2;
     return s;
   }
-  function professionalSearch(raw, data){
-    const parsed = parseQuery(raw);
-    const tokensSet = new Set(tokensFromLegal(parsed.legal));
-    const proxRegs = parsed.phrases.map(ph=>{
-      if(!ph.n || ph.n===0) return {re:new RegExp(`\\b${esc(ph.t.join(' '))}\\b`,'iu'), weight:6};
-      const re=proximityRegexFromTokens(ph.t, ph.n);
-      return {re, weight: (ph.n<=1?5:ph.n<=2?3:2)};
-    });
+
+  /* ===== Busca profissional (regras adaptativas) ===== */
+  function professionalSearch(userRaw, data){
+    const parsed = parseQuery(userRaw);
+    const userNorm = parsed.legal;                       // já normalizado
+    const allTokens = tokensFromLegal(userNorm);
+    const relevantTokens = allTokens.filter(t => /\d{2,}|[a-z]{3,}/i.test(t)); // 3+ letras ou número 2+ dígitos
+    const tokensSet = new Set(allTokens);
+
+    // Regras adaptativas (baseado no que combinamos)
+    let minRequired;
+    if(allTokens.length<=1) minRequired = 1;
+    else if(allTokens.length<=4) minRequired = allTokens.length;
+    else minRequired = Math.min(4, relevantTokens.length || allTokens.length);
+
+    // Proximidade (peso, não filtro rígido)
+    const proxRe = proximityRegexFromTokens(relevantTokens.slice(0,6), 2);
+
+    // Campos/filtros opcionais (fonte:, titulo:, texto:)
     const fonteFilter=parsed.fields.fonte||null;
     const tituloTerms=parsed.fields.titulo||[];
     const textoTerms=parsed.fields.texto||[];
+
     let pool = data.filter(it=>{
       const hay=(it.textoLegal||it.textoNorm||'');
       if(fonteFilter && fonteFilter.length){
@@ -402,42 +386,74 @@
       }
       if(tituloTerms.length && !tituloTerms.every(t=>new RegExp(`\\b${esc(t)}\\b`,'iu').test(it.titulo||''))) return false;
       if(textoTerms.length  && !textoTerms.every(t=>new RegExp(`\\b${esc(t)}\\b`,'iu').test(it.texto||''))) return false;
-      if(parsed.clauses.length===0) return true;
-      return parsed.clauses.some(cl=>{
-        if(anyNeg(hay, cl.compiledNot)) return false;
-        return cl.compiled.every(re=>re.test(hay));
-      });
+
+      // Regra de presença de termos
+      if(allTokens.length<=1){
+        return countHits(hay, relevantTokens)>0 || countHits(hay, allTokens)>0;
+      }else if(allTokens.length<=4){
+        return countHits(hay, allTokens)>=allTokens.length;
+      }else{
+        return countHits(hay, relevantTokens)>=minRequired;
+      }
     });
+
+    // Fallback se ainda ficou vazio: pelo menos 2 termos (ou 1, se só houver 1)
     if(pool.length===0){
-      const toks=tokensFromLegal(parsed.legal);
+      const need = Math.min(2, allTokens.length||1);
       pool=data.filter(it=>{
-        const hay=(it.textoLegal||it.textoNorm||''); let c=0;
-        for(const w of toks){ const re=new RegExp(`(^|[^\\p{L}\\p{N}])${esc(w)}([^\\p{L}\\p{N}]|$)`,'iu'); if(re.test(hay)) c++; }
-        return c>=Math.min(2,toks.length);
+        const hay=(it.textoLegal||it.textoNorm||'');
+        return countHits(hay, relevantTokens.length?relevantTokens:allTokens) >= need;
       });
     }
+
+    // Score
     function score(it){
-      const hay=(it.textoLegal||it.textoNorm||''); let s=0;
-      for(const pr of proxRegs){ if(pr.re && pr.re.test(hay)) s+=pr.weight; }
-      if(parsed.clauses.length){ const best=Math.max(...parsed.clauses.map(cl=>countHits(hay, cl.compiled))); s+=best; }
-      else{
-        const toks=tokensFromLegal(parsed.legal);
-        const regs=toks.map(t=>new RegExp(`(^|[^\\p{L}\\p{N}])${esc(t)}([^\\p{L}\\p{N}]|$)`,'iu'));
-        s+=countHits(hay, regs);
+      const hay=(it.textoLegal||it.textoNorm||'');
+      let s=0;
+      const hitsRel = countHits(hay, relevantTokens);
+      const hitsAll = countHits(hay, allTokens);
+      s += hitsRel*1.2 + hitsAll*0.6;
+
+      // Frases entre aspas / proximidade "~n"
+      for(const ph of parsed.phrases){
+        if(ph.n===0){
+          const re=new RegExp(`\\b${esc(ph.t.join(' '))}\\b`,'iu');
+          if(re.test(hay)) s += 6;
+        }else{
+          const re=proximityRegexFromTokens(ph.t, ph.n);
+          if(re && re.test(hay)) s += (ph.n<=1?5:ph.n<=2?3:2);
+        }
       }
-      s+=fonteBoost(tokensSet, it.fonte);
-      s+=articleBoost(it, parsed.artNum, parsed.lawHits);
-      const L=Math.max(50,(it.texto||it.titulo||'').length); s-=0.2*Math.log(L);
-      s+=recencyBoost(it);
+
+      // Proximidade geral dos tokens
+      if(proxRe && proxRe.test(hay)) s += 2.5;
+
+      // Boosts (fonte, artigo + diploma, recência)
+      s += fonteBoost(tokensSet, it.fonte||'');
+      s += articleBoost(hay, userNorm);
+      s += recencyBoost(it);
+
+      // Penalização por bloco muito longo e genérico
+      const L=Math.max(50,(it.texto||it.titulo||'').length);
+      s -= 0.2*Math.log(L);
+
       return s;
     }
-    const ranked = pool.map(x=>({x,s:score(x)})).filter(o=>o.s>0).sort((a,b)=>b.s-a.s).slice(0,400).map(o=>o.x);
-    const hl=[]; parsed.phrases.forEach(ph=>hl.push(...ph.t)); parsed.clauses.forEach(cl=>cl.must.forEach(t=>hl.push(t)));
-    const fallbackHL = hl.length? hl : tokensFromLegal(parsed.legal);
-    return {results: ranked, highlight: Array.from(new Set(fallbackHL))};
+
+    const ranked = pool.map(x=>({x,s:score(x)}))
+                       .filter(o=>o.s>0)
+                       .sort((a,b)=>b.s-a.s)
+                       .slice(0,400)
+                       .map(o=>o.x);
+
+    const highlight = (parsed.phrases.length
+      ? Array.from(new Set(parsed.phrases.flatMap(ph=>ph.t)))
+      : (relevantTokens.length? relevantTokens : allTokens));
+
+    return {results: ranked, highlight};
   }
 
-  /* ============ Dados, categorias e UI dos cartões ============ */
+  /* ===== Dados e UI ===== */
   const arquivos=[
     "data/julgados_direito_administrativo.json","data/julgados_direito_ambiental.json","data/julgados_direito_bancario.json",
     "data/julgados_direito_civil.json","data/julgados_direito_constitucional.json","data/julgados_direito_eleitoral.json",
@@ -540,7 +556,7 @@
     }
   }
 
-  /* ============ Estratégias de estudo ============ */
+  /* ===== Estratégias ===== */
   const ESTRATEGIAS={
     'Fundamentos':[
       ['Conceitos e Definições','Definições objetivas, linguagem clara e diferenciações essenciais, com 1–2 exemplos curtos.'],
@@ -565,7 +581,6 @@
   function selecionarEstrategia(nome,desc){
     if(!escolhidas.some(x=>x.nome===nome)) escolhidas.push({nome,desc});
   }
-
   function renderEstrategias(){
     estrCats.innerHTML='';
     for(const cat in ESTRATEGIAS){
@@ -592,11 +607,10 @@
     }
   }
 
-  /* ============ Geração do Prompt (corrigido) ============ */
+  /* ===== Prompt ===== */
   function gerarPrompt(){
     const temaFinal=temaInput.value.trim();
     if(!temaFinal){ toast('Defina o tema antes.'); return; }
-
     let baseLista=escolhidas.slice();
     if(baseLista.length===0){
       baseLista=[
@@ -606,21 +620,19 @@
         {nome:'Raciocínio Jurídico (passo a passo)',desc:'Passos lógicos para resolver a questão do tema.'}
       ];
     }
-
     const linhas=[];
     linhas.push('Você é um professor de Direito. Ajude-me a estudar o tema abaixo:\n');
     linhas.push('TEMA: '+temaFinal+'\n');
     linhas.push('Estruture a resposta nas seções a seguir, sendo didático e objetivo:');
     baseLista.forEach(({nome,desc})=>linhas.push(`- ${nome}: ${desc}`));
     linhas.push('\nRegras: cite artigos com número e diploma; quando houver, inclua Súmulas (STF/STJ) e leading cases; use exemplos curtos; ao final, proponha 3 questões objetivas com gabarito e 1 discursiva.');
-
     promptOut.textContent=linhas.join('\n');
     promptArea.style.display='block';
     setTimeout(()=>ensureVisible(promptArea),50);
     toast('Prompt gerado.');
   }
 
-  /* ============ Execução da busca (tema livre, 1+ palavra) ============ */
+  /* ===== Execução da busca (adaptativa) ===== */
   function executarBuscaDoTema(){
     const temaRaw=temaInput.value.trim();
     if(!temaRaw){ toast("Digite um tema."); temaInput.focus(); return; }
@@ -639,7 +651,7 @@
 
   btnAvancar.addEventListener('click', executarBuscaDoTema);
   btnRebuscar.addEventListener('click', executarBuscaDoTema);
-  btnGerar.addEventListener('click', gerarPrompt); // <— garante o bind
+  btnGerar.addEventListener('click', gerarPrompt);
 
   /* Dica automática após 3s desde a 1ª digitação */
   let hintTimer=null, hinted=false;
@@ -689,14 +701,12 @@
   }
   boot();
 
-  // Modal Sobre
   function openAbout(){ aboutBackdrop.style.display='flex'; aboutBackdrop.setAttribute('aria-hidden','false'); }
   function closeAbout(){ aboutBackdrop.style.display='none'; aboutBackdrop.setAttribute('aria-hidden','true'); }
   btnAbout.addEventListener('click', openAbout);
   aboutClose.addEventListener('click', closeAbout);
   aboutBackdrop.addEventListener('click', (e)=>{ if(e.target===aboutBackdrop) closeAbout(); });
 
-  // PWA (Android) — mostrar ícone na topbar se Android ou se evento disparar
   let deferredPrompt=null;
   const installFab=$("#installFab");
   const isAndroid = /Android/i.test(navigator.userAgent || '');
@@ -704,7 +714,6 @@
   window.addEventListener('beforeinstallprompt', (e)=>{
     e.preventDefault(); deferredPrompt=e;
     btnInstallTop.style.display='flex';
-    // Mantém FAB oculto por padrão
   });
   function doInstall(){
     if(deferredPrompt){
