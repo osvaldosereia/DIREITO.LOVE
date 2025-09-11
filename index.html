@@ -3,81 +3,110 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>direito.love — Artigo Exato</title>
+<title>direito.love — Busca de Artigos</title>
 <meta name="theme-color" content="#0B3A82" />
 <link rel="icon" href="favicon.png" type="image/png" />
+<link rel="apple-touch-icon" href="favicon-180.png" />
+<link rel="manifest" href="manifest.json" />
 <style>
   :root{
     --bg:#f6f7fb; --surface:#ffffff; --text:#0b1220; --muted:#334155; --border:#94a3b8;
-    --primary:#0b3a82; --primary-hover:#0a2f6a; --radius:12px; --shadow:0 6px 18px rgba(10,15,25,.06);
+    --primary:#0b3a82; --primary-hover:#0a2f6a; --highlight:#E6B800; --highlight-hover:#D8A900;
+    --radius:12px; --shadow:0 6px 18px rgba(10,15,25,.06);
+    --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);font:400 14px/1.55 -apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--text);font:400 14px/1.55 var(--font);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+
+  .topbar{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--border);backdrop-filter:saturate(180%) blur(6px)}
+  .topbar__inner{max-width:980px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
+  .brand__logo{height:28px}
+
   .wrap{max-width:980px;margin:0 auto;padding:24px 18px}
-  h1{margin:6px 0 14px;font-weight:600;letter-spacing:.2px;font-size:19px}
+  h1{margin:6px 0 4px;color:var(--text);font-weight:600;letter-spacing:.2px;font-size:19px}
+  .muted{color:var(--muted)}
+
   .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin:16px 0}
-  .form-row{display:grid;grid-template-columns:260px 1fr 160px;gap:12px;align-items:center}
-  @media (max-width:760px){ .form-row{grid-template-columns:1fr} }
-  .select-clean,.input-clean{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);background:#fff;outline:none}
-  .select-clean:focus,.input-clean:focus{box-shadow:0 0 0 3px rgba(56,139,253,.25);border-color:var(--primary)}
-  .btn-primary{padding:10px 16px;border-radius:var(--radius);border:0;background:var(--primary);color:#fff;font-weight:700;cursor:pointer}
-  .btn-primary:hover{filter:brightness(1.04)}
+  .row-col{display:grid;grid-template-columns:260px 1fr 1fr 140px;gap:10px;align-items:start}
+  @media (max-width:860px){ .row-col{grid-template-columns:1fr} }
+
+  select, input[type="text"], input[type="number"]{
+    width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;background:#fff;
+    color:#0b1220;font-size:15px;transition:border-color .15s,box-shadow .15s
+  }
+  select:focus, input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(11,58,130,.12)}
+  .btn{appearance:none;border:1px solid #092a57;background:var(--primary);color:#fff;padding:10px 16px;border-radius:10px;font-size:13.5px;font-weight:600;cursor:pointer;transition:background .15s}
+  .btn:hover{background:var(--primary-hover)}
+  .pill{font-size:12px;background:#eef2ff;border:1px solid #c7d2fe;color:#0b1220;border-radius:999px;padding:4px 8px}
+
+  .result{background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:14px;margin:10px 0}
   .filetag{display:inline-block;font-weight:700;font-size:12px;padding:2px 8px;border-radius:999px;background:#eef2ff;color:#0b1220;border:1px solid #c7d2fe;margin:0 0 8px 0}
-  .result{background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:12px 14px;margin:10px 0}
-  .muted{color:#334155}
+  .result h2{margin:.2rem 0 .5rem 0;font-size:20px}
+  .result p{margin:.4rem 0 0 0}
+  .meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px}
+  .toggle{appearance:none;border:1px solid var(--border);background:#fff;border-radius:10px;padding:8px 10px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+  .toggle svg{width:16px;height:16px}
+
+  mark{background:#fff59e;padding:0 2px;border-radius:3px}
+
+  .hint{font-size:12.5px;color:#334155;margin-top:6px}
+  .err{background:#fee2e2;border:1px solid #fca5a5;color:#7f1d1d;padding:8px 10px;border-radius:8px}
 </style>
 </head>
 <body>
-  <main class="wrap">
-    <section class="card">
-      <h1>Buscar artigo (match exato)</h1>
-      <div class="form-row">
-        <select id="codigoSel" class="select-clean" aria-label="Código">
-          <option value="">Selecione o Código</option>
-          <option value="codigo_penal">Código Penal</option>
-          <option value="codigo_processo_penal">Código de Processo Penal</option>
-          <option value="codigo_civil">Código Civil</option>
-          <option value="codigo_processo_civil">Código de Processo Civil</option>
-          <option value="codigo_tributario_nacional">Código Tributário Nacional</option>
-          <option value="codigo_defesa_consumidor">Código de Defesa do Consumidor</option>
-          <option value="codigo_transito_brasileiro">Código de Trânsito Brasileiro</option>
-          <option value="codigo_eleitoral">Código Eleitoral</option>
-          <option value="codigo_florestal">Código Florestal</option>
-          <option value="codigo_das_aguas">Código das Águas</option>
-        </select>
-        <input id="artigoInput" class="input-clean" placeholder="Número do artigo (ex.: 20, 121, 1002)" maxlength="4" inputmode="numeric" autocomplete="off" />
-        <button id="btnBuscar" class="btn-primary">Avançar</button>
-      </div>
-      <p class="muted" style="margin:8px 2px 0 2px;">Somente números. Letras não são aceitas. Busca por <b>artigo exato</b>.</p>
-    </section>
+<header class="topbar">
+  <div class="topbar__inner">
+    <a class="brand" href="#top" aria-label="Início">
+      <img class="brand__logo" src="icons/logo.png" alt="direito.love" />
+    </a>
+    <div class="topbar__actions"></div>
+  </div>
+</header>
 
-    <section id="resultadoSec" class="card" style="display:none">
-      <div id="resultado"></div>
-    </section>
-  </main>
+<main class="wrap" id="top">
+  <section class="card">
+    <h1>Buscar artigo — número exato <span class="muted">ou</span> palavras-chave</h1>
+    <div class="row-col" style="margin-top:10px">
+      <select id="codigoSel" aria-label="Código">
+        <option value="">Selecione o Código</option>
+        <option value="codigo_penal">Código Penal</option>
+        <option value="codigo_processo_penal">Código de Processo Penal</option>
+        <option value="codigo_civil">Código Civil</option>
+        <option value="codigo_processo_civil">Código de Processo Civil</option>
+        <option value="codigo_tributario_nacional">Código Tributário Nacional</option>
+        <option value="codigo_defesa_consumidor">Código de Defesa do Consumidor</option>
+        <option value="codigo_transito_brasileiro">Código de Trânsito Brasileiro</option>
+        <option value="codigo_eleitoral">Código Eleitoral</option>
+        <option value="codigo_florestal">Código Florestal</option>
+        <option value="codigo_das_aguas">Código das Águas</option>
+      </select>
+
+      <input id="artInput" inputmode="numeric" pattern="\d*" maxlength="4" placeholder="Nº do artigo (só números)" aria-label="Número do artigo" />
+      <input id="kwInput" placeholder="Até 3 palavras-chave (busca no texto)" aria-label="Palavras-chave" />
+      <button id="btnBuscar" class="btn" type="button">Buscar</button>
+    </div>
+    <p class="hint">Se preencher o <b>número</b>, a busca por palavra-chave é desativada — e vice-versa.</p>
+  </section>
+
+  <section id="resultSec" class="card" style="display:none">
+    <div id="results"></div>
+  </section>
+</main>
 
 <script>
 (function(){
-  const $ = (s, r=document)=>r.querySelector(s);
-  const codigoSel = $("#codigoSel");
-  const artigoInput = $("#artigoInput");
-  const btnBuscar = $("#btnBuscar");
-  const resultadoSec = $("#resultadoSec");
-  const resultado = $("#resultado");
+  const $=(s,r=document)=>r.querySelector(s);
+  const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+  const codigoSel=$("#codigoSel");
+  const artInput=$("#artInput");
+  const kwInput=$("#kwInput");
+  const btnBuscar=$("#btnBuscar");
+  const resultSec=$("#resultSec");
+  const results=$("#results");
 
-  // Apenas números (bloqueia letras/símbolos) e limita a 4 dígitos
-  artigoInput.addEventListener("input", (e)=>{
-    e.target.value = (e.target.value || "").replace(/\D/g, "").slice(0, 4);
-  });
-
-  artigoInput.addEventListener("keydown", (e)=>{
-    // Permite apenas teclas de navegação/backspace/delete/tab/enter/num
-    const allowed = ["Backspace","Delete","Tab","ArrowLeft","ArrowRight","Home","End","Enter"];
-    if (allowed.includes(e.key)) return;
-    if (!/^\d$/.test(e.key)) { e.preventDefault(); }
-  });
-
-  const nomes = {
+  const NOME_COD={
     codigo_penal:"Código Penal",
     codigo_processo_penal:"Código de Processo Penal",
     codigo_civil:"Código Civil",
@@ -90,106 +119,242 @@
     codigo_das_aguas:"Código das Águas"
   };
 
-  async function fetchJson(arq){
-    // tenta local, depois remoto (direito.love)
-    try{
-      const r = await fetch(arq, {cache:"no-store"});
-      if(r.ok) return r.json();
-    }catch{}
-    const abs = (arq.startsWith("http") ? arq : ("https://direito.love/" + arq.replace(/^\//,"")));
-    const r2 = await fetch(abs, {cache:"no-store"});
+  // Intertravamento: número x palavras-chave
+  artInput.addEventListener("input",(e)=>{
+    e.target.value=(e.target.value||"").replace(/\D/g,"").slice(0,4);
+    kwInput.disabled=!!e.target.value;
+    if(!e.target.value) kwInput.disabled=false;
+  });
+  kwInput.addEventListener("input",(e)=>{
+    const words=(e.target.value||"").trim().replace(/\s+/g," ").split(" ").filter(Boolean).slice(0,3);
+    e.target.value=words.join(" ");
+    artInput.disabled=words.length>0;
+    if(words.length===0) artInput.disabled=false;
+  });
+
+  async function fetchJson(path){
+    let r;
+    try{ r=await fetch(path,{cache:"no-store"}); if(r.ok) return r.json(); }catch{}
+    // fallback absoluto (opcional)
+    const abs=(path.startsWith("http")?path:("https://direito.love/"+path.replace(/^\//,"")));
+    const r2=await fetch(abs,{cache:"no-store"});
     if(!r2.ok) throw new Error("Falha ao carregar "+abs);
     return r2.json();
   }
 
-  function extractDigits(s){
-    const m = String(s||"").match(/\d+/g);
-    return m ? m.join("") : null;
+  const norm=(s="")=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+  const digits=(s="")=>(String(s).match(/\d+/g)||[]).join("");
+
+  function textFromItem(it){
+    const parts=[];
+    if(it.caput) parts.push(it.caput);
+    if(Array.isArray(it.paragrafos)) parts.push(it.paragrafos.join(" "));
+    if(Array.isArray(it.incisos)) parts.push(it.incisos.join(" "));
+    if(Array.isArray(it.alineas)) parts.push(it.alineas.join(" "));
+    return parts.join(" ").replace(/\s+/g," ").trim();
   }
 
-  // Procura pelo artigo EXATO: o número digitado deve bater 1:1 com o número extraído do id/chave/título
-  function findExactArticle(json, numStr){
-    const alvo = String(numStr);
+  function highlight(htmlText, tokens){
+    let html=htmlText;
+    const used=new Set();
+    for(const t of tokens||[]){
+      const tok=t.trim();
+      if(!tok||used.has(tok)) continue;
+      used.add(tok);
+      const re=new RegExp("(\\b"+tok.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","gi");
+      html=html.replace(re,"<mark>$1</mark>");
+    }
+    return html;
+  }
 
-    // 1) Objeto com chaves
-    if (json && typeof json === "object" && !Array.isArray(json)){
-      // chave "art20" (mais comum)
-      if (json["art"+alvo]) return json["art"+alvo];
-      // qualquer outra chave que contenha exatamente o número
+  function snippetAround(text, tokens, max=200){
+    if(!text) return "";
+    const ntext=norm(text);
+    let idx=-1;
+    for(const t of tokens||[]){
+      const i=ntext.indexOf(norm(t));
+      if(i>=0 && (idx===-1 || i<idx)) idx=i;
+    }
+    if(idx===-1) idx=0;
+    const start=Math.max(0, idx-40);
+    let sn=text.slice(start, start+max);
+    if(start>0) sn="…"+sn;
+    if(start+max<text.length) sn=sn+"…";
+    return sn;
+  }
+
+  function makeVerMais(btn, fullEl){
+    let open=false;
+    btn.addEventListener("click",()=>{
+      open=!open;
+      fullEl.style.display=open?"block":"none";
+      btn.innerHTML = open
+        ? '<svg viewBox="0 0 24 24" fill="none"><path d="M6 15l6-6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>ver menos</span>'
+        : '<svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>ver mais</span>';
+    });
+  }
+
+  function renderStructured(item){
+    const wrap=document.createElement("div");
+    // Caput
+    if(item.caput){
+      const p=document.createElement("p");
+      p.textContent=item.caput;
+      wrap.appendChild(p);
+    }
+    // Parágrafos
+    if(Array.isArray(item.paragrafos) && item.paragrafos.length){
+      item.paragrafos.forEach(t=>{
+        const p=document.createElement("p");
+        p.style.marginLeft="16px";
+        p.textContent=t;
+        wrap.appendChild(p);
+      });
+    }
+    // Incisos
+    if(Array.isArray(item.incisos) && item.incisos.length){
+      const ul=document.createElement("ul");
+      ul.style.marginLeft="20px";
+      item.incisos.forEach(t=>{
+        const li=document.createElement("li"); li.textContent=t; ul.appendChild(li);
+      });
+      wrap.appendChild(ul);
+    }
+    // Alíneas
+    if(Array.isArray(item.alineas) && item.alineas.length){
+      const ul=document.createElement("ul");
+      ul.style.marginLeft="40px";
+      item.alineas.forEach(t=>{
+        const li=document.createElement("li"); li.textContent=t; ul.appendChild(li);
+      });
+      wrap.appendChild(ul);
+    }
+    return wrap;
+  }
+
+  function buildCard(codTag, item, tokens){
+    const card=document.createElement("div"); card.className="result";
+    const badge=document.createElement("div"); badge.className="filetag";
+    badge.textContent=NOME_COD[codTag]||codTag||"Código";
+    const h2=document.createElement("h2");
+    h2.textContent=item.titulo || "Artigo";
+    const p=document.createElement("p");
+    const fullText=textFromItem(item);
+    const sn=snippetAround(fullText, tokens, 200);
+    p.innerHTML = tokens && tokens.length ? highlight(sn, tokens) : sn;
+
+    const meta=document.createElement("div"); meta.className="meta";
+    const toggle=document.createElement("button"); toggle.className="toggle";
+    toggle.innerHTML='<svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>ver mais</span>';
+
+    const full=document.createElement("div"); full.style.display="none"; full.style.marginTop="8px";
+    full.appendChild(renderStructured(item));
+    makeVerMais(toggle, full);
+
+    card.appendChild(badge); card.appendChild(h2); card.appendChild(p);
+    meta.appendChild(toggle); card.appendChild(meta); card.appendChild(full);
+    return card;
+  }
+
+  function clearResults(){ results.innerHTML=""; resultSec.style.display="none"; }
+  function showError(msg){
+    clearResults();
+    const d=document.createElement("div"); d.className="err"; d.textContent=msg;
+    results.appendChild(d); resultSec.style.display="block";
+  }
+  function isObject(x){ return x && typeof x==="object" && !Array.isArray(x); }
+
+  function findByArticle(json, numStr){
+    const alvo=String(numStr).trim();
+    if(isObject(json)){
+      const key="art"+alvo.toLowerCase();
+      if(json[key]) return [{...json[key], _id:key}];
       for(const [k,v] of Object.entries(json)){
-        const digs = extractDigits(k);
-        if (digs === alvo) return v;
-        const txt = (v && (v.titulo || v.texto || "")) || "";
-        const m = txt.match(/\bart\.?\s*(\d+)/i);
-        if (m && m[1] === alvo) return v;
+        if(/\d/.test(k) && k.replace(/\D/g,"")===alvo) return [{...v, _id:k}];
+        const t=(v&&v.titulo)||"";
+        if(t && t.replace(/\D/g,"")===alvo) return [{...v, _id:k}];
       }
-      return null;
+      return [];
     }
-
-    // 2) Array de objetos
-    if (Array.isArray(json)){
+    if(Array.isArray(json)){
+      const out=[];
       for(const it of json){
-        if (extractDigits(it && it.id) === alvo) return it;
-        const t = (it && (it.titulo || it.texto || "")) || "";
-        const m = t.match(/\bart\.?\s*(\d+)/i);
-        if (m && m[1] === alvo) return it;
+        const idd=(it && (it.id||it.titulo)||"");
+        if(digits(idd)===alvo) out.push(it);
       }
-      return null;
+      return out;
     }
-
-    return null;
+    return [];
   }
 
-  function render(item, codigoTag, artNum){
-    const nome = nomes[codigoTag] || codigoTag || "Código";
-    const titulo = (item && (item.titulo || item.title)) || ("Art. "+artNum);
-    const texto = (item && (item.texto || item.content)) || "";
-    resultado.innerHTML = "";
-    const wrap = document.createElement("div");
-    wrap.className = "result";
-    const tag = document.createElement("div");
-    tag.className = "filetag";
-    tag.textContent = `${nome}`;
-    const h2 = document.createElement("h2");
-    h2.textContent = titulo;
-    const p = document.createElement("p");
-    p.textContent = texto;
-    wrap.appendChild(tag);
-    wrap.appendChild(h2);
-    wrap.appendChild(p);
-    resultado.appendChild(wrap);
-    resultadoSec.style.display = "block";
-  }
-
-  function renderNotFound(artNum){
-    resultado.innerHTML = `<div class="result"><p>Artigo ${artNum} não encontrado.</p></div>`;
-    resultadoSec.style.display = "block";
+  function findByKeywords(json, words){
+    const toks=words.map(w=>norm(w));
+    const acc=[];
+    function matchText(txt){
+      const n=norm(txt||"");
+      return toks.every(t=> n.includes(t));
+    }
+    if(isObject(json)){
+      for(const [k,v] of Object.entries(json)){
+        const txt = textFromItem(v);
+        if(matchText(txt) || matchText(v.titulo||"")){
+          acc.push({...v, _id:k});
+        }
+      }
+    }else if(Array.isArray(json)){
+      for(const v of json){
+        const txt = textFromItem(v);
+        if(matchText(txt) || matchText(v.titulo||"")) acc.push(v);
+      }
+    }
+    // score simples por quantidade de ocorrências
+    acc.sort((a,b)=>{
+      const ta=textFromItem(a), tb=textFromItem(b);
+      const ca=toks.reduce((s,t)=>s+(norm(ta).split(t).length-1),0);
+      const cb=toks.reduce((s,t)=>s+(norm(tb).split(t).length-1),0);
+      return cb-ca;
+    });
+    return acc;
   }
 
   async function buscar(){
-    const codigo = codigoSel.value;
-    const artNum = (artigoInput.value || "").trim();
-    resultadoSec.style.display = "none"; resultado.innerHTML = "";
+    const codigo=codigoSel.value;
+    const art=(artInput.value||"").trim();
+    const kw=(kwInput.value||"").trim();
 
-    if(!codigo){ alert("Selecione um código."); codigoSel.focus(); return; }
-    if(!artNum){ alert("Digite o número do artigo."); artigoInput.focus(); return; }
+    if(!codigo){ showError("Selecione um código."); return; }
+    if(!art && !kw){ showError("Informe o número do artigo ou até 3 palavras-chave."); return; }
+    if(art && kw){ showError("Use apenas um modo por vez: número do artigo OU palavras-chave."); return; }
 
+    let json;
     try{
-      const json = await fetchJson(`data/${codigo}.json`);
-      const item = findExactArticle(json, artNum);
-      if (item) render(item, codigo, artNum);
-      else renderNotFound(artNum);
+      json=await fetchJson(`data/${codigo}.json`);
     }catch(e){
-      console.warn(e);
-      resultado.innerHTML = `<div class="result"><p>Erro ao carregar os dados do código selecionado.</p></div>`;
-      resultadoSec.style.display = "block";
+      showError("Erro ao carregar a base desse código."); return;
     }
+
+    let lista=[];
+    if(art){
+      lista = findByArticle(json, art);
+    }else{
+      const toks=kw.split(" ").filter(Boolean).slice(0,3);
+      lista = findByKeywords(json, toks);
+    }
+
+    clearResults();
+    if(!lista.length){
+      showError("Nada encontrado para os critérios informados.");
+      return;
+    }
+
+    const tokens = kw ? kw.split(" ").filter(Boolean).slice(0,3) : null;
+    lista.forEach(it=> results.appendChild(buildCard(codigo, it, tokens)));
+    resultSec.style.display="block";
   }
 
   btnBuscar.addEventListener("click", buscar);
-  artigoInput.addEventListener("keydown", (e)=>{
-    if(e.key === "Enter"){ e.preventDefault(); buscar(); }
-  });
+  artInput.addEventListener("keydown",(e)=>{ if(e.key==="Enter"){ e.preventDefault(); buscar(); }});
+  kwInput.addEventListener("keydown",(e)=>{ if(e.key==="Enter"){ e.preventDefault(); buscar(); }});
 })();
 </script>
 </body>
