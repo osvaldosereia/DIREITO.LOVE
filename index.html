@@ -7,70 +7,65 @@
 <meta name="theme-color" content="#0B3A82" />
 <link rel="icon" href="favicon.png" type="image/png" />
 <link rel="apple-touch-icon" href="favicon-180.png" />
-<link rel="manifest" href="manifest.json" />
 <style>
   :root{
-    --bg:#f6f7fb; --surface:#ffffff; --text:#0b1220; --muted:#334155; --border:#94a3b8;
-    --primary:#0b3a82; --primary-hover:#0a2f6a; --highlight:#E6B800; --highlight-hover:#D8A900;
-    --radius:12px; --shadow:0 6px 18px rgba(10,15,25,.06);
-    --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
+    --bg:#f6f7fb; --surface:#fff; --text:#0b1220; --muted:#475569; --border:#cbd5e1;
+    --primary:#0b3a82; --primary-2:#0a2f6a; --radius:14px; --shadow:0 6px 20px rgba(10,15,25,.06);
+    --chip:#eef2ff; --chip-b:#c7d2fe; --mark:#fff59e;
   }
   *{box-sizing:border-box}
   html,body{height:100%}
-  body{margin:0;background:var(--bg);color:var(--text);font:400 14px/1.55 var(--font);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-
-  .topbar{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--border);backdrop-filter:saturate(180%) blur(6px)}
-  .topbar__inner{max-width:980px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
+  body{margin:0;background:var(--bg);color:var(--text);font:400 14.5px/1.55 -apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif}
+  a{color:var(--primary)}
+  .topbar{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--border)}
+  .topbar__in{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
   .brand__logo{height:28px}
-
-  .wrap{max-width:980px;margin:0 auto;padding:24px 18px}
-  h1{margin:6px 0 4px;color:var(--text);font-weight:600;letter-spacing:.2px;font-size:19px}
+  .wrap{max-width:1100px;margin:0 auto;padding:24px 16px}
+  h1{margin:0 0 10px;font-size:20px}
   .muted{color:var(--muted)}
 
   .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin:16px 0}
-  .row-col{display:grid;grid-template-columns:260px 1fr 1fr 140px;gap:10px;align-items:start}
-  @media (max-width:860px){ .row-col{grid-template-columns:1fr} }
+  .row{display:grid;grid-template-columns: 240px 160px 1fr 150px;gap:10px;align-items:center}
+  @media (max-width:820px){ .row{grid-template-columns:1fr} }
 
-  select, input[type="text"], input[type="number"]{
-    width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;background:#fff;
-    color:#0b1220;font-size:15px;transition:border-color .15s,box-shadow .15s
-  }
-  select:focus, input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(11,58,130,.12)}
-  .btn{appearance:none;border:1px solid #092a57;background:var(--primary);color:#fff;padding:10px 16px;border-radius:10px;font-size:13.5px;font-weight:600;cursor:pointer;transition:background .15s}
-  .btn:hover{background:var(--primary-hover)}
-  .pill{font-size:12px;background:#eef2ff;border:1px solid #c7d2fe;color:#0b1220;border-radius:999px;padding:4px 8px}
+  .select,.input{width:100%;padding:12px;border:1px solid var(--border);border-radius:12px;background:#fff;font-size:15px}
+  .input[disabled],.select[disabled]{background:#f1f5f9;color:#94a3b8}
+  .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;background:var(--primary);color:#fff;font-weight:700;cursor:pointer}
+  .btn:hover{background:var(--primary-2)}
 
-  .result{background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:14px;margin:10px 0}
-  .filetag{display:inline-block;font-weight:700;font-size:12px;padding:2px 8px;border-radius:999px;background:#eef2ff;color:#0b1220;border:1px solid #c7d2fe;margin:0 0 8px 0}
-  .result h2{margin:.2rem 0 .5rem 0;font-size:20px}
-  .result p{margin:.4rem 0 0 0}
-  .meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px}
-  .toggle{appearance:none;border:1px solid var(--border);background:#fff;border-radius:10px;padding:8px 10px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
-  .toggle svg{width:16px;height:16px}
+  .badge{display:inline-block;background:var(--chip);border:1px solid var(--chip-b);color:#111;padding:2px 8px;border-radius:999px;font-weight:700;font-size:12px;margin-bottom:8px}
+  .title{font-size:22px;font-weight:800;margin:0 0 8px}
+  .result{background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:14px;margin:12px 0}
+  .article-block{margin:.35rem 0}
+  .alinea{padding-left:18px}
+  .paragrafo{font-weight:600}
+  .inciso{font-weight:600}
+  .preview{color:#0f172a}
+  .actions{margin-top:8px}
+  .ghost{border:1px solid var(--border);background:#fff;color:#0b1220}
+  .ghost:hover{background:#f8fafc}
 
-  mark{background:#fff59e;padding:0 2px;border-radius:3px}
+  mark{background:var(--mark);padding:0 2px;border-radius:3px}
 
-  .hint{font-size:12.5px;color:#334155;margin-top:6px}
-  .err{background:#fee2e2;border:1px solid #fca5a5;color:#7f1d1d;padding:8px 10px;border-radius:8px}
+  .empty{border:1px dashed var(--border);border-radius:12px;padding:18px;text-align:center;color:var(--muted)}
 </style>
 </head>
 <body>
 <header class="topbar">
-  <div class="topbar__inner">
-    <a class="brand" href="#top" aria-label="Início">
+  <div class="topbar__in">
+    <a class="brand" href="#">
       <img class="brand__logo" src="icons/logo.png" alt="direito.love" />
+      <strong>direito.love</strong>
     </a>
-    <div class="topbar__actions"></div>
   </div>
 </header>
 
-<main class="wrap" id="top">
+<main class="wrap">
   <section class="card">
-    <h1>Buscar artigo — número exato <span class="muted">ou</span> palavras-chave</h1>
-    <div class="row-col" style="margin-top:10px">
-      <select id="codigoSel" aria-label="Código">
-        <option value="">Selecione o Código</option>
+    <h1>Buscar artigo — número exato ou palavras-chave</h1>
+    <div class="row">
+      <select id="codigoSel" class="select" aria-label="Código">
         <option value="codigo_penal">Código Penal</option>
         <option value="codigo_processo_penal">Código de Processo Penal</option>
         <option value="codigo_civil">Código Civil</option>
@@ -83,278 +78,328 @@
         <option value="codigo_das_aguas">Código das Águas</option>
       </select>
 
-      <input id="artInput" inputmode="numeric" pattern="\d*" maxlength="4" placeholder="Nº do artigo (só números)" aria-label="Número do artigo" />
-      <input id="kwInput" placeholder="Até 3 palavras-chave (busca no texto)" aria-label="Palavras-chave" />
-      <button id="btnBuscar" class="btn" type="button">Buscar</button>
+      <input id="artNum" class="input" inputmode="numeric" pattern="\d*" placeholder="nº do artigo (ex.: 7)" />
+      <input id="palavras" class="input" maxlength="80" placeholder="Até 3 palavras-chave (busca no texto)" />
+      <button id="btnBuscar" class="btn">Buscar</button>
     </div>
-    <p class="hint">Se preencher o <b>número</b>, a busca por palavra-chave é desativada — e vice-versa.</p>
+    <p class="muted" style="margin-top:8px">Se preencher o <b>número</b>, a busca por palavra-chave é desativada — e vice-versa.</p>
   </section>
 
-  <section id="resultSec" class="card" style="display:none">
+  <section id="resultSec" class="card">
     <div id="results"></div>
   </section>
 </main>
 
 <script>
 (function(){
-  const $=(s,r=document)=>r.querySelector(s);
-  const $$=(s,r=document)=>[...r.querySelectorAll(s)];
-  const codigoSel=$("#codigoSel");
-  const artInput=$("#artInput");
-  const kwInput=$("#kwInput");
-  const btnBuscar=$("#btnBuscar");
-  const resultSec=$("#resultSec");
-  const results=$("#results");
-
-  const NOME_COD={
-    codigo_penal:"Código Penal",
-    codigo_processo_penal:"Código de Processo Penal",
-    codigo_civil:"Código Civil",
-    codigo_processo_civil:"Código de Processo Civil",
-    codigo_tributario_nacional:"Código Tributário Nacional",
-    codigo_defesa_consumidor:"Código de Defesa do Consumidor",
-    codigo_transito_brasileiro:"Código de Trânsito Brasileiro",
-    codigo_eleitoral:"Código Eleitoral",
-    codigo_florestal:"Código Florestal",
-    codigo_das_aguas:"Código das Águas"
+  // === Mapeamento dos arquivos por código ===
+  const CODE_FILES = {
+    codigo_penal: "data/codigo_penal.json",
+    codigo_processo_penal: "data/codigo_processo_penal.json",
+    codigo_civil: "data/codigo_civil.json",
+    codigo_processo_civil: "data/codigo_processo_civil.json",
+    codigo_tributario_nacional: "data/codigo_tributario_nacional.json",
+    codigo_defesa_consumidor: "data/codigo_defesa_consumidor.json",
+    codigo_transito_brasileiro: "data/codigo_transito_brasileiro.json",
+    codigo_eleitoral: "data/codigo_eleitoral.json",
+    codigo_florestal: "data/codigo_florestal.json",
+    codigo_das_aguas: "data/codigo_das_aguas.json"
   };
 
-  // Intertravamento: número x palavras-chave
-  artInput.addEventListener("input",(e)=>{
-    e.target.value=(e.target.value||"").replace(/\D/g,"").slice(0,4);
-    kwInput.disabled=!!e.target.value;
-    if(!e.target.value) kwInput.disabled=false;
-  });
-  kwInput.addEventListener("input",(e)=>{
-    const words=(e.target.value||"").trim().replace(/\s+/g," ").split(" ").filter(Boolean).slice(0,3);
-    e.target.value=words.join(" ");
-    artInput.disabled=words.length>0;
-    if(words.length===0) artInput.disabled=false;
-  });
+  const CODE_LABEL = {
+    codigo_penal: "Código Penal",
+    codigo_processo_penal: "Código de Processo Penal",
+    codigo_civil: "Código Civil",
+    codigo_processo_civil: "Código de Processo Civil",
+    codigo_tributario_nacional: "Código Tributário Nacional",
+    codigo_defesa_consumidor: "Código de Defesa do Consumidor",
+    codigo_transito_brasileiro: "Código de Trânsito Brasileiro",
+    codigo_eleitoral: "Código Eleitoral",
+    codigo_florestal: "Código Florestal",
+    codigo_das_aguas: "Código das Águas"
+  };
 
-  async function fetchJson(path){
-    let r;
-    try{ r=await fetch(path,{cache:"no-store"}); if(r.ok) return r.json(); }catch{}
-    // fallback absoluto (opcional)
-    const abs=(path.startsWith("http")?path:("https://direito.love/"+path.replace(/^\//,"")));
-    const r2=await fetch(abs,{cache:"no-store"});
-    if(!r2.ok) throw new Error("Falha ao carregar "+abs);
-    return r2.json();
+  const $ = (s,r=document)=>r.querySelector(s);
+  const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+
+  const sel = $("#codigoSel");
+  const artNum = $("#artNum");
+  const palavras = $("#palavras");
+  const btnBuscar = $("#btnBuscar");
+  const results = $("#results");
+
+  // === helpers ===
+  const cleanLawNotes = s => (s||"")
+    .replace(/\(.*?(Redação dada|Incluído|Alterado).*?\)/gi,"")
+    .replace(/\s+/g," ")
+    .trim();
+
+  const norm = s => (s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+
+  function extractArtNumberFromTitle(titulo){
+    if(!titulo) return null;
+    const m = String(titulo).match(/Art\.?\s*(\d+)/i);
+    return m ? m[1] : null;
   }
 
-  const norm=(s="")=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
-  const digits=(s="")=>(String(s).match(/\d+/g)||[]).join("");
-
-  function textFromItem(it){
-    const parts=[];
-    if(it.caput) parts.push(it.caput);
-    if(Array.isArray(it.paragrafos)) parts.push(it.paragrafos.join(" "));
-    if(Array.isArray(it.incisos)) parts.push(it.incisos.join(" "));
-    if(Array.isArray(it.alineas)) parts.push(it.alineas.join(" "));
-    return parts.join(" ").replace(/\s+/g," ").trim();
-  }
-
-  function highlight(htmlText, tokens){
-    let html=htmlText;
-    const used=new Set();
-    for(const t of tokens||[]){
-      const tok=t.trim();
-      if(!tok||used.has(tok)) continue;
-      used.add(tok);
-      const re=new RegExp("(\\b"+tok.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","gi");
-      html=html.replace(re,"<mark>$1</mark>");
+  function getArticleNumber(it){
+    // tenta via titulo; ou via id "art7"
+    let n = extractArtNumberFromTitle(it.titulo || it.title);
+    if(!n && it.id){
+      const m = String(it.id).match(/art\s*([\da-z]+)/i);
+      if(m) n = m[1].replace(/[^\d]/g,"");
     }
-    return html;
+    return n || null;
   }
 
-  function snippetAround(text, tokens, max=200){
+  function tokensFromQuery(q){
+    return norm(q).split(/\s+/).filter(Boolean).slice(0,3);
+  }
+
+  function highlight(text, tokens){
     if(!text) return "";
-    const ntext=norm(text);
-    let idx=-1;
-    for(const t of tokens||[]){
-      const i=ntext.indexOf(norm(t));
-      if(i>=0 && (idx===-1 || i<idx)) idx=i;
-    }
-    if(idx===-1) idx=0;
-    const start=Math.max(0, idx-40);
-    let sn=text.slice(start, start+max);
-    if(start>0) sn="…"+sn;
-    if(start+max<text.length) sn=sn+"…";
-    return sn;
-  }
-
-  function makeVerMais(btn, fullEl){
-    let open=false;
-    btn.addEventListener("click",()=>{
-      open=!open;
-      fullEl.style.display=open?"block":"none";
-      btn.innerHTML = open
-        ? '<svg viewBox="0 0 24 24" fill="none"><path d="M6 15l6-6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>ver menos</span>'
-        : '<svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>ver mais</span>';
+    let out = text;
+    const used = new Set();
+    tokens.forEach(t=>{
+      if(!t || used.has(t)) return;
+      used.add(t);
+      const re = new RegExp(`\\b(${t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})\\b`,'gi');
+      out = out.replace(re, '<mark>$1</mark>');
     });
+    return out;
   }
 
-  function renderStructured(item){
-    const wrap=document.createElement("div");
-    // Caput
-    if(item.caput){
-      const p=document.createElement("p");
-      p.textContent=item.caput;
-      wrap.appendChild(p);
+  // Converte qualquer formato para um shape padrão: {id, titulo, conteudo:[{tipo, texto},...]}
+  function normalizeDataset(raw){
+    const arr = [];
+    if(Array.isArray(raw)){
+      raw.forEach(it=>{
+        if(it && Array.isArray(it.conteudo)){
+          // já no formato novo
+          const copy = {
+            id: it.id || ("art"+(extractArtNumberFromTitle(it.titulo||"")||"")),
+            titulo: it.titulo || it.title || "",
+            conteudo: it.conteudo.map(x=>({tipo:x.tipo, texto: cleanLawNotes(x.texto)}))
+          };
+          arr.push(copy);
+        }else{
+          // formato antigo em array
+          const item = {
+            id: it.id || ("art"+(extractArtNumberFromTitle(it.titulo||"")||"")),
+            titulo: it.titulo || it.title || "",
+            conteudo: []
+          };
+          if(it.caput) item.conteudo.push({tipo:"caput", texto: cleanLawNotes(it.caput)});
+          (it.incisos||[]).forEach(tx=> item.conteudo.push({tipo:"inciso", texto: cleanLawNotes(tx)}));
+          (it.alineas||[]).forEach(tx=> item.conteudo.push({tipo:"alinea", texto: cleanLawNotes(tx)}));
+          (it.paragrafos||[]).forEach(tx=> item.conteudo.push({tipo:"paragrafo", texto: cleanLawNotes(tx)}));
+          arr.push(item);
+        }
+      });
+      return arr;
     }
-    // Parágrafos
-    if(Array.isArray(item.paragrafos) && item.paragrafos.length){
-      item.paragrafos.forEach(t=>{
-        const p=document.createElement("p");
-        p.style.marginLeft="16px";
-        p.textContent=t;
-        wrap.appendChild(p);
+    // objeto { art7: { titulo, caput, ... } }
+    if(raw && typeof raw === "object"){
+      Object.entries(raw).forEach(([k,v])=>{
+        if(!v) return;
+        if(Array.isArray(v.conteudo)){
+          arr.push({
+            id: v.id || k,
+            titulo: v.titulo || "",
+            conteudo: v.conteudo.map(x=>({tipo:x.tipo, texto: cleanLawNotes(x.texto)}))
+          });
+        }else{
+          const item = {
+            id: v.id || k,
+            titulo: v.titulo || "",
+            conteudo: []
+          };
+          if(v.caput) item.conteudo.push({tipo:"caput", texto: cleanLawNotes(v.caput)});
+          (v.incisos||[]).forEach(tx=> item.conteudo.push({tipo:"inciso", texto: cleanLawNotes(tx)}));
+          (v.alineas||[]).forEach(tx=> item.conteudo.push({tipo:"alinea", texto: cleanLawNotes(tx)}));
+          (v.paragrafos||[]).forEach(tx=> item.conteudo.push({tipo:"paragrafo", texto: cleanLawNotes(tx)}));
+          arr.push(item);
+        }
       });
     }
-    // Incisos
-    if(Array.isArray(item.incisos) && item.incisos.length){
-      const ul=document.createElement("ul");
-      ul.style.marginLeft="20px";
-      item.incisos.forEach(t=>{
-        const li=document.createElement("li"); li.textContent=t; ul.appendChild(li);
-      });
-      wrap.appendChild(ul);
-    }
-    // Alíneas
-    if(Array.isArray(item.alineas) && item.alineas.length){
-      const ul=document.createElement("ul");
-      ul.style.marginLeft="40px";
-      item.alineas.forEach(t=>{
-        const li=document.createElement("li"); li.textContent=t; ul.appendChild(li);
-      });
-      wrap.appendChild(ul);
-    }
-    return wrap;
+    return arr;
   }
 
-  function buildCard(codTag, item, tokens){
-    const card=document.createElement("div"); card.className="result";
-    const badge=document.createElement("div"); badge.className="filetag";
-    badge.textContent=NOME_COD[codTag]||codTag||"Código";
-    const h2=document.createElement("h2");
-    h2.textContent=item.titulo || "Artigo";
-    const p=document.createElement("p");
-    const fullText=textFromItem(item);
-    const sn=snippetAround(fullText, tokens, 200);
-    p.innerHTML = tokens && tokens.length ? highlight(sn, tokens) : sn;
+  async function fetchJson(url){
+    const r = await fetch(url, {cache:"no-store"});
+    if(!r.ok) throw new Error("Falha ao carregar "+url);
+    return r.json();
+  }
 
-    const meta=document.createElement("div"); meta.className="meta";
-    const toggle=document.createElement("button"); toggle.className="toggle";
-    toggle.innerHTML='<svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>ver mais</span>';
+  function buildFullText(item){
+    return [item.titulo, ...item.conteudo.map(x=>x.texto)].join(" ").trim();
+  }
 
-    const full=document.createElement("div"); full.style.display="none"; full.style.marginTop="8px";
-    full.appendChild(renderStructured(item));
-    makeVerMais(toggle, full);
+  function renderArticleFull(item){
+    const frag = document.createDocumentFragment();
 
-    card.appendChild(badge); card.appendChild(h2); card.appendChild(p);
-    meta.appendChild(toggle); card.appendChild(meta); card.appendChild(full);
+    const h = document.createElement("div");
+    h.className = "title";
+    h.textContent = item.titulo || ("Art. " + (getArticleNumber(item)||""));
+    frag.appendChild(h);
+
+    // blocos em ordem
+    item.conteudo.forEach(b=>{
+      const p = document.createElement("div");
+      p.className = "article-block";
+      if(b.tipo === "paragrafo") p.classList.add("paragrafo");
+      if(b.tipo === "inciso") p.classList.add("inciso");
+      if(b.tipo === "alinea") p.classList.add("alinea");
+      p.textContent = b.texto;
+      frag.appendChild(p);
+    });
+
+    return frag;
+  }
+
+  function renderPreviewText(item, tokens){
+    // caput se existir; senão primeiros blocos
+    const cap = item.conteudo.find(b=>b.tipo==="caput");
+    const base = cap ? cap.texto : buildFullText(item);
+    const short = base.length > 200 ? base.slice(0,200).trim() + "…" : base;
+    const div = document.createElement("div");
+    div.className = "preview";
+    div.innerHTML = highlight(short, tokens);
+    return div;
+  }
+
+  function renderCard(codeKey, item, tokens){
+    const card = document.createElement("div");
+    card.className = "result";
+
+    const badge = document.createElement("div");
+    badge.className = "badge";
+    badge.textContent = CODE_LABEL[codeKey] || "Código";
+    card.appendChild(badge);
+
+    // título
+    const ttl = document.createElement("div");
+    ttl.className = "title";
+    ttl.textContent = item.titulo || ("Art. " + (getArticleNumber(item)||""));
+    card.appendChild(ttl);
+
+    // preview
+    const prev = renderPreviewText(item, tokens);
+    card.appendChild(prev);
+
+    // área expandida
+    const fullWrap = document.createElement("div");
+    fullWrap.style.display = "none";
+    fullWrap.appendChild(renderArticleFull(item));
+    card.appendChild(fullWrap);
+
+    // ações
+    const actions = document.createElement("div");
+    actions.className = "actions";
+    const btn = document.createElement("button");
+    btn.className = "btn ghost";
+    btn.textContent = "ver mais ⌄";
+    btn.addEventListener("click", ()=>{
+      const open = fullWrap.style.display !== "none";
+      fullWrap.style.display = open ? "none" : "block";
+      btn.textContent = open ? "ver mais ⌄" : "ver menos ︿";
+    });
+    actions.appendChild(btn);
+    card.appendChild(actions);
+
     return card;
   }
 
-  function clearResults(){ results.innerHTML=""; resultSec.style.display="none"; }
-  function showError(msg){
-    clearResults();
-    const d=document.createElement("div"); d.className="err"; d.textContent=msg;
-    results.appendChild(d); resultSec.style.display="block";
-  }
-  function isObject(x){ return x && typeof x==="object" && !Array.isArray(x); }
-
-  function findByArticle(json, numStr){
-    const alvo=String(numStr).trim();
-    if(isObject(json)){
-      const key="art"+alvo.toLowerCase();
-      if(json[key]) return [{...json[key], _id:key}];
-      for(const [k,v] of Object.entries(json)){
-        if(/\d/.test(k) && k.replace(/\D/g,"")===alvo) return [{...v, _id:k}];
-        const t=(v&&v.titulo)||"";
-        if(t && t.replace(/\D/g,"")===alvo) return [{...v, _id:k}];
-      }
-      return [];
-    }
-    if(Array.isArray(json)){
-      const out=[];
-      for(const it of json){
-        const idd=(it && (it.id||it.titulo)||"");
-        if(digits(idd)===alvo) out.push(it);
-      }
-      return out;
-    }
-    return [];
+  function emptyState(msg){
+    const div = document.createElement("div");
+    div.className = "empty";
+    div.textContent = msg;
+    return div;
   }
 
-  function findByKeywords(json, words){
-    const toks=words.map(w=>norm(w));
-    const acc=[];
-    function matchText(txt){
-      const n=norm(txt||"");
-      return toks.every(t=> n.includes(t));
-    }
-    if(isObject(json)){
-      for(const [k,v] of Object.entries(json)){
-        const txt = textFromItem(v);
-        if(matchText(txt) || matchText(v.titulo||"")){
-          acc.push({...v, _id:k});
-        }
-      }
-    }else if(Array.isArray(json)){
-      for(const v of json){
-        const txt = textFromItem(v);
-        if(matchText(txt) || matchText(v.titulo||"")) acc.push(v);
-      }
-    }
-    // score simples por quantidade de ocorrências
-    acc.sort((a,b)=>{
-      const ta=textFromItem(a), tb=textFromItem(b);
-      const ca=toks.reduce((s,t)=>s+(norm(ta).split(t).length-1),0);
-      const cb=toks.reduce((s,t)=>s+(norm(tb).split(t).length-1),0);
-      return cb-ca;
-    });
-    return acc;
-  }
+  // === Busca ===
+  async function runSearch(){
+    results.innerHTML = "";
+    const code = sel.value;
+    const file = CODE_FILES[code];
+    if(!file){ results.appendChild(emptyState("Código não suportado.")); return; }
 
-  async function buscar(){
-    const codigo=codigoSel.value;
-    const art=(artInput.value||"").trim();
-    const kw=(kwInput.value||"").trim();
+    // desativação mútua
+    const nRaw = (artNum.value||"").replace(/[^\d]/g,"");
+    artNum.value = nRaw;
 
-    if(!codigo){ showError("Selecione um código."); return; }
-    if(!art && !kw){ showError("Informe o número do artigo ou até 3 palavras-chave."); return; }
-    if(art && kw){ showError("Use apenas um modo por vez: número do artigo OU palavras-chave."); return; }
+    const kwRaw = (palavras.value||"").trim();
+    const kwTokens = tokensFromQuery(kwRaw);
 
-    let json;
+    // regra: ou número OU keywords
+    if(nRaw && kwTokens.length){ results.appendChild(emptyState("Use número OU palavras-chave, não ambos.")); return; }
+    if(!nRaw && kwTokens.length>3){ results.appendChild(emptyState("Use no máximo 3 palavras-chave.")); return; }
+
+    // carrega base
+    let base;
     try{
-      json=await fetchJson(`data/${codigo}.json`);
+      const j = await fetchJson(file);
+      base = normalizeDataset(j);
     }catch(e){
-      showError("Erro ao carregar a base desse código."); return;
-    }
-
-    let lista=[];
-    if(art){
-      lista = findByArticle(json, art);
-    }else{
-      const toks=kw.split(" ").filter(Boolean).slice(0,3);
-      lista = findByKeywords(json, toks);
-    }
-
-    clearResults();
-    if(!lista.length){
-      showError("Nada encontrado para os critérios informados.");
+      results.appendChild(emptyState("Não consegui carregar a base do código selecionado."));
       return;
     }
 
-    const tokens = kw ? kw.split(" ").filter(Boolean).slice(0,3) : null;
-    lista.forEach(it=> results.appendChild(buildCard(codigo, it, tokens)));
-    resultSec.style.display="block";
+    // busca por número (match exato)
+    let out = [];
+    if(nRaw){
+      out = base.filter(it => (getArticleNumber(it) === nRaw));
+    }else if(kwTokens.length){
+      out = base.filter(it=>{
+        const hay = norm(buildFullText(it));
+        return kwTokens.every(t => hay.includes(t));
+      });
+    }else{
+      results.appendChild(emptyState("Informe o número do artigo ou até 3 palavras-chave."));
+      return;
+    }
+
+    if(out.length===0){
+      results.appendChild(emptyState("Nenhum resultado encontrado."));
+      return;
+    }
+
+    // render
+    out.forEach(it => {
+      results.appendChild(renderCard(code, it, kwTokens));
+    });
   }
 
-  btnBuscar.addEventListener("click", buscar);
-  artInput.addEventListener("keydown",(e)=>{ if(e.key==="Enter"){ e.preventDefault(); buscar(); }});
-  kwInput.addEventListener("keydown",(e)=>{ if(e.key==="Enter"){ e.preventDefault(); buscar(); }});
+  // desativa mutuamente os campos
+  function syncDisable(){
+    const hasNum = !!artNum.value.trim();
+    const hasKw  = !!palavras.value.trim();
+
+    if(hasNum){
+      palavras.value = "";
+      palavras.disabled = true;
+      artNum.disabled = false;
+    }else if(hasKw){
+      artNum.value = "";
+      artNum.disabled = true;
+      palavras.disabled = false;
+    }else{
+      artNum.disabled = false;
+      palavras.disabled = false;
+    }
+  }
+
+  // events
+  btnBuscar.addEventListener("click", runSearch);
+  artNum.addEventListener("input", syncDisable);
+  palavras.addEventListener("input", syncDisable);
+  // Enter para buscar
+  artNum.addEventListener("keydown", e=>{ if(e.key==="Enter") runSearch(); });
+  palavras.addEventListener("keydown", e=>{ if(e.key==="Enter") runSearch(); });
+
+  // estado inicial
+  syncDisable();
+  // opcional: auto-buscar se vier com valor via cache
 })();
 </script>
 </body>
