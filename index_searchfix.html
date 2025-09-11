@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>direito.love — Estudo Jurídico com IA</title>
+<meta name="theme-color" content="#0B3A82" />
+<link rel="icon" href="favicon.png" type="image/png" />
+<link rel="apple-touch-icon" href="favicon-180.png" />
+<link rel="manifest" href="manifest.json" />
+<style>
+  :root{
+    --bg:#f6f7fb; --surface:#ffffff; --text:#0b1220; --muted:#334155; --border:#94a3b8;
+    --primary:#0b3a82; --primary-hover:#0a2f6a; --highlight:#E6B800; --highlight-hover:#D8A900;
+    --radius:12px; --shadow:0 6px 18px rgba(10,15,25,.06);
+    --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif;
+    --btn-pad-y:8px; --btn-pad-x:14px; --btn-font:13.5px; --btn-min-h:36px;
+    --mark-bg:#fff59e; --success:#15803d; --success-border:#166534; --topbar-bg:#ffffff;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--text);font:400 14px/1.55 var(--font);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  :focus-visible{outline:2px solid var(--primary);outline-offset:2px;border-radius:8px}
+
+  .topbar{position:sticky;top:0;z-index:50;background:var(--topbar-bg);border-bottom:1px solid var(--border);backdrop-filter:saturate(180%) blur(6px)}
+  .topbar__inner{max-width:980px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
+  .brand__logo{height:28px}
+  .topbar__actions{display:flex;align-items:center;gap:8px}
+  .iconbtn{appearance:none;border:1px solid var(--border);background:#fff;color:#0b1220;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;box-shadow:0 2px 4px rgba(10,15,25,.04)}
+  .iconbtn:hover{background:#f8fafc}
+  .iconbtn svg{width:18px;height:18px;display:block}
+
+  .wrap{max-width:980px;margin:0 auto;padding:24px 18px}
+  h1{margin:6px 0 4px;color:var(--text);font-weight:600;letter-spacing:.2px;font-size:19px}
+  .muted{color:var(--muted)}
+
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin:16px 0}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+  #tema{flex:1;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:15px;background:#fff;color:#0b1220;transition:border-color .15s,box-shadow .15s}
+  #tema::placeholder{color:#94a3b8}
+  #tema:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(11,58,130,.12)}
+
+  .btn{appearance:none;border:1px solid #B58F00;background:var(--highlight);color:#111;padding:var(--btn-pad-y) var(--btn-pad-x);border-radius:10px;font-size:var(--btn-font);font-weight:600;cursor:pointer;transition:background .15s,transform .05s;min-height:var(--btn-min-h)}
+  .btn:hover{background:var(--highlight-hover)}
+  .btn:active,.btn-alt:active{transform:translateY(1px) scale(.99)}
+  .btn-alt{appearance:none;border:1px solid #092a57;background:var(--primary);color:#fff;padding:var(--btn-pad-y) var(--btn-pad-x);border-radius:10px;font-size:var(--btn-font);font-weight:600;cursor:pointer;transition:background .15s,transform .05s;min-height:var(--btn-min-h)}
+  .btn-alt:hover{background:var(--primary-hover)}
+  .btn[disabled],.btn-alt[disabled]{opacity:.75;cursor:default}
+  .btn-ok{background:var(--success)!important;color:#fff!important;border-color:var(--success-border)!important}
+  .btn-sm{padding:6px 10px;min-height:28px;font-size:12px;border-radius:8px}
+  .btn-light{background:#fff;color:#0b1220;border:1px solid var(--border)}
+  .btn-light:hover{background:#f8fafc}
+
+  .acc{margin:12px 0;border:1px solid var(--border);border-radius:12px;background:#fff;box-shadow:var(--shadow)}
+  .acc>summary{list-style:none;cursor:pointer;padding:12px 16px;font-weight:600;color:var(--text);display:flex;align-items:center;justify-content:space-between}
+  .acc>summary::-webkit-details-marker{display:none}
+  .acc[open]>summary{background:#f8fafc}
+  .acc-body{padding:12px 16px}
+  .acc-count{font-weight:700;background:#e2e8f0;color:#0b1220;padding:2px 8px;border-radius:999px;font-size:12px;border:1px solid #cbd5e1}
+
+  .result{background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:12px 14px;margin:10px 0}
+  .filetag{display:inline-block;font-weight:700;font-size:12px;padding:2px 8px;border-radius:999px;background:#eef2ff;color:#0b1220;border:1px solid #c7d2fe;margin:0 0 8px 0}
+  .result p{margin:0;color:#0b1220}
+  .result .actions{margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+
+  mark{background:var(--mark-bg);padding:0 2px;border-radius:3px}
+
+  #promptArea{display:none}
+  #promptOut{width:100%;min-height:170px;border:1.5px solid var(--border);border-radius:10px;padding:12px;background:#fff;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13.5px;color:#0b1220;white-space:pre-wrap}
+  #promptOut:focus{outline:2px solid var(--primary);outline-offset:2px;border-radius:8px}
+
+  .ia-row{display:none;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .ia{padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:#fff;color:#0b1220;text-decoration:none;font-size:12.5px;transition:.15s}
+  .ia:hover{background:#f8fafc}
+  .chip-ghost{padding:6px 10px;border-radius:999px;border:1px dashed var(--border);background:#fff;color:#0b1220;font-size:12.5px;cursor:pointer}
+
+  .callout-red{background:#fee2e2;border:1px solid #fca5a5;color:#7f1d1d;padding:8px 10px;border-radius:8px}
+
+  .modal-backdrop{position:fixed;inset:0;background:rgba(10,15,25,.45);display:none;align-items:center;justify-content:center;z-index:80}
+  .modal{width:min(92vw,560px);background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 24px 50px rgba(10,15,25,.25);padding:14px}
+  .modal header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+  .modal h2{margin:0;color:var(--text);font-size:18px;font-weight:600}
+  .modal .close{appearance:none;border:1px solid var(--border);background:#fff;border-radius:10px;width:36px;height:36px;cursor:pointer}
+  .modal .content{color:var(--muted);font-size:13.5px;line-height:1.55}
+
+  .loadmore{display:flex;justify-content:center;margin-top:10px}
+
+  .strategy-card{background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:12px 14px;margin:10px 0}
+  .strategy-head{display:flex;align-items:center;justify-content:space-between;padding-bottom:6px;border-bottom:1px solid var(--border)}
+  .strategy-title{font-size:16px;font-weight:600;color:#0b1220}
+  .strategy-actions{display:flex;gap:8px;align-items:center}
+  .strategy-desc{margin-top:10px;color:#334155}
+  .strategy-desc p{margin:.3rem 0}
+
+  #installFab{position:fixed;right:14px;bottom:14px;z-index:60;display:none;background:#111;color:#fff;border:0;border-radius:999px;padding:10px 12px;gap:8px;align-items:center;box-shadow:0 8px 24px rgba(10,15,25,.3);cursor:pointer}
+  #installFab svg{width:16px;height:16px;display:block}
+  #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#0b1220;color:#fff;padding:8px 12px;border-radius:999px;opacity:0;transition:.2s;z-index:90}
+  #toast.show{opacity:1}
+
+  @media (max-width:600px){
+    h1{font-size:18px}
+    .result p{font-size:13px;line-height:1.5}
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar__inner">
+    <a class="brand" href="#top" aria-label="Início">
+      <img class="brand__logo" src="icons/logo.png" alt="direito.love" />
+    </a>
+    <div class="topbar__actions">
+      <!-- NOVO: botão reset / novo estudo -->
+      <button id="btnResetTop" class="iconbtn" type="button" title="Novo estudo" aria-label="Novo estudo">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M21 12a9 9 0 1 1-3.16-6.87" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M21 3v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button id="btnAbout" class="iconbtn" type="button" title="Sobre" aria-haspopup="dialog" aria-controls="aboutBackdrop">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 10v6m0-9h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <button id="btnInstallTop" class="iconbtn" type="button" title="Baixar app" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v10m0 0 4-4m-4 4-4-4M5 21h14a2 2 0 0 0 2-2v-4M3 15v4a2 2 0 0 0 2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+  <section id="temaSec" class="card">
+    <h1>Sobre o que quer estudar?</h1>
+    <div class="row" style="margin-top:8px">
+      <input id="tema" type="text" placeholder="Ex.: responsabilidade civil por dano estético em cirurgia..." aria-label="Tema do estudo" />
+      <button id="btnAvancar" class="btn-alt" type="button">Avançar</button>
+    </div>
+    <p class="muted callout-red" id="temaHint" style="margin:8px 2px 0 2px;display:none">Tema definido. Agora selecione as sugestões e estratégias abaixo.</p>
+  </section>
+
+  <section id="sugestoesSec" class="card" style="display:none">
+    <div class="row" style="justify-content:space-between">
+      <h1 style="margin:0">Sugestões para enriquecer seu tema</h1>
+      <button id="btnRebuscar" class="btn" type="button">Rebuscar</button>
+    </div>
+    <p class="muted" style="margin-top:6px">Resultados agrupados por categoria. Clique em cada uma para abrir.</p>
+    <div id="sugestoesCats"></div>
+  </section>
+
+  <section id="estrategiasSec" class="card" style="display:none">
+    <h1>Estratégias de estudo</h1>
+    <p class="muted" style="margin-top:6px">Mostre a descrição quando quiser e adicione o que fizer sentido ao prompt.</p>
+    <div id="estrategiasCats"></div>
+    <div class="row" style="margin-top:10px;justify-content:flex-end">
+      <button id="btnGerar" class="btn-alt" type="button">Gerar Prompt</button>
+    </div>
+  </section>
+
+  <section id="promptArea" class="card">
+    <h1>Prompt gerado</h1>
+    <div id="promptOut" tabindex="0" aria-label="Área do prompt gerado"></div>
+    <div class="row" style="margin-top:10px;align-items:center;gap:12px;">
+      <button id="btnCopy" class="btn" type="button">Copiar</button>
+      <button id="btnLimpar" class="btn" type="button" style="display:none;">Limpar</button>
+      <div class="ia-row" id="iaRow" aria-label="Abrir IA de destino">
+        <a class="ia" data-ia="chatgpt" href="https://chat.openai.com/" target="_blank" rel="noopener">ChatGPT</a>
+        <a class="ia" data-ia="claude"  href="https://claude.ai/new" target="_blank" rel="noopener">Claude</a>
+        <a class="ia" data-ia="gemini"  href="https://gemini.google.com/app" target="_blank" rel="noopener">Gemini</a>
+        <a class="ia" data-ia="perplexity" href="https://www.perplexity.ai/" target="_blank" rel="noopener">Perplexity</a>
+        <a class="ia" data-ia="copilot" href="https://copilot.microsoft.com/" target="_blank" rel="noopener">Copilot</a>
+        <a class="ia" data-ia="phind"   href="https://www.phind.com/" target="_blank" rel="noopener">Phind</a>
+        <button id="btnFecharChips" class="chip-ghost" type="button" title="Fechar">Fechar</button>
+      </div>
+    </div>
+    <p class="muted" style="margin:6px 0 0 0;display:none" id="dicaCliqueDireito">
+      Dica: clique com o botão direito em um chip de IA para abrir já com o prompt copiado.
+    </p>
+  </section>
+</main>
+
+<div id="aboutBackdrop" class="modal-backdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+    <header>
+      <h2 id="aboutTitle">Sobre o direito.love</h2>
+      <button class="close" id="aboutClose" type="button" aria-label="Fechar">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </header>
+    <div class="content">
+      <p>O direito.love ajuda estudantes a montar prompts de estudo de forma rápida e inteligente. Digite um tema, receba sugestões do nosso acervo (códigos, súmulas, julgados e jurisprudência), escolha as sessões do seu estudo e gere um prompt otimizado para a IA de sua preferência.</p>
+      <p>Funciona como PWA no Android: <b>Baixe o app</b> para acesso instantâneo e offline básico.</p>
+    </div>
+  </div>
+</div>
+
+<button id="installFab" title="Instalar app">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v10m0 0 4-4m-4 4-4-4M5 21h14a2 2 0 0 0 2-2v-4M3 15v4a2 2 0 0 0 2 2" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span>Baixar app</span>
+</button>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  const $=(s,r=document)=>r.querySelector(s);
+  const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+  const toast=(m,t=1600)=>{const el=$("#toast");el.textContent=m;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),t);};
+
+  const temaInput=$("#tema"), btnAvancar=$("#btnAvancar"), temaHint=$("#temaHint");
+  const sugestSec=$("#sugestoesSec"), sugCats=$("#sugestoesCats"), btnRebuscar=$("#btnRebuscar");
+  const estrSec=$("#estrategiasSec"), estrCats=$("#estrategiasCats"), btnGerar=$("#btnGerar");
+  const promptArea=$("#promptArea"), promptOut=$("#promptOut"), btnCopy=$("#btnCopy"), btnLimpar=$("#btnLimpar");
+  const iaRow=$("#iaRow"), dicaCliqueDireito=$("#dicaCliqueDireito"), btnFecharChips=$("#btnFecharChips");
+  const btnInstallTop=$("#btnInstallTop"), btnAbout=$("#btnAbout"), aboutBackdrop=$("#aboutBackdrop"), aboutClose=$("#aboutClose");
+  const btnResetTop=$("#btnResetTop");
+
+  /* ===== HINTS (consultas do Código Penal) ===== */
+  let HINTS = [];
+  const HINT_WEIGHT = 10;     // quanto empurra pro topo quando casa
+  const HINT_STRICT = false;  // se true, mostra só os casados (opcional p/ teste)
+  const idxById = new Map();  // id -> item carregado (preenchido em carregarDados)
+
+  /* ===== STOPWORDS / SIGLAS ===== */
+  const STOP=new Set(['de','da','do','das','dos','e','ou','a','o','as','os','no','na','nos','nas','para','por','em','um','uma','ao','à','que','com','sem','sobre','entre','ate']);
+  const ORGAOS=new Set(['stf','stj','tst','trt','trf','tse','tre','cnj','cjf','tj']);
+  const LAW_CANONS = [
+    'codigo penal','codigo de processo penal','codigo civil','codigo de processo civil',
+    'codigo tributario nacional','codigo de defesa do consumidor','codigo de transito brasileiro',
+    'codigo eleitoral','codigo comercial','codigo penal militar','codigo de processo penal militar',
+    'codigo florestal','codigo das aguas','codigo de minas','codigo brasileiro de aeronautica',
+    'codigo brasileiro de telecomunicacoes','consolidacao das leis do trabalho'
+  ];
+
+  const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const norm=(s="")=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+
+  /* ===== SINÔNIMOS ===== */
+  const SYN = [
+    { canon:'art',    pats:[/\bart(?:s|\.)?\b/giu,/\bartigo\b/giu] },
+    { canon:'inciso', pats:[/\bincs?\.?\b/giu,/\binc\.?\b/giu,/\binciso\b/giu] },
+    { canon:'alinea', pats:[/\bal\.?\b/giu,/\balinea\b/giu] },
+    { canon:'paragrafo', pats:[/\bpar\.?\b/giu,/\b§+\b/giu] },
+    { canon:'codigo penal', pats:[/\bcp\b/giu,/\bcod(?:\.|igo)?\s*penal\b/giu] },
+    { canon:'codigo de processo penal', pats:[/\bcpp\b/giu,/\bcod(?:\.|igo)?\s*de\s*processo\s*penal\b/giu] },
+    { canon:'codigo civil', pats:[/\bcc\b/giu,/\bcod(?:\.|igo)?\s*civil\b/giu] },
+    { canon:'codigo de processo civil', pats:[/\bcpc\b/giu,/\bcod(?:\.|igo)?\s*de\s*processo\s*civil\b/giu] },
+    { canon:'codigo tributario nacional', pats:[/\bctn\b/giu] },
+    { canon:'codigo de defesa do consumidor', pats:[/\bcdc\b/giu] },
+    { canon:'codigo de transito brasileiro', pats:[/\bctb\b/giu] },
+    { canon:'codigo eleitoral', pats:[/\bce\b/giu] },
+    { canon:'codigo penal militar', pats:[/\bcpm\b/giu] },
+    { canon:'codigo de processo penal militar', pats:[/\bcppm\b/giu] },
+    { canon:'consolidacao das leis do trabalho', pats:[/\bclt\b/giu] },
+    { canon:'sumula', pats:[/\bs[uú]mulas?\b/giu,/\bsv\b/giu,/\bsumula\b/giu] },
+    { canon:'jurisprudencia', pats:[/\bjurisprud[eê]nci\w+\b/giu,/\bprecedent\w+\b/giu,/\bleading\s+case\b/giu] },
+    { canon:'tema repetitivo', pats:[/\btemas?\s+repetitiv\w+\b/giu] },
+    { canon:'repercussao geral', pats:[/\brepercuss[aã]o\s+geral\b/giu] },
+  ];
+  function applySynonyms(t){ for(const s of SYN){ for(const p of s.pats){ t = t.replace(p, ' '+s.canon+' '); } } return t; }
+
+  /* ===== NORMALIZAÇÃO ===== */
+  function normalizeLegal(s){
+    let t=norm(s);
+    t=t.replace(/\b(art(?:igo)?\.?)\s*(\d+[a-z\-]*)\b/giu,' art $2 ');
+    t=t.replace(/\b(\d{1,3})(?:\.(\d{3}))+(\b|\/\d{2,4}\b)?/g, (m)=>m.replace(/\./g,''));
+    t=t.replace(/(\d)\.(?=\d)/g,'$1');
+    t=t.replace(/(\d+)\s*[ºªoa]\b/g,'$1');
+    t=t.replace(/["'()]/g,' ').replace(/\s+/g,' ').trim();
+    t=t.replace(/\bunico\b/giu,' unico ');
+    t=applySynonyms(' '+t+' ');
+    return t.replace(/\s+/g,' ').trim();
+  }
+
+  
+  // ===== Detecta o "código" alvo a partir da query =====
+  const CODE_TAGS = new Map([
+    ['codigo penal','codigo_penal'],
+    ['codigo de processo penal','codigo_processo_penal'],
+    ['codigo civil','codigo_civil'],
+    ['codigo de processo civil','codigo_processo_civil'],
+    ['codigo tributario nacional','codigo_tributario_nacional'],
+    ['codigo de defesa do consumidor','codigo_defesa_consumidor'],
+    ['codigo de transito brasileiro','codigo_transito_brasileiro'],
+    ['codigo eleitoral','codigo_eleitoral'],
+    ['codigo florestal','codigo_florestal'],
+    ['codigo das aguas','codigo_das_aguas']
+  ]);
+  function detectCodeTagFromQuery(raw){
+    const q = ' '+normalizeLegal(raw)+' ';
+    for(const [canon, tag] of CODE_TAGS.entries()){
+      if(q.includes(' '+canon+' ')) return tag;
+    }
+    // alias curtos comuns
+    if(/\bcpc\b|\bprocesso civil\b/i.test(raw)) return 'codigo_processo_civil';
+    if(/\bcp\b(?!p)/i.test(raw)) return 'codigo_penal';
+    if(/\bcpp\b|\bprocesso penal\b/i.test(raw)) return 'codigo_processo_penal';
+    if(/\bcc\b(?!p)/i.test(raw)) return 'codigo_civil';
+    if(/\bcdc\b/i.test(raw)) return 'codigo_defesa_consumidor';
+    if(/\bctb\b/i.test(raw)) return 'codigo_transito_brasileiro';
+    if(/\bctn\b/i.test(raw)) return 'codigo_tributario_nacional';
+    return null;
+  }
+function tokensFromLegal(s){
+  return s
+    .split(/\s+/)
+    .map(w => w.replace(/^[^a-z0-9]+|[^a-z0-9]+$/gi, '')) // remove pontuação no início/fim
+    .filter(Boolean);
+}
+  const isNum = w => /^\d+$/.test(w);
+
+  function highlightText(text,tokens){
+    if(!tokens?.length) return text;
+    let html=text; const used=new Set();
+    for(const tok of tokens){ if(!tok||used.has(tok)) continue; used.add(tok);
+      const re=new RegExp(`\\b(${esc(tok)})\\b`,'giu'); html=html.replace(re,'<mark>$1</mark>');
+    }
+    return html;
+  }
+
+  function parseArtNum(tok){ const m = String(tok||'').match(/^(\d+)/); return m ? m[1] : null; }
+  function hasArtAtStart(tokens, queryArtNum){
+    const L = Math.min(5, tokens.length-1);
+    for(let i=0;i<=L;i++){
+      if(tokens[i]==='art'){
+        const n = parseArtNum(tokens[i+1]);
+        if(n && n === queryArtNum) return true;
+      }
+    }
+    return false;
+  }
+
+  function buildQueryTokens(raw){
+    const qNorm = normalizeLegal(raw);
+    const qToks = tokensFromLegal(qNorm);
+    let artNumQuery=null;
+    const L = Math.min(5, qToks.length-1);
+    for(let i=0;i<=L;i++){
+      if(qToks[i]==='art'){
+        const n = parseArtNum(qToks[i+1]);
+        if(n){ artNumQuery=n; break; }
+      }
+    }
+    const out=[];
+    for(const w of qToks){
+      if(isNum(w)){ out.push(w); continue; }
+      if(ORGAOS.has(w)) { out.push(w); continue; }
+      if(!STOP.has(w) && w.length>3){ out.push(w); continue; }
+    }
+    if(artNumQuery){ out.push('art'); out.push(artNumQuery); }
+    const uniq=[]; const seen=new Set();
+    for(const t of out){ if(!seen.has(t)){ uniq.push(t); seen.add(t); } }
+    return { tokens: uniq, artNumQuery };
+  }
+
+  const arquivos=[
+    "data/julgados_direito_administrativo.json","data/julgados_direito_ambiental.json","data/julgados_direito_bancario.json",
+    "data/julgados_direito_civil.json","data/julgados_direito_constitucional.json","data/julgados_direito_eleitoral.json",
+    "data/julgados_direito_empresarial.json","data/noticias_migalhas_1.json","data/noticias_migalhas_2.json","data/noticias_migalhas_3.json", "data/codigo_das_aguas.json",
+    "data/codigo_penal.json","data/codigo_processo_penal.json","data/sumula_stf.json","data/sumulas_stj.json","data/sumulas_tse.json", "data/codigo_florestal.json",
+    "data/sumulas_vinculantes_stf.json","data/temas_repetitivos_stj.json","data/teses_stf.json","data/codigo_processo_civil.json", "data/codigo_eleitoral.json",
+    "data/codigo_civil.json","data/codigo_tributario_nacional.json","data/codigo_defesa_consumidor.json","data/codigo_transito_brasileiro.json"
+  ];
+  const nomesAmigaveis={noticias:"Notícias",noticias_migalhas_1:"Notícias Migalhas",noticias_migalhas_2:"Notícias Migalhas",noticias_migalhas_3:"Notícias Migalhas",
+    sumula_stf:"Súmulas STF",sumulas_stj:"Súmulas STJ",sumulas_tse:"Súmulas TSE",sumulas_vinculantes_stf:"Súmulas Vinculantes STF",codigo_florestal:"Código Florestal",
+    temas_repetitivos_stj:"Temas Repetitivos STJ",teses_stf:"Teses STF",codigo_penal:"Código Penal",codigo_processo_penal:"Código de Processo Penal",
+    codigo_processo_civil:"Código de Processo Civil",codigo_eleitoral:"Código Eleitoral",codigo_civil:"Código Civil",codigo_tributario_nacional:"Código Tributário Nacional",
+    codigo_defesa_consumidor:"Código de Defesa do Consumidor",codigo_transito_brasileiro:"Código de Trânsito Brasileiro",codigo_das_aguas:"Código das Águas",
+    julgados_direito_administrativo:"Julgados de Direito Administrativo",julgados_direito_ambiental:"Julgados de Direito Ambiental",
+    julgados_direito_bancario:"Julgados de Direito Bancário",julgados_direito_civil:"Julgados de Direito Civil",
+    julgados_direito_constitucional:"Julgados de Direito Constitucional",julgados_direito_eleitoral:"Julgados de Direito Eleitoral",
+    julgados_direito_empresarial:"Julgados de Direito Empresarial"};
+  const categorias={
+    codigos:{label:"Códigos",test:f=>f.startsWith('codigo_')},
+    sumulas:{label:"Súmulas",test:f=>f.startsWith('sumula')||f.startsWith('sumulas_')||f==='sumulas_vinculantes_stf'},
+    jurisprudencia:{label:"Jurisprudência",test:f=>f==='temas_repetitivos_stj'||f==='teses_stf'},
+    julgados:{label:"Julgados",test:f=>f.startsWith('julgados_')},
+    noticias:{label:"Notícias",test:f=>f.startsWith('noticias')},
+    outros:{label:"Outros",test:_=>true}
+  };
+  const normalizarFonte=f=>f&&f.startsWith('noticias')?'noticias':f;
+
+  let baseDados=[];
+
+  /* ===== Hints: carregar consultas do CP ===== */
+  async function loadCPHints(){
+    try{
+      const r = await fetch('data/consultas_cp_full.json', { cache:'no-store' });
+      if(!r.ok) return;
+      const j = await r.json();
+      HINTS = (j.map || []).map(row => ({
+        targets: [row.id],
+        vars: (row.q || []).map(q => buildQueryTokens(q).tokens),
+        weight: HINT_WEIGHT
+      }));
+    }catch(e){
+      console.warn('Erro ao carregar consultas_cp_full.json', e);
+    }
+  }
+
+  function tokensMatchAll(qTokens, vTokens){
+    return vTokens.every(t => qTokens.includes(t));
+  }
+  function applyHintsBoost(rawQuery, resultsArr){
+    if(!HINTS.length) return 0;
+    const { tokens:qTokens } = buildQueryTokens(rawQuery);
+    let injected = 0;
+    const codeTag = detectCodeTagFromQuery(rawQuery);
+    if(codeTag && codeTag !== 'codigo_penal') return 0;
+
+    for(const h of HINTS){
+      const matched = h.vars.some(v => tokensMatchAll(qTokens, v));
+      if(!matched) continue;
+
+      for(const tgtId of h.targets){
+        const art = idxById.get(tgtId);
+        if(!art) continue;
+
+        let entry = resultsArr.find(r => r.it._id === art._id);
+        if(entry){
+          entry.sc += h.weight || HINT_WEIGHT;
+        }else{
+          const baseScore = scoreItem(art, qTokens);
+          resultsArr.push({ it: art, sc: baseScore + (h.weight || HINT_WEIGHT) });
+          injected++;
+        }
+      }
+    }
+    return injected;
+  }
+
+  async function carregarDados(){
+    const dados=[]; 
+    const pool=4;
+    const queue=[...arquivos];
+    btnRebuscar.disabled = true;
+
+    const sk = document.createElement('div');
+    sk.className='result';
+    sk.innerHTML = '<p class="muted">Carregando base…</p>';
+    sugCats.replaceChildren(sk);
+
+    async function worker(){
+      while(queue.length){
+        const arq = queue.shift();
+        try{
+          const tag=arq.split('/').pop().replace(/\.json$/,'');
+          const r=await fetch(arq,{cache:'no-store'});
+          if(!r.ok) continue;
+          const j=await r.json();
+          (Array.isArray(j)?j:[]).forEach((it,idx)=>{
+            const _id=it.id||`${tag}_${idx}`;
+            const texto=(it.texto||it.descricao||it.conteudo||'').trim();
+            const titulo=it.titulo||it.title||'';
+            dados.push({...it,_id,fonte:tag,titulo,texto,
+              textoNorm:normalizeLegal(texto||titulo),
+              textoLegal:normalizeLegal(texto||titulo)
+            });
+
+            // Indexa por id para o mecanismo de hints
+            const pushed = dados[dados.length-1];
+            if (it.id) idxById.set(it.id, pushed);
+          });
+        }catch(e){ console.warn('Erro ao carregar', arq, e); }
+      }
+    }
+    await Promise.all(Array.from({length:pool}, worker));
+    btnRebuscar.disabled = false;
+    return dados;
+  }
+
+  function ensureVisible(el){ el.scrollIntoView({behavior:'smooth',block:'start'}); }
+
+  function scoreItem(it, queryTokens){
+    const hay = it.textoLegal||'';
+    let s = 0;
+    for(const t of queryTokens){
+      if(!t) continue;
+      if(hay.includes(' '+t+' ')) s += 2.5;
+      if(it.fonte?.startsWith('codigo_') && t==='art') s += 1.5;
+      if(it.fonte==='temas_repetitivos_stj' || it.fonte==='teses_stf') s += .5;
+    }
+    return s;
+  }
+
+  function hasArtAtStart(tokens, queryArtNum){
+    const L = Math.min(5, tokens.length-1);
+    for(let i=0;i<=L;i++){
+      if(tokens[i]==='art'){
+        const n = (String(tokens[i+1]||'').match(/^(\d+)/)||[])[1];
+        if(n && n === queryArtNum) return true;
+      }
+    }
+    return false;
+  }
+
+  
+function professionalSearch(raw, data){
+  const { tokens: qTokens, artNumQuery } = buildQueryTokens(raw);
+  const codeTag = detectCodeTagFromQuery(raw);
+
+  // Se a query especificar um código, restringe o universo
+  const pool = codeTag ? data.filter(it => it.fonte === codeTag) : data;
+
+  const results=[];
+  for(const it of pool){
+    const tokens = tokensFromLegal(it.textoLegal||'');
+    // match "AND" estrito
+    let ok = true;
+    for(const q of qTokens){ if(!tokens.includes(q)){ ok=false; break; } }
+    if(!ok) continue;
+
+    if(artNumQuery && !hasArtAtStart(tokens, artNumQuery)) continue;
+
+    let base = scoreItem(it, qTokens);
+
+    // BOOST: quando começa exatamente com "art <num>"
+    if(artNumQuery){
+      const reStart = new RegExp('^\s*art\s+'+artNumQuery+'\b','i');
+      if(reStart.test(it.textoLegal||'')) base += 50;
+    }
+
+    results.push({it, sc: base});
+  }
+
+  // fallback fuzzy (70%) no pool já filtrado
+  if(results.length===0 && qTokens.length>1){
+    for(const it of pool){
+      const tokens = tokensFromLegal(it.textoLegal||'');
+      let hit=0; for(const q of qTokens){ if(tokens.includes(q)) hit++; }
+      const need = Math.ceil(qTokens.length*0.7);
+      if(hit>=need){
+        if(!artNumQuery || hasArtAtStart(tokens, artNumQuery)){
+          let s = scoreItem(it, qTokens)+hit*0.1;
+          if(artNumQuery){
+            const reStart = new RegExp('^\s*art\s+'+artNumQuery+'\b','i');
+            if(reStart.test(it.textoLegal||'')) s += 50;
+          }
+          results.push({it, sc:s});
+        }
+      }
+    }
+  }
+
+  // Hints do CP só quando apropriado (regra extra em applyHintsBoost)
+  applyHintsBoost(raw, results);
+
+  results.sort((a,b)=>b.sc-a.sc);
+  return { results: results.map(r=>r.it), highlight: qTokens.slice(0,8) };
+}
+}
+
+  function buildCard(item,tokens){
+    const fNorm=normalizarFonte(item.fonte);
+    const nomeBonito=nomesAmigaveis[fNorm]||nomesAmigaveis[item.fonte]||item.fonte;
+    const div=document.createElement('div'); div.className='result';
+    const tag=document.createElement('div'); tag.className='filetag'; tag.textContent=nomeBonito; div.appendChild(tag);
+    const p=document.createElement('p'); const baseText=(item.texto&&item.texto.trim())||(item.titulo||'');
+    p.innerHTML=highlightText(baseText,tokens); div.appendChild(p);
+    const actions=document.createElement('div'); actions.className='actions';
+
+    const add=document.createElement('button'); add.className='btn-alt btn-sm'; add.type='button'; add.textContent='Incluir no tema'; add.setAttribute('aria-pressed','false');
+    add.addEventListener('click',()=>{
+      const piece=item.texto?.trim()||[item.titulo||'',item.url||''].filter(Boolean).join(' — ');
+      if(piece){
+        if(temaInput.value && !temaInput.value.trim().endsWith('—')) temaInput.value=temaInput.value.trim()+' — ';
+        temaInput.value+=piece;
+        saveState();
+        toast('Conteúdo adicionado ao tema.');
+        add.classList.add('btn-ok'); add.textContent='Adicionado ✓'; add.disabled=true; add.setAttribute('aria-pressed','true');
+        temaHint.style.display='block';
+      }
+    });
+    actions.appendChild(add);
+
+    if(item.url && fNorm==='noticias'){
+      const a=document.createElement('a'); a.textContent='Ver notícia'; a.href=item.url; a.target='_blank'; a.rel='noopener'; a.className='btn btn-sm btn-light';
+      actions.appendChild(a);
+    } else if(fNorm==='noticias' && /^MIGALHAS|CONJUR|JOTA/i.test(item.texto||'')){
+      const a=document.createElement('a'); a.textContent='Buscar no Google';
+      a.href='https://www.google.com/search?q='+encodeURIComponent((item.titulo||item.texto||'').slice(0,120));
+      a.target='_blank'; a.rel='noopener'; a.className='btn btn-sm btn-light';
+      actions.appendChild(a);
+    }
+
+    div.appendChild(actions);
+    return div;
+  }
+
+  function groupByCategory(items){
+    const groups={}; for(const k in categorias){ groups[k]={label:categorias[k].label,items:[]} }
+    for(const it of items){
+      const f=it.fonte||''; let cat='outros';
+      for(const k in categorias){ if(k==='outros') continue; if(categorias[k].test(f)){ cat=k; break; } }
+      groups[cat].items.push(it);
+    }
+    return Object.fromEntries(Object.entries(groups).filter(([,g])=>g.items.length>0).sort((a,b)=>b[1].items.length-a[1].items.length));
+  }
+
+  function createCategoryAcc(catId, group, tokens){
+    const det=document.createElement('details'); det.className='acc';
+    const sum=document.createElement('summary'); sum.setAttribute('aria-expanded','false');
+    const ttl=document.createElement('span'); ttl.textContent=group.label+' ';
+    const count=document.createElement('span'); count.className='acc-count';
+    sum.appendChild(ttl); sum.appendChild(count);
+    det.appendChild(sum);
+
+    const body=document.createElement('div'); body.className='acc-body';
+    const list=document.createElement('div'); 
+    body.appendChild(list);
+    det.appendChild(body);
+
+    let shown=0; const step=10; const total=group.items.length;
+    function updateBadge(){ count.textContent = `${shown}/${total}`; }
+    function appendMore(){
+      const end=Math.min(shown+step, total);
+      for(let i=shown;i<end;i++) list.appendChild(buildCard(group.items[i], tokens));
+      shown=end; updateBadge();
+      loadWrap.style.display = shown<total ? 'flex' : 'none';
+    }
+
+    det.addEventListener('toggle',()=>{ sum.setAttribute('aria-expanded', det.open ? 'true' : 'false'); });
+
+    const loadWrap=document.createElement('div'); loadWrap.className='loadmore';
+    const loadBtn=document.createElement('button'); loadBtn.type='button'; loadBtn.className='btn btn-light btn-sm'; loadBtn.textContent='Carregar mais 10';
+    loadBtn.addEventListener('click', appendMore);
+    loadWrap.appendChild(loadBtn);
+
+    body.appendChild(loadWrap);
+    appendMore();
+    return det;
+  }
+
+  function renderSugeridos(items,tokens){
+    const groups=groupByCategory(items);
+    const entries=Object.entries(groups);
+    if(entries.length===0){
+      sugestSec.style.display='none';
+      return;
+    }
+    sugestSec.style.display='block';
+    sugCats.innerHTML='';
+    for(const [catId,group] of entries){
+      const acc=createCategoryAcc(catId, group, tokens);
+      sugCats.appendChild(acc);
+    }
+  }
+
+  const ESTRATEGIAS_LIST=[
+    {nome:'Resumo Explicativo',desc:'Retorno em linguagem simples e didática. Bom pra revisar pré-prova.',exemplo:'Ex.: “Explique em até 10 linhas o art. 121 do CP, com exemplos práticos.”'},
+    {nome:'Questões Objetivas (OAB/Concursos)',desc:'Gera 10–15 questões múltipla escolha. Gabarito só no final.',exemplo:'Ex.: “Crie 10 questões objetivas sobre processo penal (estilo OAB).”'},
+    {nome:'Casos Concretos',desc:'Enunciados práticos + solução esperada.',exemplo:'Ex.: “Formule 3 casos práticos sobre dano moral coletivo, com fundamentação.”'},
+    {nome:'Quadro Comparativo',desc:'Tabela curta comparando institutos próximos.',exemplo:'Ex.: “Compare prisão preventiva x temporária.”'},
+    {nome:'Mapa Mental / Esquema',desc:'Tópicos hierárquicos (tipo fluxograma).',exemplo:'Ex.: “Esquematize o procedimento do júri.”'},
+    {nome:'Flash Points (Memorização Rápida)',desc:'Lista do que não pode esquecer.',exemplo:'Ex.: “Liste 10 pontos sobre competência no CPC.”'},
+    {nome:'Jurisprudência Atualizada',desc:'Decisões recentes + súmulas relacionadas.',exemplo:'Ex.: “Traga 5 precedentes do STJ sobre resp. civil médica.”'},
+    {nome:'Sustentação Oral / Explicação Oral',desc:'Texto como fala de 5 minutos.',exemplo:'Ex.: “Sustentação sobre insignificância no furto simples.”'},
+    {nome:'Peça Prática (Esqueleto)',desc:'Estrutura modelo de peça.',exemplo:'Ex.: “Esqueleto de apelação por nulidade de interceptação.”'},
+    {nome:'Doutrina vs Jurisprudência',desc:'Contrasta autores e decisões.',exemplo:'Ex.: “Nucci x Capez + posição do STJ.”'}
+  ];
+  const escolhidas=[];
+  function selecionarEstrategia(nome,desc){ if(!escolhidas.some(x=>x.nome===nome)) { escolhidas.push({nome,desc}); saveState(); } }
+  function renderEstrategias(){
+    estrCats.innerHTML='';
+    ESTRATEGIAS_LIST.forEach((it)=>{
+      const card=document.createElement('div'); card.className='strategy-card';
+      const head=document.createElement('div'); head.className='strategy-head';
+      const title=document.createElement('div'); title.className='strategy-title'; title.textContent=it.nome;
+      const actions=document.createElement('div'); actions.className='strategy-actions';
+      const toggle=document.createElement('button'); toggle.type='button'; toggle.className='btn btn-light btn-sm'; toggle.textContent='Mostrar'; toggle.setAttribute('aria-expanded','false');
+      const add=document.createElement('button'); add.type='button'; add.className='btn-alt btn-sm'; add.textContent='Adicionar'; add.setAttribute('aria-pressed','false');
+
+      /* FIX 3: se já estiver escolhida (ex.: restaurada do storage), deixa marcado e desativado */
+      if (Array.isArray(escolhidas) && escolhidas.some(x => x.nome === it.nome)) {
+        add.classList.add('btn-ok'); add.textContent='Adicionado ✓'; add.disabled=true; add.setAttribute('aria-pressed','true');
+      }
+
+      actions.appendChild(toggle); actions.appendChild(add);
+      head.appendChild(title); head.appendChild(actions);
+      const content=document.createElement('div'); content.className='strategy-desc'; content.style.display='none';
+      const p1=document.createElement('p'); p1.textContent=it.desc;
+      const p2=document.createElement('p'); p2.textContent=it.exemplo;
+      content.appendChild(p1); content.appendChild(p2);
+      toggle.addEventListener('click',()=>{
+        const open = content.style.display!=='none';
+        content.style.display = open ? 'none' : 'block';
+        toggle.textContent = open ? 'Mostrar' : 'Esconder';
+        toggle.setAttribute('aria-expanded', String(!open));
+      });
+      add.addEventListener('click',()=>{
+        selecionarEstrategia(it.nome, it.desc+' '+it.exemplo);
+        toast('Sessão adicionada ao prompt.');
+        add.classList.add('btn-ok'); add.textContent='Adicionado ✓'; add.disabled=true; add.setAttribute('aria-pressed','true');
+      });
+      card.appendChild(head); card.appendChild(content); estrCats.appendChild(card);
+    });
+  }
+
+  function gerarPrompt(){
+    const temaFinal=temaInput.value.trim();
+    if(!temaFinal){ toast('Defina o tema antes.'); temaInput.focus(); return; }
+    let baseLista=escolhidas.slice();
+    if(baseLista.length===0){
+      baseLista=[
+        {nome:'Resumo Explicativo',desc:'Resumo didático e direto com exemplos práticos.'},
+        {nome:'Questões Objetivas (OAB/Concursos)',desc:'10–15 questões de múltipla escolha com gabarito ao final.'},
+        {nome:'Jurisprudência Atualizada',desc:'Decisões recentes e súmulas relacionadas.'},
+        {nome:'Raciocínio Jurídico (passo a passo)',desc:'Passos lógicos para resolver a questão do tema.'}
+      ];
+    }
+    const linhas=[];
+    linhas.push('Você é um professor de Direito com excelente didática. Use linguagem simples, mas consistente, e ajude-me a estudar o tema a seguir:\n');
+    linhas.push('TEMA: ' + temaFinal + '\n');
+    linhas.push('Organize a resposta nas seções abaixo, explicando de forma clara e detalhada. Sempre que possível, traga mini exemplos. A cada 2 seções, pergunte se deve continuar.');
+    baseLista.forEach(({nome, desc}) => linhas.push(`- ${nome}: ${desc}`));
+    linhas.push('\nRegras: priorize a clareza, evite juridiquês desnecessário e exemplifique sempre que possível. Finalize com o convite: **direito.love**');
+    promptOut.textContent=linhas.join('\n');
+    promptArea.style.display='block';
+    saveState();
+    setTimeout(()=>{ ensureVisible(promptArea); promptOut.focus(); },50);
+    toast('Prompt gerado.');
+  }
+
+  function executarBuscaDoTema(){
+    const temaRaw=temaInput.value.trim();
+    if(!temaRaw){ toast("Digite um tema."); temaInput.focus(); return; }
+    temaHint.style.display='block';
+    sugestSec.style.display='block';
+    btnRebuscar.disabled=true; btnRebuscar.textContent='Buscando…';
+    const {results, highlight} = professionalSearch(temaRaw, baseDados);
+    renderSugeridos(results, highlight);
+    estrSec.style.display='block';
+    renderEstrategias();
+    setTimeout(()=>{ if(sugestSec.style.display!=='none') ensureVisible(sugestSec); }, 50);
+    btnRebuscar.disabled=false; btnRebuscar.textContent='Rebuscar';
+  }
+
+  function countWords(s){ return (s.trim().replace(/\s+/g,' ').match(/\S+/g)||[]).length; }
+
+  /* FIX 2: se mudou o tema, limpa estratégias em memória e no storage antes da busca */
+  function executarComValidacao(){
+    const prevTema = (localStorage.getItem('dl_tema') || '').trim();
+    const newTema  = (temaInput.value || '').replace(/\s+/g,' ').trim();
+
+    if (prevTema && prevTema !== newTema) {
+      if (Array.isArray(escolhidas)) escolhidas.length = 0;
+      localStorage.removeItem('dl_estrategias');
+    }
+
+    temaInput.value = newTema;
+
+    const n = countWords(temaInput.value);
+    if(n < 5){ toast('Dica: use pelo menos 5 palavras pra resultados melhores.'); }
+    saveState();
+    executarBuscaDoTema();
+  }
+
+  // LISTENERS (inclui o do GERAR PROMPT e o RESET TOP)
+  btnAvancar.addEventListener('click', executarComValidacao);
+  btnGerar.addEventListener('click', gerarPrompt);
+  btnResetTop.addEventListener('click', ()=>{ resetApp(); toast('Novo estudo'); setTimeout(()=>temaInput.focus(), 100); });
+
+  temaInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); executarComValidacao(); } });
+
+  let hintTimer=null, hinted=false;
+  $("#tema").addEventListener('input', ()=>{
+    saveState();
+    if(hinted) return;
+    if(hintTimer) clearTimeout(hintTimer);
+    if($("#tema").value.trim().length>0){
+      hintTimer=setTimeout(()=>{ $("#temaHint").style.display='block'; hinted=true; }, 3000);
+    }
+  });
+
+  btnCopy.addEventListener('click', async()=>{
+    try{
+      await navigator.clipboard.writeText(promptOut.textContent||'');
+      toast('Copiado!');
+      iaRow.style.display='flex';
+      dicaCliqueDireito.style.display='block';
+      btnLimpar.style.display='inline-block';
+    }catch{ toast('Erro ao copiar.'); }
+  });
+  $$('.ia').forEach(a=>{
+    a.addEventListener('contextmenu', async (ev)=>{
+      ev.preventDefault();
+      try{ await navigator.clipboard.writeText(promptOut.textContent||''); toast('Copiado!'); }catch{}
+      window.open(a.href,'_blank','noopener');
+    });
+    a.addEventListener('click', async ()=>{
+      try{ await navigator.clipboard.writeText(promptOut.textContent||''); toast('Copiado!'); }catch{}
+    });
+  });
+
+  function resetApp(){
+    temaInput.value='';
+    localStorage.removeItem('dl_tema');
+    localStorage.removeItem('dl_estrategias');
+
+    /* FIX 1: limpa também o array em memória */
+    if (Array.isArray(escolhidas)) escolhidas.length = 0;
+
+    temaHint.style.display='none';
+    sugestSec.style.display='none'; sugCats.innerHTML='';
+    estrSec.style.display='none'; estrCats.innerHTML='';
+    promptArea.style.display='none'; promptOut.textContent='';
+    iaRow.style.display='none'; dicaCliqueDireito.style.display='none';
+    btnLimpar.style.display='none';
+    hinted=false; if(hintTimer) clearTimeout(hintTimer); hintTimer=null;
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  btnFecharChips.addEventListener('click', resetApp);
+  btnLimpar.addEventListener('click', resetApp);
+
+  function saveState(){
+    try{
+      localStorage.setItem('dl_tema', temaInput.value.trim());
+      localStorage.setItem('dl_estrategias', JSON.stringify(escolhidas));
+    }catch{}
+  }
+  function loadState(){
+    try{
+      const t = localStorage.getItem('dl_tema'); if(t) temaInput.value=t;
+      const arr = JSON.parse(localStorage.getItem('dl_estrategias')||'[]');
+      if(Array.isArray(arr)) { escolhidas.length=0; arr.forEach(x=>escolhidas.push(x)); }
+    }catch{}
+  }
+  window.addEventListener('beforeunload', saveState);
+  loadState();
+
+  async function boot(){
+    await loadCPHints();             // ➊ carrega mapeamento CP
+    baseDados = await carregarDados(); // ➋ carrega base normal
+    toast('Base carregada com sucesso!');
+  }
+  boot();
+
+  function openAbout(){ aboutBackdrop.style.display='flex'; aboutBackdrop.setAttribute('aria-hidden','false'); }
+  function closeAbout(){ aboutBackdrop.style.display='none'; aboutBackdrop.setAttribute('aria-hidden','true'); }
+  btnAbout.addEventListener('click', openAbout);
+  aboutClose.addEventListener('click', closeAbout);
+  aboutBackdrop.addEventListener('click', (e)=>{ if(e.target===aboutBackdrop) closeAbout(); });
+
+  let deferredPrompt=null;
+  const installFab=$("#installFab");
+  const isAndroid = /Android/i.test(navigator.userAgent || '');
+  if(isAndroid) btnInstallTop.style.display='flex';
+  window.addEventListener('beforeinstallprompt', (e)=>{
+    e.preventDefault(); deferredPrompt=e;
+    btnInstallTop.style.display='flex';
+  });
+  function doInstall(){
+    if(deferredPrompt){
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(({outcome})=>{
+        if(outcome==='accepted') toast('Instalação iniciada.');
+        deferredPrompt=null;
+      });
+    }else{
+      toast('No Android, use “Adicionar à tela inicial” no menu do navegador.');
+    }
+  }
+  btnInstallTop.addEventListener('click', doInstall);
+  installFab.addEventListener('click', doInstall);
+})();
+</script>
+</body>
+</html>
