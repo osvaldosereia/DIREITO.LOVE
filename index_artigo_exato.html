@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>direito.love — Artigo Exato</title>
+<meta name="theme-color" content="#0B3A82" />
+<link rel="icon" href="favicon.png" type="image/png" />
+<style>
+  :root{
+    --bg:#f6f7fb; --surface:#ffffff; --text:#0b1220; --muted:#334155; --border:#94a3b8;
+    --primary:#0b3a82; --primary-hover:#0a2f6a; --radius:12px; --shadow:0 6px 18px rgba(10,15,25,.06);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font:400 14px/1.55 -apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif}
+  .wrap{max-width:980px;margin:0 auto;padding:24px 18px}
+  h1{margin:6px 0 14px;font-weight:600;letter-spacing:.2px;font-size:19px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin:16px 0}
+  .form-row{display:grid;grid-template-columns:260px 1fr 160px;gap:12px;align-items:center}
+  @media (max-width:760px){ .form-row{grid-template-columns:1fr} }
+  .select-clean,.input-clean{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius);background:#fff;outline:none}
+  .select-clean:focus,.input-clean:focus{box-shadow:0 0 0 3px rgba(56,139,253,.25);border-color:var(--primary)}
+  .btn-primary{padding:10px 16px;border-radius:var(--radius);border:0;background:var(--primary);color:#fff;font-weight:700;cursor:pointer}
+  .btn-primary:hover{filter:brightness(1.04)}
+  .filetag{display:inline-block;font-weight:700;font-size:12px;padding:2px 8px;border-radius:999px;background:#eef2ff;color:#0b1220;border:1px solid #c7d2fe;margin:0 0 8px 0}
+  .result{background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:12px 14px;margin:10px 0}
+  .muted{color:#334155}
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="card">
+      <h1>Buscar artigo (match exato)</h1>
+      <div class="form-row">
+        <select id="codigoSel" class="select-clean" aria-label="Código">
+          <option value="">Selecione o Código</option>
+          <option value="codigo_penal">Código Penal</option>
+          <option value="codigo_processo_penal">Código de Processo Penal</option>
+          <option value="codigo_civil">Código Civil</option>
+          <option value="codigo_processo_civil">Código de Processo Civil</option>
+          <option value="codigo_tributario_nacional">Código Tributário Nacional</option>
+          <option value="codigo_defesa_consumidor">Código de Defesa do Consumidor</option>
+          <option value="codigo_transito_brasileiro">Código de Trânsito Brasileiro</option>
+          <option value="codigo_eleitoral">Código Eleitoral</option>
+          <option value="codigo_florestal">Código Florestal</option>
+          <option value="codigo_das_aguas">Código das Águas</option>
+        </select>
+        <input id="artigoInput" class="input-clean" placeholder="Número do artigo (ex.: 20, 121, 1002)" maxlength="4" inputmode="numeric" autocomplete="off" />
+        <button id="btnBuscar" class="btn-primary">Avançar</button>
+      </div>
+      <p class="muted" style="margin:8px 2px 0 2px;">Somente números. Letras não são aceitas. Busca por <b>artigo exato</b>.</p>
+    </section>
+
+    <section id="resultadoSec" class="card" style="display:none">
+      <div id="resultado"></div>
+    </section>
+  </main>
+
+<script>
+(function(){
+  const $ = (s, r=document)=>r.querySelector(s);
+  const codigoSel = $("#codigoSel");
+  const artigoInput = $("#artigoInput");
+  const btnBuscar = $("#btnBuscar");
+  const resultadoSec = $("#resultadoSec");
+  const resultado = $("#resultado");
+
+  // Apenas números (bloqueia letras/símbolos) e limita a 4 dígitos
+  artigoInput.addEventListener("input", (e)=>{
+    e.target.value = (e.target.value || "").replace(/\D/g, "").slice(0, 4);
+  });
+
+  artigoInput.addEventListener("keydown", (e)=>{
+    // Permite apenas teclas de navegação/backspace/delete/tab/enter/num
+    const allowed = ["Backspace","Delete","Tab","ArrowLeft","ArrowRight","Home","End","Enter"];
+    if (allowed.includes(e.key)) return;
+    if (!/^\d$/.test(e.key)) { e.preventDefault(); }
+  });
+
+  const nomes = {
+    codigo_penal:"Código Penal",
+    codigo_processo_penal:"Código de Processo Penal",
+    codigo_civil:"Código Civil",
+    codigo_processo_civil:"Código de Processo Civil",
+    codigo_tributario_nacional:"Código Tributário Nacional",
+    codigo_defesa_consumidor:"Código de Defesa do Consumidor",
+    codigo_transito_brasileiro:"Código de Trânsito Brasileiro",
+    codigo_eleitoral:"Código Eleitoral",
+    codigo_florestal:"Código Florestal",
+    codigo_das_aguas:"Código das Águas"
+  };
+
+  async function fetchJson(arq){
+    // tenta local, depois remoto (direito.love)
+    try{
+      const r = await fetch(arq, {cache:"no-store"});
+      if(r.ok) return r.json();
+    }catch{}
+    const abs = (arq.startsWith("http") ? arq : ("https://direito.love/" + arq.replace(/^\//,"")));
+    const r2 = await fetch(abs, {cache:"no-store"});
+    if(!r2.ok) throw new Error("Falha ao carregar "+abs);
+    return r2.json();
+  }
+
+  function extractDigits(s){
+    const m = String(s||"").match(/\d+/g);
+    return m ? m.join("") : null;
+  }
+
+  // Procura pelo artigo EXATO: o número digitado deve bater 1:1 com o número extraído do id/chave/título
+  function findExactArticle(json, numStr){
+    const alvo = String(numStr);
+
+    // 1) Objeto com chaves
+    if (json && typeof json === "object" && !Array.isArray(json)){
+      // chave "art20" (mais comum)
+      if (json["art"+alvo]) return json["art"+alvo];
+      // qualquer outra chave que contenha exatamente o número
+      for(const [k,v] of Object.entries(json)){
+        const digs = extractDigits(k);
+        if (digs === alvo) return v;
+        const txt = (v && (v.titulo || v.texto || "")) || "";
+        const m = txt.match(/\bart\.?\s*(\d+)/i);
+        if (m && m[1] === alvo) return v;
+      }
+      return null;
+    }
+
+    // 2) Array de objetos
+    if (Array.isArray(json)){
+      for(const it of json){
+        if (extractDigits(it && it.id) === alvo) return it;
+        const t = (it && (it.titulo || it.texto || "")) || "";
+        const m = t.match(/\bart\.?\s*(\d+)/i);
+        if (m && m[1] === alvo) return it;
+      }
+      return null;
+    }
+
+    return null;
+  }
+
+  function render(item, codigoTag, artNum){
+    const nome = nomes[codigoTag] || codigoTag || "Código";
+    const titulo = (item && (item.titulo || item.title)) || ("Art. "+artNum);
+    const texto = (item && (item.texto || item.content)) || "";
+    resultado.innerHTML = "";
+    const wrap = document.createElement("div");
+    wrap.className = "result";
+    const tag = document.createElement("div");
+    tag.className = "filetag";
+    tag.textContent = `${nome}`;
+    const h2 = document.createElement("h2");
+    h2.textContent = titulo;
+    const p = document.createElement("p");
+    p.textContent = texto;
+    wrap.appendChild(tag);
+    wrap.appendChild(h2);
+    wrap.appendChild(p);
+    resultado.appendChild(wrap);
+    resultadoSec.style.display = "block";
+  }
+
+  function renderNotFound(artNum){
+    resultado.innerHTML = `<div class="result"><p>Artigo ${artNum} não encontrado.</p></div>`;
+    resultadoSec.style.display = "block";
+  }
+
+  async function buscar(){
+    const codigo = codigoSel.value;
+    const artNum = (artigoInput.value || "").trim();
+    resultadoSec.style.display = "none"; resultado.innerHTML = "";
+
+    if(!codigo){ alert("Selecione um código."); codigoSel.focus(); return; }
+    if(!artNum){ alert("Digite o número do artigo."); artigoInput.focus(); return; }
+
+    try{
+      const json = await fetchJson(`data/${codigo}.json`);
+      const item = findExactArticle(json, artNum);
+      if (item) render(item, codigo, artNum);
+      else renderNotFound(artNum);
+    }catch(e){
+      console.warn(e);
+      resultado.innerHTML = `<div class="result"><p>Erro ao carregar os dados do código selecionado.</p></div>`;
+      resultadoSec.style.display = "block";
+    }
+  }
+
+  btnBuscar.addEventListener("click", buscar);
+  artigoInput.addEventListener("keydown", (e)=>{
+    if(e.key === "Enter"){ e.preventDefault(); buscar(); }
+  });
+})();
+</script>
+</body>
+</html>
