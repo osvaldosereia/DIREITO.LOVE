@@ -15,7 +15,7 @@
       --bg:var(--white); --fg:#101418; --muted:#5f6470;
 
       /* Dimensões */
-      --topbar-h: 64px;
+      --topbar-h: 68px;        /* leve respiro na topbar */
       --progress-h: 3px;
       --bottom-search-h: 56px;
       --bottom-study-h: 64px;
@@ -33,43 +33,32 @@
     }
     button,input,select{font:inherit}
 
-   /* Topbar (logo à esq., seletor à dir.) */
-/* Dica: se quiser mais respiro, aumente no :root -> --topbar-h: 68px; */
-.topbar{
-  position:fixed; inset:0 0 auto 0; height:var(--topbar-h);
-  display:flex; align-items:center; justify-content:center;
-  background:var(--navy); color:#fff; z-index:80; box-shadow:var(--shadow);
-}
-.topbar-inner{
-  width:clamp(320px, 92vw, 960px);
-  padding:0 12px; display:flex; align-items:center; gap:12px;
-}
-.brand{
-  appearance:none; border:0; background:none; color:#fff; cursor:pointer;
-  font-weight:800; letter-spacing:.2px; border-radius:8px;
-  flex:0 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-
-  /* 🔹 ajustes de tamanho da logo */
-  font-size: clamp(18px, 2.2vw, 24px);
-  line-height: 1.1;
-  padding: 8px 10px;
-}
-.brand:focus{outline:2px solid #fff; outline-offset:2px}
-.spacer{flex:1 1 auto; min-width:0}
-.select-wrap{
-  flex:1 1 50%; min-width:0; max-width:60vw;  /* evita empurrar no mobile */
-}
-select{
-  width:100%; height:38px; border:1px solid rgba(255,255,255,.35);
-  background:#fff; color:#161b33; border-radius:10px; padding:0 10px;
-}
-select:focus{outline:2px solid var(--focus); outline-offset:2px}
-
-/* Opcional: em telas muito estreitas, reduza um pouco a logo */
-@media (max-width: 420px){
-  .brand{ font-size: 18px; }
-}
-
+    /* Topbar (logo à esq., seletor à dir.) */
+    .topbar{
+      position:fixed; inset:0 0 auto 0; height:var(--topbar-h);
+      display:flex; align-items:center; justify-content:center;
+      background:var(--navy); color:#fff; z-index:80; box-shadow:var(--shadow);
+    }
+    .topbar-inner{
+      width:clamp(320px, 92vw, 960px);
+      padding:0 12px; display:flex; align-items:center; gap:12px;
+    }
+    .brand{
+      appearance:none; border:0; background:none; color:#fff; cursor:pointer;
+      font-weight:800; letter-spacing:.2px; border-radius:8px;
+      flex:0 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+      font-size: clamp(18px, 2.2vw, 24px);
+      line-height: 1.1;
+      padding: 8px 10px;
+    }
+    .brand:focus{outline:2px solid #fff; outline-offset:2px}
+    .spacer{flex:1 1 auto; min-width:0}
+    .select-wrap{flex:1 1 50%; min-width:0; max-width:60vw}
+    select{
+      width:100%; height:38px; border:1px solid rgba(255,255,255,.35);
+      background:#fff; color:#161b33; border-radius:10px; padding:0 10px;
+    }
+    select:focus{outline:2px solid var(--focus); outline-offset:2px}
 
     /* Barra de progresso fina (busca) */
     .progress{
@@ -94,15 +83,23 @@ select:focus{outline:2px solid var(--focus); outline-offset:2px}
       color:var(--muted); background:#fafbff
     }
 
-    /* Artigos/Blocos */
+    /* Blocos */
     article{
       white-space:pre-wrap;
       border-bottom:1px solid #eef0f6;
       padding:18px 10px; scroll-margin: 92px; border-radius:10px;
     }
-    .art-title{display:block; font-weight:800; color:#0e1638; margin:0 0 8px}
+    /* Título do artigo agora leve; rótulo "Art. X" fica em negrito suave */
+    .art-title{display:block; font-weight:400; color:#0e1638; margin:0 0 8px}
+    .art-label{font-weight:600;} /* negrito não muito forte */
     article.current-outline{outline:2px solid #cfe0ff; outline-offset:2px}
     article.highlight-study{background:var(--accent)}
+
+    /* Blocos meta (epígrafes, capítulos, títulos, livros, seções) */
+    .meta-block{
+      white-space:pre-wrap; padding:14px 10px; border-bottom:1px solid #eef0f6; border-radius:10px;
+      font-weight:600; color:#0e1638;
+    }
 
     /* Destaque busca */
     mark{padding:0 2px; border-radius:3px; background:#ffef99}
@@ -178,6 +175,10 @@ select:focus{outline:2px solid var(--focus); outline-offset:2px}
 
     /* Esconder barras até carregar um arquivo */
     .bottom-search[hidden], .bottom-study[hidden]{display:none}
+
+    @media (max-width: 420px){
+      .brand{ font-size: 18px; }
+    }
   </style>
 </head>
 <body>
@@ -212,7 +213,8 @@ select:focus{outline:2px solid var(--focus); outline-offset:2px}
       <div class="articles" id="articles">
         <div class="placeholder">
           Selecione um arquivo na barra superior.  
-          Dica: se o .txt estiver no formato <code>-----</code> (linha isolada) <strong>entre cada item</strong>, cada bloco vira um artigo/súmula/notícia perfeitamente.
+          Regras atuais: <strong>cada Artigo inicia em “Art”</strong> (A maiúsculo) e <strong>termina na próxima linha “-----”</strong>.  
+          Tudo que estiver fora desses blocos será exibido como <strong>título/capítulo (negrito suave)</strong>.
         </div>
       </div>
     </div>
@@ -285,8 +287,8 @@ select:focus{outline:2px solid var(--focus); outline-offset:2px}
 
     const state = {
       rawText: '',
-      articles: [],           // {title, text, htmlId}
-      currentArticleIdx: -1,
+      blocks: [],            // [{type:'article'|'meta', text, htmlId, articleIdx?}]
+      currentArticleIdx: -1, // índice relativo de artigos (ignora metas)
       matchNodes: [],
       matchIdx: -1,
       progressTimer: null
@@ -315,19 +317,17 @@ select:focus{outline:2px solid var(--focus); outline-offset:2px}
         let p = 0;
         clearInterval(state.progressTimer);
         state.progressTimer = setInterval(()=>{
-          // avança até ~85% enquanto trabalha
           p = Math.min(85, p + 8 + Math.random()*7);
           els.progressBar.style.width = p + '%';
         }, 180);
       }else{
-        // finaliza suave até 100 e some
         clearInterval(state.progressTimer);
         els.progressBar.style.width = '100%';
         setTimeout(()=>{ els.progress.hidden = true; els.progressBar.style.width = '0%'; }, 250);
       }
     }
 
-    /* ================= Artigo em evidência (centro da viewport) ================= */
+    /* ================= Visibilidade do artigo (centro da viewport) ================= */
     const getArticleInView = ()=>{
       const nodes = document.querySelectorAll('article[data-idx]');
       const cy = window.innerHeight/2;
@@ -355,115 +355,143 @@ select:focus{outline:2px solid var(--focus); outline-offset:2px}
       }
     };
     window.addEventListener('scroll', ()=>{
-      if (!state.articles.length) return;
+      if (!state.blocks.length) return;
       updateCurrentOutline();
     }, {passive:true});
 
-    /* ================= Parser com prioridade a "-----" ================= */
-    function parseArticlesFromText(txt){
-      txt = txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'); // BOM + normaliza quebras
-      const items = parseByDelimiters(txt);
-      if (items.length) return items;
-      return parseByArt(txt); // compatibilidade com arquivos antigos
+    /* ================= Parser (Art inicia, termina em "-----") =================
+       - Artigo: linha que começa com "Art" (A maiúsculo), até a PRÓXIMA linha "-----".
+       - Tudo fora desses blocos => "meta".
+       - Se não houver "-----", usamos fallback antigo (por "Art" até próximo "Art"/ponto).
+    =========================================================================== */
+    function parseBlocksFromText(txt){
+      txt = txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'); // limpa BOM e normaliza
+      const lines = txt.split('\n');
+
+      const isSep = (ln)=> /^\s*-{5,}\s*$/.test(ln);
+      const isArtStart = (ln)=> /^\s*Art\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?\b/.test(ln); // "Art" (A maiúsculo) apenas
+
+      let i = 0;
+      const blocks = [];
+      let articleCount = 0;
+
+      while (i < lines.length){
+        // pular separadores isolados
+        if (isSep(lines[i])) { i++; continue; }
+
+        if (isArtStart(lines[i])){
+          const start = i;
+          i++;
+          // vai até o próximo "-----" (terminador do artigo)
+          while (i < lines.length && !isSep(lines[i])) i++;
+          let chunk = lines.slice(start, i).join('\n').trimEnd();
+          const b = { type:'article', text: chunk, htmlId:`art-${articleCount}`, articleIdx: articleCount };
+          blocks.push(b);
+          articleCount++;
+          continue; // i pode estar no sep; próximo laço vai pular
+        }else{
+          // META: acumula até próximo Art (ignorando seps no meio)
+          const start = i;
+          while (i < lines.length){
+            if (isSep(lines[i])) { i++; continue; }
+            if (isArtStart(lines[i])) break;
+            i++;
+          }
+          let chunk = lines.slice(start, i).filter(l=>!isSep(l)).join('\n').trim();
+          if (chunk){
+            blocks.push({ type:'meta', text: chunk, htmlId:`meta-${blocks.length}` });
+          }
+        }
+      }
+
+      // Se não montou nada como article e há "Art" no texto sem "-----", cai no fallback
+      const hasArt = /(^|\n)\s*Art\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?\b/.test(txt);
+      const hasSep = /(^|\n)\s*-{5,}\s*(?=\n|$)/.test(txt);
+      if (!hasSep && hasArt && !blocks.some(b=>b.type==='article')){
+        return parseBlocksFallback(txt);
+      }
+      return blocks.length ? blocks : [{type:'meta', text: txt.trim(), htmlId:'meta-0'}];
     }
 
-    // 1) Delimitadores "-----" (linha isolada)
-    function parseByDelimiters(txt){
-      const sepRe = /(^|\n)[^\S\r\n]*-{5,}[^\S\r\n]*(?=\n|$)/g;
-      const seps = [];
-      let m;
-      while ((m = sepRe.exec(txt)) !== null) {
-        const idx = m.index + (m[0].startsWith('\n') ? 1 : 0);
-        seps.push(idx);
-      }
-      if (seps.length < 2) return [];
-
-      const arts = [];
-      for (let i = 0; i + 1 < seps.length; i += 1) {
-        const startLineEnd = txt.indexOf('\n', seps[i]);
-        const from = (startLineEnd === -1) ? txt.length : startLineEnd + 1;
-        const to = seps[i + 1];
-        if (from >= to) continue;
-
-        let chunk = txt.slice(from, to).trim();
-        if (!chunk) continue;
-
-        const { titleText } = splitTitleBody(chunk);
-        const title = titleText || `Bloco ${arts.length + 1}`;
-
-        arts.push({ title, text: chunk, htmlId: `art-${arts.length}` });
-      }
-      return arts;
-    }
-
-    // 2) Fallback: linhas começando por "Art" (A/ART, variações)
-    function parseByArt(txt){
-      const re = /(^|\n)\s*((?:Art|ART)\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?\.?)/g;
+    // Fallback antigo: Art até próximo Art ou até último "." / ")"
+    function parseBlocksFallback(txt){
+      const re = /(^|\n)\s*(Art\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?\.?)/g;
       const starts = [];
       let m;
       while ((m = re.exec(txt)) !== null) {
-        const idxArt = re.lastIndex - m[2].length; // posição do 'A' de Art
+        const idxArt = re.lastIndex - m[2].length;
         starts.push(idxArt);
       }
-      if (!starts.length) return [{ title:'Texto', text: txt.trim(), htmlId:'art-0' }];
+      if (!starts.length) return [{type:'meta', text: txt.trim(), htmlId:'meta-0'}];
 
-      const arts = [];
+      const blocks = [];
       for (let i = 0; i < starts.length; i++) {
         const from = starts[i];
         const to   = (i + 1 < starts.length) ? starts[i + 1] : txt.length;
 
         let chunk = txt.slice(from, to);
-
-        // Fim = último '.' ou ')' antes do próximo "Art"
         const endDot = chunk.lastIndexOf('.');
         const endPar = chunk.lastIndexOf(')');
         const end    = Math.max(endDot, endPar);
-        if (end === -1) chunk = chunk.trimEnd();
-        else chunk = chunk.slice(0, end + 1).trimEnd();
+        if (end !== -1) chunk = chunk.slice(0, end + 1).trimEnd();
 
-        const nl = chunk.indexOf('\n');
-        const firstLine = (nl === -1) ? chunk : chunk.slice(0, nl);
-        const mt = firstLine.match(/^\s*((?:Art|ART)\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?\.?)/);
-        const title = mt ? mt[1].trim() : firstLine.trim().slice(0,40);
-
-        arts.push({ title, text: chunk, htmlId: `art-${i}` });
+        blocks.push({ type:'article', text: chunk, htmlId:`art-${i}`, articleIdx:i });
       }
-      return arts;
+
+      // Tudo antes do primeiro Art vira meta
+      if (starts[0] > 0){
+        const head = txt.slice(0, starts[0]).trim();
+        if (head) blocks.unshift({type:'meta', text: head, htmlId:'meta-head'});
+      }
+      return blocks;
     }
 
-    // Split título x corpo preservando conteúdo em "linha única"
-    function splitTitleBody(raw){
+    /* ====== Util para render: extrai rótulo "Art. X" e corpo ====== */
+    function splitArticleLabelAndBody(raw){
       const t  = raw.replace(/^\s+/, '');
       const nl = t.indexOf('\n');
       const firstLine = (nl === -1) ? t : t.slice(0, nl);
-      const m = firstLine.match(/^\s*((?:Art|ART)\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?\.?)/);
-      const titleText = m ? m[1].trim() : firstLine.trim();
-      const afterTitle = m ? firstLine.slice(m[1].length).trimStart() : '';
+
+      const m = firstLine.match(/^\s*(Art\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?)(.*)$/); // captura rótulo + resto da linha
+      const label = m ? m[1].trim() : firstLine.trim();
+      const afterLabel = m ? m[2].trimStart() : '';
       const rest = (nl === -1) ? '' : t.slice(nl + 1).trimStart();
-      const body = afterTitle ? (rest ? afterTitle + '\n' + rest : afterTitle) : rest;
-      return { titleText, body };
+      const body = afterLabel ? (rest ? afterLabel + '\n' + rest : afterLabel) : rest;
+      return { label, body };
     }
 
     /* ================= Render ================= */
-    function renderArticles(){
+    function renderBlocks(){
       const frag = document.createDocumentFragment();
-      state.articles.forEach((a, i)=>{
-        const el = document.createElement('article');
-        el.dataset.idx = i;
-        el.id = a.htmlId;
+      let artIdx = 0;
+      state.blocks.forEach((b, i)=>{
+        if (b.type === 'article'){
+          const el = document.createElement('article');
+          el.dataset.idx = artIdx;
+          el.dataset.bidx = i;
+          const { label, body } = splitArticleLabelAndBody(b.text);
 
-        const { titleText, body } = splitTitleBody(a.text);
-        const titleSpan = document.createElement('span');
-        titleSpan.className = 'art-title';
-        titleSpan.textContent = titleText;
+          const titleSpan = document.createElement('span');
+          titleSpan.className = 'art-title';
+          titleSpan.innerHTML = `<span class="art-label">${escapeHtml(label)}</span>` + (body ? '' : '');
 
-        const content = document.createElement('div');
-        content.className = 'art-body';
-        content.textContent = body;
+          const content = document.createElement('div');
+          content.className = 'art-body';
+          content.textContent = body;
 
-        el.appendChild(titleSpan);
-        el.appendChild(content);
-        frag.appendChild(el);
+          el.appendChild(titleSpan);
+          el.appendChild(content);
+          frag.appendChild(el);
+
+          b.articleIdx = artIdx;
+          artIdx++;
+        }else{
+          const el = document.createElement('div');
+          el.className = 'meta-block';
+          el.dataset.bidx = i;
+          el.textContent = b.text;
+          frag.appendChild(el);
+        }
       });
       els.articles.innerHTML = '';
       els.articles.appendChild(frag);
@@ -484,16 +512,15 @@ select:focus{outline:2px solid var(--focus); outline-offset:2px}
         for (let k=0;k<decomp.length;k++){
           const c = decomp[k];
           const code = c.codePointAt(0);
-          if (code>=0x0300 && code<=0x036F) continue; // descarta acentos
+          if (code>=0x0300 && code<=0x036F) continue;
           norm += c.toLowerCase();
-          map.push(i); // posição no texto original
+          map.push(i);
         }
       }
       return {norm, map};
     }
     const normalizeTerm = (s)=> s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 
-    // encontra todas as ocorrências (case-insensitive, sem acento) e devolve ranges [start,end) no texto original
     function findRanges(raw, term){
       if (!term) return [];
       const {norm, map} = normalizeWithMap(raw);
@@ -526,23 +553,10 @@ select:focus{outline:2px solid var(--focus); outline-offset:2px}
     }
 
     function clearMarks(){
-      const nodes = document.querySelectorAll('article[data-idx]');
-      nodes.forEach(node=>{
-        const i = Number(node.dataset.idx);
-        const a = state.articles[i];
-        node.innerHTML = '';
-        const { titleText, body } = splitTitleBody(a.text);
-
-        const titleSpan = document.createElement('span');
-        titleSpan.className = 'art-title';
-        titleSpan.textContent = titleText;
-        const content = document.createElement('div');
-        content.className = 'art-body';
-        content.textContent = body;
-
-        node.appendChild(titleSpan);
-        node.appendChild(content);
-      });
+      // Re-render dos conteúdos (preserva estrutura/metas)
+      const y = window.scrollY;
+      renderBlocks();
+      window.scrollTo(0, y);
       state.matchNodes = [];
       state.matchIdx = -1;
       els.count.textContent = '0/0';
@@ -555,7 +569,7 @@ select:focus{outline:2px solid var(--focus); outline-offset:2px}
       setBusy(true);
       els.count.textContent = '...';
 
-      const nodes = Array.from(document.querySelectorAll('article .art-body, article .art-title'));
+      const nodes = Array.from(document.querySelectorAll('article .art-body, article .art-title, .meta-block'));
       const BATCH = 10;
       for (let i = 0; i < nodes.length; i += BATCH){
         for (let j = i; j < Math.min(i+BATCH, nodes.length); j++){
@@ -564,7 +578,7 @@ select:focus{outline:2px solid var(--focus); outline-offset:2px}
           const ranges = findRanges(raw, term);
           if (ranges.length) highlightElementByRanges(n, ranges);
         }
-        await new Promise(r=>setTimeout(r,0)); // cede para UI
+        await new Promise(r=>setTimeout(r,0));
       }
 
       state.matchNodes = Array.from(document.querySelectorAll('mark'));
@@ -584,13 +598,11 @@ select:focus{outline:2px solid var(--focus); outline-offset:2px}
       const term = els.searchInput.value.trim();
       highlightTermChunked(term);
     });
-
     // Clique LIMPAR (ícone)
     els.clearBtn.addEventListener('click', ()=>{
       els.searchInput.value = '';
       clearMarks();
     });
-
     // Enter = buscar; Esc = limpar
     els.searchInput.addEventListener('keydown', (e)=>{
       if (e.key === 'Enter'){
@@ -619,11 +631,20 @@ select:focus{outline:2px solid var(--focus); outline-offset:2px}
     });
 
     /* ================= ESTUDAR (gera prompt + modal) ================= */
-    function extractArticleTitleText(a){ return a?.title || 'Artigo'; }
-    function buildPrompt(a){
-      const artigo = a?.text || '';
+    function getCurrentArticleBlock(){
+      if (!state.blocks.length) return null;
+      const idx = state.currentArticleIdx ?? -1;
+      if (idx < 0) return null;
+      return state.blocks.find(b => b.type==='article' && b.articleIdx === idx) || null;
+    }
+    function extractArticleLabel(b){
+      const { label } = splitArticleLabelAndBody(b?.text || '');
+      return label || 'Artigo';
+    }
+    function buildPrompt(b){
+      const artigo = b?.text || '';
       const primeiraLinha = artigo.split(/\r?\n/)[0]?.trim() || '';
-      const tema = primeiraLinha || a?.title || 'Artigo';
+      const tema = primeiraLinha || extractArticleLabel(b);
       return [
         'Assuma a persona de um professor de Direito experiente convidado pelo direito.love e gere um material de estudo rápido. ',
         'Analise detalhadamente todo o artigo abaixo (caput, paragrafos, incisos e alineas), cobrindo: ',
@@ -641,73 +662,28 @@ select:focus{outline:2px solid var(--focus); outline-offset:2px}
       ].join('');
     }
 
-    // Modal: open/close + foco + rótulo dinâmico
-    function openModal(title){
-      els.modalTitle.textContent = `Estude o ${title} com as I.As. abaixo.`;
-      els.modalBackdrop.style.display = 'flex';
-      els.modalBackdrop.setAttribute('aria-hidden','false');
-      // foco inicial no primeiro botão
-      const first = els.modalBackdrop.querySelector('.ia-btn');
-      first?.focus();
-      // focus trap simples
-      const focusables = els.modalBackdrop.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
-      function trap(e){
-        if (e.key !== 'Tab') return;
-        const list = Array.from(focusables);
-        if (!list.length) return;
-        const firstEl = list[0], lastEl = list[list.length - 1];
-        if (e.shiftKey && document.activeElement === firstEl){ e.preventDefault(); lastEl.focus(); }
-        else if (!e.shiftKey && document.activeElement === lastEl){ e.preventDefault(); firstEl.focus(); }
-      }
-      els.modalBackdrop.addEventListener('keydown', trap);
-      els.modalBackdrop._trap = trap;
-    }
-    function closeModal(){
-      els.modalBackdrop.style.display = 'none';
-      els.modalBackdrop.setAttribute('aria-hidden','true');
-      if (els.modalBackdrop._trap){
-        els.modalBackdrop.removeEventListener('keydown', els.modalBackdrop._trap);
-        delete els.modalBackdrop._trap;
-      }
-    }
-
-    // Abrir IA na mesma aba se PWA standalone; senão nova aba
     function isStandalone(){
       return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
     }
     function openIA(url){
       showToast('Abrindo…');
-      if (isStandalone()){
-        // mesma aba: mais confiável no celular (evita bloqueios)
-        location.href = url;
-      }else{
-        window.open(url, '_blank', 'noopener,noreferrer');
-      }
+      if (isStandalone()){ location.href = url; }
+      else{ window.open(url, '_blank', 'noopener,noreferrer'); }
     }
-
-    // clicks das IAs
     document.querySelectorAll('.ia-btn').forEach(btn=>{
       btn.addEventListener('click', ()=> openIA(btn.dataset.url));
     });
 
-    // Estudar
-    els.studyBtn.addEventListener('click', async ()=>{
-      if (!state.articles.length) return;
-      updateCurrentOutline();
-      const idx = state.currentArticleIdx ?? 0;
-      const a = state.articles[idx] || state.articles[0];
-
-      document.querySelectorAll('article.highlight-study').forEach(n=>n.classList.remove('highlight-study'));
-      document.querySelector(`article[data-idx="${idx}"]`)?.classList.add('highlight-study');
-
-      const prompt = buildPrompt(a);
-      try{ await navigator.clipboard.writeText(prompt); showToast('✅ Prompt copiado!'); }
-      catch{ showToast('Copie manualmente no próximo passo.'); }
-
-      openModal(extractArticleTitleText(a));
-    });
-
-    // Fechar modal
+    function openModal(title){
+      els.modalTitle.textContent = `Estude o ${title} com as I.As. abaixo.`;
+      els.modalBackdrop.style.display = 'flex';
+      els.modalBackdrop.setAttribute('aria-hidden','false');
+      const first = els.modalBackdrop.querySelector('.ia-btn'); first?.focus();
+    }
+    function closeModal(){
+      els.modalBackdrop.style.display = 'none';
+      els.modalBackdrop.setAttribute('aria-hidden','true');
+    }
     els.closeModal.addEventListener('click', closeModal);
     els.modalBackdrop.addEventListener('click', (e)=>{
       if (e.target === els.modalBackdrop) closeModal();
@@ -716,10 +692,25 @@ select:focus{outline:2px solid var(--focus); outline-offset:2px}
       if (els.modalBackdrop.style.display === 'flex' && e.key === 'Escape') closeModal();
     });
 
+    els.studyBtn.addEventListener('click', async ()=>{
+      const b = getCurrentArticleBlock();
+      if (!b){ showToast('Posicione um artigo na tela.'); return; }
+
+      document.querySelectorAll('article.highlight-study').forEach(n=>n.classList.remove('highlight-study'));
+      const aEl = document.querySelector(`article[data-idx="${b.articleIdx}"]`);
+      aEl?.classList.add('highlight-study');
+
+      const prompt = buildPrompt(b);
+      try{ await navigator.clipboard.writeText(prompt); showToast('✅ Prompt copiado!'); }
+      catch{ showToast('Copie manualmente no próximo passo.'); }
+
+      openModal(extractArticleLabel(b));
+    });
+
     /* ================= Reset (logo) ================= */
     function resetAll(){
       state.rawText = '';
-      state.articles = [];
+      state.blocks = [];
       state.currentArticleIdx = -1;
       state.matchNodes = [];
       state.matchIdx = -1;
@@ -728,11 +719,11 @@ select:focus{outline:2px solid var(--focus); outline-offset:2px}
       els.count.textContent = '0/0';
       els.bottomSearch.hidden = true;
       els.bottomStudy.hidden = true;
-      els.articles.innerHTML = '<div class="placeholder">Selecione um arquivo na barra superior.<br>Dica: se o .txt estiver no formato <code>-----</code> (linha isolada) <strong>entre cada item</strong>, cada bloco vira um artigo/súmula/notícia perfeitamente.</div>';
+      els.articles.innerHTML = '<div class="placeholder">Selecione um arquivo na barra superior.<br>Regras: <strong>cada Artigo inicia em “Art”</strong> (A maiúsculo) e <strong>termina na próxima “-----”</strong>. Títulos/capítulos fora dos artigos aparecem em negrito suave.</div>';
       els.codeSelect.value = '';
       document.querySelectorAll('.highlight-study,.current-outline').forEach(n=>n.classList.remove('highlight-study','current-outline'));
       closeModal();
-      window.scrollTo({top:0,behavior:'instant'});
+      window.scrollTo({top:0});
     }
     els.brandBtn.addEventListener('click', resetAll);
 
@@ -746,10 +737,10 @@ select:focus{outline:2px solid var(--focus); outline-offset:2px}
         const txt = await res.text();
         state.rawText = txt;
 
-        state.articles = parseArticlesFromText(txt);
-        renderArticles();
+        state.blocks = parseBlocksFromText(txt);
+        renderBlocks();
         clearMarks();
-        window.scrollTo({top:0,behavior:'instant'});
+        window.scrollTo({top:0});
       }catch(err){
         console.error(err);
         els.articles.innerHTML = '<div class="placeholder">Falha ao carregar o arquivo. Verifique o caminho em /data/.</div>';
