@@ -190,13 +190,41 @@
       <button class="brand" id="brandBtn" title="Clique para reiniciar">direito.love</button>
       <div class="spacer"></div>
       <div class="select-wrap">
+        <!-- CATEGORIAS COM OPTGROUP (paths atuais; quando mover p/ subpastas, atualize os value="...") -->
         <select id="codeSelect" title="Escolher arquivo">
           <option value="">— selecione —</option>
-          <option value="data/codigo_civil.txt">Cód. Civil</option>
-          <option value="data/codigo_consumidor.txt">CDC</option>
-          <option value="data/codigo_penal.txt">Cód. Penal</option>
-          <option value="data/codigo_Processo_Civil.txt">CPC</option>
-          <option value="data/codigo_Processo_Penal.txt">CPP</option>
+
+          <optgroup label="Códigos">
+            <option value="data/codigo_civil.txt">Cód. Civil</option>
+            <option value="data/codigo_penal.txt">Cód. Penal</option>
+            <option value="data/codigo_consumidor.txt">CDC</option>
+          </optgroup>
+
+          <optgroup label="Processos">
+            <option value="data/codigo_Processo_Civil.txt">CPC</option>
+            <option value="data/codigo_Processo_Penal.txt">CPP</option>
+          </optgroup>
+
+          <!-- Exemplos para futuro (descomente quando tiver os .txt)
+          <optgroup label="Leis especiais">
+            <option value="data/leis/lei_maria_da_penha.txt">Lei Maria da Penha</option>
+            <option value="data/leis/lei_improbidade.txt">Lei de Improbidade</option>
+          </optgroup>
+
+          <optgroup label="Súmulas">
+            <option value="data/sumulas/sumulas_stf.txt">Súmulas STF</option>
+            <option value="data/sumulas/sumulas_stj.txt">Súmulas STJ</option>
+          </optgroup>
+
+          <optgroup label="Jurisprudência">
+            <option value="data/jurisprudencia/jurisprudencia_civil_2024.txt">Civil (2024)</option>
+            <option value="data/jurisprudencia/jurisprudencia_penal_2024.txt">Penal (2024)</option>
+          </optgroup>
+
+          <optgroup label="Notícias">
+            <option value="data/noticias/noticias_direito_2025.txt">Direito (2025)</option>
+          </optgroup>
+          -->
         </select>
       </div>
     </div>
@@ -357,10 +385,7 @@
       updateCurrentOutline();
     }, {passive:true});
 
-    /* ================= Parser com prioridade a "-----" =================
-       - Cada artigo é o bloco entre DUAS linhas "-----".
-       - Linhas ANTES da primeira que contém "Art." são "supra" (epígrafe/capítulo/título/livro/seção).
-    ================================================================ */
+    /* ================= Parser com prioridade a "-----" ================= */
     function parseArticlesFromText(txt){
       txt = txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n');
       const items = parseByDelimiters(txt);
