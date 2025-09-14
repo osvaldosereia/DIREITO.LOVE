@@ -1,20 +1,37 @@
------
-Art. 1 - O presente código estabelece normas de proteção e defesa do consumidor, de ordem pública e interesse social, nos termos dos arts. 5°, inciso XXXII, 170, inciso V, da Constituição Federal e art. 48 de suas Disposições Transitórias.
+
 
 -----
-Art. 2 - Consumidor é toda pessoa física ou jurídica que adquire ou utiliza produto ou serviço como destinatário final.
+TÍTULO I
+Dos Direitos do Consumidor
+-----
+
+-----
+CAPÍTULO I
+-----
+Disposições Gerais
+-----
+
+Art. 1 O presente código estabelece normas de proteção e defesa do consumidor, de ordem pública e interesse social, nos termos dos arts. 5°, inciso XXXII, 170, inciso V, da Constituição Federal e art. 48 de suas Disposições Transitórias.
+
+-----
+Art. 2 Consumidor é toda pessoa física ou jurídica que adquire ou utiliza produto ou serviço como destinatário final.
 
         Parágrafo único. Equipara-se a consumidor a coletividade de pessoas, ainda que indetermináveis, que haja intervindo nas relações de consumo.
 
 -----
-Art. 3 - Fornecedor é toda pessoa física ou jurídica, pública ou privada, nacional ou estrangeira, bem como os entes despersonalizados, que desenvolvem atividade de produção, montagem, criação, construção, transformação, importação, exportação, distribuição ou comercialização de produtos ou prestação de serviços.
+Art. 3 Fornecedor é toda pessoa física ou jurídica, pública ou privada, nacional ou estrangeira, bem como os entes despersonalizados, que desenvolvem atividade de produção, montagem, criação, construção, transformação, importação, exportação, distribuição ou comercialização de produtos ou prestação de serviços.
 
         § 1° Produto é qualquer bem, móvel ou imóvel, material ou imaterial.
 
         § 2° Serviço é qualquer atividade fornecida no mercado de consumo, mediante remuneração, inclusive as de natureza bancária, financeira, de crédito e securitária, salvo as decorrentes das relações de caráter trabalhista.
 
 -----
-Art. 4 - A Política Nacional das Relações de Consumo tem por objetivo o atendimento das necessidades dos consumidores, o respeito à sua dignidade, saúde e segurança, a proteção de seus interesses econômicos, a melhoria da sua qualidade de vida, bem como a transparência e harmonia das relações de consumo, atendidos os seguintes princípios:             (Redação dada pela Lei nº 9.008, de 21.3.1995)
+CAPÍTULO II
+-----
+Da Política Nacional de Relações de Consumo
+-----
+
+Art. 4 A Política Nacional das Relações de Consumo tem por objetivo o atendimento das necessidades dos consumidores, o respeito à sua dignidade, saúde e segurança, a proteção de seus interesses econômicos, a melhoria da sua qualidade de vida, bem como a transparência e harmonia das relações de consumo, atendidos os seguintes princípios:             (Redação dada pela Lei nº 9.008, de 21.3.1995)
 
         I - reconhecimento da vulnerabilidade do consumidor no mercado de consumo;
 
@@ -45,7 +62,7 @@ IX - fomento de ações direcionadas à educação financeira e ambiental dos co
 X - prevenção e tratamento do superendividamento como forma de evitar a exclusão social do consumidor.       (Incluído pela Lei nº 14.181, de 2021)
 
 -----
-Art. 5 - Para a execução da Política Nacional das Relações de Consumo, contará o poder público com os seguintes instrumentos, entre outros:
+Art. 5 Para a execução da Política Nacional das Relações de Consumo, contará o poder público com os seguintes instrumentos, entre outros:
 
         I - manutenção de assistência jurídica, integral e gratuita para o consumidor carente;
 
@@ -66,7 +83,12 @@ VII - instituição de núcleos de conciliação e mediação de conflitos oriun
         § 2º (Vetado).
 
 -----
-Art. 6 - São direitos básicos do consumidor:
+CAPÍTULO III
+-----
+Dos Direitos Básicos do Consumidor
+-----
+
+Art. 6 São direitos básicos do consumidor:
 
         I - a proteção da vida, saúde e segurança contra os riscos provocados por práticas no fornecimento de produtos e serviços considerados perigosos ou nocivos;
 
@@ -97,22 +119,32 @@ XIII - a informação acerca dos preços dos produtos por unidade de medida, tal
        Parágrafo único.  A informação de que trata o inciso III do caput deste artigo deve ser acessível à pessoa com deficiência, observado o disposto em regulamento.              (Incluído pela Lei nº 13.146, de 2015)    (Vigência)
 
 -----
-Art. 7 - Os direitos previstos neste código não excluem outros decorrentes de tratados ou convenções internacionais de que o Brasil seja signatário, da legislação interna ordinária, de regulamentos expedidos pelas autoridades administrativas competentes, bem como dos que derivem dos princípios gerais do direito, analogia, costumes e eqüidade.
+Art. 7 Os direitos previstos neste código não excluem outros decorrentes de tratados ou convenções internacionais de que o Brasil seja signatário, da legislação interna ordinária, de regulamentos expedidos pelas autoridades administrativas competentes, bem como dos que derivem dos princípios gerais do direito, analogia, costumes e eqüidade.
 
         Parágrafo único. Tendo mais de um autor a ofensa, todos responderão solidariamente pela reparação dos danos previstos nas normas de consumo.
 
 -----
-Art. 8 - Os produtos e serviços colocados no mercado de consumo não acarretarão riscos à saúde ou segurança dos consumidores, exceto os considerados normais e previsíveis em decorrência de sua natureza e fruição, obrigando-se os fornecedores, em qualquer hipótese, a dar as informações necessárias e adequadas a seu respeito.
+CAPÍTULO IV
+Da Qualidade de Produtos e Serviços, da Prevenção e da Reparação dos Danos
+-----
+
+-----
+SEÇÃO I
+-----
+Da Proteção à Saúde e Segurança
+-----
+
+Art. 8 Os produtos e serviços colocados no mercado de consumo não acarretarão riscos à saúde ou segurança dos consumidores, exceto os considerados normais e previsíveis em decorrência de sua natureza e fruição, obrigando-se os fornecedores, em qualquer hipótese, a dar as informações necessárias e adequadas a seu respeito.
 
         § 1º  Em se tratando de produto industrial, ao fabricante cabe prestar as informações a que se refere este artigo, através de impressos apropriados que devam acompanhar o produto.   (Redação dada pela Lei nº 13.486, de 2017)
 
         § 2º  O fornecedor deverá higienizar os equipamentos e utensílios utilizados no fornecimento de produtos ou serviços, ou colocados à disposição do consumidor, e informar, de maneira ostensiva e adequada, quando for o caso, sobre o risco de contaminação.   (Incluído pela Lei nº 13.486, de 2017)
 
 -----
-Art. 9 - O fornecedor de produtos e serviços potencialmente nocivos ou perigosos à saúde ou segurança deverá informar, de maneira ostensiva e adequada, a respeito da sua nocividade ou periculosidade, sem prejuízo da adoção de outras medidas cabíveis em cada caso concreto.
+Art. 9 O fornecedor de produtos e serviços potencialmente nocivos ou perigosos à saúde ou segurança deverá informar, de maneira ostensiva e adequada, a respeito da sua nocividade ou periculosidade, sem prejuízo da adoção de outras medidas cabíveis em cada caso concreto.
 
 -----
-Art. 10 - O fornecedor não poderá colocar no mercado de consumo produto ou serviço que sabe ou deveria saber apresentar alto grau de nocividade ou periculosidade à saúde ou segurança.
+Art. 10. O fornecedor não poderá colocar no mercado de consumo produto ou serviço que sabe ou deveria saber apresentar alto grau de nocividade ou periculosidade à saúde ou segurança.
 
         § 1° O fornecedor de produtos e serviços que, posteriormente à sua introdução no mercado de consumo, tiver conhecimento da periculosidade que apresentem, deverá comunicar o fato imediatamente às autoridades competentes e aos consumidores, mediante anúncios publicitários.
 
@@ -121,10 +153,15 @@ Art. 10 - O fornecedor não poderá colocar no mercado de consumo produto ou ser
         § 3° Sempre que tiverem conhecimento de periculosidade de produtos ou serviços à saúde ou segurança dos consumidores, a União, os Estados, o Distrito Federal e os Municípios deverão informá-los a respeito.
 
 -----
-Art. 11 - (Vetado).
+Art. 11. (Vetado).
 
 -----
-Art. 12 - O fabricante, o produtor, o construtor, nacional ou estrangeiro, e o importador respondem, independentemente da existência de culpa, pela reparação dos danos causados aos consumidores por defeitos decorrentes de projeto, fabricação, construção, montagem, fórmulas, manipulação, apresentação ou acondicionamento de seus produtos, bem como por informações insuficientes ou inadequadas sobre sua utilização e riscos.
+SEÇÃO II
+-----
+Da Responsabilidade pelo Fato do Produto e do Serviço
+-----
+
+Art. 12. O fabricante, o produtor, o construtor, nacional ou estrangeiro, e o importador respondem, independentemente da existência de culpa, pela reparação dos danos causados aos consumidores por defeitos decorrentes de projeto, fabricação, construção, montagem, fórmulas, manipulação, apresentação ou acondicionamento de seus produtos, bem como por informações insuficientes ou inadequadas sobre sua utilização e riscos.
 
         § 1° O produto é defeituoso quando não oferece a segurança que dele legitimamente se espera, levando-se em consideração as circunstâncias relevantes, entre as quais:
 
@@ -145,7 +182,7 @@ Art. 12 - O fabricante, o produtor, o construtor, nacional ou estrangeiro, e o i
         III - a culpa exclusiva do consumidor ou de terceiro.
 
 -----
-Art. 13 - O comerciante é igualmente responsável, nos termos do artigo anterior, quando:
+Art. 13. O comerciante é igualmente responsável, nos termos do artigo anterior, quando:
 
         I - o fabricante, o construtor, o produtor ou o importador não puderem ser identificados;
 
@@ -156,7 +193,7 @@ Art. 13 - O comerciante é igualmente responsável, nos termos do artigo anterio
         Parágrafo único. Aquele que efetivar o pagamento ao prejudicado poderá exercer o direito de regresso contra os demais responsáveis, segundo sua participação na causação do evento danoso.
 
 -----
-Art. 14 - O fornecedor de serviços responde, independentemente da existência de culpa, pela reparação dos danos causados aos consumidores por defeitos relativos à prestação dos serviços, bem como por informações insuficientes ou inadequadas sobre sua fruição e riscos.
+Art. 14. O fornecedor de serviços responde, independentemente da existência de culpa, pela reparação dos danos causados aos consumidores por defeitos relativos à prestação dos serviços, bem como por informações insuficientes ou inadequadas sobre sua fruição e riscos.
 
         § 1° O serviço é defeituoso quando não fornece a segurança que o consumidor dele pode esperar, levando-se em consideração as circunstâncias relevantes, entre as quais:
 
@@ -177,16 +214,21 @@ Art. 14 - O fornecedor de serviços responde, independentemente da existência d
         § 4° A responsabilidade pessoal dos profissionais liberais será apurada mediante a verificação de culpa.
 
 -----
-Art. 15 - (Vetado).
+Art. 15. (Vetado).
 
 -----
-Art. 16 - (Vetado).
+Art. 16. (Vetado).
 
 -----
-Art. 17 - Para os efeitos desta Seção, equiparam-se aos consumidores todas as vítimas do evento.
+Art. 17. Para os efeitos desta Seção, equiparam-se aos consumidores todas as vítimas do evento.
 
 -----
-Art. 18 - Os fornecedores de produtos de consumo duráveis ou não duráveis respondem solidariamente pelos vícios de qualidade ou quantidade que os tornem impróprios ou inadequados ao consumo a que se destinam ou lhes diminuam o valor, assim como por aqueles decorrentes da disparidade, com a indicações constantes do recipiente, da embalagem, rotulagem ou mensagem publicitária, respeitadas as variações decorrentes de sua natureza, podendo o consumidor exigir a substituição das partes viciadas.
+SEÇÃO III
+-----
+Da Responsabilidade por Vício do Produto e do Serviço
+-----
+
+Art. 18. Os fornecedores de produtos de consumo duráveis ou não duráveis respondem solidariamente pelos vícios de qualidade ou quantidade que os tornem impróprios ou inadequados ao consumo a que se destinam ou lhes diminuam o valor, assim como por aqueles decorrentes da disparidade, com a indicações constantes do recipiente, da embalagem, rotulagem ou mensagem publicitária, respeitadas as variações decorrentes de sua natureza, podendo o consumidor exigir a substituição das partes viciadas.
 
         § 1° Não sendo o vício sanado no prazo máximo de trinta dias, pode o consumidor exigir, alternativamente e à sua escolha:
 
@@ -213,7 +255,7 @@ Art. 18 - Os fornecedores de produtos de consumo duráveis ou não duráveis res
         III - os produtos que, por qualquer motivo, se revelem inadequados ao fim a que se destinam.
 
 -----
-Art. 19 - Os fornecedores respondem solidariamente pelos vícios de quantidade do produto sempre que, respeitadas as variações decorrentes de sua natureza, seu conteúdo líquido for inferior às indicações constantes do recipiente, da embalagem, rotulagem ou de mensagem publicitária, podendo o consumidor exigir, alternativamente e à sua escolha:
+Art. 19. Os fornecedores respondem solidariamente pelos vícios de quantidade do produto sempre que, respeitadas as variações decorrentes de sua natureza, seu conteúdo líquido for inferior às indicações constantes do recipiente, da embalagem, rotulagem ou de mensagem publicitária, podendo o consumidor exigir, alternativamente e à sua escolha:
 
         I - o abatimento proporcional do preço;
 
@@ -228,7 +270,7 @@ Art. 19 - Os fornecedores respondem solidariamente pelos vícios de quantidade d
         § 2° O fornecedor imediato será responsável quando fizer a pesagem ou a medição e o instrumento utilizado não estiver aferido segundo os padrões oficiais.
 
 -----
-Art. 20 - O fornecedor de serviços responde pelos vícios de qualidade que os tornem impróprios ao consumo ou lhes diminuam o valor, assim como por aqueles decorrentes da disparidade com as indicações constantes da oferta ou mensagem publicitária, podendo o consumidor exigir, alternativamente e à sua escolha:
+Art. 20. O fornecedor de serviços responde pelos vícios de qualidade que os tornem impróprios ao consumo ou lhes diminuam o valor, assim como por aqueles decorrentes da disparidade com as indicações constantes da oferta ou mensagem publicitária, podendo o consumidor exigir, alternativamente e à sua escolha:
 
         I - a reexecução dos serviços, sem custo adicional e quando cabível;
 
@@ -241,28 +283,33 @@ Art. 20 - O fornecedor de serviços responde pelos vícios de qualidade que os t
         § 2° São impróprios os serviços que se mostrem inadequados para os fins que razoavelmente deles se esperam, bem como aqueles que não atendam as normas regulamentares de prestabilidade.
 
 -----
-Art. 21 - No fornecimento de serviços que tenham por objetivo a reparação de qualquer produto considerar-se-á implícita a obrigação do fornecedor de empregar componentes de reposição originais adequados e novos, ou que mantenham as especificações técnicas do fabricante, salvo, quanto a estes últimos, autorização em contrário do     consumidor.
+Art. 21. No fornecimento de serviços que tenham por objetivo a reparação de qualquer produto considerar-se-á implícita a obrigação do fornecedor de empregar componentes de reposição originais adequados e novos, ou que mantenham as especificações técnicas do fabricante, salvo, quanto a estes últimos, autorização em contrário do     consumidor.
 
 -----
-Art. 22 - Os órgãos públicos, por si ou suas empresas, concessionárias, permissionárias ou sob qualquer outra forma de empreendimento, são obrigados a fornecer serviços adequados, eficientes, seguros e, quanto aos essenciais, contínuos.
+Art. 22. Os órgãos públicos, por si ou suas empresas, concessionárias, permissionárias ou sob qualquer outra forma de empreendimento, são obrigados a fornecer serviços adequados, eficientes, seguros e, quanto aos essenciais, contínuos.
 
         Parágrafo único. Nos casos de descumprimento, total ou parcial, das obrigações referidas neste artigo, serão as pessoas jurídicas compelidas a cumpri-las e a reparar os danos causados, na forma prevista neste código.
 
 -----
-Art. 23 - A ignorância do fornecedor sobre os vícios de qualidade por inadequação dos produtos e serviços não o exime de responsabilidade.
+Art. 23. A ignorância do fornecedor sobre os vícios de qualidade por inadequação dos produtos e serviços não o exime de responsabilidade.
 
 -----
-Art. 24 - A garantia legal de adequação do produto ou serviço independe de termo expresso, vedada a exoneração contratual do fornecedor.
+Art. 24. A garantia legal de adequação do produto ou serviço independe de termo expresso, vedada a exoneração contratual do fornecedor.
 
 -----
-Art. 25 - É vedada a estipulação contratual de cláusula que impossibilite, exonere ou atenue a obrigação de indenizar prevista nesta e nas seções anteriores.
+Art. 25. É vedada a estipulação contratual de cláusula que impossibilite, exonere ou atenue a obrigação de indenizar prevista nesta e nas seções anteriores.
 
         § 1° Havendo mais de um responsável pela causação do dano, todos responderão solidariamente pela reparação prevista nesta e nas seções anteriores.
 
         § 2° Sendo o dano causado por componente ou peça incorporada ao produto ou serviço, são responsáveis solidários seu fabricante, construtor ou importador e o que realizou a incorporação.
 
 -----
-Art. 26 - O direito de reclamar pelos vícios aparentes ou de fácil constatação caduca em:
+SEÇÃO IV
+-----
+Da Decadência e da Prescrição
+-----
+
+Art. 26. O direito de reclamar pelos vícios aparentes ou de fácil constatação caduca em:
 
         I - trinta dias, tratando-se de fornecimento de serviço e de produtos não duráveis;
 
@@ -281,12 +328,17 @@ Art. 26 - O direito de reclamar pelos vícios aparentes ou de fácil constataç�
         § 3° Tratando-se de vício oculto, o prazo decadencial inicia-se no momento em que ficar evidenciado o defeito.
 
 -----
-Art. 27 - Prescreve em cinco anos a pretensão à reparação pelos danos causados por fato do produto ou do serviço prevista na Seção II deste Capítulo, iniciando-se a contagem do prazo a partir do conhecimento do dano e de sua autoria.
+Art. 27. Prescreve em cinco anos a pretensão à reparação pelos danos causados por fato do produto ou do serviço prevista na Seção II deste Capítulo, iniciando-se a contagem do prazo a partir do conhecimento do dano e de sua autoria.
 
         Parágrafo único. (Vetado).
 
 -----
-Art. 28 - O juiz poderá desconsiderar a personalidade jurídica da sociedade quando, em detrimento do consumidor, houver abuso de direito, excesso de poder, infração da lei, fato ou ato ilícito ou violação dos estatutos ou contrato social. A desconsideração também será efetivada quando houver falência, estado de insolvência, encerramento ou inatividade da pessoa jurídica provocados por má administração.
+SEÇÃO V
+-----
+Da Desconsideração da Personalidade Jurídica
+-----
+
+Art. 28. O juiz poderá desconsiderar a personalidade jurídica da sociedade quando, em detrimento do consumidor, houver abuso de direito, excesso de poder, infração da lei, fato ou ato ilícito ou violação dos estatutos ou contrato social. A desconsideração também será efetivada quando houver falência, estado de insolvência, encerramento ou inatividade da pessoa jurídica provocados por má administração.
 
         § 1° (Vetado).
 
@@ -299,31 +351,46 @@ Art. 28 - O juiz poderá desconsiderar a personalidade jurídica da sociedade qu
         § 5° Também poderá ser desconsiderada a pessoa jurídica sempre que sua personalidade for, de alguma forma, obstáculo ao ressarcimento de prejuízos causados aos consumidores.
 
 -----
-Art. 29 - Para os fins deste Capítulo e do seguinte, equiparam-se aos consumidores todas as pessoas determináveis ou não, expostas às práticas nele previstas.
+CAPÍTULO V
+Das Práticas Comerciais
+-----
 
 -----
-Art. 30 - Toda informação ou publicidade, suficientemente precisa, veiculada por qualquer forma ou meio de comunicação com relação a produtos e serviços oferecidos ou apresentados, obriga o fornecedor que a fizer veicular ou dela se utilizar e integra o contrato que vier a ser celebrado.
+SEÇÃO I
+-----
+Das Disposições Gerais
+-----
+
+Art. 29. Para os fins deste Capítulo e do seguinte, equiparam-se aos consumidores todas as pessoas determináveis ou não, expostas às práticas nele previstas.
 
 -----
-Art. 31 - A oferta e apresentação de produtos ou serviços devem assegurar informações corretas, claras, precisas, ostensivas e em língua portuguesa sobre suas características, qualidades, quantidade, composição, preço, garantia, prazos de validade e origem, entre outros dados, bem como sobre os riscos que apresentam à saúde e segurança dos consumidores.
+SEÇÃO II
+-----
+Da Oferta
+-----
+
+Art. 30. Toda informação ou publicidade, suficientemente precisa, veiculada por qualquer forma ou meio de comunicação com relação a produtos e serviços oferecidos ou apresentados, obriga o fornecedor que a fizer veicular ou dela se utilizar e integra o contrato que vier a ser celebrado.
+
+-----
+Art. 31. A oferta e apresentação de produtos ou serviços devem assegurar informações corretas, claras, precisas, ostensivas e em língua portuguesa sobre suas características, qualidades, quantidade, composição, preço, garantia, prazos de validade e origem, entre outros dados, bem como sobre os riscos que apresentam à saúde e segurança dos consumidores.
 
         Parágrafo único.  As informações de que trata este artigo, nos produtos refrigerados oferecidos ao consumidor, serão gravadas de forma indelével.             (Incluído pela Lei nº 11.989, de 2009)
 
 -----
-Art. 32 - Os fabricantes e importadores deverão assegurar a oferta de componentes e peças de reposição enquanto não cessar a fabricação ou importação do produto.
+Art. 32. Os fabricantes e importadores deverão assegurar a oferta de componentes e peças de reposição enquanto não cessar a fabricação ou importação do produto.
 
         Parágrafo único. Cessadas a produção ou importação, a oferta deverá ser mantida por período razoável de tempo, na forma da lei.
 
 -----
-Art. 33 - Em caso de oferta ou venda por telefone ou reembolso postal, deve constar o nome do fabricante e endereço na embalagem, publicidade e em todos os impressos utilizados na transação comercial.
+Art. 33. Em caso de oferta ou venda por telefone ou reembolso postal, deve constar o nome do fabricante e endereço na embalagem, publicidade e em todos os impressos utilizados na transação comercial.
 
         Parágrafo único.  É proibida a publicidade de bens e serviços por telefone, quando a chamada for onerosa ao consumidor que a origina.             (Incluído pela Lei nº 11.800, de 2008).
 
 -----
-Art. 34 - O fornecedor do produto ou serviço é solidariamente responsável pelos atos de seus prepostos ou representantes autônomos.
+Art. 34. O fornecedor do produto ou serviço é solidariamente responsável pelos atos de seus prepostos ou representantes autônomos.
 
 -----
-Art. 35 - Se o fornecedor de produtos ou serviços recusar cumprimento à oferta, apresentação ou publicidade, o consumidor poderá, alternativamente e à sua livre escolha:
+Art. 35. Se o fornecedor de produtos ou serviços recusar cumprimento à oferta, apresentação ou publicidade, o consumidor poderá, alternativamente e à sua livre escolha:
 
         I - exigir o cumprimento forçado da obrigação, nos termos da oferta, apresentação ou publicidade;
 
@@ -332,12 +399,17 @@ Art. 35 - Se o fornecedor de produtos ou serviços recusar cumprimento à oferta
         III - rescindir o contrato, com direito à restituição de quantia eventualmente antecipada, monetariamente atualizada, e a perdas e danos.
 
 -----
-Art. 36 - A publicidade deve ser veiculada de tal forma que o consumidor, fácil e imediatamente, a identifique como tal.
+SEÇÃO III
+-----
+Da Publicidade
+-----
+
+Art. 36. A publicidade deve ser veiculada de tal forma que o consumidor, fácil e imediatamente, a identifique como tal.
 
         Parágrafo único. O fornecedor, na publicidade de seus produtos ou serviços, manterá, em seu poder, para informação dos legítimos interessados, os dados fáticos, técnicos e científicos que dão sustentação à mensagem.
 
 -----
-Art. 37 - É proibida toda publicidade enganosa ou abusiva.
+Art. 37. É proibida toda publicidade enganosa ou abusiva.
 
         § 1° É enganosa qualquer modalidade de informação ou comunicação de caráter publicitário, inteira ou parcialmente falsa, ou, por qualquer outro modo, mesmo por omissão, capaz de induzir em erro o consumidor a respeito da natureza, características, qualidade, quantidade, propriedades, origem, preço e quaisquer outros dados sobre produtos e serviços.
 
@@ -348,10 +420,15 @@ Art. 37 - É proibida toda publicidade enganosa ou abusiva.
         § 4° (Vetado).
 
 -----
-Art. 38 - O ônus da prova da veracidade e correção da informação ou comunicação publicitária cabe a quem as patrocina.
+Art. 38. O ônus da prova da veracidade e correção da informação ou comunicação publicitária cabe a quem as patrocina.
 
 -----
-Art. 39 - É vedado ao fornecedor de produtos ou serviços, dentre outras práticas abusivas:            (Redação dada pela Lei nº 8.884, de 11.6.1994)
+SEÇÃO IV
+-----
+Das Práticas Abusivas
+-----
+
+Art. 39. É vedado ao fornecedor de produtos ou serviços, dentre outras práticas abusivas:            (Redação dada pela Lei nº 8.884, de 11.6.1994)
 
         I - condicionar o fornecimento de produto ou de serviço ao fornecimento de outro produto ou serviço, bem como, sem justa causa, a limites quantitativos;
 
@@ -384,7 +461,7 @@ Art. 39 - É vedado ao fornecedor de produtos ou serviços, dentre outras práti
         Parágrafo único. Os serviços prestados e os produtos remetidos ou entregues ao consumidor, na hipótese prevista no inciso III, equiparam-se às amostras grátis, inexistindo obrigação de pagamento.
 
 -----
-Art. 40 - O fornecedor de serviço será obrigado a entregar ao consumidor orçamento prévio discriminando o valor da mão-de-obra, dos materiais e equipamentos a serem empregados, as condições de pagamento, bem como as datas de início e término dos serviços.
+Art. 40. O fornecedor de serviço será obrigado a entregar ao consumidor orçamento prévio discriminando o valor da mão-de-obra, dos materiais e equipamentos a serem empregados, as condições de pagamento, bem como as datas de início e término dos serviços.
 
         § 1º Salvo estipulação em contrário, o valor orçado terá validade pelo prazo de dez dias, contado de seu recebimento pelo consumidor.
 
@@ -393,18 +470,28 @@ Art. 40 - O fornecedor de serviço será obrigado a entregar ao consumidor orça
         § 3° O consumidor não responde por quaisquer ônus ou acréscimos decorrentes da contratação de serviços de terceiros não previstos no orçamento prévio.
 
 -----
-Art. 41 - No caso de fornecimento de produtos ou de serviços sujeitos ao regime de controle ou de tabelamento de preços, os fornecedores deverão respeitar os limites oficiais sob pena de não o fazendo, responderem pela restituição da quantia recebida em excesso, monetariamente atualizada, podendo o consumidor exigir à sua escolha, o desfazimento do negócio, sem prejuízo de outras sanções cabíveis.
+Art. 41. No caso de fornecimento de produtos ou de serviços sujeitos ao regime de controle ou de tabelamento de preços, os fornecedores deverão respeitar os limites oficiais sob pena de não o fazendo, responderem pela restituição da quantia recebida em excesso, monetariamente atualizada, podendo o consumidor exigir à sua escolha, o desfazimento do negócio, sem prejuízo de outras sanções cabíveis.
 
 -----
-Art. 42 - Na cobrança de débitos, o consumidor inadimplente não será exposto a ridículo, nem será submetido a qualquer tipo de constrangimento ou ameaça.
+SEÇÃO V
+-----
+Da Cobrança de Dívidas
+-----
+
+Art. 42. Na cobrança de débitos, o consumidor inadimplente não será exposto a ridículo, nem será submetido a qualquer tipo de constrangimento ou ameaça.
 
         Parágrafo único. O consumidor cobrado em quantia indevida tem direito à repetição do indébito, por valor igual ao dobro do que pagou em excesso, acrescido de correção monetária e juros legais, salvo hipótese de engano justificável.
 
 -----
-Art. 42A - Em todos os documentos de cobrança de débitos apresentados ao consumidor, deverão constar o nome, o endereço e o número de inscrição no Cadastro de Pessoas Físicas – CPF ou no Cadastro Nacional de Pessoa Jurídica – CNPJ do fornecedor do produto ou serviço correspondente.             (Incluído pela Lei nº 12.039, de 2009)
+Art. 42A.  Em todos os documentos de cobrança de débitos apresentados ao consumidor, deverão constar o nome, o endereço e o número de inscrição no Cadastro de Pessoas Físicas – CPF ou no Cadastro Nacional de Pessoa Jurídica – CNPJ do fornecedor do produto ou serviço correspondente.             (Incluído pela Lei nº 12.039, de 2009)
 
 -----
-Art. 43 - O consumidor, sem prejuízo do disposto no art. 86, terá acesso às informações existentes em cadastros, fichas, registros e dados pessoais e de consumo arquivados sobre ele, bem como sobre as suas respectivas fontes.
+SEÇÃO VI
+-----
+Dos Bancos de Dados e Cadastros de Consumidores
+-----
+
+Art. 43. O consumidor, sem prejuízo do disposto no art. 86, terá acesso às informações existentes em cadastros, fichas, registros e dados pessoais e de consumo arquivados sobre ele, bem como sobre as suas respectivas fontes.
 
         § 1° Os cadastros e dados de consumidores devem ser objetivos, claros, verdadeiros e em linguagem de fácil compreensão, não podendo conter informações negativas referentes a período superior a cinco anos.
 
@@ -419,36 +506,51 @@ Art. 43 - O consumidor, sem prejuízo do disposto no art. 86, terá acesso às i
         § 6o  Todas as informações de que trata o caput deste artigo devem ser disponibilizadas em formatos acessíveis, inclusive para a pessoa com deficiência, mediante solicitação do consumidor. (Incluído pela Lei nº 13.146, de 2015)    (Vigência)
 
 -----
-Art. 44 - Os órgãos públicos de defesa do consumidor manterão cadastros atualizados de reclamações fundamentadas contra fornecedores de produtos e serviços, devendo divulgá-lo pública e anualmente. A divulgação indicará se a reclamação foi atendida ou não pelo fornecedor.
+Art. 44. Os órgãos públicos de defesa do consumidor manterão cadastros atualizados de reclamações fundamentadas contra fornecedores de produtos e serviços, devendo divulgá-lo pública e anualmente. A divulgação indicará se a reclamação foi atendida ou não pelo fornecedor.
 
         § 1° É facultado o acesso às informações lá constantes para orientação e consulta por qualquer interessado.
 
         § 2° Aplicam-se a este artigo, no que couber, as mesmas regras enunciadas no artigo anterior e as do parágrafo único do art. 22 deste código.
 
 -----
-Art. 45 - (Vetado).
+Art. 45. (Vetado).
 
 -----
-Art. 46 - Os contratos que regulam as relações de consumo não obrigarão os consumidores, se não lhes for dada a oportunidade de tomar conhecimento prévio de seu conteúdo, ou se os respectivos instrumentos forem redigidos de modo a dificultar a compreensão de seu sentido e alcance.
+CAPÍTULO VI
+Da Proteção Contratual
+-----
 
 -----
-Art. 47 - As cláusulas contratuais serão interpretadas de maneira mais favorável ao consumidor.
+SEÇÃO I
+-----
+Disposições Gerais
+-----
+
+Art. 46. Os contratos que regulam as relações de consumo não obrigarão os consumidores, se não lhes for dada a oportunidade de tomar conhecimento prévio de seu conteúdo, ou se os respectivos instrumentos forem redigidos de modo a dificultar a compreensão de seu sentido e alcance.
 
 -----
-Art. 48 - As declarações de vontade constantes de escritos particulares, recibos e pré-contratos relativos às relações de consumo vinculam o fornecedor, ensejando inclusive execução específica, nos termos do art. 84 e parágrafos.
+Art. 47. As cláusulas contratuais serão interpretadas de maneira mais favorável ao consumidor.
 
 -----
-Art. 49 - O consumidor pode desistir do contrato, no prazo de 7 dias a contar de sua assinatura ou do ato de recebimento do produto ou serviço, sempre que a contratação de fornecimento de produtos e serviços ocorrer fora do estabelecimento comercial, especialmente por telefone ou a domicílio.
+Art. 48. As declarações de vontade constantes de escritos particulares, recibos e pré-contratos relativos às relações de consumo vinculam o fornecedor, ensejando inclusive execução específica, nos termos do art. 84 e parágrafos.
+
+-----
+Art. 49. O consumidor pode desistir do contrato, no prazo de 7 dias a contar de sua assinatura ou do ato de recebimento do produto ou serviço, sempre que a contratação de fornecimento de produtos e serviços ocorrer fora do estabelecimento comercial, especialmente por telefone ou a domicílio.
 
         Parágrafo único. Se o consumidor exercitar o direito de arrependimento previsto neste artigo, os valores eventualmente pagos, a qualquer título, durante o prazo de reflexão, serão devolvidos, de imediato, monetariamente atualizados.
 
 -----
-Art. 50 - A garantia contratual é complementar à legal e será conferida mediante termo escrito.
+Art. 50. A garantia contratual é complementar à legal e será conferida mediante termo escrito.
 
         Parágrafo único. O termo de garantia ou equivalente deve ser padronizado e esclarecer, de maneira adequada em que consiste a mesma garantia, bem como a forma, o prazo e o lugar em que pode ser exercitada e os ônus a cargo do consumidor, devendo ser-lhe entregue, devidamente preenchido pelo fornecedor, no ato do fornecimento, acompanhado de manual de instrução, de instalação e uso do produto em linguagem didática, com ilustrações.
 
 -----
-Art. 51 - São nulas de pleno direito, entre outras, as cláusulas contratuais relativas ao fornecimento de produtos e serviços que:
+SEÇÃO II
+-----
+Das Cláusulas Abusivas
+-----
+
+Art. 51. São nulas de pleno direito, entre outras, as cláusulas contratuais relativas ao fornecimento de produtos e serviços que:
 
         I - impossibilitem, exonerem ou atenuem a responsabilidade do fornecedor por vícios de qualquer natureza dos produtos e serviços ou impliquem renúncia ou disposição de direitos. Nas relações de consumo entre o fornecedor e o consumidor pessoa jurídica, a indenização poderá ser limitada, em situações justificáveis;
 
@@ -503,7 +605,7 @@ XIX - (VETADO).        (Incluído pela Lei nº 14.181, de 2021)
         § 4° É facultado a qualquer consumidor ou entidade que o represente requerer ao Ministério Público que ajuíze a competente ação para ser declarada a nulidade de cláusula contratual que contrarie o disposto neste código ou de qualquer forma não assegure o justo equilíbrio entre direitos e obrigações das partes.
 
 -----
-Art. 52 - No fornecimento de produtos ou serviços que envolva outorga de crédito ou concessão de financiamento ao consumidor, o fornecedor deverá, entre outros requisitos, informá-lo prévia e adequadamente sobre:
+Art. 52. No fornecimento de produtos ou serviços que envolva outorga de crédito ou concessão de financiamento ao consumidor, o fornecedor deverá, entre outros requisitos, informá-lo prévia e adequadamente sobre:
 
         I - preço do produto ou serviço em moeda corrente nacional;
 
@@ -522,7 +624,7 @@ Art. 52 - No fornecimento de produtos ou serviços que envolva outorga de crédi
         § 3º (Vetado).
 
 -----
-Art. 53 - Nos contratos de compra e venda de móveis ou imóveis mediante pagamento em prestações, bem como nas alienações fiduciárias em garantia, consideram-se nulas de pleno direito as cláusulas que estabeleçam a perda total das prestações pagas em benefício do credor que, em razão do inadimplemento, pleitear a resolução do contrato e a retomada do produto alienado.
+Art. 53. Nos contratos de compra e venda de móveis ou imóveis mediante pagamento em prestações, bem como nas alienações fiduciárias em garantia, consideram-se nulas de pleno direito as cláusulas que estabeleçam a perda total das prestações pagas em benefício do credor que, em razão do inadimplemento, pleitear a resolução do contrato e a retomada do produto alienado.
 
         § 1° (Vetado).
 
@@ -531,7 +633,12 @@ Art. 53 - Nos contratos de compra e venda de móveis ou imóveis mediante pagame
         § 3° Os contratos de que trata o caput deste artigo serão expressos em moeda corrente nacional.
 
 -----
-Art. 54 - Contrato de adesão é aquele cujas cláusulas tenham sido aprovadas pela autoridade competente ou estabelecidas unilateralmente pelo fornecedor de produtos ou serviços, sem que o consumidor possa discutir ou modificar substancialmente seu conteúdo.
+SEÇÃO III
+-----
+Dos Contratos de Adesão
+-----
+
+Art. 54. Contrato de adesão é aquele cujas cláusulas tenham sido aprovadas pela autoridade competente ou estabelecidas unilateralmente pelo fornecedor de produtos ou serviços, sem que o consumidor possa discutir ou modificar substancialmente seu conteúdo. 
 
         § 1° A inserção de cláusula no formulário não desfigura a natureza de adesão do contrato.
 
@@ -543,14 +650,16 @@ Art. 54 - Contrato de adesão é aquele cujas cláusulas tenham sido aprovadas p
 
          § 5° (Vetado)
 
+-----
 CAPÍTULO VI-A
 
 DA PREVENÇÃO E DO TRATAMENTO DO SUPERENDIVIDAMENTO
-
-(Incluído pela Lei nº 14.181, de 2021)
+-----
 
 -----
-Art. 54A - Este Capítulo dispõe sobre a prevenção do superendividamento da pessoa natural, sobre o crédito responsável e sobre a educação financeira do consumidor.     (Incluído pela Lei nº 14.181, de 2021)
+(Incluído pela Lei nº 14.181, de 2021)
+
+Art. 54A. Este Capítulo dispõe sobre a prevenção do superendividamento da pessoa natural, sobre o crédito responsável e sobre a educação financeira do consumidor.     (Incluído pela Lei nº 14.181, de 2021)
 
 § 1º Entende-se por superendividamento a impossibilidade manifesta de o consumidor pessoa natural, de boa-fé, pagar a totalidade de suas dívidas de consumo, exigíveis e vincendas, sem comprometer seu mínimo existencial, nos termos da regulamentação.      (Incluído pela Lei nº 14.181, de 2021)
 
@@ -559,7 +668,7 @@ Art. 54A - Este Capítulo dispõe sobre a prevenção do superendividamento da p
 § 3º O disposto neste Capítulo não se aplica ao consumidor cujas dívidas tenham sido contraídas mediante fraude ou má-fé, sejam oriundas de contratos celebrados dolosamente com o propósito de não realizar o pagamento ou decorram da aquisição ou contratação de produtos e serviços de luxo de alto valor.       (Incluído pela Lei nº 14.181, de 2021)
 
 -----
-Art. 54B - No fornecimento de crédito e na venda a prazo, além das informações obrigatórias previstas no art. 52 deste Código e na legislação aplicável à matéria, o fornecedor ou o intermediário deverá informar o consumidor, prévia e adequadamente, no momento da oferta, sobre:       (Incluído pela Lei nº 14.181, de 2021)
+Art. 54B. No fornecimento de crédito e na venda a prazo, além das informações obrigatórias previstas no art. 52 deste Código e na legislação aplicável à matéria, o fornecedor ou o intermediário deverá informar o consumidor, prévia e adequadamente, no momento da oferta, sobre:       (Incluído pela Lei nº 14.181, de 2021)
 
 I - o custo efetivo total e a descrição dos elementos que o compõem;      (Incluído pela Lei nº 14.181, de 2021)
 
@@ -578,7 +687,7 @@ V - o direito do consumidor à liquidação antecipada e não onerosa do débito
 § 3º Sem prejuízo do disposto no art. 37 deste Código, a oferta de crédito ao consumidor e a oferta de venda a prazo, ou a fatura mensal, conforme o caso, devem indicar, no mínimo, o custo efetivo total, o agente financiador e a soma total a pagar, com e sem financiamento.       (Incluído pela Lei nº 14.181, de 2021)
 
 -----
-Art. 54C - É vedado, expressa ou implicitamente, na oferta de crédito ao consumidor, publicitária ou não:      (Incluído pela Lei nº 14.181, de 2021)
+Art. 54C. É vedado, expressa ou implicitamente, na oferta de crédito ao consumidor, publicitária ou não:      (Incluído pela Lei nº 14.181, de 2021)
 
 I - (VETADO);      (Incluído pela Lei nº 14.181, de 2021)
 
@@ -593,7 +702,7 @@ V - condicionar o atendimento de pretensões do consumidor ou o início de trata
 Parágrafo único. (VETADO).     (Incluído pela Lei nº 14.181, de 2021)
 
 -----
-Art. 54D - Na oferta de crédito, previamente à contratação, o fornecedor ou o intermediário deverá, entre outras condutas:       (Incluído pela Lei nº 14.181, de 2021)
+Art. 54D. Na oferta de crédito, previamente à contratação, o fornecedor ou o intermediário deverá, entre outras condutas:       (Incluído pela Lei nº 14.181, de 2021)
 
 I - informar e esclarecer adequadamente o consumidor, considerada sua idade, sobre a natureza e a modalidade do crédito oferecido, sobre todos os custos incidentes, observado o disposto nos arts. 52 e 54-B deste Código, e sobre as consequências genéricas e específicas do inadimplemento;       (Incluído pela Lei nº 14.181, de 2021)
 
@@ -604,10 +713,10 @@ III - informar a identidade do agente financiador e entregar ao consumidor, ao g
 Parágrafo único. O descumprimento de qualquer dos deveres previstos no caput deste artigo e nos arts. 52 e 54-C deste Código poderá acarretar judicialmente a redução dos juros, dos encargos ou de qualquer acréscimo ao principal e a dilação do prazo de pagamento previsto no contrato original, conforme a gravidade da conduta do fornecedor e as possibilidades financeiras do consumidor, sem prejuízo de outras sanções e de indenização por perdas e danos, patrimoniais e morais, ao consumidor.    (Incluído pela Lei nº 14.181, de 2021)
 
 -----
-Art. 54E - (VETADO).      (Incluído pela Lei nº 14.181, de 2021)
+Art. 54E. (VETADO).      (Incluído pela Lei nº 14.181, de 2021)
 
 -----
-Art. 54F - São conexos, coligados ou interdependentes, entre outros, o contrato principal de fornecimento de produto ou serviço e os contratos acessórios de crédito que lhe garantam o financiamento quando o fornecedor de crédito:       (Incluído pela Lei nº 14.181, de 2021)
+Art. 54F. São conexos, coligados ou interdependentes, entre outros, o contrato principal de fornecimento de produto ou serviço e os contratos acessórios de crédito que lhe garantam o financiamento quando o fornecedor de crédito:       (Incluído pela Lei nº 14.181, de 2021)
 
 I - recorrer aos serviços do fornecedor de produto ou serviço para a preparação ou a conclusão do contrato de crédito;       (Incluído pela Lei nº 14.181, de 2021)
 
@@ -626,7 +735,7 @@ II - contra o administrador ou o emitente de cartão de crédito ou similar quan
 § 4º A invalidade ou a ineficácia do contrato principal implicará, de pleno direito, a do contrato de crédito que lhe seja conexo, nos termos do caput deste artigo, ressalvado ao fornecedor do crédito o direito de obter do fornecedor do produto ou serviço a devolução dos valores entregues, inclusive relativamente a tributos.       (Incluído pela Lei nº 14.181, de 2021)
 
 -----
-Art. 54G - Sem prejuízo do disposto no art. 39 deste Código e na legislação aplicável à matéria, é vedado ao fornecedor de produto ou serviço que envolva crédito, entre outras condutas:      (Incluído pela Lei nº 14.181, de 2021)
+Art. 54G. Sem prejuízo do disposto no art. 39 deste Código e na legislação aplicável à matéria, é vedado ao fornecedor de produto ou serviço que envolva crédito, entre outras condutas:      (Incluído pela Lei nº 14.181, de 2021)
 
 I - realizar ou proceder à cobrança ou ao débito em conta de qualquer quantia que houver sido contestada pelo consumidor em compra realizada com cartão de crédito ou similar, enquanto não for adequadamente solucionada a controvérsia, desde que o consumidor haja notificado a administradora do cartão com antecedência de pelo menos 10 (dez) dias contados da data de vencimento da fatura, vedada a manutenção do valor na fatura seguinte e assegurado ao consumidor o direito de deduzir do total da fatura o valor em disputa e efetuar o pagamento da parte não contestada, podendo o emissor lançar como crédito em confiança o valor idêntico ao da transação contestada que tenha sido cobrada, enquanto não encerrada a apuração da contestação;     (Incluído pela Lei nº 14.181, de 2021)
 
@@ -638,12 +747,14 @@ III - impedir ou dificultar, em caso de utilização fraudulenta do cartão de c
 
 § 2º Nos contratos de adesão, o fornecedor deve prestar ao consumidor, previamente, as informações de que tratam o art. 52 e o caput do art. 54-B deste Código, além de outras porventura determinadas na legislação em vigor, e fica obrigado a entregar ao consumidor cópia do contrato, após a sua conclusão       (Incluído pela Lei nº 14.181, de 2021)
 
+-----
 CAPÍTULO VII
+-----
 Das Sanções Administrativas
+-----
 (Vide Lei nº 8.656, de 1993)
 
------
-Art. 55 - A União, os Estados e o Distrito Federal, em caráter concorrente e nas suas respectivas áreas de atuação administrativa, baixarão normas relativas à produção, industrialização, distribuição e consumo de produtos e serviços.
+Art. 55. A União, os Estados e o Distrito Federal, em caráter concorrente e nas suas respectivas áreas de atuação administrativa, baixarão normas relativas à produção, industrialização, distribuição e consumo de produtos e serviços.
 
         § 1° A União, os Estados, o Distrito Federal e os Municípios fiscalizarão e controlarão a produção, industrialização, distribuição, a publicidade de produtos e serviços e o mercado de consumo, no interesse da preservação da vida, da saúde, da segurança, da informação e do bem-estar do consumidor, baixando as normas que se fizerem necessárias.
 
@@ -654,7 +765,7 @@ Art. 55 - A União, os Estados e o Distrito Federal, em caráter concorrente e n
         § 4° Os órgãos oficiais poderão expedir notificações aos fornecedores para que, sob pena de desobediência, prestem informações sobre questões de interesse do consumidor, resguardado o segredo industrial.
 
 -----
-Art. 56 - As infrações das normas de defesa do consumidor ficam sujeitas, conforme o caso, às seguintes sanções administrativas, sem prejuízo das de natureza civil, penal e das definidas em normas específicas:
+Art. 56. As infrações das normas de defesa do consumidor ficam sujeitas, conforme o caso, às seguintes sanções administrativas, sem prejuízo das de natureza civil, penal e das definidas em normas específicas:
 
         I - multa;
 
@@ -683,15 +794,15 @@ Art. 56 - As infrações das normas de defesa do consumidor ficam sujeitas, conf
         Parágrafo único. As sanções previstas neste artigo serão aplicadas pela autoridade administrativa, no âmbito de sua atribuição, podendo ser aplicadas cumulativamente, inclusive por medida cautelar, antecedente ou incidente de procedimento administrativo.
 
 -----
-Art. 57 - A pena de multa, graduada de acordo com a gravidade da infração, a vantagem auferida e a condição econômica do fornecedor, será aplicada mediante procedimento administrativo, revertendo para o Fundo de que trata a Lei nº 7.347, de 24 de julho de 1985, os valores cabíveis à União, ou para os Fundos estaduais ou municipais de proteção ao consumidor nos demais casos. (Redação dada pela Lei nº 8.656, de 21.5.1993)
+Art. 57. A pena de multa, graduada de acordo com a gravidade da infração, a vantagem auferida e a condição econômica do fornecedor, será aplicada mediante procedimento administrativo, revertendo para o Fundo de que trata a Lei nº 7.347, de 24 de julho de 1985, os valores cabíveis à União, ou para os Fundos estaduais ou municipais de proteção ao consumidor nos demais casos. (Redação dada pela Lei nº 8.656, de 21.5.1993)
 
         Parágrafo único. A multa será em montante não inferior a duzentas e não superior a três milhões de vezes o valor da Unidade Fiscal de Referência (Ufir), ou índice equivalente que venha a substituí-lo. (Parágrafo acrescentado pela Lei nº 8.703, de 6.9.1993)
 
 -----
-Art. 58 - As penas de apreensão, de inutilização de produtos, de proibição de fabricação de produtos, de suspensão do fornecimento de produto ou serviço, de cassação do registro do produto e revogação da concessão ou permissão de uso serão aplicadas pela administração, mediante procedimento administrativo, assegurada ampla defesa, quando forem constatados vícios de quantidade ou de qualidade por inadequação ou insegurança do produto ou serviço.
+Art. 58. As penas de apreensão, de inutilização de produtos, de proibição de fabricação de produtos, de suspensão do fornecimento de produto ou serviço, de cassação do registro do produto e revogação da concessão ou permissão de uso serão aplicadas pela administração, mediante procedimento administrativo, assegurada ampla defesa, quando forem constatados vícios de quantidade ou de qualidade por inadequação ou insegurança do produto ou serviço.
 
 -----
-Art. 59 - As penas de cassação de alvará de licença, de interdição e de suspensão temporária da atividade, bem como a de intervenção administrativa, serão aplicadas mediante procedimento administrativo, assegurada ampla defesa, quando o fornecedor reincidir na prática das infrações de maior gravidade previstas neste código e na legislação de consumo.
+Art. 59. As penas de cassação de alvará de licença, de interdição e de suspensão temporária da atividade, bem como a de intervenção administrativa, serão aplicadas mediante procedimento administrativo, assegurada ampla defesa, quando o fornecedor reincidir na prática das infrações de maior gravidade previstas neste código e na legislação de consumo.
 
         § 1° A pena de cassação da concessão será aplicada à concessionária de serviço público, quando violar obrigação legal ou contratual.
 
@@ -700,7 +811,7 @@ Art. 59 - As penas de cassação de alvará de licença, de interdição e de su
         § 3° Pendendo ação judicial na qual se discuta a imposição de penalidade administrativa, não haverá reincidência até o trânsito em julgado da sentença.
 
 -----
-Art. 60 - A imposição de contrapropaganda será cominada quando o fornecedor incorrer na prática de publicidade enganosa ou abusiva, nos termos do art. 36 e seus parágrafos, sempre às expensas do infrator.
+Art. 60. A imposição de contrapropaganda será cominada quando o fornecedor incorrer na prática de publicidade enganosa ou abusiva, nos termos do art. 36 e seus parágrafos, sempre às expensas do infrator.
 
         § 1º A contrapropaganda será divulgada pelo responsável da mesma forma, freqüência e dimensão e, preferencialmente no mesmo veículo, local, espaço e horário, de forma capaz de desfazer o malefício da publicidade enganosa ou abusiva.
 
@@ -709,13 +820,18 @@ Art. 60 - A imposição de contrapropaganda será cominada quando o fornecedor i
         § 3° (Vetado).
 
 -----
-Art. 61 - Constituem crimes contra as relações de consumo previstas neste código, sem prejuízo do disposto no Código Penal e leis especiais, as condutas tipificadas nos artigos seguintes.
+TÍTULO II
+-----
+Das Infrações Penais
+-----
+
+Art. 61. Constituem crimes contra as relações de consumo previstas neste código, sem prejuízo do disposto no Código Penal e leis especiais, as condutas tipificadas nos artigos seguintes.
 
 -----
-Art. 62 - (Vetado).
+Art. 62. (Vetado).
 
 -----
-Art. 63 - Omitir dizeres ou sinais ostensivos sobre a nocividade ou periculosidade de produtos, nas embalagens, nos invólucros, recipientes ou publicidade:
+Art. 63. Omitir dizeres ou sinais ostensivos sobre a nocividade ou periculosidade de produtos, nas embalagens, nos invólucros, recipientes ou publicidade:
 
         Pena - Detenção de seis meses a dois anos e multa.
 
@@ -723,17 +839,17 @@ Art. 63 - Omitir dizeres ou sinais ostensivos sobre a nocividade ou periculosida
 
         § 2° Se o crime é culposo:
 
+-----
         Pena Detenção de um a seis meses ou multa.
 
------
-Art. 64 - Deixar de comunicar à autoridade competente e aos consumidores a nocividade ou periculosidade de produtos cujo conhecimento seja posterior à sua colocação no mercado:
+Art. 64. Deixar de comunicar à autoridade competente e aos consumidores a nocividade ou periculosidade de produtos cujo conhecimento seja posterior à sua colocação no mercado:
 
         Pena - Detenção de seis meses a dois anos e multa.
 
         Parágrafo único. Incorrerá nas mesmas penas quem deixar de retirar do mercado, imediatamente quando determinado pela autoridade competente, os produtos nocivos ou perigosos, na forma deste artigo.
 
 -----
-Art. 65 - Executar serviço de alto grau de periculosidade, contrariando determinação de autoridade competente:
+Art. 65. Executar serviço de alto grau de periculosidade, contrariando determinação de autoridade competente:
 
         Pena Detenção de seis meses a dois anos e multa.
 
@@ -742,7 +858,7 @@ Art. 65 - Executar serviço de alto grau de periculosidade, contrariando determi
         § 2º A prática do disposto no inciso XIV do art. 39 desta Lei também caracteriza o crime previsto no caput deste artigo.                         (Incluído pela Lei nº 13.425, de 2017)
 
 -----
-Art. 66 - Fazer afirmação falsa ou enganosa, ou omitir informação relevante sobre a natureza, característica, qualidade, quantidade, segurança, desempenho, durabilidade, preço ou garantia de produtos ou serviços:
+Art. 66. Fazer afirmação falsa ou enganosa, ou omitir informação relevante sobre a natureza, característica, qualidade, quantidade, segurança, desempenho, durabilidade, preço ou garantia de produtos ou serviços:
 
         Pena - Detenção de três meses a um ano e multa.
 
@@ -750,57 +866,57 @@ Art. 66 - Fazer afirmação falsa ou enganosa, ou omitir informação relevante 
 
         § 2º Se o crime é culposo;
 
+-----
         Pena Detenção de um a seis meses ou multa.
 
------
-Art. 67 - Fazer ou promover publicidade que sabe ou deveria saber ser enganosa ou abusiva:
+Art. 67. Fazer ou promover publicidade que sabe ou deveria saber ser enganosa ou abusiva:
 
         Pena Detenção de três meses a um ano e multa.
 
         Parágrafo único. (Vetado).
 
 -----
-Art. 68 - Fazer ou promover publicidade que sabe ou deveria saber ser capaz de induzir o consumidor a se comportar de forma prejudicial ou perigosa a sua saúde ou segurança:
+Art. 68. Fazer ou promover publicidade que sabe ou deveria saber ser capaz de induzir o consumidor a se comportar de forma prejudicial ou perigosa a sua saúde ou segurança:
 
         Pena - Detenção de seis meses a dois anos e multa:
 
         Parágrafo único. (Vetado).
 
 -----
-Art. 69 - Deixar de organizar dados fáticos, técnicos e científicos que dão base à publicidade:
+Art. 69. Deixar de organizar dados fáticos, técnicos e científicos que dão base à publicidade:
 
+-----
         Pena Detenção de um a seis meses ou multa.
 
------
-Art. 70 - Empregar na reparação de produtos, peça ou componentes de reposição usados, sem autorização do consumidor:
+Art. 70. Empregar na reparação de produtos, peça ou componentes de reposição usados, sem autorização do consumidor:
 
+-----
         Pena Detenção de três meses a um ano e multa.
 
------
-Art. 71 - Utilizar, na cobrança de dívidas, de ameaça, coação, constrangimento físico ou moral, afirmações falsas incorretas ou enganosas ou de qualquer outro procedimento que exponha o consumidor, injustificadamente, a ridículo ou interfira com seu trabalho, descanso ou lazer:
+Art. 71. Utilizar, na cobrança de dívidas, de ameaça, coação, constrangimento físico ou moral, afirmações falsas incorretas ou enganosas ou de qualquer outro procedimento que exponha o consumidor, injustificadamente, a ridículo ou interfira com seu trabalho, descanso ou lazer:
 
+-----
         Pena Detenção de três meses a um ano e multa.
 
------
-Art. 72 - Impedir ou dificultar o acesso do consumidor às informações que sobre ele constem em cadastros, banco de dados, fichas e registros:
+Art. 72. Impedir ou dificultar o acesso do consumidor às informações que sobre ele constem em cadastros, banco de dados, fichas e registros:
 
+-----
         Pena Detenção de seis meses a um ano ou multa.
 
------
-Art. 73 - Deixar de corrigir imediatamente informação sobre consumidor constante de cadastro, banco de dados, fichas ou registros que sabe ou deveria saber ser inexata:
+Art. 73. Deixar de corrigir imediatamente informação sobre consumidor constante de cadastro, banco de dados, fichas ou registros que sabe ou deveria saber ser inexata:
 
+-----
         Pena Detenção de um a seis meses ou multa.
 
------
-Art. 74 - Deixar de entregar ao consumidor o termo de garantia adequadamente preenchido e com especificação clara de seu conteúdo;
+Art. 74. Deixar de entregar ao consumidor o termo de garantia adequadamente preenchido e com especificação clara de seu conteúdo;
 
+-----
         Pena Detenção de um a seis meses ou multa.
 
------
-Art. 75 - Quem, de qualquer forma, concorrer para os crimes referidos neste código, incide as penas a esses cominadas na medida de sua culpabilidade, bem como o diretor, administrador ou gerente da pessoa jurídica que promover, permitir ou por qualquer modo aprovar o fornecimento, oferta, exposição à venda ou manutenção em depósito de produtos ou a oferta e prestação de serviços nas condições por ele proibidas.
+Art. 75. Quem, de qualquer forma, concorrer para os crimes referidos neste código, incide as penas a esses cominadas na medida de sua culpabilidade, bem como o diretor, administrador ou gerente da pessoa jurídica que promover, permitir ou por qualquer modo aprovar o fornecimento, oferta, exposição à venda ou manutenção em depósito de produtos ou a oferta e prestação de serviços nas condições por ele proibidas.
 
 -----
-Art. 76 - São circunstâncias agravantes dos crimes tipificados neste código:
+Art. 76. São circunstâncias agravantes dos crimes tipificados neste código:
 
         I - serem cometidos em época de grave crise econômica ou por ocasião de calamidade;
 
@@ -817,10 +933,10 @@ Art. 76 - São circunstâncias agravantes dos crimes tipificados neste código:
         V - serem praticados em operações que envolvam alimentos, medicamentos ou quaisquer outros produtos ou serviços essenciais .
 
 -----
-Art. 77 - A pena pecuniária prevista nesta Seção será fixada em dias-multa, correspondente ao mínimo e ao máximo de dias de duração da pena privativa da liberdade cominada ao crime. Na individualização desta multa, o juiz observará o disposto no art. 60, §1° do Código Penal.
+Art. 77. A pena pecuniária prevista nesta Seção será fixada em dias-multa, correspondente ao mínimo e ao máximo de dias de duração da pena privativa da liberdade cominada ao crime. Na individualização desta multa, o juiz observará o disposto no art. 60, §1° do Código Penal.
 
 -----
-Art. 78 - Além das penas privativas de liberdade e de multa, podem ser impostas, cumulativa ou alternadamente, observado odisposto nos arts. 44 a 47, do Código Penal:
+Art. 78. Além das penas privativas de liberdade e de multa, podem ser impostas, cumulativa ou alternadamente, observado odisposto nos arts. 44 a 47, do Código Penal:
 
         I - a interdição temporária de direitos;
 
@@ -829,7 +945,7 @@ Art. 78 - Além das penas privativas de liberdade e de multa, podem ser impostas
         III - a prestação de serviços à comunidade.
 
 -----
-Art. 79 - O valor da fiança, nas infrações de que trata este código, será fixado pelo juiz, ou pela autoridade que presidir o inquérito, entre cem e duzentas mil vezes o valor do Bônus do Tesouro Nacional (BTN), ou índice equivalente que venha a substituí-lo.
+Art. 79. O valor da fiança, nas infrações de que trata este código, será fixado pelo juiz, ou pela autoridade que presidir o inquérito, entre cem e duzentas mil vezes o valor do Bônus do Tesouro Nacional (BTN), ou índice equivalente que venha a substituí-lo.
 
         Parágrafo único. Se assim recomendar a situação econômica do indiciado ou réu, a fiança poderá ser:
 
@@ -838,10 +954,20 @@ Art. 79 - O valor da fiança, nas infrações de que trata este código, será f
         b) aumentada pelo juiz até vinte vezes.
 
 -----
-Art. 80 - No processo penal atinente aos crimes previstos neste código, bem como a outros crimes e contravenções que envolvam relações de consumo, poderão intervir, como assistentes do Ministério Público, os legitimados indicados no art. 82, inciso III e IV, aos quais também é facultado propor ação penal subsidiária, se a denúncia não for oferecida no prazo legal.
+Art. 80. No processo penal atinente aos crimes previstos neste código, bem como a outros crimes e contravenções que envolvam relações de consumo, poderão intervir, como assistentes do Ministério Público, os legitimados indicados no art. 82, inciso III e IV, aos quais também é facultado propor ação penal subsidiária, se a denúncia não for oferecida no prazo legal.
 
 -----
-Art. 81 - A defesa dos interesses e direitos dos consumidores e das vítimas poderá ser exercida em juízo individualmente, ou a título coletivo.
+TÍTULO III
+Da Defesa do Consumidor em Juízo
+-----
+
+-----
+CAPÍTULO I
+-----
+Disposições Gerais
+-----
+
+Art. 81. A defesa dos interesses e direitos dos consumidores e das vítimas poderá ser exercida em juízo individualmente, ou a título coletivo.
 
         Parágrafo único. A defesa coletiva será exercida quando se tratar de:
 
@@ -852,7 +978,7 @@ Art. 81 - A defesa dos interesses e direitos dos consumidores e das vítimas pod
         III - interesses ou direitos individuais homogêneos, assim entendidos os decorrentes de origem comum.
 
 -----
-Art. 82 - Para os fins do art. 81, parágrafo único, são legitimados concorrentemente:             (Redação dada pela Lei nº 9.008, de 21.3.1995)
+Art. 82. Para os fins do art. 81, parágrafo único, são legitimados concorrentemente:             (Redação dada pela Lei nº 9.008, de 21.3.1995)
 
         I - o Ministério Público,
 
@@ -869,12 +995,12 @@ Art. 82 - Para os fins do art. 81, parágrafo único, são legitimados concorren
         § 3° (Vetado).
 
 -----
-Art. 83 - Para a defesa dos direitos e interesses protegidos por este código são admissíveis todas as espécies de ações capazes de propiciar sua adequada e efetiva tutela.
+Art. 83. Para a defesa dos direitos e interesses protegidos por este código são admissíveis todas as espécies de ações capazes de propiciar sua adequada e efetiva tutela.
 
         Parágrafo único. (Vetado).
 
 -----
-Art. 84 - Na ação que tenha por objeto o cumprimento da obrigação de fazer ou não fazer, o juiz concederá a tutela específica da obrigação ou determinará providências que assegurem o resultado prático equivalente ao do adimplemento.
+Art. 84. Na ação que tenha por objeto o cumprimento da obrigação de fazer ou não fazer, o juiz concederá a tutela específica da obrigação ou determinará providências que assegurem o resultado prático equivalente ao do adimplemento.
 
         § 1° A conversão da obrigação em perdas e danos somente será admissível se por elas optar o autor ou se impossível a tutela específica ou a obtenção do resultado prático correspondente.
 
@@ -887,56 +1013,61 @@ Art. 84 - Na ação que tenha por objeto o cumprimento da obrigação de fazer o
         § 5° Para a tutela específica ou para a obtenção do resultado prático equivalente, poderá o juiz determinar as medidas necessárias, tais como busca e apreensão, remoção de coisas e pessoas, desfazimento de obra, impedimento de atividade nociva, além de requisição de força policial.
 
 -----
-Art. 85 - (Vetado).
+Art. 85. (Vetado).
 
 -----
-Art. 86 - (Vetado).
+Art. 86. (Vetado).
 
 -----
-Art. 87 - Nas ações coletivas de que trata este código não haverá adiantamento de custas, emolumentos, honorários periciais e quaisquer outras despesas, nem condenação da associação autora, salvo comprovada má-fé, em honorários de advogados, custas e despesas processuais.
+Art. 87. Nas ações coletivas de que trata este código não haverá adiantamento de custas, emolumentos, honorários periciais e quaisquer outras despesas, nem condenação da associação autora, salvo comprovada má-fé, em honorários de advogados, custas e despesas processuais.
 
         Parágrafo único. Em caso de litigância de má-fé, a associação autora e os diretores responsáveis pela propositura da ação serão solidariamente condenados em honorários advocatícios e ao décuplo das custas, sem prejuízo da responsabilidade por perdas e danos.
 
 -----
-Art. 88 - Na hipótese do art. 13, parágrafo único deste código, a ação de regresso poderá ser ajuizada em processo autônomo, facultada a possibilidade de prosseguir-se nos mesmos autos, vedada a denunciação da lide.
+Art. 88. Na hipótese do art. 13, parágrafo único deste código, a ação de regresso poderá ser ajuizada em processo autônomo, facultada a possibilidade de prosseguir-se nos mesmos autos, vedada a denunciação da lide.
 
 -----
-Art. 89 - (Vetado)
+Art. 89. (Vetado)
 
 -----
-Art. 90 - Aplicam-se às ações previstas neste título as normas do Código de Processo Civil e da Lei n° 7.347, de 24 de julho de 1985, inclusive no que respeita ao inquérito civil, naquilo que não contrariar suas disposições.
+Art. 90. Aplicam-se às ações previstas neste título as normas do Código de Processo Civil e da Lei n° 7.347, de 24 de julho de 1985, inclusive no que respeita ao inquérito civil, naquilo que não contrariar suas disposições.
 
 -----
-Art. 91 - Os legitimados de que trata o art. 82 poderão propor, em nome próprio e no interesse das vítimas ou seus sucessores, ação civil coletiva de responsabilidade pelos danos individualmente sofridos, de acordo com o disposto nos artigos seguintes.             (Redação dada pela Lei nº 9.008, de 21.3.1995)
+CAPÍTULO II
+-----
+Das Ações Coletivas Para a Defesa de Interesses Individuais Homogêneos
+-----
+
+Art. 91. Os legitimados de que trata o art. 82 poderão propor, em nome próprio e no interesse das vítimas ou seus sucessores, ação civil coletiva de responsabilidade pelos danos individualmente sofridos, de acordo com o disposto nos artigos seguintes.             (Redação dada pela Lei nº 9.008, de 21.3.1995)
 
 -----
-Art. 92 - O Ministério Público, se não ajuizar a ação, atuará sempre como fiscal da lei.
+Art. 92. O Ministério Público, se não ajuizar a ação, atuará sempre como fiscal da lei.
 
         Parágrafo único. (Vetado).
 
 -----
-Art. 93 - Ressalvada a competência da Justiça Federal, é competente para a causa a justiça local:
+Art. 93. Ressalvada a competência da Justiça Federal, é competente para a causa a justiça local:
 
         I - no foro do lugar onde ocorreu ou deva ocorrer o dano, quando de âmbito local;
 
         II - no foro da Capital do Estado ou no do Distrito Federal, para os danos de âmbito nacional ou regional, aplicando-se as regras do Código de Processo Civil aos casos de competência concorrente.
 
 -----
-Art. 94 - Proposta a ação, será publicado edital no órgão oficial, a fim de que os interessados possam intervir no processo como litisconsortes, sem prejuízo de ampla divulgação pelos meios de comunicação social por parte dos órgãos de defesa do consumidor.
+Art. 94. Proposta a ação, será publicado edital no órgão oficial, a fim de que os interessados possam intervir no processo como litisconsortes, sem prejuízo de ampla divulgação pelos meios de comunicação social por parte dos órgãos de defesa do consumidor.
 
 -----
-Art. 95 - Em caso de procedência do pedido, a condenação será genérica, fixando a responsabilidade do réu pelos danos causados.
+Art. 95. Em caso de procedência do pedido, a condenação será genérica, fixando a responsabilidade do réu pelos danos causados.
 
 -----
-Art. 96 - (Vetado).
+Art. 96. (Vetado).
 
 -----
-Art. 97 - A liquidação e a execução de sentença poderão ser promovidas pela vítima e seus sucessores, assim como pelos legitimados de que trata o art. 82.
+Art. 97. A liquidação e a execução de sentença poderão ser promovidas pela vítima e seus sucessores, assim como pelos legitimados de que trata o art. 82.
 
         Parágrafo único. (Vetado).
 
 -----
-Art. 98 - A execução poderá ser coletiva, sendo promovida pelos legitimados de que trata o art. 82, abrangendo as vítimas cujas indenizações já tiveram sido fixadas em sentença de liquidação, sem prejuízo do ajuizamento de outras execuções.             (Redação dada pela Lei nº 9.008, de 21.3.1995)
+Art. 98. A execução poderá ser coletiva, sendo promovida pelos legitimados de que trata o art. 82, abrangendo as vítimas cujas indenizações já tiveram sido fixadas em sentença de liquidação, sem prejuízo do ajuizamento de outras execuções.             (Redação dada pela Lei nº 9.008, de 21.3.1995)
 
         § 1° A execução coletiva far-se-á com base em certidão das sentenças de liquidação, da qual deverá constar a ocorrência ou não do trânsito em julgado.
 
@@ -947,31 +1078,41 @@ Art. 98 - A execução poderá ser coletiva, sendo promovida pelos legitimados d
         II - da ação condenatória, quando coletiva a execução.
 
 -----
-Art. 99 - Em caso de concurso de créditos decorrentes de condenação prevista na Lei n.° 7.347, de 24 de julho de 1985 e de indenizações pelos prejuízos individuais resultantes do mesmo evento danoso, estas terão preferência no pagamento.
+Art. 99. Em caso de concurso de créditos decorrentes de condenação prevista na Lei n.° 7.347, de 24 de julho de 1985 e de indenizações pelos prejuízos individuais resultantes do mesmo evento danoso, estas terão preferência no pagamento.
 
         Parágrafo único. Para efeito do disposto neste artigo, a destinação da importância recolhida ao fundo criado pela Lei n°7.347 de 24 de julho de 1985, ficará sustada enquanto pendentes de decisão de segundo grau as ações de indenização pelos danos individuais, salvo na hipótese de o patrimônio do devedor ser manifestamente suficiente para responder pela integralidade das dívidas.
 
 -----
-Art. 100 - Decorrido o prazo de um ano sem habilitação de interessados em número compatível com a gravidade do dano, poderão os legitimados do art. 82 promover a liquidação e execução da indenização devida.
+Art. 100. Decorrido o prazo de um ano sem habilitação de interessados em número compatível com a gravidade do dano, poderão os legitimados do art. 82 promover a liquidação e execução da indenização devida.
 
         Parágrafo único. O produto da indenização devida reverterá para o fundo criado pela Lei n.° 7.347, de 24 de julho de 1985.
 
 -----
-Art. 101 - Na ação de responsabilidade civil do fornecedor de produtos e serviços, sem prejuízo do disposto nos Capítulos I e II deste título, serão observadas as seguintes normas:
+CAPÍTULO III
+-----
+Das Ações de Responsabilidade do Fornecedor de Produtos e Serviços
+-----
+
+Art. 101. Na ação de responsabilidade civil do fornecedor de produtos e serviços, sem prejuízo do disposto nos Capítulos I e II deste título, serão observadas as seguintes normas:
 
         I - a ação pode ser proposta no domicílio do autor;
 
         II - o réu que houver contratado seguro de responsabilidade poderá chamar ao processo o segurador, vedada a integração do contraditório pelo Instituto de Resseguros do Brasil. Nesta hipótese, a sentença que julgar procedente o pedido condenará o réu nos termos do art. 80 do Código de Processo Civil. Se o réu houver sido declarado falido, o síndico será intimado a informar a existência de seguro de responsabilidade, facultando-se, em caso afirmativo, o ajuizamento de ação de indenização diretamente contra o segurador, vedada a denunciação da lide ao Instituto de Resseguros do Brasil e dispensado o litisconsórcio obrigatório com este.
 
 -----
-Art. 102 - Os legitimados a agir na forma deste código poderão propor ação visando compelir o Poder Público competente a proibir, em todo o território nacional, a produção, divulgação distribuição ou venda, ou a determinar a alteração na composição, estrutura, fórmula ou acondicionamento de produto, cujo uso ou consumo regular se revele nocivo ou perigoso à saúde pública e à incolumidade pessoal.
+Art. 102. Os legitimados a agir na forma deste código poderão propor ação visando compelir o Poder Público competente a proibir, em todo o território nacional, a produção, divulgação distribuição ou venda, ou a determinar a alteração na composição, estrutura, fórmula ou acondicionamento de produto, cujo uso ou consumo regular se revele nocivo ou perigoso à saúde pública e à incolumidade pessoal.
 
         § 1° (Vetado).
 
         § 2° (Vetado)
 
 -----
-Art. 103 - Nas ações coletivas de que trata este código, a sentença fará coisa julgada:
+CAPÍTULO IV
+-----
+Da Coisa Julgada
+-----
+
+Art. 103. Nas ações coletivas de que trata este código, a sentença fará coisa julgada:
 
         I - erga omnes, exceto se o pedido for julgado improcedente por insuficiência de provas, hipótese em que qualquer legitimado poderá intentar outra ação, com idêntico fundamento valendo-se de nova prova, na hipótese do inciso I do parágrafo único do art. 81;
 
@@ -988,16 +1129,18 @@ Art. 103 - Nas ações coletivas de que trata este código, a sentença fará co
         § 4º Aplica-se o disposto no parágrafo anterior à sentença penal condenatória.
 
 -----
-Art. 104 - As ações coletivas, previstas nos incisos I e II e do parágrafo único do art. 81, não induzem litispendência para as ações individuais, mas os efeitos da coisa julgada erga omnes ou ultra partes a que aludem os incisos II e III do artigo anterior não beneficiarão os autores das ações individuais, se não for requerida sua suspensão no prazo de trinta dias, a contar da ciência nos autos do ajuizamento da ação coletiva.
+Art. 104. As ações coletivas, previstas nos incisos I e II e do parágrafo único do art. 81, não induzem litispendência para as ações individuais, mas os efeitos da coisa julgada erga omnes ou ultra partes a que aludem os incisos II e III do artigo anterior não beneficiarão os autores das ações individuais, se não for requerida sua suspensão no prazo de trinta dias, a contar da ciência nos autos do ajuizamento da ação coletiva.
 
+-----
 CAPÍTULO V
 
 DA CONCILIAÇÃO NO SUPERENDIVIDAMENTO
-
- (Incluído pela Lei nº 14.181, de 2021)
+-----
 
 -----
-Art. 104A - A requerimento do consumidor superendividado pessoa natural, o juiz poderá instaurar processo de repactuação de dívidas, com vistas à realização de audiência conciliatória, presidida por ele ou por conciliador credenciado no juízo, com a presença de todos os credores de dívidas previstas no art. 54-A deste Código, na qual o consumidor apresentará proposta de plano de pagamento com prazo máximo de 5 (cinco) anos, preservados o mínimo existencial, nos termos da regulamentação, e as garantias e as formas de pagamento originalmente pactuadas.        (Incluído pela Lei nº 14.181, de 2021)
+ (Incluído pela Lei nº 14.181, de 2021)
+
+Art. 104A. A requerimento do consumidor superendividado pessoa natural, o juiz poderá instaurar processo de repactuação de dívidas, com vistas à realização de audiência conciliatória, presidida por ele ou por conciliador credenciado no juízo, com a presença de todos os credores de dívidas previstas no art. 54-A deste Código, na qual o consumidor apresentará proposta de plano de pagamento com prazo máximo de 5 (cinco) anos, preservados o mínimo existencial, nos termos da regulamentação, e as garantias e as formas de pagamento originalmente pactuadas.        (Incluído pela Lei nº 14.181, de 2021)
 
 § 1º Excluem-se do processo de repactuação as dívidas, ainda que decorrentes de relações de consumo, oriundas de contratos celebrados dolosamente sem o propósito de realizar pagamento, bem como as dívidas provenientes de contratos de crédito com garantia real, de financiamentos imobiliários e de crédito rural.       (Incluído pela Lei nº 14.181, de 2021)
 
@@ -1018,7 +1161,7 @@ IV - condicionamento de seus efeitos à abstenção, pelo consumidor, de conduta
 § 5º O pedido do consumidor a que se refere o caput deste artigo não importará em declaração de insolvência civil e poderá ser repetido somente após decorrido o prazo de 2 (dois) anos, contado da liquidação das obrigações previstas no plano de pagamento homologado, sem prejuízo de eventual repactuação.       (Incluído pela Lei nº 14.181, de 2021)
 
 -----
-Art. 104B - Se não houver êxito na conciliação em relação a quaisquer credores, o juiz, a pedido do consumidor, instaurará processo por superendividamento para revisão e integração dos contratos e repactuação das dívidas remanescentes mediante plano judicial compulsório e procederá à citação de todos os credores cujos créditos não tenham integrado o acordo porventura celebrado.      (Incluído pela Lei nº 14.181, de 2021)
+Art. 104B. Se não houver êxito na conciliação em relação a quaisquer credores, o juiz, a pedido do consumidor, instaurará processo por superendividamento para revisão e integração dos contratos e repactuação das dívidas remanescentes mediante plano judicial compulsório e procederá à citação de todos os credores cujos créditos não tenham integrado o acordo porventura celebrado.      (Incluído pela Lei nº 14.181, de 2021)
 
 § 1º Serão considerados no processo por superendividamento, se for o caso, os documentos e as informações prestadas em audiência.       (Incluído pela Lei nº 14.181, de 2021)
 
@@ -1029,17 +1172,22 @@ Art. 104B - Se não houver êxito na conciliação em relação a quaisquer cred
 § 4º O plano judicial compulsório assegurará aos credores, no mínimo, o valor do principal devido, corrigido monetariamente por índices oficiais de preço, e preverá a liquidação total da dívida, após a quitação do plano de pagamento consensual previsto no art. 104-A deste Código, em, no máximo, 5 (cinco) anos, sendo que a primeira parcela será devida no prazo máximo de 180 (cento e oitenta) dias, contado de sua homologação judicial, e o restante do saldo será devido em parcelas mensais iguais e sucessivas.       (Incluído pela Lei nº 14.181, de 2021)
 
 -----
-Art. 104C - Compete concorrente e facultativamente aos órgãos públicos integrantes do Sistema Nacional de Defesa do Consumidor a fase conciliatória e preventiva do processo de repactuação de dívidas, nos moldes do art. 104-A deste Código, no que couber, com possibilidade de o processo ser regulado por convênios específicos celebrados entre os referidos órgãos e as instituições credoras ou suas associações.      (Incluído pela Lei nº 14.181, de 2021)
+Art. 104C. Compete concorrente e facultativamente aos órgãos públicos integrantes do Sistema Nacional de Defesa do Consumidor a fase conciliatória e preventiva do processo de repactuação de dívidas, nos moldes do art. 104-A deste Código, no que couber, com possibilidade de o processo ser regulado por convênios específicos celebrados entre os referidos órgãos e as instituições credoras ou suas associações.      (Incluído pela Lei nº 14.181, de 2021)
 
 § 1º Em caso de conciliação administrativa para prevenir o superendividamento do consumidor pessoa natural, os órgãos públicos poderão promover, nas reclamações individuais, audiência global de conciliação com todos os credores e, em todos os casos, facilitar a elaboração de plano de pagamento, preservado o mínimo existencial, nos termos da regulamentação, sob a supervisão desses órgãos, sem prejuízo das demais atividades de reeducação financeira cabíveis.      (Incluído pela Lei nº 14.181, de 2021)
 
 § 2º O acordo firmado perante os órgãos públicos de defesa do consumidor, em caso de superendividamento do consumidor pessoa natural, incluirá a data a partir da qual será providenciada a exclusão do consumidor de bancos de dados e de cadastros de inadimplentes, bem como o condicionamento de seus efeitos à abstenção, pelo consumidor, de condutas que importem no agravamento de sua situação de superendividamento, especialmente a de contrair novas dívidas.       (Incluído pela Lei nº 14.181, de 2021)
 
 -----
-Art. 105 - Integram o Sistema Nacional de Defesa do Consumidor (SNDC), os órgãos federais, estaduais, do Distrito Federal e municipais e as entidades privadas de defesa do consumidor.
+TÍTULO IV
+-----
+Do Sistema Nacional de Defesa do Consumidor
+-----
+
+Art. 105. Integram o Sistema Nacional de Defesa do Consumidor (SNDC), os órgãos federais, estaduais, do Distrito Federal e municipais e as entidades privadas de defesa do consumidor.
 
 -----
-Art. 106 - O Departamento Nacional de Defesa do Consumidor, da Secretaria Nacional de Direito Econômico (MJ), ou órgão federal que venha substituí-lo, é organismo de coordenação da política do Sistema Nacional de Defesa do Consumidor, cabendo-lhe:
+Art. 106. O Departamento Nacional de Defesa do Consumidor, da Secretaria Nacional de Direito Econômico (MJ), ou órgão federal que venha substituí-lo, é organismo de coordenação da política do Sistema Nacional de Defesa do Consumidor, cabendo-lhe:
 
         I - planejar, elaborar, propor, coordenar e executar a política nacional de proteção ao consumidor;
 
@@ -1070,7 +1218,12 @@ Art. 106 - O Departamento Nacional de Defesa do Consumidor, da Secretaria Nacion
         Parágrafo único. Para a consecução de seus objetivos, o Departamento Nacional de Defesa do Consumidor poderá solicitar o concurso de órgãos e entidades de notória especialização técnico-científica.
 
 -----
-Art. 107 - As entidades civis de consumidores e as associações de fornecedores ou sindicatos de categoria econômica podem regular, por convenção escrita, relações de consumo que tenham por objeto estabelecer condições relativas ao preço, à qualidade, à quantidade, à garantia e características de produtos e serviços, bem como à reclamação e composição do conflito de consumo.
+TÍTULO V
+-----
+Da Convenção Coletiva de Consumo
+-----
+
+Art. 107. As entidades civis de consumidores e as associações de fornecedores ou sindicatos de categoria econômica podem regular, por convenção escrita, relações de consumo que tenham por objeto estabelecer condições relativas ao preço, à qualidade, à quantidade, à garantia e características de produtos e serviços, bem como à reclamação e composição do conflito de consumo.
 
         § 1° A convenção tornar-se-á obrigatória a partir do registro do instrumento no cartório de títulos e documentos.
 
@@ -1079,57 +1232,62 @@ Art. 107 - As entidades civis de consumidores e as associações de fornecedores
         § 3° Não se exime de cumprir a convenção o fornecedor que se desligar da entidade em data posterior ao registro do instrumento.
 
 -----
-Art. 108 - (Vetado).
+Art. 108. (Vetado).
 
 -----
-Art. 109 - (Vetado).
+TÍTULO VI
+-----
+Disposições Finais
+-----
+
+Art. 109. (Vetado).
 
 -----
-Art. 110 - Acrescente-se o seguinte inciso IV ao art. 1° da Lei n° 7.347, de 24 de julho de 1985:
+Art. 110. Acrescente-se o seguinte inciso IV ao art. 1° da Lei n° 7.347, de 24 de julho de 1985:
 
+-----
 "IV - a qualquer outro interesse difuso ou coletivo".
 
------
-Art. 111 - O inciso II do art. 5° da Lei n° 7.347, de 24 de julho de 1985, passa a ter a seguinte redação:
+Art. 111. O inciso II do art. 5° da Lei n° 7.347, de 24 de julho de 1985, passa a ter a seguinte redação:
 
+-----
 "II - inclua, entre suas finalidades institucionais, a proteção ao meio ambiente, ao consumidor, ao patrimônio artístico, estético, histórico, turístico e paisagístico, ou a qualquer outro interesse difuso ou coletivo".
 
------
-Art. 112 - O § 3° do art. 5° da Lei n° 7.347, de 24 de julho de 1985, passa a ter a seguinte redação:
+Art. 112. O § 3° do art. 5° da Lei n° 7.347, de 24 de julho de 1985, passa a ter a seguinte redação:
 
+-----
 "§ 3° Em caso de desistência infundada ou abandono da ação por associação legitimada, o Ministério Público ou outro legitimado assumirá a titularidade ativa".
 
------
-Art. 113 - Acrescente-se os seguintes §§ 4°, 5° e 6° ao art. 5º. da Lei n.° 7.347, de 24 de julho de 1985:
+Art. 113. Acrescente-se os seguintes §§ 4°, 5° e 6° ao art. 5º. da Lei n.° 7.347, de 24 de julho de 1985:
 
 "§ 4.° O requisito da pré-constituição poderá ser dispensado pelo juiz, quando haja manifesto interesse social evidenciado pela dimensão ou característica do dano, ou pela relevância do bem jurídico a ser protegido.
 
-§ 5.° Admitir-se-á o litisconsórcio facultativo entre os Ministérios Públicos da União, do Distrito Federal e dos Estados na defesa dos interesses e direitos de que cuida esta lei.
+§ 5.° Admitir-se-á o litisconsórcio facultativo entre os Ministérios Públicos da União, do Distrito Federal e dos Estados na defesa dos interesses e direitos de que cuida esta lei.  
 
-§ 6° Os órgãos públicos legitimados poderão tomar dos interessados compromisso de ajustamento de sua conduta às exigências legais, mediante combinações, que terá eficácia de título executivo extrajudicial".
-
------
-Art. 114 - O art. 15 da Lei n° 7.347, de 24 de julho de 1985, passa a ter a seguinte redação:
-
-"art. 15. Decorridos sessenta dias do trânsito em julgado da sentença condenatória, sem que a associação autora lhe promova a execução, deverá fazê-lo o Ministério Público, facultada igual iniciativa aos demais legitimados".
+§ 6° Os órgãos públicos legitimados poderão tomar dos interessados compromisso de ajustamento de sua conduta às exigências legais, mediante combinações, que terá eficácia de título executivo extrajudicial".  
 
 -----
-Art. 115 - Suprima-se o caput do art. 17 da Lei n° 7.347, de 24 de julho de 1985, passando o parágrafo único a constituir o caput, com a seguinte redação:
-
-“art. 17. Em caso de litigância de má-fé, a associação autora e os diretores responsáveis pela propositura da ação serão solidariamente condenados em honorários advocatícios e ao décuplo das custas, sem prejuízo da responsabilidade por perdas e danos”.
+Art. 114. O art. 15 da Lei n° 7.347, de 24 de julho de 1985, passa a ter a seguinte redação:
 
 -----
-Art. 116 - Dê-se a seguinte redação ao art. 18 da Lei n° 7.347, de 24 de julho de 1985:
+"Art. 15. Decorridos sessenta dias do trânsito em julgado da sentença condenatória, sem que a associação autora lhe promova a execução, deverá fazê-lo o Ministério Público, facultada igual iniciativa aos demais legitimados".
 
-"art. 18. Nas ações de que trata esta lei, não haverá adiantamento de custas, emolumentos, honorários periciais e quaisquer outras despesas, nem condenação da associação autora, salvo comprovada má-fé, em honorários de advogado, custas e despesas processuais".
-
------
-Art. 117 - Acrescente-se à Lei n° 7.347, de 24 de julho de 1985, o seguinte dispositivo, renumerando-se os seguintes:
-
-"art. 21. Aplicam-se à defesa dos direitos e interesses difusos, coletivos e individuais, no que for cabível, os dispositivos do Título III da lei que instituiu o Código de Defesa do Consumidor".
+Art. 115. Suprima-se o caput do art. 17 da Lei n° 7.347, de 24 de julho de 1985, passando o parágrafo único a constituir o caput, com a seguinte redação:
 
 -----
-Art. 118 - Este código entrará em vigor dentro de cento e oitenta dias a contar de sua publicação.
+“Art. 17. Em caso de litigância de má-fé, a associação autora e os diretores responsáveis pela propositura da ação serão solidariamente condenados em honorários advocatícios e ao décuplo das custas, sem prejuízo da responsabilidade por perdas e danos”.
+
+Art. 116. Dê-se a seguinte redação ao art. 18 da Lei n° 7.347, de 24 de julho de 1985:
 
 -----
-Art. 119 - Revogam-se as disposições em contrário.
+"Art. 18. Nas ações de que trata esta lei, não haverá adiantamento de custas, emolumentos, honorários periciais e quaisquer outras despesas, nem condenação da associação autora, salvo comprovada má-fé, em honorários de advogado, custas e despesas processuais".
+
+Art. 117. Acrescente-se à Lei n° 7.347, de 24 de julho de 1985, o seguinte dispositivo, renumerando-se os seguintes:
+
+-----
+"Art. 21. Aplicam-se à defesa dos direitos e interesses difusos, coletivos e individuais, no que for cabível, os dispositivos do Título III da lei que instituiu o Código de Defesa do Consumidor".
+
+Art. 118. Este código entrará em vigor dentro de cento e oitenta dias a contar de sua publicação.
+
+-----
+Art. 119. Revogam-se as disposições em contrário.
