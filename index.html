@@ -10,28 +10,59 @@
 
   <style>
     :root{
-      /* Paleta */
-      --white:#FFFFFF; --lilac:#E1DEE6; --navy:#142B6F; --yellow:#FFD601;
-      --bg:var(--white); --fg:#101418; --muted:#5f6470;
+  /* ... suas vars ... */
+  --bar-bg:   #f5f7fa; /* cinza claro da barra superior (busca) */
+  --bar-bg-2: #eceff4; /* cinza um pouco mais escuro da barra inferior (estudar) */
+}
 
-      /* Dimensões */
-      --topbar-h: 68px;          /* um pouco mais alta p/ a marca */
-      --progress-h: 3px;
-      --bottom-search-h: 56px;
-      --bottom-study-h: 64px;
+/* Barra inferior 1: BUSCA + SETAS + spinner */
+.bottom-search{
+  position:fixed; left:0; right:0; bottom:var(--bottom-study-h);
+  height:var(--bottom-search-h);
+  background: var(--bar-bg);                 /* <- cinza claro */
+  border-top:1px solid #e0e4ec;              /* leve divisória */
+  z-index:70; display:flex; align-items:center; justify-content:center;
+}
+.bottom-search-inner{
+  width:clamp(320px, 92vw, 960px);
+  display:flex; align-items:center; gap:6px; padding:8px 12px;
+}
 
-      --focus:#9bb6ff; --radius:12px; --shadow:0 2px 10px rgba(0,0,0,.06);
-      --accent: rgba(255,214,1,.2);
-    }
+/* Botões e campo de digitar: fundo BRANCO */
+.iconbtn{
+  width:32px; height:32px;
+  border:1px solid #e2e5f2;
+  background:#fff;                           /* <- branco */
+  border-radius:8px; display:grid; place-items:center;
+  cursor:pointer; user-select:none; flex:0 0 32px; font-size:16px; line-height:1;
+}
+.search{flex:1; display:flex; align-items:center; gap:6px; min-width:0}
+.search input{
+  width:100%; height:36px;
+  border:1px solid #e2e5f2;
+  border-radius:10px; padding:0 12px;
+  background:#fff;                           /* <- branco */
+  flex:1 1 auto; min-width:0;
+}
 
-    *{box-sizing:border-box}
-    html,body{margin:0;height:100%}
-    body{
-      background:var(--bg); color:var(--fg);
-      font:15px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-    }
-    button,input,select{font:inherit}
+/* Barra inferior 2: CONTADOR + ESTUDAR */
+.bottom-study{
+  position:fixed; left:0; right:0; bottom:0; height:var(--bottom-study-h);
+  background: var(--bar-bg-2);               /* <- um pouco mais escura */
+  border-top:1px solid #d9dde6;              /* divisória levemente mais forte */
+  z-index:75; display:flex; align-items:center; justify-content:center; padding:8px 0;
+}
+.bottom-study-inner{
+  width:clamp(320px, 92vw, 960px); padding:0 12px;
+  display:flex; align-items:center; gap:12px;
+}
+
+/* ESTUDAR continua amarelo (mantido) */
+.study{
+  flex:1 1 auto; padding:12px 16px; border-radius:12px;
+  border:1px solid #f0e08b; background:#FFD601; color:#0a0a0a; font-weight:800; cursor:pointer;
+}
+
 
     /* Topbar (logo à esq., seletor à dir.) */
     .topbar{
