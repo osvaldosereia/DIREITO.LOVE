@@ -87,7 +87,7 @@
     }
     .iconbtn{
       width:38px; height:38px; border:1px solid #e2e5f2; background:#fff; border-radius:10px;
-      display:grid; place-items:center; cursor:pointer
+      display:grid; place-items:center; cursor:pointer; user-select:none
     }
     .iconbtn:focus,input:focus{outline:2px solid var(--focus); outline-offset:2px}
     .search{flex:1; display:flex; align-items:center; gap:8px}
@@ -144,14 +144,14 @@
     <div class="topbar-inner">
       <div class="brand">direito.love</div>
       <div class="select-wrap">
-        <select id="codeSelect" title="Escolher código/arquivo">
+        <select id="codeSelect" title="Escolher arquivo">
           <option value="">— selecione —</option>
           <option value="data/codigo_civil.txt">Código Civil</option>
           <option value="data/codigo_consumidor.txt">Código de Defesa do Consumidor</option>
           <option value="data/codigo_penal.txt">Código Penal</option>
           <option value="data/codigo_Processo_Civil.txt">Código de Processo Civil</option>
           <option value="data/codigo_Processo_Penal.txt">Código de Processo Penal</option>
-          <!-- futuros: sumulas.txt, jurisprudencia.txt, noticias.txt, etc. (mesmo padrão -----) -->
+          <!-- futuros: sumulas.txt, jurisprudencia.txt, noticias.txt (mesmo padrão -----) -->
         </select>
       </div>
     </div>
@@ -177,6 +177,8 @@
       <div class="search">
         <input id="searchInput" type="search" placeholder="Buscar no texto…" autocomplete="off" />
         <div class="count" id="count">0/0</div>
+        <button class="iconbtn" id="searchBtn" title="Executar busca" aria-label="Buscar">🔎</button>
+        <button class="iconbtn" id="clearBtn" title="Limpar busca" aria-label="Limpar">✕</button>
       </div>
     </div>
   </div>
@@ -217,6 +219,8 @@
       prevBtn: document.getElementById('prevBtn'),
       nextBtn: document.getElementById('nextBtn'),
       count: document.getElementById('count'),
+      searchBtn: document.getElementById('searchBtn'),
+      clearBtn: document.getElementById('clearBtn'),
       studyBtn: document.getElementById('studyBtn'),
       modalBackdrop: document.getElementById('modalBackdrop'),
       modalTitle: document.getElementById('modalTitle'),
@@ -228,7 +232,6 @@
       rawText: '',
       articles: [],           // {title, text, htmlId}
       currentArticleIdx: -1,
-      searchTerm: '',
       matchNodes: [],
       matchIdx: -1
     };
@@ -271,10 +274,7 @@
       updateCurrentOutline();
     }, {passive:true});
 
-    /* ================= Parser com prioridade a "-----" =================
-       - Se o arquivo tiver linhas isoladas com 5+ hifens, cada bloco ENTRE duas dessas linhas é um item.
-       - Caso contrário, fallback por "Art".
-    ================================================================ */
+    /* ================= Parser com prioridade a "-----" ================= */
     function parseArticlesFromText(txt){
       txt = txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'); // BOM + normaliza quebras
       const items = parseByDelimiters(txt);
@@ -284,7 +284,6 @@
 
     // 1) Delimitadores "-----" (linha isolada)
     function parseByDelimiters(txt){
-      // Captura índice do INÍCIO de cada linha com 5+ hifens
       const sepRe = /(^|\n)[^\S\r\n]*-{5,}[^\S\r\n]*(?=\n|$)/g;
       const seps = [];
       let m;
@@ -296,7 +295,6 @@
 
       const arts = [];
       for (let i = 0; i + 1 < seps.length; i += 1) {
-        // bloco entre seps[i] e seps[i+1]
         const startLineEnd = txt.indexOf('\n', seps[i]);
         const from = (startLineEnd === -1) ? txt.length : startLineEnd + 1;
         const to = seps[i + 1];
@@ -305,7 +303,6 @@
         let chunk = txt.slice(from, to).trim();
         if (!chunk) continue;
 
-        // Título = primeira linha; corpo = resto (preserva texto pós-título na MESMA linha)
         const { titleText } = splitTitleBody(chunk);
         const title = titleText || `Bloco ${arts.length + 1}`;
 
@@ -390,7 +387,59 @@
       updateCurrentOutline();
     }
 
-    /* ================= Busca ================= */
+    /* ================= Busca (clicar p/ executar) ================= */
+
+    // Normalização sem acentos + mapa para índices do texto original
+    function normalizeWithMap(s){
+      let norm = '';
+      const map = [];
+      for (let i=0;i<s.length;i++){
+        const ch = s[i];
+        const decomp = ch.normalize('NFD');
+        for (let k=0;k<decomp.length;k++){
+          const c = decomp[k];
+          const code = c.codePointAt(0);
+          if (code>=0x0300 && code<=0x036F) continue; // descarta acentos
+          norm += c.toLowerCase();
+          map.push(i); // posição no texto original
+        }
+      }
+      return {norm, map};
+    }
+    const normalizeTerm = (s)=> s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+
+    // encontra todas as ocorrências (case-insensitive, sem acento) e devolve ranges [start,end) no texto original
+    function findRanges(raw, term){
+      if (!term) return [];
+      const {norm, map} = normalizeWithMap(raw);
+      const needle = normalizeTerm(term);
+      if (!needle) return [];
+      const ranges = [];
+      let from = 0;
+      while (true){
+        const pos = norm.indexOf(needle, from);
+        if (pos === -1) break;
+        const start = map[pos];
+        const end   = map[pos + needle.length - 1] + 1;
+        ranges.push([start, end]);
+        from = pos + needle.length;
+      }
+      return ranges;
+    }
+
+    function highlightElementByRanges(el, ranges){
+      if (!ranges.length){ return; }
+      const raw = el.textContent;
+      let out = '', last = 0;
+      for (const [s,e] of ranges){
+        out += escapeHtml(raw.slice(last, s));
+        out += '<mark>' + escapeHtml(raw.slice(s, e)) + '</mark>';
+        last = e;
+      }
+      out += escapeHtml(raw.slice(last));
+      el.innerHTML = out;
+    }
+
     function clearMarks(){
       const nodes = document.querySelectorAll('article[data-idx]');
       nodes.forEach(node=>{
@@ -414,47 +463,81 @@
       els.count.textContent = '0/0';
     }
 
-    function highlightTerm(term){
+    // processamento em lotes para não travar a UI
+    async function highlightTermChunked(term){
       clearMarks();
       if (!term){ return; }
-      const rx = new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-      const nodes = document.querySelectorAll('article .art-body, article .art-title');
 
-      for (const n of nodes){
-        const raw = n.textContent;
-        if (!rx.test(raw)) continue;
-        rx.lastIndex = 0;
-        const html = escapeHtml(raw).replace(rx, (m)=>`<mark>${m}</mark>`);
-        n.innerHTML = html;
+      els.searchBtn.disabled = true;
+      els.clearBtn.disabled = true;
+      els.prevBtn.disabled = true;
+      els.nextBtn.disabled = true;
+      els.count.textContent = '...';
+
+      const nodes = Array.from(document.querySelectorAll('article .art-body, article .art-title'));
+      const BATCH = 10;
+      for (let i = 0; i < nodes.length; i += BATCH){
+        for (let j = i; j < Math.min(i+BATCH, nodes.length); j++){
+          const n = nodes[j];
+          const raw = n.textContent;
+          const ranges = findRanges(raw, term);
+          if (ranges.length) highlightElementByRanges(n, ranges);
+        }
+        await new Promise(r=>setTimeout(r,0)); // cede para UI
       }
+
       state.matchNodes = Array.from(document.querySelectorAll('mark'));
       if (state.matchNodes.length){
-        state.matchIdx = 0; scrollToMatch(0);
+        state.matchIdx = 0;
+        state.matchNodes[0].scrollIntoView({behavior:'smooth', block:'center'});
         els.count.textContent = `1/${state.matchNodes.length}`;
       }else{
-        els.count.textContent = `0/0`;
+        els.count.textContent = '0/0';
       }
+
+      els.searchBtn.disabled = false;
+      els.clearBtn.disabled = false;
+      els.prevBtn.disabled = false;
+      els.nextBtn.disabled = false;
     }
 
-    function scrollToMatch(idx){
-      const m = state.matchNodes[idx]; if (!m) return;
-      m.scrollIntoView({behavior:'smooth',block:'center'});
-      els.count.textContent = `${idx+1}/${state.matchNodes.length}`;
-    }
-
-    els.searchInput?.addEventListener('input', (e)=>{
-      state.searchTerm = e.target.value.trim();
-      highlightTerm(state.searchTerm);
+    // Clique BUSCAR (ícone)
+    els.searchBtn.addEventListener('click', ()=>{
+      const term = els.searchInput.value.trim();
+      highlightTermChunked(term);
     });
-    els.nextBtn?.addEventListener('click', ()=>{
+
+    // Clique LIMPAR (ícone)
+    els.clearBtn.addEventListener('click', ()=>{
+      els.searchInput.value = '';
+      clearMarks();
+    });
+
+    // Enter = buscar; Esc = limpar
+    els.searchInput.addEventListener('keydown', (e)=>{
+      if (e.key === 'Enter'){
+        e.preventDefault();
+        els.searchBtn.click();
+      }else if (e.key === 'Escape'){
+        e.preventDefault();
+        els.clearBtn.click();
+      }
+    });
+
+    // Navegação entre ocorrências
+    els.nextBtn.addEventListener('click', ()=>{
       if (!state.matchNodes.length) return;
       state.matchIdx = (state.matchIdx + 1) % state.matchNodes.length;
-      scrollToMatch(state.matchIdx);
+      const m = state.matchNodes[state.matchIdx];
+      m.scrollIntoView({behavior:'smooth',block:'center'});
+      els.count.textContent = `${state.matchIdx+1}/${state.matchNodes.length}`;
     });
-    els.prevBtn?.addEventListener('click', ()=>{
+    els.prevBtn.addEventListener('click', ()=>{
       if (!state.matchNodes.length) return;
       state.matchIdx = (state.matchIdx - 1 + state.matchNodes.length) % state.matchNodes.length;
-      scrollToMatch(state.matchIdx);
+      const m = state.matchNodes[state.matchIdx];
+      m.scrollIntoView({behavior:'smooth',block:'center'});
+      els.count.textContent = `${state.matchIdx+1}/${state.matchNodes.length}`;
     });
 
     /* ================= ESTUDAR (gera prompt + modal) ================= */
