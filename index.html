@@ -930,7 +930,6 @@ function getGroups(){
         sheet.hidden = false;
         sheet.setAttribute('aria-hidden', 'false');
         render('');
-        setTimeout(()=>searchEl.focus(), 0);
         document.addEventListener('keydown', onKey);
       }
       function close(){
