@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>direito.love — Leitor jurídico</title>
+
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#142B6F">
+
+  <style>
+    :root{
+      /* Paleta */
+      --white:#FFFFFF; --lilac:#E1DEE6; --navy:#142B6F; --yellow:#FFD601;
+      --bg:var(--white); --fg:#101418; --muted:#5f6470;
+
+      /* Barras de baixo */
+      --bar-bg:#f5f7fa;   /* busca (mais clara) */
+      --bar-bg-2:#eceff4; /* estudar/buscar (um pouco mais escura) */
+
+      /* Dimensões */
+      --topbar-h: 68px;
+      --progress-h: 6px;                   /* mais grossa */
+      --bottom-search-h: 56px;             /* barra 1 */
+      --bottom-study-h: 64px;              /* barra 2 */
+
+      --focus:#9bb6ff; --radius:12px; --shadow:0 2px 10px rgba(0,0,0,.06);
+      --accent: rgba(255,214,1,.2);
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%}
+    body{
+      background:var(--bg); color:var(--fg);
+      font:15px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      max-width:100%; overflow-x:hidden; /* sem scroll lateral */
+    }
+    button,input,select{font:inherit}
+
+    /* Topbar (logo à esq., seletor à dir.) */
+    .topbar{
+      position:fixed; inset:0 0 auto 0; height:var(--topbar-h);
+      display:flex; align-items:center; justify-content:center;
+      background:var(--navy); color:#fff; z-index:80; box-shadow:var(--shadow);
+    }
+    .topbar-inner{
+      width:clamp(320px, 92vw, 960px);
+      padding:0 12px; display:flex; align-items:center; gap:12px;
+      overflow:hidden;
+    }
+    .brand{
+      appearance:none; border:0; background:none; color:#fff; cursor:pointer;
+      font-weight:700; letter-spacing:.2px; border-radius:8px;
+      flex:0 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+      font-size: clamp(18px, 2.2vw, 24px); line-height:1.1; padding:8px 10px;
+    }
+    .brand:focus{outline:2px solid #fff; outline-offset:2px}
+    .spacer{flex:1 1 auto; min-width:0}
+
+    .select-wrap{flex:1 1 50%; min-width:0; max-width:60vw; display:flex; gap:8px; justify-content:flex-end; align-items:center}
+    select{
+      width:100%; height:38px; border:1px solid rgba(255,255,255,.35);
+      background:#fff; color:#161b33; border-radius:10px; padding:0 10px;
+    }
+    select:focus{outline:2px solid var(--focus); outline-offset:2px}
+
+    /* Botão que abre o picker (aparece só no mobile) */
+    .picker-trigger{
+      display:none;
+      height:38px; padding:0 12px; border-radius:10px; border:1px solid rgba(255,255,255,.35);
+      background:#fff; color:#161b33; font-weight:600; cursor:pointer;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .picker-trigger:focus{outline:2px solid var(--focus); outline-offset:2px}
+
+    /* Barra de progresso (busca) */
+    .progress{
+      position:fixed; top:var(--topbar-h); left:0; right:0; height:var(--progress-h); z-index:85;
+      background:transparent;
+    }
+    .progress .bar{
+      height:100%; width:0%; background:linear-gradient(90deg, #FFD601, #E1DEE6);
+      transition:width .2s ease;
+    }
+    .progress[hidden]{display:none}
+
+    /* Conteúdo */
+    .content{
+      position:relative;
+      padding: calc(var(--topbar-h) + var(--progress-h) + 14px) 0 calc(var(--bottom-search-h) + var(--bottom-study-h) + 24px);
+      min-height:100dvh;
+    }
+    .container{ width:clamp(320px, 92vw, 960px); margin:0 auto; padding:0 12px }
+    .placeholder{
+      padding:24px; border:1px dashed #dcdfea; border-radius:var(--radius);
+      color:var(--muted); background:#fafbff
+    }
+
+    /* Artigos/Blocos */
+    article{
+      white-space:pre-wrap;
+      border-bottom:1px solid #eef0f6;
+      padding:18px 10px; scroll-margin: 92px; border-radius:10px;
+      overflow-wrap:anywhere; word-break:break-word; hyphens:auto; max-width:100%;
+    }
+    .supra{ color:#6c7282; font-weight:600; font-size:13px; margin-bottom:6px; }
+    .supra div{ line-height:1.35 }
+    .art-title{ display:block; font-weight:700; color:#0e1638; margin:0 0 6px }
+    article.current-outline{
+      outline:3px solid #7aa8ff; outline-offset:2px;    /* mais destacado */
+    }
+    article.highlight-study{ background:var(--accent) }
+
+    /* Destaque busca */
+    mark{padding:0 2px; border-radius:3px; background:#ffef99}
+
+    /* ===== Base — Barra 1 (SETAS / INPUT / CONTADOR / X) ===== */
+    .bottom-search{
+      position:fixed; left:0; right:0; bottom:var(--bottom-study-h);
+      height:var(--bottom-search-h);
+      background: var(--bar-bg);
+      border-top:1px solid #e0e4ec;
+      z-index:70; display:flex; align-items:center; justify-content:center;
+    }
+    .bottom-search-inner{
+      width:clamp(320px, 92vw, 960px);
+      display:flex; align-items:center; gap:8px; padding:8px 12px;
+    }
+    .iconbtn{
+      width:32px; height:32px; border:1px solid #e2e5f2; background:#fff; border-radius:8px;
+      display:grid; place-items:center; cursor:pointer; user-select:none; flex:0 0 32px;
+      font-size:16px; line-height:1;
+    }
+    .iconbtn.danger{ border-color:#f2d6d6; }
+    .iconbtn:focus,input:focus{outline:2px solid var(--focus); outline-offset:2px}
+    .search{flex:1; display:flex; align-items:center; gap:8px; min-width:0}
+    .search input{
+      width:100%; height:36px; border:1px solid #e2e5f2; border-radius:10px; padding:0 12px; background:#fff;
+      flex:1 1 auto; min-width:0;
+    }
+    .spinner{width:18px; height:18px; border:2px solid #e2e5f2; border-top-color:#142B6F; border-radius:50%;
+      animation:spin 1s linear infinite; flex:0 0 18px}
+    .spinner[hidden]{display:none}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .result-count{
+      min-width:64px; font-size:12px; color:#6c7282; border:1px solid #e2e5f2;
+      background:#f7f8fc; padding:6px 10px; border-radius:8px; text-align:center;
+    }
+
+    /* ===== Base — Barra 2 (ESTUDAR azul menor / BUSCAR amarelo maior) ===== */
+    .bottom-study{
+      position:fixed; left:0; right:0; bottom:0; height:var(--bottom-study-h);
+      background: var(--bar-bg-2);
+      border-top:1px solid #d9dde6;
+      z-index:75; display:flex; align-items:center; justify-content:center; padding:8px 0;
+    }
+    .bottom-study-inner{
+      width:clamp(320px, 92vw, 960px); padding:0 12px;
+      display:flex; align-items:center; gap:12px;
+    }
+    .study{
+      flex:0 0 36%; padding:12px 14px; border-radius:12px;
+      border:1px solid #0e2a7a; background:#142B6F; color:#fff; font-weight:800; cursor:pointer;
+    }
+    .do-search{
+      flex:1 1 auto; padding:12px 16px; border-radius:12px;
+      border:1px solid #f0e08b; background:var(--yellow); color:#0a0a0a; font-weight:800; cursor:pointer;
+    }
+
+    /* ===== Modal IA (mantido) ===== */
+    .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.28); display:none; align-items:center; justify-content:center; z-index:100}
+    .modal{
+      background:#fff; border-radius:16px; width:min(640px, 92vw); padding:18px; border:1px solid #eceef7; box-shadow: var(--shadow)
+    }
+    .modal h3{margin:0 0 8px; color:#0f173a}
+    .modal .subtitle{margin:0 0 14px; font-size:13px; color:#3a7f48}
+    .ia-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+    .ia-btn{
+      display:flex; align-items:center; gap:10px; padding:12px; border:1px solid #e6e8f2; background:#f6f7fb;
+      border-radius:12px; cursor:pointer; text-decoration:none; color:#111; font-weight:700; justify-content:center;
+    }
+    .ia-btn:focus{outline:2px solid var(--focus); outline-offset:2px}
+    .modal .foot{margin-top:12px; display:flex; justify-content:flex-end}
+    .modal .close-btn{padding:8px 12px; border:1px solid #e2e5f2; background:#fff; border-radius:10px; cursor:pointer}
+
+    /* Toast */
+    .toast{
+      position:fixed; left:50%; transform:translateX(-50%);
+      bottom:calc(var(--bottom-study-h) + var(--bottom-search-h) + 14px);
+      background:#111; color:#fff; padding:8px 12px; border-radius:10px; opacity:0; pointer-events:none; transition:opacity .2s; z-index:200
+    }
+    .toast.show{opacity:1}
+
+    /* ======== Picker custom (mobile) ======== */
+    .picker-backdrop{
+      position:fixed; inset:0; background:rgba(0,0,0,.36); display:none; z-index:120;
+    }
+    .picker{
+      position:absolute; left:0; right:0; bottom:0;
+      background:#fff; border-radius:16px 16px 0 0; box-shadow:0 -10px 40px rgba(0,0,0,.18);
+      transform:translateY(100%); transition:transform .2s cubic-bezier(.2,.8,.2,1);
+      padding:12px 12px max(12px, env(safe-area-inset-bottom));
+      max-height:80vh; overflow:auto;
+      width:min(960px, 100vw); margin-inline:auto;
+    }
+    .picker.open{ transform:translateY(0); }
+    .picker-header{display:flex; align-items:center; gap:8px; margin-bottom:8px}
+    .picker-title{font-weight:800; color:#0f173a; margin:0; font-size:18px}
+    .picker-close{margin-left:auto; border:1px solid #e2e5f2; background:#fff; border-radius:10px; padding:6px 10px; cursor:pointer}
+    .picker-search{display:flex; gap:8px; align-items:center; margin-bottom:8px}
+    .picker-search input{
+      flex:1 1 auto; height:38px; border:1px solid #e2e5f2; border-radius:10px; padding:0 12px;
+    }
+    .picker-count{font-size:12px; color:#6c7282}
+    .picker-section{margin-top:10px}
+    .picker-section h4{margin:10px 0 6px; font-size:12px; text-transform:uppercase; color:#6c7282; letter-spacing:.4px}
+    .picker-list{display:flex; flex-direction:column; gap:6px}
+    .picker-item{
+      display:flex; align-items:center; gap:8px;
+      border:1px solid #e6e8f2; border-radius:12px; padding:10px 12px; cursor:pointer; background:#f9fafc;
+    }
+    .picker-item:hover, .picker-item[aria-selected="true"]{ border-color:#c9d6ff; background:#eff4ff }
+    .picker-item .label{font-weight:700; color:#0e1638}
+    .picker-item .sub{font-size:12px; color:#6c7282}
+
+    /* Esconder barras até carregar um arquivo */
+    .bottom-search[hidden], .bottom-study[hidden]{display:none}
+
+    /* Mobile-only: usa picker custom e esconde o select nativo */
+    @media (max-width: 640px){
+      .brand{ font-size:18px; }
+      .select-wrap select{ display:none; }
+      .picker-trigger{ display:inline-flex; align-items:center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button class="brand" id="brandBtn" title="Clique para reiniciar">direito.love</button>
+      <div class="spacer"></div>
+      <div class="select-wrap">
+        <!-- Botão (mobile) que abre o picker -->
+        <button class="picker-trigger" id="openPicker" aria-haspopup="dialog" aria-controls="pickerBackdrop">Escolher código</button>
+
+        <!-- CATEGORIAS COM OPTGROUP (fonte da verdade + fallback desktop) -->
+        <select id="codeSelect" title="Escolher arquivo">
+          <option value="">— selecione —</option>
+
+          <optgroup label="Códigos">
+            <option value="data/codigos/codigo_civil.txt">Cód. Civil</option>
+            <option value="data/codigos/codigo_Processo_Civil.txt">Cód. Processo Civil</option>
+            <option value="data/codigos/codigo_penal.txt">Cód. Penal</option>
+            <option value="data/codigos/codigo_Processo_Penal.txt">Cód. Processo Penal</option>
+            <option value="data/codigos/codigo_consumidor.txt">Cód. Defes. Consumidor</option>
+            <option value="data/codigos/codigo_CLT.txt">CLT</option>
+          </optgroup>
+
+          <optgroup label="CF88">
+            <option value="data/CF88/CF88.txt">Const. Federal 1988</option>
+          </optgroup>
+
+          <optgroup label="Estatutos">
+            <option value="data/estatutos/eca.txt">ECA - Est. Criança e Adolescente</option>
+            <option value="data/estatutos/estatuto_do_desarmamento.txt">Estatuto do Desarmamento</option>
+            <option value="data/estatutos/estatuto_do_idoso.txt">Estatuto do Idoso</option>
+            <option value="data/estatutos/estatuto_da_crianca_e_adolescente.txt">Estatuto Criança Adolescente</option>
+          </optgroup>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress" id="progress" hidden>
+    <div class="bar" id="progressBar"></div>
+  </div>
+
+  <!-- CONTEÚDO -->
+  <main class="content">
+    <div class="container">
+      <div class="articles" id="articles">
+        <div class="placeholder">
+          <p style="text-align:center">😎 Escolha um arquivo no topo para começar. Bons estudos!</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- BARRA 1 (SETAS / INPUT / CONTADOR / X) -->
+  <div class="bottom-search" id="bottomSearch" hidden>
+    <div class="bottom-search-inner" aria-live="polite">
+      <button class="iconbtn" id="prevBtn" title="Anterior" aria-label="Anterior">◀</button>
+      <button class="iconbtn" id="nextBtn" title="Próximo" aria-label="Próximo">▶</button>
+
+      <div class="search">
+        <input id="searchInput" type="search" placeholder="Buscar no texto…" autocomplete="off" />
+        <div class="spinner" id="spinner" hidden></div>
+      </div>
+
+      <div class="result-count" title="Ocorrência atual / Total"><span id="count">0/0</span></div>
+      <button class="iconbtn danger" id="resetBtn" title="Reiniciar" aria-label="Reiniciar">✕</button>
+    </div>
+  </div>
+
+  <!-- BARRA 2 (ESTUDAR azul menor / BUSCAR amarelo maior) -->
+  <div class="bottom-study" id="bottomStudy" hidden>
+    <div class="bottom-study-inner">
+      <button class="study" id="studyBtn">Estudar</button>
+      <button class="do-search" id="doSearchBtn">Buscar</button>
+    </div>
+  </div>
+
+  <!-- MODAL IA -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Estude o Artigo X com as I.As. abaixo.</h3>
+      <p class="subtitle">✅ Prompt já copiado para a área de transferência. Escolha uma IA para abrir e cole o prompt.</p>
+      <div class="ia-grid">
+        <button class="ia-btn" data-url="https://chatgpt.com/">💬 ChatGPT</button>
+        <button class="ia-btn" data-url="https://gemini.google.com/app">🧠 Gemini</button>
+        <button class="ia-btn" data-url="https://copilot.microsoft.com/">✨ Copilot</button>
+        <button class="ia-btn" data-url="https://www.perplexity.ai/">🔎 Perplexity</button>
+      </div>
+      <div class="foot">
+        <button class="close-btn" id="closeModal">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PICKER CUSTOM (mobile) -->
+  <div class="picker-backdrop" id="pickerBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="picker" id="picker" role="document" aria-labelledby="pickerTitle">
+      <div class="picker-header">
+        <h3 class="picker-title" id="pickerTitle">Escolher código</h3>
+        <button class="picker-close" id="pickerClose" aria-label="Fechar">✕</button>
+      </div>
+      <div class="picker-search">
+        <input id="pickerInput" type="search" placeholder="Buscar por nome…" autocomplete="off" />
+        <div class="picker-count" id="pickerCount" aria-live="polite">0 itens</div>
+      </div>
+      <div id="pickerContent"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">✅ Prompt copiado!</div>
+
+  <script>
+    /* ================= Estado ================= */
+    const els = {
+      brandBtn: document.getElementById('brandBtn'),
+      codeSelect: document.getElementById('codeSelect'),
+      openPicker: document.getElementById('openPicker'),
+      pickerBackdrop: document.getElementById('pickerBackdrop'),
+      picker: document.getElementById('picker'),
+      pickerClose: document.getElementById('pickerClose'),
+      pickerInput: document.getElementById('pickerInput'),
+      pickerCount: document.getElementById('pickerCount'),
+      pickerContent: document.getElementById('pickerContent'),
+
+      articles: document.getElementById('articles'),
+      bottomSearch: document.getElementById('bottomSearch'),
+      bottomStudy: document.getElementById('bottomStudy'),
+      searchInput: document.getElementById('searchInput'),
+      prevBtn: document.getElementById('prevBtn'),
+      nextBtn: document.getElementById('nextBtn'),
+      count: document.getElementById('count'),
+      spinner: document.getElementById('spinner'),
+      progress: document.getElementById('progress'),
+      progressBar: document.getElementById('progressBar'),
+      studyBtn: document.getElementById('studyBtn'),
+      doSearchBtn: document.getElementById('doSearchBtn'),
+      resetBtn: document.getElementById('resetBtn'),
+      modalBackdrop: document.getElementById('modalBackdrop'),
+      modalTitle: document.getElementById('modalTitle'),
+      closeModal: document.getElementById('closeModal'),
+      toast: document.getElementById('toast')
+    };
+
+    const state = {
+      rawText: '',
+      articles: [],           // {title, text, htmlId, _split}
+      currentArticleIdx: -1,
+      matchNodes: [],
+      matchIdx: -1,
+      progressTimer: null,
+
+      pickerData: [],         // [{group,label,value, groupLabel}]
+      lastFocused: null
+    };
+
+    const escapeHtml = (s)=> s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+    const showToast = (msg='✅ Prompt copiado!')=>{
+      els.toast.textContent = msg; els.toast.classList.add('show');
+      setTimeout(()=>els.toast.classList.remove('show'), 1000);
+    };
+
+    /* ================= Helpers UI ================= */
+    function setBusy(isBusy){
+      els.bottomSearch.setAttribute('aria-busy', String(isBusy));
+      els.doSearchBtn.disabled = isBusy;
+      els.prevBtn.disabled = isBusy;
+      els.nextBtn.disabled = isBusy;
+      els.spinner.hidden = !isBusy;
+      setProgressActive(isBusy);
+    }
+    function setProgressActive(active){
+      if (active){
+        els.progress.hidden = false;
+        els.progressBar.style.width = '0%';
+        let p = 0;
+        clearInterval(state.progressTimer);
+        state.progressTimer = setInterval(()=>{
+          p = Math.min(85, p + 8 + Math.random()*7);
+          els.progressBar.style.width = p + '%';
+        }, 180);
+      }else{
+        clearInterval(state.progressTimer);
+        els.progressBar.style.width = '100%';
+        setTimeout(()=>{ els.progress.hidden = true; els.progressBar.style.width = '0%'; }, 250);
+      }
+    }
+
+    /* ================= Artigo em evidência (centro da viewport) ================= */
+    const getArticleInView = ()=>{
+      const nodes = document.querySelectorAll('article[data-idx]');
+      const cy = window.innerHeight/2;
+      let hitIdx = -1;
+      for (const el of nodes){
+        const r = el.getBoundingClientRect();
+        if (r.top <= cy && r.bottom >= cy){ hitIdx = Number(el.dataset.idx); break; }
+      }
+      if (hitIdx === -1 && nodes.length){
+        for (const el of nodes){
+          const r = el.getBoundingClientRect();
+          if (r.bottom > 0 && r.top < window.innerHeight){ hitIdx = Number(el.dataset.idx); break; }
+        }
+      }
+      return hitIdx;
+    };
+
+    const updateCurrentOutline = ()=>{
+      const idx = getArticleInView();
+      if (idx === state.currentArticleIdx) return;
+      state.currentArticleIdx = idx;
+      document.querySelectorAll('article.current-outline').forEach(n=>n.classList.remove('current-outline'));
+      if (idx >= 0){
+        document.querySelector(`article[data-idx="${idx}"]`)?.classList.add('current-outline');
+      }
+    };
+    window.addEventListener('scroll', ()=>{
+      if (!state.articles.length) return;
+      updateCurrentOutline();
+    }, {passive:true});
+
+    /* ================= Parser + Sanitização ================= */
+    function sanitizeForLayout(s){
+      return s
+        .replace(/\u00A0/g, ' ')  // NBSP → espaço normal
+        .replace(/\t/g, ' ')      // tabs → espaço
+        .replace(/\s+\n/g, '\n'); // tira espaços no fim da linha
+    }
+
+    function parseArticlesFromText(txt){
+      txt = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
+      const items = parseByDelimiters(txt);
+      if (items.length) return items;
+      return parseByArt(txt); // fallback
+    }
+
+    // Blocos entre duas linhas "-----"
+    function parseByDelimiters(txt){
+      const sepRe = /(^|\n)[^\S\r\n]*-{5,}[^\S\r\n]*(?=\n|$)/g;
+      const seps = [];
+      let m;
+      while ((m = sepRe.exec(txt)) !== null) {
+        const idx = m.index + (m[0].startsWith('\n') ? 1 : 0);
+        seps.push(idx);
+      }
+      if (seps.length < 2) return [];
+      const arts = [];
+      for (let i = 0; i + 1 < seps.length; i += 1) {
+        const startLineEnd = txt.indexOf('\n', seps[i]);
+        const from = (startLineEnd === -1) ? txt.length : startLineEnd + 1;
+        const to = seps[i + 1];
+        if (from >= to) continue;
+        const raw = txt.slice(from, to).trim();
+        if (!raw) continue;
+        const split = splitBlockSupraTitleBody(raw);
+        const title = split.titleText || `Bloco ${arts.length + 1}`;
+        arts.push({ title, text: raw, htmlId: `art-${arts.length}`, _split: split });
+      }
+      return arts;
+    }
+
+    // Fallback por "Art."
+    function parseByArt(txt){
+      const re = /(^|\n)\s*((?:Art|ART)\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?\.?)/g;
+      const starts = [];
+      let m;
+      while ((m = re.exec(txt)) !== null) {
+        const idxArt = re.lastIndex - m[2].length;
+        starts.push(idxArt);
+      }
+      if (!starts.length) return [{ title:'Texto', text: txt.trim(), htmlId:'art-0', _split: splitBlockSupraTitleBody(txt.trim()) }];
+
+      const arts = [];
+      for (let i = 0; i < starts.length; i++) {
+        const from = starts[i];
+        const to   = (i + 1 < starts.length) ? starts[i + 1] : txt.length;
+
+        let chunk = txt.slice(from, to).trimEnd();
+
+        const endDot = chunk.lastIndexOf('.');
+        const endPar = chunk.lastIndexOf(')');
+        const end    = Math.max(endDot, endPar);
+        if (end !== -1) chunk = chunk.slice(0, end + 1).trimEnd();
+
+        const split = splitBlockSupraTitleBody(chunk);
+        const title = split.titleText || chunk.split('\n')[0].slice(0,40);
+
+        arts.push({ title, text: chunk, htmlId: `art-${i}`, _split: split });
+      }
+      return arts;
+    }
+
+    function splitBlockSupraTitleBody(raw){
+      const lines = raw.replace(/^\s+|\s+$/g,'').split(/\r?\n/);
+      const artIdx = lines.findIndex(line => /^\s*(?:Art|ART)\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?\.?/.test(line));
+      if (artIdx >= 0){
+        const supra = lines.slice(0, artIdx).map(s=>s.trim()).filter(Boolean);
+        const titleLine = lines[artIdx];
+        const mt = titleLine.match(/^\s*((?:Art|ART)\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?\.?)/);
+        const titleText = mt ? mt[1].trim() : titleLine.trim();
+        const afterTitle = titleLine.slice(mt ? mt[1].length : 0).trimStart();
+        const rest = lines.slice(artIdx+1).join('\n').trimStart();
+        const body = afterTitle ? (rest ? afterTitle + '\n' + rest : afterTitle) : rest;
+        return { supra, titleText, body };
+      }else{
+        const titleText = (lines[0]||'').trim();
+        const body = lines.slice(1).join('\n').trimStart();
+        return { supra:[], titleText, body };
+      }
+    }
+
+    /* ================= Render ================= */
+    function renderArticles(){
+      const frag = document.createDocumentFragment();
+      state.articles.forEach((a, i)=>{
+        const el = document.createElement('article');
+        el.dataset.idx = i;
+        el.id = a.htmlId;
+
+        const split = a._split || splitBlockSupraTitleBody(a.text);
+
+        if (split.supra && split.supra.length){
+          const supra = document.createElement('div');
+          supra.className = 'supra';
+          split.supra.forEach(line=>{
+            const d = document.createElement('div');
+            d.textContent = line;
+            supra.appendChild(d);
+          });
+          el.appendChild(supra);
+        }
+
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'art-title';
+        titleSpan.textContent = split.titleText || a.title;
+        el.appendChild(titleSpan);
+
+        const content = document.createElement('div');
+        content.className = 'art-body';
+        content.textContent = split.body || '';
+        el.appendChild(content);
+
+        frag.appendChild(el);
+      });
+      els.articles.innerHTML = '';
