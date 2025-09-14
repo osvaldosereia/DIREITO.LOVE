@@ -33,29 +33,43 @@
     }
     button,input,select{font:inherit}
 
-    /* Topbar (logo à esq., seletor à dir.) */
-    .topbar{
-      position:fixed; inset:0 0 auto 0; height:var(--topbar-h);
-      display:flex; align-items:center; justify-content:center;
-      background:var(--navy); color:#fff; z-index:80; box-shadow:var(--shadow);
-    }
-    .topbar-inner{
-      width:clamp(320px, 92vw, 960px);
-      padding:0 12px; display:flex; align-items:center; gap:12px;
-    }
-    .brand{
-      appearance:none; border:0; background:none; color:#fff; cursor:pointer;
-      font-weight:800; letter-spacing:.2px; padding:6px 8px; border-radius:8px;
-      flex:0 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-    }
-    .brand:focus{outline:2px solid #fff; outline-offset:2px}
-    .spacer{flex:1 1 auto; min-width:0}
-    .select-wrap{flex:1 1 50%; min-width:0; max-width:60vw}
-    select{
-      width:100%; height:38px; border:1px solid rgba(255,255,255,.35);
-      background:#fff; color:#161b33; border-radius:10px; padding:0 10px;
-    }
-    select:focus{outline:2px solid var(--focus); outline-offset:2px}
+   /* Topbar (logo à esq., seletor à dir.) */
+/* Dica: se quiser mais respiro, aumente no :root -> --topbar-h: 68px; */
+.topbar{
+  position:fixed; inset:0 0 auto 0; height:var(--topbar-h);
+  display:flex; align-items:center; justify-content:center;
+  background:var(--navy); color:#fff; z-index:80; box-shadow:var(--shadow);
+}
+.topbar-inner{
+  width:clamp(320px, 92vw, 960px);
+  padding:0 12px; display:flex; align-items:center; gap:12px;
+}
+.brand{
+  appearance:none; border:0; background:none; color:#fff; cursor:pointer;
+  font-weight:800; letter-spacing:.2px; border-radius:8px;
+  flex:0 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+
+  /* 🔹 ajustes de tamanho da logo */
+  font-size: clamp(18px, 2.2vw, 24px);
+  line-height: 1.1;
+  padding: 8px 10px;
+}
+.brand:focus{outline:2px solid #fff; outline-offset:2px}
+.spacer{flex:1 1 auto; min-width:0}
+.select-wrap{
+  flex:1 1 50%; min-width:0; max-width:60vw;  /* evita empurrar no mobile */
+}
+select{
+  width:100%; height:38px; border:1px solid rgba(255,255,255,.35);
+  background:#fff; color:#161b33; border-radius:10px; padding:0 10px;
+}
+select:focus{outline:2px solid var(--focus); outline-offset:2px}
+
+/* Opcional: em telas muito estreitas, reduza um pouco a logo */
+@media (max-width: 420px){
+  .brand{ font-size: 18px; }
+}
+
 
     /* Barra de progresso fina (busca) */
     .progress{
