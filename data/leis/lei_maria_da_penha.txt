@@ -1,6 +1,10 @@
+
+
 -----
 TÍTULO I
+
 DISPOSIÇÕES PRELIMINARES
+-----
 
 -----
 Art. 1 Esta Lei cria mecanismos para coibir e prevenir a violência doméstica e familiar contra a mulher, nos termos do § 8º do art. 226 da Constituição Federal, da Convenção sobre a Eliminação de Todas as Formas de Violência contra a Mulher, da Convenção Interamericana para Prevenir, Punir e Erradicar a Violência contra a Mulher e de outros tratados internacionais ratificados pela República Federativa do Brasil; dispõe sobre a criação dos Juizados de Violência Doméstica e Familiar contra a Mulher; e estabelece medidas de assistência e proteção às mulheres em situação de violência doméstica e familiar.
@@ -102,7 +106,6 @@ IX - o destaque, nos currículos escolares de todos os níveis de ensino, para o
 CAPÍTULO II
 
 DA ASSISTÊNCIA À MULHER EM SITUAÇÃO DE VIOLÊNCIA DOMÉSTICA E FAMILIAR
-
 -----
 Art. 9 A assistência à mulher em situação de violência doméstica e familiar será prestada em caráter prioritário no Sistema Único de Saúde (SUS) e no Sistema Único de Segurança Pública (Susp), de forma articulada e conforme os princípios e as diretrizes previstos na Lei nº 8.742, de 7 de dezembro de 1993 (Lei Orgânica da Assistência Social), e em outras normas e políticas públicas de proteção, e emergencialmente, quando for o caso.     (Redação dada pela Lei nº 14.887, de 2024)
 
@@ -140,7 +143,7 @@ Art. 10. Na hipótese da iminência ou da prática de violência doméstica e fa
 Parágrafo único. Aplica-se o disposto no caput deste artigo ao descumprimento de medida protetiva de urgência deferida.
 
 -----
-Art. 10. A - É direito da mulher em situação de violência doméstica e familiar o atendimento policial e pericial especializado, ininterrupto e prestado por servidores - preferencialmente do sexo feminino - previamente capacitados.         (Incluído pela Lei nº 13.505, de 2017)
+Art. 10A. É direito da mulher em situação de violência doméstica e familiar o atendimento policial e pericial especializado, ininterrupto e prestado por servidores - preferencialmente do sexo feminino - previamente capacitados.         (Incluído pela Lei nº 13.505, de 2017)
 
 § 1º A inquirição de mulher em situação de violência doméstica e familiar ou de testemunha de violência doméstica, quando se tratar de crime contra a mulher, obedecerá às seguintes diretrizes:         (Incluído pela Lei nº 13.505, de 2017)
 
@@ -168,6 +171,8 @@ II - encaminhar a ofendida ao hospital ou posto de saúde e ao Instituto Médico
 III - fornecer transporte para a ofendida e seus dependentes para abrigo ou local seguro, quando houver risco de vida;
 
 IV - se necessário, acompanhar a ofendida para assegurar a retirada de seus pertences do local da ocorrência ou do domicílio familiar;
+
+V - informar à ofendida os direitos a ela conferidos nesta Lei e os serviços disponíveis.
 
 V - informar à ofendida os direitos a ela conferidos nesta Lei e os serviços disponíveis, inclusive os de assistência judiciária para o eventual ajuizamento perante o juízo competente da ação de separação judicial, de divórcio, de anulação de casamento ou de dissolução de união estável.            (Redação dada pela Lei nº 13.894, de 2019)
 
@@ -216,6 +221,8 @@ Art. 12B. (VETADO).         (Incluído pela Lei nº 13.505, de 2017)
 
 § 3º A autoridade policial poderá requisitar os serviços públicos necessários à defesa da mulher em situação de violência doméstica e familiar e de seus dependentes.         (Incluído pela Lei nº 13.505, de 2017)
 
+-----
+Art. 12C. Verificada a existência de risco atual ou iminente à vida ou à integridade física da mulher em situação de violência doméstica e familiar, ou de seus dependentes, o agressor será imediatamente afastado do lar, domicílio ou local de convivência com a ofendida:         (Incluído pela Lei nº 13.827, de 2019)
 
 -----
 Art. 12C.  Verificada a existência de risco atual ou iminente à vida ou à integridade física ou psicológica da mulher em situação de violência doméstica e familiar, ou de seus dependentes, o agressor será imediatamente afastado do lar, domicílio ou local de convivência com a ofendida:    (Redação dada pela Lei nº 14.188, de 2021)
@@ -293,6 +300,8 @@ Disposições Gerais
 Art. 18. Recebido o expediente com o pedido da ofendida, caberá ao juiz, no prazo de 48 (quarenta e oito) horas:
 
 I - conhecer do expediente e do pedido e decidir sobre as medidas protetivas de urgência;
+
+II - determinar o encaminhamento da ofendida ao órgão de assistência judiciária, quando for o caso;
 
 II - determinar o encaminhamento da ofendida ao órgão de assistência judiciária, quando for o caso, inclusive para o ajuizamento da ação de separação judicial, de divórcio, de anulação de casamento ou de dissolução de união estável perante o juízo competente;            (Redação dada pela Lei nº 13.894, de 2019)
 
@@ -516,6 +525,7 @@ Parágrafo único. As Secretarias de Segurança Pública dos Estados e do Distri
 -----
 Art. 38A. O juiz competente providenciará o registro da medida protetiva de urgência.         (Incluído pela Lei nº 13.827, de 2019)
 
+Parágrafo único. As medidas protetivas de urgência serão registradas em banco de dados mantido e regulamentado pelo Conselho Nacional de Justiça, garantido o acesso do Ministério Público, da Defensoria Pública e dos órgãos de segurança pública e de assistência social, com vistas à fiscalização e à efetividade das medidas protetivas.         (Incluído pela Lei nº 13.827, de 2019)
 
 Parágrafo único. As medidas protetivas de urgência serão, após sua concessão, imediatamente registradas em banco de dados mantido e regulamentado pelo Conselho Nacional de Justiça, garantido o acesso instantâneo do Ministério Público, da Defensoria Pública e dos órgãos de segurança pública e de assistência social, com vistas à fiscalização e à efetividade das medidas protetivas.       (Redação dada Lei nº 14.310, de 2022)     Vigência
 
