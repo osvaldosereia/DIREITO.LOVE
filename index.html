@@ -53,11 +53,13 @@
       padding:0 12px; display:flex; align-items:center; gap:12px;
       overflow:hidden;
     }
-    .brand{
-      appearance:none; border:0; background:none; color:#fff; cursor:pointer;
-      font-weight:700; letter-spacing:.2px; border-radius:8px;
-      flex:0 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-      font-size: clamp(18px, 2.2vw, 24px); line-height:1.1; padding:8px 10px;
+    .brand {
+  cursor: pointer;              /* continua clicável */
+  height: 40px;                 /* altura fixa da logo */
+  width: auto;                  /* largura proporcional */
+  object-fit: contain;          /* não distorce a imagem */
+  flex: 0 0 auto;               /* não deixa a logo esticar */
+  display: block;               /* garante que se comporte como imagem */
     }
     .brand:focus{outline:2px solid #fff; outline-offset:2px}
     .spacer{flex:1 1 auto; min-width:0}
@@ -289,7 +291,7 @@
   <!-- TOPBAR -->
   <header class="topbar">
     <div class="topbar-inner">
-      <button class="brand" id="brandBtn" title="Clique para reiniciar">direito.love</button>
+    <img src="icons/logo.png" alt="direito.love" class="brand" id="brandBtn" title="Clique para reiniciar">
       <div class="spacer"></div>
       <div class="select-wrap">
         <!-- CATEGORIAS COM OPTGROUP (fonte da verdade + fallback desktop) -->
