@@ -12,10 +12,11 @@
     :root{
       /* Paleta */
       --white:#FFFFFF; --lilac:#E1DEE6; --navy:#142B6F; --yellow:#FFD601;
-      --bg:var(--white); --fg:#101418; --muted:#5f6470; --line:#e9e9ef;
+      --bg:var(--white); --fg:#101418; --muted:#5f6470;
 
       /* Dimensões */
       --topbar-h: 64px;
+      --progress-h: 3px;
       --bottom-search-h: 56px;
       --bottom-study-h: 64px;
 
@@ -36,24 +37,41 @@
     .topbar{
       position:fixed; inset:0 0 auto 0; height:var(--topbar-h);
       display:flex; align-items:center; justify-content:center;
-      background:var(--navy); color:#fff; z-index:60; box-shadow:var(--shadow);
+      background:var(--navy); color:#fff; z-index:80; box-shadow:var(--shadow);
     }
     .topbar-inner{
       width:clamp(320px, 92vw, 960px);
-      padding:0 12px; display:flex; align-items:center; justify-content:space-between;
+      padding:0 12px; display:flex; align-items:center; gap:12px;
     }
-    .brand{font-weight:800; letter-spacing:.2px}
-    .select-wrap{min-width:220px; width:min(46vw, 360px)}
+    .brand{
+      appearance:none; border:0; background:none; color:#fff; cursor:pointer;
+      font-weight:800; letter-spacing:.2px; padding:6px 8px; border-radius:8px;
+      flex:0 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .brand:focus{outline:2px solid #fff; outline-offset:2px}
+    .spacer{flex:1 1 auto; min-width:0}
+    .select-wrap{flex:1 1 50%; min-width:0; max-width:60vw}
     select{
       width:100%; height:38px; border:1px solid rgba(255,255,255,.35);
       background:#fff; color:#161b33; border-radius:10px; padding:0 10px;
     }
     select:focus{outline:2px solid var(--focus); outline-offset:2px}
 
+    /* Barra de progresso fina (busca) */
+    .progress{
+      position:fixed; top:var(--topbar-h); left:0; right:0; height:var(--progress-h); z-index:85;
+      background:transparent;
+    }
+    .progress .bar{
+      height:100%; width:0%; background:linear-gradient(90deg, #FFD601, #E1DEE6);
+      transition:width .2s ease;
+    }
+    .progress[hidden]{display:none}
+
     /* Conteúdo */
     .content{
       position:relative;
-      padding: calc(var(--topbar-h) + 14px) 0 calc(var(--bottom-search-h) + var(--bottom-study-h) + 24px);
+      padding: calc(var(--topbar-h) + var(--progress-h) + 14px) 0 calc(var(--bottom-search-h) + var(--bottom-study-h) + 24px);
       min-height:100dvh;
     }
     .container{ width:clamp(320px, 92vw, 960px); margin:0 auto; padding:0 12px }
@@ -75,7 +93,7 @@
     /* Destaque busca */
     mark{padding:0 2px; border-radius:3px; background:#ffef99}
 
-    /* Barra inferior 1: BUSCA + SETAS */
+    /* Barra inferior 1: BUSCA + SETAS + spinner */
     .bottom-search{
       position:fixed; left:0; right:0; bottom:var(--bottom-study-h);
       height:var(--bottom-search-h); background:#fff; border-top:1px solid #e9eaf2; z-index:70;
@@ -91,13 +109,17 @@
       font-size:16px; line-height:1;
     }
     .iconbtn:focus,input:focus{outline:2px solid var(--focus); outline-offset:2px}
-    .search{flex:1; display:flex; align-items:center; gap:6px}
+    .search{flex:1; display:flex; align-items:center; gap:6px; min-width:0}
     .search input{
       width:100%; height:36px; border:1px solid #e2e5f2; border-radius:10px; padding:0 12px; background:#fff;
-      flex:1 1 auto;
+      flex:1 1 auto; min-width:0;
     }
+    .spinner{width:18px; height:18px; border:2px solid #e2e5f2; border-top-color:#142B6F; border-radius:50%;
+      animation:spin 1s linear infinite; flex:0 0 18px}
+    .spinner[hidden]{display:none}
+    @keyframes spin{to{transform:rotate(360deg)}}
 
-    /* Barra inferior 2: ESTUDAR + contador à esquerda */
+    /* Barra inferior 2: CONTADOR + ESTUDAR */
     .bottom-study{
       position:fixed; left:0; right:0; bottom:0; height:var(--bottom-study-h);
       background:#fff; border-top:1px solid #e9eaf2; z-index:75;
@@ -112,23 +134,25 @@
       background:#f7f8fc; padding:6px 10px; border-radius:8px; text-align:center;
     }
     .study{
-      flex:1 1 auto; /* ocupa o resto do espaço */
-      padding:12px 16px; border-radius:12px;
+      flex:1 1 auto; padding:12px 16px; border-radius:12px;
       border:1px solid #f0e08b; background:var(--yellow); color:#0a0a0a; font-weight:800; cursor:pointer;
     }
 
-    /* Modal IA */
+    /* Modal IA — padrão do site */
     .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.28); display:none; align-items:center; justify-content:center; z-index:100}
     .modal{
-      background:#fff; border-radius:16px; width:min(640px, 92vw); padding:18px; border:1px solid #eceef7; box-shadow:var(--shadow)
+      background:#fff; border-radius:16px; width:min(640px, 92vw); padding:18px; border:1px solid #eceef7; box-shadow: var(--shadow)
     }
-    .modal h3{margin:0 0 12px; color:#0f173a}
-    .ia-grid{display:flex; flex-wrap:wrap; gap:10px}
-    .chip{
-      padding:9px 12px; border:1px solid #e6e8f2; background:#f6f7fb;
-      border-radius:999px; cursor:pointer; text-decoration:none; color:#111
+    .modal h3{margin:0 0 8px; color:#0f173a}
+    .modal .subtitle{margin:0 0 14px; font-size:13px; color:#3a7f48}
+    .ia-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+    .ia-btn{
+      display:flex; align-items:center; gap:10px; padding:12px; border:1px solid #e6e8f2; background:#f6f7fb;
+      border-radius:12px; cursor:pointer; text-decoration:none; color:#111; font-weight:700; justify-content:center;
     }
-    .chip:hover{border-color:#cfd3e6}
+    .ia-btn:focus{outline:2px solid var(--focus); outline-offset:2px}
+    .modal .foot{margin-top:12px; display:flex; justify-content:flex-end}
+    .modal .close-btn{padding:8px 12px; border:1px solid #e2e5f2; background:#fff; border-radius:10px; cursor:pointer}
 
     /* Toast */
     .toast{
@@ -147,20 +171,26 @@
   <!-- TOPBAR -->
   <header class="topbar">
     <div class="topbar-inner">
-      <div class="brand">direito.love</div>
+      <button class="brand" id="brandBtn" title="Clique para reiniciar">direito.love</button>
+      <div class="spacer"></div>
       <div class="select-wrap">
         <select id="codeSelect" title="Escolher arquivo">
           <option value="">— selecione —</option>
-          <option value="data/codigo_civil.txt">Código Civil</option>
-          <option value="data/codigo_consumidor.txt">Código de Defesa do Consumidor</option>
-          <option value="data/codigo_penal.txt">Código Penal</option>
-          <option value="data/codigo_Processo_Civil.txt">Código de Processo Civil</option>
-          <option value="data/codigo_Processo_Penal.txt">Código de Processo Penal</option>
+          <option value="data/codigo_civil.txt">Cód. Civil</option>
+          <option value="data/codigo_consumidor.txt">CDC</option>
+          <option value="data/codigo_penal.txt">Cód. Penal</option>
+          <option value="data/codigo_Processo_Civil.txt">CPC</option>
+          <option value="data/codigo_Processo_Penal.txt">CPP</option>
           <!-- futuros: sumulas.txt, jurisprudencia.txt, noticias.txt (mesmo padrão -----) -->
         </select>
       </div>
     </div>
   </header>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress" id="progress" hidden>
+    <div class="bar" id="progressBar"></div>
+  </div>
 
   <!-- CONTEÚDO -->
   <main class="content">
@@ -174,15 +204,16 @@
     </div>
   </main>
 
-  <!-- BARRA INFERIOR 1 (BUSCA + SETAS) -->
+  <!-- BARRA INFERIOR 1 (BUSCA + SETAS + SPINNER) -->
   <div class="bottom-search" id="bottomSearch" hidden>
-    <div class="bottom-search-inner">
+    <div class="bottom-search-inner" aria-live="polite">
       <button class="iconbtn" id="prevBtn" title="Anterior" aria-label="Anterior">◀</button>
       <button class="iconbtn" id="nextBtn" title="Próximo" aria-label="Próximo">▶</button>
       <div class="search">
         <input id="searchInput" type="search" placeholder="Buscar no texto…" autocomplete="off" />
         <button class="iconbtn" id="searchBtn" title="Executar busca" aria-label="Buscar">🔎</button>
         <button class="iconbtn" id="clearBtn" title="Limpar busca" aria-label="Limpar">✕</button>
+        <div class="spinner" id="spinner" hidden></div>
       </div>
     </div>
   </div>
@@ -197,16 +228,17 @@
 
   <!-- MODAL IA -->
   <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal" role="document">
-      <h3 id="modalTitle">Estude o Artigo X com as I.As. abaixo. Escolha e cole o prompt.</h3>
+    <div class="modal" role="document" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Estude o Artigo X com as I.As. abaixo.</h3>
+      <p class="subtitle">✅ Prompt já copiado para a área de transferência. Escolha uma IA para abrir e cole o prompt.</p>
       <div class="ia-grid">
-        <a class="chip" href="https://chat.openai.com" target="_blank" rel="noopener">ChatGPT</a>
-        <a class="chip" href="https://gemini.google.com/app" target="_blank" rel="noopener">Gemini</a>
-        <a class="chip" href="https://www.perplexity.ai/" target="_blank" rel="noopener">Perplexity</a>
-        <a class="chip" href="https://notebooklm.google.com/" target="_blank" rel="noopener">NotebookLM</a>
+        <button class="ia-btn" data-url="https://chatgpt.com/">💬 ChatGPT</button>
+        <button class="ia-btn" data-url="https://gemini.google.com/app">🧠 Gemini</button>
+        <button class="ia-btn" data-url="https://copilot.microsoft.com/">✨ Copilot</button>
+        <button class="ia-btn" data-url="https://www.perplexity.ai/">🔎 Perplexity</button>
       </div>
-      <div class="foot" style="margin-top:12px; display:flex; justify-content:flex-end">
-        <button class="chip" id="closeModal">Fechar</button>
+      <div class="foot">
+        <button class="close-btn" id="closeModal">Fechar</button>
       </div>
     </div>
   </div>
@@ -216,6 +248,7 @@
   <script>
     /* ================= Estado ================= */
     const els = {
+      brandBtn: document.getElementById('brandBtn'),
       codeSelect: document.getElementById('codeSelect'),
       articles: document.getElementById('articles'),
       bottomSearch: document.getElementById('bottomSearch'),
@@ -226,6 +259,9 @@
       count: document.getElementById('count'),
       searchBtn: document.getElementById('searchBtn'),
       clearBtn: document.getElementById('clearBtn'),
+      spinner: document.getElementById('spinner'),
+      progress: document.getElementById('progress'),
+      progressBar: document.getElementById('progressBar'),
       studyBtn: document.getElementById('studyBtn'),
       modalBackdrop: document.getElementById('modalBackdrop'),
       modalTitle: document.getElementById('modalTitle'),
@@ -238,7 +274,8 @@
       articles: [],           // {title, text, htmlId}
       currentArticleIdx: -1,
       matchNodes: [],
-      matchIdx: -1
+      matchIdx: -1,
+      progressTimer: null
     };
 
     const escapeHtml = (s)=> s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
@@ -246,6 +283,35 @@
       els.toast.textContent = msg; els.toast.classList.add('show');
       setTimeout(()=>els.toast.classList.remove('show'), 1000);
     };
+
+    /* ================= Helpers UI ================= */
+    function setBusy(isBusy){
+      els.bottomSearch.setAttribute('aria-busy', String(isBusy));
+      els.searchBtn.disabled = isBusy;
+      els.clearBtn.disabled = isBusy;
+      els.prevBtn.disabled = isBusy;
+      els.nextBtn.disabled = isBusy;
+      els.spinner.hidden = !isBusy;
+      setProgressActive(isBusy);
+    }
+    function setProgressActive(active){
+      if (active){
+        els.progress.hidden = false;
+        els.progressBar.style.width = '0%';
+        let p = 0;
+        clearInterval(state.progressTimer);
+        state.progressTimer = setInterval(()=>{
+          // avança até ~85% enquanto trabalha
+          p = Math.min(85, p + 8 + Math.random()*7);
+          els.progressBar.style.width = p + '%';
+        }, 180);
+      }else{
+        // finaliza suave até 100 e some
+        clearInterval(state.progressTimer);
+        els.progressBar.style.width = '100%';
+        setTimeout(()=>{ els.progress.hidden = true; els.progressBar.style.width = '0%'; }, 250);
+      }
+    }
 
     /* ================= Artigo em evidência (centro da viewport) ================= */
     const getArticleInView = ()=>{
@@ -468,15 +534,11 @@
       els.count.textContent = '0/0';
     }
 
-    // processamento em lotes para não travar a UI
     async function highlightTermChunked(term){
       clearMarks();
       if (!term){ return; }
 
-      els.searchBtn.disabled = true;
-      els.clearBtn.disabled = true;
-      els.prevBtn.disabled = true;
-      els.nextBtn.disabled = true;
+      setBusy(true);
       els.count.textContent = '...';
 
       const nodes = Array.from(document.querySelectorAll('article .art-body, article .art-title'));
@@ -500,10 +562,7 @@
         els.count.textContent = '0/0';
       }
 
-      els.searchBtn.disabled = false;
-      els.clearBtn.disabled = false;
-      els.prevBtn.disabled = false;
-      els.nextBtn.disabled = false;
+      setBusy(false);
     }
 
     // Clique BUSCAR (ícone)
@@ -568,6 +627,56 @@
       ].join('');
     }
 
+    // Modal: open/close + foco + rótulo dinâmico
+    function openModal(title){
+      els.modalTitle.textContent = `Estude o ${title} com as I.As. abaixo.`;
+      els.modalBackdrop.style.display = 'flex';
+      els.modalBackdrop.setAttribute('aria-hidden','false');
+      // foco inicial no primeiro botão
+      const first = els.modalBackdrop.querySelector('.ia-btn');
+      first?.focus();
+      // focus trap simples
+      const focusables = els.modalBackdrop.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
+      function trap(e){
+        if (e.key !== 'Tab') return;
+        const list = Array.from(focusables);
+        if (!list.length) return;
+        const firstEl = list[0], lastEl = list[list.length - 1];
+        if (e.shiftKey && document.activeElement === firstEl){ e.preventDefault(); lastEl.focus(); }
+        else if (!e.shiftKey && document.activeElement === lastEl){ e.preventDefault(); firstEl.focus(); }
+      }
+      els.modalBackdrop.addEventListener('keydown', trap);
+      els.modalBackdrop._trap = trap;
+    }
+    function closeModal(){
+      els.modalBackdrop.style.display = 'none';
+      els.modalBackdrop.setAttribute('aria-hidden','true');
+      if (els.modalBackdrop._trap){
+        els.modalBackdrop.removeEventListener('keydown', els.modalBackdrop._trap);
+        delete els.modalBackdrop._trap;
+      }
+    }
+
+    // Abrir IA na mesma aba se PWA standalone; senão nova aba
+    function isStandalone(){
+      return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    }
+    function openIA(url){
+      showToast('Abrindo…');
+      if (isStandalone()){
+        // mesma aba: mais confiável no celular (evita bloqueios)
+        location.href = url;
+      }else{
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
+    }
+
+    // clicks das IAs
+    document.querySelectorAll('.ia-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=> openIA(btn.dataset.url));
+    });
+
+    // Estudar
     els.studyBtn.addEventListener('click', async ()=>{
       if (!state.articles.length) return;
       updateCurrentOutline();
@@ -581,27 +690,42 @@
       try{ await navigator.clipboard.writeText(prompt); showToast('✅ Prompt copiado!'); }
       catch{ showToast('Copie manualmente no próximo passo.'); }
 
-      els.modalTitle.textContent = `Estude o ${extractArticleTitleText(a)} com as I.As. abaixo. Escolha e cole o prompt.`;
-      els.modalBackdrop.style.display = 'flex';
-      els.modalBackdrop.setAttribute('aria-hidden','false');
+      openModal(extractArticleTitleText(a));
     });
 
-    els.closeModal.addEventListener('click', ()=>{
-      els.modalBackdrop.style.display = 'none';
-      els.modalBackdrop.setAttribute('aria-hidden','true');
-    });
+    // Fechar modal
+    els.closeModal.addEventListener('click', closeModal);
     els.modalBackdrop.addEventListener('click', (e)=>{
-      if (e.target === els.modalBackdrop) els.closeModal.click();
+      if (e.target === els.modalBackdrop) closeModal();
     });
+    document.addEventListener('keydown', (e)=>{
+      if (els.modalBackdrop.style.display === 'flex' && e.key === 'Escape') closeModal();
+    });
+
+    /* ================= Reset (logo) ================= */
+    function resetAll(){
+      state.rawText = '';
+      state.articles = [];
+      state.currentArticleIdx = -1;
+      state.matchNodes = [];
+      state.matchIdx = -1;
+
+      els.searchInput.value = '';
+      els.count.textContent = '0/0';
+      els.bottomSearch.hidden = true;
+      els.bottomStudy.hidden = true;
+      els.articles.innerHTML = '<div class="placeholder">Selecione um arquivo na barra superior.<br>Dica: se o .txt estiver no formato <code>-----</code> (linha isolada) <strong>entre cada item</strong>, cada bloco vira um artigo/súmula/notícia perfeitamente.</div>';
+      els.codeSelect.value = '';
+      document.querySelectorAll('.highlight-study,.current-outline').forEach(n=>n.classList.remove('highlight-study','current-outline'));
+      closeModal();
+      window.scrollTo({top:0,behavior:'instant'});
+    }
+    els.brandBtn.addEventListener('click', resetAll);
 
     /* ================= Carregar TXT ================= */
     els.codeSelect.addEventListener('change', async (e)=>{
       const url = e.target.value;
-      if (!url){
-        els.articles.innerHTML = '<div class="placeholder">Selecione um arquivo na barra superior.</div>';
-        els.bottomSearch.hidden = true; els.bottomStudy.hidden = true;
-        return;
-      }
+      if (!url){ resetAll(); return; }
       els.articles.innerHTML = '<div class="placeholder">Carregando…</div>';
       try{
         const res = await fetch(url, {cache:'reload'});
