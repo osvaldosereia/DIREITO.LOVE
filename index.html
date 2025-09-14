@@ -3,108 +3,70 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>direito.love — Vade Mecum simples</title>
+  <title>direito.love — Leitor jurídico</title>
 
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#142B6F">
 
   <style>
     :root{
-      /* Paleta Ritual */
-      --white:#FFFFFF;
-      --lilac:#E1DEE6;
-      --navy:#142B6F;
-      --yellow:#FFD601;
+      /* Paleta */
+      --white:#FFFFFF; --lilac:#E1DEE6; --navy:#142B6F; --yellow:#FFD601;
+      --bg:var(--white); --fg:#101418; --muted:#5f6470; --line:#e9e9ef;
 
-      /* UI */
-      --topbar-h: 48px;
-      --subbar-h: 42px;
-      --bottombar-h: 60px;
+      /* Dimensões */
+      --topbar-h: 64px;
+      --bottom-search-h: 56px;
+      --bottom-study-h: 64px;
 
-      --bg:var(--white);
-      --fg:#101418;
-      --muted:#5f6470;
-      --line:#e9e9ef;
-
-      --nav-bg:var(--navy);
-      --nav-fg:#fff;
-      --sub-bg:var(--lilac);
-      --sub-fg:#0e1433;
-
-      --chip-bg:#f6f7fb;
-      --chip-bd:#e6e8f2;
-
-      --accent: rgba(255,214,1,.2); /* destaque do ESTUDAR */
-      --focus: #9bb6ff;
-      --radius:12px;
-      --shadow: 0 2px 10px rgba(0,0,0,.06);
+      --focus:#9bb6ff; --radius:12px; --shadow:0 2px 10px rgba(0,0,0,.06);
+      --accent: rgba(255,214,1,.2);
     }
 
     *{box-sizing:border-box}
     html,body{margin:0;height:100%}
     body{
-      background:var(--bg);
-      color:var(--fg);
-      font: 15px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:var(--bg); color:var(--fg);
+      font:15px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     }
     button,input,select{font:inherit}
 
-    /* Topbar */
+    /* Topbar (logo à esq., seletor à dir.) */
     .topbar{
-      position:fixed;inset:0 0 auto 0;height:var(--topbar-h);
-      display:flex;align-items:center;justify-content:center;
-      background:var(--nav-bg); color:var(--nav-fg); z-index:60;
-      box-shadow: var(--shadow);
+      position:fixed; inset:0 0 auto 0; height:var(--topbar-h);
+      display:flex; align-items:center; justify-content:center;
+      background:var(--navy); color:#fff; z-index:60; box-shadow:var(--shadow);
     }
     .topbar-inner{
-      width:clamp(320px, 92vw, 900px);
+      width:clamp(320px, 92vw, 960px);
       padding:0 12px; display:flex; align-items:center; justify-content:space-between;
     }
     .brand{font-weight:800; letter-spacing:.2px}
-    .actions{display:flex;gap:8px}
-    .btn{
-      padding:6px 12px; border-radius:10px;
-      border:1px solid rgba(255,255,255,.25); background:transparent; color:#fff; cursor:pointer
-    }
-    .btn:hover{background:rgba(255,255,255,.10)}
-    .btn:disabled{opacity:.6; cursor:not-allowed}
-
-    /* Subbar */
-    .subbar{
-      position:fixed; top:var(--topbar-h); left:0; right:0; height:var(--subbar-h);
-      display:flex; align-items:center; background:var(--sub-bg); color:var(--sub-fg); z-index:55;
-      border-bottom:1px solid #d7d4de; box-shadow: var(--shadow);
-    }
-    .subbar-inner{
-      width:clamp(320px, 92vw, 900px);
-      padding:0 12px; display:flex; align-items:center; gap:10px;
-    }
-    .subbar label{font-weight:700; font-size:14px}
-    .select-wrap{flex:1}
+    .select-wrap{min-width:220px; width:min(46vw, 360px)}
     select{
-      width:100%; height:32px; border:1px solid #cfd2e0; background:#fff; color:#161b33;
-      border-radius:10px; padding:0 10px
+      width:100%; height:38px; border:1px solid rgba(255,255,255,.35);
+      background:#fff; color:#161b33; border-radius:10px; padding:0 10px;
     }
+    select:focus{outline:2px solid var(--focus); outline-offset:2px}
 
     /* Conteúdo */
     .content{
       position:relative;
-      padding: calc(var(--topbar-h) + var(--subbar-h) + 14px) 0 calc(var(--bottombar-h) + 18px);
+      padding: calc(var(--topbar-h) + 14px) 0 calc(var(--bottom-search-h) + var(--bottom-study-h) + 24px);
       min-height:100dvh;
     }
-    .container{ width:clamp(320px, 92vw, 900px); margin:0 auto; padding:0 12px }
+    .container{ width:clamp(320px, 92vw, 960px); margin:0 auto; padding:0 12px }
     .placeholder{
-      padding:24px; border:1px dashed #dcdfea; border-radius:var(--radius); color:var(--muted); background:#fafbff
+      padding:24px; border:1px dashed #dcdfea; border-radius:var(--radius);
+      color:var(--muted); background:#fafbff
     }
 
-    /* Artigos */
-    .articles{}
+    /* Artigos/Blocos */
     article{
       white-space:pre-wrap;
       border-bottom:1px solid #eef0f6;
-      padding:18px 10px; scroll-margin: 92px;
-      border-radius:10px;
+      padding:18px 10px; scroll-margin: 92px; border-radius:10px;
     }
     .art-title{display:block; font-weight:800; color:#0e1638; margin:0 0 8px}
     article.current-outline{outline:2px solid #cfe0ff; outline-offset:2px}
@@ -113,28 +75,41 @@
     /* Destaque busca */
     mark{padding:0 2px; border-radius:3px; background:#ffef99}
 
-    /* Barra inferior */
-    .bottombar{
-      position:fixed; left:0; right:0; bottom:0; height:var(--bottombar-h);
-      background:#fff; border-top:1px solid #e9eaf2; z-index:70;
+    /* Barra inferior 1: BUSCA + SETAS */
+    .bottom-search{
+      position:fixed; left:0; right:0; bottom:var(--bottom-study-h);
+      height:var(--bottom-search-h); background:#fff; border-top:1px solid #e9eaf2; z-index:70;
       display:flex; align-items:center; justify-content:center;
     }
-    .bottombar-inner{
-      width:clamp(320px, 92vw, 900px);
+    .bottom-search-inner{
+      width:clamp(320px, 92vw, 960px);
       display:flex; align-items:center; gap:10px; padding:8px 12px;
     }
     .iconbtn{
-      width:38px; height:38px; border:1px solid #e2e5f2; background:#fff; border-radius:10px; display:grid; place-items:center; cursor:pointer
+      width:38px; height:38px; border:1px solid #e2e5f2; background:#fff; border-radius:10px;
+      display:grid; place-items:center; cursor:pointer
     }
-    .iconbtn:focus,.btn:focus,select:focus,input:focus{outline:2px solid var(--focus); outline-offset:2px}
+    .iconbtn:focus,input:focus{outline:2px solid var(--focus); outline-offset:2px}
     .search{flex:1; display:flex; align-items:center; gap:8px}
     .search input{
       width:100%; height:38px; border:1px solid #e2e5f2; border-radius:10px; padding:0 12px; background:#fff
     }
     .count{min-width:70px; text-align:center; color:#6c7282; font-size:12px}
+
+    /* Barra inferior 2: ESTUDAR */
+    .bottom-study{
+      position:fixed; left:0; right:0; bottom:0; height:var(--bottom-study-h);
+      background:#fff; border-top:1px solid #e9eaf2; z-index:75;
+      display:flex; align-items:center; justify-content:center; padding:8px 0;
+    }
+    .bottom-study-inner{
+      width:clamp(320px, 92vw, 960px); padding:0 12px;
+      display:flex; align-items:center; justify-content:center;
+    }
     .study{
-      min-width:120px; padding:8px 12px; border-radius:10px;
-      border:1px solid #f0e08b; background:var(--yellow); color:#0a0a0a; font-weight:800; cursor:pointer
+      width: min(100%, 860px); /* quase largura toda */
+      padding:12px 16px; border-radius:12px;
+      border:1px solid #f0e08b; background:var(--yellow); color:#0a0a0a; font-weight:800; cursor:pointer;
     }
 
     /* Modal IA */
@@ -145,7 +120,7 @@
     .modal h3{margin:0 0 12px; color:#0f173a}
     .ia-grid{display:flex; flex-wrap:wrap; gap:10px}
     .chip{
-      padding:9px 12px; border:1px solid var(--chip-bd); background:var(--chip-bg);
+      padding:9px 12px; border:1px solid #e6e8f2; background:#f6f7fb;
       border-radius:999px; cursor:pointer; text-decoration:none; color:#111
     }
     .chip:hover{border-color:#cfd3e6}
@@ -153,71 +128,67 @@
     /* Toast */
     .toast{
       position:fixed; left:50%; transform:translateX(-50%);
-      bottom:calc(var(--bottombar-h) + 14px);
+      bottom:calc(var(--bottom-study-h) + var(--bottom-search-h) + 14px);
       background:#111; color:#fff; padding:8px 12px; border-radius:10px; opacity:0; pointer-events:none; transition:opacity .2s; z-index:200
     }
     .toast.show{opacity:1}
 
-    .hidden{display:none}
+    /* Esconder barras até carregar um arquivo */
+    .bottom-search[hidden], .bottom-study[hidden]{display:none}
   </style>
 </head>
 <body>
 
-  <!-- Topbar -->
+  <!-- TOPBAR -->
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand">direito.love</div>
-      <div class="actions">
-        <button class="btn" id="btnInstall" hidden>Instalar</button>
-        <button class="btn" id="btnReset">Reiniciar</button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Subbar -->
-  <div class="subbar">
-    <div class="subbar-inner">
-      <label for="codeSelect">Código/Lei:</label>
       <div class="select-wrap">
-        <select id="codeSelect">
+        <select id="codeSelect" title="Escolher código/arquivo">
           <option value="">— selecione —</option>
           <option value="data/codigo_civil.txt">Código Civil</option>
           <option value="data/codigo_consumidor.txt">Código de Defesa do Consumidor</option>
           <option value="data/codigo_penal.txt">Código Penal</option>
           <option value="data/codigo_Processo_Civil.txt">Código de Processo Civil</option>
           <option value="data/codigo_Processo_Penal.txt">Código de Processo Penal</option>
+          <!-- futuros: sumulas.txt, jurisprudencia.txt, noticias.txt, etc. (mesmo padrão -----) -->
         </select>
       </div>
     </div>
-  </div>
+  </header>
 
-  <!-- Conteúdo -->
+  <!-- CONTEÚDO -->
   <main class="content">
     <div class="container">
       <div class="articles" id="articles">
         <div class="placeholder">
-          Selecione um código acima para carregar o texto completo. Use a busca da barra inferior como um <strong>Ctrl+F</strong> com setas para navegar.
+          Selecione um arquivo na barra superior.  
+          Dica: se o .txt estiver no formato <code>-----</code> (linha isolada) **entre cada item**, cada bloco vira um artigo/súmula/notícia perfeitamente.
         </div>
       </div>
     </div>
   </main>
 
-  <!-- Barra inferior -->
-  <div class="bottombar" id="bottomBar" hidden>
-    <div class="bottombar-inner">
+  <!-- BARRA INFERIOR 1 (BUSCA + SETAS) -->
+  <div class="bottom-search" id="bottomSearch" hidden>
+    <div class="bottom-search-inner">
       <button class="iconbtn" id="prevBtn" title="Anterior" aria-label="Anterior">◀</button>
       <button class="iconbtn" id="nextBtn" title="Próximo" aria-label="Próximo">▶</button>
-
       <div class="search">
         <input id="searchInput" type="search" placeholder="Buscar no texto…" autocomplete="off" />
         <div class="count" id="count">0/0</div>
       </div>
+    </div>
+  </div>
 
+  <!-- BARRA INFERIOR 2 (ESTUDAR) -->
+  <div class="bottom-study" id="bottomStudy" hidden>
+    <div class="bottom-study-inner">
       <button class="study" id="studyBtn">ESTUDAR</button>
     </div>
   </div>
 
-  <!-- Modal IA -->
+  <!-- MODAL IA -->
   <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal" role="document">
       <h3 id="modalTitle">Estude o Artigo X com as I.As. abaixo. Escolha e cole o prompt.</h3>
@@ -228,7 +199,7 @@
         <a class="chip" href="https://notebooklm.google.com/" target="_blank" rel="noopener">NotebookLM</a>
       </div>
       <div class="foot" style="margin-top:12px; display:flex; justify-content:flex-end">
-        <button class="btn" id="closeModal" style="color:#0f173a; border-color:#dcdff0; background:#fff">Fechar</button>
+        <button class="chip" id="closeModal">Fechar</button>
       </div>
     </div>
   </div>
@@ -236,26 +207,12 @@
   <div class="toast" id="toast">✅ Prompt copiado!</div>
 
   <script>
-    /* ================= PWA ================= */
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js'));
-    }
-    let deferredPrompt = null;
-    const installBtn = document.getElementById('btnInstall');
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault(); deferredPrompt = e; installBtn.hidden = false;
-    });
-    installBtn?.addEventListener('click', async () => {
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt(); await deferredPrompt.userChoice;
-      deferredPrompt = null; installBtn.hidden = true;
-    });
-
     /* ================= Estado ================= */
     const els = {
       codeSelect: document.getElementById('codeSelect'),
       articles: document.getElementById('articles'),
-      bottomBar: document.getElementById('bottomBar'),
+      bottomSearch: document.getElementById('bottomSearch'),
+      bottomStudy: document.getElementById('bottomStudy'),
       searchInput: document.getElementById('searchInput'),
       prevBtn: document.getElementById('prevBtn'),
       nextBtn: document.getElementById('nextBtn'),
@@ -264,8 +221,7 @@
       modalBackdrop: document.getElementById('modalBackdrop'),
       modalTitle: document.getElementById('modalTitle'),
       closeModal: document.getElementById('closeModal'),
-      toast: document.getElementById('toast'),
-      btnReset: document.getElementById('btnReset')
+      toast: document.getElementById('toast')
     };
 
     const state = {
@@ -283,7 +239,7 @@
       setTimeout(()=>els.toast.classList.remove('show'), 1000);
     };
 
-    /* ========== Artigo em evidência (centro da viewport) ========== */
+    /* ================= Artigo em evidência (centro da viewport) ================= */
     const getArticleInView = ()=>{
       const nodes = document.querySelectorAll('article[data-idx]');
       const cy = window.innerHeight/2;
@@ -315,74 +271,98 @@
       updateCurrentOutline();
     }, {passive:true});
 
-    /* ========== PARSER DE ARTIGOS ==========
-       - Começa em "Art" (A maiúsculo)
-       - Termina no último "." ou ")" antes do próximo "Art"
-       - Se não houver "." nem ")", termina no char anterior ao próximo "Art"
-       - Remove BOM e aceita espaços antes de "Art"
-    ======================================== */
+    /* ================= Parser com prioridade a "-----" =================
+       - Se o arquivo tiver linhas isoladas com 5+ hifens, cada bloco ENTRE duas dessas linhas é um item.
+       - Caso contrário, fallback por "Art".
+    ================================================================ */
     function parseArticlesFromText(txt){
-      // Remove BOM e normaliza quebras
-      txt = txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n');
+      txt = txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'); // BOM + normaliza quebras
+      const items = parseByDelimiters(txt);
+      if (items.length) return items;
+      return parseByArt(txt); // compatibilidade com arquivos antigos
+    }
 
-      // Linhas que iniciam um artigo (Art/ART, com variações)
+    // 1) Delimitadores "-----" (linha isolada)
+    function parseByDelimiters(txt){
+      // Captura índice do INÍCIO de cada linha com 5+ hifens
+      const sepRe = /(^|\n)[^\S\r\n]*-{5,}[^\S\r\n]*(?=\n|$)/g;
+      const seps = [];
+      let m;
+      while ((m = sepRe.exec(txt)) !== null) {
+        const idx = m.index + (m[0].startsWith('\n') ? 1 : 0);
+        seps.push(idx);
+      }
+      if (seps.length < 2) return [];
+
+      const arts = [];
+      for (let i = 0; i + 1 < seps.length; i += 1) {
+        // bloco entre seps[i] e seps[i+1]
+        const startLineEnd = txt.indexOf('\n', seps[i]);
+        const from = (startLineEnd === -1) ? txt.length : startLineEnd + 1;
+        const to = seps[i + 1];
+        if (from >= to) continue;
+
+        let chunk = txt.slice(from, to).trim();
+        if (!chunk) continue;
+
+        // Título = primeira linha; corpo = resto (preserva texto pós-título na MESMA linha)
+        const { titleText } = splitTitleBody(chunk);
+        const title = titleText || `Bloco ${arts.length + 1}`;
+
+        arts.push({ title, text: chunk, htmlId: `art-${arts.length}` });
+      }
+      return arts;
+    }
+
+    // 2) Fallback: linhas começando por "Art" (A/ART, variações)
+    function parseByArt(txt){
       const re = /(^|\n)\s*((?:Art|ART)\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?\.?)/g;
-
       const starts = [];
       let m;
       while ((m = re.exec(txt)) !== null) {
         const idxArt = re.lastIndex - m[2].length; // posição do 'A' de Art
-        starts.push({ idx: idxArt });
+        starts.push(idxArt);
       }
-
-      if (!starts.length) {
-        return [{ title: 'Texto', text: txt.trim(), htmlId: 'art-0' }];
-      }
+      if (!starts.length) return [{ title:'Texto', text: txt.trim(), htmlId:'art-0' }];
 
       const arts = [];
       for (let i = 0; i < starts.length; i++) {
-        const from = starts[i].idx;
-        const to   = (i + 1 < starts.length) ? starts[i + 1].idx : txt.length;
+        const from = starts[i];
+        const to   = (i + 1 < starts.length) ? starts[i + 1] : txt.length;
 
         let chunk = txt.slice(from, to);
 
-        // Fim = último '.' ou ')' dentro do bloco
-        let endDot = chunk.lastIndexOf('.');
-        let endPar = chunk.lastIndexOf(')');
-        let end    = Math.max(endDot, endPar);
-        if (end === -1) end = chunk.length - 1;
-        chunk = chunk.slice(0, end + 1);
+        // Fim = último '.' ou ')' antes do próximo "Art"
+        const endDot = chunk.lastIndexOf('.');
+        const endPar = chunk.lastIndexOf(')');
+        const end    = Math.max(endDot, endPar);
+        if (end === -1) chunk = chunk.trimEnd();
+        else chunk = chunk.slice(0, end + 1).trimEnd();
 
-        // Título pela primeira linha
         const nl = chunk.indexOf('\n');
         const firstLine = (nl === -1) ? chunk : chunk.slice(0, nl);
         const mt = firstLine.match(/^\s*((?:Art|ART)\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?\.?)/);
-        const title = mt ? mt[1].trim() : firstLine.trim().slice(0, 40);
+        const title = mt ? mt[1].trim() : firstLine.trim().slice(0,40);
 
         arts.push({ title, text: chunk, htmlId: `art-${i}` });
       }
       return arts;
     }
 
-    // split título x corpo (preserva o texto após o título na MESMA linha)
+    // Split título x corpo preservando conteúdo em "linha única"
     function splitTitleBody(raw){
       const t  = raw.replace(/^\s+/, '');
       const nl = t.indexOf('\n');
       const firstLine = (nl === -1) ? t : t.slice(0, nl);
-
       const m = firstLine.match(/^\s*((?:Art|ART)\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?\.?)/);
       const titleText = m ? m[1].trim() : firstLine.trim();
-
       const afterTitle = m ? firstLine.slice(m[1].length).trimStart() : '';
       const rest = (nl === -1) ? '' : t.slice(nl + 1).trimStart();
-
       const body = afterTitle ? (rest ? afterTitle + '\n' + rest : afterTitle) : rest;
       return { titleText, body };
     }
 
-    /* ========== Render ==========
-       usa splitTitleBody para não "comer" artigos de 1 linha
-    ================================= */
+    /* ================= Render ================= */
     function renderArticles(){
       const frag = document.createDocumentFragment();
       state.articles.forEach((a, i)=>{
@@ -391,10 +371,10 @@
         el.id = a.htmlId;
 
         const { titleText, body } = splitTitleBody(a.text);
-
         const titleSpan = document.createElement('span');
         titleSpan.className = 'art-title';
         titleSpan.textContent = titleText;
+
         const content = document.createElement('div');
         content.className = 'art-body';
         content.textContent = body;
@@ -405,13 +385,12 @@
       });
       els.articles.innerHTML = '';
       els.articles.appendChild(frag);
-      els.bottomBar.hidden = false;
+      els.bottomSearch.hidden = false;
+      els.bottomStudy.hidden = false;
       updateCurrentOutline();
     }
 
-    /* ========== Busca ==========
-       re-render limpa e highlight com <mark>
-    ================================= */
+    /* ================= Busca ================= */
     function clearMarks(){
       const nodes = document.querySelectorAll('article[data-idx]');
       nodes.forEach(node=>{
@@ -463,24 +442,22 @@
       els.count.textContent = `${idx+1}/${state.matchNodes.length}`;
     }
 
-    els.searchInput.addEventListener('input', (e)=>{
+    els.searchInput?.addEventListener('input', (e)=>{
       state.searchTerm = e.target.value.trim();
       highlightTerm(state.searchTerm);
     });
-    els.nextBtn.addEventListener('click', ()=>{
+    els.nextBtn?.addEventListener('click', ()=>{
       if (!state.matchNodes.length) return;
       state.matchIdx = (state.matchIdx + 1) % state.matchNodes.length;
       scrollToMatch(state.matchIdx);
     });
-    els.prevBtn.addEventListener('click', ()=>{
+    els.prevBtn?.addEventListener('click', ()=>{
       if (!state.matchNodes.length) return;
       state.matchIdx = (state.matchIdx - 1 + state.matchNodes.length) % state.matchNodes.length;
       scrollToMatch(state.matchIdx);
     });
 
-    /* ========== ESTUDAR ==========
-       gera e copia prompt + modal IA
-    ================================= */
+    /* ================= ESTUDAR (gera prompt + modal) ================= */
     function extractArticleTitleText(a){ return a?.title || 'Artigo'; }
     function buildPrompt(a){
       const artigo = a?.text || '';
@@ -529,10 +506,14 @@
       if (e.target === els.modalBackdrop) els.closeModal.click();
     });
 
-    /* ========== Carregar TXT ========== */
-    document.getElementById('codeSelect').addEventListener('change', async (e)=>{
+    /* ================= Carregar TXT ================= */
+    els.codeSelect.addEventListener('change', async (e)=>{
       const url = e.target.value;
-      if (!url){ resetAll(true); return; }
+      if (!url){
+        els.articles.innerHTML = '<div class="placeholder">Selecione um arquivo na barra superior.</div>';
+        els.bottomSearch.hidden = true; els.bottomStudy.hidden = true;
+        return;
+      }
       els.articles.innerHTML = '<div class="placeholder">Carregando…</div>';
       try{
         const res = await fetch(url, {cache:'reload'});
@@ -546,30 +527,9 @@
       }catch(err){
         console.error(err);
         els.articles.innerHTML = '<div class="placeholder">Falha ao carregar o arquivo. Verifique o caminho em /data/.</div>';
-        els.bottomBar.hidden = true;
+        els.bottomSearch.hidden = true; els.bottomStudy.hidden = true;
       }
     });
-
-    /* ========== Reiniciar ========== */
-    function resetAll(keepSelect=false){
-      state.rawText = '';
-      state.articles = [];
-      state.currentArticleIdx = -1;
-      state.searchTerm = '';
-      state.matchNodes = [];
-      state.matchIdx = -1;
-
-      els.searchInput.value = '';
-      els.count.textContent = '0/0';
-      els.bottomBar.hidden = true;
-      els.articles.innerHTML = '<div class="placeholder">Selecione um código acima para carregar o texto completo. Use a busca da barra inferior como um <strong>Ctrl+F</strong> com setas para navegar.</div>';
-      if (!keepSelect) els.codeSelect.value = '';
-      document.querySelectorAll('.highlight-study,.current-outline').forEach(n=>n.classList.remove('highlight-study','current-outline'));
-      els.modalBackdrop.style.display = 'none';
-      els.modalBackdrop.setAttribute('aria-hidden','true');
-      window.scrollTo({top:0,behavior:'instant'});
-    }
-    document.getElementById('btnReset').addEventListener('click', ()=>resetAll());
 
     document.addEventListener('DOMContentLoaded', ()=>updateCurrentOutline());
   </script>
