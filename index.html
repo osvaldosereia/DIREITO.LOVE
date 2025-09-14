@@ -10,59 +10,32 @@
 
   <style>
     :root{
-  /* ... suas vars ... */
-  --bar-bg:   #f5f7fa; /* cinza claro da barra superior (busca) */
-  --bar-bg-2: #eceff4; /* cinza um pouco mais escuro da barra inferior (estudar) */
-}
+      /* Paleta */
+      --white:#FFFFFF; --lilac:#E1DEE6; --navy:#142B6F; --yellow:#FFD601;
+      --bg:var(--white); --fg:#101418; --muted:#5f6470;
 
-/* Barra inferior 1: BUSCA + SETAS + spinner */
-.bottom-search{
-  position:fixed; left:0; right:0; bottom:var(--bottom-study-h);
-  height:var(--bottom-search-h);
-  background: var(--bar-bg);                 /* <- cinza claro */
-  border-top:1px solid #e0e4ec;              /* leve divisória */
-  z-index:70; display:flex; align-items:center; justify-content:center;
-}
-.bottom-search-inner{
-  width:clamp(320px, 92vw, 960px);
-  display:flex; align-items:center; gap:6px; padding:8px 12px;
-}
+      /* Barras de baixo */
+      --bar-bg:#f5f7fa;   /* busca (mais clara) */
+      --bar-bg-2:#eceff4; /* estudar (um pouco mais escura) */
 
-/* Botões e campo de digitar: fundo BRANCO */
-.iconbtn{
-  width:32px; height:32px;
-  border:1px solid #e2e5f2;
-  background:#fff;                           /* <- branco */
-  border-radius:8px; display:grid; place-items:center;
-  cursor:pointer; user-select:none; flex:0 0 32px; font-size:16px; line-height:1;
-}
-.search{flex:1; display:flex; align-items:center; gap:6px; min-width:0}
-.search input{
-  width:100%; height:36px;
-  border:1px solid #e2e5f2;
-  border-radius:10px; padding:0 12px;
-  background:#fff;                           /* <- branco */
-  flex:1 1 auto; min-width:0;
-}
+      /* Dimensões */
+      --topbar-h: 68px;
+      --progress-h: 3px;
+      --bottom-search-h: 56px;
+      --bottom-study-h: 64px;
 
-/* Barra inferior 2: CONTADOR + ESTUDAR */
-.bottom-study{
-  position:fixed; left:0; right:0; bottom:0; height:var(--bottom-study-h);
-  background: var(--bar-bg-2);               /* <- um pouco mais escura */
-  border-top:1px solid #d9dde6;              /* divisória levemente mais forte */
-  z-index:75; display:flex; align-items:center; justify-content:center; padding:8px 0;
-}
-.bottom-study-inner{
-  width:clamp(320px, 92vw, 960px); padding:0 12px;
-  display:flex; align-items:center; gap:12px;
-}
+      --focus:#9bb6ff; --radius:12px; --shadow:0 2px 10px rgba(0,0,0,.06);
+      --accent: rgba(255,214,1,.2);
+    }
 
-/* ESTUDAR continua amarelo (mantido) */
-.study{
-  flex:1 1 auto; padding:12px 16px; border-radius:12px;
-  border:1px solid #f0e08b; background:#FFD601; color:#0a0a0a; font-weight:800; cursor:pointer;
-}
-
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%}
+    body{
+      background:var(--bg); color:var(--fg);
+      font:15px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    button,input,select{font:inherit}
 
     /* Topbar (logo à esq., seletor à dir.) */
     .topbar{
@@ -129,11 +102,13 @@
     /* Destaque busca */
     mark{padding:0 2px; border-radius:3px; background:#ffef99}
 
-    /* Barra inferior 1: BUSCA + SETAS + spinner */
+    /* Barra inferior 1: BUSCA + SETAS + spinner (CINZA CLARO) */
     .bottom-search{
       position:fixed; left:0; right:0; bottom:var(--bottom-study-h);
-      height:var(--bottom-search-h); background:#fff; border-top:1px solid #e9eaf2; z-index:70;
-      display:flex; align-items:center; justify-content:center;
+      height:var(--bottom-search-h);
+      background: var(--bar-bg);
+      border-top:1px solid #e0e4ec;
+      z-index:70; display:flex; align-items:center; justify-content:center;
     }
     .bottom-search-inner{
       width:clamp(320px, 92vw, 960px);
@@ -155,11 +130,12 @@
     .spinner[hidden]{display:none}
     @keyframes spin{to{transform:rotate(360deg)}}
 
-    /* Barra inferior 2: CONTADOR + ESTUDAR */
+    /* Barra inferior 2: CONTADOR + ESTUDAR (CINZA UM POUCO MAIS ESCURO) */
     .bottom-study{
       position:fixed; left:0; right:0; bottom:0; height:var(--bottom-study-h);
-      background:#fff; border-top:1px solid #e9eaf2; z-index:75;
-      display:flex; align-items:center; justify-content:center; padding:8px 0;
+      background: var(--bar-bg-2);
+      border-top:1px solid #d9dde6;
+      z-index:75; display:flex; align-items:center; justify-content:center; padding:8px 0;
     }
     .bottom-study-inner{
       width:clamp(320px, 92vw, 960px); padding:0 12px;
@@ -174,7 +150,7 @@
       border:1px solid #f0e08b; background:var(--yellow); color:#0a0a0a; font-weight:800; cursor:pointer;
     }
 
-    /* Modal IA — padrão do site */
+    /* Modal IA */
     .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.28); display:none; align-items:center; justify-content:center; z-index:100}
     .modal{
       background:#fff; border-radius:16px; width:min(640px, 92vw); padding:18px; border:1px solid #eceef7; box-shadow: var(--shadow)
@@ -221,7 +197,6 @@
           <option value="data/codigo_penal.txt">Cód. Penal</option>
           <option value="data/codigo_Processo_Civil.txt">CPC</option>
           <option value="data/codigo_Processo_Penal.txt">CPP</option>
-          <!-- futuros: sumulas.txt, jurisprudencia.txt, noticias.txt (mesmo padrão -----) -->
         </select>
       </div>
     </div>
@@ -237,7 +212,7 @@
     <div class="container">
       <div class="articles" id="articles">
         <div class="placeholder">
-         <p style="text-align: center;">😎 Selecione um arquivo no topo. Bons estudos!</p>
+          <p style="text-align:center">😎 Escolha um arquivo no topo para começar. Bons estudos!</p>
         </div>
       </div>
     </div>
@@ -310,7 +285,7 @@
 
     const state = {
       rawText: '',
-      articles: [],           // {title, text, htmlId}
+      articles: [],           // {title, text, htmlId, _split}
       currentArticleIdx: -1,
       matchNodes: [],
       matchIdx: -1,
@@ -383,19 +358,16 @@
     }, {passive:true});
 
     /* ================= Parser com prioridade a "-----" =================
-       Regra nova:
        - Cada artigo é o bloco entre DUAS linhas "-----".
-       - Dentro do bloco, linhas ANTES da primeira linha que contém "Art." são "supra" (epígrafe/capítulo/título/livro/seção).
-       - O título do artigo é "Art. X"; o restante é corpo.
+       - Linhas ANTES da primeira que contém "Art." são "supra" (epígrafe/capítulo/título/livro/seção).
     ================================================================ */
     function parseArticlesFromText(txt){
-      txt = txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'); // BOM + normaliza quebras
+      txt = txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n');
       const items = parseByDelimiters(txt);
       if (items.length) return items;
-      return parseByArt(txt); // fallback p/ arquivos antigos
+      return parseByArt(txt); // fallback
     }
 
-    // 1) Delimitadores "-----" (linha isolada) — usa blocos FECHADOS por dois separadores
     function parseByDelimiters(txt){
       const sepRe = /(^|\n)[^\S\r\n]*-{5,}[^\S\r\n]*(?=\n|$)/g;
       const seps = [];
@@ -405,17 +377,14 @@
         seps.push(idx);
       }
       if (seps.length < 2) return [];
-
       const arts = [];
       for (let i = 0; i + 1 < seps.length; i += 1) {
         const startLineEnd = txt.indexOf('\n', seps[i]);
         const from = (startLineEnd === -1) ? txt.length : startLineEnd + 1;
         const to = seps[i + 1];
         if (from >= to) continue;
-
         const raw = txt.slice(from, to).trim();
         if (!raw) continue;
-
         const split = splitBlockSupraTitleBody(raw);
         const title = split.titleText || `Bloco ${arts.length + 1}`;
         arts.push({ title, text: raw, htmlId: `art-${arts.length}`, _split: split });
@@ -423,7 +392,6 @@
       return arts;
     }
 
-    // 2) Fallback: blocos por "Art." direto (sem separadores)
     function parseByArt(txt){
       const re = /(^|\n)\s*((?:Art|ART)\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?\.?)/g;
       const starts = [];
@@ -441,7 +409,6 @@
 
         let chunk = txt.slice(from, to).trimEnd();
 
-        // Fim = último '.' ou ')' dentro do bloco
         const endDot = chunk.lastIndexOf('.');
         const endPar = chunk.lastIndexOf(')');
         const end    = Math.max(endDot, endPar);
@@ -455,7 +422,6 @@
       return arts;
     }
 
-    // ====== Divide BLOCO em: supra (linhas antes do Art.), titleText ("Art. X") e body ======
     function splitBlockSupraTitleBody(raw){
       const lines = raw.replace(/^\s+|\s+$/g,'').split(/\r?\n/);
       const artIdx = lines.findIndex(line => /^\s*(?:Art|ART)\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?\.?/.test(line));
@@ -515,9 +481,7 @@
       updateCurrentOutline();
     }
 
-    /* ================= Busca (clicar p/ executar) ================= */
-
-    // Normalização sem acentos + mapa p/ índices originais
+    /* ================= Busca ================= */
     function normalizeWithMap(s){
       let norm = '';
       const map = [];
@@ -609,7 +573,6 @@
       setBusy(true);
       els.count.textContent = '...';
 
-      // incluir título, corpo e supra (cada linha da supra)
       const nodes = [
         ...document.querySelectorAll('article .art-body'),
         ...document.querySelectorAll('article .art-title'),
@@ -639,7 +602,6 @@
       setBusy(false);
     }
 
-    // Clique BUSCAR / LIMPAR / atalhos
     els.searchBtn.addEventListener('click', ()=>{
       const term = els.searchInput.value.trim();
       highlightTermChunked(term);
@@ -653,7 +615,6 @@
       else if (e.key === 'Escape'){ e.preventDefault(); els.clearBtn.click(); }
     });
 
-    // Navegação entre ocorrências
     els.nextBtn.addEventListener('click', ()=>{
       if (!state.matchNodes.length) return;
       state.matchIdx = (state.matchIdx + 1) % state.matchNodes.length;
@@ -690,12 +651,12 @@
         '(6) Princípios Relacionados ao tema; ',
         '(7) nota comparativa se houver artigos correlatos. ',
         'Responda em português claro, sem enrolação, objetivo e didático.\n\n',
+        `Tema: "${tema}"\n\n`,
         supraText + artigo,
         '\n\n💚 direito.love'
       ].join('');
     }
 
-    // Modal: open/close
     function openModal(title){
       els.modalTitle.textContent = `Estude o ${title} com as I.As. abaixo.`;
       els.modalBackdrop.style.display = 'flex';
@@ -708,7 +669,6 @@
       els.modalBackdrop.setAttribute('aria-hidden','true');
     }
 
-    // Abrir IA na mesma aba se PWA standalone; senão nova aba
     function isStandalone(){
       return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
     }
@@ -721,7 +681,6 @@
       btn.addEventListener('click', ()=> openIA(btn.dataset.url));
     });
 
-    // Estudar
     els.studyBtn.addEventListener('click', async ()=>{
       if (!state.articles.length) return;
       updateCurrentOutline();
@@ -738,7 +697,6 @@
       openModal(extractArticleTitleText(a));
     });
 
-    // Fechar modal
     els.closeModal.addEventListener('click', closeModal);
     els.modalBackdrop.addEventListener('click', (e)=>{
       if (e.target === els.modalBackdrop) closeModal();
@@ -759,7 +717,7 @@
       els.count.textContent = '0/0';
       els.bottomSearch.hidden = true;
       els.bottomStudy.hidden = true;
-      els.articles.innerHTML = '<div class="placeholder">Selecione um arquivo na barra superior.<br>Dica: se o .txt estiver no formato <code>-----</code> <strong>entre cada item</strong>, cada bloco vira um artigo/súmula/notícia perfeitamente.</div>';
+      els.articles.innerHTML = '<div class="placeholder"><p style="text-align:center">😎 Escolha um arquivo no topo para começar. Bons estudos!</p></div>';
       els.codeSelect.value = '';
       document.querySelectorAll('.highlight-study,.current-outline').forEach(n=>n.classList.remove('highlight-study','current-outline'));
       closeModal();
