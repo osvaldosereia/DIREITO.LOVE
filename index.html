@@ -860,24 +860,31 @@
 
       if (!sel || !openBtn || !sheet || !listEl || !searchEl) return; // segurança
 
-      // Lê <optgroup>/<option> do select
-      function getGroups(){
-        const groups = [];
-        let current = null;
-        sel.querySelectorAll('optgroup, option').forEach(node=>{
-          if (node.tagName.toLowerCase()==='optgroup'){
-            current = { label: node.label || 'Outros', items: [] };
-            groups.push(current);
-          } else if (node.tagName.toLowerCase()==='option'){
-            const label = node.textContent.trim();
-            const value = node.value;
-            if (!label) return;
-            if (!current){ current = { label:'Outros', items:[] }; groups.push(current); }
-            current.items.push({ label, value });
-          }
-        });
-        return groups;
+      // Lê <optgroup>/<option> do select (sem fallback "Outros")
+function getGroups(){
+  const groups = [];
+  let current = null;
+
+  sel.querySelectorAll('optgroup, option').forEach(node=>{
+    if (node.tagName.toLowerCase()==='optgroup'){
+      current = { label: node.label || '', items: [] };
+      groups.push(current);
+    } 
+    else if (node.tagName.toLowerCase()==='option'){
+      const label = node.textContent.trim();
+      const value = node.value;
+      if (!label) return;
+      if (!current){
+        // 👇 se não estiver dentro de optgroup, ignora
+        return;
       }
+      current.items.push({ label, value });
+    }
+  });
+
+  return groups;
+}
+
 
       const norm = s => (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
       const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
