@@ -34,7 +34,7 @@
       background:var(--bg); color:var(--fg);
       font:15px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-      max-width:100%; overflow-x:hidden; /* sem scroll lateral */
+      max-width:100%; overflow-x:hidden; /* evita scroll lateral */
     }
     button,input,select{font:inherit}
 
@@ -57,22 +57,20 @@
     }
     .brand:focus{outline:2px solid #fff; outline-offset:2px}
     .spacer{flex:1 1 auto; min-width:0}
-
-    .select-wrap{flex:1 1 50%; min-width:0; max-width:60vw; display:flex; gap:8px; justify-content:flex-end; align-items:center}
+    .select-wrap{flex:1 1 50%; min-width:0; max-width:60vw}
     select{
       width:100%; height:38px; border:1px solid rgba(255,255,255,.35);
       background:#fff; color:#161b33; border-radius:10px; padding:0 10px;
     }
     select:focus{outline:2px solid var(--focus); outline-offset:2px}
 
-    /* Botão que abre o picker (aparece só no mobile) */
-    .picker-trigger{
+    /* Botão mobile que substitui o select (apenas no mobile) */
+    .picker-btn{
       display:none;
-      height:38px; padding:0 12px; border-radius:10px; border:1px solid rgba(255,255,255,.35);
-      background:#fff; color:#161b33; font-weight:600; cursor:pointer;
-      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+      height:38px; padding:0 12px; border-radius:10px;
+      background:#fff; color:#161b33; border:1px solid rgba(255,255,255,.35);
+      cursor:pointer;
     }
-    .picker-trigger:focus{outline:2px solid var(--focus); outline-offset:2px}
 
     /* Barra de progresso (busca) */
     .progress{
@@ -107,12 +105,9 @@
     .supra{ color:#6c7282; font-weight:600; font-size:13px; margin-bottom:6px; }
     .supra div{ line-height:1.35 }
     .art-title{ display:block; font-weight:700; color:#0e1638; margin:0 0 6px }
-    article.current-outline{
-      outline:3px solid #7aa8ff; outline-offset:2px;    /* mais destacado */
-    }
+    article.current-outline{ outline:3px solid #7aa8ff; outline-offset:2px; } /* mais destacado */
     article.highlight-study{ background:var(--accent) }
 
-    /* Destaque busca */
     mark{padding:0 2px; border-radius:3px; background:#ffef99}
 
     /* ===== Base — Barra 1 (SETAS / INPUT / CONTADOR / X) ===== */
@@ -168,7 +163,7 @@
       border:1px solid #f0e08b; background:var(--yellow); color:#0a0a0a; font-weight:800; cursor:pointer;
     }
 
-    /* ===== Modal IA (mantido) ===== */
+    /* Modal IA */
     .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.28); display:none; align-items:center; justify-content:center; z-index:100}
     .modal{
       background:#fff; border-radius:16px; width:min(640px, 92vw); padding:18px; border:1px solid #eceef7; box-shadow: var(--shadow)
@@ -192,47 +187,55 @@
     }
     .toast.show{opacity:1}
 
-    /* ======== Picker custom (mobile) ======== */
-    .picker-backdrop{
-      position:fixed; inset:0; background:rgba(0,0,0,.36); display:none; z-index:120;
-    }
-    .picker{
-      position:absolute; left:0; right:0; bottom:0;
-      background:#fff; border-radius:16px 16px 0 0; box-shadow:0 -10px 40px rgba(0,0,0,.18);
-      transform:translateY(100%); transition:transform .2s cubic-bezier(.2,.8,.2,1);
-      padding:12px 12px max(12px, env(safe-area-inset-bottom));
-      max-height:80vh; overflow:auto;
-      width:min(960px, 100vw); margin-inline:auto;
-    }
-    .picker.open{ transform:translateY(0); }
-    .picker-header{display:flex; align-items:center; gap:8px; margin-bottom:8px}
-    .picker-title{font-weight:800; color:#0f173a; margin:0; font-size:18px}
-    .picker-close{margin-left:auto; border:1px solid #e2e5f2; background:#fff; border-radius:10px; padding:6px 10px; cursor:pointer}
-    .picker-search{display:flex; gap:8px; align-items:center; margin-bottom:8px}
-    .picker-search input{
-      flex:1 1 auto; height:38px; border:1px solid #e2e5f2; border-radius:10px; padding:0 12px;
-    }
-    .picker-count{font-size:12px; color:#6c7282}
-    .picker-section{margin-top:10px}
-    .picker-section h4{margin:10px 0 6px; font-size:12px; text-transform:uppercase; color:#6c7282; letter-spacing:.4px}
-    .picker-list{display:flex; flex-direction:column; gap:6px}
-    .picker-item{
-      display:flex; align-items:center; gap:8px;
-      border:1px solid #e6e8f2; border-radius:12px; padding:10px 12px; cursor:pointer; background:#f9fafc;
-    }
-    .picker-item:hover, .picker-item[aria-selected="true"]{ border-color:#c9d6ff; background:#eff4ff }
-    .picker-item .label{font-weight:700; color:#0e1638}
-    .picker-item .sub{font-size:12px; color:#6c7282}
-
-    /* Esconder barras até carregar um arquivo */
     .bottom-search[hidden], .bottom-study[hidden]{display:none}
 
-    /* Mobile-only: usa picker custom e esconde o select nativo */
-    @media (max-width: 640px){
+    /* Mobile-only: fonte menor do seletor (opções podem ignorar em alguns SOs) e uso do botão */
+    @media (max-width: 768px){
       .brand{ font-size:18px; }
-      .select-wrap select{ display:none; }
-      .picker-trigger{ display:inline-flex; align-items:center; }
+      .select-wrap select{ display:none; }   /* esconde nativo só no mobile */
+      .picker-btn{ display:inline-flex; align-items:center; gap:8px; }
+      .select-wrap select,
+      select option, select optgroup{ font-size:14px; }
     }
+
+    /* ====== Bottom-sheet do seletor custom (mobile) ====== */
+    .sheet{ position:fixed; inset:0; z-index:120; }
+    .sheet[hidden]{ display:none; }
+    .sheet-backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.32); }
+    .sheet-panel{
+      position:absolute; left:0; right:0; bottom:0;
+      background:#fff; border-radius:16px 16px 0 0;
+      max-height:80vh; display:flex; flex-direction:column;
+      padding-bottom:max(8px, env(safe-area-inset-bottom));
+      box-shadow:0 -8px 24px rgba(0,0,0,.12);
+    }
+    .sheet-head{ display:flex; align-items:center; justify-content:space-between;
+      padding:12px 16px; border-bottom:1px solid #eceef2; }
+    .sheet-title{ color:#0e1638; font-weight:800; }
+    .sheet-close{
+      width:32px; height:32px; border:1px solid #e2e5f2; background:#fff;
+      border-radius:10px; display:grid; place-items:center; cursor:pointer;
+    }
+    .sheet-search{ padding:10px 16px; }
+    .sheet-search input{
+      width:100%; height:38px; border:1px solid #e2e5f2; border-radius:10px; padding:0 12px;
+    }
+    .sheet-body{ overflow:auto; padding:8px 12px 12px; }
+    .list-section{ padding:6px 0; }
+    .list-section h4{
+      font-size:12px; letter-spacing:.4px; font-weight:800; color:#6c7282;
+      margin:6px 2px 4px; text-transform:uppercase;
+    }
+    .item{
+      width:100%; text-align:left; cursor:pointer;
+      display:flex; align-items:center; gap:10px;
+      padding:10px 12px; border-radius:10px; margin:6px 0;
+      border:1px solid #eceff4; background:#f9fafc;
+    }
+    .item b{ font-weight:800; color:#0e1638; }
+    .item small{ color:#6c7282; }
+    .item:hover, .item:focus{ outline:2px solid var(--focus); outline-offset:2px; }
+    .highlight{ background:#ffef99; border-radius:3px; }
   </style>
 </head>
 <body>
@@ -243,9 +246,6 @@
       <button class="brand" id="brandBtn" title="Clique para reiniciar">direito.love</button>
       <div class="spacer"></div>
       <div class="select-wrap">
-        <!-- Botão (mobile) que abre o picker -->
-        <button class="picker-trigger" id="openPicker" aria-haspopup="dialog" aria-controls="pickerBackdrop">Escolher código</button>
-
         <!-- CATEGORIAS COM OPTGROUP (fonte da verdade + fallback desktop) -->
         <select id="codeSelect" title="Escolher arquivo">
           <option value="">— selecione —</option>
@@ -270,6 +270,11 @@
             <option value="data/estatutos/estatuto_da_crianca_e_adolescente.txt">Estatuto Criança Adolescente</option>
           </optgroup>
         </select>
+
+        <!-- Botão que abre o seletor custom (aparece só no mobile) -->
+        <button id="openPicker" class="picker-btn" type="button" aria-haspopup="dialog" aria-controls="pickerSheet">
+          Escolher código
+        </button>
       </div>
     </div>
   </header>
@@ -295,12 +300,10 @@
     <div class="bottom-search-inner" aria-live="polite">
       <button class="iconbtn" id="prevBtn" title="Anterior" aria-label="Anterior">◀</button>
       <button class="iconbtn" id="nextBtn" title="Próximo" aria-label="Próximo">▶</button>
-
       <div class="search">
         <input id="searchInput" type="search" placeholder="Buscar no texto…" autocomplete="off" />
         <div class="spinner" id="spinner" hidden></div>
       </div>
-
       <div class="result-count" title="Ocorrência atual / Total"><span id="count">0/0</span></div>
       <button class="iconbtn danger" id="resetBtn" title="Reiniciar" aria-label="Reiniciar">✕</button>
     </div>
@@ -331,18 +334,18 @@
     </div>
   </div>
 
-  <!-- PICKER CUSTOM (mobile) -->
-  <div class="picker-backdrop" id="pickerBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="picker" id="picker" role="document" aria-labelledby="pickerTitle">
-      <div class="picker-header">
-        <h3 class="picker-title" id="pickerTitle">Escolher código</h3>
-        <button class="picker-close" id="pickerClose" aria-label="Fechar">✕</button>
+  <!-- SHEET: seletor custom (mobile) -->
+  <div id="pickerSheet" class="sheet" hidden aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="sheet-backdrop" data-close></div>
+    <div class="sheet-panel" role="document">
+      <div class="sheet-head">
+        <strong class="sheet-title">Escolher código</strong>
+        <button class="sheet-close" type="button" data-close aria-label="Fechar">✕</button>
       </div>
-      <div class="picker-search">
-        <input id="pickerInput" type="search" placeholder="Buscar por nome…" autocomplete="off" />
-        <div class="picker-count" id="pickerCount" aria-live="polite">0 itens</div>
+      <div class="sheet-search">
+        <input id="pickerSearch" type="search" placeholder="Buscar…" autocomplete="off" />
       </div>
-      <div id="pickerContent"></div>
+      <div class="sheet-body" id="pickerList" aria-live="polite"></div>
     </div>
   </div>
 
@@ -354,12 +357,9 @@
       brandBtn: document.getElementById('brandBtn'),
       codeSelect: document.getElementById('codeSelect'),
       openPicker: document.getElementById('openPicker'),
-      pickerBackdrop: document.getElementById('pickerBackdrop'),
-      picker: document.getElementById('picker'),
-      pickerClose: document.getElementById('pickerClose'),
-      pickerInput: document.getElementById('pickerInput'),
-      pickerCount: document.getElementById('pickerCount'),
-      pickerContent: document.getElementById('pickerContent'),
+      pickerSheet: document.getElementById('pickerSheet'),
+      pickerSearch: document.getElementById('pickerSearch'),
+      pickerList: document.getElementById('pickerList'),
 
       articles: document.getElementById('articles'),
       bottomSearch: document.getElementById('bottomSearch'),
@@ -386,10 +386,7 @@
       currentArticleIdx: -1,
       matchNodes: [],
       matchIdx: -1,
-      progressTimer: null,
-
-      pickerData: [],         // [{group,label,value, groupLabel}]
-      lastFocused: null
+      progressTimer: null
     };
 
     const escapeHtml = (s)=> s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
@@ -424,7 +421,7 @@
       }
     }
 
-    /* ================= Artigo em evidência (centro da viewport) ================= */
+    /* ================= Artigo em evidência ================= */
     const getArticleInView = ()=>{
       const nodes = document.querySelectorAll('article[data-idx]');
       const cy = window.innerHeight/2;
@@ -471,7 +468,7 @@
       return parseByArt(txt); // fallback
     }
 
-    // Blocos entre duas linhas "-----"
+    // Blocos entre "-----"
     function parseByDelimiters(txt){
       const sepRe = /(^|\n)[^\S\r\n]*-{5,}[^\S\r\n]*(?=\n|$)/g;
       const seps = [];
@@ -580,3 +577,380 @@
         frag.appendChild(el);
       });
       els.articles.innerHTML = '';
+      els.articles.appendChild(frag);
+      els.bottomSearch.hidden = false;
+      els.bottomStudy.hidden = false;
+      updateCurrentOutline();
+    }
+
+    /* ================= Busca ================= */
+    function normalizeWithMap(s){
+      let norm = '';
+      const map = [];
+      for (let i=0;i<s.length;i++){
+        const ch = s[i];
+        const decomp = ch.normalize('NFD');
+        for (let k=0;k<decomp.length;k++){
+          const c = decomp[k];
+          const code = c.codePointAt(0);
+          if (code>=0x0300 && code<=0x036F) continue;
+          norm += c.toLowerCase();
+          map.push(i);
+        }
+      }
+      return {norm, map};
+    }
+    const normalizeTerm = (s)=> s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+
+    function findRanges(raw, term){
+      if (!term) return [];
+      const {norm, map} = normalizeWithMap(raw);
+      const needle = normalizeTerm(term);
+      if (!needle) return [];
+      const ranges = [];
+      let from = 0;
+      while (true){
+        const pos = norm.indexOf(needle, from);
+        if (pos === -1) break;
+        const start = map[pos];
+        const end   = map[pos + needle.length - 1] + 1;
+        ranges.push([start, end]);
+        from = pos + needle.length;
+      }
+      return ranges;
+    }
+
+    function highlightElementByRanges(el, ranges){
+      if (!ranges.length){ return; }
+      const raw = el.textContent;
+      let out = '', last = 0;
+      for (const [s,e] of ranges){
+        out += escapeHtml(raw.slice(last, s));
+        out += '<mark>' + escapeHtml(raw.slice(s, e)) + '</mark>';
+        last = e;
+      }
+      out += escapeHtml(raw.slice(last));
+      el.innerHTML = out;
+    }
+
+    function clearMarks(){
+      const nodes = document.querySelectorAll('article[data-idx]');
+      nodes.forEach(node=>{
+        const i = Number(node.dataset.idx);
+        const a = state.articles[i];
+        node.innerHTML = '';
+
+        const split = a._split || splitBlockSupraTitleBody(a.text);
+
+        if (split.supra && split.supra.length){
+          const supra = document.createElement('div');
+          supra.className = 'supra';
+          split.supra.forEach(line=>{
+            const d = document.createElement('div');
+            d.textContent = line;
+            supra.appendChild(d);
+          });
+          node.appendChild(supra);
+        }
+
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'art-title';
+        titleSpan.textContent = split.titleText || a.title;
+        node.appendChild(titleSpan);
+
+        const content = document.createElement('div');
+        content.className = 'art-body';
+        content.textContent = split.body || '';
+        node.appendChild(content);
+      });
+      state.matchNodes = [];
+      state.matchIdx = -1;
+      els.count.textContent = '0/0';
+    }
+
+    async function highlightTermChunked(term){
+      clearMarks();
+      if (!term){ return; }
+
+      setBusy(true);
+      els.count.textContent = '...';
+
+      const nodes = [
+        ...document.querySelectorAll('article .art-body'),
+        ...document.querySelectorAll('article .art-title'),
+        ...document.querySelectorAll('article .supra > div')
+      ];
+
+      const BATCH = 12;
+      for (let i = 0; i < nodes.length; i += BATCH){
+        for (let j = i; j < Math.min(i+BATCH, nodes.length); j++){
+          const n = nodes[j];
+          const raw = n.textContent;
+          const ranges = findRanges(raw, term);
+          if (ranges.length) highlightElementByRanges(n, ranges);
+        }
+        await new Promise(r=>setTimeout(r,0));
+      }
+
+      state.matchNodes = Array.from(document.querySelectorAll('mark'));
+      if (state.matchNodes.length){
+        state.matchIdx = 0;
+        state.matchNodes[0].scrollIntoView({behavior:'smooth', block:'center'});
+        els.count.textContent = `1/${state.matchNodes.length}`;
+      }else{
+        els.count.textContent = '0/0';
+      }
+
+      setBusy(false);
+    }
+
+    // Botões de navegação das ocorrências
+    els.nextBtn.addEventListener('click', ()=>{
+      if (!state.matchNodes.length) return;
+      state.matchIdx = (state.matchIdx + 1) % state.matchNodes.length;
+      const m = state.matchNodes[state.matchIdx];
+      m.scrollIntoView({behavior:'smooth',block:'center'});
+      els.count.textContent = `${state.matchIdx+1}/${state.matchNodes.length}`;
+    });
+    els.prevBtn.addEventListener('click', ()=>{
+      if (!state.matchNodes.length) return;
+      state.matchIdx = (state.matchIdx - 1 + state.matchNodes.length) % state.matchNodes.length;
+      const m = state.matchNodes[state.matchIdx];
+      m.scrollIntoView({behavior:'smooth',block:'center'});
+      els.count.textContent = `${state.matchIdx+1}/${state.matchNodes.length}`;
+    });
+
+    // Executar busca (Barra 2)
+    els.doSearchBtn.addEventListener('click', ()=>{
+      const term = els.searchInput.value.trim();
+      highlightTermChunked(term);
+    });
+
+    // Enter no input dispara busca; Esc reinicia
+    els.searchInput.addEventListener('keydown', (e)=>{
+      if (e.key === 'Enter'){ e.preventDefault(); els.doSearchBtn.click(); }
+      else if (e.key === 'Escape'){ e.preventDefault(); resetAll(); }
+    });
+
+    /* ================= ESTUDAR (gera prompt + modal) ================= */
+    function extractArticleTitleText(a){
+      const split = a._split || splitBlockSupraTitleBody(a.text);
+      return split.titleText || a.title || 'Artigo';
+    }
+    function buildPrompt(a){
+      const split = a._split || splitBlockSupraTitleBody(a.text);
+      const supraText = split.supra && split.supra.length ? split.supra.join('\n') + '\n' : '';
+      const artigo = (split.titleText ? split.titleText + ' ' : '') + (split.body || '');
+      const tema = split.titleText || (a.title || 'Artigo');
+      return [
+        'Assuma a persona de um professor de Direito experiente convidado pelo direito.love e gere um material de estudo rápido. ',
+        'Analise detalhadamente todo o artigo abaixo (caput, paragrafos, incisos e alineas), cobrindo: ',
+        '(1) conceito com visão doutrinária, jurisprudência majoritária e prática; ',
+        '(2) mini exemplo prático; ',
+        '(3) checklist essencial; ',
+        '(4) erros comuns e pegadinhas de prova; ',
+        '(5) Pontos de atenção na prática jurídica; ',
+        '(6) Princípios Relacionados ao tema; ',
+        '(7) nota comparativa se houver artigos correlatos. ',
+        'Responda em português claro, sem enrolação, objetivo e didático.\n\n',
+        `Tema: "${tema}"\n\n`,
+        supraText + artigo,
+        '\n\n💚 direito.love'
+      ].join('');
+    }
+
+    function openModal(title){
+      els.modalTitle.textContent = `Estude o ${title} com as I.As. abaixo.`;
+      els.modalBackdrop.style.display = 'flex';
+      els.modalBackdrop.setAttribute('aria-hidden','false');
+      const first = els.modalBackdrop.querySelector('.ia-btn');
+      first?.focus();
+    }
+    function closeModal(){
+      els.modalBackdrop.style.display = 'none';
+      els.modalBackdrop.setAttribute('aria-hidden','true');
+    }
+
+    function isStandalone(){
+      return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    }
+    function openIA(url){
+      showToast('Abrindo…');
+      if (isStandalone()){ location.href = url; }
+      else{ window.open(url, '_blank', 'noopener,noreferrer'); }
+    }
+    document.querySelectorAll('.ia-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=> openIA(btn.dataset.url));
+    });
+
+    els.studyBtn.addEventListener('click', async ()=>{
+      if (!state.articles.length) return;
+      updateCurrentOutline();
+      const idx = state.currentArticleIdx ?? 0;
+      const a = state.articles[idx] || state.articles[0];
+
+      document.querySelectorAll('article.highlight-study').forEach(n=>n.classList.remove('highlight-study'));
+      document.querySelector(`article[data-idx="${idx}"]`)?.classList.add('highlight-study');
+
+      const prompt = buildPrompt(a);
+      try{ await navigator.clipboard.writeText(prompt); showToast('✅ Prompt copiado!'); }
+      catch{ showToast('Copie manualmente no próximo passo.'); }
+
+      openModal(extractArticleTitleText(a));
+    });
+
+    els.closeModal.addEventListener('click', closeModal);
+    els.modalBackdrop.addEventListener('click', (e)=>{
+      if (e.target === els.modalBackdrop) closeModal();
+    });
+    document.addEventListener('keydown', (e)=>{
+      if (els.modalBackdrop.style.display === 'flex' && e.key === 'Escape') closeModal();
+    });
+
+    /* ================= Reset (logo e botão X) ================= */
+    function resetAll(){
+      state.rawText = '';
+      state.articles = [];
+      state.currentArticleIdx = -1;
+      state.matchNodes = [];
+      state.matchIdx = -1;
+
+      els.searchInput.value = '';
+      els.count.textContent = '0/0';
+      els.bottomSearch.hidden = true;
+      els.bottomStudy.hidden = true;
+      els.articles.innerHTML = '<div class="placeholder"><p style="text-align:center">😎 Escolha um arquivo no topo para começar. Bons estudos!</p></div>';
+      els.codeSelect.value = '';
+      document.querySelectorAll('.highlight-study,.current-outline').forEach(n=>n.classList.remove('highlight-study','current-outline'));
+      closeModal();
+      window.scrollTo({top:0,behavior:'instant'});
+    }
+    els.brandBtn.addEventListener('click', resetAll);
+    els.resetBtn.addEventListener('click', resetAll);
+
+    /* ================= Carregar TXT ================= */
+    els.codeSelect.addEventListener('change', async (e)=>{
+      const url = e.target.value;
+      if (!url){ resetAll(); return; }
+      els.articles.innerHTML = '<div class="placeholder">Carregando…</div>';
+      try{
+        const res = await fetch(url, {cache:'reload'});
+        if (!res.ok) throw new Error(`HTTP ${res.status} — ${res.statusText} (${url})`);
+        const txt = sanitizeForLayout(await res.text());
+        state.rawText = txt;
+
+        state.articles = parseArticlesFromText(txt);
+        renderArticles();
+        clearMarks();
+        window.scrollTo({top:0,behavior:'instant'});
+      }catch(err){
+        console.error(err);
+        els.articles.innerHTML = `<div class="placeholder">Falha ao carregar o arquivo:<br><code>${(err && err.message) || 'Erro desconhecido'}</code></div>`;
+        els.bottomSearch.hidden = true; els.bottomStudy.hidden = true;
+      }
+    });
+
+    /* ================= Seletor custom (MOBILE) ================= */
+    (function(){
+      const sel = els.codeSelect;
+      const openBtn = els.openPicker;
+      const sheet = els.pickerSheet;
+      const listEl = els.pickerList;
+      const searchEl = els.pickerSearch;
+
+      if (!sel || !openBtn || !sheet || !listEl || !searchEl) return; // segurança
+
+      // Lê <optgroup>/<option> do select
+      function getGroups(){
+        const groups = [];
+        let current = null;
+        sel.querySelectorAll('optgroup, option').forEach(node=>{
+          if (node.tagName.toLowerCase()==='optgroup'){
+            current = { label: node.label || 'Outros', items: [] };
+            groups.push(current);
+          } else if (node.tagName.toLowerCase()==='option'){
+            const label = node.textContent.trim();
+            const value = node.value;
+            if (!label) return;
+            if (!current){ current = { label:'Outros', items:[] }; groups.push(current); }
+            current.items.push({ label, value });
+          }
+        });
+        return groups;
+      }
+
+      const norm = s => (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+      const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+      function render(filter=''){
+        const groups = getGroups();
+        const f = norm(filter);
+        listEl.innerHTML = '';
+        let total = 0;
+
+        groups.forEach(g=>{
+          const items = g.items.filter(it => !f || norm(it.label).includes(f));
+          if (!items.length) return;
+
+          const sec = document.createElement('div'); sec.className = 'list-section';
+          const h = document.createElement('h4'); h.textContent = g.label; sec.appendChild(h);
+
+          items.forEach(it=>{
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'item';
+            let labelHTML = it.label;
+            if (f) labelHTML = it.label.replace(new RegExp(escRe(filter), 'ig'), m => `<span class="highlight">${m}</span>`);
+            btn.innerHTML = `<b>${labelHTML}</b>`;
+            btn.addEventListener('click', ()=>{
+              sel.value = it.value;
+              sel.dispatchEvent(new Event('change', {bubbles:true}));
+              close();
+            });
+            sec.appendChild(btn);
+            total++;
+          });
+
+          listEl.appendChild(sec);
+        });
+
+        if (!total){
+          listEl.innerHTML = '<div class="placeholder" style="margin:8px">Nada encontrado.</div>';
+        }
+      }
+
+      function open(){
+        sheet.hidden = false;
+        sheet.setAttribute('aria-hidden', 'false');
+        render('');
+        setTimeout(()=>searchEl.focus(), 0);
+        document.addEventListener('keydown', onKey);
+      }
+      function close(){
+        sheet.hidden = true;
+        sheet.setAttribute('aria-hidden', 'true');
+        document.removeEventListener('keydown', onKey);
+      }
+      function onKey(e){
+        if (e.key === 'Escape') close();
+      }
+
+      openBtn.addEventListener('click', open);
+      sheet.addEventListener('click', e=>{
+        if (e.target.closest('[data-close]')) close();
+      });
+      searchEl.addEventListener('input', e=> render(e.target.value));
+
+      // Atualiza rótulo do botão com a seleção atual (opcional)
+      sel.addEventListener('change', ()=>{
+        const t = sel.options[sel.selectedIndex]?.text || 'Escolher código';
+        openBtn.textContent = t.length > 28 ? t.slice(0,28)+'…' : t;
+      });
+      // inicial
+      openBtn.textContent = 'Escolher código';
+    })();
+
+    document.addEventListener('DOMContentLoaded', ()=>updateCurrentOutline());
+  </script>
+</body>
+</html>
