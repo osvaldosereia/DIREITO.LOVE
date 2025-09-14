@@ -498,54 +498,72 @@
     }
 
     // Fallback por "Art."
-    function parseByArt(txt){
-      const re = /(^|\n)\s*((?:Art|ART)\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?\.?)/g;
-      const starts = [];
-      let m;
-      while ((m = re.exec(txt)) !== null) {
-        const idxArt = re.lastIndex - m[2].length;
-        starts.push(idxArt);
-      }
-      if (!starts.length) return [{ title:'Texto', text: txt.trim(), htmlId:'art-0', _split: splitBlockSupraTitleBody(txt.trim()) }];
+function parseByArt(txt){
+  const re = /(^|\n)\s*((?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?)/g;
+  const starts = [];
+  let m;
+  while ((m = re.exec(txt)) !== null) {
+    const idxArt = re.lastIndex - m[2].length;
+    starts.push(idxArt);
+  }
+  if (!starts.length) return [{
+    title:'Texto',
+    text: txt.trim(),
+    htmlId:'art-0',
+    _split: splitBlockSupraTitleBody(txt.trim())
+  }];
 
-      const arts = [];
-      for (let i = 0; i < starts.length; i++) {
-        const from = starts[i];
-        const to   = (i + 1 < starts.length) ? starts[i + 1] : txt.length;
+  const arts = [];
+  for (let i = 0; i < starts.length; i++) {
+    const from = starts[i];
+    const to   = (i + 1 < starts.length) ? starts[i + 1] : txt.length;
 
-        let chunk = txt.slice(from, to).trimEnd();
+    let chunk = txt.slice(from, to).trimEnd();
 
-        const endDot = chunk.lastIndexOf('.');
-        const endPar = chunk.lastIndexOf(')');
-        const end    = Math.max(endDot, endPar);
-        if (end !== -1) chunk = chunk.slice(0, end + 1).trimEnd();
+    // Garante que só pega até o último "." ou ")" antes do próximo artigo
+    const endDot = chunk.lastIndexOf('.');
+    const endPar = chunk.lastIndexOf(')');
+    const end    = Math.max(endDot, endPar);
+    if (end !== -1) chunk = chunk.slice(0, end + 1).trimEnd();
 
-        const split = splitBlockSupraTitleBody(chunk);
-        const title = split.titleText || chunk.split('\n')[0].slice(0,40);
+    const split = splitBlockSupraTitleBody(chunk);
+    const title = split.titleText || chunk.split('\n')[0].slice(0,40);
 
-        arts.push({ title, text: chunk, htmlId: `art-${i}`, _split: split });
-      }
-      return arts;
-    }
+    arts.push({ title, text: chunk, htmlId: `art-${i}`, _split: split });
+  }
+  return arts;
+}
+
 
     function splitBlockSupraTitleBody(raw){
-      const lines = raw.replace(/^\s+|\s+$/g,'').split(/\r?\n/);
-      const artIdx = lines.findIndex(line => /^\s*(?:Art|ART)\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?\.?/.test(line));
-      if (artIdx >= 0){
-        const supra = lines.slice(0, artIdx).map(s=>s.trim()).filter(Boolean);
-        const titleLine = lines[artIdx];
-        const mt = titleLine.match(/^\s*((?:Art|ART)\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?\.?)/);
-        const titleText = mt ? mt[1].trim() : titleLine.trim();
-        const afterTitle = titleLine.slice(mt ? mt[1].length : 0).trimStart();
-        const rest = lines.slice(artIdx+1).join('\n').trimStart();
-        const body = afterTitle ? (rest ? afterTitle + '\n' + rest : afterTitle) : rest;
-        return { supra, titleText, body };
-      }else{
-        const titleText = (lines[0]||'').trim();
-        const body = lines.slice(1).join('\n').trimStart();
-        return { supra:[], titleText, body };
-      }
-    }
+  const lines = raw.replace(/^\s+|\s+$/g,'').split(/\r?\n/);
+  const artIdx = lines.findIndex(line =>
+    /^\s*(?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?/.test(line)
+  );
+
+  if (artIdx >= 0){
+    const supra = lines.slice(0, artIdx).map(s=>s.trim()).filter(Boolean);
+    const titleLine = lines[artIdx];
+
+    // Regex captura artigo com ou sem hífen
+    const mt = titleLine.match(/^\s*((?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?)/);
+    let titleText = mt ? mt[1].trim() : titleLine.trim();
+
+    // Normaliza: "10-A" → "10A"
+    titleText = titleText.replace(/(\d+)-?([A-Z])/, "$1$2");
+
+    const afterTitle = titleLine.slice(mt ? mt[1].length : 0).trimStart();
+    const rest = lines.slice(artIdx+1).join('\n').trimStart();
+    const body = afterTitle ? (rest ? afterTitle + '\n' + rest : afterTitle) : rest;
+
+    return { supra, titleText, body };
+  } else {
+    const titleText = (lines[0]||'').trim();
+    const body = lines.slice(1).join('\n').trimStart();
+    return { supra:[], titleText, body };
+  }
+}
+
 
     /* ================= Render ================= */
     function renderArticles(){
