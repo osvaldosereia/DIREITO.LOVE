@@ -87,7 +87,7 @@
       border-radius:10px; padding:0 10px
     }
 
-    /* Conteúdo scrollável */
+    /* Conteúdo */
     .content{
       position:relative;
       padding: calc(var(--topbar-h) + var(--subbar-h) + 14px) 0 calc(var(--bottombar-h) + 18px);
@@ -283,7 +283,7 @@
       setTimeout(()=>els.toast.classList.remove('show'), 1000);
     };
 
-    /* ================= Artigo em evidência ================= */
+    /* ========== Artigo em evidência (centro da viewport) ========== */
     const getArticleInView = ()=>{
       const nodes = document.querySelectorAll('article[data-idx]');
       const cy = window.innerHeight/2;
@@ -315,54 +315,74 @@
       updateCurrentOutline();
     }, {passive:true});
 
-    /* ================= Parser de artigos =================
-       Regras do Osvaldo:
+    /* ========== PARSER DE ARTIGOS ==========
        - Começa em "Art" (A maiúsculo)
        - Termina no último "." ou ")" antes do próximo "Art"
        - Se não houver "." nem ")", termina no char anterior ao próximo "Art"
-       Correções:
-       - Remove BOM no início
-       - Aceita espaços no começo da linha antes de "Art"
-    ====================================================== */
+       - Remove BOM e aceita espaços antes de "Art"
+    ======================================== */
     function parseArticlesFromText(txt){
-      // Remover BOM e normalizar quebras
-      txt = txt.replace(/^\uFEFF/, '');
+      // Remove BOM e normaliza quebras
+      txt = txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n');
+
+      // Linhas que iniciam um artigo (Art/ART, com variações)
+      const re = /(^|\n)\s*((?:Art|ART)\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?\.?)/g;
 
       const starts = [];
-      const re = /(^|\n)[^\S\r\n]*(?=Art(?![a-z]))/g; // permite espaços antes de "Art", evita "Artigo"
       let m;
-      while((m = re.exec(txt))!==null){
-        const idx = m.index + (m[0].startsWith('\n') ? 1 : 0);
-        starts.push(idx);
+      while ((m = re.exec(txt)) !== null) {
+        const idxArt = re.lastIndex - m[2].length; // posição do 'A' de Art
+        starts.push({ idx: idxArt });
       }
-      if (!starts.length){
-        return [{ title: 'Texto', text: txt.trim(), htmlId: 'art-0'}];
+
+      if (!starts.length) {
+        return [{ title: 'Texto', text: txt.trim(), htmlId: 'art-0' }];
       }
 
       const arts = [];
-      for (let i=0;i<starts.length;i++){
-        const from = starts[i];
-        const to = (i+1<starts.length) ? starts[i+1] : txt.length;
+      for (let i = 0; i < starts.length; i++) {
+        const from = starts[i].idx;
+        const to   = (i + 1 < starts.length) ? starts[i + 1].idx : txt.length;
+
         let chunk = txt.slice(from, to);
 
-        // Fim = último '.' ou ')' antes do próximo "Art"
+        // Fim = último '.' ou ')' dentro do bloco
         let endDot = chunk.lastIndexOf('.');
         let endPar = chunk.lastIndexOf(')');
-        let end = Math.max(endDot, endPar);
-        if (end === -1){ end = chunk.length - 1; }
-        chunk = chunk.slice(0, end+1).trimEnd();
+        let end    = Math.max(endDot, endPar);
+        if (end === -1) end = chunk.length - 1;
+        chunk = chunk.slice(0, end + 1);
 
-        // Primeira linha
-        const firstLine = chunk.split(/\r?\n/,1)[0].trim();
-        // Tenta reconhecer variações: Art. 1º / Art 1 / Art. 121-A / Art. 1.
-        const mtitle = firstLine.match(/^Art\.?\s*\d{1,4}(?:-[A-Z])?(?:º)?\.?/);
-        const title = (mtitle ? mtitle[0].trim() : firstLine.slice(0,40));
+        // Título pela primeira linha
+        const nl = chunk.indexOf('\n');
+        const firstLine = (nl === -1) ? chunk : chunk.slice(0, nl);
+        const mt = firstLine.match(/^\s*((?:Art|ART)\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?\.?)/);
+        const title = mt ? mt[1].trim() : firstLine.trim().slice(0, 40);
+
         arts.push({ title, text: chunk, htmlId: `art-${i}` });
       }
       return arts;
     }
 
-    /* ================= Render ================= */
+    // split título x corpo (preserva o texto após o título na MESMA linha)
+    function splitTitleBody(raw){
+      const t  = raw.replace(/^\s+/, '');
+      const nl = t.indexOf('\n');
+      const firstLine = (nl === -1) ? t : t.slice(0, nl);
+
+      const m = firstLine.match(/^\s*((?:Art|ART)\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?\.?)/);
+      const titleText = m ? m[1].trim() : firstLine.trim();
+
+      const afterTitle = m ? firstLine.slice(m[1].length).trimStart() : '';
+      const rest = (nl === -1) ? '' : t.slice(nl + 1).trimStart();
+
+      const body = afterTitle ? (rest ? afterTitle + '\n' + rest : afterTitle) : rest;
+      return { titleText, body };
+    }
+
+    /* ========== Render ==========
+       usa splitTitleBody para não "comer" artigos de 1 linha
+    ================================= */
     function renderArticles(){
       const frag = document.createDocumentFragment();
       state.articles.forEach((a, i)=>{
@@ -370,13 +390,11 @@
         el.dataset.idx = i;
         el.id = a.htmlId;
 
-        const firstLine = a.text.split(/\r?\n/,1)[0];
-        const body = a.text.startsWith(firstLine) ? a.text.slice(firstLine.length).trimStart() : a.text;
+        const { titleText, body } = splitTitleBody(a.text);
 
         const titleSpan = document.createElement('span');
         titleSpan.className = 'art-title';
-        titleSpan.textContent = a.title;
-
+        titleSpan.textContent = titleText;
         const content = document.createElement('div');
         content.className = 'art-body';
         content.textContent = body;
@@ -391,21 +409,20 @@
       updateCurrentOutline();
     }
 
-    /* ================= Busca ================= */
+    /* ========== Busca ==========
+       re-render limpa e highlight com <mark>
+    ================================= */
     function clearMarks(){
-      // Re-render sem <mark>
       const nodes = document.querySelectorAll('article[data-idx]');
       nodes.forEach(node=>{
         const i = Number(node.dataset.idx);
         const a = state.articles[i];
         node.innerHTML = '';
-        const firstLine = a.text.split(/\r?\n/,1)[0];
-        const body = a.text.startsWith(firstLine) ? a.text.slice(firstLine.length).trimStart() : a.text;
+        const { titleText, body } = splitTitleBody(a.text);
 
         const titleSpan = document.createElement('span');
         titleSpan.className = 'art-title';
-        titleSpan.textContent = a.title;
-
+        titleSpan.textContent = titleText;
         const content = document.createElement('div');
         content.className = 'art-body';
         content.textContent = body;
@@ -461,7 +478,9 @@
       scrollToMatch(state.matchIdx);
     });
 
-    /* ================= ESTUDAR ================= */
+    /* ========== ESTUDAR ==========
+       gera e copia prompt + modal IA
+    ================================= */
     function extractArticleTitleText(a){ return a?.title || 'Artigo'; }
     function buildPrompt(a){
       const artigo = a?.text || '';
@@ -510,8 +529,8 @@
       if (e.target === els.modalBackdrop) els.closeModal.click();
     });
 
-    /* ================= Carregar TXT ================= */
-    els.codeSelect.addEventListener('change', async (e)=>{
+    /* ========== Carregar TXT ========== */
+    document.getElementById('codeSelect').addEventListener('change', async (e)=>{
       const url = e.target.value;
       if (!url){ resetAll(true); return; }
       els.articles.innerHTML = '<div class="placeholder">Carregando…</div>';
@@ -531,7 +550,7 @@
       }
     });
 
-    /* ================= Reiniciar ================= */
+    /* ========== Reiniciar ========== */
     function resetAll(keepSelect=false){
       state.rawText = '';
       state.articles = [];
