@@ -7,7 +7,6 @@ Dos Direitos do Consumidor
 
 -----
 CAPÍTULO I
------
 Disposições Gerais
 -----
 
@@ -27,7 +26,6 @@ Art. 3 Fornecedor é toda pessoa física ou jurídica, pública ou privada, naci
 
 -----
 CAPÍTULO II
------
 Da Política Nacional de Relações de Consumo
 -----
 
@@ -84,7 +82,6 @@ VII - instituição de núcleos de conciliação e mediação de conflitos oriun
 
 -----
 CAPÍTULO III
------
 Dos Direitos Básicos do Consumidor
 -----
 
@@ -130,7 +127,6 @@ Da Qualidade de Produtos e Serviços, da Prevenção e da Reparação dos Danos
 
 -----
 SEÇÃO I
------
 Da Proteção à Saúde e Segurança
 -----
 
@@ -157,7 +153,6 @@ Art. 11. (Vetado).
 
 -----
 SEÇÃO II
------
 Da Responsabilidade pelo Fato do Produto e do Serviço
 -----
 
@@ -224,7 +219,6 @@ Art. 17. Para os efeitos desta Seção, equiparam-se aos consumidores todas as v
 
 -----
 SEÇÃO III
------
 Da Responsabilidade por Vício do Produto e do Serviço
 -----
 
@@ -305,7 +299,6 @@ Art. 25. É vedada a estipulação contratual de cláusula que impossibilite, ex
 
 -----
 SEÇÃO IV
------
 Da Decadência e da Prescrição
 -----
 
@@ -334,7 +327,6 @@ Art. 27. Prescreve em cinco anos a pretensão à reparação pelos danos causado
 
 -----
 SEÇÃO V
------
 Da Desconsideração da Personalidade Jurídica
 -----
 
@@ -357,7 +349,6 @@ Das Práticas Comerciais
 
 -----
 SEÇÃO I
------
 Das Disposições Gerais
 -----
 
@@ -365,7 +356,6 @@ Art. 29. Para os fins deste Capítulo e do seguinte, equiparam-se aos consumidor
 
 -----
 SEÇÃO II
------
 Da Oferta
 -----
 
@@ -400,7 +390,6 @@ Art. 35. Se o fornecedor de produtos ou serviços recusar cumprimento à oferta,
 
 -----
 SEÇÃO III
------
 Da Publicidade
 -----
 
@@ -424,7 +413,6 @@ Art. 38. O ônus da prova da veracidade e correção da informação ou comunica
 
 -----
 SEÇÃO IV
------
 Das Práticas Abusivas
 -----
 
@@ -474,7 +462,6 @@ Art. 41. No caso de fornecimento de produtos ou de serviços sujeitos ao regime 
 
 -----
 SEÇÃO V
------
 Da Cobrança de Dívidas
 -----
 
@@ -487,7 +474,6 @@ Art. 42A.  Em todos os documentos de cobrança de débitos apresentados ao consu
 
 -----
 SEÇÃO VI
------
 Dos Bancos de Dados e Cadastros de Consumidores
 -----
 
@@ -522,7 +508,6 @@ Da Proteção Contratual
 
 -----
 SEÇÃO I
------
 Disposições Gerais
 -----
 
@@ -546,7 +531,6 @@ Art. 50. A garantia contratual é complementar à legal e será conferida median
 
 -----
 SEÇÃO II
------
 Das Cláusulas Abusivas
 -----
 
@@ -634,7 +618,6 @@ Art. 53. Nos contratos de compra e venda de móveis ou imóveis mediante pagamen
 
 -----
 SEÇÃO III
------
 Dos Contratos de Adesão
 -----
 
@@ -749,7 +732,6 @@ III - impedir ou dificultar, em caso de utilização fraudulenta do cartão de c
 
 -----
 CAPÍTULO VII
------
 Das Sanções Administrativas
 -----
 (Vide Lei nº 8.656, de 1993)
@@ -821,7 +803,6 @@ Art. 60. A imposição de contrapropaganda será cominada quando o fornecedor in
 
 -----
 TÍTULO II
------
 Das Infrações Penais
 -----
 
@@ -963,7 +944,6 @@ Da Defesa do Consumidor em Juízo
 
 -----
 CAPÍTULO I
------
 Disposições Gerais
 -----
 
@@ -1034,7 +1014,6 @@ Art. 90. Aplicam-se às ações previstas neste título as normas do Código de 
 
 -----
 CAPÍTULO II
------
 Das Ações Coletivas Para a Defesa de Interesses Individuais Homogêneos
 -----
 
@@ -1089,7 +1068,6 @@ Art. 100. Decorrido o prazo de um ano sem habilitação de interessados em núme
 
 -----
 CAPÍTULO III
------
 Das Ações de Responsabilidade do Fornecedor de Produtos e Serviços
 -----
 
@@ -1108,7 +1086,6 @@ Art. 102. Os legitimados a agir na forma deste código poderão propor ação vi
 
 -----
 CAPÍTULO IV
------
 Da Coisa Julgada
 -----
 
@@ -1133,7 +1110,6 @@ Art. 104. As ações coletivas, previstas nos incisos I e II e do parágrafo ún
 
 -----
 CAPÍTULO V
-
 DA CONCILIAÇÃO NO SUPERENDIVIDAMENTO
 -----
 
@@ -1180,7 +1156,6 @@ Art. 104C. Compete concorrente e facultativamente aos órgãos públicos integra
 
 -----
 TÍTULO IV
------
 Do Sistema Nacional de Defesa do Consumidor
 -----
 
@@ -1219,7 +1194,6 @@ Art. 106. O Departamento Nacional de Defesa do Consumidor, da Secretaria Naciona
 
 -----
 TÍTULO V
------
 Da Convenção Coletiva de Consumo
 -----
 
@@ -1236,7 +1210,6 @@ Art. 108. (Vetado).
 
 -----
 TÍTULO VI
------
 Disposições Finais
 -----
 
