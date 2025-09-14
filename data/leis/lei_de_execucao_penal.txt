@@ -1,42 +1,57 @@
 
 
+-----
 TÍTULO I
+-----
 
 Do Objeto e da Aplicação da Lei de Execução Penal
 
-Art. 1º A execução penal tem por objetivo efetivar as disposições de sentença ou decisão criminal e proporcionar condições para a harmônica integração social do condenado e do internado.
+-----
+Art. 1 A execução penal tem por objetivo efetivar as disposições de sentença ou decisão criminal e proporcionar condições para a harmônica integração social do condenado e do internado.
 
-Art. 2º A jurisdição penal dos Juízes ou Tribunais da Justiça ordinária, em todo o Território Nacional, será exercida, no processo de execução, na conformidade desta Lei e do Código de Processo Penal.
+-----
+Art. 2 A jurisdição penal dos Juízes ou Tribunais da Justiça ordinária, em todo o Território Nacional, será exercida, no processo de execução, na conformidade desta Lei e do Código de Processo Penal.
 
 Parágrafo único. Esta Lei aplicar-se-á igualmente ao preso provisório e ao condenado pela Justiça Eleitoral ou Militar, quando recolhido a estabelecimento sujeito à jurisdição ordinária.
 
-Art. 3º Ao condenado e ao internado serão assegurados todos os direitos não atingidos pela sentença ou pela lei.
+-----
+Art. 3 Ao condenado e ao internado serão assegurados todos os direitos não atingidos pela sentença ou pela lei.
 
 Parágrafo único. Não haverá qualquer distinção de natureza racial, social, religiosa ou política.
 
-Art. 4º O Estado deverá recorrer à cooperação da comunidade nas atividades de execução da pena e da medida de segurança.
+-----
+Art. 4 O Estado deverá recorrer à cooperação da comunidade nas atividades de execução da pena e da medida de segurança.
 
+-----
 TÍTULO II
+-----
 
 Do Condenado e do Internado
 
+-----
 CAPÍTULO I
+-----
 
 Da Classificação
 
-Art. 5º Os condenados serão classificados, segundo os seus antecedentes e personalidade, para orientar a individualização da execução penal.
+-----
+Art. 5 Os condenados serão classificados, segundo os seus antecedentes e personalidade, para orientar a individualização da execução penal.
 
-Art. 6o A classificação será feita por Comissão Técnica de Classificação que elaborará o programa individualizador da pena privativa de liberdade adequada ao condenado ou preso provisório.          (Redação dada pela Lei nº 10.792, de 2003)
+-----
+Art. 6 A classificação será feita por Comissão Técnica de Classificação que elaborará o programa individualizador da pena privativa de liberdade adequada ao condenado ou preso provisório.          (Redação dada pela Lei nº 10.792, de 2003)
 
-Art. 7º A Comissão Técnica de Classificação, existente em cada estabelecimento, será presidida pelo diretor e composta, no mínimo, por 2 (dois) chefes de serviço, 1 (um) psiquiatra, 1 (um) psicólogo e 1 (um) assistente social, quando se tratar de condenado à pena privativa de liberdade.
+-----
+Art. 7 A Comissão Técnica de Classificação, existente em cada estabelecimento, será presidida pelo diretor e composta, no mínimo, por 2 (dois) chefes de serviço, 1 (um) psiquiatra, 1 (um) psicólogo e 1 (um) assistente social, quando se tratar de condenado à pena privativa de liberdade.
 
 Parágrafo único. Nos demais casos a Comissão atuará junto ao Juízo da Execução e será integrada por fiscais do serviço social.
 
-Art. 8º O condenado ao cumprimento de pena privativa de liberdade, em regime fechado, será submetido a exame criminológico para a obtenção dos elementos necessários a uma adequada classificação e com vistas à individualização da execução.
+-----
+Art. 8 O condenado ao cumprimento de pena privativa de liberdade, em regime fechado, será submetido a exame criminológico para a obtenção dos elementos necessários a uma adequada classificação e com vistas à individualização da execução.
 
 Parágrafo único. Ao exame de que trata este artigo poderá ser submetido o condenado ao cumprimento da pena privativa de liberdade em regime semi-aberto.
 
-Art. 9º A Comissão, no exame para a obtenção de dados reveladores da personalidade, observando a ética profissional e tendo sempre presentes peças ou informações do processo, poderá:
+-----
+Art. 9 A Comissão, no exame para a obtenção de dados reveladores da personalidade, observando a ética profissional e tendo sempre presentes peças ou informações do processo, poderá:
 
 I - entrevistar pessoas;
 
@@ -44,7 +59,8 @@ II - requisitar, de repartições ou estabelecimentos privados, dados e informa�
 
 III - realizar outras diligências e exames necessários.
 
-Art. 9º-A. O condenado por crime doloso praticado com violência grave contra a pessoa, bem como por crime contra a vida, contra a liberdade sexual ou por crime sexual contra vulnerável, será submetido, obrigatoriamente, à identificação do perfil genético, mediante extração de DNA (ácido desoxirribonucleico), por técnica adequada e indolor, por ocasião do ingresso no estabelecimento prisional.         (Redação dada pela Lei nº 13.964, de 2019)        (Vigência)
+-----
+Art. 9A. O condenado por crime doloso praticado com violência grave contra a pessoa, bem como por crime contra a vida, contra a liberdade sexual ou por crime sexual contra vulnerável, será submetido, obrigatoriamente, à identificação do perfil genético, mediante extração de DNA (ácido desoxirribonucleico), por técnica adequada e indolor, por ocasião do ingresso no estabelecimento prisional.         (Redação dada pela Lei nº 13.964, de 2019)        (Vigência)
 
 § 1º-A. A regulamentação deverá fazer constar garantias mínimas de proteção de dados genéticos, observando as melhores práticas da genética forense.     (Incluído pela Lei nº 13.964, de 2019)        (Vigência)
 
@@ -62,18 +78,24 @@ Art. 9º-A. O condenado por crime doloso praticado com violência grave contra a
 
 § 8º Constitui falta grave a recusa do condenado em submeter-se ao procedimento de identificação do perfil genético.     (Incluído pela Lei nº 13.964, de 2019)        (Vigência)
 
+-----
 CAPÍTULO II
+-----
 
 Da Assistência
 
+-----
 SEÇÃO I
+-----
 
 Disposições Gerais
 
+-----
 Art. 10. A assistência ao preso e ao internado é dever do Estado, objetivando prevenir o crime e orientar o retorno à convivência em sociedade.   (Regulamento)
 
 Parágrafo único. A assistência estende-se ao egresso.
 
+-----
 Art. 11. A assistência será:   (Regulamento)
 
 I - material;
@@ -88,18 +110,25 @@ V - social;
 
 VI - religiosa.
 
+-----
 SEÇÃO II
+-----
 
 Da Assistência Material
 
+-----
 Art. 12. A assistência material ao preso e ao internado consistirá no fornecimento de alimentação, vestuário e instalações higiênicas.
 
+-----
 Art. 13. O estabelecimento disporá de instalações e serviços que atendam aos presos nas suas necessidades pessoais, além de locais destinados à venda de produtos e objetos permitidos e não fornecidos pela Administração.
 
+-----
 SEÇÃO III
+-----
 
 Da Assistência à Saúde
 
+-----
 Art. 14. A assistência à saúde do preso e do internado de caráter preventivo e curativo, compreenderá atendimento médico, farmacêutico e odontológico.
 
 § 1º (Vetado).
@@ -110,12 +139,16 @@ Art. 14. A assistência à saúde do preso e do internado de caráter preventivo
 
 § 4º Será assegurado tratamento humanitário à mulher grávida durante os atos médico-hospitalares preparatórios para a realização do parto e durante o trabalho de parto, bem como à mulher no período de puerpério, cabendo ao poder público promover a assistência integral à sua saúde e à do recém-nascido.        (Incluído pela Lei nº 14.326, de 2022)
 
+-----
 SEÇÃO IV
+-----
 
 Da Assistência Jurídica
 
+-----
 Art. 15. A assistência jurídica é destinada aos presos e aos internados sem recursos financeiros para constituir advogado.
 
+-----
 Art. 16.  As Unidades da Federação deverão ter serviços de assistência jurídica, integral e gratuita, pela Defensoria Pública, dentro e fora dos estabelecimentos penais.           (Redação dada pela Lei nº 12.313, de 2010).
 
 § 1o  As Unidades da Federação deverão prestar auxílio estrutural, pessoal e material à Defensoria Pública, no exercício de suas funções, dentro e fora dos estabelecimentos penais.          (Incluído pela Lei nº 12.313, de 2010).
@@ -124,15 +157,20 @@ Art. 16.  As Unidades da Federação deverão ter serviços de assistência jur�
 
 § 3o  Fora dos estabelecimentos penais, serão implementados Núcleos Especializados da Defensoria Pública para a prestação de assistência jurídica integral e gratuita aos réus, sentenciados em liberdade, egressos e seus familiares, sem recursos financeiros para constituir advogado.           (Incluído pela Lei nº 12.313, de 2010).
 
+-----
 SEÇÃO V
+-----
 
 Da Assistência Educacional
 
+-----
 Art. 17. A assistência educacional compreenderá a instrução escolar e a formação profissional do preso e do internado.
 
+-----
 Art. 18. O ensino de 1º grau será obrigatório, integrando-se no sistema escolar da Unidade Federativa.
 
-Art. 18-A.  O ensino médio, regular ou supletivo, com formação geral ou educação profissional de nível médio, será implantado nos presídios, em obediência ao preceito constitucional de sua universalização.          (Incluído pela Lei nº 13.163, de 2015)
+-----
+Art. 18A.  O ensino médio, regular ou supletivo, com formação geral ou educação profissional de nível médio, será implantado nos presídios, em obediência ao preceito constitucional de sua universalização.          (Incluído pela Lei nº 13.163, de 2015)
 
 § 1o  O ensino ministrado aos presos e presas integrar-se-á ao sistema estadual e municipal de ensino e será mantido, administrativa e financeiramente, com o apoio da União, não só com os recursos destinados à educação, mas pelo sistema estadual de justiça ou administração penitenciária.         (Incluído pela Lei nº 13.163, de 2015)
 
@@ -140,12 +178,15 @@ Art. 18-A.  O ensino médio, regular ou supletivo, com formação geral ou educa
 
 § 3o  A União, os Estados, os Municípios e o Distrito Federal incluirão em seus programas de educação à distância e de utilização de novas tecnologias de ensino, o atendimento aos presos e às presas.                      (Incluído pela Lei nº 13.163, de 2015)
 
+-----
 Art. 19. O ensino profissional será ministrado em nível de iniciação ou de aperfeiçoamento técnico.
 
 Parágrafo único. A mulher condenada terá ensino profissional adequado à sua condição.
 
+-----
 Art. 20. As atividades educacionais podem ser objeto de convênio com entidades públicas ou particulares, que instalem escolas ou ofereçam cursos especializados.
 
+-----
 Art. 21. Em atendimento às condições locais, dotar-se-á cada estabelecimento de uma biblioteca, para uso de todas as categorias de reclusos, provida de livros instrutivos, recreativos e didáticos.
 
 Art.  21-A. O censo penitenciário deverá apurar:          (Incluído pela Lei nº 13.163, de 2015)
@@ -160,12 +201,16 @@ III - a implementação de cursos profissionais em nível de iniciação ou aper
 
 V - outros dados relevantes para o aprimoramento educacional de presos e presas.         (Incluído pela Lei nº 13.163, de 2015)
 
+-----
 SEÇÃO VI
+-----
 
 Da Assistência Social
 
+-----
 Art. 22. A assistência social tem por finalidade amparar o preso e o internado e prepará-los para o retorno à liberdade.
 
+-----
 Art. 23. Incumbe ao serviço de assistência social:
 
 I - conhecer os resultados dos diagnósticos ou exames;
@@ -182,20 +227,26 @@ VI - providenciar a obtenção de documentos, dos benefícios da Previdência So
 
 VII - orientar e amparar, quando necessário, a família do preso, do internado e da vítima.
 
+-----
 SEÇÃO VII
+-----
 
 Da Assistência Religiosa
 
+-----
 Art. 24. A assistência religiosa, com liberdade de culto, será prestada aos presos e aos internados, permitindo-se-lhes a participação nos serviços organizados no estabelecimento penal, bem como a posse de livros de instrução religiosa.
 
 § 1º No estabelecimento haverá local apropriado para os cultos religiosos.
 
 § 2º Nenhum preso ou internado poderá ser obrigado a participar de atividade religiosa.
 
+-----
 SEÇÃO VIII
+-----
 
 Da Assistência ao Egresso
 
+-----
 Art. 25. A assistência ao egresso consiste:   (Regulamento)
 
 I - na orientação e apoio para reintegrá-lo à vida em liberdade;
@@ -204,28 +255,36 @@ II - na concessão, se necessário, de alojamento e alimentação, em estabeleci
 
 Parágrafo único. O prazo estabelecido no inciso II poderá ser prorrogado uma única vez, comprovado, por declaração do assistente social, o empenho na obtenção de emprego.
 
+-----
 Art. 26. Considera-se egresso para os efeitos desta Lei:   (Regulamento)
 
 I - o liberado definitivo, pelo prazo de 1 (um) ano a contar da saída do estabelecimento;
 
 II - o liberado condicional, durante o período de prova.
 
+-----
 Art. 27.O serviço de assistência social colaborará com o egresso para a obtenção de trabalho.   (Regulamento)
 
+-----
 CAPÍTULO III
+-----
 
 Do Trabalho
 
+-----
 SEÇÃO I
+-----
 
 Disposições Gerais
 
+-----
 Art. 28. O trabalho do condenado, como dever social e condição de dignidade humana, terá finalidade educativa e produtiva.
 
 § 1º Aplicam-se à organização e aos métodos de trabalho as precauções relativas à segurança e à higiene.
 
 § 2º O trabalho do preso não está sujeito ao regime da Consolidação das Leis do Trabalho.
 
+-----
 Art. 29. O trabalho do preso será remunerado, mediante prévia tabela, não podendo ser inferior a 3/4 (três quartos) do salário mínimo.
 
 § 1° O produto da remuneração pelo trabalho deverá atender:
@@ -240,16 +299,21 @@ d) ao ressarcimento ao Estado das despesas realizadas com a manutenção do cond
 
 § 2º Ressalvadas outras aplicações legais, será depositada a parte restante para constituição do pecúlio, em Caderneta de Poupança, que será entregue ao condenado quando posto em liberdade.
 
+-----
 Art. 30. As tarefas executadas como prestação de serviço à comunidade não serão remuneradas.
 
+-----
 SEÇÃO II
+-----
 
 Do Trabalho Interno
 
+-----
 Art. 31. O condenado à pena privativa de liberdade está obrigado ao trabalho na medida de suas aptidões e capacidade.
 
 Parágrafo único. Para o preso provisório, o trabalho não é obrigatório e só poderá ser executado no interior do estabelecimento.
 
+-----
 Art. 32. Na atribuição do trabalho deverão ser levadas em conta a habilitação, a condição pessoal e as necessidades futuras do preso, bem como as oportunidades oferecidas pelo mercado.
 
 § 1º Deverá ser limitado, tanto quanto possível, o artesanato sem expressão econômica, salvo nas regiões de turismo.
@@ -258,24 +322,30 @@ Art. 32. Na atribuição do trabalho deverão ser levadas em conta a habilitaç�
 
 § 3º Os doentes ou deficientes físicos somente exercerão atividades apropriadas ao seu estado.
 
+-----
 Art. 33. A jornada normal de trabalho não será inferior a 6 (seis) nem superior a 8 (oito) horas, com descanso nos domingos e feriados.
 
 Parágrafo único. Poderá ser atribuído horário especial de trabalho aos presos designados para os serviços de conservação e manutenção do estabelecimento penal.
 
+-----
 Art. 34. O trabalho poderá ser gerenciado por fundação, ou empresa pública, com autonomia administrativa, e terá por objetivo a formação profissional do condenado.
 
 § 1o. Nessa hipótese, incumbirá à entidade gerenciadora promover e supervisionar a produção, com critérios e métodos empresariais, encarregar-se de sua comercialização, bem como suportar despesas, inclusive pagamento de remuneração adequada.           (Renumerado pela Lei nº 10.792, de 2003)
 
 § 2o Os governos federal, estadual e municipal poderão celebrar convênio com a iniciativa privada, para implantação de oficinas de trabalho referentes a setores de apoio dos presídios.           (Incluído pela Lei nº 10.792, de 2003)
 
+-----
 Art. 35. Os órgãos da Administração Direta ou Indireta da União, Estados, Territórios, Distrito Federal e dos Municípios adquirirão, com dispensa de concorrência pública, os bens ou produtos do trabalho prisional, sempre que não for possível ou recomendável realizar-se a venda a particulares.
 
 Parágrafo único. Todas as importâncias arrecadadas com as vendas reverterão em favor da fundação ou empresa pública a que alude o artigo anterior ou, na sua falta, do estabelecimento penal.
 
+-----
 SEÇÃO III
+-----
 
 Do Trabalho Externo
 
+-----
 Art. 36. O trabalho externo será admissível para os presos em regime fechado somente em serviço ou obras públicas realizadas por órgãos da Administração Direta ou Indireta, ou entidades privadas, desde que tomadas as cautelas contra a fuga e em favor da disciplina.
 
 § 1º O limite máximo do número de presos será de 10% (dez por cento) do total de empregados na obra.
@@ -284,20 +354,27 @@ Art. 36. O trabalho externo será admissível para os presos em regime fechado s
 
 § 3º A prestação de trabalho à entidade privada depende do consentimento expresso do preso.
 
+-----
 Art. 37. A prestação de trabalho externo, a ser autorizada pela direção do estabelecimento, dependerá de aptidão, disciplina e responsabilidade, além do cumprimento mínimo de 1/6 (um sexto) da pena.
 
 Parágrafo único. Revogar-se-á a autorização de trabalho externo ao preso que vier a praticar fato definido como crime, for punido por falta grave, ou tiver comportamento contrário aos requisitos estabelecidos neste artigo.
 
+-----
 CAPÍTULO IV
+-----
 
 Dos Deveres, dos Direitos e da Disciplina
 
+-----
 SEÇÃO I
+-----
 
 Dos Deveres
 
+-----
 Art. 38. Cumpre ao condenado, além das obrigações legais inerentes ao seu estado, submeter-se às normas de execução da pena.
 
+-----
 Art. 39. Constituem deveres do condenado:
 
 I - comportamento disciplinado e cumprimento fiel da sentença;
@@ -322,12 +399,16 @@ X - conservação dos objetos de uso pessoal.
 
 Parágrafo único. Aplica-se ao preso provisório, no que couber, o disposto neste artigo.
 
+-----
 SEÇÃO II
+-----
 
 Dos Direitos
 
+-----
 Art. 40 - Impõe-se a todas as autoridades o respeito à integridade física e moral dos condenados e dos presos provisórios.
 
+-----
 Art. 41 - Constituem direitos do preso:
 
 I - alimentação suficiente e vestuário;
@@ -366,24 +447,32 @@ XVI – atestado de pena a cumprir, emitido anualmente, sob pena da responsabili
 
 § 2º O preso condenado por crime contra a mulher por razões da condição do sexo feminino, nos termos do § 1º do art. 121-A do Decreto-Lei nº 2.848, de 7 de dezembro de 1940 (Código Penal), não poderá usufruir do direito previsto no inciso X em relação à visita íntima ou conjugal.    (Incluído pela Lei nº 14.994, de 2024)
 
+-----
 Art. 42 - Aplica-se ao preso provisório e ao submetido à medida de segurança, no que couber, o disposto nesta Seção.
 
+-----
 Art. 43 - É garantida a liberdade de contratar médico de confiança pessoal do internado ou do submetido a tratamento ambulatorial, por seus familiares ou dependentes, a fim de orientar e acompanhar o tratamento.
 
 Parágrafo único. As divergências entre o médico oficial e o particular serão resolvidas pelo Juiz da execução.
 
+-----
 SEÇÃO III
+-----
 
 Da Disciplina
 
+-----
 SUBSEÇÃO I
+-----
 
 Disposições Gerais
 
+-----
 Art. 44. A disciplina consiste na colaboração com a ordem, na obediência às determinações das autoridades e seus agentes e no desempenho do trabalho.
 
 Parágrafo único. Estão sujeitos à disciplina o condenado à pena privativa de liberdade ou restritiva de direitos e o preso provisório.
 
+-----
 Art. 45. Não haverá falta nem sanção disciplinar sem expressa e anterior previsão legal ou regulamentar.
 
 § 1º As sanções não poderão colocar em perigo a integridade física e moral do condenado.
@@ -392,22 +481,29 @@ Art. 45. Não haverá falta nem sanção disciplinar sem expressa e anterior pre
 
 § 3º São vedadas as sanções coletivas.
 
+-----
 Art. 46. O condenado ou denunciado, no início da execução da pena ou da prisão, será cientificado das normas disciplinares.
 
+-----
 Art. 47. O poder disciplinar, na execução da pena privativa de liberdade, será exercido pela autoridade administrativa conforme as disposições regulamentares.
 
+-----
 Art. 48. Na execução das penas restritivas de direitos, o poder disciplinar será exercido pela autoridade administrativa a que estiver sujeito o condenado.
 
 Parágrafo único. Nas faltas graves, a autoridade representará ao Juiz da execução para os fins dos artigos 118, inciso I, 125, 127, 181, §§ 1º, letra d, e 2º desta Lei.
 
+-----
 SUBSEÇÃO II
+-----
 
 Das Faltas Disciplinares
 
+-----
 Art. 49. As faltas disciplinares classificam-se em leves, médias e graves. A legislação local especificará as leves e médias, bem assim as respectivas sanções.
 
 Parágrafo único. Pune-se a tentativa com a sanção correspondente à falta consumada.
 
+-----
 Art. 50. Comete falta grave o condenado à pena privativa de liberdade que:
 
 I - incitar ou participar de movimento para subverter a ordem ou a disciplina;
@@ -428,6 +524,7 @@ VIII - recusar submeter-se ao procedimento de identificação do perfil genétic
 
 Parágrafo único. O disposto neste artigo aplica-se, no que couber, ao preso provisório.
 
+-----
 Art. 51. Comete falta grave o condenado à pena restritiva de direitos que:
 
 I - descumprir, injustificadamente, a restrição imposta;
@@ -436,6 +533,7 @@ II - retardar, injustificadamente, o cumprimento da obrigação imposta;
 
 III - inobservar os deveres previstos nos incisos II e V, do artigo 39, desta Lei.
 
+-----
 Art. 52. A prática de fato previsto como crime doloso constitui falta grave e, quando ocasionar subversão da ordem ou disciplina internas, sujeitará o preso provisório, ou condenado, nacional ou estrangeiro, sem prejuízo da sanção penal, ao regime disciplinar diferenciado, com as seguintes características:   (Redação dada pela Lei nº 13.964, de 2019)
 
 I - duração máxima de até 2 (dois) anos, sem prejuízo de repetição da sanção por nova falta grave de mesma espécie;     (Redação dada pela Lei nº 13.964, de 2019)
@@ -474,10 +572,13 @@ II - mantém os vínculos com organização criminosa, associação criminosa ou
 
 § 7º Após os primeiros 6 (seis) meses de regime disciplinar diferenciado, o preso que não receber a visita de que trata o inciso III do caput deste artigo poderá, após prévio agendamento, ter contato telefônico, que será gravado, com uma pessoa da família, 2 (duas) vezes por mês e por 10 (dez) minutos.     (Incluído pela Lei nº 13.964, de 2019)
 
+-----
 SUBSEÇÃO III
+-----
 
 Das Sanções e das Recompensas
 
+-----
 Art. 53. Constituem sanções disciplinares:
 
 I - advertência verbal;
@@ -490,14 +591,17 @@ IV - isolamento na própria cela, ou em local adequado, nos estabelecimentos que
 
 V - inclusão no regime disciplinar diferenciado.           (Incluído pela Lei nº 10.792, de 2003)
 
+-----
 Art. 54. As sanções dos incisos I a IV do art. 53 serão aplicadas por ato motivado do diretor do estabelecimento e a do inciso V, por prévio e fundamentado despacho do juiz competente.          (Redação dada pela Lei nº 10.792, de 2003)
 
 § 1o A autorização para a inclusão do preso em regime disciplinar dependerá de requerimento circunstanciado elaborado pelo diretor do estabelecimento ou outra autoridade administrativa.           (Incluído pela Lei nº 10.792, de 2003)
 
 § 2o A decisão judicial sobre inclusão de preso em regime disciplinar será precedida de manifestação do Ministério Público e da defesa e prolatada no prazo máximo de quinze dias.           (Incluído pela Lei nº 10.792, de 2003)
 
+-----
 Art. 55. As recompensas têm em vista o bom comportamento reconhecido em favor do condenado, de sua colaboração com a disciplina e de sua dedicação ao trabalho.
 
+-----
 Art. 56. São recompensas:
 
 I - o elogio;
@@ -506,38 +610,51 @@ II - a concessão de regalias.
 
 Parágrafo único. A legislação local e os regulamentos estabelecerão a natureza e a forma de concessão de regalias.
 
+-----
 SUBSEÇÃO IV
+-----
 
 Da Aplicação das Sanções
 
+-----
 Art. 57. Na aplicação das sanções disciplinares, levar-se-ão em conta a natureza, os motivos, as circunstâncias e as conseqüências do fato, bem como a pessoa do faltoso e seu tempo de prisão.           (Redação dada pela Lei nº 10.792, de 2003)
 
 Parágrafo único. Nas faltas graves, aplicam-se as sanções previstas nos incisos III a V do art. 53 desta Lei.           (Redação dada pela Lei nº 10.792, de 2003)
 
+-----
 Art. 58. O isolamento, a suspensão e a restrição de direitos não poderão exceder a trinta dias, ressalvada a hipótese do regime disciplinar diferenciado.           (Redação dada pela Lei nº 10.792, de 2003)
 
 Parágrafo único. O isolamento será sempre comunicado ao Juiz da execução.
 
+-----
 SUBSEÇÃO V
+-----
 
 Do Procedimento Disciplinar
 
+-----
 Art. 59. Praticada a falta disciplinar, deverá ser instaurado o procedimento para sua apuração, conforme regulamento, assegurado o direito de defesa.
 
 Parágrafo único. A decisão será motivada.
 
+-----
 Art. 60. A autoridade administrativa poderá decretar o isolamento preventivo do faltoso pelo prazo de até dez dias. A inclusão do preso no regime disciplinar diferenciado, no interesse da disciplina e da averiguação do fato, dependerá de despacho do juiz competente.           (Redação dada pela Lei nº 10.792, de 2003)
 
 Parágrafo único. O tempo de isolamento ou inclusão preventiva no regime disciplinar diferenciado será computado no período de cumprimento da sanção disciplinar.           (Redação dada pela Lei nº 10.792, de 2003)
 
+-----
 TÍTULO III
+-----
 
 Dos Órgãos da Execução Penal
 
+-----
 CAPÍTULO I
+-----
 
 Disposições Gerais
 
+-----
 Art. 61. São órgãos da execução penal:
 
 I - o Conselho Nacional de Política Criminal e Penitenciária;
@@ -556,16 +673,21 @@ VII - o Conselho da Comunidade.
 
 VIII - a Defensoria Pública.           (Incluído pela Lei nº 12.313, de 2010).
 
+-----
 CAPÍTULO II
+-----
 
 Do Conselho Nacional de Política Criminal e Penitenciária
 
+-----
 Art. 62. O Conselho Nacional de Política Criminal e Penitenciária, com sede na Capital da República, é subordinado ao Ministério da Justiça.
 
+-----
 Art. 63. O Conselho Nacional de Política Criminal e Penitenciária será integrado por 13 (treze) membros designados através de ato do Ministério da Justiça, dentre professores e profissionais da área do Direito Penal, Processual Penal, Penitenciário e ciências correlatas, bem como por representantes da comunidade e dos Ministérios da área social.
 
 Parágrafo único. O mandato dos membros do Conselho terá duração de 2 (dois) anos, renovado 1/3 (um terço) em cada ano.
 
+-----
 Art. 64. Ao Conselho Nacional de Política Criminal e Penitenciária, no exercício de suas atividades, em âmbito federal ou estadual, incumbe:
 
 I - propor diretrizes da política criminal quanto à prevenção do delito, administração da Justiça Criminal e execução das penas e das medidas de segurança;
@@ -588,12 +710,16 @@ IX - representar ao Juiz da execução ou à autoridade administrativa para inst
 
 X - representar à autoridade competente para a interdição, no todo ou em parte, de estabelecimento penal.
 
+-----
 CAPÍTULO III
+-----
 
 Do Juízo da Execução
 
+-----
 Art. 65. A execução penal competirá ao Juiz indicado na lei local de organização judiciária e, na sua ausência, ao da sentença.
 
+-----
 Art. 66. Compete ao Juiz da execução:
 
 I - aplicar aos casos julgados lei posterior que de qualquer modo favorecer o condenado;
@@ -648,12 +774,16 @@ IX - compor e instalar o Conselho da Comunidade.
 
 X – emitir anualmente atestado de pena a cumprir.           (Incluído pela Lei nº 10.713, de 2003)
 
+-----
 CAPÍTULO IV
+-----
 
 Do Ministério Público
 
+-----
 Art. 67. O Ministério Público fiscalizará a execução da pena e da medida de segurança, oficiando no processo executivo e nos incidentes da execução.
 
+-----
 Art. 68. Incumbe, ainda, ao Ministério Público:
 
 I - fiscalizar a regularidade formal das guias de recolhimento e de internamento;
@@ -676,16 +806,20 @@ III - interpor recursos de decisões proferidas pela autoridade judiciária, dur
 
 Parágrafo único. O órgão do Ministério Público visitará mensalmente os estabelecimentos penais, registrando a sua presença em livro próprio.
 
+-----
 CAPÍTULO V
+-----
 
 Do Conselho Penitenciário
 
+-----
 Art. 69. O Conselho Penitenciário é órgão consultivo e fiscalizador da execução da pena.
 
 § 1º O Conselho será integrado por membros nomeados pelo Governador do Estado, do Distrito Federal e dos Territórios, dentre professores e profissionais da área do Direito Penal, Processual Penal, Penitenciário e ciências correlatas, bem como por representantes da comunidade. A legislação federal e estadual regulará o seu funcionamento.
 
 § 2º O mandato dos membros do Conselho Penitenciário terá a duração de 4 (quatro) anos.
 
+-----
 Art. 70. Incumbe ao Conselho Penitenciário:
 
 I - emitir parecer sobre indulto e comutação de pena, excetuada a hipótese de pedido de indulto com base no estado de saúde do preso;           (Redação dada pela Lei nº 10.792, de 2003)
@@ -696,16 +830,22 @@ III - apresentar, no 1º (primeiro) trimestre de cada ano, ao Conselho Nacional 
 
 IV - supervisionar os patronatos, bem como a assistência aos egressos.
 
+-----
 CAPÍTULO VI
+-----
 
 Dos Departamentos Penitenciários
 
+-----
 SEÇÃO I
+-----
 
 Do Departamento Penitenciário Nacional
 
+-----
 Art. 71. O Departamento Penitenciário Nacional, subordinado ao Ministério da Justiça, é órgão executivo da Política Penitenciária Nacional e de apoio administrativo e financeiro do Conselho Nacional de Política Criminal e Penitenciária.
 
+-----
 Art. 72. São atribuições do Departamento Penitenciário Nacional:
 
 I - acompanhar a fiel aplicação das normas de execução penal em todo o Território Nacional;
@@ -726,20 +866,27 @@ VII - acompanhar a execução da pena das mulheres beneficiadas pela progressão
 
 § 2º  Os resultados obtidos por meio do monitoramento e das avaliações periódicas previstas no inciso VII do caput deste artigo serão utilizados para, em função da efetividade da progressão especial para a ressocialização das mulheres de que trata o § 3º do art. 112 desta Lei, avaliar eventual desnecessidade do regime fechado de cumprimento de pena para essas mulheres nos casos de crimes cometidos sem violência ou grave ameaça.                 (Incluído pela Lei nº 13.769, de 2018)
 
+-----
 SEÇÃO II
+-----
 
 Do Departamento Penitenciário Local
 
+-----
 Art. 73. A legislação local poderá criar Departamento Penitenciário ou órgão similar, com as atribuições que estabelecer.
 
+-----
 Art. 74. O Departamento Penitenciário local, ou órgão similar, tem por finalidade supervisionar e coordenar os estabelecimentos penais da Unidade da Federação a que pertencer.
 
 Parágrafo único.  Os órgãos referidos no caput deste artigo realizarão o acompanhamento de que trata o inciso VII do caput do art. 72 desta Lei e encaminharão ao Departamento Penitenciário Nacional os resultados obtidos.                (Incluído pela Lei nº 13.769, de 2018)
 
+-----
 SEÇÃO III
+-----
 
 Da Direção e do Pessoal dos Estabelecimentos Penais
 
+-----
 Art. 75. O ocupante do cargo de diretor de estabelecimento deverá satisfazer os seguintes requisitos:
 
 I - ser portador de diploma de nível superior de Direito, ou Psicologia, ou Ciências Sociais, ou Pedagogia, ou Serviços Sociais;
@@ -750,20 +897,26 @@ III - ter idoneidade moral e reconhecida aptidão para o desempenho da função.
 
 Parágrafo único. O diretor deverá residir no estabelecimento, ou nas proximidades, e dedicará tempo integral à sua função.
 
+-----
 Art. 76. O Quadro do Pessoal Penitenciário será organizado em diferentes categorias funcionais, segundo as necessidades do serviço, com especificação de atribuições relativas às funções de direção, chefia e assessoramento do estabelecimento e às demais funções.
 
+-----
 Art. 77. A escolha do pessoal administrativo, especializado, de instrução técnica e de vigilância atenderá a vocação, preparação profissional e antecedentes pessoais do candidato.
 
 § 1° O ingresso do pessoal penitenciário, bem como a progressão ou a ascensão funcional dependerão de cursos específicos de formação, procedendo-se à reciclagem periódica dos servidores em exercício.
 
 § 2º No estabelecimento para mulheres somente se permitirá o trabalho de pessoal do sexo feminino, salvo quando se tratar de pessoal técnico especializado.
 
+-----
 CAPÍTULO VII
+-----
 
 Do Patronato
 
+-----
 Art. 78. O Patronato público ou particular destina-se a prestar assistência aos albergados e aos egressos (artigo 26).
 
+-----
 Art. 79. Incumbe também ao Patronato:
 
 I - orientar os condenados à pena restritiva de direitos;
@@ -772,14 +925,18 @@ II - fiscalizar o cumprimento das penas de prestação de serviço à comunidade
 
 III - colaborar na fiscalização do cumprimento das condições da suspensão e do livramento condicional.
 
+-----
 CAPÍTULO VIII
+-----
 
 Do Conselho da Comunidade
 
+-----
 Art. 80.  Haverá, em cada comarca, um Conselho da Comunidade composto, no mínimo, por 1 (um) representante de associação comercial ou industrial, 1 (um) advogado indicado pela Seção da Ordem dos Advogados do Brasil, 1 (um) Defensor Público indicado pelo Defensor Público Geral e 1 (um) assistente social escolhido pela Delegacia Seccional do Conselho Nacional de Assistentes Sociais.           (Redação dada pela Lei nº 12.313, de 2010).
 
 Parágrafo único. Na falta da representação prevista neste artigo, ficará a critério do Juiz da execução a escolha dos integrantes do Conselho.
 
+-----
 Art. 81. Incumbe ao Conselho da Comunidade:
 
 I - visitar, pelo menos mensalmente, os estabelecimentos penais existentes na comarca;
@@ -790,14 +947,18 @@ III - apresentar relatórios mensais ao Juiz da execução e ao Conselho Peniten
 
 IV - diligenciar a obtenção de recursos materiais e humanos para melhor assistência ao preso ou internado, em harmonia com a direção do estabelecimento.
 
+-----
 CAPÍTULO IX
+-----
 
 DA DEFENSORIA PÚBLICA
 (Incluído pela Lei nº 12.313, de 2010).
 
-Art. 81-A.  A Defensoria Pública velará pela regular execução da pena e da medida de segurança, oficiando, no processo executivo e nos incidentes da execução, para a defesa dos necessitados em todos os graus e instâncias, de forma individual e coletiva.           (Incluído pela Lei nº 12.313, de 2010).
+-----
+Art. 81A.  A Defensoria Pública velará pela regular execução da pena e da medida de segurança, oficiando, no processo executivo e nos incidentes da execução, para a defesa dos necessitados em todos os graus e instâncias, de forma individual e coletiva.           (Incluído pela Lei nº 12.313, de 2010).
 
-Art. 81-B.  Incumbe, ainda, à Defensoria Pública:           (Incluído pela Lei nº 12.313, de 2010).
+-----
+Art. 81B.  Incumbe, ainda, à Defensoria Pública:           (Incluído pela Lei nº 12.313, de 2010).
 
 I - requerer:            (Incluído pela Lei nº 12.313, de 2010).
 
@@ -837,20 +998,26 @@ VI - requerer à autoridade competente a interdição, no todo ou em parte, de e
 
 Parágrafo único.  O órgão da Defensoria Pública visitará periodicamente os estabelecimentos penais, registrando a sua presença em livro próprio.          (Incluído pela Lei nº 12.313, de 2010).
 
+-----
 TÍTULO IV
+-----
 
 Dos Estabelecimentos Penais
 
+-----
 CAPÍTULO I
+-----
 
 Disposições Gerais
 
+-----
 Art. 82. Os estabelecimentos penais destinam-se ao condenado, ao submetido à medida de segurança, ao preso provisório e ao egresso.
 
 § 1° A mulher e o maior de sessenta anos, separadamente, serão recolhidos a estabelecimento próprio e adequado à sua condição pessoal.           (Redação dada pela Lei nº 9.460, de 1997)
 
 § 2º - O mesmo conjunto arquitetônico poderá abrigar estabelecimentos de destinação diversa desde que devidamente isolados.
 
+-----
 Art. 83. O estabelecimento penal, conforme a sua natureza, deverá contar em suas dependências com áreas e serviços destinados a dar assistência, educação, trabalho, recreação e prática esportiva.
 
 § 1º Haverá instalação destinada a estágio de estudantes universitários.        (Renumerado pela Lei nº 9.046, de 1995)
@@ -863,7 +1030,8 @@ Art. 83. O estabelecimento penal, conforme a sua natureza, deverá contar em sua
 
 § 5o  Haverá instalação destinada à Defensoria Pública.        (Incluído pela Lei nº 12.313, de 2010).
 
-Art. 83-A.  Poderão ser objeto de execução indireta as atividades materiais acessórias, instrumentais ou complementares desenvolvidas em estabelecimentos penais, e notadamente:       (Incluído pela Lei nº 13.190, de 2015).
+-----
+Art. 83A.  Poderão ser objeto de execução indireta as atividades materiais acessórias, instrumentais ou complementares desenvolvidas em estabelecimentos penais, e notadamente:       (Incluído pela Lei nº 13.190, de 2015).
 
 I - serviços de conservação, limpeza, informática, copeiragem, portaria, recepção, reprografia, telecomunicações, lavanderia e manutenção de prédios, instalações e equipamentos internos e externos;       (Incluído pela Lei nº 13.190, de 2015).
 
@@ -873,7 +1041,8 @@ II - serviços relacionados à execução de trabalho pelo preso.       (Incluí
 
 § 2o  Os serviços relacionados neste artigo poderão compreender o fornecimento de materiais, equipamentos, máquinas e profissionais.       (Incluído pela Lei nº 13.190, de 2015).
 
-Art. 83-B.  São indelegáveis as funções de direção, chefia e coordenação no âmbito do sistema penal, bem como todas as atividades que exijam o exercício do poder de polícia, e notadamente:       (Incluído pela Lei nº 13.190, de 2015).
+-----
+Art. 83B.  São indelegáveis as funções de direção, chefia e coordenação no âmbito do sistema penal, bem como todas as atividades que exijam o exercício do poder de polícia, e notadamente:       (Incluído pela Lei nº 13.190, de 2015).
 
 I - classificação de condenados;       (Incluído pela Lei nº 13.190, de 2015).
 
@@ -883,6 +1052,7 @@ III - controle de rebeliões;       (Incluído pela Lei nº 13.190, de 2015).
 
 IV - transporte de presos para órgãos do Poder Judiciário, hospitais e outros locais externos aos estabelecimentos penais.       (Incluído pela Lei nº 13.190, de 2015).
 
+-----
 Art. 84. O preso provisório ficará separado do condenado por sentença transitada em julgado.
 
 § 1o  Os presos provisórios ficarão separados de acordo com os seguintes critérios:          (Redação dada pela Lei nº 13.167, de 2015)
@@ -907,10 +1077,12 @@ IV - demais condenados pela prática de outros crimes ou contravenções em situ
 
 § 4o  O preso que tiver sua integridade física, moral ou psicológica ameaçada pela convivência com os demais presos ficará segregado em local próprio.        (Incluído pela Lei nº 13.167, de 2015)
 
+-----
 Art. 85. O estabelecimento penal deverá ter lotação compatível com a sua estrutura e finalidade.
 
 Parágrafo único. O Conselho Nacional de Política Criminal e Penitenciária determinará o limite máximo de capacidade do estabelecimento, atendendo a sua natureza e peculiaridades.
 
+-----
 Art. 86. As penas privativas de liberdade aplicadas pela Justiça de uma Unidade Federativa podem ser executadas em outra     unidade, em estabelecimento local ou da União.
 
 § 1o A União Federal poderá construir estabelecimento penal em local distante da condenação para recolher os condenados, quando a medida se justifique no interesse da segurança pública ou do próprio condenado. (Redação dada pela Lei nº 10.792, de 2003)
@@ -921,14 +1093,18 @@ Art. 86. As penas privativas de liberdade aplicadas pela Justiça de uma Unidade
 
 § 4º Será transferido para estabelecimento penal distante do local de residência da vítima, ainda que localizado em outra unidade federativa, inclusive da União, o condenado ou preso provisório que, tendo cometido crime de violência doméstica e familiar contra a mulher, ameace ou pratique violência contra a vítima ou seus familiares durante o cumprimento da pena.     (Incluído pela Lei nº 14.994, de 2024)
 
+-----
 CAPÍTULO II
+-----
 
 Da Penitenciária
 
+-----
 Art. 87. A penitenciária destina-se ao condenado à pena de reclusão, em regime fechado.
 
 Parágrafo único. A União Federal, os Estados, o Distrito Federal e os Territórios poderão construir Penitenciárias destinadas, exclusivamente, aos presos provisórios e condenados que estejam em regime fechado, sujeitos ao regime disciplinar diferenciado, nos termos do art. 52 desta Lei.        (Incluído pela Lei nº 10.792, de 2003)
 
+-----
 Art. 88. O condenado será alojado em cela individual que conterá dormitório, aparelho sanitário e lavatório.
 
 Parágrafo único. São requisitos básicos da unidade celular:
@@ -937,6 +1113,7 @@ a) salubridade do ambiente pela concorrência dos fatores de aeração, insolaç
 
 b) área mínima de 6,00m2 (seis metros quadrados).
 
+-----
 Art. 89.  Além dos requisitos referidos no art. 88, a penitenciária de mulheres será dotada de seção para gestante e parturiente e de creche para abrigar crianças maiores de 6 (seis) meses e menores de 7 (sete) anos, com a finalidade de assistir a criança desamparada cuja responsável estiver presa.           (Redação dada pela Lei nº 11.942, de 2009)
 
 Parágrafo único.  São requisitos básicos da seção e da creche referidas neste artigo: (Incluído pela Lei nº 11.942, de 2009)
@@ -945,14 +1122,19 @@ I – atendimento por pessoal qualificado, de acordo com as diretrizes adotadas 
 
 II – horário de funcionamento que garanta a melhor assistência à criança e à sua responsável.          (Incluído pela Lei nº 11.942, de 2009)
 
+-----
 Art. 90. A penitenciária de homens será construída, em local afastado do centro urbano, à distância que não restrinja a visitação.
 
+-----
 CAPÍTULO III
+-----
 
 Da Colônia Agrícola, Industrial ou Similar
 
+-----
 Art. 91. A Colônia Agrícola, Industrial ou Similar destina-se ao cumprimento da pena em regime semi-aberto.
 
+-----
 Art. 92. O condenado poderá ser alojado em compartimento coletivo, observados os requisitos da letra a, do parágrafo único, do artigo 88, desta Lei.
 
 Parágrafo único. São também requisitos básicos das dependências coletivas:
@@ -961,66 +1143,94 @@ a) a seleção adequada dos presos;
 
 b) o limite de capacidade máxima que atenda os objetivos de individualização da pena.
 
+-----
 CAPÍTULO IV
+-----
 
 Da Casa do Albergado
 
+-----
 Art. 93. A Casa do Albergado destina-se ao cumprimento de pena privativa de liberdade, em regime aberto, e da pena de limitação de fim de semana.
 
+-----
 Art. 94. O prédio deverá situar-se em centro urbano, separado dos demais estabelecimentos, e caracterizar-se pela ausência de obstáculos físicos contra a fuga.
 
+-----
 Art. 95. Em cada região haverá, pelo menos, uma Casa do Albergado, a qual deverá conter, além dos aposentos para acomodar os presos, local adequado para cursos e palestras.
 
 Parágrafo único. O estabelecimento terá instalações para os serviços de fiscalização e orientação dos condenados.
 
+-----
 CAPÍTULO V
+-----
 
 Do Centro de Observação
 
+-----
 Art. 96. No Centro de Observação realizar-se-ão os exames gerais e o criminológico, cujos resultados serão encaminhados à Comissão Técnica de Classificação.
 
 Parágrafo único. No Centro poderão ser realizadas pesquisas criminológicas.
 
+-----
 Art. 97. O Centro de Observação será instalado em unidade autônoma ou em anexo a estabelecimento penal.
 
+-----
 Art. 98. Os exames poderão ser realizados pela Comissão Técnica de Classificação, na falta do Centro de Observação.
 
+-----
 CAPÍTULO VI
+-----
 
 Do Hospital de Custódia e Tratamento Psiquiátrico
 
+-----
 Art. 99. O Hospital de Custódia e Tratamento Psiquiátrico destina-se aos inimputáveis e semi-imputáveis referidos no artigo 26 e seu parágrafo único do Código Penal.
 
 Parágrafo único. Aplica-se ao hospital, no que couber, o disposto no parágrafo único, do artigo 88, desta Lei.
 
+-----
 Art. 100. O exame psiquiátrico e os demais exames necessários ao tratamento são obrigatórios para todos os internados.
 
+-----
 Art. 101. O tratamento ambulatorial, previsto no artigo 97, segunda parte, do Código Penal, será realizado no Hospital de Custódia e Tratamento Psiquiátrico ou em outro local com dependência médica adequada.
 
+-----
 CAPÍTULO VII
+-----
 
 Da Cadeia Pública
 
+-----
 Art. 102. A cadeia pública destina-se ao recolhimento de presos provisórios.
 
+-----
 Art. 103. Cada comarca terá, pelo menos 1 (uma) cadeia pública a fim de resguardar o interesse da Administração da Justiça Criminal e a permanência do preso em local próximo ao seu meio social e familiar.
 
+-----
 Art. 104. O estabelecimento de que trata este Capítulo será instalado próximo de centro urbano, observando-se na construção as exigências mínimas referidas no artigo 88 e seu parágrafo único desta Lei.
 
+-----
 TÍTULO V
+-----
 
 Da Execução das Penas em Espécie
 
+-----
 CAPÍTULO I
+-----
 
 Das Penas Privativas de Liberdade
 
+-----
 SEÇÃO I
+-----
 
 Disposições Gerais
 
+-----
 Art. 105. Transitando em julgado a sentença que aplicar pena privativa de liberdade, se o réu estiver ou vier a ser preso, o Juiz ordenará a expedição de guia de recolhimento para a execução.
 
+-----
 Art. 106. A guia de recolhimento, extraída pelo escrivão, que a rubricará em todas as folhas e a assinará com o Juiz, será remetida à autoridade administrativa incumbida da execução e conterá:
 
 I - o nome do condenado;
@@ -1041,26 +1251,34 @@ VI - outras peças do processo reputadas indispensáveis ao adequado tratamento 
 
 § 3° Se o condenado, ao tempo do fato, era funcionário da Administração da Justiça Criminal, far-se-á, na guia, menção dessa circunstância, para fins do disposto no § 2°, do artigo 84, desta Lei.
 
+-----
 Art. 107. Ninguém será recolhido, para cumprimento de pena privativa de liberdade, sem a guia expedida pela autoridade judiciária.
 
 § 1° A autoridade administrativa incumbida da execução passará recibo da guia de recolhimento para juntá-la aos autos do processo, e dará ciência dos seus termos ao condenado.
 
 § 2º As guias de recolhimento serão registradas em livro especial, segundo a ordem cronológica do recebimento, e anexadas ao prontuário do condenado, aditando-se, no curso da execução, o cálculo das remições e de outras retificações posteriores.
 
+-----
 Art. 108. O condenado a quem sobrevier doença mental será internado em Hospital de Custódia e Tratamento Psiquiátrico.
 
+-----
 Art. 109. Cumprida ou extinta a pena, o condenado será posto em liberdade, mediante alvará do Juiz, se por outro motivo não estiver preso.
 
+-----
 SEÇÃO II
+-----
 
 Dos Regimes
 
+-----
 Art. 110. O Juiz, na sentença, estabelecerá o regime no qual o condenado iniciará o cumprimento da pena privativa de liberdade, observado o disposto no artigo 33 e seus parágrafos do Código Penal.
 
+-----
 Art. 111. Quando houver condenação por mais de um crime, no mesmo processo ou em processos distintos, a determinação do regime de cumprimento será feita pelo resultado da soma ou unificação das penas, observada, quando for o caso, a detração ou remição.
 
 Parágrafo único. Sobrevindo condenação no curso da execução, somar-se-á a pena ao restante da que está sendo cumprida, para determinação do regime.
 
+-----
 Art. 112. A pena privativa de liberdade será executada em forma progressiva com a transferência para regime menos rigoroso, a ser determinada pelo juiz, quando o preso tiver cumprido ao menos:    (Redação dada pela Lei nº 13.964, de 2019)        (Vigência)
 
 I - 16% (dezesseis por cento) da pena, se o apenado for primário e o crime tiver sido cometido sem violência à pessoa ou grave ameaça;    (Incluído pela Lei nº 13.964, de 2019)        (Vigência)
@@ -1111,8 +1329,10 @@ V - não ter integrado organização criminosa.                 (Incluído pela 
 
 § 7º O bom comportamento é readquirido após 1 (um) ano da ocorrência do fato, ou antes, após o cumprimento do requisito temporal exigível para a obtenção do direito.          (Incluído pela Lei nº 13.964, de 2019)        (Vigência)
 
+-----
 Art. 113. O ingresso do condenado em regime aberto supõe a aceitação de seu programa e das condições impostas pelo Juiz.
 
+-----
 Art. 114. Somente poderá ingressar no regime aberto o condenado que:
 
 I - estiver trabalhando ou comprovar a possibilidade de fazê-lo imediatamente;
@@ -1121,6 +1341,7 @@ II - apresentar, pelos seus antecedentes e pelos resultados do exame criminológ
 
 Parágrafo único. Poderão ser dispensadas do trabalho as pessoas referidas no artigo 117 desta Lei.
 
+-----
 Art. 115. O juiz poderá estabelecer condições especiais para a concessão de regime aberto, entre as quais, a fiscalização por monitoramento eletrônico, sem prejuízo das seguintes condições gerais e obrigatórias:   (Redação dada pela Lei nº 14.843, de 2024)
 
 I - permanecer no local que for designado, durante o repouso e nos dias de folga;
@@ -1131,8 +1352,10 @@ III - não se ausentar da cidade onde reside, sem autorização judicial;
 
 IV - comparecer a Juízo, para informar e justificar as suas atividades, quando for determinado.
 
+-----
 Art. 116. O Juiz poderá modificar as condições estabelecidas, de ofício, a requerimento do Ministério Público, da autoridade administrativa ou do condenado, desde que as circunstâncias assim o recomendem.
 
+-----
 Art. 117. Somente se admitirá o recolhimento do beneficiário de regime aberto em residência particular quando se tratar de:
 
 I - condenado maior de 70 (setenta) anos;
@@ -1143,6 +1366,7 @@ III - condenada com filho menor ou deficiente físico ou mental;
 
 IV - condenada gestante.
 
+-----
 Art. 118. A execução da pena privativa de liberdade ficará sujeita à forma regressiva, com a transferência para qualquer dos regimes mais rigorosos, quando o condenado:
 
 I - praticar fato definido como crime doloso ou falta grave;
@@ -1153,16 +1377,22 @@ II - sofrer condenação, por crime anterior, cuja pena, somada ao restante da p
 
 § 2º Nas hipóteses do inciso I e do parágrafo anterior, deverá ser ouvido previamente o condenado.
 
+-----
 Art. 119. A legislação local poderá estabelecer normas complementares para o cumprimento da pena privativa de liberdade em regime aberto (artigo 36, § 1º, do Código Penal).
 
+-----
 SEÇÃO III
+-----
 
 Das Autorizações de Saída
 
+-----
 SUBSEÇÃO I
+-----
 
 Da Permissão de Saída
 
+-----
 Art. 120. Os condenados que cumprem pena em regime fechado ou semi-aberto e os presos provisórios poderão obter permissão para sair do estabelecimento, mediante escolta, quando ocorrer um dos seguintes fatos:
 
 I - falecimento ou doença grave do cônjuge, companheira, ascendente, descendente ou irmão;
@@ -1171,12 +1401,16 @@ II - necessidade de tratamento médico (parágrafo único do artigo 14).
 
 Parágrafo único. A permissão de saída será concedida pelo diretor do estabelecimento onde se encontra o preso.
 
+-----
 Art. 121. A permanência do preso fora do estabelecimento terá a duração necessária à finalidade da saída.
 
+-----
 SUBSEÇÃO II
+-----
 
 Da Saída Temporária
 
+-----
 Art. 122. Os condenados que cumprem pena em regime semi-aberto poderão obter autorização para saída temporária do estabelecimento, sem vigilância direta, nos seguintes casos:
 
 I - (revogado);  (Redação dada pela Lei nº 14.843, de 2024)
@@ -1191,6 +1425,7 @@ III - (revogado).   (Redação dada pela Lei nº 14.843, de 2024)
 
 § 3º Quando se tratar de frequência a curso profissionalizante ou de instrução de ensino médio ou superior, o tempo de saída será o necessário para o cumprimento das atividades discentes.   (Incluído pela Lei nº 14.843, de 2024)
 
+-----
 Art. 123. A autorização será concedida por ato motivado do Juiz da execução, ouvidos o Ministério Público e a administração penitenciária e dependerá da satisfação dos seguintes requisitos:
 
 I - comportamento adequado;
@@ -1199,16 +1434,21 @@ II - cumprimento mínimo de 1/6 (um sexto) da pena, se o condenado for primário
 
 III - compatibilidade do benefício com os objetivos da pena.
 
+-----
 Art. 124.    (Revogado pela Lei nº 14.843, de 2024)
 
+-----
 Art. 125. O benefício será automaticamente revogado quando o condenado praticar fato definido como crime doloso, for punido por falta grave, desatender as condições impostas na autorização ou revelar baixo grau de aproveitamento do curso.
 
 Parágrafo único. A recuperação do direito à saída temporária dependerá da absolvição no processo penal, do cancelamento da punição disciplinar ou da demonstração do merecimento do condenado.
 
+-----
 SEÇÃO IV
+-----
 
 Da Remição
 
+-----
 Art. 126.  O condenado que cumpre a pena em regime fechado ou semiaberto poderá remir, por trabalho ou por estudo, parte do tempo de execução da pena. (Redação dada pela Lei nº 12.433, de 2011).
 
 § 1o  A contagem de tempo referida no caput será feita à razão de: (Redação dada pela Lei nº 12.433, de 2011)
@@ -1231,24 +1471,32 @@ II - 1 (um) dia de pena a cada 3 (três) dias de trabalho. (Incluído pela Lei n
 
 § 8o  A remição será declarada pelo juiz da execução, ouvidos o Ministério Público e a defesa. (Incluído pela Lei nº 12.433, de 2011)
 
+-----
 Art. 127.  Em caso de falta grave, o juiz poderá revogar até 1/3 (um terço) do tempo remido, observado o disposto no art. 57, recomeçando a contagem a partir da data da infração disciplinar. (Redação dada pela Lei nº 12.433, de 2011)
 
+-----
 Art. 128.  O tempo remido será computado como pena cumprida, para todos os efeitos.(Redação dada pela Lei nº 12.433, de 2011)
 
+-----
 Art. 129.  A autoridade administrativa encaminhará mensalmente ao juízo da execução cópia do registro de todos os condenados que estejam trabalhando ou estudando, com informação dos dias de trabalho ou das horas de frequência escolar ou de atividades de ensino de cada um deles.  (Redação dada pela Lei nº 12.433, de 2011)
 
 § 1o  O condenado autorizado a estudar fora do estabelecimento penal deverá comprovar mensalmente, por meio de declaração da respectiva unidade de ensino, a frequência e o aproveitamento escolar.       (Incluído pela Lei nº 12.433, de 2011)
 
 § 2o  Ao condenado dar-se-á a relação de seus dias remidos. (Incluído pela Lei nº 12.433, de 2011)
 
+-----
 Art. 130. Constitui o crime do artigo 299 do Código Penal declarar ou atestar falsamente prestação de serviço para fim de instruir pedido de remição.
 
+-----
 SEÇÃO V
+-----
 
 Do Livramento Condicional
 
+-----
 Art. 131. O livramento condicional poderá ser concedido pelo Juiz da execução, presentes os requisitos do artigo 83, incisos e parágrafo único, do Código Penal, ouvidos o Ministério Público e Conselho Penitenciário.
 
+-----
 Art. 132. Deferido o pedido, o Juiz especificará as condições a que fica subordinado o livramento.
 
 § 1º Serão sempre impostas ao liberado condicional as obrigações seguintes:
@@ -1271,14 +1519,19 @@ d) (VETADO) (Incluído pela Lei nº 12.258, de 2010)
 
 e) utilizar equipamento de monitoração eletrônica.   (Incluído pela Lei nº 14.843, de 2024)
 
+-----
 Art. 133. Se for permitido ao liberado residir fora da comarca do Juízo da execução, remeter-se-á cópia da sentença do livramento ao Juízo do lugar para onde ele se houver transferido e à autoridade incumbida da observação cautelar e de proteção.
 
+-----
 Art. 134. O liberado será advertido da obrigação de apresentar-se imediatamente às autoridades referidas no artigo anterior.
 
+-----
 Art. 135. Reformada a sentença denegatória do livramento, os autos baixarão ao Juízo da execução, para as providências     cabíveis.
 
+-----
 Art. 136. Concedido o benefício, será expedida a carta de livramento com a cópia integral da sentença em 2 (duas) vias, remetendo-se uma à autoridade administrativa incumbida da execução e outra ao Conselho Penitenciário.
 
+-----
 Art. 137. A cerimônia do livramento condicional será realizada solenemente no dia marcado pelo Presidente do Conselho Penitenciário, no estabelecimento onde está sendo cumprida a pena, observando-se o seguinte:
 
 I - a sentença será lida ao liberando, na presença dos demais condenados, pelo Presidente do Conselho Penitenciário ou membro por ele designado, ou, na falta, pelo Juiz;
@@ -1291,6 +1544,7 @@ III - o liberando declarará se aceita as condições.
 
 § 2º Cópia desse termo deverá ser remetida ao Juiz da execução.
 
+-----
 Art. 138. Ao sair o liberado do estabelecimento penal, ser-lhe-á entregue, além do saldo de seu pecúlio e do que lhe pertencer, uma caderneta, que exibirá à autoridade judiciária ou administrativa, sempre que lhe for exigida.
 
 § 1º A caderneta conterá:
@@ -1305,6 +1559,7 @@ c) as condições impostas.
 
 § 3º Na caderneta e no salvo-conduto deverá haver espaço para consignar-se o cumprimento das condições referidas no artigo 132 desta Lei.
 
+-----
 Art. 139. A observação cautelar e a proteção realizadas por serviço social penitenciário, Patronato ou Conselho da Comunidade terão a finalidade de:
 
 I - fazer observar o cumprimento das condições especificadas na sentença concessiva do benefício;
@@ -1313,20 +1568,27 @@ II - proteger o beneficiário, orientando-o na execução de suas obrigações e
 
 Parágrafo único. A entidade encarregada da observação cautelar e da proteção do liberado apresentará relatório ao Conselho Penitenciário, para efeito da representação prevista nos artigos 143 e 144 desta Lei.
 
+-----
 Art. 140. A revogação do livramento condicional dar-se-á nas hipóteses previstas nos artigos 86 e 87 do Código Penal.
 
 Parágrafo único. Mantido o livramento condicional, na hipótese da revogação facultativa, o Juiz deverá advertir o liberado ou agravar as condições.
 
+-----
 Art. 141. Se a revogação for motivada por infração penal anterior à vigência do livramento, computar-se-á como tempo de cumprimento da pena o período de prova, sendo permitida, para a concessão de novo livramento, a soma do tempo das 2 (duas) penas.
 
+-----
 Art. 142. No caso de revogação por outro motivo, não se computará na pena o tempo em que esteve solto o liberado, e tampouco se concederá, em relação à mesma pena, novo livramento.
 
+-----
 Art. 143. A revogação será decretada a requerimento do Ministério Público, mediante representação do Conselho Penitenciário, ou, de ofício, pelo Juiz, ouvido o liberado.
 
+-----
 Art. 144.  O Juiz, de ofício, a requerimento do Ministério Público, da Defensoria Pública ou mediante representação do Conselho Penitenciário, e ouvido o liberado, poderá modificar as condições especificadas na sentença, devendo o respectivo ato decisório ser lido ao liberado por uma das autoridades ou funcionários indicados no inciso I do caput do art. 137 desta Lei, observado o disposto nos incisos II e III e §§ 1o e 2o do mesmo artigo.               (Redação dada pela Lei nº 12.313, de 2010).
 
+-----
 Art. 145. Praticada pelo liberado outra infração penal, o Juiz poderá ordenar a sua prisão, ouvidos o Conselho Penitenciário e o Ministério Público, suspendendo o curso do livramento condicional, cuja revogação, entretanto, ficará dependendo da decisão final.
 
+-----
 Art. 146. O Juiz, de ofício, a requerimento do interessado, do Ministério Público ou mediante representação do Conselho Penitenciário, julgará extinta a pena privativa de liberdade, se expirar o prazo do livramento sem revogação.
 
 Seção VI
@@ -1334,9 +1596,11 @@ Seção VI
 Da Monitoração Eletrônica 
 (Incluído pela Lei nº 12.258, de 2010)
 
-Art. 146-A.  (VETADO).      (Incluído pela Lei nº 12.258, de 2010)
+-----
+Art. 146A.  (VETADO).      (Incluído pela Lei nº 12.258, de 2010)
 
-Art. 146-B.  O juiz poderá definir a fiscalização por meio da monitoração eletrônica quando:     (Incluído pela Lei nº 12.258, de 2010)
+-----
+Art. 146B.  O juiz poderá definir a fiscalização por meio da monitoração eletrônica quando:     (Incluído pela Lei nº 12.258, de 2010)
 
 I - (VETADO);       (Incluído pela Lei nº 12.258, de 2010)
 
@@ -1356,7 +1620,8 @@ VIII - conceder o livramento condicional.   (Incluído pela Lei nº 14.843, de 2
 
 Parágrafo único.  (VETADO).             (Incluído pela Lei nº 12.258, de 2010)
 
-Art. 146-C.  O condenado será instruído acerca dos cuidados que deverá adotar com o equipamento eletrônico e dos seguintes deveres:                (Incluído pela Lei nº 12.258, de 2010)
+-----
+Art. 146C.  O condenado será instruído acerca dos cuidados que deverá adotar com o equipamento eletrônico e dos seguintes deveres:                (Incluído pela Lei nº 12.258, de 2010)
 
 I - receber visitas do servidor responsável pela monitoração eletrônica, responder aos seus contatos e cumprir suas orientações;                (Incluído pela Lei nº 12.258, de 2010)
 
@@ -1384,30 +1649,41 @@ VIII - a revogação do livramento condicional;   (Incluído pela Lei nº 14.843
 
 IX - a conversão da pena restritiva de direitos em pena privativa de liberdade.   (Incluído pela Lei nº 14.843, de 2024)
 
-Art. 146-D.  A monitoração eletrônica poderá ser revogada:     (Incluído pela Lei nº 12.258, de 2010)
+-----
+Art. 146D.  A monitoração eletrônica poderá ser revogada:     (Incluído pela Lei nº 12.258, de 2010)
 
 I - quando se tornar desnecessária ou inadequada;     (Incluído pela Lei nº 12.258, de 2010)
 
 II - se o acusado ou condenado violar os deveres a que estiver sujeito durante a sua vigência ou cometer falta grave.    (Incluído pela Lei nº 12.258, de 2010)
 
-Art. 146-E. O condenado por crime contra a mulher por razões da condição do sexo feminino, nos termos do § 1º do art. 121-A do Decreto-Lei nº 2.848, de 7 de dezembro de 1940 (Código Penal), ao usufruir de qualquer benefício em que ocorra a sua saída de estabelecimento penal, será fiscalizado por meio de monitoração eletrônica.     (Incluído pela Lei nº 14.994, de 2024)
+-----
+Art. 146E. O condenado por crime contra a mulher por razões da condição do sexo feminino, nos termos do § 1º do art. 121-A do Decreto-Lei nº 2.848, de 7 de dezembro de 1940 (Código Penal), ao usufruir de qualquer benefício em que ocorra a sua saída de estabelecimento penal, será fiscalizado por meio de monitoração eletrônica.     (Incluído pela Lei nº 14.994, de 2024)
 
+-----
 CAPÍTULO II
+-----
 
 Das Penas Restritivas de Direitos
 
+-----
 SEÇÃO I
+-----
 
 Disposições Gerais
 
+-----
 Art. 147. Transitada em julgado a sentença que aplicou a pena restritiva de direitos, o Juiz da execução, de ofício ou a requerimento do Ministério Público, promoverá a execução, podendo, para tanto, requisitar, quando necessário, a colaboração de entidades públicas ou solicitá-la a particulares.
 
+-----
 Art. 148. Em qualquer fase da execução, poderá o Juiz, motivadamente, alterar, a forma de cumprimento das penas de prestação de serviços à comunidade e de limitação de fim de semana, ajustando-as às condições pessoais do condenado e às características do estabelecimento, da entidade ou do programa comunitário ou estatal.
 
+-----
 SEÇÃO II
+-----
 
 Da Prestação de Serviços à Comunidade
 
+-----
 Art. 149. Caberá ao Juiz da execução:
 
 I - designar a entidade ou programa comunitário ou estatal, devidamente credenciado ou convencionado, junto ao qual o condenado deverá trabalhar gratuitamente, de acordo com as suas aptidões;
@@ -1420,44 +1696,59 @@ III - alterar a forma de execução, a fim de ajustá-la às modificações ocor
 
 § 2º A execução terá início a partir da data do primeiro comparecimento.
 
+-----
 Art. 150. A entidade beneficiada com a prestação de serviços encaminhará mensalmente, ao Juiz da execução, relatório circunstanciado das atividades do condenado, bem como, a qualquer tempo, comunicação sobre ausência ou falta disciplinar.
 
+-----
 SEÇÃO III
+-----
 
 Da Limitação de Fim de Semana
 
+-----
 Art. 151. Caberá ao Juiz da execução determinar a intimação do condenado, cientificando-o do local, dias e horário em que deverá cumprir a pena.
 
 Parágrafo único. A execução terá início a partir da data do primeiro comparecimento.
 
+-----
 Art. 152. Poderão ser ministrados ao condenado, durante o tempo de permanência, cursos e palestras, ou atribuídas atividades educativas.
 
 Parágrafo único. Nos casos de violência doméstica e familiar contra a criança, o adolescente e a mulher e de tratamento cruel ou degradante, ou de uso de formas violentas de educação, correção ou disciplina contra a criança e o adolescente, o juiz poderá determinar o comparecimento obrigatório do agressor a programas de recuperação e reeducação.        (Redação dada pela Lei nº 14.344, de 2022)     Vigência
 
+-----
 Art. 153. O estabelecimento designado encaminhará, mensalmente, ao Juiz da execução, relatório, bem assim comunicará, a qualquer tempo, a ausência ou falta disciplinar do condenado.
 
+-----
 SEÇÃO IV
+-----
 
 Da Interdição Temporária de Direitos
 
+-----
 Art. 154. Caberá ao Juiz da execução comunicar à autoridade competente a pena aplicada, determinada a intimação do condenado.
 
 § 1º Na hipótese de pena de interdição do artigo 47, inciso I, do Código Penal, a autoridade deverá, em 24 (vinte e quatro) horas, contadas do recebimento do ofício, baixar ato, a partir do qual a execução terá seu início.
 
 § 2º Nas hipóteses do artigo 47, incisos II e III, do Código Penal, o Juízo da execução determinará a apreensão dos documentos, que autorizam o exercício do direito interditado.
 
+-----
 Art. 155. A autoridade deverá comunicar imediatamente ao Juiz da execução o descumprimento da pena.
 
 Parágrafo único. A comunicação prevista neste artigo poderá ser feita por qualquer prejudicado.
 
+-----
 CAPÍTULO III
+-----
 
 Da Suspensão Condicional
 
+-----
 Art. 156. O Juiz poderá suspender, pelo período de 2 (dois) a 4 (quatro) anos, a execução da pena privativa de liberdade, não superior a 2 (dois) anos, na forma prevista nos artigos 77 a 82 do Código Penal.
 
+-----
 Art. 157. O Juiz ou Tribunal, na sentença que aplicar pena privativa de liberdade, na situação determinada no artigo anterior, deverá pronunciar-se, motivadamente, sobre a suspensão condicional, quer a conceda, quer a denegue.
 
+-----
 Art. 158. Concedida a suspensão, o Juiz especificará as condições a que fica sujeito o condenado, pelo prazo fixado, começando este a correr da audiência prevista no artigo 160 desta Lei.
 
 § 1° As condições serão adequadas ao fato e à situação pessoal do condenado, devendo ser incluída entre as mesmas a de prestar serviços à comunidade, ou limitação de fim de semana, salvo hipótese do artigo 78, § 2º, do Código Penal.
@@ -1472,40 +1763,52 @@ Art. 158. Concedida a suspensão, o Juiz especificará as condições a que fica
 
 § 6º Se for permitido ao beneficiário mudar-se, será feita comunicação ao Juiz e à entidade fiscalizadora do local da nova residência, aos quais o primeiro deverá apresentar-se imediatamente.
 
+-----
 Art. 159. Quando a suspensão condicional da pena for concedida por Tribunal, a este caberá estabelecer as condições do benefício.
 
 § 1º De igual modo proceder-se-á quando o Tribunal modificar as condições estabelecidas na sentença recorrida.
 
 § 2º O Tribunal, ao conceder a suspensão condicional da pena, poderá, todavia, conferir ao Juízo da execução a incumbência de estabelecer as condições do benefício, e, em qualquer caso, a de realizar a audiência admonitória.
 
+-----
 Art. 160. Transitada em julgado a sentença condenatória, o Juiz a lerá ao condenado, em audiência, advertindo-o das conseqüências de nova infração penal e do descumprimento das condições impostas.
 
+-----
 Art. 161. Se, intimado pessoalmente ou por edital com prazo de 20 (vinte) dias, o réu não comparecer injustificadamente à audiência admonitória, a suspensão ficará sem efeito e será executada imediatamente a pena.
 
+-----
 Art. 162. A revogação da suspensão condicional da pena e a prorrogação do período de prova dar-se-ão na forma do artigo 81 e respectivos parágrafos do Código Penal.
 
+-----
 Art. 163. A sentença condenatória será registrada, com a nota de suspensão em livro especial do Juízo a que couber a execução da pena.
 
 § 1º Revogada a suspensão ou extinta a pena, será o fato averbado à margem do registro.
 
 § 2º O registro e a averbação serão sigilosos, salvo para efeito de informações requisitadas por órgão judiciário ou pelo Ministério Público, para instruir processo penal.
 
+-----
 CAPÍTULO IV
+-----
 
 Da Pena de Multa
 
+-----
 Art. 164. Extraída certidão da sentença condenatória com trânsito em julgado, que valerá como título executivo judicial, o Ministério Público requererá, em autos apartados, a citação do condenado para, no prazo de 10 (dez) dias, pagar o valor da multa ou nomear bens à penhora.
 
 § 1º Decorrido o prazo sem o pagamento da multa, ou o depósito da respectiva importância, proceder-se-á à penhora de tantos bens quantos bastem para garantir a execução.
 
 § 2º A nomeação de bens à penhora e a posterior execução seguirão o que dispuser a lei processual civil.
 
+-----
 Art. 165. Se a penhora recair em bem imóvel, os autos apartados serão remetidos ao Juízo Cível para prosseguimento.
 
+-----
 Art. 166. Recaindo a penhora em outros bens, dar-se-á prosseguimento nos termos do § 2º do artigo 164, desta Lei.
 
+-----
 Art. 167. A execução da pena de multa será suspensa quando sobrevier ao condenado doença mental (artigo 52 do Código Penal).
 
+-----
 Art. 168. O Juiz poderá determinar que a cobrança da multa se efetue mediante desconto no vencimento ou salário do condenado, nas hipóteses do artigo 50, § 1º, do Código Penal, observando-se o seguinte:
 
 I - o limite máximo do desconto mensal será o da quarta parte da remuneração e o mínimo o de um décimo;
@@ -1514,30 +1817,39 @@ II - o desconto será feito mediante ordem do Juiz a quem de direito;
 
 III - o responsável pelo desconto será intimado a recolher mensalmente, até o dia fixado pelo Juiz, a importância determinada.
 
+-----
 Art. 169. Até o término do prazo a que se refere o artigo 164 desta Lei, poderá o condenado requerer ao Juiz o pagamento da multa em prestações mensais, iguais e sucessivas.
 
 § 1° O Juiz, antes de decidir, poderá determinar diligências para verificar a real situação econômica do condenado e, ouvido o Ministério Público, fixará o número de prestações.
 
 § 2º Se o condenado for impontual ou se melhorar de situação econômica, o Juiz, de ofício ou a requerimento do Ministério Público, revogará o benefício executando-se a multa, na forma prevista neste Capítulo, ou prosseguindo-se na execução já iniciada.
 
+-----
 Art. 170. Quando a pena de multa for aplicada cumulativamente com pena privativa da liberdade, enquanto esta estiver sendo executada, poderá aquela ser cobrada mediante desconto na remuneração do condenado (artigo 168).
 
 § 1º Se o condenado cumprir a pena privativa de liberdade ou obtiver livramento condicional, sem haver resgatado a multa, far-se-á a cobrança nos termos deste Capítulo.
 
 § 2º Aplicar-se-á o disposto no parágrafo anterior aos casos em que for concedida a suspensão condicional da pena.
 
+-----
 TÍTULO VI
+-----
 
 Da Execução das Medidas de Segurança
 
+-----
 CAPÍTULO I
+-----
 
 Disposições Gerais
 
+-----
 Art. 171. Transitada em julgado a sentença que aplicar medida de segurança, será ordenada a expedição de guia para a execução.
 
+-----
 Art. 172. Ninguém será internado em Hospital de Custódia e Tratamento Psiquiátrico, ou submetido a tratamento ambulatorial, para cumprimento de medida de segurança, sem a guia expedida pela autoridade judiciária.
 
+-----
 Art. 173. A guia de internamento ou de tratamento ambulatorial, extraída pelo escrivão, que a rubricará em todas as folhas e a subscreverá com o Juiz, será remetida à autoridade administrativa incumbida da execução e conterá:
 
 I - a qualificação do agente e o número do registro geral do órgão oficial de identificação;
@@ -1552,12 +1864,16 @@ IV - outras peças do processo reputadas indispensáveis ao adequado tratamento 
 
 § 2° A guia será retificada sempre que sobrevier modificações quanto ao prazo de execução.
 
+-----
 Art. 174. Aplicar-se-á, na execução da medida de segurança, naquilo que couber, o disposto nos artigos 8° e 9° desta Lei.
 
+-----
 CAPÍTULO II
+-----
 
 Da Cessação da Periculosidade
 
+-----
 Art. 175. A cessação da periculosidade será averiguada no fim do prazo mínimo de duração da medida de segurança, pelo exame das condições pessoais do agente, observando-se o seguinte:
 
 I - a autoridade administrativa, até 1 (um) mês antes de expirar o prazo de duração mínima da medida, remeterá ao Juiz minucioso relatório que o habilite a resolver sobre a revogação ou permanência da medida;
@@ -1572,22 +1888,31 @@ V - o Juiz, de ofício ou a requerimento de qualquer das partes, poderá determi
 
 VI - ouvidas as partes ou realizadas as diligências a que se refere o inciso anterior, o Juiz proferirá a sua decisão, no prazo de 5 (cinco) dias.
 
+-----
 Art. 176. Em qualquer tempo, ainda no decorrer do prazo mínimo de duração da medida de segurança, poderá o Juiz da execução, diante de requerimento fundamentado do Ministério Público ou do interessado, seu procurador ou defensor, ordenar o exame para que se verifique a cessação da periculosidade, procedendo-se nos termos do artigo anterior.
 
+-----
 Art. 177. Nos exames sucessivos para verificar-se a cessação da periculosidade, observar-se-á, no que lhes for aplicável, o disposto no artigo anterior.
 
+-----
 Art. 178. Nas hipóteses de desinternação ou de liberação (artigo 97, § 3º, do Código Penal), aplicar-se-á o disposto nos artigos 132 e 133 desta Lei.
 
+-----
 Art. 179. Transitada em julgado a sentença, o Juiz expedirá ordem para a desinternação ou a liberação.
 
+-----
 TÍTULO VII
+-----
 
 Dos Incidentes de Execução
 
+-----
 CAPÍTULO I
+-----
 
 Das Conversões
 
+-----
 Art. 180. A pena privativa de liberdade, não superior a 2 (dois) anos, poderá ser convertida em restritiva de direitos, desde que:
 
 I - o condenado a esteja cumprindo em regime aberto;
@@ -1596,6 +1921,7 @@ II - tenha sido cumprido pelo menos 1/4 (um quarto) da pena;
 
 III - os antecedentes e a personalidade do condenado indiquem ser a conversão recomendável.
 
+-----
 Art. 181. A pena restritiva de direitos será convertida em privativa de liberdade nas hipóteses e na forma do artigo 45 e seus incisos do Código Penal.
 
 § 1º A pena de prestação de serviços à comunidade será convertida quando o condenado:
@@ -1614,20 +1940,27 @@ e) sofrer condenação por outro crime à pena privativa de liberdade, cuja exec
 
 § 3º A pena de interdição temporária de direitos será convertida quando o condenado exercer, injustificadamente, o direito interditado ou se ocorrer qualquer das hipóteses das letras "a" e "e", do § 1º, deste artigo.
 
+-----
 Art. 182. (Revogado pela Lei nº 9.268, de 1996)
 
+-----
 Art. 183.  Quando, no curso da execução da pena privativa de liberdade, sobrevier doença mental ou perturbação da saúde mental, o Juiz, de ofício, a requerimento do Ministério Público, da Defensoria Pública ou da autoridade administrativa, poderá determinar a substituição da pena por medida de segurança. (Redação dada pela Lei nº 12.313, de 2010).
 
+-----
 Art. 184. O tratamento ambulatorial poderá ser convertido em internação se o agente revelar incompatibilidade com a medida.
 
 Parágrafo único. Nesta hipótese, o prazo mínimo de internação será de 1 (um) ano.
 
+-----
 CAPÍTULO II
+-----
 
 Do Excesso ou Desvio
 
+-----
 Art. 185. Haverá excesso ou desvio de execução sempre que algum ato for praticado além dos limites fixados na sentença, em normas legais ou regulamentares.
 
+-----
 Art. 186. Podem suscitar o incidente de excesso ou desvio de execução:
 
 I - o Ministério Público;
@@ -1638,54 +1971,77 @@ III - o sentenciado;
 
 IV - qualquer dos demais órgãos da execução penal.
 
+-----
 CAPÍTULO III
+-----
 
 Da Anistia e do Indulto
 
+-----
 Art. 187. Concedida a anistia, o Juiz, de ofício, a requerimento do interessado ou do Ministério Público, por proposta da autoridade administrativa ou do Conselho Penitenciário, declarará extinta a punibilidade.
 
+-----
 Art. 188. O indulto individual poderá ser provocado por petição do condenado, por iniciativa do Ministério Público, do Conselho Penitenciário, ou da autoridade administrativa.
 
+-----
 Art. 189. A petição do indulto, acompanhada dos documentos que a instruírem, será entregue ao Conselho Penitenciário, para a elaboração de parecer e posterior encaminhamento ao Ministério da Justiça.
 
+-----
 Art. 190. O Conselho Penitenciário, à vista dos autos do processo e do prontuário, promoverá as diligências que entender necessárias e fará, em relatório, a narração do ilícito penal e dos fundamentos da sentença condenatória, a exposição dos antecedentes do condenado e do procedimento deste depois da prisão, emitindo seu parecer sobre o mérito do pedido e esclarecendo qualquer formalidade ou circunstâncias omitidas na petição.
 
+-----
 Art. 191. Processada no Ministério da Justiça com documentos e o relatório do Conselho Penitenciário, a petição será submetida a despacho do Presidente da República, a quem serão presentes os autos do processo ou a certidão de qualquer de suas peças, se ele o determinar.
 
+-----
 Art. 192. Concedido o indulto e anexada aos autos cópia do decreto, o Juiz declarará extinta a pena ou ajustará a execução aos termos do decreto, no caso de comutação.
 
+-----
 Art. 193. Se o sentenciado for beneficiado por indulto coletivo, o Juiz, de ofício, a requerimento do interessado, do Ministério Público, ou por iniciativa do Conselho Penitenciário ou da autoridade administrativa, providenciará de acordo com o disposto no artigo anterior.
 
+-----
 TÍTULO VIII
+-----
 
 Do Procedimento Judicial
 
+-----
 Art. 194. O procedimento correspondente às situações previstas nesta Lei será judicial, desenvolvendo-se perante o Juízo da execução.
 
+-----
 Art. 195. O procedimento judicial iniciar-se-á de ofício, a requerimento do Ministério Público, do interessado, de quem o represente, de seu cônjuge, parente ou descendente, mediante proposta do Conselho Penitenciário, ou, ainda, da autoridade administrativa.
 
+-----
 Art. 196. A portaria ou petição será autuada ouvindo-se, em 3 (três) dias, o condenado e o Ministério Público, quando não figurem como requerentes da medida.
 
 § 1º Sendo desnecessária a produção de prova, o Juiz decidirá de plano, em igual prazo.
 
 § 2º Entendendo indispensável a realização de prova pericial ou oral, o Juiz a ordenará, decidindo após a produção daquela ou na audiência designada.
 
+-----
 Art. 197. Das decisões proferidas pelo Juiz caberá recurso de agravo, sem efeito suspensivo.
 
+-----
 TÍTULO IX
+-----
 
 Das Disposições Finais e Transitórias
 
+-----
 Art. 198. É defesa ao integrante dos órgãos da execução penal, e ao servidor, a divulgação de ocorrência que perturbe a segurança e a disciplina dos estabelecimentos, bem como exponha o preso à inconveniente notoriedade, durante o cumprimento da pena.
 
+-----
 Art. 199. O emprego de algemas será disciplinado por decreto federal.      (Regulamento)
 
+-----
 Art. 200. O condenado por crime político não está obrigado ao trabalho.
 
+-----
 Art. 201. Na falta de estabelecimento adequado, o cumprimento da prisão civil e da prisão administrativa se efetivará em seção especial da Cadeia Pública.
 
+-----
 Art. 202. Cumprida ou extinta a pena, não constarão da folha corrida, atestados ou certidões fornecidas por autoridade policial ou por auxiliares da Justiça, qualquer notícia ou referência à condenação, salvo para instruir processo pela prática de nova infração penal ou outros casos expressos em lei.
 
+-----
 Art. 203. No prazo de 6 (seis) meses, a contar da publicação desta Lei, serão editadas as normas complementares ou regulamentares, necessárias à eficácia dos dispositivos não auto-aplicáveis.
 
 § 1º Dentro do mesmo prazo deverão as Unidades Federativas, em convênio com o Ministério da Justiça, projetar a adaptação, construção e equipamento de estabelecimentos e serviços penais previstos nesta Lei.
@@ -1696,6 +2052,7 @@ Art. 203. No prazo de 6 (seis) meses, a contar da publicação desta Lei, serão
 
 § 4º O descumprimento injustificado dos deveres estabelecidos para as Unidades Federativas implicará na suspensão de qualquer ajuda financeira a elas destinada pela União, para atender às despesas de execução das penas e medidas de segurança.
 
+-----
 Art. 204. Esta Lei entra em vigor concomitantemente com a lei de reforma da Parte Geral do Código Penal, revogadas as disposições em contrário, especialmente a Lei nº 3.274, de 2 de outubro de 1957. 
 
  
