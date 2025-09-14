@@ -16,13 +16,13 @@
 
       /* Barras de baixo */
       --bar-bg:#f5f7fa;   /* busca (mais clara) */
-      --bar-bg-2:#eceff4; /* estudar (um pouco mais escura) */
+      --bar-bg-2:#eceff4; /* estudar/buscar (um pouco mais escura) */
 
       /* Dimensões */
       --topbar-h: 68px;
-      --progress-h: 3px;
-      --bottom-search-h: 56px;
-      --bottom-study-h: 64px;
+      --progress-h: 6px;                   /* mais grossa */
+      --bottom-search-h: 56px;             /* barra 1 */
+      --bottom-study-h: 64px;              /* barra 2 */
 
       --focus:#9bb6ff; --radius:12px; --shadow:0 2px 10px rgba(0,0,0,.06);
       --accent: rgba(255,214,1,.2);
@@ -34,7 +34,7 @@
       background:var(--bg); color:var(--fg);
       font:15px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-      max-width:100%; overflow-x:hidden; /* 💡 evita scroll lateral em overflow */
+      max-width:100%; overflow-x:hidden; /* sem scroll lateral */
     }
     button,input,select{font:inherit}
 
@@ -47,7 +47,7 @@
     .topbar-inner{
       width:clamp(320px, 92vw, 960px);
       padding:0 12px; display:flex; align-items:center; gap:12px;
-      overflow:hidden; /* 💡 nada vaza pro lado */
+      overflow:hidden;
     }
     .brand{
       appearance:none; border:0; background:none; color:#fff; cursor:pointer;
@@ -92,26 +92,20 @@
       white-space:pre-wrap;
       border-bottom:1px solid #eef0f6;
       padding:18px 10px; scroll-margin: 92px; border-radius:10px;
-      overflow-wrap:anywhere; word-break:break-word; hyphens:auto; /* 💡 quebra segura */
-      max-width:100%;
-    }
-    .supra{
-      color:#6c7282; font-weight:600; font-size:13px; margin-bottom:6px;
       overflow-wrap:anywhere; word-break:break-word; hyphens:auto; max-width:100%;
     }
+    .supra{ color:#6c7282; font-weight:600; font-size:13px; margin-bottom:6px; }
     .supra div{ line-height:1.35 }
-    .art-title{
-      display:block; font-weight:700; color:#0e1638; margin:0 0 6px;
-      overflow-wrap:anywhere; word-break:break-word; hyphens:auto; max-width:100%;
+    .art-title{ display:block; font-weight:700; color:#0e1638; margin:0 0 6px }
+    article.current-outline{
+      outline:3px solid #7aa8ff; outline-offset:2px;    /* mais destacado */
     }
-    .art-body{ overflow-wrap:anywhere; word-break:break-word; hyphens:auto; max-width:100%; }
-    article.current-outline{outline:2px solid #cfe0ff; outline-offset:2px}
-    article.highlight-study{background:var(--accent)}
+    article.highlight-study{ background:var(--accent) }
 
     /* Destaque busca */
     mark{padding:0 2px; border-radius:3px; background:#ffef99}
 
-    /* Barra inferior 1: BUSCA + SETAS + spinner (CINZA CLARO) */
+    /* ===== Base — Barra 1 (SETAS / INPUT / CONTADOR / X) ===== */
     .bottom-search{
       position:fixed; left:0; right:0; bottom:var(--bottom-study-h);
       height:var(--bottom-search-h);
@@ -121,15 +115,16 @@
     }
     .bottom-search-inner{
       width:clamp(320px, 92vw, 960px);
-      display:flex; align-items:center; gap:6px; padding:8px 12px;
+      display:flex; align-items:center; gap:8px; padding:8px 12px;
     }
     .iconbtn{
       width:32px; height:32px; border:1px solid #e2e5f2; background:#fff; border-radius:8px;
       display:grid; place-items:center; cursor:pointer; user-select:none; flex:0 0 32px;
       font-size:16px; line-height:1;
     }
+    .iconbtn.danger{ border-color:#f2d6d6; }
     .iconbtn:focus,input:focus{outline:2px solid var(--focus); outline-offset:2px}
-    .search{flex:1; display:flex; align-items:center; gap:6px; min-width:0}
+    .search{flex:1; display:flex; align-items:center; gap:8px; min-width:0}
     .search input{
       width:100%; height:36px; border:1px solid #e2e5f2; border-radius:10px; padding:0 12px; background:#fff;
       flex:1 1 auto; min-width:0;
@@ -138,8 +133,12 @@
       animation:spin 1s linear infinite; flex:0 0 18px}
     .spinner[hidden]{display:none}
     @keyframes spin{to{transform:rotate(360deg)}}
+    .result-count{
+      min-width:64px; font-size:12px; color:#6c7282; border:1px solid #e2e5f2;
+      background:#f7f8fc; padding:6px 10px; border-radius:8px; text-align:center;
+    }
 
-    /* Barra inferior 2: CONTADOR + ESTUDAR (CINZA UM POUCO MAIS ESCURO) */
+    /* ===== Base — Barra 2 (ESTUDAR azul menor / BUSCAR amarelo maior) ===== */
     .bottom-study{
       position:fixed; left:0; right:0; bottom:0; height:var(--bottom-study-h);
       background: var(--bar-bg-2);
@@ -150,11 +149,11 @@
       width:clamp(320px, 92vw, 960px); padding:0 12px;
       display:flex; align-items:center; gap:12px;
     }
-    .result-count{
-      min-width:64px; font-size:12px; color:#6c7282; border:1px solid #e2e5f2;
-      background:#f7f8fc; padding:6px 10px; border-radius:8px; text-align:center;
-    }
     .study{
+      flex:0 0 36%; padding:12px 14px; border-radius:12px;
+      border:1px solid #0e2a7a; background:#142B6F; color:#fff; font-weight:800; cursor:pointer;
+    }
+    .do-search{
       flex:1 1 auto; padding:12px 16px; border-radius:12px;
       border:1px solid #f0e08b; background:var(--yellow); color:#0a0a0a; font-weight:800; cursor:pointer;
     }
@@ -186,11 +185,11 @@
     /* Esconder barras até carregar um arquivo */
     .bottom-search[hidden], .bottom-study[hidden]{display:none}
 
-    /* 🔻 Mobile-only: diminuir fonte do seletor e (onde suportado) das opções */
+    /* Mobile-only: fonte menor do seletor (opções podem ignorar em alguns SOs) */
     @media (max-width: 480px){
       .brand{ font-size:18px; }
-      .select-wrap select{ font-size:14px; }   /* afeta o controle e, em alguns SOs, o menu */
-      select option, select optgroup{ font-size:14px; } /* pode ser ignorado no iOS/Android, mas não atrapalha */
+      .select-wrap select{ font-size:14px; }
+      select option, select optgroup{ font-size:14px; }
     }
   </style>
 </head>
@@ -207,30 +206,15 @@
           <option value="">— selecione —</option>
 
           <optgroup label="Códigos">
-            <option value="data/codigos/codigo_civil.txt">Cód. Civil</option>
-            <option value="data/codigos/codigo_penal.txt">Cód. Penal</option>
-            <option value="data/codigos/codigo_consumidor.txt">Cód. Def. Consumidor</option>
-            <option value="data/codigos/codigo_Processo_Civil.txt">Cód. Proc. Civil</option>
-            <option value="data/codigos/codigo_Processo_Penal.txt">Cód. Proc. Penal</option>
+            <option value="data/codigo_civil.txt">Cód. Civil</option>
+            <option value="data/codigo_penal.txt">Cód. Penal</option>
+            <option value="data/codigo_consumidor.txt">CDC</option>
           </optgroup>
 
-          <!-- Exemplos futuros
-          <optgroup label="Leis especiais">
-            <option value="data/leis/lei_maria_da_penha.txt">Lei Maria da Penha</option>
-            <option value="data/leis/lei_improbidade.txt">Lei de Improbidade</option>
+          <optgroup label="Processos">
+            <option value="data/codigo_Processo_Civil.txt">CPC</option>
+            <option value="data/codigo_Processo_Penal.txt">CPP</option>
           </optgroup>
-          <optgroup label="Súmulas">
-            <option value="data/sumulas/sumulas_stf.txt">Súmulas STF</option>
-            <option value="data/sumulas/sumulas_stj.txt">Súmulas STJ</option>
-          </optgroup>
-          <optgroup label="Jurisprudência">
-            <option value="data/jurisprudencia/jurisprudencia_civil_2024.txt">Civil (2024)</option>
-            <option value="data/jurisprudencia/jurisprudencia_penal_2024.txt">Penal (2024)</option>
-          </optgroup>
-          <optgroup label="Notícias">
-            <option value="data/noticias/noticias_direito_2025.txt">Direito (2025)</option>
-          </optgroup>
-          -->
         </select>
       </div>
     </div>
@@ -252,25 +236,27 @@
     </div>
   </main>
 
-  <!-- BARRA INFERIOR 1 (BUSCA + SETAS + SPINNER) -->
+  <!-- BARRA 1 (SETAS / INPUT / CONTADOR / X) -->
   <div class="bottom-search" id="bottomSearch" hidden>
     <div class="bottom-search-inner" aria-live="polite">
       <button class="iconbtn" id="prevBtn" title="Anterior" aria-label="Anterior">◀</button>
       <button class="iconbtn" id="nextBtn" title="Próximo" aria-label="Próximo">▶</button>
+
       <div class="search">
         <input id="searchInput" type="search" placeholder="Buscar no texto…" autocomplete="off" />
-        <button class="iconbtn" id="searchBtn" title="Executar busca" aria-label="Buscar">🔎</button>
-        <button class="iconbtn" id="clearBtn" title="Limpar busca" aria-label="Limpar">✕</button>
         <div class="spinner" id="spinner" hidden></div>
       </div>
+
+      <div class="result-count" title="Ocorrência atual / Total"><span id="count">0/0</span></div>
+      <button class="iconbtn danger" id="resetBtn" title="Reiniciar" aria-label="Reiniciar">✕</button>
     </div>
   </div>
 
-  <!-- BARRA INFERIOR 2 (CONTADOR + ESTUDAR) -->
+  <!-- BARRA 2 (ESTUDAR azul menor / BUSCAR amarelo maior) -->
   <div class="bottom-study" id="bottomStudy" hidden>
     <div class="bottom-study-inner">
-      <div class="result-count" title="Ocorrência atual / Total"><span id="count">0/0</span></div>
-      <button class="study" id="studyBtn">ESTUDAR</button>
+      <button class="study" id="studyBtn">Estudar</button>
+      <button class="do-search" id="doSearchBtn">Buscar</button>
     </div>
   </div>
 
@@ -305,12 +291,12 @@
       prevBtn: document.getElementById('prevBtn'),
       nextBtn: document.getElementById('nextBtn'),
       count: document.getElementById('count'),
-      searchBtn: document.getElementById('searchBtn'),
-      clearBtn: document.getElementById('clearBtn'),
       spinner: document.getElementById('spinner'),
       progress: document.getElementById('progress'),
       progressBar: document.getElementById('progressBar'),
       studyBtn: document.getElementById('studyBtn'),
+      doSearchBtn: document.getElementById('doSearchBtn'),
+      resetBtn: document.getElementById('resetBtn'),
       modalBackdrop: document.getElementById('modalBackdrop'),
       modalTitle: document.getElementById('modalTitle'),
       closeModal: document.getElementById('closeModal'),
@@ -335,8 +321,7 @@
     /* ================= Helpers UI ================= */
     function setBusy(isBusy){
       els.bottomSearch.setAttribute('aria-busy', String(isBusy));
-      els.searchBtn.disabled = isBusy;
-      els.clearBtn.disabled = isBusy;
+      els.doSearchBtn.disabled = isBusy;
       els.prevBtn.disabled = isBusy;
       els.nextBtn.disabled = isBusy;
       els.spinner.hidden = !isBusy;
@@ -391,7 +376,7 @@
       updateCurrentOutline();
     }, {passive:true});
 
-    /* ================= Parser com prioridade a "-----" ================= */
+    /* ================= Parser + Sanitização ================= */
     function sanitizeForLayout(s){
       return s
         .replace(/\u00A0/g, ' ')  // NBSP → espaço normal
@@ -406,6 +391,7 @@
       return parseByArt(txt); // fallback
     }
 
+    // Blocos entre duas linhas "-----"
     function parseByDelimiters(txt){
       const sepRe = /(^|\n)[^\S\r\n]*-{5,}[^\S\r\n]*(?=\n|$)/g;
       const seps = [];
@@ -430,6 +416,7 @@
       return arts;
     }
 
+    // Fallback por "Art."
     function parseByArt(txt){
       const re = /(^|\n)\s*((?:Art|ART)\.?\s*\d{1,4}(?:-[A-Z])?(?:º|o)?\.?)/g;
       const starts = [];
@@ -640,19 +627,7 @@
       setBusy(false);
     }
 
-    els.searchBtn.addEventListener('click', ()=>{
-      const term = els.searchInput.value.trim();
-      highlightTermChunked(term);
-    });
-    els.clearBtn.addEventListener('click', ()=>{
-      els.searchInput.value = '';
-      clearMarks();
-    });
-    els.searchInput.addEventListener('keydown', (e)=>{
-      if (e.key === 'Enter'){ e.preventDefault(); els.searchBtn.click(); }
-      else if (e.key === 'Escape'){ e.preventDefault(); els.clearBtn.click(); }
-    });
-
+    // Botões de navegação das ocorrências
     els.nextBtn.addEventListener('click', ()=>{
       if (!state.matchNodes.length) return;
       state.matchIdx = (state.matchIdx + 1) % state.matchNodes.length;
@@ -666,6 +641,18 @@
       const m = state.matchNodes[state.matchIdx];
       m.scrollIntoView({behavior:'smooth',block:'center'});
       els.count.textContent = `${state.matchIdx+1}/${state.matchNodes.length}`;
+    });
+
+    // Executar busca (Barra 2)
+    els.doSearchBtn.addEventListener('click', ()=>{
+      const term = els.searchInput.value.trim();
+      highlightTermChunked(term);
+    });
+
+    // Enter no input dispara busca; Esc reinicia
+    els.searchInput.addEventListener('keydown', (e)=>{
+      if (e.key === 'Enter'){ e.preventDefault(); els.doSearchBtn.click(); }
+      else if (e.key === 'Escape'){ e.preventDefault(); resetAll(); }
     });
 
     /* ================= ESTUDAR (gera prompt + modal) ================= */
@@ -743,7 +730,7 @@
       if (els.modalBackdrop.style.display === 'flex' && e.key === 'Escape') closeModal();
     });
 
-    /* ================= Reset (logo) ================= */
+    /* ================= Reset (logo e botão X) ================= */
     function resetAll(){
       state.rawText = '';
       state.articles = [];
@@ -762,6 +749,7 @@
       window.scrollTo({top:0,behavior:'instant'});
     }
     els.brandBtn.addEventListener('click', resetAll);
+    els.resetBtn.addEventListener('click', resetAll);
 
     /* ================= Carregar TXT ================= */
     els.codeSelect.addEventListener('change', async (e)=>{
@@ -770,7 +758,7 @@
       els.articles.innerHTML = '<div class="placeholder">Carregando…</div>';
       try{
         const res = await fetch(url, {cache:'reload'});
-        const txt = sanitizeForLayout(await res.text()); // 💡 normaliza NBSP/tabs/esp.
+        const txt = sanitizeForLayout(await res.text());
         state.rawText = txt;
 
         state.articles = parseArticlesFromText(txt);
