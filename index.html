@@ -156,25 +156,54 @@
       background:#f7f8fc; padding:6px 10px; border-radius:8px; text-align:center;
     }
 
-    /* ===== Base — Barra 2 (ESTUDAR azul menor / BUSCAR amarelo maior) ===== */
-    .bottom-study{
-      position:fixed; left:0; right:0; bottom:0; height:var(--bottom-study-h);
-      background: var(--bar-bg-2);
-      border-top:1px solid #d9dde6;
-      z-index:75; display:flex; align-items:center; justify-content:center; padding:8px 0;
-    }
-    .bottom-study-inner{
-      width:clamp(320px, 92vw, 960px); padding:0 12px;
-      display:flex; align-items:center; gap:12px;
-    }
-    .study{
-      flex:0 0 36%; padding:12px 14px; border-radius:12px;
-      border:1px solid #0e2a7a; background:#142B6F; color:#fff; font-weight:800; cursor:pointer;
-    }
-    .do-search{
-      flex:1 1 auto; padding:12px 16px; border-radius:12px;
-      border:1px solid #f0e08b; background:var(--yellow); color:#0a0a0a; font-weight:800; cursor:pointer;
-    }
+    /* ===== Base — Barra 2 (ESTUDAR azul / BUSCAR amarelo, tamanhos iguais) ===== */
+.bottom-study{
+  position:fixed; 
+  left:0; 
+  right:0; 
+  bottom:0; 
+  height:var(--bottom-study-h);
+  background: var(--bar-bg-2);
+  border-top:1px solid #d9dde6;
+  z-index:75; 
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+  padding:8px 0;
+}
+
+.bottom-study-inner{
+  width:clamp(320px, 92vw, 960px); 
+  padding:0 12px;
+  display:flex; 
+  align-items:center; 
+  gap:12px;
+}
+
+/* Botões iguais */
+.study,
+.do-search {
+  flex: 1 1 0;                 /* divide igualmente o espaço (50% cada) */
+  padding: 12px 16px; 
+  border-radius: 12px;
+  font-weight: 800; 
+  cursor: pointer;
+}
+
+/* Estudar (azul) */
+.study {
+  border:1px solid #0e2a7a; 
+  background:#142B6F; 
+  color:#fff;
+}
+
+/* Buscar (amarelo) */
+.do-search {
+  border:1px solid #f0e08b; 
+  background:var(--yellow); 
+  color:#0a0a0a;
+}
+
 
     /* Modal IA */
     .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.28); display:none; align-items:center; justify-content:center; z-index:100}
