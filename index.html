@@ -1,406 +1,510 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>direito.love — Pesquisa por Código e Artigo</title>
-<meta name="theme-color" content="#0B3A82" />
-<style>
-  :root{
-    --bg:#f6f7fb; --surface:#fff; --text:#0b1220; --muted:#475569; --border:#cbd5e1;
-    --primary:#0b3a82; --primary-2:#0a2f6a; --radius:14px; --shadow:0 8px 22px rgba(10,15,25,.06);
-    --chip:#eef2ff; --chip-b:#c7d2fe; --mark:#fff59e; --ok:#15803d; --danger:#b91c1c;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{margin:0;background:var(--bg);color:var(--text);font:400 14px/1.55 -apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,system-ui,sans-serif}
-  .topbar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--border)}
-  .topbar__inner{max-width:1000px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:10px}
-  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
-  .brand__logo{width:22px;height:22px;border-radius:6px;background:#16a34a;display:inline-block}
-  .brand__txt{font-weight:700;letter-spacing:.2px}
-  .wrap{max-width:1000px;margin:0 auto;padding:18px}
-  h1{margin:8px 0 14px;font-size:18px}
-  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;margin:12px 0}
-  .grid3{display:grid;grid-template-columns: 1.1fr .6fr 1.2fr auto;gap:10px}
-  @media (max-width:840px){ .grid3{grid-template-columns:1fr} }
-  select,input,button{height:40px;border-radius:10px;border:1.4px solid var(--border);background:#fff;color:var(--text);font-size:14px;padding:8px 12px}
-  input:focus,select:focus{outline:2px solid var(--primary);outline-offset:2px}
-  button{border-color:#0b3a82;background:var(--primary);color:#fff;font-weight:600;cursor:pointer}
-  button:hover{background:var(--primary-2)}
-  .btn-light{background:#fff;color:#0b1220;border-color:var(--border)}
-  .muted{color:var(--muted)}
-  .hint{font-size:12.5px;margin-top:6px}
-  .result{border:1px solid var(--border);border-radius:12px;padding:12px;margin:10px 0;background:#fff}
-  .title{font-weight:700;margin:0 0 4px}
-  .tag{display:inline-block;margin-right:8px;padding:2px 8px;border-radius:999px;background:var(--chip);border:1px solid var(--chip-b);font-size:12px;font-weight:600}
-  .caps{font-variant-caps:all-small-caps;letter-spacing:.4px}
-  mark{background:var(--mark)}
-  .empty{padding:10px;border:1px dashed var(--border);border-radius:10px;background:#fff}
-  details{border-top:1px dashed var(--border);margin-top:8px;padding-top:8px}
-  .count{font-weight:700}
-  .ok{color:var(--ok);font-weight:700}
-  .bad{color:var(--danger);font-weight:700}
-  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-  .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-  code.pill{padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:#fff;font-size:12.5px}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>direito.love — Vade Mecum simples</title>
+
+  <!-- Manifest PWA -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#ffffff">
+
+  <style>
+    :root{
+      --topbar-h: 44px;
+      --subbar-h: 40px;
+      --bottombar-h: 56px;
+      --bg:#fff;
+      --fg:#111;
+      --muted:#666;
+      --line:#e9e9e9;
+      --accent:#eaf8f6; /* destaque clarinho do artigo ao clicar em ESTUDAR */
+      --chip-bg:#f5f5f5;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
+    button,input,select{font:inherit}
+
+    /* Topbar */
+    .topbar{
+      position:fixed;top:0;left:0;right:0;height:var(--topbar-h);
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 12px;border-bottom:1px solid var(--line);background:#fff;z-index:50
+    }
+    .brand{font-weight:700}
+    .actions{display:flex;gap:8px}
+    .btn{padding:6px 10px;border:1px solid var(--line);background:#fff;border-radius:8px;cursor:pointer}
+    .btn:disabled{opacity:.5;cursor:not-allowed}
+
+    /* Subbar (seletor de códigos) */
+    .subbar{
+      position:fixed;top:var(--topbar-h);left:0;right:0;height:var(--subbar-h);
+      display:flex;align-items:center;gap:8px;padding:0 12px;border-bottom:1px solid var(--line);background:#fff;z-index:40
+    }
+    .subbar label{font-weight:600}
+    .subbar .select-wrap{flex:1}
+    .subbar select{width:100%;height:28px;border:1px solid var(--line);border-radius:8px;background:#fff;padding:0 8px}
+
+    /* Conteúdo (scroll) */
+    .content{
+      position:relative;
+      padding: calc(var(--topbar-h) + var(--subbar-h) + 10px) 12px calc(var(--bottombar-h) + 16px);
+      min-height:100dvh;
+    }
+    .placeholder{
+      padding:24px;border:1px dashed var(--line);border-radius:12px;color:var(--muted)
+    }
+
+    /* Blocos de artigo */
+    .articles{max-width:1000px;margin:0 auto}
+    article{
+      white-space:pre-wrap; /* preserva o .txt */
+      border-bottom:1px solid var(--line);
+      padding:16px 8px;
+      scroll-margin: 80px;
+    }
+    article .art-title{display:block;font-weight:700;margin-bottom:8px}
+    article.current-outline{outline:2px solid #e0f0ff;outline-offset:2px;border-radius:8px}
+    article.highlight-study{background:var(--accent);border-radius:8px}
+
+    /* Destaque de busca */
+    mark{padding:0 2px;border-radius:3px}
+
+    /* Barra fixa inferior */
+    .bottombar{
+      position:fixed;left:0;right:0;bottom:0;height:var(--bottombar-h);
+      display:flex;align-items:center;gap:8px;padding:8px 12px;border-top:1px solid var(--line);background:#fff;z-index:60
+    }
+    .bottombar .nav{
+      display:flex;gap:6px;align-items:center
+    }
+    .iconbtn{width:36px;height:36px;border:1px solid var(--line);background:#fff;border-radius:8px;display:grid;place-items:center;cursor:pointer}
+    .search{flex:1;display:flex;align-items:center;gap:6px}
+    .search input{
+      width:100%;height:36px;border:1px solid var(--line);border-radius:8px;padding:0 10px
+    }
+    .count{min-width:70px;text-align:center;color:var(--muted);font-size:12px}
+    .study{min-width:110px}
+
+    /* Modal central IA */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.25);display:none;align-items:center;justify-content:center;z-index:100}
+    .modal{background:#fff;border-radius:12px;max-width:640px;width:92%;padding:16px;border:1px solid var(--line)}
+    .modal h3{margin:0 0 12px}
+    .ia-grid{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{padding:8px 10px;border:1px solid var(--line);background:var(--chip-bg);border-radius:999px;cursor:pointer}
+    .modal .foot{margin-top:12px;display:flex;justify-content:flex-end}
+    .close{padding:8px 12px;border:1px solid var(--line);background:#fff;border-radius:8px;cursor:pointer}
+
+    /* Toast */
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--bottombar-h) + 12px);background:#111;color:#fff;padding:8px 12px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:200}
+    .toast.show{opacity:1}
+
+    /* Invisível até carregar um código */
+    .bottombar[hidden]{display:none}
+  </style>
 </head>
 <body>
-<header class="topbar">
-  <div class="topbar__inner">
-    <span class="brand" aria-label="direito.love">
-      <span class="brand__logo" aria-hidden="true"></span>
-      <span class="brand__txt">direito.love</span>
-    </span>
-  </div>
-</header>
 
-<main class="wrap">
-  <section class="card" role="search" aria-label="Formulário de busca">
-    <h1>Pesquisa por Código, Artigo e Termos</h1>
-    <div class="grid3">
-      <!-- 1) Seletor de códigos -->
-      <label class="sr-only" for="codigo">Selecione o código</label>
-      <select id="codigo" aria-label="Código (ex.: Código Penal)">
-        <option value="" selected>— Selecione o Código —</option>
-        <option value="codigo_penal">Código Penal</option>
-        <option value="codigo_civil">Código Civil</option>
-        <option value="codigo_processo_civil">Código de Processo Civil (CPC)</option>
-        <option value="codigo_processo_penal">Código de Processo Penal (CPP)</option>
-        <option value="codigo_tributario_nacional">Código Tributário Nacional</option>
-        <option value="codigo_defesa_consumidor">Código de Defesa do Consumidor</option>
-        <option value="codigo_transito_brasileiro">Código de Trânsito Brasileiro</option>
-        <option value="codigo_eleitoral">Código Eleitoral</option>
-        <option value="codigo_florestal">Código Florestal</option>
-        <option value="codigo_das_aguas">Código das Águas</option>
+  <header class="topbar">
+    <div class="brand">direito.love</div>
+    <div class="actions">
+      <button class="btn" id="btnInstall" hidden>Instalar</button>
+      <button class="btn" id="btnReset">Reiniciar</button>
+    </div>
+  </header>
+
+  <div class="subbar">
+    <label for="codeSelect">Código/Lei:</label>
+    <div class="select-wrap">
+      <select id="codeSelect">
+        <option value="">— selecione —</option>
+        <option value="data/codigo_civil.txt">Código Civil</option>
+        <option value="data/codigo_consumidor.txt">Código de Defesa do Consumidor</option>
+        <option value="data/codigo_penal.txt">Código Penal</option>
+        <option value="data/codigo_Processo_Civil.txt">Código de Processo Civil</option>
+        <option value="data/codigo_Processo_Penal.txt">Código de Processo Penal</option>
       </select>
+    </div>
+  </div>
 
-      <!-- 2) Número do artigo -->
-      <div>
-        <label class="sr-only" for="artnum">Número do artigo</label>
-        <input id="artnum" inputmode="numeric" pattern="[0-9]*" placeholder="Número do artigo (ex.: 121)" aria-label="Número do artigo (digite apenas números)" />
-        <div class="hint muted">Digite só o número (ex.: 121). Casa em <span class="caps">titulo</span> (“Art. 121”).</div>
-      </div>
-
-      <!-- 3) Termos -->
-      <div>
-        <label class="sr-only" for="termos">Buscar por termos (5+ letras)</label>
-        <input id="termos" placeholder="Termos (ex.: anterioridade retroatividade temporária)" aria-label="Termos de busca" />
-        <div class="hint muted">Considera apenas palavras com 5+ letras e exige que <b>todas</b> apareçam no artigo.</div>
-      </div>
-
-      <!-- Botões -->
-      <div class="toolbar">
-        <button id="btnBuscar" type="button" aria-label="Buscar">Buscar</button>
-        <button id="btnLimpar" class="btn-light" type="button" aria-label="Limpar">Limpar</button>
+  <main class="content">
+    <div class="articles" id="articles">
+      <div class="placeholder">
+        Selecione um código acima para carregar o texto completo. Use a busca da barra inferior como um <strong>Ctrl+F</strong> com setas para navegar.
       </div>
     </div>
-  </section>
+  </main>
 
-  <section id="status" class="card" style="display:none" aria-live="polite"></section>
+  <!-- Barra inferior (setas, busca, estudar) -->
+  <div class="bottombar" id="bottomBar" hidden>
+    <div class="nav">
+      <button class="iconbtn" id="prevBtn" title="Anterior" aria-label="Anterior">◀</button>
+      <button class="iconbtn" id="nextBtn" title="Próximo" aria-label="Próximo">▶</button>
+    </div>
+    <div class="search">
+      <input id="searchInput" type="search" placeholder="Buscar no texto…" autocomplete="off" />
+      <div class="count" id="count">0/0</div>
+    </div>
+    <button class="btn study" id="studyBtn">ESTUDAR</button>
+  </div>
 
-  <section id="resultados" class="card" style="display:none">
-    <div id="resumo" class="muted" style="margin-bottom:8px"></div>
-    <div id="lista"></div>
-  </section>
-</main>
+  <!-- Modal IA -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document">
+      <h3 id="modalTitle">Estude o Artigo X com as I.As. abaixo. Escolha e cole o prompt.</h3>
+      <div class="ia-grid">
+        <a class="chip" href="https://chat.openai.com" target="_blank" rel="noopener">ChatGPT</a>
+        <a class="chip" href="https://gemini.google.com/app" target="_blank" rel="noopener">Gemini</a>
+        <a class="chip" href="https://www.perplexity.ai/" target="_blank" rel="noopener">Perplexity</a>
+        <a class="chip" href="https://notebooklm.google.com/" target="_blank" rel="noopener">NotebookLM</a>
+      </div>
+      <div class="foot">
+        <button class="close" id="closeModal">Fechar</button>
+      </div>
+    </div>
+  </div>
 
-<script>
-(function(){
-  // ======= Helpers =======
-  const $ = (s,r=document)=>r.querySelector(s);
-  const $$= (s,r=document)=>[...r.querySelectorAll(s)];
+  <div class="toast" id="toast">✅ Prompt copiado!</div>
 
-  const codigoSel = $('#codigo');
-  const artnumInp = $('#artnum');
-  const termosInp = $('#termos');
-  const btnBuscar = $('#btnBuscar');
-  const btnLimpar = $('#btnLimpar');
-  const statusBox = $('#status');
-  const resBox = $('#resultados');
-  const resumo = $('#resumo');
-  const lista = $('#lista');
-
-  // Mapear arquivos dos códigos (coloque seus JSONs em /data/)
-  const CODE_FILE = {
-    codigo_penal: 'data/codigo_penal.json',
-    codigo_civil: 'data/codigo_civil.json',
-    codigo_processo_civil: 'data/codigo_processo_civil.json',
-    codigo_processo_penal: 'data/codigo_processo_penal.json',
-    codigo_tributario_nacional: 'data/codigo_tributario_nacional.json',
-    codigo_defesa_consumidor: 'data/codigo_defesa_consumidor.json',
-    codigo_transito_brasileiro: 'data/codigo_transito_brasileiro.json',
-    codigo_eleitoral: 'data/codigo_eleitoral.json',
-    codigo_florestal: 'data/codigo_florestal.json',
-    codigo_das_aguas: 'data/codigo_das_aguas.json'
-  };
-  const CODE_NAME = {
-    codigo_penal: 'Código Penal',
-    codigo_civil: 'Código Civil',
-    codigo_processo_civil: 'Código de Processo Civil',
-    codigo_processo_penal: 'Código de Processo Penal',
-    codigo_tributario_nacional: 'Código Tributário Nacional',
-    codigo_defesa_consumidor: 'Código de Defesa do Consumidor',
-    codigo_transito_brasileiro: 'Código de Trânsito Brasileiro',
-    codigo_eleitoral: 'Código Eleitoral',
-    codigo_florestal: 'Código Florestal',
-    codigo_das_aguas: 'Código das Águas'
-  };
-
-  const cache = new Map();
-
-  // Normaliza: remove acento e baixa
-  const norm = s => (s||'')
-    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-    .toLowerCase();
-
-  // Só dígitos
-  const onlyDigits = s => (s||'').replace(/\D+/g,'');
-  artnumInp.addEventListener('input', ()=>{ artnumInp.value = onlyDigits(artnumInp.value); });
-
-  // Extrai termos de 5+ letras
-  function extractTerms(raw){
-    return (norm(raw).match(/[a-z]{5,}/g)||[]);
-  }
-
-  // Pega número do título "Art. N"
-  function getArtNumberFromTitulo(titulo){
-    const m = (titulo||'').match(/^\s*Art\.?\s*(\d+)\b/i);
-    return m ? m[1] : null;
-  }
-
-  // Coleta strings de todas as chaves relevantes
-  function flattenText(article){
-    let parts = [];
-    if (article.caput) parts.push(article.caput);
-    if (article.texto) parts.push(article.texto);
-    const ps = Array.isArray(article.paragrafos) ? article.paragrafos : [];
-    for (const p of ps){
-      if (p && p.texto) parts.push(p.texto);
-      const incs = Array.isArray(p?.incisos) ? p.incisos : [];
-      for (const inc of incs){
-        if (inc && inc.texto) parts.push(inc.texto);
-        const als = Array.isArray(inc?.alineas) ? inc.alineas : [];
-        for (const a of als){ if (a) parts.push(a); }
-      }
+  <script>
+    // ===== PWA: SW + Install Button =====
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js');
+      });
     }
-    return parts.join(' ');
-  }
+    let deferredPrompt = null;
+    const installBtn = document.getElementById('btnInstall');
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.hidden = false;
+    });
+    installBtn?.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      installBtn.hidden = true;
+    });
 
-  // Destaque acento-insensível por palavra (5+)
-  function highlight(text, terms){
-    if(!text) return '';
-    if(!terms || !terms.length) return escapeHtml(text);
+    // ===== App State =====
+    const els = {
+      codeSelect: document.getElementById('codeSelect'),
+      articles: document.getElementById('articles'),
+      bottomBar: document.getElementById('bottomBar'),
+      searchInput: document.getElementById('searchInput'),
+      prevBtn: document.getElementById('prevBtn'),
+      nextBtn: document.getElementById('nextBtn'),
+      count: document.getElementById('count'),
+      studyBtn: document.getElementById('studyBtn'),
+      modalBackdrop: document.getElementById('modalBackdrop'),
+      modalTitle: document.getElementById('modalTitle'),
+      closeModal: document.getElementById('closeModal'),
+      toast: document.getElementById('toast'),
+      btnReset: document.getElementById('btnReset')
+    };
 
-    const tset = new Set(terms.map(t=>t)); // termos já normalizados
-    // Percorre por palavras unicode (letras/diacríticos)
-    let out = '';
-    let last = 0;
-    const re = /([\p{L}\p{M}]+)/gu; // grupos de letras (com acentos)
-    let m;
-    while ((m = re.exec(text)) !== null){
-      const start = m.index;
-      const end = start + m[0].length;
-      const word = m[0];
-      out += escapeHtml(text.slice(last, start));
-      if (tset.has(norm(word))) {
-        out += '<mark>' + escapeHtml(word) + '</mark>';
-      } else {
-        out += escapeHtml(word);
+    const state = {
+      rawText: '',
+      articles: [],           // {title, text, htmlId}
+      currentArticleIdx: -1,
+      searchTerm: '',
+      matchNodes: [],
+      matchIdx: -1
+    };
+
+    // ===== Utils =====
+    const sleep = (ms)=> new Promise(r=>setTimeout(r,ms));
+    const escapeHtml = (s)=> s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+    const showToast = (msg='✅ Prompt copiado!')=>{
+      els.toast.textContent = msg;
+      els.toast.classList.add('show');
+      setTimeout(()=>els.toast.classList.remove('show'), 1000);
+    };
+
+    // Detecta artigo em evidência (próximo do centro da viewport)
+    const getArticleInView = ()=>{
+      const nodes = document.querySelectorAll('article[data-idx]');
+      const cy = window.innerHeight/2;
+      let hitIdx = -1;
+      for (const el of nodes){
+        const r = el.getBoundingClientRect();
+        if (r.top <= cy && r.bottom >= cy){ hitIdx = Number(el.dataset.idx); break; }
       }
-      last = end;
-    }
-    out += escapeHtml(text.slice(last));
-    return out;
-  }
-
-  function escapeHtml(s){
-    return String(s).replace(/[&<>"']/g, c => ({
-      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
-    }[c]));
-  }
-
-  // Renderização
-  function renderItem(codeKey, article, terms){
-    const card = document.createElement('div');
-    card.className = 'result';
-
-    const head = document.createElement('div');
-    head.innerHTML = `
-      <div class="tag">${CODE_NAME[codeKey]||codeKey}</div>
-      <div class="title">${escapeHtml(article.titulo||'(sem título)')}</div>
-    `;
-    card.appendChild(head);
-
-    const cap = document.createElement('div');
-    cap.innerHTML = article.caput ? highlight(article.caput, terms) : '<span class="muted">Sem caput.</span>';
-    card.appendChild(cap);
-
-    const det = document.createElement('details');
-    const sum = document.createElement('summary');
-    sum.textContent = 'Ver detalhes';
-    det.appendChild(sum);
-
-    const body = document.createElement('div');
-
-    // Parágrafos / Incisos / Alíneas
-    if (Array.isArray(article.paragrafos) && article.paragrafos.length){
-      const ulP = document.createElement('ul');
-      for (const [pi, p] of article.paragrafos.entries()){
-        const liP = document.createElement('li');
-        const pLabel = '§ ' + (pi+1) + (p?.texto ? '.' : '');
-        liP.innerHTML = `<b>${pLabel}</b> ${p?.texto ? highlight(p.texto, terms) : '<span class="muted">[sem texto]</span>'}`;
-
-        if (Array.isArray(p?.incisos) && p.incisos.length){
-          const ulI = document.createElement('ul');
-          for (const [ii, inc] of p.incisos.entries()){
-            const liI = document.createElement('li');
-            const incText = inc?.texto ? highlight(inc.texto, terms) : '<span class="muted">[inciso sem texto]</span>';
-            liI.innerHTML = `<b>Inciso ${ii+1}.</b> ${incText}`;
-
-            if (Array.isArray(inc?.alineas) && inc.alineas.length){
-              const ulA = document.createElement('ul');
-              for (const [ai, al] of inc.alineas.entries()){
-                const liA = document.createElement('li');
-                liA.innerHTML = `<b>Alínea ${String.fromCharCode(97+ai)})</b> ${highlight(String(al||''), terms)}`;
-                ulA.appendChild(liA);
-              }
-              liI.appendChild(ulA);
-            }
-            ulI.appendChild(liI);
-          }
-          liP.appendChild(ulI);
-        }
-        ulP.appendChild(liP);
-      }
-      body.appendChild(ulP);
-    } else {
-      const empty = document.createElement('div');
-      empty.className = 'empty muted';
-      empty.textContent = 'Sem parágrafos/incisos cadastrados.';
-      body.appendChild(empty);
-    }
-
-    det.appendChild(body);
-    card.appendChild(det);
-    return card;
-  }
-
-  function showStatus(msg, ok=true){
-    statusBox.style.display = 'block';
-    statusBox.innerHTML = `<span class="${ok?'ok':'bad'}">${ok?'✔':'✖'}</span> ${escapeHtml(msg)}`;
-  }
-  function clearStatus(){ statusBox.style.display = 'none'; statusBox.textContent = ''; }
-  function clearResults(){
-    resBox.style.display = 'none'; resumo.textContent = ''; lista.innerHTML = '';
-  }
-
-  async function loadCode(codeKey){
-    const file = CODE_FILE[codeKey];
-    if (!file) throw new Error('Código não suportado.');
-    if (cache.has(codeKey)) return cache.get(codeKey);
-    const r = await fetch(file, {cache:'no-store'});
-    if(!r.ok) throw new Error('Falha ao carregar o arquivo do código.');
-    const data = await r.json();
-    cache.set(codeKey, Array.isArray(data)?data:[]);
-    return cache.get(codeKey);
-  }
-
-  function filterData(data, artNum, terms){
-    const wantsArt = !!artNum;
-    const wantsTerms = terms.length>0;
-
-    return data.filter(item=>{
-      // 1) Filtro pelo número do artigo (no "titulo")
-      if (wantsArt){
-        const n = getArtNumberFromTitulo(item.titulo||'');
-        if (!n || String(n)!==String(artNum)) return false;
-      }
-
-      // 2) Filtro por termos (todas as palavras com 5+ letras)
-      if (wantsTerms){
-        const blob = norm(flattenText(item));
-        for (const t of terms){
-          if (!blob.includes(t)) return false;
+      if (hitIdx === -1 && nodes.length){
+        // fallback: primeiro visível
+        for (const el of nodes){
+          const r = el.getBoundingClientRect();
+          if (r.bottom > 0 && r.top < window.innerHeight){ hitIdx = Number(el.dataset.idx); break; }
         }
       }
+      return hitIdx;
+    };
 
-      return true;
-    });
-  }
-
-  function runSearch(){
-    clearStatus();
-    clearResults();
-
-    const codeKey = codigoSel.value;
-    if(!codeKey){
-      showStatus('Selecione um código para buscar.', false);
-      return;
-    }
-
-    const artNum = onlyDigits(artnumInp.value);
-    const terms = extractTerms(termosInp.value);
-
-    // UX: se digitou coisa curta em termos, orienta
-    if (!artNum && termosInp.value.trim() && terms.length===0){
-      showStatus('Os termos devem ter 5+ letras. Ajuste sua busca.', false);
-      return;
-    }
-
-    showStatus('Carregando base do '+(CODE_NAME[codeKey]||codeKey)+'…');
-
-    loadCode(codeKey).then(data=>{
-      showStatus('Base carregada. Processando busca…');
-
-      const results = filterData(data, artNum, terms);
-      resBox.style.display = 'block';
-      const count = results.length;
-
-      const parts = [];
-      parts.push(`<span class="count">${count}</span> resultado${count!==1?'s':''}`);
-      if (artNum) parts.push(`• Artigo <b>${escapeHtml(artNum)}</b> (em <span class="caps">titulo</span>)`);
-      if (terms.length){
-        parts.push('• Termos: '+terms.map(t=>`<code class="pill">${escapeHtml(t)}</code>`).join(' '));
+    const updateCurrentOutline = ()=>{
+      const idx = getArticleInView();
+      if (idx === state.currentArticleIdx) return;
+      state.currentArticleIdx = idx;
+      document.querySelectorAll('article.current-outline').forEach(n=>n.classList.remove('current-outline'));
+      if (idx >= 0){
+        document.querySelector(`article[data-idx="${idx}"]`)?.classList.add('current-outline');
       }
-      resumo.innerHTML = parts.join(' ');
+    };
 
-      if (count===0){
-        const div = document.createElement('div');
-        div.className = 'empty';
-        div.innerHTML = 'Nenhum resultado. Tente: escolher outro código, ajustar o número do artigo, ou usar termos com 5+ letras.';
-        lista.appendChild(div);
-      } else {
-        const frag = document.createDocumentFragment();
-        for (const it of results){
-          frag.appendChild(renderItem(codeKey, it, terms));
+    window.addEventListener('scroll', ()=>{
+      if (!state.articles.length) return;
+      updateCurrentOutline();
+    }, {passive:true});
+
+    // ===== Parser de artigos =====
+    // Regra: começa em "Art" (A maiúsculo) e termina no último "." ou ")" antes do próximo "Art".
+    function parseArticlesFromText(txt){
+      const starts = [];
+      const re = /(^|\n)(?=Art(?![a-z]))/g; // "Art" não seguido de minúscula (evita "Artigo")
+      let m;
+      while((m = re.exec(txt))!==null){
+        const idx = m.index + (m[0].startsWith('\n') ? 1 : 0);
+        starts.push(idx);
+      }
+      if (!starts.length){
+        // Sem "Art" — retorna texto inteiro como 1 bloco
+        return [{ title: 'Texto', text: txt.trim(), htmlId: 'art-0'}];
+      }
+
+      const arts = [];
+      for (let i=0;i<starts.length;i++){
+        const from = starts[i];
+        const to = (i+1<starts.length) ? starts[i+1] : txt.length;
+        let chunk = txt.slice(from, to);
+
+        // Encontrar o fim: último '.' ou ')' dentro do chunk
+        let endDot = chunk.lastIndexOf('.');
+        let endPar = chunk.lastIndexOf(')');
+        let end = Math.max(endDot, endPar);
+        if (end === -1){
+          // Sem '.' e ')': termina no char anterior ao próximo Art (ou fim)
+          // (chunk já está cortado até o próximo Art)
+          end = chunk.length - 1;
         }
-        lista.appendChild(frag);
+        chunk = chunk.slice(0, end+1).trimEnd();
+
+        // Título (primeira linha até quebra)
+        const firstLine = chunk.split(/\r?\n/,1)[0].trim();
+        // Algo como "Art. 1.", "Art. 121-A." … se não bater, usa início do texto
+        const mtitle = firstLine.match(/^Art[^\d]*\s*\d{1,4}(?:-[A-Z])?\.?/);
+        const title = mtitle ? mtitle[0].trim() : firstLine.slice(0,40);
+        arts.push({ title, text: chunk, htmlId: `art-${i}` });
+      }
+      return arts;
+    }
+
+    // ===== Render =====
+    function renderArticles(){
+      const frag = document.createDocumentFragment();
+      state.articles.forEach((a, i)=>{
+        const el = document.createElement('article');
+        el.dataset.idx = i;
+        el.id = a.htmlId;
+        // Exibe título destacado apenas se o .txt não tiver quebra logo após "Art."
+        // (para manter o arquivo o mais fiel possível)
+        // Aqui: não forçamos "<br/>": usamos pre-wrap no CSS.
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'art-title';
+        titleSpan.textContent = a.title;
+        el.appendChild(titleSpan);
+
+        const content = document.createElement('div');
+        content.className = 'art-body';
+        content.textContent = a.text.replace(a.title, '').trimStart();
+        el.appendChild(content);
+
+        frag.appendChild(el);
+      });
+      els.articles.innerHTML = '';
+      els.articles.appendChild(frag);
+      els.bottomBar.hidden = false;
+      updateCurrentOutline();
+    }
+
+    // ===== Busca (Ctrl+F simplificado) =====
+    function clearMarks(){
+      // re-render rápido usando os dados originais (mantém fidelidade)
+      // estratégia: reatribuir textContent com split título + corpo
+      const nodes = document.querySelectorAll('article[data-idx]');
+      nodes.forEach(node=>{
+        const i = Number(node.dataset.idx);
+        const a = state.articles[i];
+        node.innerHTML = '';
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'art-title';
+        titleSpan.textContent = a.title;
+        const content = document.createElement('div');
+        content.className = 'art-body';
+        content.textContent = a.text.replace(a.title, '').trimStart();
+        node.appendChild(titleSpan);
+        node.appendChild(content);
+      });
+      state.matchNodes = [];
+      state.matchIdx = -1;
+      els.count.textContent = '0/0';
+    }
+
+    function highlightTerm(term){
+      clearMarks();
+      if (!term){ return; }
+      const rx = new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+      const nodes = document.querySelectorAll('article .art-body, article .art-title');
+
+      for (const n of nodes){
+        const raw = n.textContent;
+        if (!rx.test(raw)) continue;
+        // reset lastIndex
+        rx.lastIndex = 0;
+        const html = escapeHtml(raw).replace(rx, (m)=>`<mark>${m}</mark>`);
+        n.innerHTML = html;
+      }
+      // coletar todos os <mark>
+      state.matchNodes = Array.from(document.querySelectorAll('mark'));
+      if (state.matchNodes.length){
+        state.matchIdx = 0;
+        scrollToMatch(0);
+        els.count.textContent = `1/${state.matchNodes.length}`;
+      }else{
+        els.count.textContent = `0/0`;
+      }
+    }
+
+    function scrollToMatch(idx){
+      const m = state.matchNodes[idx];
+      if (!m) return;
+      m.scrollIntoView({behavior:'smooth',block:'center'});
+      // Atualiza contador
+      els.count.textContent = `${idx+1}/${state.matchNodes.length}`;
+    }
+
+    els.searchInput.addEventListener('input', (e)=>{
+      state.searchTerm = e.target.value.trim();
+      highlightTerm(state.searchTerm);
+    });
+
+    els.nextBtn.addEventListener('click', ()=>{
+      if (!state.matchNodes.length) return;
+      state.matchIdx = (state.matchIdx + 1) % state.matchNodes.length;
+      scrollToMatch(state.matchIdx);
+    });
+    els.prevBtn.addEventListener('click', ()=>{
+      if (!state.matchNodes.length) return;
+      state.matchIdx = (state.matchIdx - 1 + state.matchNodes.length) % state.matchNodes.length;
+      scrollToMatch(state.matchIdx);
+    });
+
+    // ===== ESTUDAR (gera e copia prompt, destaca artigo em evidência) =====
+    function extractArticleTitleText(a){
+      // Usa o título detectado (ex.: "Art. 1.") para "X"
+      return a?.title || 'Artigo';
+    }
+    function buildPrompt(a){
+      const artigo = a?.text || '';
+      const primeiraLinha = artigo.split(/\r?\n/)[0]?.trim() || '';
+      const tema = primeiraLinha || a?.title || 'Artigo';
+      return [
+        'Assuma a persona de um professor de Direito experiente convidado pelo direito.love e gere um material de estudo rápido. ',
+        'Analise detalhadamente todo o artigo abaixo (caput, paragrafos, incisos e alineas), cobrindo: ',
+        '(1) conceito com visão doutrinária, jurisprudência majoritária e prática; ',
+        '(2) mini exemplo prático; ',
+        '(3) checklist essencial; ',
+        '(4) erros comuns e pegadinhas de prova; ',
+        '(5) Pontos de atenção na prática jurídica; ',
+        '(6) Princípios Relacionados ao tema; ',
+        '(7) nota comparativa se houver artigos correlatos. ',
+        'Responda em português claro, sem enrolação, objetivo e didático.\n\n',
+        `Tema: "${tema}"\n\n`,
+        artigo,
+        '\n\n💚 direito.love'
+      ].join('');
+    }
+
+    els.studyBtn.addEventListener('click', async ()=>{
+      if (!state.articles.length) return;
+      updateCurrentOutline();
+      const idx = state.currentArticleIdx ?? 0;
+      const a = state.articles[idx] || state.articles[0];
+
+      // Destaque visual do artigo escolhido
+      document.querySelectorAll('article.highlight-study').forEach(n=>n.classList.remove('highlight-study'));
+      const node = document.querySelector(`article[data-idx="${idx}"]`);
+      node?.classList.add('highlight-study');
+
+      // Prompt
+      const prompt = buildPrompt(a);
+      try{
+        await navigator.clipboard.writeText(prompt);
+        showToast('✅ Prompt copiado!');
+      }catch(e){
+        showToast('Copie manualmente no próximo passo.');
+        console.warn('Clipboard falhou:', e);
       }
 
-      clearStatus();
-    }).catch(err=>{
-      showStatus('Erro: '+(err?.message||'falha ao carregar dados.'), false);
+      // Modal IA
+      els.modalTitle.textContent = `Estude o ${extractArticleTitleText(a)} com as I.As. abaixo. Escolha e cole o prompt.`;
+      els.modalBackdrop.style.display = 'flex';
+      els.modalBackdrop.setAttribute('aria-hidden','false');
     });
-  }
 
-  btnBuscar.addEventListener('click', runSearch);
-  btnLimpar.addEventListener('click', ()=>{
-    codigoSel.value = '';
-    artnumInp.value = '';
-    termosInp.value = '';
-    clearStatus(); clearResults();
-    codigoSel.focus();
-  });
-
-  // Enter envia busca
-  [codigoSel, artnumInp, termosInp].forEach(el=>{
-    el.addEventListener('keydown', (e)=>{
-      if(e.key==='Enter'){ e.preventDefault(); runSearch(); }
+    els.closeModal.addEventListener('click', ()=>{
+      els.modalBackdrop.style.display = 'none';
+      els.modalBackdrop.setAttribute('aria-hidden','true');
     });
-  });
-})();
-</script>
+    els.modalBackdrop.addEventListener('click', (e)=>{
+      if (e.target === els.modalBackdrop) els.closeModal.click();
+    });
+
+    // ===== Carregamento do código (TXT) =====
+    els.codeSelect.addEventListener('change', async (e)=>{
+      const url = e.target.value;
+      if (!url){ resetAll(true); return; }
+      els.articles.innerHTML = '<div class="placeholder">Carregando…</div>';
+      try{
+        const res = await fetch(url, {cache:'reload'});
+        const txt = await res.text();
+        state.rawText = txt;
+
+        // Parse em "fatias" para não travar (yield entre loops)
+        state.articles = parseArticlesFromText(txt);
+        renderArticles();
+        clearMarks(); // limpa estado de busca
+        window.scrollTo({top:0,behavior:'instant'});
+      }catch(err){
+        console.error(err);
+        els.articles.innerHTML = '<div class="placeholder">Falha ao carregar o arquivo. Verifique o caminho em /data/.</div>';
+        els.bottomBar.hidden = true;
+      }
+    });
+
+    // ===== Reiniciar =====
+    function resetAll(keepSelect=false){
+      state.rawText = '';
+      state.articles = [];
+      state.currentArticleIdx = -1;
+      state.searchTerm = '';
+      state.matchNodes = [];
+      state.matchIdx = -1;
+
+      els.searchInput.value = '';
+      els.count.textContent = '0/0';
+      els.bottomBar.hidden = true;
+      els.articles.innerHTML = '<div class="placeholder">Selecione um código acima para carregar o texto completo. Use a busca da barra inferior como um <strong>Ctrl+F</strong> com setas para navegar.</div>';
+      if (!keepSelect) els.codeSelect.value = '';
+      document.querySelectorAll('.highlight-study,.current-outline').forEach(n=>n.classList.remove('highlight-study','current-outline'));
+      els.modalBackdrop.style.display = 'none';
+      els.modalBackdrop.setAttribute('aria-hidden','true');
+      window.scrollTo({top:0,behavior:'instant'});
+    }
+    els.btnReset.addEventListener('click', ()=>resetAll());
+
+    // Primeira atualização do destaque ao rolar
+    document.addEventListener('DOMContentLoaded', ()=>updateCurrentOutline());
+  </script>
 </body>
 </html>
