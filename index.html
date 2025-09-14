@@ -5,147 +5,216 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>direito.love — Vade Mecum simples</title>
 
-  <!-- Manifest PWA -->
   <link rel="manifest" href="manifest.webmanifest">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#142B6F">
 
   <style>
     :root{
-      --topbar-h: 44px;
-      --subbar-h: 40px;
-      --bottombar-h: 56px;
-      --bg:#fff;
-      --fg:#111;
-      --muted:#666;
-      --line:#e9e9e9;
-      --accent:#eaf8f6; /* destaque clarinho do artigo ao clicar em ESTUDAR */
-      --chip-bg:#f5f5f5;
+      /* Paleta Ritual */
+      --white:#FFFFFF;
+      --lilac:#E1DEE6;
+      --navy:#142B6F;
+      --yellow:#FFD601;
+
+      /* UI */
+      --topbar-h: 48px;
+      --subbar-h: 42px;
+      --bottombar-h: 60px;
+
+      --bg:var(--white);
+      --fg:#101418;
+      --muted:#5f6470;
+      --line:#e9e9ef;
+
+      --nav-bg:var(--navy);
+      --nav-fg:#fff;
+      --sub-bg:var(--lilac);
+      --sub-fg:#0e1433;
+
+      --chip-bg:#f6f7fb;
+      --chip-bd:#e6e8f2;
+
+      --accent: rgba(255,214,1,.2); /* destaque do ESTUDAR */
+      --focus: #9bb6ff;
+      --radius:12px;
+      --shadow: 0 2px 10px rgba(0,0,0,.06);
     }
+
     *{box-sizing:border-box}
-    html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
+    html,body{margin:0;height:100%}
+    body{
+      background:var(--bg);
+      color:var(--fg);
+      font: 15px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
     button,input,select{font:inherit}
 
     /* Topbar */
     .topbar{
-      position:fixed;top:0;left:0;right:0;height:var(--topbar-h);
-      display:flex;align-items:center;justify-content:space-between;
-      padding:0 12px;border-bottom:1px solid var(--line);background:#fff;z-index:50
+      position:fixed;inset:0 0 auto 0;height:var(--topbar-h);
+      display:flex;align-items:center;justify-content:center;
+      background:var(--nav-bg); color:var(--nav-fg); z-index:60;
+      box-shadow: var(--shadow);
     }
-    .brand{font-weight:700}
+    .topbar-inner{
+      width:clamp(320px, 92vw, 900px);
+      padding:0 12px; display:flex; align-items:center; justify-content:space-between;
+    }
+    .brand{font-weight:800; letter-spacing:.2px}
     .actions{display:flex;gap:8px}
-    .btn{padding:6px 10px;border:1px solid var(--line);background:#fff;border-radius:8px;cursor:pointer}
-    .btn:disabled{opacity:.5;cursor:not-allowed}
-
-    /* Subbar (seletor de códigos) */
-    .subbar{
-      position:fixed;top:var(--topbar-h);left:0;right:0;height:var(--subbar-h);
-      display:flex;align-items:center;gap:8px;padding:0 12px;border-bottom:1px solid var(--line);background:#fff;z-index:40
+    .btn{
+      padding:6px 12px; border-radius:10px;
+      border:1px solid rgba(255,255,255,.25); background:transparent; color:#fff; cursor:pointer
     }
-    .subbar label{font-weight:600}
-    .subbar .select-wrap{flex:1}
-    .subbar select{width:100%;height:28px;border:1px solid var(--line);border-radius:8px;background:#fff;padding:0 8px}
+    .btn:hover{background:rgba(255,255,255,.10)}
+    .btn:disabled{opacity:.6; cursor:not-allowed}
 
-    /* Conteúdo (scroll) */
+    /* Subbar */
+    .subbar{
+      position:fixed; top:var(--topbar-h); left:0; right:0; height:var(--subbar-h);
+      display:flex; align-items:center; background:var(--sub-bg); color:var(--sub-fg); z-index:55;
+      border-bottom:1px solid #d7d4de; box-shadow: var(--shadow);
+    }
+    .subbar-inner{
+      width:clamp(320px, 92vw, 900px);
+      padding:0 12px; display:flex; align-items:center; gap:10px;
+    }
+    .subbar label{font-weight:700; font-size:14px}
+    .select-wrap{flex:1}
+    select{
+      width:100%; height:32px; border:1px solid #cfd2e0; background:#fff; color:#161b33;
+      border-radius:10px; padding:0 10px
+    }
+
+    /* Conteúdo scrollável */
     .content{
       position:relative;
-      padding: calc(var(--topbar-h) + var(--subbar-h) + 10px) 12px calc(var(--bottombar-h) + 16px);
+      padding: calc(var(--topbar-h) + var(--subbar-h) + 14px) 0 calc(var(--bottombar-h) + 18px);
       min-height:100dvh;
     }
+    .container{ width:clamp(320px, 92vw, 900px); margin:0 auto; padding:0 12px }
     .placeholder{
-      padding:24px;border:1px dashed var(--line);border-radius:12px;color:var(--muted)
+      padding:24px; border:1px dashed #dcdfea; border-radius:var(--radius); color:var(--muted); background:#fafbff
     }
 
-    /* Blocos de artigo */
-    .articles{max-width:1000px;margin:0 auto}
+    /* Artigos */
+    .articles{}
     article{
-      white-space:pre-wrap; /* preserva o .txt */
-      border-bottom:1px solid var(--line);
-      padding:16px 8px;
-      scroll-margin: 80px;
+      white-space:pre-wrap;
+      border-bottom:1px solid #eef0f6;
+      padding:18px 10px; scroll-margin: 92px;
+      border-radius:10px;
     }
-    article .art-title{display:block;font-weight:700;margin-bottom:8px}
-    article.current-outline{outline:2px solid #e0f0ff;outline-offset:2px;border-radius:8px}
-    article.highlight-study{background:var(--accent);border-radius:8px}
+    .art-title{display:block; font-weight:800; color:#0e1638; margin:0 0 8px}
+    article.current-outline{outline:2px solid #cfe0ff; outline-offset:2px}
+    article.highlight-study{background:var(--accent)}
 
-    /* Destaque de busca */
-    mark{padding:0 2px;border-radius:3px}
+    /* Destaque busca */
+    mark{padding:0 2px; border-radius:3px; background:#ffef99}
 
-    /* Barra fixa inferior */
+    /* Barra inferior */
     .bottombar{
-      position:fixed;left:0;right:0;bottom:0;height:var(--bottombar-h);
-      display:flex;align-items:center;gap:8px;padding:8px 12px;border-top:1px solid var(--line);background:#fff;z-index:60
+      position:fixed; left:0; right:0; bottom:0; height:var(--bottombar-h);
+      background:#fff; border-top:1px solid #e9eaf2; z-index:70;
+      display:flex; align-items:center; justify-content:center;
     }
-    .bottombar .nav{
-      display:flex;gap:6px;align-items:center
+    .bottombar-inner{
+      width:clamp(320px, 92vw, 900px);
+      display:flex; align-items:center; gap:10px; padding:8px 12px;
     }
-    .iconbtn{width:36px;height:36px;border:1px solid var(--line);background:#fff;border-radius:8px;display:grid;place-items:center;cursor:pointer}
-    .search{flex:1;display:flex;align-items:center;gap:6px}
+    .iconbtn{
+      width:38px; height:38px; border:1px solid #e2e5f2; background:#fff; border-radius:10px; display:grid; place-items:center; cursor:pointer
+    }
+    .iconbtn:focus,.btn:focus,select:focus,input:focus{outline:2px solid var(--focus); outline-offset:2px}
+    .search{flex:1; display:flex; align-items:center; gap:8px}
     .search input{
-      width:100%;height:36px;border:1px solid var(--line);border-radius:8px;padding:0 10px
+      width:100%; height:38px; border:1px solid #e2e5f2; border-radius:10px; padding:0 12px; background:#fff
     }
-    .count{min-width:70px;text-align:center;color:var(--muted);font-size:12px}
-    .study{min-width:110px}
+    .count{min-width:70px; text-align:center; color:#6c7282; font-size:12px}
+    .study{
+      min-width:120px; padding:8px 12px; border-radius:10px;
+      border:1px solid #f0e08b; background:var(--yellow); color:#0a0a0a; font-weight:800; cursor:pointer
+    }
 
-    /* Modal central IA */
-    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.25);display:none;align-items:center;justify-content:center;z-index:100}
-    .modal{background:#fff;border-radius:12px;max-width:640px;width:92%;padding:16px;border:1px solid var(--line)}
-    .modal h3{margin:0 0 12px}
-    .ia-grid{display:flex;flex-wrap:wrap;gap:8px}
-    .chip{padding:8px 10px;border:1px solid var(--line);background:var(--chip-bg);border-radius:999px;cursor:pointer}
-    .modal .foot{margin-top:12px;display:flex;justify-content:flex-end}
-    .close{padding:8px 12px;border:1px solid var(--line);background:#fff;border-radius:8px;cursor:pointer}
+    /* Modal IA */
+    .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.28); display:none; align-items:center; justify-content:center; z-index:100}
+    .modal{
+      background:#fff; border-radius:16px; width:min(640px, 92vw); padding:18px; border:1px solid #eceef7; box-shadow: var(--shadow)
+    }
+    .modal h3{margin:0 0 12px; color:#0f173a}
+    .ia-grid{display:flex; flex-wrap:wrap; gap:10px}
+    .chip{
+      padding:9px 12px; border:1px solid var(--chip-bd); background:var(--chip-bg);
+      border-radius:999px; cursor:pointer; text-decoration:none; color:#111
+    }
+    .chip:hover{border-color:#cfd3e6}
 
     /* Toast */
-    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--bottombar-h) + 12px);background:#111;color:#fff;padding:8px 12px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:200}
+    .toast{
+      position:fixed; left:50%; transform:translateX(-50%);
+      bottom:calc(var(--bottombar-h) + 14px);
+      background:#111; color:#fff; padding:8px 12px; border-radius:10px; opacity:0; pointer-events:none; transition:opacity .2s; z-index:200
+    }
     .toast.show{opacity:1}
 
-    /* Invisível até carregar um código */
-    .bottombar[hidden]{display:none}
+    .hidden{display:none}
   </style>
 </head>
 <body>
 
+  <!-- Topbar -->
   <header class="topbar">
-    <div class="brand">direito.love</div>
-    <div class="actions">
-      <button class="btn" id="btnInstall" hidden>Instalar</button>
-      <button class="btn" id="btnReset">Reiniciar</button>
+    <div class="topbar-inner">
+      <div class="brand">direito.love</div>
+      <div class="actions">
+        <button class="btn" id="btnInstall" hidden>Instalar</button>
+        <button class="btn" id="btnReset">Reiniciar</button>
+      </div>
     </div>
   </header>
 
+  <!-- Subbar -->
   <div class="subbar">
-    <label for="codeSelect">Código/Lei:</label>
-    <div class="select-wrap">
-      <select id="codeSelect">
-        <option value="">— selecione —</option>
-        <option value="data/codigo_civil.txt">Código Civil</option>
-        <option value="data/codigo_consumidor.txt">Código de Defesa do Consumidor</option>
-        <option value="data/codigo_penal.txt">Código Penal</option>
-        <option value="data/codigo_Processo_Civil.txt">Código de Processo Civil</option>
-        <option value="data/codigo_Processo_Penal.txt">Código de Processo Penal</option>
-      </select>
+    <div class="subbar-inner">
+      <label for="codeSelect">Código/Lei:</label>
+      <div class="select-wrap">
+        <select id="codeSelect">
+          <option value="">— selecione —</option>
+          <option value="data/codigo_civil.txt">Código Civil</option>
+          <option value="data/codigo_consumidor.txt">Código de Defesa do Consumidor</option>
+          <option value="data/codigo_penal.txt">Código Penal</option>
+          <option value="data/codigo_Processo_Civil.txt">Código de Processo Civil</option>
+          <option value="data/codigo_Processo_Penal.txt">Código de Processo Penal</option>
+        </select>
+      </div>
     </div>
   </div>
 
+  <!-- Conteúdo -->
   <main class="content">
-    <div class="articles" id="articles">
-      <div class="placeholder">
-        Selecione um código acima para carregar o texto completo. Use a busca da barra inferior como um <strong>Ctrl+F</strong> com setas para navegar.
+    <div class="container">
+      <div class="articles" id="articles">
+        <div class="placeholder">
+          Selecione um código acima para carregar o texto completo. Use a busca da barra inferior como um <strong>Ctrl+F</strong> com setas para navegar.
+        </div>
       </div>
     </div>
   </main>
 
-  <!-- Barra inferior (setas, busca, estudar) -->
+  <!-- Barra inferior -->
   <div class="bottombar" id="bottomBar" hidden>
-    <div class="nav">
+    <div class="bottombar-inner">
       <button class="iconbtn" id="prevBtn" title="Anterior" aria-label="Anterior">◀</button>
       <button class="iconbtn" id="nextBtn" title="Próximo" aria-label="Próximo">▶</button>
+
+      <div class="search">
+        <input id="searchInput" type="search" placeholder="Buscar no texto…" autocomplete="off" />
+        <div class="count" id="count">0/0</div>
+      </div>
+
+      <button class="study" id="studyBtn">ESTUDAR</button>
     </div>
-    <div class="search">
-      <input id="searchInput" type="search" placeholder="Buscar no texto…" autocomplete="off" />
-      <div class="count" id="count">0/0</div>
-    </div>
-    <button class="btn study" id="studyBtn">ESTUDAR</button>
   </div>
 
   <!-- Modal IA -->
@@ -158,8 +227,8 @@
         <a class="chip" href="https://www.perplexity.ai/" target="_blank" rel="noopener">Perplexity</a>
         <a class="chip" href="https://notebooklm.google.com/" target="_blank" rel="noopener">NotebookLM</a>
       </div>
-      <div class="foot">
-        <button class="close" id="closeModal">Fechar</button>
+      <div class="foot" style="margin-top:12px; display:flex; justify-content:flex-end">
+        <button class="btn" id="closeModal" style="color:#0f173a; border-color:#dcdff0; background:#fff">Fechar</button>
       </div>
     </div>
   </div>
@@ -167,28 +236,22 @@
   <div class="toast" id="toast">✅ Prompt copiado!</div>
 
   <script>
-    // ===== PWA: SW + Install Button =====
+    /* ================= PWA ================= */
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js');
-      });
+      window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js'));
     }
     let deferredPrompt = null;
     const installBtn = document.getElementById('btnInstall');
     window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      installBtn.hidden = false;
+      e.preventDefault(); deferredPrompt = e; installBtn.hidden = false;
     });
     installBtn?.addEventListener('click', async () => {
       if (!deferredPrompt) return;
-      deferredPrompt.prompt();
-      await deferredPrompt.userChoice;
-      deferredPrompt = null;
-      installBtn.hidden = true;
+      deferredPrompt.prompt(); await deferredPrompt.userChoice;
+      deferredPrompt = null; installBtn.hidden = true;
     });
 
-    // ===== App State =====
+    /* ================= Estado ================= */
     const els = {
       codeSelect: document.getElementById('codeSelect'),
       articles: document.getElementById('articles'),
@@ -214,16 +277,13 @@
       matchIdx: -1
     };
 
-    // ===== Utils =====
-    const sleep = (ms)=> new Promise(r=>setTimeout(r,ms));
     const escapeHtml = (s)=> s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
     const showToast = (msg='✅ Prompt copiado!')=>{
-      els.toast.textContent = msg;
-      els.toast.classList.add('show');
+      els.toast.textContent = msg; els.toast.classList.add('show');
       setTimeout(()=>els.toast.classList.remove('show'), 1000);
     };
 
-    // Detecta artigo em evidência (próximo do centro da viewport)
+    /* ================= Artigo em evidência ================= */
     const getArticleInView = ()=>{
       const nodes = document.querySelectorAll('article[data-idx]');
       const cy = window.innerHeight/2;
@@ -233,7 +293,6 @@
         if (r.top <= cy && r.bottom >= cy){ hitIdx = Number(el.dataset.idx); break; }
       }
       if (hitIdx === -1 && nodes.length){
-        // fallback: primeiro visível
         for (const el of nodes){
           const r = el.getBoundingClientRect();
           if (r.bottom > 0 && r.top < window.innerHeight){ hitIdx = Number(el.dataset.idx); break; }
@@ -251,24 +310,32 @@
         document.querySelector(`article[data-idx="${idx}"]`)?.classList.add('current-outline');
       }
     };
-
     window.addEventListener('scroll', ()=>{
       if (!state.articles.length) return;
       updateCurrentOutline();
     }, {passive:true});
 
-    // ===== Parser de artigos =====
-    // Regra: começa em "Art" (A maiúsculo) e termina no último "." ou ")" antes do próximo "Art".
+    /* ================= Parser de artigos =================
+       Regras do Osvaldo:
+       - Começa em "Art" (A maiúsculo)
+       - Termina no último "." ou ")" antes do próximo "Art"
+       - Se não houver "." nem ")", termina no char anterior ao próximo "Art"
+       Correções:
+       - Remove BOM no início
+       - Aceita espaços no começo da linha antes de "Art"
+    ====================================================== */
     function parseArticlesFromText(txt){
+      // Remover BOM e normalizar quebras
+      txt = txt.replace(/^\uFEFF/, '');
+
       const starts = [];
-      const re = /(^|\n)(?=Art(?![a-z]))/g; // "Art" não seguido de minúscula (evita "Artigo")
+      const re = /(^|\n)[^\S\r\n]*(?=Art(?![a-z]))/g; // permite espaços antes de "Art", evita "Artigo"
       let m;
       while((m = re.exec(txt))!==null){
         const idx = m.index + (m[0].startsWith('\n') ? 1 : 0);
         starts.push(idx);
       }
       if (!starts.length){
-        // Sem "Art" — retorna texto inteiro como 1 bloco
         return [{ title: 'Texto', text: txt.trim(), htmlId: 'art-0'}];
       }
 
@@ -278,47 +345,44 @@
         const to = (i+1<starts.length) ? starts[i+1] : txt.length;
         let chunk = txt.slice(from, to);
 
-        // Encontrar o fim: último '.' ou ')' dentro do chunk
+        // Fim = último '.' ou ')' antes do próximo "Art"
         let endDot = chunk.lastIndexOf('.');
         let endPar = chunk.lastIndexOf(')');
         let end = Math.max(endDot, endPar);
-        if (end === -1){
-          // Sem '.' e ')': termina no char anterior ao próximo Art (ou fim)
-          // (chunk já está cortado até o próximo Art)
-          end = chunk.length - 1;
-        }
+        if (end === -1){ end = chunk.length - 1; }
         chunk = chunk.slice(0, end+1).trimEnd();
 
-        // Título (primeira linha até quebra)
+        // Primeira linha
         const firstLine = chunk.split(/\r?\n/,1)[0].trim();
-        // Algo como "Art. 1.", "Art. 121-A." … se não bater, usa início do texto
-        const mtitle = firstLine.match(/^Art[^\d]*\s*\d{1,4}(?:-[A-Z])?\.?/);
-        const title = mtitle ? mtitle[0].trim() : firstLine.slice(0,40);
+        // Tenta reconhecer variações: Art. 1º / Art 1 / Art. 121-A / Art. 1.
+        const mtitle = firstLine.match(/^Art\.?\s*\d{1,4}(?:-[A-Z])?(?:º)?\.?/);
+        const title = (mtitle ? mtitle[0].trim() : firstLine.slice(0,40));
         arts.push({ title, text: chunk, htmlId: `art-${i}` });
       }
       return arts;
     }
 
-    // ===== Render =====
+    /* ================= Render ================= */
     function renderArticles(){
       const frag = document.createDocumentFragment();
       state.articles.forEach((a, i)=>{
         const el = document.createElement('article');
         el.dataset.idx = i;
         el.id = a.htmlId;
-        // Exibe título destacado apenas se o .txt não tiver quebra logo após "Art."
-        // (para manter o arquivo o mais fiel possível)
-        // Aqui: não forçamos "<br/>": usamos pre-wrap no CSS.
+
+        const firstLine = a.text.split(/\r?\n/,1)[0];
+        const body = a.text.startsWith(firstLine) ? a.text.slice(firstLine.length).trimStart() : a.text;
+
         const titleSpan = document.createElement('span');
         titleSpan.className = 'art-title';
         titleSpan.textContent = a.title;
-        el.appendChild(titleSpan);
 
         const content = document.createElement('div');
         content.className = 'art-body';
-        content.textContent = a.text.replace(a.title, '').trimStart();
-        el.appendChild(content);
+        content.textContent = body;
 
+        el.appendChild(titleSpan);
+        el.appendChild(content);
         frag.appendChild(el);
       });
       els.articles.innerHTML = '';
@@ -327,21 +391,25 @@
       updateCurrentOutline();
     }
 
-    // ===== Busca (Ctrl+F simplificado) =====
+    /* ================= Busca ================= */
     function clearMarks(){
-      // re-render rápido usando os dados originais (mantém fidelidade)
-      // estratégia: reatribuir textContent com split título + corpo
+      // Re-render sem <mark>
       const nodes = document.querySelectorAll('article[data-idx]');
       nodes.forEach(node=>{
         const i = Number(node.dataset.idx);
         const a = state.articles[i];
         node.innerHTML = '';
+        const firstLine = a.text.split(/\r?\n/,1)[0];
+        const body = a.text.startsWith(firstLine) ? a.text.slice(firstLine.length).trimStart() : a.text;
+
         const titleSpan = document.createElement('span');
         titleSpan.className = 'art-title';
         titleSpan.textContent = a.title;
+
         const content = document.createElement('div');
         content.className = 'art-body';
-        content.textContent = a.text.replace(a.title, '').trimStart();
+        content.textContent = body;
+
         node.appendChild(titleSpan);
         node.appendChild(content);
       });
@@ -359,16 +427,13 @@
       for (const n of nodes){
         const raw = n.textContent;
         if (!rx.test(raw)) continue;
-        // reset lastIndex
         rx.lastIndex = 0;
         const html = escapeHtml(raw).replace(rx, (m)=>`<mark>${m}</mark>`);
         n.innerHTML = html;
       }
-      // coletar todos os <mark>
       state.matchNodes = Array.from(document.querySelectorAll('mark'));
       if (state.matchNodes.length){
-        state.matchIdx = 0;
-        scrollToMatch(0);
+        state.matchIdx = 0; scrollToMatch(0);
         els.count.textContent = `1/${state.matchNodes.length}`;
       }else{
         els.count.textContent = `0/0`;
@@ -376,10 +441,8 @@
     }
 
     function scrollToMatch(idx){
-      const m = state.matchNodes[idx];
-      if (!m) return;
+      const m = state.matchNodes[idx]; if (!m) return;
       m.scrollIntoView({behavior:'smooth',block:'center'});
-      // Atualiza contador
       els.count.textContent = `${idx+1}/${state.matchNodes.length}`;
     }
 
@@ -387,7 +450,6 @@
       state.searchTerm = e.target.value.trim();
       highlightTerm(state.searchTerm);
     });
-
     els.nextBtn.addEventListener('click', ()=>{
       if (!state.matchNodes.length) return;
       state.matchIdx = (state.matchIdx + 1) % state.matchNodes.length;
@@ -399,11 +461,8 @@
       scrollToMatch(state.matchIdx);
     });
 
-    // ===== ESTUDAR (gera e copia prompt, destaca artigo em evidência) =====
-    function extractArticleTitleText(a){
-      // Usa o título detectado (ex.: "Art. 1.") para "X"
-      return a?.title || 'Artigo';
-    }
+    /* ================= ESTUDAR ================= */
+    function extractArticleTitleText(a){ return a?.title || 'Artigo'; }
     function buildPrompt(a){
       const artigo = a?.text || '';
       const primeiraLinha = artigo.split(/\r?\n/)[0]?.trim() || '';
@@ -431,22 +490,13 @@
       const idx = state.currentArticleIdx ?? 0;
       const a = state.articles[idx] || state.articles[0];
 
-      // Destaque visual do artigo escolhido
       document.querySelectorAll('article.highlight-study').forEach(n=>n.classList.remove('highlight-study'));
-      const node = document.querySelector(`article[data-idx="${idx}"]`);
-      node?.classList.add('highlight-study');
+      document.querySelector(`article[data-idx="${idx}"]`)?.classList.add('highlight-study');
 
-      // Prompt
       const prompt = buildPrompt(a);
-      try{
-        await navigator.clipboard.writeText(prompt);
-        showToast('✅ Prompt copiado!');
-      }catch(e){
-        showToast('Copie manualmente no próximo passo.');
-        console.warn('Clipboard falhou:', e);
-      }
+      try{ await navigator.clipboard.writeText(prompt); showToast('✅ Prompt copiado!'); }
+      catch{ showToast('Copie manualmente no próximo passo.'); }
 
-      // Modal IA
       els.modalTitle.textContent = `Estude o ${extractArticleTitleText(a)} com as I.As. abaixo. Escolha e cole o prompt.`;
       els.modalBackdrop.style.display = 'flex';
       els.modalBackdrop.setAttribute('aria-hidden','false');
@@ -460,7 +510,7 @@
       if (e.target === els.modalBackdrop) els.closeModal.click();
     });
 
-    // ===== Carregamento do código (TXT) =====
+    /* ================= Carregar TXT ================= */
     els.codeSelect.addEventListener('change', async (e)=>{
       const url = e.target.value;
       if (!url){ resetAll(true); return; }
@@ -470,10 +520,9 @@
         const txt = await res.text();
         state.rawText = txt;
 
-        // Parse em "fatias" para não travar (yield entre loops)
         state.articles = parseArticlesFromText(txt);
         renderArticles();
-        clearMarks(); // limpa estado de busca
+        clearMarks();
         window.scrollTo({top:0,behavior:'instant'});
       }catch(err){
         console.error(err);
@@ -482,7 +531,7 @@
       }
     });
 
-    // ===== Reiniciar =====
+    /* ================= Reiniciar ================= */
     function resetAll(keepSelect=false){
       state.rawText = '';
       state.articles = [];
@@ -501,9 +550,8 @@
       els.modalBackdrop.setAttribute('aria-hidden','true');
       window.scrollTo({top:0,behavior:'instant'});
     }
-    els.btnReset.addEventListener('click', ()=>resetAll());
+    document.getElementById('btnReset').addEventListener('click', ()=>resetAll());
 
-    // Primeira atualização do destaque ao rolar
     document.addEventListener('DOMContentLoaded', ()=>updateCurrentOutline());
   </script>
 </body>
