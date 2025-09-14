@@ -34,6 +34,7 @@
       background:var(--bg); color:var(--fg);
       font:15px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      max-width:100%; overflow-x:hidden; /* 💡 evita scroll lateral em overflow */
     }
     button,input,select{font:inherit}
 
@@ -46,6 +47,7 @@
     .topbar-inner{
       width:clamp(320px, 92vw, 960px);
       padding:0 12px; display:flex; align-items:center; gap:12px;
+      overflow:hidden; /* 💡 nada vaza pro lado */
     }
     .brand{
       appearance:none; border:0; background:none; color:#fff; cursor:pointer;
@@ -90,12 +92,19 @@
       white-space:pre-wrap;
       border-bottom:1px solid #eef0f6;
       padding:18px 10px; scroll-margin: 92px; border-radius:10px;
+      overflow-wrap:anywhere; word-break:break-word; hyphens:auto; /* 💡 quebra segura */
+      max-width:100%;
     }
     .supra{
       color:#6c7282; font-weight:600; font-size:13px; margin-bottom:6px;
+      overflow-wrap:anywhere; word-break:break-word; hyphens:auto; max-width:100%;
     }
     .supra div{ line-height:1.35 }
-    .art-title{display:block; font-weight:700; color:#0e1638; margin:0 0 6px}
+    .art-title{
+      display:block; font-weight:700; color:#0e1638; margin:0 0 6px;
+      overflow-wrap:anywhere; word-break:break-word; hyphens:auto; max-width:100%;
+    }
+    .art-body{ overflow-wrap:anywhere; word-break:break-word; hyphens:auto; max-width:100%; }
     article.current-outline{outline:2px solid #cfe0ff; outline-offset:2px}
     article.highlight-study{background:var(--accent)}
 
@@ -177,8 +186,11 @@
     /* Esconder barras até carregar um arquivo */
     .bottom-search[hidden], .bottom-study[hidden]{display:none}
 
-    @media (max-width: 420px){
+    /* 🔻 Mobile-only: diminuir fonte do seletor e (onde suportado) das opções */
+    @media (max-width: 480px){
       .brand{ font-size:18px; }
+      .select-wrap select{ font-size:14px; }   /* afeta o controle e, em alguns SOs, o menu */
+      select option, select optgroup{ font-size:14px; } /* pode ser ignorado no iOS/Android, mas não atrapalha */
     }
   </style>
 </head>
@@ -190,7 +202,7 @@
       <button class="brand" id="brandBtn" title="Clique para reiniciar">direito.love</button>
       <div class="spacer"></div>
       <div class="select-wrap">
-        <!-- CATEGORIAS COM OPTGROUP (paths atuais; quando mover p/ subpastas, atualize os value="...") -->
+        <!-- CATEGORIAS COM OPTGROUP -->
         <select id="codeSelect" title="Escolher arquivo">
           <option value="">— selecione —</option>
 
@@ -202,22 +214,19 @@
             <option value="data/codigos/codigo_Processo_Penal.txt">CPP</option>
           </optgroup>
 
-          <!-- Exemplos para futuro (descomente quando tiver os .txt)
+          <!-- Exemplos futuros
           <optgroup label="Leis especiais">
             <option value="data/leis/lei_maria_da_penha.txt">Lei Maria da Penha</option>
             <option value="data/leis/lei_improbidade.txt">Lei de Improbidade</option>
           </optgroup>
-
           <optgroup label="Súmulas">
             <option value="data/sumulas/sumulas_stf.txt">Súmulas STF</option>
             <option value="data/sumulas/sumulas_stj.txt">Súmulas STJ</option>
           </optgroup>
-
           <optgroup label="Jurisprudência">
             <option value="data/jurisprudencia/jurisprudencia_civil_2024.txt">Civil (2024)</option>
             <option value="data/jurisprudencia/jurisprudencia_penal_2024.txt">Penal (2024)</option>
           </optgroup>
-
           <optgroup label="Notícias">
             <option value="data/noticias/noticias_direito_2025.txt">Direito (2025)</option>
           </optgroup>
@@ -383,8 +392,15 @@
     }, {passive:true});
 
     /* ================= Parser com prioridade a "-----" ================= */
+    function sanitizeForLayout(s){
+      return s
+        .replace(/\u00A0/g, ' ')  // NBSP → espaço normal
+        .replace(/\t/g, ' ')      // tabs → espaço
+        .replace(/\s+\n/g, '\n'); // tira espaços no fim da linha
+    }
+
     function parseArticlesFromText(txt){
-      txt = txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n');
+      txt = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
       const items = parseByDelimiters(txt);
       if (items.length) return items;
       return parseByArt(txt); // fallback
@@ -754,7 +770,7 @@
       els.articles.innerHTML = '<div class="placeholder">Carregando…</div>';
       try{
         const res = await fetch(url, {cache:'reload'});
-        const txt = await res.text();
+        const txt = sanitizeForLayout(await res.text()); // 💡 normaliza NBSP/tabs/esp.
         state.rawText = txt;
 
         state.articles = parseArticlesFromText(txt);
