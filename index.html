@@ -1157,6 +1157,10 @@ els.backToResultsBtn.addEventListener('click', ()=>{
 els.doSearchBtn.addEventListener('click', ()=>{
   const term = els.searchInput.value.trim();
   if (!term) return;
+
+  // salvar último termo
+  localStorage.setItem('lastSearchTerm', term);
+
   if (els.searchAll.checked){
     searchAcrossAll(term);
   } else {
@@ -1165,6 +1169,7 @@ els.doSearchBtn.addEventListener('click', ()=>{
     highlightTermChunked(term);
   }
 });
+
 
 /* Enter = buscar / Esc = reset */
 els.searchInput.addEventListener('keydown', (e)=>{
@@ -1323,9 +1328,16 @@ window.addEventListener('DOMContentLoaded', ()=>{
   const last = localStorage.getItem('lastFile');
   if (last){
     els.codeSelect.value = last;
-    loadSelectedFile(last);
+    loadSelectedFile(last).then(()=>{
+      const lastTerm = localStorage.getItem('lastSearchTerm');
+      if (lastTerm){
+        els.searchInput.value = lastTerm;
+        highlightTermChunked(lastTerm);
+      }
+    });
   }
 });
+
 
 /* =========================
    PARTE 8/8 — Catálogo mobile, Atalhos, Service Worker
