@@ -1,16 +1,17 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
-  <link rel="icon" href="icons/favicon-192.png" sizes="192x192" type="image/png">
-  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>direito.love — Leitor jurídico</title>
 
+  <!-- Ícones / PWA -->
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="icons/favicon-192.png" sizes="192x192" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#142B6F">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <style>
     :root{
@@ -42,7 +43,7 @@
     }
     button,input,select{font:inherit}
 
-    /* Topbar (logo à esq., seletor à dir.) */
+    /* Topbar */
     .topbar{
       position:fixed; inset:0 0 auto 0; height:var(--topbar-h);
       display:flex; align-items:center; justify-content:center;
@@ -78,7 +79,7 @@
       cursor:pointer;
     }
 
-    /* Barra de progresso (busca) */
+    /* Barra de progresso (busca/carregamento) */
     .progress{
       position:fixed; top:var(--topbar-h); left:0; right:0; height:var(--progress-h); z-index:85;
       background:transparent;
@@ -119,13 +120,14 @@
     .art-title { font-size: 13px; }
     .supra { font-size: 11px; }
 
-    /* ===== Base — Barra 1 (SETAS / INPUT / CONTADOR / X) ===== */
+    /* ===== Base — Barra 1 (SETAS / INPUT / TOGGLE TODOS / CONTADOR / X) ===== */
     .bottom-search{
       position:fixed; left:0; right:0; bottom:var(--bottom-study-h);
       height:var(--bottom-search-h);
       background: var(--bar-bg);
       border-top:1px solid #e0e4ec;
       z-index:70; display:flex; align-items:center; justify-content:center;
+      padding-bottom:max(0px, env(safe-area-inset-bottom));
     }
     .bottom-search-inner{
       width:clamp(320px, 92vw, 960px);
@@ -138,13 +140,16 @@
     }
     .iconbtn.danger{ border-color:#f2d6d6; }
     .iconbtn:focus,input:focus{outline:2px solid var(--focus); outline-offset:2px}
-    .search{flex:1; display:flex; align-items:center; gap:8px; min-width:0}
+    .search{flex:1; display:flex; align-items:center; gap:8px; min-width:0; position:relative;}
     .search input{
       width:100%; height:36px; border:1px solid #e2e5f2; border-radius:10px; padding:0 12px; background:#fff;
       flex:1 1 auto; min-width:0;
     }
-    .spinner{width:18px; height:18px; border:2px solid #e2e5f2; border-top-color:#142B6F; border-radius:50%;
-      animation:spin 1s linear infinite; flex:0 0 18px}
+    .spinner{
+      position:absolute; right:46px; top:50%; transform:translateY(-50%);
+      width:18px; height:18px; border:2px solid #e2e5f2; border-top-color:#142B6F; border-radius:50%;
+      animation:spin 1s linear infinite; flex:0 0 18px
+    }
     .spinner[hidden]{display:none}
     @keyframes spin{to{transform:rotate(360deg)}}
     .result-count{
@@ -152,12 +157,28 @@
       background:#f7f8fc; padding:6px 10px; border-radius:8px; text-align:center;
     }
 
+    /* Toggle "todos" */
+    .all-toggle{
+      display:inline-flex; align-items:center; gap:6px;
+      font-size:12px; color:#6c7282; user-select:none; cursor:pointer;
+    }
+    .all-toggle input{ width:16px; height:16px; }
+
+    /* Botão limpar dentro do input (mobile-first) */
+    .clear-btn{
+      position:absolute; right:10px; top:50%; transform:translateY(-50%);
+      width:28px; height:28px; border:1px solid #e2e5f2; background:#fff; border-radius:8px;
+      display:grid; place-items:center; cursor:pointer; font-size:14px; line-height:1;
+    }
+    .clear-btn:focus{ outline:2px solid var(--focus); outline-offset:2px; }
+
     /* ===== Base — Barra 2 (ESTUDAR / BUSCAR) ===== */
     .bottom-study{
       position:fixed; left:0; right:0; bottom:0; height:var(--bottom-study-h);
       background: var(--bar-bg-2);
       border-top:1px solid #d9dde6;
       z-index:75; display:flex; align-items:center; justify-content:center; padding:8px 0;
+      padding-bottom:max(8px, env(safe-area-inset-bottom));
     }
     .bottom-study-inner{
       width:clamp(320px, 92vw, 960px); padding:0 12px; display:flex; align-items:center; gap:12px;
@@ -167,6 +188,18 @@
     }
     .study{ border:1px solid #0e2a7a; background:#142B6F; color:#fff; }
     .do-search{ border:1px solid #f0e08b; background:var(--yellow); color:#0a0a0a; }
+
+    /* Resultados globais (somente hits) */
+    .results-group{ margin:14px 0; padding:12px; border:1px solid #eceff4; border-radius:12px; background:#fafbff; }
+    .results-group h4{ margin:0 0 8px; font-size:14px; color:#0e1638 }
+    .result-item{
+      display:block; text-align:left; width:100%; border:1px solid #e2e5f2; background:#fff;
+      padding:10px 12px; border-radius:10px; margin:8px 0; cursor:pointer;
+    }
+    .result-item b{ color:#0e1638 }
+    .result-item small{ color:#6c7282; display:block; margin-top:4px }
+    .result-item:hover, .result-item:focus{ outline:2px solid var(--focus); outline-offset:2px }
+    .result-empty{ padding:24px; border:1px dashed #dcdfea; border-radius:12px; color:#6c7282; background:#f9fbff }
 
     /* Modal IA */
     .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.28); display:none; align-items:center; justify-content:center; z-index:100}
@@ -201,45 +234,16 @@
       .picker-btn{ display:inline-flex; align-items:center; gap:8px; }
       .select-wrap select,
       select option, select optgroup{ font-size:14px; }
-    }
 
-    /* ====== Bottom-sheet do seletor custom (mobile) ====== */
-    .sheet{ position:fixed; inset:0; z-index:120; }
-    .sheet[hidden]{ display:none; }
-    .sheet-backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.32); }
-    .sheet-panel{
-      position:absolute; left:0; right:0; bottom:0;
-      background:#fff; border-radius:16px 16px 0 0;
-      max-height:80vh; display:flex; flex-direction:column;
-      padding-bottom:max(8px, env(safe-area-inset-bottom));
-      box-shadow:0 -8px 24px rgba(0,0,0,.12);
+      /* dar espaço pro spinner+limpar dentro do input */
+      .search input{ padding-right: 84px; }
+      /* Esconder reset externo no mobile */
+      #resetBtn{ display:none; }
+      /* Esconde prev/next até haver resultados (classe .has-results no container) */
+      #prevBtn, #nextBtn{ visibility:hidden; }
     }
-    .sheet-head{ display:flex; align-items:center; justify-content:space-between;
-      padding:12px 16px; border-bottom:1px solid #eceef2; }
-    .sheet-title{ color:#0e1638; font-weight:800; }
-    .sheet-close{
-      width:32px; height:32px; border:1px solid #e2e5f2; background:#fff;
-      border-radius:10px; display:grid; place-items:center; cursor:pointer;
-    }
-    .sheet-search{ padding:10px 16px; }
-    .sheet-search input{
-      width:100%; height:38px; border:1px solid #e2e5f2; border-radius:10px; padding:0 12px;
-    }
-    .sheet-body{ overflow:auto; padding:8px 12px 12px; }
-    .list-section{ padding:6px 0; }
-    .list-section h4{
-      font-size:12px; letter-spacing:.4px; font-weight:800; color:#6c7282;
-      margin:6px 2px 4px; text-transform:uppercase;
-    }
-    .item{
-      width:100%; text-align:left; cursor:pointer;
-      display:flex; align-items:center; gap:10px;
-      padding:10px 12px; border-radius:10px; margin:6px 0;
-      border:1px solid #eceff4; background:#f9fafc;
-    }
-    .item b{ font-weight:800; color:#0e1638; }
-    .item small{ color:#6c7282; }
-    .item:hover, .item:focus{ outline:2px solid var(--focus); outline-offset:2px; }
+    /* Ao ter resultados (controlado via JS) */
+    .has-results #prevBtn, .has-results #nextBtn{ visibility:visible; }
     .highlight{ background:#ffef99; border-radius:3px; }
   </style>
 </head>
@@ -260,11 +264,11 @@
 
           <optgroup label="Códigos">
             <option value="data/codigos/codigo_civil.txt">Código Civil</option>
-            <option value="data/codigos/codigo_processo_civil.txt">Código de Processo Civil</option>
+            <option value="data/codigos/codigo_Processo_Civil.txt">Código de Processo Civil</option>
             <option value="data/codigos/codigo_penal.txt">Código Penal</option>
-            <option value="data/codigos/codigo_processo_penal.txt">Código de Processo Penal</option>
+            <option value="data/codigos/codigo_Processo_Penal.txt">Código de Processo Penal</option>
             <option value="data/codigos/codigo_consumidor.txt">Código de Defesa do Consumidor</option>
-            <option value="data/codigos/codigo_clt.txt">CLT - Consolidação das Leis do Trabalho</option>
+            <option value="data/codigos/codigo_CLT.txt">CLT - Consolidação das Leis do Trabalho</option>
             <option value="data/codigos/codigo_tributario_nacional.txt">Código Tributário Nacional</option>
           </optgroup>
 
@@ -272,7 +276,7 @@
             <option value="data/leis/lei_maria_da_penha.txt">Lei Maria da Penha</option>
             <option value="data/leis/lei_de_execucao_penal.txt">Lei de Execução Penal</option>
             <option value="data/leis/lei_de_drogas.txt">Lei de Drogas</option>
-            <option value="data/leis/lei_lgpd.txt">Lei LGPD</option>
+            <option value="data/leis/lei_LGPD.txt">Lei LGPD</option>
             <option value="data/leis/marco_civil_da_internet.txt">Marco Civil da Internet</option>
             <option value="data/leis/crimes_hediondos.txt">Lei dos Crimes Hediondos</option>
           </optgroup>
@@ -285,28 +289,12 @@
             <option value="data/estatutos/estatuto_da_pessoa_com_deficiencia.txt">Estatuto da Pessoa com Deficiência</option>
           </optgroup>
 
-          <optgroup label="Súmulas">
-            <option value="data/sumulas/sumulas_stj.txt">Súmulas do STJ</option>
-            <option value="data/sumulas/sumulas_stf.txt">Súmulas do STF</option>
-
-            </optgroup>
-
           <optgroup label="Princípios">
             <option value="data/principios/principios_do_direito.txt">Princípios (Rol Exemplificativo)</option>
-            </optgroup>
-
-          <!-- Opcional: ative quando subir os arquivos -->
-          <!--
-          <optgroup label="Súmulas">
-            <option value="data/sumulas/sumulas_stf.txt">Súmulas STF</option>
           </optgroup>
-          <optgroup label="Princípios">
-            <option value="data/principios/principios_do_direito.txt">Princípios (geral)</option>
-          </optgroup>
-          -->
         </select>
 
-        <button id="openPicker" class="picker-btn" type="button" aria-haspopup="dialog" aria-controls="pickerSheet">
+        <button id="openPicker" class="picker-btn" type="button" aria-haspopup="dialog" aria-controls="pickerSheet" aria-expanded="false">
           Escolher código
         </button>
       </div>
@@ -321,6 +309,11 @@
   <!-- CONTEÚDO -->
   <main class="content">
     <div class="container">
+      <!-- Resultados globais (aparece só na busca "todos") -->
+      <div id="globalResultsWrap" style="display:none">
+        <div id="globalResults"></div>
+      </div>
+
       <div class="articles" id="articles">
         <div class="placeholder">
           <p style="text-align:center; font-size:1.1rem; font-weight:normal; line-height:1.6;">
@@ -339,11 +332,19 @@
       <button class="iconbtn" id="prevBtn" title="Anterior" aria-label="Anterior">◀</button>
       <button class="iconbtn" id="nextBtn" title="Próximo" aria-label="Próximo">▶</button>
       <div class="search">
-        <input id="searchInput" type="search" placeholder="Buscar no texto…" autocomplete="off" />
+        <input id="searchInput" type="search" placeholder="Buscar no texto…" autocomplete="off" aria-label="Buscar no texto" />
+        <!-- limpar dentro do input -->
+        <button id="clearSearch" class="clear-btn" type="button" aria-label="Limpar busca" hidden>✕</button>
+        <label class="all-toggle" title="Buscar em todos os arquivos">
+          <input id="searchAll" type="checkbox" />
+          <span>todos</span>
+        </label>
         <div class="spinner" id="spinner" hidden></div>
       </div>
       <div class="result-count" title="Ocorrência atual / Total"><span id="count">0/0</span></div>
       <button class="iconbtn danger" id="resetBtn" title="Reiniciar" aria-label="Reiniciar">✕</button>
+      <!-- Voltar aos resultados globais -->
+      <button class="iconbtn" id="backToResultsBtn" title="Voltar aos resultados" aria-label="Voltar aos resultados" style="display:none">⟲</button>
     </div>
   </div>
 
@@ -361,10 +362,10 @@
       <h3 id="modalTitle">Prompt do X copiado.</h3>
       <p class="subtitle">✅ PROMPT PRONTO! Escolha uma IA e cole o prompt para estudar.</p>
       <div class="ia-grid">
-        <button class="ia-btn" data-url="https://chatgpt.com/">💬 ChatGPT</button>
-        <button class="ia-btn" data-url="https://gemini.google.com/app">🧠 Gemini</button>
-        <button class="ia-btn" data-url="https://copilot.microsoft.com/">✨ Copilot</button>
-        <button class="ia-btn" data-url="https://www.perplexity.ai/">🔎 Perplexity</button>
+        <button class="ia-btn" data-url="https://chatgpt.com/" aria-label="Abrir no ChatGPT">💬 ChatGPT</button>
+        <button class="ia-btn" data-url="https://gemini.google.com/app" aria-label="Abrir no Gemini">🧠 Gemini</button>
+        <button class="ia-btn" data-url="https://copilot.microsoft.com/" aria-label="Abrir no Copilot">✨ Copilot</button>
+        <button class="ia-btn" data-url="https://www.perplexity.ai/" aria-label="Abrir no Perplexity">🔎 Perplexity</button>
       </div>
       <div class="foot">
         <button class="close-btn" id="closeModal">Fechar</button>
@@ -387,7 +388,7 @@
     </div>
   </div>
 
-  <div class="toast" id="toast">✅ Prompt copiado!</div>
+  <div class="toast" id="toast" role="status" aria-live="polite">✅ Prompt copiado!</div>
 
   <script>
     /* ================= Estado ================= */
@@ -403,6 +404,8 @@
       bottomSearch: document.getElementById('bottomSearch'),
       bottomStudy: document.getElementById('bottomStudy'),
       searchInput: document.getElementById('searchInput'),
+      searchAll: document.getElementById('searchAll'),
+      clearSearch: document.getElementById('clearSearch'),
       prevBtn: document.getElementById('prevBtn'),
       nextBtn: document.getElementById('nextBtn'),
       count: document.getElementById('count'),
@@ -415,7 +418,10 @@
       modalBackdrop: document.getElementById('modalBackdrop'),
       modalTitle: document.getElementById('modalTitle'),
       closeModal: document.getElementById('closeModal'),
-      toast: document.getElementById('toast')
+      toast: document.getElementById('toast'),
+      globalResultsWrap: document.getElementById('globalResultsWrap'),
+      globalResults: document.getElementById('globalResults'),
+      backToResultsBtn: document.getElementById('backToResultsBtn'),
     };
 
     const state = {
@@ -424,7 +430,10 @@
       currentArticleIdx: -1,
       matchNodes: [],
       matchIdx: -1,
-      progressTimer: null
+      progressTimer: null,
+      fileCache: new Map(),   // url -> {txt}
+      lastGlobalResults: null,
+      lastGlobalTerm: '',
     };
 
     const escapeHtml = (s)=> s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
@@ -459,7 +468,7 @@
       }
     }
 
-    /* ================= Artigo em evidência ================= */
+    /* ================= Artigo em evidência + hash ================= */
     const getArticleInView = ()=>{
       const nodes = document.querySelectorAll('article[data-idx]');
       const cy = window.innerHeight/2;
@@ -477,15 +486,43 @@
       return hitIdx;
     };
 
-    const updateCurrentOutline = ()=>{
+    function updateHash(){
+      const el = document.querySelector(`article[data-idx="${state.currentArticleIdx}"]`);
+      if (el) history.replaceState(null, '', '#'+el.id);
+    }
+
+    function updateCurrentOutline(){
       const idx = getArticleInView();
       if (idx === state.currentArticleIdx) return;
       state.currentArticleIdx = idx;
       document.querySelectorAll('article.current-outline').forEach(n=>n.classList.remove('current-outline'));
       if (idx >= 0){
-        document.querySelector(`article[data-idx="${idx}"]`)?.classList.add('current-outline');
+        const el = document.querySelector(`article[data-idx="${idx}"]`);
+        el?.classList.add('current-outline');
+        updateHash();
       }
-    };
+    }
+
+    function watchInView(){
+      const obs = new IntersectionObserver((ents)=>{
+        const mid = window.innerHeight/2;
+        let best=null, bestDelta=1e9;
+        for(const e of ents){
+          if (!e.isIntersecting) continue;
+          const r = e.target.getBoundingClientRect();
+          const d = Math.abs((r.top+r.bottom)/2 - mid);
+          if (d<bestDelta){ best=e.target; bestDelta=d; }
+        }
+        if (best){
+          state.currentArticleIdx = +best.dataset.idx;
+          document.querySelectorAll('article.current-outline').forEach(n=>n.classList.remove('current-outline'));
+          best.classList.add('current-outline');
+          updateHash();
+        }
+      }, {root:null, threshold:[0,.5,1]});
+      document.querySelectorAll('article[data-idx]').forEach(el=>obs.observe(el));
+    }
+
     window.addEventListener('scroll', ()=>{
       if (!state.articles.length) return;
       updateCurrentOutline();
@@ -503,7 +540,7 @@
       txt = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
       const items = parseByDelimiters(txt);
       if (items.length) return items;
-      return parseByArt(txt); // fallback padrão (Art. X / 10A etc.)
+      return parseByArt(txt); // fallback por "Art."
     }
 
     // Blocos entre "-----"
@@ -531,7 +568,7 @@
       return arts;
     }
 
-    // Fallback por "Art."
+    // Fallback por "Art." (com heurística de corte mais segura)
     function parseByArt(txt){
       const re = /(^|\n)\s*((?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?)/g;
       const starts = [];
@@ -558,7 +595,11 @@
         const endDot = chunk.lastIndexOf('.');
         const endPar = chunk.lastIndexOf(')');
         const end    = Math.max(endDot, endPar);
-        if (end !== -1) chunk = chunk.slice(0, end + 1).trimEnd();
+
+        // Heurística: só corta se esse terminador estiver razoavelmente no fim do bloco.
+        if (end !== -1 && end >= Math.floor(chunk.length * 0.6)) {
+          chunk = chunk.slice(0, end + 1).trimEnd();
+        }
 
         const split = splitBlockSupraTitleBody(chunk);
         const title = split.titleText || chunk.split('\n')[0].slice(0,40);
@@ -626,12 +667,8 @@
         // Garante que começa com "Princípio" (com ou sem acento)
         const reHeader = /^\s*Princ[ií]pio\b/i;
         if (!reHeader.test(header)){
-          // Se a 2ª linha for o título, tenta puxar
-          if (lines.length && reHeader.test(lines[0])){
-            header = lines.shift();
-          } else {
-            header = 'Princípio';
-          }
+          if (lines.length && reHeader.test(lines[0])) header = lines.shift();
+          else header = 'Princípio';
         }
         const body = lines.join('\n').trim();
         out.push({
@@ -682,9 +719,10 @@
       els.bottomSearch.hidden = false;
       els.bottomStudy.hidden = false;
       updateCurrentOutline();
+      watchInView();
     }
 
-    /* ================= Busca ================= */
+    /* ================= Busca (local e global) ================= */
     function normalizeWithMap(s){
       let norm = '';
       const map = [];
@@ -767,6 +805,7 @@
       state.matchNodes = [];
       state.matchIdx = -1;
       els.count.textContent = '0/0';
+      document.querySelector('.bottom-search-inner')?.classList.remove('has-results');
     }
 
     async function highlightTermChunked(term){
@@ -794,12 +833,15 @@
       }
 
       state.matchNodes = Array.from(document.querySelectorAll('mark'));
+      const root = document.querySelector('.bottom-search-inner');
       if (state.matchNodes.length){
         state.matchIdx = 0;
         state.matchNodes[0].scrollIntoView({behavior:'smooth', block:'center'});
         els.count.textContent = `1/${state.matchNodes.length}`;
+        root?.classList.add('has-results');
       }else{
         els.count.textContent = '0/0';
+        root?.classList.remove('has-results');
       }
 
       setBusy(false);
@@ -821,16 +863,184 @@
       els.count.textContent = `${state.matchIdx+1}/${state.matchNodes.length}`;
     });
 
+    /* ====== Busca GLOBAL (todos) ====== */
+    function collectAllSources(){
+      const sel = els.codeSelect;
+      const out = [];
+      let currentGroup = '';
+      sel.querySelectorAll('optgroup, option').forEach(n=>{
+        if (n.tagName.toLowerCase()==='optgroup'){
+          currentGroup = n.label || '';
+        } else if (n.tagName.toLowerCase()==='option'){
+          const value = n.value.trim();
+          const label = n.textContent.trim();
+          if (!value) return;
+          out.push({ url:value, label: (currentGroup? currentGroup + ' — ' : '') + label });
+        }
+      });
+      return out;
+    }
+    async function fetchTextCached(url){
+      const hit = state.fileCache.get(url);
+      if (hit && hit.txt) return hit.txt;
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`HTTP ${res.status} — ${res.statusText}`);
+      const txt = sanitizeForLayout(await res.text());
+      state.fileCache.set(url, { txt });
+      return txt;
+    }
+    function findAllPositions(raw, term, limit=50){
+      const {norm, map} = normalizeWithMap(raw);
+      const needle = normalizeTerm(term);
+      const positions = [];
+      let from = 0;
+      while (positions.length < limit){
+        const pos = norm.indexOf(needle, from);
+        if (pos === -1) break;
+        const start = map[pos];
+        positions.push(start);
+        from = pos + needle.length;
+      }
+      return positions;
+    }
+    function nearestHeader(raw, start){
+      const headRe = /(^|\n)\s*(?:Art\.?\s*\d{1,4}(?:-?[A-Z])?|S[úu]mula\s+\d+|Princ[ií]pio[^\n]*)/g;
+      let last=null, m;
+      while ((m=headRe.exec(raw)) !== null){
+        if (m.index <= start) last = m[0].trim();
+        else break;
+      }
+      return last || '';
+    }
+    function makeSnippet(raw, start, size=90){
+      const from = Math.max(0, start - size);
+      const to   = Math.min(raw.length, start + size);
+      const chunk = raw.slice(from, to).replace(/\s+/g,' ').trim();
+      return (from>0?'…':'') + chunk + (to<raw.length?'…':'');
+    }
+    async function searchAcrossAll(term){
+      const sources = collectAllSources();
+      if (!sources.length) return;
+      setBusy(true);
+      els.count.textContent = '...';
+
+      const capPerFile = 12;
+      const totalCap   = 200;
+      let total = 0;
+      const groups = [];
+
+      for (let i=0;i<sources.length;i++){
+        const s = sources[i];
+        try{
+          const txt = await fetchTextCached(s.url);
+          const positions = findAllPositions(txt, term, capPerFile);
+          if (!positions.length) continue;
+
+          const items = positions.map((p)=>({
+            title: nearestHeader(txt, p) || s.label,
+            snippet: makeSnippet(txt, p),
+            url: s.url
+          }));
+          groups.push({ file: { label: s.label, url: s.url }, items });
+          total += items.length;
+          if (total >= totalCap) break;
+
+          els.progress.hidden = false;
+          const pct = Math.min(100, Math.round((i+1)/sources.length*100));
+          els.progressBar.style.width = pct + '%';
+        }catch(e){
+          console.warn('Falha em', s.url, e);
+        }
+      }
+
+      state.lastGlobalResults = groups;
+      state.lastGlobalTerm = term;
+      renderGlobalResults(groups, term);
+      els.progress.hidden = true;
+      setBusy(false);
+    }
+    function renderGlobalResults(groups, term){
+      els.globalResultsWrap.style.display = 'block';
+      els.articles.innerHTML = '';
+      els.bottomStudy.hidden = true;
+      els.backToResultsBtn.style.display = 'none';
+
+      if (!groups.length){
+        els.globalResults.innerHTML = '<div class="result-empty">Nenhum resultado encontrado em todos os arquivos.</div>';
+        els.count.textContent = '0/0';
+        return;
+      }
+
+      const root = document.createDocumentFragment();
+      groups.forEach(g=>{
+        const box = document.createElement('div');
+        box.className = 'results-group';
+        const h = document.createElement('h4');
+        h.textContent = g.file.label;
+        box.appendChild(h);
+
+        g.items.forEach((it)=>{
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'result-item';
+          btn.dataset.url = it.url;
+          btn.innerHTML = `<b>${escapeHtml(it.title)}</b><small>${escapeHtml(it.snippet)}</small>`;
+          btn.addEventListener('click', ()=> openResultItem(it.url, state.lastGlobalTerm));
+          box.appendChild(btn);
+        });
+
+        root.appendChild(box);
+      });
+
+      els.globalResults.innerHTML = '';
+      els.globalResults.appendChild(root);
+
+      const total = groups.reduce((a,g)=>a+g.items.length,0);
+      els.count.textContent = `${total} resultados`;
+    }
+    async function openResultItem(url, term){
+      showToast('Abrindo resultado…');
+      els.codeSelect.value = url;
+      els.codeSelect.dispatchEvent(new Event('change'));
+      setTimeout(()=>{ els.bottomStudy.hidden = false; highlightTermChunked(term); }, 80);
+      els.backToResultsBtn.style.display = 'inline-grid';
+      els.globalResultsWrap.style.display = 'none';
+    }
+    els.backToResultsBtn.addEventListener('click', ()=>{
+      if (state.lastGlobalResults){
+        renderGlobalResults(state.lastGlobalResults, state.lastGlobalTerm);
+      }
+    });
+
     // Executar busca (Barra 2)
     els.doSearchBtn.addEventListener('click', ()=>{
       const term = els.searchInput.value.trim();
-      highlightTermChunked(term);
+      if (!term) return;
+      if (els.searchAll.checked){
+        searchAcrossAll(term);
+      } else {
+        els.globalResultsWrap.style.display = 'none';
+        els.backToResultsBtn.style.display = state.lastGlobalResults ? 'inline-grid' : 'none';
+        highlightTermChunked(term);
+      }
     });
 
-    // Enter envia; Esc reinicia
+    // Enter envia; Esc reseta
     els.searchInput.addEventListener('keydown', (e)=>{
       if (e.key === 'Enter'){ e.preventDefault(); els.doSearchBtn.click(); }
       else if (e.key === 'Escape'){ e.preventDefault(); resetAll(); }
+    });
+
+    // Limpar dentro do input (mobile/desktop)
+    els.searchInput.addEventListener('input', ()=>{
+      const has = els.searchInput.value.trim().length > 0;
+      els.clearSearch.hidden = !has;
+    });
+    els.clearSearch.addEventListener('click', ()=>{
+      els.searchInput.value = '';
+      els.clearSearch.hidden = true;
+      clearMarks();
+      els.count.textContent = '0/0';
     });
 
     /* ================= ESTUDAR (gera prompt + modal) ================= */
@@ -860,18 +1070,19 @@
       ].join('');
     }
 
-    function openModal(title){
-      els.modalTitle.textContent = `Estude o ${title} com as I.As. abaixo.`;
-      els.modalBackdrop.style.display = 'flex';
-      els.modalBackdrop.setAttribute('aria-hidden','false');
-      const first = els.modalBackdrop.querySelector('.ia-btn');
-      first?.focus();
+    // Focus trap simples + inert
+    function trapFocus(modal){
+      const fcs = modal.querySelectorAll('button,[href],[tabindex]:not([tabindex="-1"])');
+      const first = fcs[0], last = fcs[fcs.length-1];
+      function loop(e){
+        if (e.key!=='Tab') return;
+        if (e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+      }
+      modal.addEventListener('keydown', loop);
+      return ()=> modal.removeEventListener('keydown', loop);
     }
-    function closeModal(){
-      els.modalBackdrop.style.display = 'none';
-      els.modalBackdrop.setAttribute('aria-hidden','true');
-    }
-
+    let untrap = ()=>{};
     function isStandalone(){
       return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
     }
@@ -883,6 +1094,23 @@
     document.querySelectorAll('.ia-btn').forEach(btn=>{
       btn.addEventListener('click', ()=> openIA(btn.dataset.url));
     });
+
+    function openModal(title){
+      els.modalTitle.textContent = `Estude o ${title} com as I.As. abaixo.`;
+      document.querySelector('main').inert = true;
+      document.body.style.overflow = 'hidden';
+      els.modalBackdrop.style.display = 'flex';
+      els.modalBackdrop.setAttribute('aria-hidden','false');
+      untrap = trapFocus(els.modalBackdrop);
+      els.modalBackdrop.querySelector('.ia-btn')?.focus();
+    }
+    function closeModal(){
+      els.modalBackdrop.style.display = 'none';
+      els.modalBackdrop.setAttribute('aria-hidden','true');
+      document.querySelector('main').inert = false;
+      document.body.style.overflow = '';
+      untrap();
+    }
 
     els.studyBtn.addEventListener('click', async ()=>{
       if (!state.articles.length) return;
@@ -917,25 +1145,46 @@
       state.matchIdx = -1;
 
       els.searchInput.value = '';
+      els.clearSearch.hidden = true;
       els.count.textContent = '0/0';
       els.bottomSearch.hidden = true;
       els.bottomStudy.hidden = true;
+      els.globalResultsWrap.style.display = 'none';
       els.articles.innerHTML = '<div class="placeholder"><p style="text-align:center">😎 Escolha um arquivo no topo para começar. Bons estudos!</p></div>';
       els.codeSelect.value = '';
       document.querySelectorAll('.highlight-study,.current-outline').forEach(n=>n.classList.remove('highlight-study','current-outline'));
+      els.backToResultsBtn.style.display = 'none';
       closeModal();
-      window.scrollTo({top:0,behavior:'instant'});
+      window.scrollTo({top:0,behavior:'auto'});
+      history.replaceState(null,'', location.pathname + location.search); // limpa hash
     }
     els.brandBtn.addEventListener('click', resetAll);
     els.resetBtn.addEventListener('click', resetAll);
+
+    /* ================= Persistência (arquivo + scroll) ================= */
+    // salva scroll do arquivo atual
+    let saveT=null;
+    window.addEventListener('scroll', ()=>{
+      clearTimeout(saveT);
+      saveT=setTimeout(()=>localStorage.setItem('lastScroll_'+(els.codeSelect.value||''), String(scrollY)), 300);
+    }, {passive:true});
+
+    function restoreScrollFor(url){
+      const y = +localStorage.getItem('lastScroll_'+url) || 0;
+      if (y) window.scrollTo({top:y, behavior:'auto'});
+      if (location.hash){
+        document.getElementById(location.hash.slice(1))?.scrollIntoView({behavior:'auto', block:'start'});
+      }
+    }
 
     /* ================= Carregar TXT ================= */
     els.codeSelect.addEventListener('change', async (e)=>{
       const url = e.target.value;
       if (!url){ resetAll(); return; }
+      els.globalResultsWrap.style.display = 'none';
       els.articles.innerHTML = '<div class="placeholder">Carregando…</div>';
       try{
-        const res = await fetch(url, {cache:'reload'});
+        const res = await fetch(url, {cache:'no-store'});
         if (!res.ok) throw new Error(`HTTP ${res.status} — ${res.statusText} (${url})`);
         const txt = sanitizeForLayout(await res.text());
         state.rawText = txt;
@@ -949,7 +1198,9 @@
 
         renderArticles();
         clearMarks();
-        window.scrollTo({top:0,behavior:'instant'});
+        window.scrollTo({top:0,behavior:'auto'});
+        localStorage.setItem('lastFile', url);
+        setTimeout(()=>restoreScrollFor(url), 30);
       }catch(err){
         console.error(err);
         els.articles.innerHTML = `<div class="placeholder">Falha ao carregar o arquivo:<br><code>${(err && err.message) || 'Erro desconhecido'}</code></div>`;
@@ -1031,12 +1282,14 @@
       function open(){
         sheet.hidden = false;
         sheet.setAttribute('aria-hidden', 'false');
+        openBtn.setAttribute('aria-expanded','true');
         render('');
         document.addEventListener('keydown', onKey);
       }
       function close(){
         sheet.hidden = true;
         sheet.setAttribute('aria-hidden', 'true');
+        openBtn.setAttribute('aria-expanded','false');
         document.removeEventListener('keydown', onKey);
       }
       function onKey(e){
@@ -1056,7 +1309,52 @@
       openBtn.textContent = 'Escolher código';
     })();
 
-    document.addEventListener('DOMContentLoaded', ()=>updateCurrentOutline());
+    /* ================= Atalhos de teclado ================= */
+    document.addEventListener('keydown',(e)=>{
+      const tag = (e.target.tagName||'').toLowerCase();
+      if (tag==='input' || tag==='textarea') return;
+      if (e.key === '/') { e.preventDefault(); els.searchInput.focus(); return; }
+      if (e.key === 'n') { e.preventDefault(); els.nextBtn.click(); }
+      if (e.key === 'p') { e.preventDefault(); els.prevBtn.click(); }
+      if (e.key.toLowerCase() === 's' && !e.shiftKey) { e.preventDefault(); els.studyBtn.click(); }
+      if (e.key === ']') { e.preventDefault(); scrollBy({top: window.innerHeight*0.8, behavior:'smooth'}); }
+      if (e.key === '[') { e.preventDefault(); scrollBy({top:-window.innerHeight*0.8, behavior:'smooth'}); }
+    });
+
+    /* ================= Download rápido do artigo (Shift+S) ================= */
+    function downloadText(name, text){
+      const blob = new Blob([text], {type:'text/plain;charset=utf-8'});
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+      a.download = name; a.click(); URL.revokeObjectURL(a.href);
+    }
+    function getCurrentArticleText(){
+      const a = state.articles[state.currentArticleIdx] || state.articles[0];
+      if (!a) return '';
+      const s = a._split || splitBlockSupraTitleBody(a.text);
+      return (s.titleText? s.titleText+' - ':'') + (s.body||'');
+    }
+    document.addEventListener('keydown', (e)=>{
+      if (e.shiftKey && e.key.toLowerCase()==='s' && state.articles.length){
+        e.preventDefault();
+        const a = state.articles[state.currentArticleIdx] || state.articles[0];
+        downloadText((a?.htmlId||'artigo')+'.txt', getCurrentArticleText());
+      }
+    });
+
+    /* ================= Restaurar última sessão ================= */
+    document.addEventListener('DOMContentLoaded', ()=>{
+      updateCurrentOutline();
+      const last = localStorage.getItem('lastFile');
+      if (last){
+        els.codeSelect.value = last;
+        els.codeSelect.dispatchEvent(new Event('change'));
+      }
+    });
+
+    /* ================= Service Worker ================= */
+    if ('serviceWorker' in navigator){
+      navigator.serviceWorker.register('/sw.js').catch(()=>{});
+    }
   </script>
 </body>
 </html>
