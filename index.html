@@ -333,14 +333,6 @@ body.post-global .result-count {
   </div>
 
 
-  <!-- BARRA 2 -->
-  <div class="bottom-study" id="bottomStudy" hidden>
-    <div class="bottom-study-inner">
-      <button class="study" id="studyBtn">Estude com I.A.</button>
-      <button class="do-search" id="doSearchBtn">Buscar</button>
-    </div>
-  </div>
-
   <!-- MODAL IA -->
   <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal" role="document" aria-labelledby="modalTitle">
@@ -390,9 +382,9 @@ const els = {
   // Conteúdo
   articles: document.getElementById('articles'),
 
-  // Barras inferiores
-  bottomSearch: document.getElementById('bottomSearch'),
-  bottomStudy: document.getElementById('bottomStudy'),
+    // Barra inferior unificada
+  bottomBar: document.getElementById('bottomBar'),
+
 
   // Busca (Barra 1)
   searchInput: document.getElementById('searchInput'),
@@ -470,7 +462,7 @@ function showToast(msg='✅ Pronto!'){
 }
 
 function setBusy(isBusy){
-  els.bottomSearch.setAttribute('aria-busy', String(isBusy));
+  els.bottomBar.setAttribute('aria-busy', String(isBusy));
   els.doSearchBtn.disabled = isBusy;
   els.prevBtn.disabled = isBusy;
   els.nextBtn.disabled = isBusy;
@@ -681,8 +673,8 @@ function renderArticles(){
   els.articles.innerHTML = '';
   els.articles.appendChild(frag);
 
-  els.bottomSearch.hidden = false;
-  els.bottomStudy.hidden = false;
+  els.bottomBar.hidden = false;
+  els.bottomBa.hidden = false;
 
   updateCurrentOutline();
   watchInView();
@@ -966,7 +958,7 @@ async function searchAcrossAll(term){
 function renderGlobalResults(groups, term){
   els.globalResultsWrap.style.display = 'block';
   els.articles.innerHTML = '';
-  els.bottomStudy.hidden = true;
+  els.bottomBa.hidden = true;
   els.backToResultsBtn.style.display = 'none';
 
   if (!groups.length){
@@ -1007,7 +999,7 @@ async function openResultItem(url, term){
 
   // espera carregar artigos
   setTimeout(()=>{
-    els.bottomStudy.hidden=false;
+    els.bottomBa.hidden=false;
     highlightTermChunked(term);
 
     // rolar suave até o primeiro highlight
@@ -1143,8 +1135,8 @@ function resetAll(){
     </div>`;
   els.globalResults.innerHTML = '';
   els.globalResultsWrap.style.display = 'none';
-  els.bottomSearch.hidden = true;
-  els.bottomStudy.hidden = true;
+  els.bottomBar.hidden = true;
+  els.bottomBa.hidden = true;
   els.backToResultsBtn.style.display = 'none';
   els.count.textContent = '0/0';
   els.searchInput.value = '';
@@ -1181,8 +1173,8 @@ async function loadSelectedFile(url){
   }catch(e){
     console.error('Erro ao carregar arquivo:', e);
     els.articles.innerHTML = `<div class="placeholder">Falha ao carregar o arquivo:<br><code>${(e && e.message) || 'Erro desconhecido'}</code></div>`;
-    els.bottomSearch.hidden = true;
-    els.bottomStudy.hidden = true;
+    els.bottomBar.hidden = true;
+    els.bottomBa.hidden = true;
   }
   setBusy(false);
 }
