@@ -1090,17 +1090,21 @@ function flattenGroups(groups){
 }
 
 // Nova busca global (AND entre palavras, agrupada por arquivo)
+// Busca Global (AND) — concorrência protegida e sem mistura entre arquivos
 async function runGlobalSearch(){
   const q = els.searchInput.value.trim();
   const tokens = q.split(/\s+/).map(normalizeTerm).filter(Boolean);
   state.currentTokens = tokens;
 
-  // sem termos → volta para o arquivo atual (se houver) ou placeholder
+  // incrementa o ticket desta busca
+  const myTicket = ++state.searchTicket;
+
+  // Sem termos: volta para o arquivo atual ou placeholder
   if (!tokens.length){
     state.globalGroups = [];
     if (state.currentFileUrl){
       state.currentMode = 'file';
-      renderArticles(state.articles, {globalMode:false});
+      renderArticles(state.articles, { globalMode:false });
       updateCount();
     } else {
       els.articles.innerHTML = '<div class="placeholder"><p>Digite algo para buscar em todos os códigos.</p></div>';
@@ -1114,55 +1118,76 @@ async function runGlobalSearch(){
 
   setBusy(true);
 
-  // varrer catálogo na mesma ordem do <select>
+  // Varrer catálogo na ordem do <select>
   const groups = [];
-  const selectGroups = getGroupsFromSelect(); // preserva ordem de grupos/itens do catálogo
+  const selectGroups = getGroupsFromSelect();
 
   for (const g of selectGroups){
+    // aborta se outra busca começou
+    if (myTicket !== state.searchTicket){ setBusy(false); return; }
+
     for (const it of g.items){
+      if (myTicket !== state.searchTicket){ setBusy(false); return; }
+
       const url = it.value;
       const label = it.label;
+
+      let txt = '';
       try{
-        const txt = await fetchTextCached(url);
-        const blocks = parseByUrl(url, txt);
+        txt = await fetchTextCached(url);
+      }catch(_e){
+        // ignora falha deste arquivo e segue
+        continue;
+      }
 
-        // filtra: mantém somente cards que contém TODAS as palavras (AND)
-        const hits = [];
-        for (const b of blocks){
-          const full = blockFullText(b);
-          const norm = normalizeTerm(full);
-          const allHit = tokens.every(t => norm.indexOf(t) !== -1);
-          if (allHit){
-            hits.push({
-              ...b,
-              _fileUrl: url,
-              _fileLabel: label
-            });
-          }
+      if (myTicket !== state.searchTicket){ setBusy(false); return; }
+
+      // Parseia blocos do arquivo atual
+      const blocks = parseByUrl(url, txt);
+
+      // Filtra: mantém apenas cards que contenham TODAS as palavras (AND)
+      const hits = [];
+      for (const b of blocks){
+        const full = blockFullText(b);     // 3C garante esta util; se já existir, ok
+        const norm = normalizeTerm(full);
+        let allHit = true;
+        for (const t of tokens){
+          if (norm.indexOf(t) === -1){ allHit = false; break; }
         }
-
-        if (hits.length){
-          groups.push({
-            fileUrl: url,
-            fileLabel: label,
-            items: hits
+        if (allHit){
+          hits.push({
+            ...b,
+            _fileUrl: url,
+            _fileLabel: label
           });
         }
-      }catch(e){ /* ignora erros individuais */ }
+      }
+
+      if (hits.length){
+        groups.push({
+          fileUrl: url,
+          fileLabel: label,
+          items: hits
+        });
+      }
+
       // cede o thread p/ manter UI responsiva
       await new Promise(r=>setTimeout(r,0));
     }
   }
 
-  // salva e renderiza agrupado
+  // Se outra busca iniciou no meio, aborta a renderização
+  if (myTicket !== state.searchTicket){ setBusy(false); return; }
+
+  // Salva e renderiza agrupado por arquivo
   state.currentMode = 'global';
   state.globalGroups = groups;
   renderGlobalGroups(groups);
 
-  // destaca tokens (continua funcionando)
-  if (groups.length){
+  // Destaque de termos (se ainda for a mesma busca)
+  if (myTicket === state.searchTicket && groups.length){
     await highlightTokensChunked(tokens);
-  }else{
+  } else {
     state.matchNodes = [];
     state.matchIdx = -1;
     updateCount();
@@ -1170,6 +1195,7 @@ async function runGlobalSearch(){
 
   setBusy(false);
 }
+
 
 
 /* =============== Sheet (seletor na base) =============== */
