@@ -120,19 +120,24 @@
     .art-title { font-size: 13px; }
     .supra { font-size: 11px; }
 
-    /* ===== Barra 1 (SETAS / INPUT / TOGGLE GLOBAL / CONTADOR) ===== */
-.bottom-search{
-  position:fixed; left:0; right:0; bottom:var(--bottom-study-h);
-  height:var(--bottom-search-h);
+   /* ===== BARRA ÚNICA (Busca + Ações) ===== */
+.bottom-bar{
+  position:fixed; left:0; right:0; bottom:0;
   background: var(--bar-bg);
   border-top:1px solid #e0e4ec;
-  z-index:70; display:flex; align-items:center; justify-content:center;
-  padding-bottom:max(0px, env(safe-area-inset-bottom));
+  z-index:70; 
+  display:flex; align-items:center; justify-content:center;
+  padding:8px 0 max(8px, env(safe-area-inset-bottom));
 }
-.bottom-search-inner{
+.bottom-bar-inner{
   width:clamp(320px, 92vw, 960px);
-  display:flex; align-items:center; gap:8px; padding:8px 12px;
-  flex-wrap: nowrap; /* impede quebra de linha */
+  display:flex; flex-direction:column;
+  gap:6px; padding:6px 12px;
+}
+
+/* Linha 1: busca */
+.search-row{
+  display:flex; align-items:center; gap:8px;
 }
 .iconbtn{
   width:32px; height:32px; border:1px solid #e2e5f2; background:#fff; border-radius:8px;
@@ -141,185 +146,47 @@
 }
 .iconbtn:focus,input:focus{outline:2px solid var(--focus); outline-offset:2px}
 .search{
-  flex:1 1 auto; /* ocupa todo espaço livre */
-  display:flex; align-items:center; gap:8px; min-width:0; position:relative;
+  flex:1 1 auto; display:flex; align-items:center; gap:8px; min-width:0; position:relative;
 }
 .search input{
-  flex:1 1 auto;   /* cresce conforme espaço disponível */
-  min-width:0;     /* evita quebra */
-  width:auto;      /* não força 100%, deixa o flex controlar */
+  flex:1 1 auto;
+  min-width:0;
   height:36px;
   border:1px solid #e2e5f2;
   border-radius:10px;
   padding:0 12px;
   background:#fff;
 }
-
-    /* spinner posicionado dentro do campo */
-    .spinner{
-      position:absolute; right:42px; top:50%; transform:translateY(-50%);
-      width:18px; height:18px; border:2px solid #e2e5f2; border-top-color:#142B6F; border-radius:50%;
-      animation:spin 1s linear infinite; flex:0 0 18px
-    }
-    .spinner[hidden]{display:none}
-    @keyframes spin{to{transform:rotate(360deg)}}
-
-    .result-count{
-      min-width:64px; font-size:12px; color:#6c7282; border:1px solid #e2e5f2;
-      background:#f7f8fc; padding:6px 10px; border-radius:8px; text-align:center;
-    }
-
-    /* Toggle "todos" — largo no desktop, ícone no mobile */
-    .all-toggle{
-      display:inline-flex; align-items:center; gap:6px;
-      font-size:12px; color:#6c7282; user-select:none; cursor:pointer;
-      border:1px solid #e2e5f2; background:#fff; padding:6px 10px; border-radius:8px;
-      white-space:nowrap;
-    }
-    .all-toggle input{ width:16px; height:16px; }
-    .all-toggle span{ display:inline-block; }
-
-   
-    /* ===== Barra 2 (ESTUDAR / BUSCAR) ===== */
-    .bottom-study{
-      position:fixed; left:0; right:0; bottom:0; height:var(--bottom-study-h);
-      background: var(--bar-bg-2);
-      border-top:1px solid #d9dde6;
-      z-index:75; display:flex; align-items:center; justify-content:center; padding:8px 0;
-      padding-bottom:max(8px, env(safe-area-inset-bottom));
-    }
-    .bottom-study-inner{
-      width:clamp(320px, 92vw, 960px); padding:0 12px; display:flex; align-items:center; gap:12px;
-    }
-    .study,.do-search{
-      flex:1 1 0; padding:12px 16px; border-radius:12px; font-weight:800; cursor:pointer;
-    }
-    .study{ border:1px solid #0e2a7a; background:#142B6F; color:#fff; }
-    .do-search{ border:1px solid #f0e08b; background:var(--yellow); color:#0a0a0a; }
-
-    /* Resultados globais (somente hits por arquivo) */
-    .results-group{ margin:14px 0; padding:12px; border:1px solid #eceff4; border-radius:12px; background:#fafbff; }
-    .results-group h4{ margin:0 0 8px; font-size:14px; color:#0e1638 }
-    .result-item{
-      display:block; text-align:left; width:100%; border:1px solid #e2e5f2; background:#fff;
-      padding:10px 12px; border-radius:10px; margin:8px 0; cursor:pointer;
-    }
-    .result-item b{ color:#0e1638 }
-    .result-item small{ color:#6c7282; display:block; margin-top:4px }
-    .result-item:hover, .result-item:focus{ outline:2px solid var(--focus); outline-offset:2px }
-    .result-empty{ padding:24px; border:1px dashed #dcdfea; border-radius:12px; color:#6c7282; background:#f9fbff }
-
-    /* Modal IA */
-    .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.28); display:none; align-items:center; justify-content:center; z-index:100}
-    .modal{
-      background:#fff; border-radius:16px; width:min(640px, 92vw); padding:18px; border:1px solid #eceef7; box-shadow: var(--shadow)
-    }
-    .modal h3{margin:0 0 8px; color:#0f173a}
-    .modal .subtitle{margin:0 0 14px; font-size:13px; color:#3a7f48}
-    .modal-body{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
-    .ia-btn{
-      display:flex; align-items:center; gap:10px; padding:12px; border:1px solid #e6e8f2; background:#f6f7fb;
-      border-radius:12px; cursor:pointer; text-decoration:none; color:#111; font-weight:700; justify-content:center;
-    }
-    .ia-btn:focus{outline:2px solid var(--focus); outline-offset:2px}
-    .modal .foot{margin-top:12px; display:flex; justify-content:flex-end}
-    .modal .close-btn{padding:8px 12px; border:1px solid #e2e5f2; background:#fff; border-radius:10px; cursor:pointer}
-
-    /* Toast */
-    .toast{
-      position:fixed; left:50%; transform:translateX(-50%);
-      bottom:calc(var(--bottom-study-h) + var(--bottom-search-h) + 14px);
-      background:#111; color:#fff; padding:8px 12px; border-radius:10px; opacity:0; pointer-events:none; transition:opacity .2s; z-index:200
-    }
-    .toast.show{opacity:1}
-
-    .bottom-search[hidden], .bottom-study[hidden]{display:none}
-
-    /* Mobile-only */
-    @media (max-width: 768px){
-      .brand{ font-size:18px; }
-      .select-wrap select{ display:none; }
-      .picker-btn{ display:inline-flex; align-items:center; gap:8px; }
-      .select-wrap select,
-      select option, select optgroup{ font-size:14px; }
-
-      /* dar espaço p/ spinner + limpar dentro do input */
-      .search input{ padding-right: 84px; }
-
-      /* esconder setas até resultados (fica mais espaço p/ digitar) */
-      #prevBtn, #nextBtn{ visibility:hidden; }
-
-      /* “Todos” vira ícone 🌐 no mobile (compacto) */
-.all-toggle {
-  padding: 6px; /* reduzido */
-  width: 32px; 
-  height: 32px;
-  justify-content: center;
+.spinner{
+  position:absolute; right:42px; top:50%; transform:translateY(-50%);
+  width:18px; height:18px; border:2px solid #e2e5f2; border-top-color:#142B6F; border-radius:50%;
+  animation:spin 1s linear infinite; flex:0 0 18px
 }
-.all-toggle span{ display:none; }
-.all-toggle:before{ content:"🌐"; font-size:15px; line-height:1; }
+.spinner[hidden]{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.result-count{
+  min-width:64px; font-size:12px; color:#6c7282; border:1px solid #e2e5f2;
+  background:#f7f8fc; padding:6px 10px; border-radius:8px; text-align:center;
+}
+.all-toggle{
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:12px; color:#6c7282; user-select:none; cursor:pointer;
+  border:1px solid #e2e5f2; background:#fff; padding:6px 10px; border-radius:8px;
+  white-space:nowrap;
+}
+.all-toggle input{ width:16px; height:16px; }
+.all-toggle span{ display:inline-block; }
 
+/* Linha 2: botões */
+.actions-row{
+  display:flex; align-items:center; gap:12px;
+}
+.study,.do-search{
+  flex:1 1 0; padding:12px 16px; border-radius:12px; font-weight:800; cursor:pointer;
+}
+.study{ border:1px solid #0e2a7a; background:#142B6F; color:#fff; }
+.do-search{ border:1px solid #f0e08b; background:var(--yellow); color:#0a0a0a; }
 
-      /* remover X externo da barra — economiza espaço */
-      /* (não existe no HTML, mas se aparecer, some no mobile) */
-      #resetBtn{ display:none !important; }
-    }
-    /* Ao ter resultados (controlado via JS) */
-    .has-results #prevBtn, .has-results #nextBtn{ visibility:visible; }
-    .highlight{ background:#ffef99; border-radius:3px; }
-
-    .sheet {
-  position: fixed;
-  inset: 0;
-  display: none; /* começa escondido */
-  align-items: center;
-  justify-content: center;
-  z-index: 200;
-}
-.sheet-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,.4);
-}
-.sheet-panel {
-  position: relative;
-  background: #fff;
-  border-radius: 16px;
-  max-height: 80vh;
-  width: min(92vw, 480px);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-.sheet-head {
-  padding: 12px 16px;
-  border-bottom: 1px solid #eee;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.sheet-search {
-  padding: 10px 16px;
-  border-bottom: 1px solid #eee;
-}
-.sheet-body {
-  flex: 1;
-  overflow-y: auto;
-  padding: 12px 16px;
-}
-.sheet-body .item {
-  display: block;
-  width: 100%;
-  text-align: left;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #eee;
-  margin-bottom: 8px;
-  background: #fafafa;
-}
-.sheet-body .item:hover {
-  background: #f0f0f0;
-}
     /* ========================
    ESTADOS DA BARRA DE BUSCA
    ======================== */
@@ -434,31 +301,37 @@ body.post-global .result-count {
     </div>
   </main>
 
-  <!-- BARRA 1 -->
-  <div class="bottom-search" id="bottomSearch" hidden>
-    <div class="bottom-search-inner" aria-live="polite">
-      <button class="iconbtn" id="prevBtn" title="Anterior" aria-label="Anterior">◀</button>
-      <button class="iconbtn" id="nextBtn" title="Próximo" aria-label="Próximo">▶</button>
+   <!-- BARRA ÚNICA -->
+  <div class="bottom-bar" id="bottomBar" hidden>
+    <div class="bottom-bar-inner">
+      
+      <!-- Linha 1: Busca -->
+      <div class="search-row">
+        <button class="iconbtn" id="prevBtn" title="Anterior" aria-label="Anterior">◀</button>
+        <button class="iconbtn" id="nextBtn" title="Próximo" aria-label="Próximo">▶</button>
 
-      <div class="search">
-  <input id="searchInput" type="search" placeholder="Buscar no texto…" autocomplete="off" aria-label="Buscar no texto" />
+        <div class="search">
+          <input id="searchInput" type="search" placeholder="Buscar no texto…" autocomplete="off" aria-label="Buscar no texto" />
+          <label class="all-toggle" title="Buscar em todos os arquivos">
+            <input id="searchAll" type="checkbox" />
+            <span>todos</span>
+          </label>
+          <div class="spinner" id="spinner" hidden></div>
+        </div>
 
-  <!-- toggle Global -->
-  <label class="all-toggle" title="Buscar em todos os arquivos">
-    <input id="searchAll" type="checkbox" />
-    <span>todos</span>
-  </label>
+        <div class="result-count" title="Ocorrência atual / Total"><span id="count">0/0</span></div>
+        <button class="iconbtn" id="backToResultsBtn" title="Voltar aos resultados" aria-label="Voltar aos resultados" style="display:none">⟲</button>
+      </div>
 
-  <div class="spinner" id="spinner" hidden></div>
-</div>
+      <!-- Linha 2: Ações -->
+      <div class="actions-row">
+        <button class="study" id="studyBtn">Estude com I.A.</button>
+        <button class="do-search" id="doSearchBtn">Buscar</button>
+      </div>
 
-
-      <div class="result-count" title="Ocorrência atual / Total"><span id="count">0/0</span></div>
-
-      <!-- Voltar aos resultados globais -->
-      <button class="iconbtn" id="backToResultsBtn" title="Voltar aos resultados" aria-label="Voltar aos resultados" style="display:none">⟲</button>
     </div>
   </div>
+
 
   <!-- BARRA 2 -->
   <div class="bottom-study" id="bottomStudy" hidden>
