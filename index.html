@@ -487,7 +487,7 @@
     };
 
     function updateHash(){
-      const el = document.querySelector(`article[data-idx="${state.currentArticleIdx}"]`);
+      const el = document.querySelector('article[data-idx="' + state.currentArticleIdx + '"]');
       if (el) history.replaceState(null, '', '#'+el.id);
     }
 
@@ -495,19 +495,20 @@
       const idx = getArticleInView();
       if (idx === state.currentArticleIdx) return;
       state.currentArticleIdx = idx;
-      document.querySelectorAll('article.current-outline').forEach(n=>n.classList.remove('current-outline'));
+      document.querySelectorAll('article.current-outline').forEach(function(n){ n.classList.remove('current-outline'); });
       if (idx >= 0){
-        const el = document.querySelector(`article[data-idx="${idx}"]`);
-        el?.classList.add('current-outline');
+        const el = document.querySelector('article[data-idx="' + idx + '"]');
+        if (el) el.classList.add('current-outline');
         updateHash();
       }
     }
 
     function watchInView(){
-      const obs = new IntersectionObserver((ents)=>{
+      const obs = new IntersectionObserver(function(ents){
         const mid = window.innerHeight/2;
         let best=null, bestDelta=1e9;
-        for(const e of ents){
+        for(var i=0;i<ents.length;i++){
+          const e = ents[i];
           if (!e.isIntersecting) continue;
           const r = e.target.getBoundingClientRect();
           const d = Math.abs((r.top+r.bottom)/2 - mid);
@@ -515,15 +516,15 @@
         }
         if (best){
           state.currentArticleIdx = +best.dataset.idx;
-          document.querySelectorAll('article.current-outline').forEach(n=>n.classList.remove('current-outline'));
+          document.querySelectorAll('article.current-outline').forEach(function(n){ n.classList.remove('current-outline'); });
           best.classList.add('current-outline');
           updateHash();
         }
       }, {root:null, threshold:[0,.5,1]});
-      document.querySelectorAll('article[data-idx]').forEach(el=>obs.observe(el));
+      document.querySelectorAll('article[data-idx]').forEach(function(el){ obs.observe(el); });
     }
 
-    window.addEventListener('scroll', ()=>{
+    window.addEventListener('scroll', function(){
       if (!state.articles.length) return;
       updateCurrentOutline();
     }, {passive:true});
@@ -593,7 +594,7 @@
 
         // Garante que só pega até o último "." ou ")" antes do próximo artigo
         const endDot = chunk.lastIndexOf('.');
-        const endPar = chunk.lastIndexOf(')');
+               const endPar = chunk.lastIndexOf(')');
         const end    = Math.max(endDot, endPar);
 
         // Heurística: só corta se esse terminador estiver razoavelmente no fim do bloco.
@@ -611,12 +612,12 @@
 
     function splitBlockSupraTitleBody(raw){
       const lines = raw.replace(/^\s+|\s+$/g,'').split(/\r?\n/);
-      const artIdx = lines.findIndex(line =>
-        /^\s*(?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?/.test(line)
-      );
+      const artIdx = lines.findIndex(function(line){
+        return /^\s*(?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?/.test(line);
+      });
 
       if (artIdx >= 0){
-        const supra = lines.slice(0, artIdx).map(s=>s.trim()).filter(Boolean);
+        const supra = lines.slice(0, artIdx).map(function(s){ return s.trim(); }).filter(Boolean);
         const titleLine = lines[artIdx];
 
         const mt = titleLine.match(/^\s*((?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?)/);
@@ -640,16 +641,16 @@
     /* ===== Parser exclusivo: Súmulas (Súmula X - ORG ... até -----) ===== */
     function parseSumulas(txt){
       const cleaned = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
-      const parts = cleaned.split(/^\s*-{5,}\s*$/m).map(s => s.trim()).filter(Boolean);
+      const parts = cleaned.split(/^\s*-{5,}\s*$/m).map(function(s){ return s.trim(); }).filter(Boolean);
       const out = [];
-      parts.forEach((block, i)=>{
-        const lines = block.split('\n').map(l=>l.trim());
+      parts.forEach(function(block, i){
+        const lines = block.split('\n').map(function(l){ return l.trim(); });
         const header = (lines.shift() || 'Súmula').trim(); // "Súmula 736 - STF"
         const body = lines.join('\n').trim();
         out.push({
           title: header,
           text: header + (body ? '\n' + body : ''),
-          htmlId: `sumula-${i}`,
+          htmlId: 'sumula-' + i,
           _split: { supra: [], titleText: header, body }
         });
       });
@@ -659,10 +660,10 @@
     /* ===== Parser exclusivo: Princípios (Princípio ... até -----) ===== */
     function parsePrincipios(txt){
       const cleaned = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
-      const parts = cleaned.split(/^\s*-{5,}\s*$/m).map(s => s.trim()).filter(Boolean);
+      const parts = cleaned.split(/^\s*-{5,}\s*$/m).map(function(s){ return s.trim(); }).filter(Boolean);
       const out = [];
-      parts.forEach((block, i)=>{
-        const lines = block.split('\n').map(l=>l.trim());
+      parts.forEach(function(block, i){
+        const lines = block.split('\n').map(function(l){ return l.trim(); });
         let header = (lines.shift() || 'Princípio').trim();
         // Garante que começa com "Princípio" (com ou sem acento)
         const reHeader = /^\s*Princ[ií]pio\b/i;
@@ -674,7 +675,7 @@
         out.push({
           title: header,
           text: header + (body ? '\n' + body : ''),
-          htmlId: `principio-${i}`,
+          htmlId: 'principio-' + i,
           _split: { supra: [], titleText: header, body }
         });
       });
@@ -684,7 +685,7 @@
     /* ================= Render ================= */
     function renderArticles(){
       const frag = document.createDocumentFragment();
-      state.articles.forEach((a, i)=>{
+      state.articles.forEach(function(a, i){
         const el = document.createElement('article');
         el.dataset.idx = i;
         el.id = a.htmlId;
@@ -694,7 +695,7 @@
         if (split.supra && split.supra.length){
           const supra = document.createElement('div');
           supra.className = 'supra';
-          split.supra.forEach(line=>{
+          split.supra.forEach(function(line){
             const d = document.createElement('div');
             d.textContent = line;
             supra.appendChild(d);
@@ -743,7 +744,8 @@
 
     function findRanges(raw, term){
       if (!term) return [];
-      const {norm, map} = normalizeWithMap(raw);
+      const obj = normalizeWithMap(raw);
+      const norm = obj.norm, map = obj.map;
       const needle = normalizeTerm(term);
       if (!needle) return [];
       const ranges = [];
@@ -763,7 +765,8 @@
       if (!ranges.length){ return; }
       const raw = el.textContent;
       let out = '', last = 0;
-      for (const [s,e] of ranges){
+      for (let i=0;i<ranges.length;i++){
+        const s = ranges[i][0], e = ranges[i][1];
         out += escapeHtml(raw.slice(last, s));
         out += '<mark>' + escapeHtml(raw.slice(s, e)) + '</mark>';
         last = e;
@@ -774,7 +777,7 @@
 
     function clearMarks(){
       const nodes = document.querySelectorAll('article[data-idx]');
-      nodes.forEach(node=>{
+      nodes.forEach(function(node){
         const i = Number(node.dataset.idx);
         const a = state.articles[i];
         node.innerHTML = '';
@@ -784,7 +787,7 @@
         if (split.supra && split.supra.length){
           const supra = document.createElement('div');
           supra.className = 'supra';
-          split.supra.forEach(line=>{
+          split.supra.forEach(function(line){
             const d = document.createElement('div');
             d.textContent = line;
             supra.appendChild(d);
@@ -805,7 +808,8 @@
       state.matchNodes = [];
       state.matchIdx = -1;
       els.count.textContent = '0/0';
-      document.querySelector('.bottom-search-inner')?.classList.remove('has-results');
+      var bsi = document.querySelector('.bottom-search-inner');
+      if (bsi) bsi.classList.remove('has-results');
     }
 
     async function highlightTermChunked(term){
@@ -829,7 +833,7 @@
           const ranges = findRanges(raw, term);
           if (ranges.length) highlightElementByRanges(n, ranges);
         }
-        await new Promise(r=>setTimeout(r,0));
+        await new Promise(function(r){ return setTimeout(r,0); });
       }
 
       state.matchNodes = Array.from(document.querySelectorAll('mark'));
@@ -837,30 +841,30 @@
       if (state.matchNodes.length){
         state.matchIdx = 0;
         state.matchNodes[0].scrollIntoView({behavior:'smooth', block:'center'});
-        els.count.textContent = `1/${state.matchNodes.length}`;
-        root?.classList.add('has-results');
+        els.count.textContent = '1/' + state.matchNodes.length;
+        if (root) root.classList.add('has-results');
       }else{
         els.count.textContent = '0/0';
-        root?.classList.remove('has-results');
+        if (root) root.classList.remove('has-results');
       }
 
       setBusy(false);
     }
 
     // Navegação das ocorrências
-    els.nextBtn.addEventListener('click', ()=>{
+    els.nextBtn.addEventListener('click', function(){
       if (!state.matchNodes.length) return;
       state.matchIdx = (state.matchIdx + 1) % state.matchNodes.length;
       const m = state.matchNodes[state.matchIdx];
       m.scrollIntoView({behavior:'smooth',block:'center'});
-      els.count.textContent = `${state.matchIdx+1}/${state.matchNodes.length}`;
+      els.count.textContent = (state.matchIdx+1) + '/' + state.matchNodes.length;
     });
-    els.prevBtn.addEventListener('click', ()=>{
+    els.prevBtn.addEventListener('click', function(){
       if (!state.matchNodes.length) return;
       state.matchIdx = (state.matchIdx - 1 + state.matchNodes.length) % state.matchNodes.length;
       const m = state.matchNodes[state.matchIdx];
       m.scrollIntoView({behavior:'smooth',block:'center'});
-      els.count.textContent = `${state.matchIdx+1}/${state.matchNodes.length}`;
+      els.count.textContent = (state.matchIdx+1) + '/' + state.matchNodes.length;
     });
 
     /* ====== Busca GLOBAL (todos) ====== */
@@ -868,7 +872,7 @@
       const sel = els.codeSelect;
       const out = [];
       let currentGroup = '';
-      sel.querySelectorAll('optgroup, option').forEach(n=>{
+      sel.querySelectorAll('optgroup, option').forEach(function(n){
         if (n.tagName.toLowerCase()==='optgroup'){
           currentGroup = n.label || '';
         } else if (n.tagName.toLowerCase()==='option'){
@@ -884,13 +888,14 @@
       const hit = state.fileCache.get(url);
       if (hit && hit.txt) return hit.txt;
       const res = await fetch(url, { cache: 'no-store' });
-      if (!res.ok) throw new Error(`HTTP ${res.status} — ${res.statusText}`);
+      if (!res.ok) throw new Error('HTTP ' + res.status + ' — ' + res.statusText);
       const txt = sanitizeForLayout(await res.text());
       state.fileCache.set(url, { txt });
       return txt;
     }
     function findAllPositions(raw, term, limit=50){
-      const {norm, map} = normalizeWithMap(raw);
+      const obj = normalizeWithMap(raw);
+      const norm = obj.norm, map = obj.map;
       const needle = normalizeTerm(term);
       const positions = [];
       let from = 0;
@@ -936,11 +941,13 @@
           const positions = findAllPositions(txt, term, capPerFile);
           if (!positions.length) continue;
 
-          const items = positions.map((p)=>({
-            title: nearestHeader(txt, p) || s.label,
-            snippet: makeSnippet(txt, p),
-            url: s.url
-          }));
+          const items = positions.map(function(p){
+            return {
+              title: nearestHeader(txt, p) || s.label,
+              snippet: makeSnippet(txt, p),
+              url: s.url
+            };
+          });
           groups.push({ file: { label: s.label, url: s.url }, items });
           total += items.length;
           if (total >= totalCap) break;
@@ -972,20 +979,20 @@
       }
 
       const root = document.createDocumentFragment();
-      groups.forEach(g=>{
+      groups.forEach(function(g){
         const box = document.createElement('div');
         box.className = 'results-group';
         const h = document.createElement('h4');
         h.textContent = g.file.label;
         box.appendChild(h);
 
-        g.items.forEach((it)=>{
+        g.items.forEach(function(it){
           const btn = document.createElement('button');
           btn.type = 'button';
           btn.className = 'result-item';
           btn.dataset.url = it.url;
-          btn.innerHTML = `<b>${escapeHtml(it.title)}</b><small>${escapeHtml(it.snippet)}</small>`;
-          btn.addEventListener('click', ()=> openResultItem(it.url, state.lastGlobalTerm));
+          btn.innerHTML = '<b>' + escapeHtml(it.title) + '</b><small>' + escapeHtml(it.snippet) + '</small>';
+          btn.addEventListener('click', function(){ openResultItem(it.url, state.lastGlobalTerm); });
           box.appendChild(btn);
         });
 
@@ -995,25 +1002,25 @@
       els.globalResults.innerHTML = '';
       els.globalResults.appendChild(root);
 
-      const total = groups.reduce((a,g)=>a+g.items.length,0);
-      els.count.textContent = `${total} resultados`;
+      const total = groups.reduce(function(a,g){ return a+g.items.length; },0);
+      els.count.textContent = total + ' resultados';
     }
     async function openResultItem(url, term){
       showToast('Abrindo resultado…');
       els.codeSelect.value = url;
       els.codeSelect.dispatchEvent(new Event('change'));
-      setTimeout(()=>{ els.bottomStudy.hidden = false; highlightTermChunked(term); }, 80);
+      setTimeout(function(){ els.bottomStudy.hidden = false; highlightTermChunked(term); }, 80);
       els.backToResultsBtn.style.display = 'inline-grid';
       els.globalResultsWrap.style.display = 'none';
     }
-    els.backToResultsBtn.addEventListener('click', ()=>{
+    els.backToResultsBtn.addEventListener('click', function(){
       if (state.lastGlobalResults){
         renderGlobalResults(state.lastGlobalResults, state.lastGlobalTerm);
       }
     });
 
     // Executar busca (Barra 2)
-    els.doSearchBtn.addEventListener('click', ()=>{
+    els.doSearchBtn.addEventListener('click', function(){
       const term = els.searchInput.value.trim();
       if (!term) return;
       if (els.searchAll.checked){
@@ -1026,17 +1033,17 @@
     });
 
     // Enter envia; Esc reseta
-    els.searchInput.addEventListener('keydown', (e)=>{
+    els.searchInput.addEventListener('keydown', function(e){
       if (e.key === 'Enter'){ e.preventDefault(); els.doSearchBtn.click(); }
       else if (e.key === 'Escape'){ e.preventDefault(); resetAll(); }
     });
 
     // Limpar dentro do input (mobile/desktop)
-    els.searchInput.addEventListener('input', ()=>{
+    els.searchInput.addEventListener('input', function(){
       const has = els.searchInput.value.trim().length > 0;
       els.clearSearch.hidden = !has;
     });
-    els.clearSearch.addEventListener('click', ()=>{
+    els.clearSearch.addEventListener('click', function(){
       els.searchInput.value = '';
       els.clearSearch.hidden = true;
       clearMarks();
@@ -1064,7 +1071,7 @@
         '(6) erros comuns e pegadinhas de prova; ', 
         '(7) nota comparativa se houver artigos correlatos. ',
         'Responda em português claro, sem enrolação, objetivo e didático.\n\n',
-        `Tema: "${tema}"\n\n`,
+        'Tema: "' + tema + '"\n\n',
         supraText + artigo,
         '\n\n💚 direito.love'
       ].join('');
@@ -1080,59 +1087,63 @@
         else if (!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
       }
       modal.addEventListener('keydown', loop);
-      return ()=> modal.removeEventListener('keydown', loop);
+      return function(){ modal.removeEventListener('keydown', loop); };
     }
-    let untrap = ()=>{};
+    let untrap = function(){};
     function isStandalone(){
-      return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
     }
     function openIA(url){
       showToast('Abrindo…');
       if (isStandalone()){ location.href = url; }
       else{ window.open(url, '_blank', 'noopener,noreferrer'); }
     }
-    document.querySelectorAll('.ia-btn').forEach(btn=>{
-      btn.addEventListener('click', ()=> openIA(btn.dataset.url));
+    document.querySelectorAll('.ia-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){ openIA(btn.dataset.url); });
     });
 
     function openModal(title){
-      els.modalTitle.textContent = `Estude o ${title} com as I.As. abaixo.`;
-      document.querySelector('main').inert = true;
+      els.modalTitle.textContent = 'Estude o ' + title + ' com as I.As. abaixo.';
+      const mainEl = document.querySelector('main');
+      if (mainEl) mainEl.inert = true;
       document.body.style.overflow = 'hidden';
       els.modalBackdrop.style.display = 'flex';
       els.modalBackdrop.setAttribute('aria-hidden','false');
       untrap = trapFocus(els.modalBackdrop);
-      els.modalBackdrop.querySelector('.ia-btn')?.focus();
+      const first = els.modalBackdrop.querySelector('.ia-btn');
+      if (first) first.focus();
     }
     function closeModal(){
       els.modalBackdrop.style.display = 'none';
       els.modalBackdrop.setAttribute('aria-hidden','true');
-      document.querySelector('main').inert = false;
+      const mainEl = document.querySelector('main');
+      if (mainEl) mainEl.inert = false;
       document.body.style.overflow = '';
       untrap();
     }
 
-    els.studyBtn.addEventListener('click', async ()=>{
+    els.studyBtn.addEventListener('click', async function(){
       if (!state.articles.length) return;
       updateCurrentOutline();
-      const idx = state.currentArticleIdx ?? 0;
+      const idx = (state.currentArticleIdx != null ? state.currentArticleIdx : 0);
       const a = state.articles[idx] || state.articles[0];
 
-      document.querySelectorAll('article.highlight-study').forEach(n=>n.classList.remove('highlight-study'));
-      document.querySelector(`article[data-idx="${idx}"]`)?.classList.add('highlight-study');
+      document.querySelectorAll('article.highlight-study').forEach(function(n){ n.classList.remove('highlight-study'); });
+      const pick = document.querySelector('article[data-idx="' + idx + '"]');
+      if (pick) pick.classList.add('highlight-study');
 
       const prompt = buildPrompt(a);
       try{ await navigator.clipboard.writeText(prompt); showToast('✅ Prompt copiado!'); }
-      catch{ showToast('Copie manualmente no próximo passo.'); }
+      catch(e){ showToast('Copie manualmente no próximo passo.'); }
 
       openModal(extractArticleTitleText(a));
     });
 
     els.closeModal.addEventListener('click', closeModal);
-    els.modalBackdrop.addEventListener('click', (e)=>{
+    els.modalBackdrop.addEventListener('click', function(e){
       if (e.target === els.modalBackdrop) closeModal();
     });
-    document.addEventListener('keydown', (e)=>{
+    document.addEventListener('keydown', function(e){
       if (els.modalBackdrop.style.display === 'flex' && e.key === 'Escape') closeModal();
     });
 
@@ -1152,7 +1163,7 @@
       els.globalResultsWrap.style.display = 'none';
       els.articles.innerHTML = '<div class="placeholder"><p style="text-align:center">😎 Escolha um arquivo no topo para começar. Bons estudos!</p></div>';
       els.codeSelect.value = '';
-      document.querySelectorAll('.highlight-study,.current-outline').forEach(n=>n.classList.remove('highlight-study','current-outline'));
+      document.querySelectorAll('.highlight-study,.current-outline').forEach(function(n){ n.classList.remove('highlight-study'); n.classList.remove('current-outline'); });
       els.backToResultsBtn.style.display = 'none';
       closeModal();
       window.scrollTo({top:0,behavior:'auto'});
@@ -1164,28 +1175,29 @@
     /* ================= Persistência (arquivo + scroll) ================= */
     // salva scroll do arquivo atual
     let saveT=null;
-    window.addEventListener('scroll', ()=>{
+    window.addEventListener('scroll', function(){
       clearTimeout(saveT);
-      saveT=setTimeout(()=>localStorage.setItem('lastScroll_'+(els.codeSelect.value||''), String(scrollY)), 300);
+      saveT=setTimeout(function(){ localStorage.setItem('lastScroll_'+(els.codeSelect.value||''), String(scrollY)); }, 300);
     }, {passive:true});
 
     function restoreScrollFor(url){
       const y = +localStorage.getItem('lastScroll_'+url) || 0;
       if (y) window.scrollTo({top:y, behavior:'auto'});
       if (location.hash){
-        document.getElementById(location.hash.slice(1))?.scrollIntoView({behavior:'auto', block:'start'});
+        const target = document.getElementById(location.hash.slice(1));
+        if (target) target.scrollIntoView({behavior:'auto', block:'start'});
       }
     }
 
     /* ================= Carregar TXT ================= */
-    els.codeSelect.addEventListener('change', async (e)=>{
+    els.codeSelect.addEventListener('change', async function(e){
       const url = e.target.value;
       if (!url){ resetAll(); return; }
       els.globalResultsWrap.style.display = 'none';
       els.articles.innerHTML = '<div class="placeholder">Carregando…</div>';
       try{
         const res = await fetch(url, {cache:'no-store'});
-        if (!res.ok) throw new Error(`HTTP ${res.status} — ${res.statusText} (${url})`);
+        if (!res.ok) throw new Error('HTTP ' + res.status + ' — ' + res.statusText + ' (' + url + ')');
         const txt = sanitizeForLayout(await res.text());
         state.rawText = txt;
 
@@ -1200,10 +1212,10 @@
         clearMarks();
         window.scrollTo({top:0,behavior:'auto'});
         localStorage.setItem('lastFile', url);
-        setTimeout(()=>restoreScrollFor(url), 30);
+        setTimeout(function(){ restoreScrollFor(url); }, 30);
       }catch(err){
         console.error(err);
-        els.articles.innerHTML = `<div class="placeholder">Falha ao carregar o arquivo:<br><code>${(err && err.message) || 'Erro desconhecido'}</code></div>`;
+        els.articles.innerHTML = '<div class="placeholder">Falha ao carregar o arquivo:<br><code>' + ((err && err.message) || 'Erro desconhecido') + '</code></div>';
         els.bottomSearch.hidden = true; els.bottomStudy.hidden = true;
       }
     });
@@ -1222,7 +1234,7 @@
         const groups = [];
         let current = null;
 
-        sel.querySelectorAll('optgroup, option').forEach(node=>{
+        sel.querySelectorAll('optgroup, option').forEach(function(node){
           if (node.tagName.toLowerCase()==='optgroup'){
             current = { label: node.label || '', items: [] };
             groups.push(current);
@@ -1232,37 +1244,38 @@
             const value = node.value;
             if (!label) return;
             if (!current){ return; }
-            current.items.push({ label, value });
+            current.items.push({ label: label, value: value });
           }
         });
 
         return groups;
       }
 
-      const norm = s => (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-      const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const norm = function(s){ return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); };
+      const escRe = function(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); };
 
-      function render(filter=''){
+      function render(filter){
+        if (typeof filter === 'undefined') filter = '';
         const groups = getGroups();
         const f = norm(filter);
         listEl.innerHTML = '';
         let total = 0;
 
-        groups.forEach(g=>{
-          const items = g.items.filter(it => !f || norm(it.label).includes(f));
+        groups.forEach(function(g){
+          const items = g.items.filter(function(it){ return !f || norm(it.label).includes(f); });
           if (!items.length) return;
 
           const sec = document.createElement('div'); sec.className = 'list-section';
           const h = document.createElement('h4'); h.textContent = g.label; sec.appendChild(h);
 
-          items.forEach(it=>{
+          items.forEach(function(it){
             const btn = document.createElement('button');
             btn.type = 'button';
             btn.className = 'item';
             let labelHTML = it.label;
-            if (f) labelHTML = it.label.replace(new RegExp(escRe(filter), 'ig'), m => `<span class="highlight">${m}</span>`);
-            btn.innerHTML = `<b>${labelHTML}</b>`;
-            btn.addEventListener('click', ()=>{
+            if (f) labelHTML = it.label.replace(new RegExp(escRe(filter), 'ig'), function(m){ return '<span class="highlight">' + m + '</span>'; });
+            btn.innerHTML = '<b>' + labelHTML + '</b>';
+            btn.addEventListener('click', function(){
               sel.value = it.value;
               sel.dispatchEvent(new Event('change', {bubbles:true}));
               close();
@@ -1284,6 +1297,7 @@
         sheet.setAttribute('aria-hidden', 'false');
         openBtn.setAttribute('aria-expanded','true');
         render('');
+        setTimeout(function(){ try{ searchEl.focus(); }catch(e){} }, 50);
         document.addEventListener('keydown', onKey);
       }
       function close(){
@@ -1297,26 +1311,28 @@
       }
 
       openBtn.addEventListener('click', open);
-      sheet.addEventListener('click', e=>{
-        if (e.target.closest('[data-close]')) close();
+      // Fecha ao clicar em backdrop ou no botão de fechar (ambos têm data-close)
+      sheet.addEventListener('click', function(e){
+        if (e.target && e.target.closest('[data-close]')) close();
       });
-      searchEl.addEventListener('input', e=> render(e.target.value));
+      searchEl.addEventListener('input', function(e){ render(e.target.value); });
 
-      sel.addEventListener('change', ()=>{
-        const t = sel.options[sel.selectedIndex]?.text || 'Escolher código';
+      sel.addEventListener('change', function(){
+        const opt = sel.options[sel.selectedIndex];
+        const t = (opt && opt.text) ? opt.text : 'Escolher código';
         openBtn.textContent = t.length > 28 ? t.slice(0,28)+'…' : t;
       });
       openBtn.textContent = 'Escolher código';
     })();
 
     /* ================= Atalhos de teclado ================= */
-    document.addEventListener('keydown',(e)=>{
+    document.addEventListener('keydown', function(e){
       const tag = (e.target.tagName||'').toLowerCase();
       if (tag==='input' || tag==='textarea') return;
       if (e.key === '/') { e.preventDefault(); els.searchInput.focus(); return; }
       if (e.key === 'n') { e.preventDefault(); els.nextBtn.click(); }
       if (e.key === 'p') { e.preventDefault(); els.prevBtn.click(); }
-      if (e.key.toLowerCase() === 's' && !e.shiftKey) { e.preventDefault(); els.studyBtn.click(); }
+      if (e.key && e.key.toLowerCase() === 's' && !e.shiftKey) { e.preventDefault(); els.studyBtn.click(); }
       if (e.key === ']') { e.preventDefault(); scrollBy({top: window.innerHeight*0.8, behavior:'smooth'}); }
       if (e.key === '[') { e.preventDefault(); scrollBy({top:-window.innerHeight*0.8, behavior:'smooth'}); }
     });
@@ -1333,16 +1349,16 @@
       const s = a._split || splitBlockSupraTitleBody(a.text);
       return (s.titleText? s.titleText+' - ':'') + (s.body||'');
     }
-    document.addEventListener('keydown', (e)=>{
-      if (e.shiftKey && e.key.toLowerCase()==='s' && state.articles.length){
+    document.addEventListener('keydown', function(e){
+      if (e.shiftKey && e.key && e.key.toLowerCase()==='s' && state.articles.length){
         e.preventDefault();
         const a = state.articles[state.currentArticleIdx] || state.articles[0];
-        downloadText((a?.htmlId||'artigo')+'.txt', getCurrentArticleText());
+        downloadText(((a && a.htmlId) ? a.htmlId : 'artigo')+'.txt', getCurrentArticleText());
       }
     });
 
     /* ================= Restaurar última sessão ================= */
-    document.addEventListener('DOMContentLoaded', ()=>{
+    document.addEventListener('DOMContentLoaded', function(){
       updateCurrentOutline();
       const last = localStorage.getItem('lastFile');
       if (last){
@@ -1353,7 +1369,7 @@
 
     /* ================= Service Worker ================= */
     if ('serviceWorker' in navigator){
-      navigator.serviceWorker.register('/sw.js').catch(()=>{});
+      navigator.serviceWorker.register('sw.js').catch(function(){});
     }
   </script>
 </body>
