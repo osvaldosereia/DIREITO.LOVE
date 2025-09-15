@@ -451,7 +451,7 @@
       <div class="sheet-body" id="pickerList" aria-live="polite"></div>
     </div>
   </div>
-   <script>
+<script>
 /* =============== Refs =============== */
 const els = {
   // topo / status
@@ -467,7 +467,7 @@ const els = {
   bottomSearch: document.getElementById('bottomSearch'),
   bottomStudy: document.getElementById('bottomStudy'),
 
-  // barra info (seletor + toggle)
+  // barra info (seletor)
   openPicker: document.getElementById('openPicker'),
   fileIndicator: document.getElementById('fileIndicator'),
 
@@ -502,12 +502,12 @@ const state = {
   currentFileUrl: null,
   currentFileLabel: 'Escolher código',
   rawText: '',
-  articles: [],              // lista renderizada do arquivo atual (para modo normal)
+  articles: [],              // lista renderizada do arquivo atual
   currentArticleIdx: -1,
 
   // render atual
-  currentMode: 'idle',       // 'idle' | 'file' | 'global'
-  currentList: [],           // lista atualmente renderizada (arquivo completo OU resultados globais)
+  currentMode: 'idle',       // 'idle' | 'file'
+  currentList: [],           // lista atualmente renderizada
   currentTokens: [],         // termos usados na última marcação
 
   // busca / navegação
@@ -517,11 +517,10 @@ const state = {
   // progresso
   progressTimer: null,
 
-  
+  // cache/catálogo
   cache: new Map(),          // url -> texto limpo
   urlToLabel: new Map(),     // url -> label
 };
-
 
 /* =============== Utilidades UI =============== */
 function showToast(msg='✅ Pronto!'){
@@ -727,7 +726,7 @@ function parseSumulas(txt){
   const out = [];
   parts.forEach((block, i)=>{
     const lines = block.split('\n').map(l=>l.trim());
-    const header = (lines.shift() || 'Súmula').trim(); // "Súmula 736 - STF"
+    const header = (lines.shift() || 'Súmula').trim();
     const body = lines.join('\n').trim();
     out.push({
       title: header,
@@ -740,7 +739,7 @@ function parseSumulas(txt){
 }
 function parsePrincipios(txt){
   const cleaned = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
-  const parts = cleaned.split(/^\s*-{5,}\s*$/m).map(s => s.trim()).filter(Boolean);
+  const parts = cleaned split(/\s*-{5,}\s*$/m).map(s => s.trim()).filter(Boolean);
   const out = [];
   parts.forEach((block, i)=>{
     const lines = block.split('\n').map(l=>l.trim());
@@ -778,7 +777,6 @@ function renderArticles(list, {globalMode=false}={}){
 
     const split = a._split || splitBlockSupraTitleBody(a.text);
 
-    // Supra + badge de arquivo (somente no modo global)
     const supraWrap = document.createElement('div');
     supraWrap.className = 'supra';
 
@@ -823,20 +821,16 @@ function renderArticles(list, {globalMode=false}={}){
 
   state.currentList = list;
   updateCurrentOutline();
+
   // limpa contagem
   state.matchNodes = [];
   state.matchIdx = -1;
   updateCount();
 }
+
 /* =============== Destaque / Busca no DOM =============== */
-
-
-// Re-render sem marcas <mark>, respeitando o modo atual (arquivo ou global)
 function clearMarksAndRerender(){
-  if (state.currentMode === 'global' && Array.isArray(state.globalGroups) && state.globalGroups.length){
-    renderGlobalGroups(state.globalGroups);
-    return;
-  }
+  // versão limpa: sem modo global
   renderArticles(state.currentList || [], { globalMode: false });
 }
 
@@ -862,7 +856,7 @@ async function highlightTokensChunked(tokens){
       const ranges = findRangesMulti(raw, tokens);
       if (ranges.length) highlightElementByRanges(n, ranges);
     }
-    await new Promise(r=>setTimeout(r,0)); // cede thread p/ manter UI responsiva
+    await new Promise(r=>setTimeout(r,0));
   }
 
   state.matchNodes = Array.from(document.querySelectorAll('mark'));
@@ -875,8 +869,6 @@ async function highlightTokensChunked(tokens){
   updateCount();
   setBusy(false);
 }
-
-
 
 /* =============== Scroll / Outline =============== */
 function getArticleInView(){
@@ -972,120 +964,6 @@ async function runLocalSearch(){
   state.currentTokens = tokens;
   await highlightTokensChunked(tokens);
 }
-
-/* =============== Busca Global (AND) — AGRUPADA POR ARQUIVO =============== */
-
-
-
-
-
-// Nova busca global (AND entre palavras, agrupada por arquivo)
-
-  const q = els.searchInput.value.trim();
-  const tokens = q.split(/\s+/).map(normalizeTerm).filter(Boolean);
-  state.currentTokens = tokens;
-
-  // incrementa o ticket desta busca
-  const myTicket = ++state.searchTicket;
-
-  // Sem termos: volta para o arquivo atual ou placeholder
-  if (!tokens.length){
-    state.globalGroups = [];
-    if (state.currentFileUrl){
-      state.currentMode = 'file';
-      renderArticles(state.articles, { globalMode:false });
-      updateCount();
-    } else {
-      els.articles.innerHTML = '<div class="placeholder"><p>Digite algo para buscar em todos os códigos.</p></div>';
-      state.currentList = [];
-      state.matchNodes = [];
-      state.matchIdx = -1;
-      updateCount();
-    }
-    return;
-  }
-
-  setBusy(true);
-
-  // Varrer catálogo na ordem do <select>
-  const groups = [];
-  const selectGroups = getGroupsFromSelect();
-
-  for (const g of selectGroups){
-    // aborta se outra busca começou
-    if (myTicket !== state.searchTicket){ setBusy(false); return; }
-
-    for (const it of g.items){
-      if (myTicket !== state.searchTicket){ setBusy(false); return; }
-
-      const url = it.value;
-      const label = it.label;
-
-      let txt = '';
-      try{
-        txt = await fetchTextCached(url);
-      }catch(_e){
-        // ignora falha deste arquivo e segue
-        continue;
-      }
-
-      if (myTicket !== state.searchTicket){ setBusy(false); return; }
-
-      // Parseia blocos do arquivo atual
-      const blocks = parseByUrl(url, txt);
-
-      // Filtra: mantém apenas cards que contenham TODAS as palavras (AND)
-      const hits = [];
-      for (const b of blocks){
-        const full = blockFullText(b);     // 3C garante esta util; se já existir, ok
-        const norm = normalizeTerm(full);
-        let allHit = true;
-        for (const t of tokens){
-          if (norm.indexOf(t) === -1){ allHit = false; break; }
-        }
-        if (allHit){
-          hits.push({
-            ...b,
-            _fileUrl: url,
-            _fileLabel: label
-          });
-        }
-      }
-
-      if (hits.length){
-        groups.push({
-          fileUrl: url,
-          fileLabel: label,
-          items: hits
-        });
-      }
-
-      // cede o thread p/ manter UI responsiva
-      await new Promise(r=>setTimeout(r,0));
-    }
-  }
-
-  // Se outra busca iniciou no meio, aborta a renderização
-  if (myTicket !== state.searchTicket){ setBusy(false); return; }
-
-  // Salva e renderiza agrupado por arquivo
-  state.currentMode = 'global';
-  state.globalGroups = groups;
-  renderGlobalGroups(groups);
-
-  // Destaque de termos (se ainda for a mesma busca)
-  if (myTicket === state.searchTicket && groups.length){
-    await highlightTokensChunked(tokens);
-  } else {
-    state.matchNodes = [];
-    state.matchIdx = -1;
-    updateCount();
-  }
-
-  setBusy(false);
-}
-
-
 
 /* =============== Sheet (seletor na base) =============== */
 function norm(s){ return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); }
@@ -1207,7 +1085,6 @@ els.studyBtn.addEventListener('click', async ()=>{
 els.doSearchBtn.addEventListener('click', async ()=>{
   await runLocalSearch();
 });
-
 els.searchInput.addEventListener('keydown', (e)=>{
   if (e.key === 'Enter'){ e.preventDefault(); els.doSearchBtn.click(); }
   else if (e.key === 'Escape'){ e.preventDefault(); resetAll(); }
@@ -1226,7 +1103,6 @@ els.prevBtn.addEventListener('click', ()=>{
   m.scrollIntoView({behavior:'smooth',block:'center'});
   updateCount();
 });
-
 els.resetBtn.addEventListener('click', resetAll);
 els.brandBtn.addEventListener('click', resetAll);
 
@@ -1268,7 +1144,6 @@ function resetAll(){
   window.scrollTo({top:0,behavior:'instant'});
 }
 
-
 /* =============== Boot =============== */
 document.addEventListener('DOMContentLoaded', ()=>{
   buildCatalogMaps();
@@ -1276,3 +1151,4 @@ document.addEventListener('DOMContentLoaded', ()=>{
   resetAll(); // inicia já com as barras visíveis + mensagem central
 });
 </script>
+
