@@ -1073,8 +1073,12 @@ async function searchAcrossAll(term){
   state.lastGlobalResults = groups;
   state.lastGlobalTerm = term;
   renderGlobalResults(groups, term);
+
+  setSearchState('post-global');   // ✅ novo
+
   setBusy(false);
 }
+
 
 function renderGlobalResults(groups, term){
   els.globalResultsWrap.style.display = 'block';
