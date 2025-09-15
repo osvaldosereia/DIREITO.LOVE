@@ -115,14 +115,25 @@
   z-index:72; display:flex; align-items:center; justify-content:center;
 }
     .bottom-info-inner{
-      width:clamp(320px, 92vw, 960px);
-      display:flex; align-items:center; gap:8px; padding:6px 12px;
-    }
-    .file-indicator{
-      flex:1 1 auto; min-width:0; max-width:75%;
-      font-size:13px; color:#6c7282; background:#fff; border:1px solid #e2e5f2;
-      padding:8px 12px; border-radius:10px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; cursor:pointer;
-    }
+  width:clamp(320px, 92vw, 960px);
+  display:flex; align-items:center; justify-content:center; /* centraliza o conteúdo */
+  padding:6px 12px;
+}
+
+.file-indicator{
+  flex:0 0 auto;                 /* não estica a largura toda */
+  min-width:280px;               /* largura mínima confortável */
+  max-width:100%;
+  margin:0 auto;                 /* centraliza no container */
+  text-align:center;             /* texto central */
+  font-size:13px; color:#6c7282;
+  background:#fff; border:1px solid #e2e5f2;
+  padding:10px 16px;
+  border-radius:12px;
+  overflow:hidden; white-space:nowrap; text-overflow:ellipsis;
+  cursor:pointer;
+}
+
     .global-toggle{
       flex:0 0 auto; padding:10px 14px; border-radius:10px; border:1px solid #dfe3ef;
       background:#fff; cursor:pointer; font-weight:800;
@@ -739,7 +750,7 @@ function parseSumulas(txt){
 }
 function parsePrincipios(txt){
   const cleaned = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
-  const parts = cleaned split(/\s*-{5,}\s*$/m).map(s => s.trim()).filter(Boolean);
+const parts = cleaned.split(/\s*-{5,}\s*$/m).map(s => s.trim()).filter(Boolean);
   const out = [];
   parts.forEach((block, i)=>{
     const lines = block.split('\n').map(l=>l.trim());
