@@ -832,7 +832,61 @@ function renderArticles(list, {globalMode=false}={}){
   state.matchIdx = -1;
   updateCount();
 }
-// ...código anterior...
+/* =============== Destaque / Busca no DOM =============== */
+// Reconstrói o texto completo do card para pesquisar (título + supra + corpo)
+function blockFullText(a){
+  const s = a._split || splitBlockSupraTitleBody(a.text);
+  const supra = s.supra?.length ? s.supra.join('\n')+'\n' : '';
+  const title = s.titleText || a.title || '';
+  const body  = s.body || '';
+  return (title+'\n'+supra+body).trim();
+}
+
+// Re-render sem marcas <mark>, respeitando o modo atual (arquivo ou global)
+function clearMarksAndRerender(){
+  if (state.currentMode === 'global' && Array.isArray(state.globalGroups) && state.globalGroups.length){
+    renderGlobalGroups(state.globalGroups);
+    return;
+  }
+  renderArticles(state.currentList || [], { globalMode: false });
+}
+
+// Realça os termos em lotes para manter a UI fluida
+async function highlightTokensChunked(tokens){
+  clearMarksAndRerender();
+  if (!tokens.length) return;
+
+  setBusy(true);
+  els.count.textContent = '...';
+
+  const nodes = [
+    ...document.querySelectorAll('article .art-body'),
+    ...document.querySelectorAll('article .art-title'),
+    ...document.querySelectorAll('article .supra > div')
+  ];
+
+  const BATCH = 14;
+  for (let i = 0; i < nodes.length; i += BATCH){
+    for (let j = i; j < Math.min(i+BATCH, nodes.length); j++){
+      const n = nodes[j];
+      const raw = n.textContent;
+      const ranges = findRangesMulti(raw, tokens);
+      if (ranges.length) highlightElementByRanges(n, ranges);
+    }
+    await new Promise(r=>setTimeout(r,0)); // cede thread p/ manter UI responsiva
+  }
+
+  state.matchNodes = Array.from(document.querySelectorAll('mark'));
+  if (state.matchNodes.length){
+    state.matchIdx = 0;
+    state.matchNodes[0].scrollIntoView({behavior:'smooth', block:'center'});
+  } else {
+    state.matchIdx = -1;
+  }
+  updateCount();
+  setBusy(false);
+}
+
 
 
 /* =============== Scroll / Outline =============== */
