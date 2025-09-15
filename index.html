@@ -121,29 +121,40 @@
     .supra { font-size: 11px; }
 
     /* ===== Barra 1 (SETAS / INPUT / TOGGLE GLOBAL / CONTADOR) ===== */
-    .bottom-search{
-      position:fixed; left:0; right:0; bottom:var(--bottom-study-h);
-      height:var(--bottom-search-h);
-      background: var(--bar-bg);
-      border-top:1px solid #e0e4ec;
-      z-index:70; display:flex; align-items:center; justify-content:center;
-      padding-bottom:max(0px, env(safe-area-inset-bottom));
-    }
-    .bottom-search-inner{
-      width:clamp(320px, 92vw, 960px);
-      display:flex; align-items:center; gap:8px; padding:8px 12px;
-    }
-    .iconbtn{
-      width:32px; height:32px; border:1px solid #e2e5f2; background:#fff; border-radius:8px;
-      display:grid; place-items:center; cursor:pointer; user-select:none; flex:0 0 32px;
-      font-size:16px; line-height:1;
-    }
-    .iconbtn:focus,input:focus{outline:2px solid var(--focus); outline-offset:2px}
-    .search{flex:1; display:flex; align-items:center; gap:8px; min-width:0; position:relative;}
-    .search input{
-      width:100%; height:36px; border:1px solid #e2e5f2; border-radius:10px; padding:0 12px; background:#fff;
-      flex:1 1 auto; min-width:0;
-    }
+.bottom-search{
+  position:fixed; left:0; right:0; bottom:var(--bottom-study-h);
+  height:var(--bottom-search-h);
+  background: var(--bar-bg);
+  border-top:1px solid #e0e4ec;
+  z-index:70; display:flex; align-items:center; justify-content:center;
+  padding-bottom:max(0px, env(safe-area-inset-bottom));
+}
+.bottom-search-inner{
+  width:clamp(320px, 92vw, 960px);
+  display:flex; align-items:center; gap:8px; padding:8px 12px;
+  flex-wrap: nowrap; /* impede quebra de linha */
+}
+.iconbtn{
+  width:32px; height:32px; border:1px solid #e2e5f2; background:#fff; border-radius:8px;
+  display:grid; place-items:center; cursor:pointer; user-select:none; flex:0 0 32px;
+  font-size:16px; line-height:1;
+}
+.iconbtn:focus,input:focus{outline:2px solid var(--focus); outline-offset:2px}
+.search{
+  flex:1 1 auto; /* ocupa todo espaço livre */
+  display:flex; align-items:center; gap:8px; min-width:0; position:relative;
+}
+.search input{
+  flex:1 1 auto;   /* cresce conforme espaço disponível */
+  min-width:0;     /* evita quebra */
+  width:auto;      /* não força 100%, deixa o flex controlar */
+  height:36px;
+  border:1px solid #e2e5f2;
+  border-radius:10px;
+  padding:0 12px;
+  background:#fff;
+}
+
     /* spinner posicionado dentro do campo */
     .spinner{
       position:absolute; right:42px; top:50%; transform:translateY(-50%);
@@ -437,18 +448,17 @@ body.post-global .result-count {
       <button class="iconbtn" id="nextBtn" title="Próximo" aria-label="Próximo">▶</button>
 
       <div class="search">
-        <input id="searchInput" type="search" placeholder="Buscar no texto…" autocomplete="off" aria-label="Buscar no texto" />
-        <!-- limpar dentro do input -->
-        <button id="clearSearch" class="clear-btn" type="button" aria-label="Limpar busca" hidden>✕</button>
+  <input id="searchInput" type="search" placeholder="Buscar no texto…" autocomplete="off" aria-label="Buscar no texto" />
 
-        <!-- toggle Global (desktop mostra texto; mobile = ícone 🌐) -->
-        <label class="all-toggle" title="Buscar em todos os arquivos">
-          <input id="searchAll" type="checkbox" />
-          <span>todos</span>
-        </label>
+  <!-- toggle Global -->
+  <label class="all-toggle" title="Buscar em todos os arquivos">
+    <input id="searchAll" type="checkbox" />
+    <span>todos</span>
+  </label>
 
-        <div class="spinner" id="spinner" hidden></div>
-      </div>
+  <div class="spinner" id="spinner" hidden></div>
+</div>
+
 
       <div class="result-count" title="Ocorrência atual / Total"><span id="count">0/0</span></div>
 
