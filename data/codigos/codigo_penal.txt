@@ -3827,7 +3827,7 @@ Art. 286 I ncitar, publicamente, a prática de crime:
 -----
         Apologia de crime ou criminoso
 
-Art. 287 F azer, publicamente, apologia de fato criminoso ou de autor de crime:
+Art. 287 Fazer, publicamente, apologia de fato criminoso ou de autor de crime:
 
         Pena - detenção, de três a seis meses, ou multa.
 
@@ -3860,7 +3860,7 @@ DA MOEDA FALSA
 -----
         Moeda Falsa
 
-Art. 289 F alsificar, fabricando-a ou alterando-a, moeda metálica ou papel-moeda de curso legal no país ou no estrangeiro:
+Art. 289 Falsificar, fabricando-a ou alterando-a, moeda metálica ou papel-moeda de curso legal no país ou no estrangeiro:
 
         Pena - reclusão, de três a doze anos, e multa.
 
@@ -3879,7 +3879,7 @@ Art. 289 F alsificar, fabricando-a ou alterando-a, moeda metálica ou papel-moed
 -----
         Crimes assimilados ao de moeda falsa
 
-Art. 290 F ormar cédula, nota ou bilhete representativo de moeda com fragmentos de cédulas, notas ou bilhetes verdadeiros; suprimir, em nota, cédula ou bilhete recolhidos, para o fim de restituí-los à circulação, sinal indicativo de sua inutilização; restituir à circulação cédula, nota ou bilhete em tais condições, ou já recolhidos para o fim de inutilização:
+Art. 290 Formar cédula, nota ou bilhete representativo de moeda com fragmentos de cédulas, notas ou bilhetes verdadeiros; suprimir, em nota, cédula ou bilhete recolhidos, para o fim de restituí-los à circulação, sinal indicativo de sua inutilização; restituir à circulação cédula, nota ou bilhete em tais condições, ou já recolhidos para o fim de inutilização:
 
         Pena - reclusão, de dois a oito anos, e multa.
 
@@ -3888,14 +3888,14 @@ Art. 290 F ormar cédula, nota ou bilhete representativo de moeda com fragmentos
 -----
         Petrechos para falsificação de moeda
 
-Art. 291 F abricar, adquirir, fornecer, a título oneroso ou gratuito, possuir ou guardar maquinismo, aparelho, instrumento ou qualquer objeto especialmente destinado à falsificação de moeda:
+Art. 291 Fabricar, adquirir, fornecer, a título oneroso ou gratuito, possuir ou guardar maquinismo, aparelho, instrumento ou qualquer objeto especialmente destinado à falsificação de moeda:
 
         Pena - reclusão, de dois a seis anos, e multa.
 
 -----
         Emissão de título ao portador sem permissão legal
 
-Art. 292 E mitir, sem permissão legal, nota, bilhete, ficha, vale ou título que contenha promessa de pagamento em dinheiro ao portador ou a que falte indicação do nome da pessoa a quem deva ser pago:
+Art. 292 Emitir, sem permissão legal, nota, bilhete, ficha, vale ou título que contenha promessa de pagamento em dinheiro ao portador ou a que falte indicação do nome da pessoa a quem deva ser pago:
 
         Pena - detenção, de um a seis meses, ou multa.
 
@@ -3909,7 +3909,7 @@ DA FALSIDADE DE TÍTULOS E OUTROS PAPÉIS PÚBLICOS
 -----
         Falsificação de papéis públicos
 
-Art. 293 F alsificar, fabricando-os ou alterando-os:
+Art. 293 Falsificar, fabricando-os ou alterando-os:
 
         I – selo destinado a controle tributário, papel selado ou qualquer papel de emissão legal destinado à arrecadação de tributo; (Redação dada pela Lei nº 11.035, de 2004)
 
@@ -3950,12 +3950,12 @@ Art. 293 F alsificar, fabricando-os ou alterando-os:
 -----
         Petrechos de falsificação
 
-Art. 294 F abricar, adquirir, fornecer, possuir ou guardar objeto especialmente destinado à falsificação de qualquer dos papéis referidos no artigo anterior:
+Art. 294 Fabricar, adquirir, fornecer, possuir ou guardar objeto especialmente destinado à falsificação de qualquer dos papéis referidos no artigo anterior:
 
 -----
         Pena - reclusão, de um a três anos, e multa.
 
-Art. 295 S e o agente é funcionário público, e comete o crime prevalecendo-se do cargo, aumenta-se a pena de sexta parte.
+Art. 295 Se o agente é funcionário público, e comete o crime prevalecendo-se do cargo, aumenta-se a pena de sexta parte.
 
 -----
 CAPÍTULO III
@@ -3965,7 +3965,7 @@ DA FALSIDADE DOCUMENTAL
 -----
         Falsificação do selo ou sinal público
 
-Art. 296 F alsificar, fabricando-os ou alterando-os:
+Art. 296 Falsificar, fabricando-os ou alterando-os:
 
         I - selo público destinado a autenticar atos oficiais da União, de Estado ou de Município;
 
@@ -3986,7 +3986,7 @@ Art. 296 F alsificar, fabricando-os ou alterando-os:
 -----
         Falsificação de documento público
 
-Art. 297 F alsificar, no todo ou em parte, documento público, ou alterar documento público verdadeiro:
+Art. 297 Falsificar, no todo ou em parte, documento público, ou alterar documento público verdadeiro:
 
         Pena - reclusão, de dois a seis anos, e multa.
 
@@ -4007,7 +4007,7 @@ Art. 297 F alsificar, no todo ou em parte, documento público, ou alterar docume
 -----
 Falsificação de documento particular    (Redação dada pela Lei nº 12.737, de 2012)    Vigência
 
-Art. 298 F alsificar, no todo ou em parte, documento particular ou alterar documento particular verdadeiro:
+Art. 298 Falsificar, no todo ou em parte, documento particular ou alterar documento particular verdadeiro:
 
 Pena - reclusão, de um a cinco anos, e multa.
 
@@ -4018,7 +4018,7 @@ Parágrafo único.  Para fins do disposto no caput, equipara-se a documento part
 -----
         Falsidade ideológica
 
-Art. 299 O mitir, em documento público ou particular, declaração que dele devia constar, ou nele inserir ou fazer inserir declaração falsa ou diversa da que devia ser escrita, com o fim de prejudicar direito, criar obrigação ou alterar a verdade sobre fato juridicamente relevante:
+Art. 299 Omitir, em documento público ou particular, declaração que dele devia constar, ou nele inserir ou fazer inserir declaração falsa ou diversa da que devia ser escrita, com o fim de prejudicar direito, criar obrigação ou alterar a verdade sobre fato juridicamente relevante:
 
         Pena - reclusão, de um a cinco anos, e multa, se o documento é público, e reclusão de um a três anos, e multa, de quinhentos mil réis a cinco contos de réis, se o documento é particular.     (Vide Lei nº 7.209, de 1984)
 
@@ -5079,6 +5079,7 @@ Art. 360 R essalvada a legislação especial sobre os crimes contra a existênci
 
 -----
 Art. 361 E ste Código entrará em vigor no dia 1º de janeiro de 1942.
+
 
 
 
