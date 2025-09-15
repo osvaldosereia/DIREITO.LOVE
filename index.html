@@ -24,9 +24,9 @@
 
       /* Dimensões */
       --topbar-h: 68px;
-      --progress-h: 6px;                   /* mais grossa */
-      --bottom-search-h: 56px;             /* barra 1 */
-      --bottom-study-h: 64px;              /* barra 2 */
+      --progress-h: 6px;
+      --bottom-search-h: 56px;
+      --bottom-study-h: 64px;
 
       --focus:#9bb6ff; --radius:12px; --shadow:0 2px 10px rgba(0,0,0,.06);
       --accent: rgba(255,214,1,.2);
@@ -38,7 +38,7 @@
       background:var(--bg); color:var(--fg);
       font:15px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-      max-width:100%; overflow-x:hidden; /* evita scroll lateral */
+      max-width:100%; overflow-x:hidden;
     }
     button,input,select{font:inherit}
 
@@ -54,12 +54,12 @@
       overflow:hidden;
     }
     .brand {
-      cursor: pointer;              
-      height: 40px;                 
-      width: auto;                  
-      object-fit: contain;          
-      flex: 0 0 auto;               
-      display: block;               
+      cursor: pointer;
+      height: 40px;
+      width: auto;
+      object-fit: contain;
+      flex: 0 0 auto;
+      display: block;
     }
     .brand:focus{outline:2px solid #fff; outline-offset:2px}
     .spacer{flex:1 1 auto; min-width:0}
@@ -111,20 +111,13 @@
     .supra{ color:#6c7282; font-weight:600; font-size:13px; margin-bottom:6px; }
     .supra div{ line-height:1.35 }
     .art-title{ display:block; font-weight:700; color:#0e1638; margin:0 0 6px }
-    article.current-outline{ outline:3px solid #7aa8ff; outline-offset:2px; } /* mais destacado */
+    article.current-outline{ outline:3px solid #7aa8ff; outline-offset:2px; }
     article.highlight-study{ background:var(--accent) }
 
     mark{padding:0 2px; border-radius:3px; background:#ffef99}
-    .art-body {
-      font-size: 14px;
-      line-height: 1.6;
-    }
-    .art-title {
-      font-size: 13px;
-    }
-    .supra {
-      font-size: 11px;
-    }
+    .art-body { font-size: 14px; line-height: 1.6; }
+    .art-title { font-size: 13px; }
+    .supra { font-size: 11px; }
 
     /* ===== Base — Barra 1 (SETAS / INPUT / CONTADOR / X) ===== */
     .bottom-search{
@@ -159,46 +152,21 @@
       background:#f7f8fc; padding:6px 10px; border-radius:8px; text-align:center;
     }
 
-    /* ===== Base — Barra 2 (ESTUDAR azul / BUSCAR amarelo, tamanhos iguais) ===== */
+    /* ===== Base — Barra 2 (ESTUDAR / BUSCAR) ===== */
     .bottom-study{
-      position:fixed; 
-      left:0; 
-      right:0; 
-      bottom:0; 
-      height:var(--bottom-study-h);
+      position:fixed; left:0; right:0; bottom:0; height:var(--bottom-study-h);
       background: var(--bar-bg-2);
       border-top:1px solid #d9dde6;
-      z-index:75; 
-      display:flex; 
-      align-items:center; 
-      justify-content:center; 
-      padding:8px 0;
+      z-index:75; display:flex; align-items:center; justify-content:center; padding:8px 0;
     }
     .bottom-study-inner{
-      width:clamp(320px, 92vw, 960px); 
-      padding:0 12px;
-      display:flex; 
-      align-items:center; 
-      gap:12px;
+      width:clamp(320px, 92vw, 960px); padding:0 12px; display:flex; align-items:center; gap:12px;
     }
-    .study,
-    .do-search {
-      flex: 1 1 0;
-      padding: 12px 16px; 
-      border-radius: 12px;
-      font-weight: 800; 
-      cursor: pointer;
+    .study,.do-search{
+      flex:1 1 0; padding:12px 16px; border-radius:12px; font-weight:800; cursor:pointer;
     }
-    .study {
-      border:1px solid #0e2a7a; 
-      background:#142B6F; 
-      color:#fff;
-    }
-    .do-search {
-      border:1px solid #f0e08b; 
-      background:var(--yellow); 
-      color:#0a0a0a;
-    }
+    .study{ border:1px solid #0e2a7a; background:#142B6F; color:#fff; }
+    .do-search{ border:1px solid #f0e08b; background:var(--yellow); color:#0a0a0a; }
 
     /* Modal IA */
     .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.28); display:none; align-items:center; justify-content:center; z-index:100}
@@ -283,7 +251,6 @@
       <img src="icons/logo.png" alt="direito.love" class="brand" id="brandBtn" title="Clique para reiniciar">
       <div class="spacer"></div>
       <div class="select-wrap">
-        <!-- CATEGORIAS COM OPTGROUP (fonte da verdade + fallback desktop) -->
         <select id="codeSelect" title="Escolher arquivo">
           <option value="">— selecione —</option>
 
@@ -308,7 +275,6 @@
             <option value="data/leis/lei_LGPD.txt">Lei LGPD</option>
             <option value="data/leis/marco_civil_da_internet.txt">Marco Civil da Internet</option>
             <option value="data/leis/crimes_hediondos.txt">Lei dos Crimes Hediondos</option>
-
           </optgroup>
 
           <optgroup label="Estatutos">
@@ -319,14 +285,17 @@
             <option value="data/estatutos/estatuto_da_pessoa_com_deficiencia.txt">Estatuto da Pessoa com Deficiência</option>
           </optgroup>
 
-          <!-- Se quiser, adicione o grupo de Súmulas no select:
+          <!-- Opcional: ative quando subir os arquivos -->
+          <!--
           <optgroup label="Súmulas">
             <option value="data/sumulas/sumulas_stf.txt">Súmulas STF</option>
+          </optgroup>
+          <optgroup label="Princípios">
+            <option value="data/principios/principios_organizado.txt">Princípios (geral)</option>
           </optgroup>
           -->
         </select>
 
-        <!-- Botão que abre o seletor custom (aparece só no mobile) -->
         <button id="openPicker" class="picker-btn" type="button" aria-haspopup="dialog" aria-controls="pickerSheet">
           Escolher código
         </button>
@@ -345,8 +314,8 @@
       <div class="articles" id="articles">
         <div class="placeholder">
           <p style="text-align:center; font-size:1.1rem; font-weight:normal; line-height:1.6;">
-            💚<br> Bem-vindo ao <strong>Direito.Love</strong><br>  
-            O <em>Mini Vade Mecum Digital</em> que também te auxilia nos estudos com <strong>I.A.</strong>  
+            💚<br> Bem-vindo ao <strong>Direito.Love</strong><br>
+            O <em>Mini Vade Mecum Digital</em> que também te auxilia nos estudos com <strong>I.A.</strong>
             <br><br>😎 <br><strong>Escolha um código no topo e comece agora.</strong> <br>Bons estudos!
           </p>
         </div>
@@ -354,7 +323,7 @@
     </div>
   </main>
 
-  <!-- BARRA 1 (SETAS / INPUT / CONTADOR / X) -->
+  <!-- BARRA 1 -->
   <div class="bottom-search" id="bottomSearch" hidden>
     <div class="bottom-search-inner" aria-live="polite">
       <button class="iconbtn" id="prevBtn" title="Anterior" aria-label="Anterior">◀</button>
@@ -368,7 +337,7 @@
     </div>
   </div>
 
-  <!-- BARRA 2 (ESTUDAR / BUSCAR) -->
+  <!-- BARRA 2 -->
   <div class="bottom-study" id="bottomStudy" hidden>
     <div class="bottom-study-inner">
       <button class="study" id="studyBtn">Estude com I.A.</button>
@@ -383,7 +352,7 @@
       <p class="subtitle">✅ Escolha uma IA e cole o prompt para estudar.</p>
       <div class="ia-grid">
         <button class="ia-btn" data-url="https://chatgpt.com/">💬 ChatGPT</button>
-        <button class="ia-btn" data-url="https://gemini.google.com/">🧠 Gemini</button>
+        <button class="ia-btn" data-url="https://gemini.google.com/app">🧠 Gemini</button>
         <button class="ia-btn" data-url="https://copilot.microsoft.com/">✨ Copilot</button>
         <button class="ia-btn" data-url="https://www.perplexity.ai/">🔎 Perplexity</button>
       </div>
@@ -515,16 +484,16 @@
     /* ================= Parser + Sanitização ================= */
     function sanitizeForLayout(s){
       return s
-        .replace(/\u00A0/g, ' ')   // NBSP → espaço normal
-        .replace(/\t/g, ' ')       // tabs → espaço
-        .replace(/\s+\n/g, '\n');  // tira espaços no fim da linha
+        .replace(/\u00A0/g, ' ')
+        .replace(/\t/g, ' ')
+        .replace(/\s+\n/g, '\n');
     }
 
     function parseArticlesFromText(txt){
       txt = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
       const items = parseByDelimiters(txt);
       if (items.length) return items;
-      return parseByArt(txt); // fallback
+      return parseByArt(txt); // fallback padrão (Art. X / 10A etc.)
     }
 
     // Blocos entre "-----"
@@ -599,11 +568,10 @@
         const supra = lines.slice(0, artIdx).map(s=>s.trim()).filter(Boolean);
         const titleLine = lines[artIdx];
 
-        // Regex captura artigo com ou sem hífen
         const mt = titleLine.match(/^\s*((?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?)/);
         let titleText = mt ? mt[1].trim() : titleLine.trim();
 
-        // Normaliza: "10-A" → "10A"
+        // Normaliza 10-A → 10A
         titleText = titleText.replace(/(\d+)-?([A-Z])/, "$1$2");
 
         const afterTitle = titleLine.slice(mt ? mt[1].length : 0).trimStart();
@@ -621,17 +589,45 @@
     /* ===== Parser exclusivo: Súmulas (Súmula X - ORG ... até -----) ===== */
     function parseSumulas(txt){
       const cleaned = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
-      // Divide por linhas com 5+ hifens
       const parts = cleaned.split(/^\s*-{5,}\s*$/m).map(s => s.trim()).filter(Boolean);
       const out = [];
       parts.forEach((block, i)=>{
         const lines = block.split('\n').map(l=>l.trim());
-        const header = (lines.shift() || 'Súmula').trim(); // ex.: "Súmula 736 - STF"
+        const header = (lines.shift() || 'Súmula').trim(); // "Súmula 736 - STF"
         const body = lines.join('\n').trim();
         out.push({
           title: header,
           text: header + (body ? '\n' + body : ''),
           htmlId: `sumula-${i}`,
+          _split: { supra: [], titleText: header, body }
+        });
+      });
+      return out;
+    }
+
+    /* ===== Parser exclusivo: Princípios (Princípio ... até -----) ===== */
+    function parsePrincipios(txt){
+      const cleaned = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
+      const parts = cleaned.split(/^\s*-{5,}\s*$/m).map(s => s.trim()).filter(Boolean);
+      const out = [];
+      parts.forEach((block, i)=>{
+        const lines = block.split('\n').map(l=>l.trim());
+        let header = (lines.shift() || 'Princípio').trim();
+        // Garante que começa com "Princípio" (com ou sem acento)
+        const reHeader = /^\s*Princ[ií]pio\b/i;
+        if (!reHeader.test(header)){
+          // Se a 2ª linha for o título, tenta puxar
+          if (lines.length && reHeader.test(lines[0])){
+            header = lines.shift();
+          } else {
+            header = 'Princípio';
+          }
+        }
+        const body = lines.join('\n').trim();
+        out.push({
+          title: header,
+          text: header + (body ? '\n' + body : ''),
+          htmlId: `principio-${i}`,
           _split: { supra: [], titleText: header, body }
         });
       });
@@ -799,7 +795,7 @@
       setBusy(false);
     }
 
-    // Botões de navegação das ocorrências
+    // Navegação das ocorrências
     els.nextBtn.addEventListener('click', ()=>{
       if (!state.matchNodes.length) return;
       state.matchIdx = (state.matchIdx + 1) % state.matchNodes.length;
@@ -821,7 +817,7 @@
       highlightTermChunked(term);
     });
 
-    // Enter no input dispara busca; Esc reinicia
+    // Enter envia; Esc reinicia
     els.searchInput.addEventListener('keydown', (e)=>{
       if (e.key === 'Enter'){ e.preventDefault(); els.doSearchBtn.click(); }
       else if (e.key === 'Escape'){ e.preventDefault(); resetAll(); }
@@ -902,7 +898,7 @@
       if (els.modalBackdrop.style.display === 'flex' && e.key === 'Escape') closeModal();
     });
 
-    /* ================= Reset (logo e botão X) ================= */
+    /* ================= Reset ================= */
     function resetAll(){
       state.rawText = '';
       state.articles = [];
@@ -934,9 +930,12 @@
         const txt = sanitizeForLayout(await res.text());
         state.rawText = txt;
 
-        // 👇 usa parser de Súmulas somente para arquivos da pasta data/sumulas/
+        // Usa parser de Súmulas e Princípios conforme a pasta
         const isSumulas = /(^|\/)data\/sumulas\/?/i.test(url);
-        state.articles = isSumulas ? parseSumulas(txt) : parseArticlesFromText(txt);
+        const isPrincipios = /(^|\/)data\/principios\/?/i.test(url);
+        state.articles = isSumulas ? parseSumulas(txt)
+                         : isPrincipios ? parsePrincipios(txt)
+                         : parseArticlesFromText(txt);
 
         renderArticles();
         clearMarks();
@@ -956,9 +955,8 @@
       const listEl = els.pickerList;
       const searchEl = els.pickerSearch;
 
-      if (!sel || !openBtn || !sheet || !listEl || !searchEl) return; // segurança
+      if (!sel || !openBtn || !sheet || !listEl || !searchEl) return;
 
-      // Lê <optgroup>/<option> do select (sem fallback "Outros")
       function getGroups(){
         const groups = [];
         let current = null;
@@ -967,15 +965,12 @@
           if (node.tagName.toLowerCase()==='optgroup'){
             current = { label: node.label || '', items: [] };
             groups.push(current);
-          } 
+          }
           else if (node.tagName.toLowerCase()==='option'){
             const label = node.textContent.trim();
             const value = node.value;
             if (!label) return;
-            if (!current){
-              // se não estiver dentro de optgroup, ignora
-              return;
-            }
+            if (!current){ return; }
             current.items.push({ label, value });
           }
         });
@@ -1044,12 +1039,10 @@
       });
       searchEl.addEventListener('input', e=> render(e.target.value));
 
-      // Atualiza rótulo do botão com a seleção atual (opcional)
       sel.addEventListener('change', ()=>{
         const t = sel.options[sel.selectedIndex]?.text || 'Escolher código';
         openBtn.textContent = t.length > 28 ? t.slice(0,28)+'…' : t;
       });
-      // inicial
       openBtn.textContent = 'Escolher código';
     })();
 
