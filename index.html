@@ -1,181 +1,917 @@
-<!doctype html>
-<html lang="pt-BR">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>direito.love — Leitor jurídico</title>
+/* =========================
+   PARTE 1/8 — Estado & Elementos
+   - Mapeia todos os IDs usados no HTML
+   - Define o estado global da aplicação
+   ========================= */
 
-  <!-- Ícones / PWA -->
-  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
-  <link rel="icon" href="icons/favicon-192.png" sizes="192x192" type="image/png">
-  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-  <link rel="manifest" href="manifest.webmanifest">
-  <meta name="theme-color" content="#142B6F">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+// Referências do DOM (mantenha os IDs iguais aos do HTML)
+const els = {
+  // Topbar / Catálogo
+  brandBtn: document.getElementById('brandBtn'),
+  codeSelect: document.getElementById('codeSelect'),
+  openPicker: document.getElementById('openPicker'),
+  pickerSheet: document.getElementById('pickerSheet'),
+  pickerSearch: document.getElementById('pickerSearch'),
+  pickerList: document.getElementById('pickerList'),
 
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
+  // Conteúdo
+  articles: document.getElementById('articles'),
 
-  <!-- TOPBAR -->
-  <header class="topbar">
-    <div class="topbar-inner">
-      <img src="icons/logo.png" alt="direito.love" class="brand" id="brandBtn" title="Clique para reiniciar">
-      <div class="spacer"></div>
-      <div class="select-wrap">
-        <select id="codeSelect" title="Escolher arquivo">
-          <option value="">— selecione —</option>
+  // Barras inferiores
+  bottomSearch: document.getElementById('bottomSearch'),
+  bottomStudy: document.getElementById('bottomStudy'),
 
-          <optgroup label="CF88">
-            <option value="data/CF88/CF88.txt">Constituição Federal 1988</option>
-          </optgroup>
+  // Busca (Barra 1)
+  searchInput: document.getElementById('searchInput'),
+  searchAll: document.getElementById('searchAll'),      // toggle "Global" (no mobile vira ícone)
+  clearSearch: document.getElementById('clearSearch'),  // X interno do input
+  prevBtn: document.getElementById('prevBtn'),
+  nextBtn: document.getElementById('nextBtn'),
+  count: document.getElementById('count'),
+  spinner: document.getElementById('spinner'),
 
-          <optgroup label="Códigos">
-            <option value="data/codigos/codigo_civil.txt">Código Civil</option>
-            <option value="data/codigos/codigo_Processo_Civil.txt">Código de Processo Civil</option>
-            <option value="data/codigos/codigo_penal.txt">Código Penal</option>
-            <option value="data/codigos/codigo_Processo_Penal.txt">Código de Processo Penal</option>
-            <option value="data/codigos/codigo_consumidor.txt">Código de Defesa do Consumidor</option>
-            <option value="data/codigos/codigo_CLT.txt">CLT - Consolidação das Leis do Trabalho</option>
-            <option value="data/codigos/codigo_tributario_nacional.txt">Código Tributário Nacional</option>
-          </optgroup>
+  // Progresso (top)
+  progress: document.getElementById('progress'),
+  progressBar: document.getElementById('progressBar'),
 
-          <optgroup label="Leis">
-            <option value="data/leis/lei_maria_da_penha.txt">Lei Maria da Penha</option>
-            <option value="data/leis/lei_de_execucao_penal.txt">Lei de Execução Penal</option>
-            <option value="data/leis/lei_de_drogas.txt">Lei de Drogas</option>
-            <option value="data/leis/lei_LGPD.txt">Lei LGPD</option>
-            <option value="data/leis/marco_civil_da_internet.txt">Marco Civil da Internet</option>
-            <option value="data/leis/crimes_hediondos.txt">Lei dos Crimes Hediondos</option>
-          </optgroup>
+  // Barra 2
+  studyBtn: document.getElementById('studyBtn'),
+  doSearchBtn: document.getElementById('doSearchBtn'),
 
-          <optgroup label="Estatutos">
-            <option value="data/estatutos/eca.txt">ECA - Estatuto da Criança e Adolescente</option>
-            <option value="data/estatutos/estatuto_do_desarmamento.txt">Estatuto do Desarmamento</option>
-            <option value="data/estatutos/estatuto_do_idoso.txt">Estatuto do Idoso</option>
-            <option value="data/estatutos/estatuto_da_juventude.txt">Estatuto da Juventude</option>
-            <option value="data/estatutos/estatuto_da_pessoa_com_deficiencia.txt">Estatuto da Pessoa com Deficiência</option>
-          </optgroup>
+  // Ações extras
+  resetBtn: document.getElementById('resetBtn'),
 
-          <optgroup label="Princípios">
-            <option value="data/principios/principios_do_direito.txt">Princípios (Rol Exemplificativo)</option>
-          </optgroup>
-        </select>
+  // Modal IA
+  modalBackdrop: document.getElementById('modalBackdrop'),
+  modalTitle: document.getElementById('modalTitle'),
+  closeModal: document.getElementById('closeModal'),
 
-        <!-- Mobile: botão que abre o catálogo (sheet) -->
-        <button id="openPicker" class="picker-btn" type="button"
-                aria-haspopup="dialog" aria-controls="pickerSheet" aria-expanded="false">
-          Escolher código
-        </button>
-      </div>
-    </div>
-  </header>
+  // Toast
+  toast: document.getElementById('toast'),
 
-  <!-- PROGRESS BAR -->
-  <div class="progress" id="progress" hidden>
-    <div class="bar" id="progressBar"></div>
-  </div>
+  // Resultados globais
+  globalResultsWrap: document.getElementById('globalResultsWrap'),
+  globalResults: document.getElementById('globalResults'),
+  backToResultsBtn: document.getElementById('backToResultsBtn'),
+};
 
-  <!-- CONTEÚDO -->
-  <main class="content">
-    <div class="container">
+// Estado global da aplicação
+const state = {
+  // Texto bruto do arquivo carregado
+  rawText: '',
 
-      <!-- Resultados globais (lista de cards) -->
-      <div id="globalResultsWrap" style="display:none">
-        <div id="globalResults"></div>
-      </div>
+  // Artigos renderizados do arquivo atual
+  articles: [],                    // [{ title, text, htmlId, _split }]
 
-      <!-- Leitura normal de artigos -->
-      <div class="articles" id="articles">
-        <div class="placeholder">
-          <p style="text-align:center; font-size:1.1rem; font-weight:normal; line-height:1.6;">
-            💚<br> Bem-vindo ao <strong>Direito.Love</strong><br>
-            O <em>Mini Vade Mecum Digital</em> que também te auxilia nos estudos com <strong>I.A.</strong>
-            <br><br>😎 <br><strong>Escolha um código no topo e comece agora.</strong> <br>Bons estudos!
-          </p>
-        </div>
-      </div>
-    </div>
-  </main>
+  // Artigo “em foco” (para study/scroll/hash)
+  currentArticleIdx: -1,
 
-  <!-- BARRA 1 — BUSCA -->
-  <div class="bottom-search" id="bottomSearch" hidden>
-    <div class="bottom-search-inner" aria-live="polite">
-      <!-- Setas/Contagem/Voltar: só aparecem no pós-busca -->
-      <button class="iconbtn navbtn" id="prevBtn" title="Anterior" aria-label="Anterior">◀</button>
-      <button class="iconbtn navbtn" id="nextBtn" title="Próximo" aria-label="Próximo">▶</button>
+  // Busca local (marcadores <mark>)
+  matchNodes: [],
+  matchIdx: -1,
 
-      <!-- Bloco de busca -->
-      <div class="search">
-        <input id="searchInput" type="search" placeholder="Buscar no texto…" autocomplete="off" aria-label="Buscar no texto" />
-        <!-- limpar (interno ao input) -->
-        <button id="clearSearch" class="clear-btn" type="button" aria-label="Limpar busca" hidden>✕</button>
-        <!-- spinner (interno ao input) -->
-        <div class="spinner" id="spinner" hidden></div>
+  // Barra de progresso
+  progressTimer: null,
 
-        <!-- Toggle Global (desktop) -->
-        <label class="all-toggle" id="toggleDesktop" title="Buscar em todos os arquivos">
-          <input id="searchAll" type="checkbox" />
-          <span>Global</span>
-        </label>
-        <!-- Toggle Global (mobile — ícone) -->
-        <button id="toggleMobile" class="all-toggle-mobile" type="button" aria-pressed="false" title="Buscar em todos os arquivos" aria-label="Buscar em todos os arquivos">
-          🌐
-        </button>
-      </div>
+  // Cache de arquivos (para busca global)
+  fileCache: new Map(),            // url -> { txt }
 
-      <!-- Contador -->
-      <div class="result-count" id="resultCount" title="Ocorrência atual / Total"><span id="count">0/0</span></div>
+  // Última busca global (para "voltar aos resultados")
+  lastGlobalResults: null,         // [{ url, label, header, snippet }, ...]
+  lastGlobalTerm: '',
 
-      <!-- Voltar ao modo pré-busca -->
-      <button class="iconbtn" id="backBtn" title="Voltar" aria-label="Voltar" style="display:none">⟲</button>
-      <!-- Voltar à lista global -->
-      <button class="iconbtn" id="backToResultsBtn" title="Voltar aos resultados" aria-label="Voltar aos resultados" style="display:none">⟲</button>
-    </div>
-  </div>
+  // Flags de fluxo
+  isGlobalSearch: false,           // se o modo global está ativo
+  openedFromGlobal: false,         // se o doc atual foi aberto a partir da lista global
 
-  <!-- BARRA 2 — AÇÕES -->
-  <div class="bottom-study" id="bottomStudy" hidden>
-    <div class="bottom-study-inner">
-      <button class="study" id="studyBtn">Estude com I.A.</button>
-      <button class="do-search" id="doSearchBtn">Buscar</button>
-    </div>
-  </div>
+  // (opcional) controle de UI/estados da barra (PRE, POS_LOCAL, POS_GLOBAL_LIST, POS_GLOBAL_DOC)
+  uiState: 'PRE'
+};
 
-  <!-- MODAL IA -->
-  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal" role="document" aria-labelledby="modalTitle">
-      <h3 id="modalTitle">Prompt do X copiado.</h3>
-      <p class="subtitle">✅ PROMPT PRONTO! Escolha uma IA e cole o prompt para estudar.</p>
-      <div class="ia-grid">
-        <button class="ia-btn" data-url="https://chatgpt.com/" aria-label="Abrir no ChatGPT">💬 ChatGPT</button>
-        <button class="ia-btn" data-url="https://gemini.google.com/app" aria-label="Abrir no Gemini">🧠 Gemini</button>
-        <button class="ia-btn" data-url="https://copilot.microsoft.com/" aria-label="Abrir no Copilot">✨ Copilot</button>
-        <button class="ia-btn" data-url="https://www.perplexity.ai/" aria-label="Abrir no Perplexity">🔎 Perplexity</button>
-      </div>
-      <div class="foot">
-        <button class="close-btn" id="closeModal">Fechar</button>
-      </div>
-    </div>
-  </div>
+    /* =========================
+   PARTE 2/8 — Helpers gerais
+   - Toasts (avisos rápidos)
+   - Controle de busy/spinner
+   - Barra de progresso superior
+   ========================= */
 
-  <!-- SHEET: seletor custom (mobile) -->
-  <div id="pickerSheet" class="sheet" hidden aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="sheet-backdrop" data-close></div>
-    <div class="sheet-panel" role="document">
-      <div class="sheet-head">
-        <strong class="sheet-title">Escolher código</strong>
-        <button class="sheet-close" type="button" data-close aria-label="Fechar">✕</button>
-      </div>
-      <div class="sheet-search">
-        <input id="pickerSearch" type="search" placeholder="Buscar…" autocomplete="off" />
-      </div>
-      <div class="sheet-body" id="pickerList" aria-live="polite"></div>
-    </div>
-  </div>
+// Escapa HTML simples
+const escapeHtml = (s) =>
+  s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
 
-  <div class="toast" id="toast" role="status" aria-live="polite">✅ Prompt copiado!</div>
+// Toast (mensagem rápida no rodapé)
+function showToast(msg = '✅ Prompt copiado!') {
+  els.toast.textContent = msg;
+  els.toast.classList.add('show');
+  setTimeout(() => els.toast.classList.remove('show'), 1200);
+}
 
-  <script src="script.js"></script>
-</body>
-</html>
+// Ativa/desativa spinner e progresso
+function setBusy(isBusy) {
+  els.bottomSearch.setAttribute('aria-busy', String(isBusy));
+  els.doSearchBtn.disabled = isBusy;
+  els.prevBtn.disabled = isBusy;
+  els.nextBtn.disabled = isBusy;
+  els.spinner.hidden = !isBusy;
+  setProgressActive(isBusy);
+}
+
+// Barra de progresso (fake loading)
+function setProgressActive(active) {
+  if (active) {
+    els.progress.hidden = false;
+    els.progressBar.style.width = '0%';
+    let p = 0;
+    clearInterval(state.progressTimer);
+    state.progressTimer = setInterval(() => {
+      p = Math.min(85, p + 8 + Math.random() * 7);
+      els.progressBar.style.width = p + '%';
+    }, 180);
+  } else {
+    clearInterval(state.progressTimer);
+    els.progressBar.style.width = '100%';
+    setTimeout(() => {
+      els.progress.hidden = true;
+      els.progressBar.style.width = '0%';
+    }, 250);
+  }
+}
+/* =========================
+   PARTE 3/8 — Parser + Sanitização
+   - Sanitização de texto
+   - Parser por delimitadores "-----"
+   - Parser fallback por "Art."
+   - Parser exclusivo: Súmulas
+   - Parser exclusivo: Princípios
+   ========================= */
+
+// Sanitização básica do texto
+function sanitizeForLayout(s) {
+  return s
+    .replace(/\u00A0/g, ' ')        // nbsp → espaço normal
+    .replace(/\t/g, ' ')            // tabs → espaço
+    .replace(/\s+\n/g, '\n');       // espaços extras antes de \n
+}
+
+// Parser principal (detecta delimitadores ou artigos)
+function parseArticlesFromText(txt) {
+  txt = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
+  const items = parseByDelimiters(txt);
+  if (items.length) return items;
+  return parseByArt(txt); // fallback por "Art."
+}
+
+// Parser: blocos entre "-----"
+function parseByDelimiters(txt) {
+  const sepRe = /(^|\n)[^\S\r\n]*-{5,}[^\S\r\n]*(?=\n|$)/g;
+  const seps = [];
+  let m;
+  while ((m = sepRe.exec(txt)) !== null) {
+    const idx = m.index + (m[0].startsWith('\n') ? 1 : 0);
+    seps.push(idx);
+  }
+  if (seps.length < 2) return [];
+  const arts = [];
+  for (let i = 0; i + 1 < seps.length; i++) {
+    const from = txt.indexOf('\n', seps[i]);
+    const start = from === -1 ? txt.length : from + 1;
+    const to = seps[i + 1];
+    if (start >= to) continue;
+    const raw = txt.slice(start, to).trim();
+    if (!raw) continue;
+    const split = splitBlockSupraTitleBody(raw);
+    const title = split.titleText || `Bloco ${arts.length + 1}`;
+    arts.push({ title, text: raw, htmlId: `art-${arts.length}`, _split: split });
+  }
+  return arts;
+}
+
+// Parser fallback: por "Art."
+function parseByArt(txt) {
+  const re = /(^|\n)\s*((?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?)/g;
+  const starts = [];
+  let m;
+  while ((m = re.exec(txt)) !== null) {
+    const idxArt = re.lastIndex - m[2].length;
+    starts.push(idxArt);
+  }
+  if (!starts.length) {
+    return [{
+      title: 'Texto',
+      text: txt.trim(),
+      htmlId: 'art-0',
+      _split: splitBlockSupraTitleBody(txt.trim())
+    }];
+  }
+
+  const arts = [];
+  for (let i = 0; i < starts.length; i++) {
+    const from = starts[i];
+    const to = i + 1 < starts.length ? starts[i + 1] : txt.length;
+    let chunk = txt.slice(from, to).trimEnd();
+
+    // Garante corte no último "." ou ")" antes do próximo artigo
+    const endDot = chunk.lastIndexOf('.');
+    const endPar = chunk.lastIndexOf(')');
+    const end = Math.max(endDot, endPar);
+    if (end !== -1 && end >= Math.floor(chunk.length * 0.6)) {
+      chunk = chunk.slice(0, end + 1).trimEnd();
+    }
+
+    const split = splitBlockSupraTitleBody(chunk);
+    const title = split.titleText || chunk.split('\n')[0].slice(0, 40);
+    arts.push({ title, text: chunk, htmlId: `art-${i}`, _split: split });
+  }
+  return arts;
+}
+
+// Divide bloco em supra / título / corpo
+function splitBlockSupraTitleBody(raw) {
+  const lines = raw.replace(/^\s+|\s+$/g, '').split(/\r?\n/);
+  const artIdx = lines.findIndex(line =>
+    /^\s*(?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?/.test(line)
+  );
+
+  if (artIdx >= 0) {
+    const supra = lines.slice(0, artIdx).map(s => s.trim()).filter(Boolean);
+    const titleLine = lines[artIdx];
+
+    const mt = titleLine.match(/^\s*((?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?)/);
+    let titleText = mt ? mt[1].trim() : titleLine.trim();
+    titleText = titleText.replace(/(\d+)-?([A-Z])/, "$1$2"); // normaliza 10-A → 10A
+
+    const afterTitle = titleLine.slice(mt ? mt[1].length : 0).trimStart();
+    const rest = lines.slice(artIdx + 1).join('\n').trimStart();
+    const body = afterTitle ? (rest ? afterTitle + '\n' + rest : afterTitle) : rest;
+
+    return { supra, titleText, body };
+  } else {
+    const titleText = (lines[0] || '').trim();
+    const body = lines.slice(1).join('\n').trimStart();
+    return { supra: [], titleText, body };
+  }
+}
+
+// Parser exclusivo: Súmulas (Súmula X - ORG ... até -----)
+function parseSumulas(txt) {
+  const cleaned = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
+  const parts = cleaned.split(/^\s*-{5,}\s*$/m).map(s => s.trim()).filter(Boolean);
+  return parts.map((block, i) => {
+    const lines = block.split('\n').map(l => l.trim());
+    const header = (lines.shift() || 'Súmula').trim();
+    const body = lines.join('\n').trim();
+    return {
+      title: header,
+      text: header + (body ? '\n' + body : ''),
+      htmlId: `sumula-${i}`,
+      _split: { supra: [], titleText: header, body }
+    };
+  });
+}
+
+// Parser exclusivo: Princípios (Princípio ... até -----)
+function parsePrincipios(txt) {
+  const cleaned = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
+  const parts = cleaned.split(/^\s*-{5,}\s*$/m).map(s => s.trim()).filter(Boolean);
+  return parts.map((block, i) => {
+    const lines = block.split('\n').map(l => l.trim());
+    let header = (lines.shift() || 'Princípio').trim();
+    const reHeader = /^\s*Princ[ií]pio\b/i;
+    if (!reHeader.test(header)) {
+      if (lines.length && reHeader.test(lines[0])) header = lines.shift();
+      else header = 'Princípio';
+    }
+    const body = lines.join('\n').trim();
+    return {
+      title: header,
+      text: header + (body ? '\n' + body : ''),
+      htmlId: `principio-${i}`,
+      _split: { supra: [], titleText: header, body }
+    };
+  });
+}
+/* =========================
+   PARTE 4/8 — Renderização
+   - Monta os artigos no DOM
+   - Destaca artigo em foco
+   - Seleção automática (scroll/hash)
+   ========================= */
+
+// Renderiza todos os artigos no container principal
+function renderArticles() {
+  const frag = document.createDocumentFragment();
+  state.articles.forEach((a, i) => {
+    const el = document.createElement('article');
+    el.dataset.idx = i;
+    el.id = a.htmlId;
+
+    const split = a._split || splitBlockSupraTitleBody(a.text);
+
+    // Supra (ex: CAPÍTULO, SEÇÃO, etc.)
+    if (split.supra && split.supra.length) {
+      const supra = document.createElement('div');
+      supra.className = 'supra';
+      split.supra.forEach(line => {
+        const d = document.createElement('div');
+        d.textContent = line;
+        supra.appendChild(d);
+      });
+      el.appendChild(supra);
+    }
+
+    // Título (ex: "Art. 121 - ")
+    const titleSpan = document.createElement('span');
+    titleSpan.className = 'art-title';
+    titleSpan.textContent = split.titleText || a.title;
+    el.appendChild(titleSpan);
+
+    // Corpo do artigo
+    const content = document.createElement('div');
+    content.className = 'art-body';
+    content.textContent = split.body || '';
+    el.appendChild(content);
+
+    frag.appendChild(el);
+  });
+
+  els.articles.innerHTML = '';
+  els.articles.appendChild(frag);
+
+  // Mostra barras inferiores
+  els.bottomSearch.hidden = false;
+  els.bottomStudy.hidden = false;
+
+  updateCurrentOutline();
+  watchInView();
+}
+
+// Detecta artigo no centro da tela
+function getArticleInView() {
+  const nodes = document.querySelectorAll('article[data-idx]');
+  const cy = window.innerHeight / 2;
+  let hitIdx = -1;
+  for (const el of nodes) {
+    const r = el.getBoundingClientRect();
+    if (r.top <= cy && r.bottom >= cy) {
+      hitIdx = Number(el.dataset.idx);
+      break;
+    }
+  }
+  if (hitIdx === -1 && nodes.length) {
+    for (const el of nodes) {
+      const r = el.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < window.innerHeight) {
+        hitIdx = Number(el.dataset.idx);
+        break;
+      }
+    }
+  }
+  return hitIdx;
+}
+
+// Atualiza hash na URL
+function updateHash() {
+  const el = document.querySelector(`article[data-idx="${state.currentArticleIdx}"]`);
+  if (el) history.replaceState(null, '', '#' + el.id);
+}
+
+// Atualiza outline (destaque visual do artigo atual)
+function updateCurrentOutline() {
+  const idx = getArticleInView();
+  if (idx === state.currentArticleIdx) return;
+  state.currentArticleIdx = idx;
+  document.querySelectorAll('article.current-outline')
+    .forEach(n => n.classList.remove('current-outline'));
+  if (idx >= 0) {
+    const el = document.querySelector(`article[data-idx="${idx}"]`);
+    el?.classList.add('current-outline');
+    updateHash();
+  }
+}
+
+// Observa artigos em viewport (para seleção automática)
+function watchInView() {
+  const obs = new IntersectionObserver((ents) => {
+    const mid = window.innerHeight / 2;
+    let best = null, bestDelta = 1e9;
+    for (const e of ents) {
+      if (!e.isIntersecting) continue;
+      const r = e.target.getBoundingClientRect();
+      const d = Math.abs((r.top + r.bottom) / 2 - mid);
+      if (d < bestDelta) { best = e.target; bestDelta = d; }
+    }
+    if (best) {
+      state.currentArticleIdx = +best.dataset.idx;
+      document.querySelectorAll('article.current-outline')
+        .forEach(n => n.classList.remove('current-outline'));
+      best.classList.add('current-outline');
+      updateHash();
+    }
+  }, { root: null, threshold: [0, .5, 1] });
+
+  document.querySelectorAll('article[data-idx]')
+    .forEach(el => obs.observe(el));
+}
+
+// Atualiza artigo em foco ao rolar
+window.addEventListener('scroll', () => {
+  if (!state.articles.length) return;
+  updateCurrentOutline();
+}, { passive: true });
+/* =========================
+   PARTE 5/8 — Busca (local e global)
+   - Normalização de termos
+   - Busca local com destaques (<mark>)
+   - Navegação entre hits
+   - Busca global (todos os arquivos)
+   - Barra pré/pós busca
+   ========================= */
+
+// ---------- Normalização ----------
+function normalizeWithMap(s){
+  let norm='', map=[];
+  for(let i=0;i<s.length;i++){
+    const decomp=s[i].normalize('NFD');
+    for(let k=0;k<decomp.length;k++){
+      const c=decomp[k], code=c.codePointAt(0);
+      if(code>=0x0300&&code<=0x036F) continue;
+      norm+=c.toLowerCase(); map.push(i);
+    }
+  }
+  return {norm,map};
+}
+const normalizeTerm=(s)=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+
+// ---------- Ranges ----------
+function findRanges(raw,term){
+  if(!term) return [];
+  const {norm,map}=normalizeWithMap(raw);
+  const needle=normalizeTerm(term);
+  if(!needle) return [];
+  const ranges=[]; let from=0;
+  while(true){
+    const pos=norm.indexOf(needle,from);
+    if(pos===-1) break;
+    ranges.push([map[pos], map[pos+needle.length-1]+1]);
+    from=pos+needle.length;
+  }
+  return ranges;
+}
+
+// ---------- Destaque ----------
+function highlightElementByRanges(el,ranges){
+  if(!ranges.length) return;
+  const raw=el.textContent; let out='', last=0;
+  for(const [s,e] of ranges){
+    out+=escapeHtml(raw.slice(last,s));
+    out+='<mark>'+escapeHtml(raw.slice(s,e))+'</mark>';
+    last=e;
+  }
+  out+=escapeHtml(raw.slice(last));
+  el.innerHTML=out;
+}
+
+// ---------- Limpar marcas ----------
+function clearMarks(){
+  document.querySelectorAll('article[data-idx]').forEach((node)=>{
+    const i=+node.dataset.idx;
+    const a=state.articles[i];
+    node.innerHTML='';
+    const split=a._split||splitBlockSupraTitleBody(a.text);
+    if(split.supra?.length){
+      const supra=document.createElement('div');
+      supra.className='supra';
+      split.supra.forEach(line=>{
+        const d=document.createElement('div'); d.textContent=line; supra.appendChild(d);
+      });
+      node.appendChild(supra);
+    }
+    const t=document.createElement('span'); t.className='art-title';
+    t.textContent=split.titleText||a.title; node.appendChild(t);
+    const b=document.createElement('div'); b.className='art-body';
+    b.textContent=split.body||''; node.appendChild(b);
+  });
+  state.matchNodes=[]; state.matchIdx=-1; els.count.textContent='0/0';
+  document.querySelector('.bottom-search-inner')?.classList.remove('has-results');
+}
+
+// ---------- Busca local (chunked) ----------
+async function highlightTermChunked(term){
+  clearMarks();
+  if(!term) return;
+  setBusy(true); els.count.textContent='...';
+  const nodes=[...document.querySelectorAll('article .art-body, article .art-title, article .supra > div')];
+  const BATCH=12;
+  for(let i=0;i<nodes.length;i+=BATCH){
+    for(let j=i;j<Math.min(i+BATCH,nodes.length);j++){
+      const n=nodes[j];
+      const ranges=findRanges(n.textContent,term);
+      if(ranges.length) highlightElementByRanges(n,ranges);
+    }
+    await new Promise(r=>setTimeout(r,0));
+  }
+  state.matchNodes=Array.from(document.querySelectorAll('mark'));
+  const root=document.querySelector('.bottom-search-inner');
+  if(state.matchNodes.length){
+    state.matchIdx=0;
+    state.matchNodes[0].scrollIntoView({behavior:'smooth',block:'center'});
+    els.count.textContent=`1/${state.matchNodes.length}`;
+    root?.classList.add('has-results');
+  }else{
+    els.count.textContent='0/0'; root?.classList.remove('has-results');
+  }
+  setBusy(false);
+}
+
+// ---------- Navegação entre hits ----------
+els.nextBtn.addEventListener('click',()=>{
+  if(!state.matchNodes.length) return;
+  state.matchIdx=(state.matchIdx+1)%state.matchNodes.length;
+  const m=state.matchNodes[state.matchIdx];
+  m.scrollIntoView({behavior:'smooth',block:'center'});
+  els.count.textContent=`${state.matchIdx+1}/${state.matchNodes.length}`;
+});
+els.prevBtn.addEventListener('click',()=>{
+  if(!state.matchNodes.length) return;
+  state.matchIdx=(state.matchIdx-1+state.matchNodes.length)%state.matchNodes.length;
+  const m=state.matchNodes[state.matchIdx];
+  m.scrollIntoView({behavior:'smooth',block:'center'});
+  els.count.textContent=`${state.matchIdx+1}/${state.matchNodes.length}`;
+});
+
+// ---------- Busca GLOBAL ----------
+function collectAllSources(){
+  const sel=els.codeSelect, out=[]; let group='';
+  sel.querySelectorAll('optgroup, option').forEach(n=>{
+    if(n.tagName.toLowerCase()==='optgroup'){ group=n.label||''; }
+    else if(n.value.trim()){
+      out.push({url:n.value.trim(),label:(group?group+' — ':'')+n.textContent.trim()});
+    }
+  });
+  return out;
+}
+async function fetchTextCached(url){
+  if(state.fileCache.has(url)) return state.fileCache.get(url).txt;
+  const res=await fetch(url,{cache:'no-store'});
+  if(!res.ok) throw new Error(`HTTP ${res.status}`);
+  const txt=sanitizeForLayout(await res.text());
+  state.fileCache.set(url,{txt}); return txt;
+}
+function findAllPositions(raw,term,limit=50){
+  const {norm,map}=normalizeWithMap(raw);
+  const needle=normalizeTerm(term); const pos=[];
+  let from=0; while(pos.length<limit){
+    const idx=norm.indexOf(needle,from); if(idx===-1) break;
+    pos.push(map[idx]); from=idx+needle.length;
+  } return pos;
+}
+function nearestHeader(raw,start){
+  const re=/(^|\n)\s*(?:Art\.?\s*\d{1,4}(?:-?[A-Z])?|S[úu]mula\s+\d+|Princ[ií]pio[^\n]*)/g;
+  let last=null,m; while((m=re.exec(raw))!==null){
+    if(m.index<=start) last=m[0].trim(); else break;
+  } return last||'';
+}
+function makeSnippet(raw,start,size=90){
+  const from=Math.max(0,start-size), to=Math.min(raw.length,start+size);
+  const chunk=raw.slice(from,to).replace(/\s+/g,' ').trim();
+  return (from>0?'…':'')+chunk+(to<raw.length?'…':'');
+}
+
+// Executa busca global
+async function searchAcrossAll(term){
+  const sources=collectAllSources(); if(!sources.length) return;
+  setBusy(true); els.count.textContent='...';
+  let groups=[]; const capPerFile=12; let total=0;
+  for(const s of sources){
+    try{
+      const txt=await fetchTextCached(s.url);
+      const pos=findAllPositions(txt,term,capPerFile);
+      if(!pos.length) continue;
+      const items=pos.map(p=>({
+        title:nearestHeader(txt,p)||s.label,
+        snippet:makeSnippet(txt,p),
+        url:s.url
+      }));
+      groups.push({file:s,items}); total+=items.length;
+      if(total>=200) break;
+    }catch(e){ console.warn('Erro em',s.url,e); }
+  }
+  state.lastGlobalResults=groups; state.lastGlobalTerm=term;
+  renderGlobalResults(groups,term);
+  setBusy(false);
+}
+
+// Render lista global
+function renderGlobalResults(groups,term){
+  els.globalResultsWrap.style.display='block';
+  els.articles.innerHTML='';
+  els.bottomStudy.hidden=true;
+  els.backToResultsBtn.style.display='none';
+  if(!groups.length){
+    els.globalResults.innerHTML='<div class="result-empty">Nenhum resultado encontrado em todos os arquivos.</div>';
+    els.count.textContent='0/0'; return;
+  }
+  const root=document.createDocumentFragment();
+  groups.forEach(g=>{
+    const box=document.createElement('div');
+    box.className='results-group';
+    const h=document.createElement('h4'); h.textContent=g.file.label; box.appendChild(h);
+    g.items.forEach(it=>{
+      const btn=document.createElement('button');
+      btn.type='button'; btn.className='result-item'; btn.dataset.url=it.url;
+      btn.innerHTML=`<b>${escapeHtml(it.title)}</b><small>${escapeHtml(it.snippet)}</small>`;
+      btn.addEventListener('click',()=>openResultItem(it.url,state.lastGlobalTerm));
+      box.appendChild(btn);
+    });
+    root.appendChild(box);
+  });
+  els.globalResults.innerHTML=''; els.globalResults.appendChild(root);
+  const total=groups.reduce((a,g)=>a+g.items.length,0);
+  els.count.textContent=`${total} resultados`;
+}
+
+// Abre item de resultado global
+async function openResultItem(url,term){
+  showToast('Abrindo resultado…');
+  els.codeSelect.value=url;
+  els.codeSelect.dispatchEvent(new Event('change'));
+  setTimeout(()=>{ els.bottomStudy.hidden=false; highlightTermChunked(term); },80);
+  els.backToResultsBtn.style.display='inline-grid';
+  els.globalResultsWrap.style.display='none';
+}
+els.backToResultsBtn.addEventListener('click',()=>{
+  if(state.lastGlobalResults) renderGlobalResults(state.lastGlobalResults,state.lastGlobalTerm);
+});
+
+// ---------- Botão buscar ----------
+els.doSearchBtn.addEventListener('click',()=>{
+  const term=els.searchInput.value.trim();
+  if(!term) return;
+  if(els.searchAll.checked){ searchAcrossAll(term); }
+  else{
+    els.globalResultsWrap.style.display='none';
+    els.backToResultsBtn.style.display=state.lastGlobalResults?'inline-grid':'none';
+    highlightTermChunked(term);
+  }
+});
+
+// Enter = buscar, Esc = reset
+els.searchInput.addEventListener('keydown',(e)=>{
+  if(e.key==='Enter'){ e.preventDefault(); els.doSearchBtn.click(); }
+  else if(e.key==='Escape'){ e.preventDefault(); resetAll(); }
+});
+
+// Mostra botão limpar dentro do input
+els.searchInput.addEventListener('input',()=>{
+  els.clearSearch.hidden=!els.searchInput.value.trim();
+});
+els.clearSearch.addEventListener('click',()=>{
+  els.searchInput.value=''; els.clearSearch.hidden=true;
+  clearMarks(); els.count.textContent='0/0';
+});
+/* =========================
+   PARTE 6/8 — Estudar com IA + Modal
+   - Monta prompt a partir do artigo atual
+   - Abre modal com opções de IA
+   - Copia prompt para clipboard
+   ========================= */
+
+// Gera prompt a partir do artigo atual
+function buildPromptFromCurrent() {
+  if (state.currentArticleIdx < 0 || state.currentArticleIdx >= state.articles.length) {
+    showToast('Selecione um artigo primeiro');
+    return null;
+  }
+  const a = state.articles[state.currentArticleIdx];
+  const title = a._split?.titleText || a.title;
+  const body = a._split?.body || a.text;
+  return `Assuma a persona de um professor de Direito experiente convidado pelo direito.love e gere um material de estudo rápido. Analise detalhadamente todo o artigo abaixo (caput, parágrafos, incisos e alíneas), cobrindo:
+
+1. Conceito com visão doutrinária, jurisprudência majoritária e prática.
+2. Mini exemplo prático.
+3. Checklist essencial.
+4. Erros comuns e pegadinhas de prova.
+5. Pontos de atenção na prática jurídica.
+6. Princípios relacionados ao tema.
+7. Nota comparativa se houver artigos correlatos.
+
+Tema: "${title}"
+
+${body}
+
+💚 direito.love`;
+}
+
+// Abre modal de IA
+els.studyBtn.addEventListener('click', () => {
+  const prompt = buildPromptFromCurrent();
+  if (!prompt) return;
+  els.modalTitle.textContent = 'Escolha sua IA';
+  els.modalBackdrop.style.display = 'flex';
+
+  // Cria botões das IAs
+  const container = els.modalTitle.parentElement.querySelector('.modal-body');
+  container.innerHTML = '';
+  const IAs = [
+    { name: 'ChatGPT', url: 'https://chat.openai.com/' },
+    { name: 'Gemini', url: 'https://gemini.google.com/' },
+    { name: 'Perplexity', url: 'https://www.perplexity.ai/' }
+  ];
+  IAs.forEach(ia => {
+    const btn = document.createElement('button');
+    btn.className = 'ia-btn';
+    btn.textContent = ia.name;
+    btn.addEventListener('click', () => {
+      navigator.clipboard.writeText(prompt).then(() => {
+        showToast('✅ Prompt copiado!');
+        window.open(ia.url, '_blank');
+        els.modalBackdrop.style.display = 'none';
+      });
+    });
+    container.appendChild(btn);
+  });
+});
+
+// Fecha modal
+els.closeModal.addEventListener('click', () => {
+  els.modalBackdrop.style.display = 'none';
+});
+els.modalBackdrop.addEventListener('click', (e) => {
+  if (e.target === els.modalBackdrop) {
+    els.modalBackdrop.style.display = 'none';
+  }
+});
+/* =========================
+   PARTE 7/8 — Reset, persistência e carregamento de arquivos
+   - Reset geral da aplicação
+   - Carrega arquivos selecionados no catálogo
+   - Detecta tipo de parser (artigos, súmulas, princípios)
+   - Persiste última seleção no localStorage
+   ========================= */
+
+// Reset completo da aplicação
+function resetAll() {
+  els.articles.innerHTML = '';
+  els.globalResults.innerHTML = '';
+  els.globalResultsWrap.style.display = 'none';
+  els.bottomSearch.hidden = true;
+  els.bottomStudy.hidden = true;
+  els.backToResultsBtn.style.display = 'none';
+  els.count.textContent = '0/0';
+  els.searchInput.value = '';
+  els.clearSearch.hidden = true;
+  state.articles = [];
+  state.currentArticleIdx = -1;
+  state.matchNodes = [];
+  state.matchIdx = -1;
+  state.isGlobalSearch = false;
+  state.openedFromGlobal = false;
+  state.lastGlobalResults = null;
+  state.lastGlobalTerm = '';
+}
+
+// Detecta parser adequado
+function detectAndParse(txt, url) {
+  if (/sumula/i.test(url)) return parseSumulas(txt);
+  if (/principio/i.test(url)) return parsePrincipios(txt);
+  return parseArticlesFromText(txt);
+}
+
+// Carrega arquivo do catálogo
+async function loadSelectedFile(url) {
+  if (!url) return;
+  resetAll();
+  setBusy(true);
+  try {
+    const txt = await fetchTextCached(url);
+    state.rawText = txt;
+    state.articles = detectAndParse(txt, url);
+    renderArticles();
+    localStorage.setItem('lastFile', url);
+  } catch (e) {
+    console.error('Erro ao carregar arquivo:', e);
+    showToast('Erro ao carregar arquivo');
+  }
+  setBusy(false);
+}
+
+// Evento: mudança no catálogo
+els.codeSelect.addEventListener('change', (e) => {
+  const url = e.target.value;
+  if (!url) return;
+  loadSelectedFile(url);
+});
+
+// Atalho: clique na marca (logo) para reset
+els.brandBtn.addEventListener('click', () => {
+  resetAll();
+  els.codeSelect.value = '';
+  localStorage.removeItem('lastFile');
+});
+
+// Restaura última seleção ao iniciar
+window.addEventListener('DOMContentLoaded', () => {
+  const last = localStorage.getItem('lastFile');
+  if (last) {
+    els.codeSelect.value = last;
+    loadSelectedFile(last);
+  }
+});
+/* =========================
+   PARTE 8/8 — Seletor custom mobile, Atalhos, Service Worker
+   - Abre/fecha catálogo em mobile
+   - Atalhos de teclado
+   - Registro do Service Worker
+   ========================= */
+
+// ---------- Catálogo custom (mobile) ----------
+if (els.openPicker) {
+  els.openPicker.addEventListener('click', () => {
+    els.pickerSheet.style.display = 'flex';
+    els.pickerSearch.focus();
+    renderPickerOptions();
+  });
+}
+if (els.pickerSearch) {
+  els.pickerSearch.addEventListener('input', renderPickerOptions);
+}
+if (els.pickerSheet) {
+  els.pickerSheet.addEventListener('click', (e) => {
+    if (e.target === els.pickerSheet) els.pickerSheet.style.display = 'none';
+  });
+}
+
+// Renderiza opções no modal mobile
+function renderPickerOptions() {
+  const q = els.pickerSearch.value.trim().toLowerCase();
+  els.pickerList.innerHTML = '';
+  els.codeSelect.querySelectorAll('option').forEach(opt => {
+    if (!opt.value) return;
+    if (q && !opt.textContent.toLowerCase().includes(q)) return;
+    const li = document.createElement('li');
+    li.textContent = opt.textContent;
+    li.addEventListener('click', () => {
+      els.codeSelect.value = opt.value;
+      els.codeSelect.dispatchEvent(new Event('change'));
+      els.pickerSheet.style.display = 'none';
+    });
+    els.pickerList.appendChild(li);
+  });
+}
+
+// ---------- Atalhos de teclado ----------
+window.addEventListener('keydown', (e) => {
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+  // / → foco na busca
+  if (e.key === '/') {
+    e.preventDefault();
+    els.searchInput.focus();
+    return;
+  }
+  // n/p → próximo/anterior resultado
+  if (e.key === 'n') {
+    e.preventDefault();
+    els.nextBtn.click();
+    return;
+  }
+  if (e.key === 'p') {
+    e.preventDefault();
+    els.prevBtn.click();
+    return;
+  }
+  // s → estudar artigo
+  if (e.key === 's') {
+    e.preventDefault();
+    els.studyBtn.click();
+    return;
+  }
+  // [ ] → artigo anterior/próximo
+  if (e.key === '[' || e.key === ']') {
+    e.preventDefault();
+    const idx = state.currentArticleIdx;
+    if (idx < 0) return;
+    const step = (e.key === '[' ? -1 : 1);
+    const newIdx = idx + step;
+    if (newIdx >= 0 && newIdx < state.articles.length) {
+      const el = document.querySelector(`article[data-idx="${newIdx}"]`);
+      el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    return;
+  }
+  // Esc → reset
+  if (e.key === 'Escape') {
+    e.preventDefault();
+    resetAll();
+    return;
+  }
+});
+
+// ---------- Service Worker ----------
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(reg => console.log('Service Worker registrado', reg.scope))
+      .catch(err => console.warn('Erro no SW:', err));
+  });
+}
