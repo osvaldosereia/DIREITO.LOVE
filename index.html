@@ -93,7 +93,7 @@
     /* Conteúdo */
     .content{
       position:relative;
-    padding: calc(var(--topbar-h) + var(--progress-h) + 14px) 0 calc(var(--bottom-info-h) + var(--bottom-search-h) + var(--bottom-study-h) + 24px);
+      padding: calc(var(--topbar-h) + var(--progress-h) + 14px) 0 calc(var(--bottom-info-h) + var(--bottom-search-h) + var(--bottom-study-h) + 24px);
       min-height:100dvh;
     }
     .container{ width:clamp(320px, 92vw, 960px); margin:0 auto; padding:0 12px }
@@ -170,27 +170,26 @@
     .do-search{ border:1px solid #f0e08b; background:var(--yellow); color:#0a0a0a; }
 
     /* Nova barra informativa (fica acima da barra de busca) */
-.bottom-info{
-  position:fixed; left:0; right:0; bottom:calc(var(--bottom-study-h) + var(--bottom-search-h));
-  height:var(--bottom-info-h);
-  background:#f9fafc; border-top:1px solid #e6e9f2;
-  z-index:72; display:flex; align-items:center; justify-content:center;
-}
-.bottom-info-inner{
-  width:clamp(320px, 92vw, 960px);
-  display:flex; align-items:center; gap:8px; padding:6px 12px;
-}
-.file-indicator{
-  flex:1 1 auto; min-width:0; max-width:70%;
-  font-size:12px; color:#6c7282; background:#fff; border:1px solid #e2e5f2;
-  padding:6px 10px; border-radius:8px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;
-}
-.global-toggle{
-  flex:0 0 auto; padding:8px 12px; border-radius:10px; border:1px solid #dfe3ef;
-  background:#fff; cursor:pointer; font-weight:700;
-}
-.global-toggle[aria-pressed="true"]{ background:#eaf3ff; border-color:#b9cffb; }
-
+    .bottom-info{
+      position:fixed; left:0; right:0; bottom:calc(var(--bottom-study-h) + var(--bottom-search-h));
+      height:var(--bottom-info-h);
+      background:#f9fafc; border-top:1px solid #e6e9f2;
+      z-index:72; display:flex; align-items:center; justify-content:center;
+    }
+    .bottom-info-inner{
+      width:clamp(320px, 92vw, 960px);
+      display:flex; align-items:center; gap:8px; padding:6px 12px;
+    }
+    .file-indicator{
+      flex:1 1 auto; min-width:0; max-width:70%;
+      font-size:12px; color:#6c7282; background:#fff; border:1px solid #e2e5f2;
+      padding:6px 10px; border-radius:8px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;
+    }
+    .global-toggle{
+      flex:0 0 auto; padding:8px 12px; border-radius:10px; border:1px solid #dfe3ef;
+      background:#fff; cursor:pointer; font-weight:700;
+    }
+    .global-toggle[aria-pressed="true"]{ background:#eaf3ff; border-color:#b9cffb; }
 
     /* Modal IA */
     .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.28); display:none; align-items:center; justify-content:center; z-index:100}
@@ -216,7 +215,7 @@
     }
     .toast.show{opacity:1}
 
-  .bottom-search[hidden], .bottom-study[hidden], .bottom-info[hidden]{display:none}
+    .bottom-search[hidden], .bottom-study[hidden], .bottom-info[hidden]{display:none}
 
     /* Mobile-only */
     @media (max-width: 768px){
@@ -312,22 +311,11 @@
           <optgroup label="Súmulas">
             <option value="data/sumulas/sumulas_stj.txt">Súmulas do STJ</option>
             <option value="data/sumulas/sumulas_stf.txt">Súmulas do STF</option>
-
-            </optgroup>
+          </optgroup>
 
           <optgroup label="Princípios">
             <option value="data/principios/principios_do_direito.txt">Princípios (Rol Exemplificativo)</option>
-            </optgroup>
-
-          <!-- Opcional: ative quando subir os arquivos -->
-          <!--
-          <optgroup label="Súmulas">
-            <option value="data/sumulas/sumulas_stf.txt">Súmulas STF</option>
           </optgroup>
-          <optgroup label="Princípios">
-            <option value="data/principios/principios_do_direito.txt">Princípios (geral)</option>
-          </optgroup>
-          -->
         </select>
 
         <button id="openPicker" class="picker-btn" type="button" aria-haspopup="dialog" aria-controls="pickerSheet">
@@ -357,13 +345,13 @@
     </div>
   </main>
 
-<!-- NOVA BARRA (fica acima da BARRA 1) -->
-<div class="bottom-info" id="bottomInfo" hidden>
-  <div class="bottom-info-inner">
-    <div class="file-indicator" id="fileIndicator" title="Arquivo atual">—</div>
-    <button class="global-toggle" id="globalToggle" type="button" aria-pressed="false" title="Ativar/Desativar busca em todos os códigos">Buscar Global: OFF</button>
+  <!-- NOVA BARRA (fica acima da BARRA 1) -->
+  <div class="bottom-info" id="bottomInfo" hidden>
+    <div class="bottom-info-inner">
+      <div class="file-indicator" id="fileIndicator" title="Arquivo atual">—</div>
+      <button class="global-toggle" id="globalToggle" type="button" aria-pressed="false" title="Ativar/Desativar busca em todos os códigos">Buscar Global: OFF</button>
+    </div>
   </div>
-</div>
 
   <!-- BARRA 1 -->
   <div class="bottom-search" id="bottomSearch" hidden>
@@ -420,7 +408,6 @@
   </div>
 
   <div class="toast" id="toast">✅ Prompt copiado!</div>
-
   <script>
     /* ================= Estado ================= */
     const els = {
@@ -434,6 +421,10 @@
       articles: document.getElementById('articles'),
       bottomSearch: document.getElementById('bottomSearch'),
       bottomStudy: document.getElementById('bottomStudy'),
+      bottomInfo: document.getElementById('bottomInfo'),
+      fileIndicator: document.getElementById('fileIndicator'),
+      globalToggle: document.getElementById('globalToggle'),
+
       searchInput: document.getElementById('searchInput'),
       prevBtn: document.getElementById('prevBtn'),
       nextBtn: document.getElementById('nextBtn'),
@@ -456,7 +447,13 @@
       currentArticleIdx: -1,
       matchNodes: [],
       matchIdx: -1,
-      progressTimer: null
+      progressTimer: null,
+
+      // Busca global
+      globalOn: false,
+      globalQueue: [],
+      globalScanning: false,
+      globalCache: new Map()
     };
 
     const escapeHtml = (s)=> s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
@@ -489,6 +486,15 @@
         els.progressBar.style.width = '100%';
         setTimeout(()=>{ els.progress.hidden = true; els.progressBar.style.width = '0%'; }, 250);
       }
+    }
+
+    // Atualiza indicador do arquivo atual (nova barra)
+    function updateFileIndicator(){
+      const sel = els.codeSelect;
+      const label = sel.options[sel.selectedIndex]?.text?.trim() || '—';
+      const short = label.length > 36 ? label.slice(0,36)+'…' : label;
+      els.fileIndicator.textContent = short;
+      els.fileIndicator.title = label;
     }
 
     /* ================= Artigo em evidência ================= */
@@ -713,6 +719,7 @@
       els.articles.appendChild(frag);
       els.bottomSearch.hidden = false;
       els.bottomStudy.hidden = false;
+      els.bottomInfo.hidden = false;   // <— nova barra
       updateCurrentOutline();
     }
 
@@ -839,18 +846,18 @@
 
     // Navegação das ocorrências
     els.nextBtn.addEventListener('click', async ()=>{
-  if (!state.matchNodes.length) return;
-  const wasLast = (state.matchIdx === state.matchNodes.length - 1);
-  if (wasLast && state.globalOn) {
-    const term = els.searchInput.value.trim();
-    const jumped = await GlobalSearchManager.jumpToNextFile(term);
-    if (jumped) return; // já abriu o próximo arquivo com match e posicionou
-  }
-  state.matchIdx = (state.matchIdx + 1) % state.matchNodes.length;
-  const m = state.matchNodes[state.matchIdx];
-  m.scrollIntoView({behavior:'smooth',block:'center'});
-  els.count.textContent = `${state.matchIdx+1}/${state.matchNodes.length}`;
-});
+      if (!state.matchNodes.length) return;
+      const wasLast = (state.matchIdx === state.matchNodes.length - 1);
+      if (wasLast && state.globalOn) {
+        const term = els.searchInput.value.trim();
+        const jumped = await GlobalSearchManager.jumpToNextFile(term);
+        if (jumped) return; // já abriu o próximo arquivo com match e posicionou
+      }
+      state.matchIdx = (state.matchIdx + 1) % state.matchNodes.length;
+      const m = state.matchNodes[state.matchIdx];
+      m.scrollIntoView({behavior:'smooth',block:'center'});
+      els.count.textContent = `${state.matchIdx+1}/${state.matchNodes.length}`;
+    });
 
     els.prevBtn.addEventListener('click', ()=>{
       if (!state.matchNodes.length) return;
@@ -862,14 +869,25 @@
 
     // Executar busca (Barra 2)
     els.doSearchBtn.addEventListener('click', async ()=>{
-  const term = els.searchInput.value.trim();
-  if (!term) { clearMarks(); return; }
-  if (state.globalOn) {
-    GlobalSearchManager.start(term);
-  } else {
-    highlightTermChunked(term);
-  }
-});
+      const term = els.searchInput.value.trim();
+      if (!term) { clearMarks(); return; }
+      if (state.globalOn) {
+        GlobalSearchManager.start(term);
+      } else {
+        highlightTermChunked(term);
+      }
+    });
+
+    // Toggle “Buscar Global”
+    els.globalToggle.addEventListener('click', ()=>{
+      state.globalOn = !state.globalOn;
+      els.globalToggle.setAttribute('aria-pressed', String(state.globalOn));
+      els.globalToggle.textContent = 'Buscar Global: ' + (state.globalOn ? 'ON' : 'OFF');
+      if (!state.globalOn){
+        state.globalQueue = [];
+        state.globalScanning = false;
+      }
+    });
 
     // Enter envia; Esc reinicia
     els.searchInput.addEventListener('keydown', (e)=>{
@@ -964,6 +982,17 @@
       els.count.textContent = '0/0';
       els.bottomSearch.hidden = true;
       els.bottomStudy.hidden = true;
+      els.bottomInfo.hidden = true;
+
+      // reset global search
+      state.globalOn = false;
+      state.globalQueue = [];
+      state.globalScanning = false;
+      els.globalToggle.setAttribute('aria-pressed','false');
+      els.globalToggle.textContent = 'Buscar Global: OFF';
+      els.fileIndicator.textContent = '—';
+      els.fileIndicator.title = 'Arquivo atual';
+
       els.articles.innerHTML = '<div class="placeholder"><p style="text-align:center">😎 Escolha um arquivo no topo para começar. Bons estudos!</p></div>';
       els.codeSelect.value = '';
       document.querySelectorAll('.highlight-study,.current-outline').forEach(n=>n.classList.remove('highlight-study','current-outline'));
@@ -992,6 +1021,7 @@
                          : parseArticlesFromText(txt);
 
         renderArticles();
+        updateFileIndicator();   // <— atualiza nome do arquivo na barra
         clearMarks();
         window.scrollTo({top:0,behavior:'instant'});
       }catch(err){
@@ -1099,80 +1129,80 @@
       });
       openBtn.textContent = 'Escolher código';
     })();
+    // ======== Busca Global Manager ========
     const GlobalSearchManager = (()=>{
-  function getCatalog(){
-    const sel = els.codeSelect;
-    const items = [];
-    sel.querySelectorAll('option').forEach(opt=>{
-      const url = opt.value?.trim();
-      const label = opt.textContent?.trim();
-      if (url) items.push({url, label});
-    });
-    return items;
-  }
-  function normText(s){
-    return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-  }
-  async function fetchTextCached(url){
-    if (state.globalCache.has(url)) return state.globalCache.get(url);
-    const res = await fetch(url, {cache:'force-cache'});
-    const txt = await res.text();
-    const clean = sanitizeForLayout(txt);
-    state.globalCache.set(url, clean);
-    return clean;
-  }
-  async function scanOthers(term){
-    if (state.globalScanning) return;
-    state.globalScanning = true;
-    const currentUrl = els.codeSelect.value;
-    const needle = normText(term);
-    for (const it of getCatalog()){
-      if (it.url === currentUrl) continue;
-      try{
-        const txt = await fetchTextCached(it.url);
-        if (normText(txt).includes(needle)){
-          state.globalQueue.push(it.url);
+      function getCatalog(){
+        const sel = els.codeSelect;
+        const items = [];
+        sel.querySelectorAll('option').forEach(opt=>{
+          const url = opt.value?.trim();
+          const label = opt.textContent?.trim();
+          if (url) items.push({url, label});
+        });
+        return items;
+      }
+      function normText(s){
+        return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+      }
+      async function fetchTextCached(url){
+        if (state.globalCache.has(url)) return state.globalCache.get(url);
+        const res = await fetch(url, {cache:'force-cache'});
+        const txt = await res.text();
+        const clean = sanitizeForLayout(txt);
+        state.globalCache.set(url, clean);
+        return clean;
+      }
+      async function scanOthers(term){
+        if (state.globalScanning) return;
+        state.globalScanning = true;
+        const currentUrl = els.codeSelect.value;
+        const needle = normText(term);
+        for (const it of getCatalog()){
+          if (it.url === currentUrl) continue;
+          try{
+            const txt = await fetchTextCached(it.url);
+            if (normText(txt).includes(needle)){
+              state.globalQueue.push(it.url);
+            }
+          }catch{}
+          await new Promise(r=>setTimeout(r,0)); // cede a thread
         }
-      }catch{}
-      await new Promise(r=>setTimeout(r,0)); // cede a thread
-    }
-    state.globalScanning = false;
-  }
-  async function waitForArticlesLoaded(maxMs=8000){
-    const t0 = performance.now();
-    while (performance.now() - t0 < maxMs){
-      if (state.articles?.length && document.querySelector('article')) return true;
-      await new Promise(r=>setTimeout(r,60));
-    }
-    return false;
-  }
-  async function jumpToNextFile(term){
-    if (!state.globalQueue.length) return false;
-    const nextUrl = state.globalQueue.shift();
-    if (!nextUrl) return false;
-    setBusy(true);
-    els.codeSelect.value = nextUrl;
-    els.codeSelect.dispatchEvent(new Event('change', {bubbles:true}));
-    const ok = await waitForArticlesLoaded();
-    if (ok){
-      updateFileIndicator?.();
-      await highlightTermChunked(term);
-      setBusy(false);
-      return true;
-    }else{
-      setBusy(false);
-      return false;
-    }
-  }
-  return {
-    start(term){
-      highlightTermChunked(term); // arquivo atual primeiro
-      scanOthers(term);           // escaneia os demais em background leve
-    },
-    jumpToNextFile
-  };
-})();
-
+        state.globalScanning = false;
+      }
+      async function waitForArticlesLoaded(maxMs=8000){
+        const t0 = performance.now();
+        while (performance.now() - t0 < maxMs){
+          if (state.articles?.length && document.querySelector('article')) return true;
+          await new Promise(r=>setTimeout(r,60));
+        }
+        return false;
+      }
+      async function jumpToNextFile(term){
+        if (!state.globalQueue.length) return false;
+        const nextUrl = state.globalQueue.shift();
+        if (!nextUrl) return false;
+        setBusy(true);
+        els.codeSelect.value = nextUrl;
+        els.codeSelect.dispatchEvent(new Event('change', {bubbles:true}));
+        const ok = await waitForArticlesLoaded();
+        if (ok){
+          updateFileIndicator?.();
+          await highlightTermChunked(term);
+          setBusy(false);
+          return true;
+        }else{
+          setBusy(false);
+          return false;
+        }
+      }
+      return {
+        start(term){
+          highlightTermChunked(term); // arquivo atual primeiro
+          scanOthers(term);           // escaneia os demais em background leve
+        },
+        jumpToNextFile
+      };
+    })();
 
     document.addEventListener('DOMContentLoaded', ()=>updateCurrentOutline());
   </script>
