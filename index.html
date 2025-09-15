@@ -179,14 +179,7 @@
     .all-toggle input{ width:16px; height:16px; }
     .all-toggle span{ display:inline-block; }
 
-    /* Limpar dentro do input (mobile-first) */
-    .clear-btn{
-      position:absolute; right:10px; top:50%; transform:translateY(-50%);
-      width:28px; height:28px; border:1px solid #e2e5f2; background:#fff; border-radius:8px;
-      display:grid; place-items:center; cursor:pointer; font-size:14px; line-height:1;
-    }
-    .clear-btn:focus{ outline:2px solid var(--focus); outline-offset:2px; }
-
+   
     /* ===== Barra 2 (ESTUDAR / BUSCAR) ===== */
     .bottom-study{
       position:fixed; left:0; right:0; bottom:0; height:var(--bottom-study-h);
@@ -1187,16 +1180,14 @@ els.searchInput.addEventListener('keydown', (e)=>{
   else if (e.key==='Escape'){ e.preventDefault(); resetAll(); }
 });
 
-/* Limpar campo */
+/* Limpar campo automático (sem botão X) */
 els.searchInput.addEventListener('input', ()=>{
-  els.clearSearch.hidden = !els.searchInput.value.trim();
+  if (!els.searchInput.value.trim()){
+    clearMarks();
+    els.count.textContent = '0/0';
+  }
 });
-els.clearSearch.addEventListener('click', ()=>{
-  els.searchInput.value = '';
-  els.clearSearch.hidden = true;
-  clearMarks();
-  els.count.textContent = '0/0';
-});
+
 
 /* =========================
    PARTE 6/8 — Estudar com IA + Modal
