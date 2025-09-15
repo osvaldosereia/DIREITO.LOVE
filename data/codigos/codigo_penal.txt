@@ -304,7 +304,7 @@ Art. 29 Quem, de qualquer modo, concorre para o crime incide nas penas a este co
 -----
         Circunstâncias incomunicáveis
 
-Art. 30 N ão se comunicam as circunstâncias e as condições de caráter pessoal, salvo quando elementares do crime. (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 30 Não se comunicam as circunstâncias e as condições de caráter pessoal, salvo quando elementares do crime. (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
 -----
         Casos de impunibilidade
@@ -374,7 +374,7 @@ Art. 34 O condenado será submetido, no início do cumprimento da pena, a exame 
 -----
         Regras do regime semi-aberto
 
-Art. 35 A plica-se a norma do art. 34 deste Código, caput, ao condenado que inicie o cumprimento da pena em regime semi-aberto. (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 35 Aplica-se a norma do art. 34 deste Código, caput, ao condenado que inicie o cumprimento da pena em regime semi-aberto. (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
         § 1º - O condenado fica sujeito a trabalho em comum durante o período diurno, em colônia agrícola, industrial ou estabelecimento similar. (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
@@ -489,7 +489,7 @@ Art. 46. A prestação de serviços à comunidade ou a entidades públicas é ap
 -----
         Interdição temporária de direitos (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
-Art. 47 A s penas de interdição temporária de direitos são:  (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 47 As penas de interdição temporária de direitos são:  (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
         I - proibição do exercício de cargo, função ou atividade pública, bem como de mandato eletivo; (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
@@ -559,18 +559,18 @@ DA COMINAÇÃO DAS PENAS
 -----
         Penas privativas de liberdade
 
-Art. 53 A s penas privativas de liberdade têm seus limites estabelecidos na sanção correspondente a cada tipo legal de crime.         (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 53 As penas privativas de liberdade têm seus limites estabelecidos na sanção correspondente a cada tipo legal de crime.         (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
 -----
         Penas restritivas de direitos
 
-Art. 54 A s penas restritivas de direitos são aplicáveis, independentemente de cominação na parte especial, em substituição à pena privativa de liberdade, fixada em quantidade inferior a 1 (um) ano, ou nos crimes culposos. (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 54 As penas restritivas de direitos são aplicáveis, independentemente de cominação na parte especial, em substituição à pena privativa de liberdade, fixada em quantidade inferior a 1 (um) ano, ou nos crimes culposos. (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
 -----
 Art. 55. As penas restritivas de direitos referidas nos incisos III, IV, V e VI do art. 43 terão a mesma duração da pena privativa de liberdade substituída, ressalvado o disposto no § 4o do art. 46. (Redação dada pela Lei nº 9.714, de 1998)
 
 -----
-Art. 56 A s penas de interdição, previstas nos incisos I e II do art. 47 deste Código, aplicam-se para todo o crime cometido no exercício de profissão, atividade, ofício, cargo ou função, sempre que houver violação dos deveres que lhes são inerentes.   (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 56 As penas de interdição, previstas nos incisos I e II do art. 47 deste Código, aplicam-se para todo o crime cometido no exercício de profissão, atividade, ofício, cargo ou função, sempre que houver violação dos deveres que lhes são inerentes.   (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
 -----
 Art. 57 A pena de interdição, prevista no inciso III do art. 47 deste Código, aplica-se aos crimes culposos de trânsito. (Redação dada pela Lei nº 7.209, de 11.7.1984)
@@ -603,7 +603,7 @@ Art. 59 O juiz, atendendo à culpabilidade, aos antecedentes, à conduta social,
 -----
         Critérios especiais da pena de multa
 
-Art. 60 N a fixação da pena de multa o juiz deve atender, principalmente, à situação econômica do réu. (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 60 Na fixação da pena de multa o juiz deve atender, principalmente, à situação econômica do réu. (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
        § 1º - A multa pode ser aumentada até o triplo, se o juiz considerar que, em virtude da situação econômica do réu, é ineficaz, embora aplicada no máximo. (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
@@ -614,7 +614,7 @@ Art. 60 N a fixação da pena de multa o juiz deve atender, principalmente, à s
 -----
         Circunstâncias agravantes
 
-Art. 61 S ão circunstâncias que sempre agravam a pena, quando não constituem ou qualificam o crime:(Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 61 São circunstâncias que sempre agravam a pena, quando não constituem ou qualificam o crime:(Redação dada pela Lei nº 7.209, de 11.7.1984)
 
         I - a reincidência; (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
@@ -660,10 +660,10 @@ Art. 62 A pena será ainda agravada em relação ao agente que: (Redação dada 
 -----
         Reincidência
 
-Art. 63 V erifica-se a reincidência quando o agente comete novo crime, depois de transitar em julgado a sentença que, no País ou no estrangeiro, o tenha condenado por crime anterior. (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 63 Verifica-se a reincidência quando o agente comete novo crime, depois de transitar em julgado a sentença que, no País ou no estrangeiro, o tenha condenado por crime anterior. (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
 -----
-Art. 64 P ara efeito de reincidência: (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 64 Para efeito de reincidência: (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
         I - não prevalece a condenação anterior, se entre a data do cumprimento ou extinção da pena e a infração posterior tiver decorrido período de tempo superior a 5 (cinco) anos, computado o período de prova da suspensão ou do livramento condicional, se não ocorrer revogação; (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
@@ -672,7 +672,7 @@ Art. 64 P ara efeito de reincidência: (Redação dada pela Lei nº 7.209, de 11
 -----
         Circunstâncias atenuantes
 
-Art. 65 S ão circunstâncias que sempre atenuam a pena: (Redação dada pela Lei nº 7.209, de 11.7.1984)   
+Art. 65 São circunstâncias que sempre atenuam a pena: (Redação dada pela Lei nº 7.209, de 11.7.1984)   
 
       I - ser o agente menor de 21 (vinte e um) anos, na data do fato, ou maior de 70 (setenta) anos, na data da sentença, salvo se o crime envolver violência sexual contra a mulher;      (Redação dada pela Lei nº 15.160, de 2025)
 
@@ -696,7 +696,7 @@ Art. 66 A pena poderá ser ainda atenuada em razão de circunstância relevante,
 -----
         Concurso de circunstâncias agravantes e atenuantes
 
-Art. 67 N o concurso de agravantes e atenuantes, a pena deve aproximar-se do limite indicado pelas circunstâncias preponderantes, entendendo-se como tais as que resultam dos motivos determinantes do crime, da personalidade do agente e da reincidência. (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 67 No concurso de agravantes e atenuantes, a pena deve aproximar-se do limite indicado pelas circunstâncias preponderantes, entendendo-se como tais as que resultam dos motivos determinantes do crime, da personalidade do agente e da reincidência. (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
 -----
         Cálculo da pena
@@ -717,7 +717,7 @@ Art. 69 Q uando o agente, mediante mais de uma ação ou omissão, pratica dois 
 -----
         Concurso formal
 
-Art. 70 Q uando o agente, mediante uma só ação ou omissão, pratica dois ou mais crimes, idênticos ou não, aplica-se-lhe a mais grave das penas cabíveis ou, se iguais, somente uma delas, mas aumentada, em qualquer caso, de um sexto até metade. As penas aplicam-se, entretanto, cumulativamente, se a ação ou omissão é dolosa e os crimes concorrentes resultam de desígnios autônomos, consoante o disposto no artigo anterior.(Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 70 Quando o agente, mediante uma só ação ou omissão, pratica dois ou mais crimes, idênticos ou não, aplica-se-lhe a mais grave das penas cabíveis ou, se iguais, somente uma delas, mas aumentada, em qualquer caso, de um sexto até metade. As penas aplicam-se, entretanto, cumulativamente, se a ação ou omissão é dolosa e os crimes concorrentes resultam de desígnios autônomos, consoante o disposto no artigo anterior.(Redação dada pela Lei nº 7.209, de 11.7.1984)
 
         Parágrafo único - Não poderá a pena exceder a que seria cabível pela regra do art. 69 deste Código. (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
@@ -731,17 +731,17 @@ Art. 71 Q uando o agente, mediante mais de uma ação ou omissão, pratica dois 
 -----
         Multas no concurso de crimes
 
-Art. 72 N o concurso de crimes, as penas de multa são aplicadas distinta e integralmente.         (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 72 No concurso de crimes, as penas de multa são aplicadas distinta e integralmente.         (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
 -----
         Erro na execução
 
-Art. 73 Q uando, por acidente ou erro no uso dos meios de execução, o agente, ao invés de atingir a pessoa que pretendia ofender, atinge pessoa diversa, responde como se tivesse praticado o crime contra aquela, atendendo-se ao disposto no § 3º do art. 20 deste Código. No caso de ser também atingida a pessoa que o agente pretendia ofender, aplica-se a regra do art. 70 deste Código.        (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 73 Quando, por acidente ou erro no uso dos meios de execução, o agente, ao invés de atingir a pessoa que pretendia ofender, atinge pessoa diversa, responde como se tivesse praticado o crime contra aquela, atendendo-se ao disposto no § 3º do art. 20 deste Código. No caso de ser também atingida a pessoa que o agente pretendia ofender, aplica-se a regra do art. 70 deste Código.        (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
 -----
         Resultado diverso do pretendido
 
-Art. 74 F ora dos casos do artigo anterior, quando, por acidente ou erro na execução do crime, sobrevém resultado diverso do pretendido, o agente responde por culpa, se o fato é previsto como crime culposo; se ocorre também o resultado pretendido, aplica-se a regra do art. 70 deste Código.          (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 74 Fora dos casos do artigo anterior, quando, por acidente ou erro na execução do crime, sobrevém resultado diverso do pretendido, o agente responde por culpa, se o fato é previsto como crime culposo; se ocorre também o resultado pretendido, aplica-se a regra do art. 70 deste Código.          (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
 -----
         Limite das penas
@@ -755,7 +755,7 @@ Art. 75. O tempo de cumprimento das penas privativas de liberdade não pode ser 
 -----
         Concurso de infrações
 
-Art. 76 N o concurso de infrações, executar-se-á primeiramente a pena mais grave. (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 76 No concurso de infrações, executar-se-á primeiramente a pena mais grave. (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
 -----
 CAPÍTULO IV
@@ -855,7 +855,7 @@ Art. 83 O juiz poderá conceder livramento condicional ao condenado a pena priva
 -----
         Soma de penas
 
-Art. 84 A s penas que correspondem a infrações diversas devem somar-se para efeito do livramento.         (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 84 As penas que correspondem a infrações diversas devem somar-se para efeito do livramento.         (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
 -----
         Especificações das condições
@@ -865,7 +865,7 @@ Art. 85 A sentença especificará as condições a que fica subordinado o livram
 -----
         Revogação do livramento
 
-Art. 86 R evoga-se o livramento, se o liberado vem a ser condenado a pena privativa de liberdade, em sentença irrecorrível: (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 86 Revoga-se o livramento, se o liberado vem a ser condenado a pena privativa de liberdade, em sentença irrecorrível: (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
         I - por crime cometido durante a vigência do benefício; (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
@@ -879,7 +879,7 @@ Art. 87 O juiz poderá, também, revogar o livramento, se o liberado deixar de c
 -----
         Efeitos da revogação
 
-Art. 88 R evogado o livramento, não poderá ser novamente concedido, e, salvo quando a revogação resulta de condenação por outro crime anterior àquele benefício, não se desconta na pena o tempo em que esteve solto o condenado. (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 88 Revogado o livramento, não poderá ser novamente concedido, e, salvo quando a revogação resulta de condenação por outro crime anterior àquele benefício, não se desconta na pena o tempo em que esteve solto o condenado. (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
 -----
         Extinção
@@ -887,7 +887,7 @@ Art. 88 R evogado o livramento, não poderá ser novamente concedido, e, salvo q
 Art. 89 O juiz não poderá declarar extinta a pena, enquanto não passar em julgado a sentença em processo a que responde o liberado, por crime cometido na vigência do livramento.(Redação dada pela Lei nº 7.209, de 11.7.1984)
 
 -----
-Art. 90 S e até o seu término o livramento não é revogado, considera-se extinta a pena privativa de liberdade. (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 90 Se até o seu término o livramento não é revogado, considera-se extinta a pena privativa de liberdade. (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
 -----
 CAPÍTULO VI
@@ -897,7 +897,7 @@ DOS EFEITOS DA CONDENAÇÃO
 -----
         Efeitos genéricos e específicos
 
-Art. 91 S ão efeitos da condenação:         (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 91 São efeitos da condenação:         (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
         I - tornar certa a obrigação de indenizar o dano causado pelo crime;         (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
@@ -929,7 +929,7 @@ II - transferidos a terceiros a título gratuito ou mediante contraprestação i
 § 5º Os instrumentos utilizados para a prática de crimes por organizações criminosas e milícias deverão ser declarados perdidos em favor da União ou do Estado, dependendo da Justiça onde tramita a ação penal, ainda que não ponham em perigo a segurança das pessoas, a moral ou a ordem pública, nem ofereçam sério risco de ser utilizados para o cometimento de novos crimes.             (Incluído pela Lei nº 13.964, de 2019)
 
 -----
-Art. 92 S ão também efeitos da condenação:        (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 92 São também efeitos da condenação:        (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
        I - a perda de cargo, função pública ou mandato eletivo:         (Redação dada pela Lei nº 9.268, de 1º.4.1996)
 
@@ -996,7 +996,7 @@ Art. 96. As medidas de segurança são:  (Redação dada pela Lei nº 7.209, de 
 -----
         Imposição da medida de segurança para inimputável
 
-Art. 97 S e o agente for inimputável, o juiz determinará sua internação (art. 26). Se, todavia, o fato previsto como crime for punível com detenção, poderá o juiz submetê-lo a tratamento ambulatorial. (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 97 Se o agente for inimputável, o juiz determinará sua internação (art. 26). Se, todavia, o fato previsto como crime for punível com detenção, poderá o juiz submetê-lo a tratamento ambulatorial. (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
         Prazo
 
@@ -1015,7 +1015,7 @@ Art. 97 S e o agente for inimputável, o juiz determinará sua internação (art
 -----
         Substituição da pena por medida de segurança para o semi-imputável
 
-Art. 98 N a hipótese do parágrafo único do art. 26 deste Código e necessitando o condenado de especial tratamento curativo, a pena privativa de liberdade pode ser substituída pela internação, ou tratamento ambulatorial, pelo prazo mínimo de 1 (um) a 3 (três) anos, nos termos do artigo anterior e respectivos §§ 1º a 4º.  (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 98 Na hipótese do parágrafo único do art. 26 deste Código e necessitando o condenado de especial tratamento curativo, a pena privativa de liberdade pode ser substituída pela internação, ou tratamento ambulatorial, pelo prazo mínimo de 1 (um) a 3 (três) anos, nos termos do artigo anterior e respectivos §§ 1º a 4º.  (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
 -----
         Direitos do internado
@@ -1043,7 +1043,7 @@ Art. 100 A ação penal é pública, salvo quando a lei expressamente a declara 
 -----
         A ação penal no crime complexo
 
-Art. 101 Q uando a lei considera como elemento ou circunstâncias do tipo legal fatos que, por si mesmos, constituem crimes, cabe ação pública em relação àquele, desde que, em relação a qualquer destes, se deva proceder por iniciativa do Ministério Público.   (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 101 Quando a lei considera como elemento ou circunstâncias do tipo legal fatos que, por si mesmos, constituem crimes, cabe ação pública em relação àquele, desde que, em relação a qualquer destes, se deva proceder por iniciativa do Ministério Público.   (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
 -----
         Irretratabilidade da representação
@@ -1053,7 +1053,7 @@ Art. 102 A representação será irretratável depois de oferecida a denúncia. 
 -----
         Decadência do direito de queixa ou de representação
 
-Art. 103 S alvo disposição expressa em contrário, o ofendido decai do direito de queixa ou de representação se não o exerce dentro do prazo de 6 (seis) meses, contado do dia em que veio a saber quem é o autor do crime, ou, no caso do § 3º do art. 100 deste Código, do dia em que se esgota o prazo para oferecimento da denúncia.  (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 103 Salvo disposição expressa em contrário, o ofendido decai do direito de queixa ou de representação se não o exerce dentro do prazo de 6 (seis) meses, contado do dia em que veio a saber quem é o autor do crime, ou, no caso do § 3º do art. 100 deste Código, do dia em que se esgota o prazo para oferecimento da denúncia.  (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
 -----
         Renúncia expressa ou tácita do direito de queixa
@@ -1221,10 +1221,10 @@ Art. 117 O curso da prescrição interrompe-se: (Redação dada pela Lei nº 7.2
         § 2º - Interrompida a prescrição, salvo a hipótese do inciso V deste artigo, todo o prazo começa a correr, novamente, do dia da interrupção.  (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
 -----
-Art. 118 A s penas mais leves prescrevem com as mais graves.  (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 118 As penas mais leves prescrevem com as mais graves.  (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
 -----
-Art. 119 N o caso de concurso de crimes, a extinção da punibilidade incidirá sobre a pena de cada um, isoladamente.  (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 119 No caso de concurso de crimes, a extinção da punibilidade incidirá sobre a pena de cada um, isoladamente.  (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
 -----
         Perdão judicial
@@ -1386,26 +1386,26 @@ II - se a vítima é menor ou tem diminuída, por qualquer causa, a capacidade d
 -----
         Infanticídio
 
-Art. 123 M atar, sob a influência do estado puerperal, o próprio filho, durante o parto ou logo após:
+Art. 123 Matar, sob a influência do estado puerperal, o próprio filho, durante o parto ou logo após:
 
         Pena - detenção, de dois a seis anos.
 
 -----
         Aborto provocado pela gestante ou com seu consentimento
 
-Art. 124 P rovocar aborto em si mesma ou consentir que outrem lho provoque:  (Vide ADPF 54)
+Art. 124 Provocar aborto em si mesma ou consentir que outrem lho provoque:  (Vide ADPF 54)
 
         Pena - detenção, de um a três anos.
 
 -----
         Aborto provocado por terceiro
 
-Art. 125 P rovocar aborto, sem o consentimento da gestante:
+Art. 125 Provocar aborto, sem o consentimento da gestante:
 
 -----
         Pena - reclusão, de três a dez anos.
 
-Art. 126 P rovocar aborto com o consentimento da gestante:   (Vide ADPF 54)
+Art. 126 Provocar aborto com o consentimento da gestante:   (Vide ADPF 54)
 
         Pena - reclusão, de um a quatro anos.
 
@@ -1417,7 +1417,7 @@ Art. 126 P rovocar aborto com o consentimento da gestante:   (Vide ADPF 54)
 Art. 127 A s penas cominadas nos dois artigos anteriores são aumentadas de um terço, se, em conseqüência do aborto ou dos meios empregados para provocá-lo, a gestante sofre lesão corporal de natureza grave; e são duplicadas, se, por qualquer dessas      causas, lhe sobrevém a morte.
 
 -----
-Art. 128 N ão se pune o aborto praticado por médico:   (Vide ADPF 54)
+Art. 128 Não se pune o aborto praticado por médico:   (Vide ADPF 54)
 
         Aborto necessário
 
@@ -1535,7 +1535,7 @@ DA PERICLITAÇÃO DA VIDA E DA SAÚDE
 -----
         Perigo de contágio venéreo
 
-Art. 130 E xpor alguém, por meio de relações sexuais ou qualquer ato libidinoso, a contágio de moléstia venérea, de que sabe ou deve saber que está contaminado:
+Art. 130  xpor alguém, por meio de relações sexuais ou qualquer ato libidinoso, a contágio de moléstia venérea, de que sabe ou deve saber que está contaminado:
 
         Pena - detenção, de três meses a um ano, ou multa.
 
@@ -1548,14 +1548,14 @@ Art. 130 E xpor alguém, por meio de relações sexuais ou qualquer ato libidino
 -----
         Perigo de contágio de moléstia grave
 
-Art. 131 P raticar, com o fim de transmitir a outrem moléstia grave de que está contaminado, ato capaz de produzir o contágio:
+Art. 131 Praticar, com o fim de transmitir a outrem moléstia grave de que está contaminado, ato capaz de produzir o contágio:
 
         Pena - reclusão, de um a quatro anos, e multa.
 
 -----
         Perigo para a vida ou saúde de outrem
 
-Art. 132 E xpor a vida ou a saúde de outrem a perigo direto e iminente:
+Art. 132 Expor a vida ou a saúde de outrem a perigo direto e iminente:
 
         Pena - detenção, de três meses a um ano, se o fato não constitui crime mais grave.
 
@@ -1604,7 +1604,7 @@ Art. 134 E xpor ou abandonar recém-nascido, para ocultar desonra própria:
 -----
         Omissão de socorro
 
-Art. 135 D eixar de prestar assistência, quando possível fazê-lo sem risco pessoal, à criança abandonada ou extraviada, ou à pessoa inválida ou ferida, ao desamparo ou em grave e iminente perigo; ou não pedir, nesses casos, o socorro da autoridade pública:
+Art. 135 Deixar de prestar assistência, quando possível fazê-lo sem risco pessoal, à criança abandonada ou extraviada, ou à pessoa inválida ou ferida, ao desamparo ou em grave e iminente perigo; ou não pedir, nesses casos, o socorro da autoridade pública:
 
         Pena - detenção, de um a seis meses, ou multa.
 
@@ -1644,7 +1644,7 @@ DA RIXA
 -----
         Rixa
 
-Art. 137 P articipar de rixa, salvo para separar os contendores:
+Art. 137 Participar de rixa, salvo para separar os contendores:
 
         Pena - detenção, de quinze dias a dois meses, ou multa.
 
@@ -1658,7 +1658,7 @@ DOS CRIMES CONTRA A HONRA
 -----
         Calúnia
 
-Art. 138 C aluniar alguém, imputando-lhe falsamente fato definido como crime:
+Art. 138 Caluniar alguém, imputando-lhe falsamente fato definido como crime:
 
         Pena - detenção, de seis meses a dois anos, e multa.
 
@@ -1679,7 +1679,7 @@ Art. 138 C aluniar alguém, imputando-lhe falsamente fato definido como crime:
 -----
         Difamação
 
-Art. 139 D ifamar alguém, imputando-lhe fato ofensivo à sua reputação:
+Art. 139 Difamar alguém, imputando-lhe fato ofensivo à sua reputação:
 
         Pena - detenção, de três meses a um ano, e multa.
 
@@ -1690,7 +1690,7 @@ Art. 139 D ifamar alguém, imputando-lhe fato ofensivo à sua reputação:
 -----
         Injúria
 
-Art. 140 I njuriar alguém, ofendendo-lhe a dignidade ou o decoro:
+Art. 140 Injuriar alguém, ofendendo-lhe a dignidade ou o decoro:
 
         Pena - detenção, de um a seis meses, ou multa.
 
@@ -1748,10 +1748,10 @@ Art. 143 O querelado que, antes da sentença, se retrata cabalmente da calúnia 
         Parágrafo único.  Nos casos em que o querelado tenha praticado a calúnia ou a difamação utilizando-se de meios de comunicação, a retratação dar-se-á, se assim desejar o ofendido, pelos mesmos meios em que se praticou a ofensa.      (Incluído pela Lei nº 13.188, de 2015)
 
 -----
-Art. 144 S e, de referências, alusões ou frases, se infere calúnia, difamação ou injúria, quem se julga ofendido pode pedir explicações em juízo. Aquele que se recusa a dá-las ou, a critério do juiz, não as dá satisfatórias, responde pela ofensa.
+Art. 144 Se, de referências, alusões ou frases, se infere calúnia, difamação ou injúria, quem se julga ofendido pode pedir explicações em juízo. Aquele que se recusa a dá-las ou, a critério do juiz, não as dá satisfatórias, responde pela ofensa.
 
 -----
-Art. 145 N os crimes previstos neste Capítulo somente se procede mediante queixa, salvo quando, no caso do art. 140, § 2º, da violência resulta lesão corporal.
+Art. 145 Nos crimes previstos neste Capítulo somente se procede mediante queixa, salvo quando, no caso do art. 140, § 2º, da violência resulta lesão corporal.
 
         Parágrafo único.  Procede-se mediante requisição do Ministro da Justiça, no caso do inciso I do caput do art. 141 deste Código, e mediante representação do ofendido, no caso do inciso II do mesmo artigo, bem como no caso do § 3o do art. 140 deste Código.       (Redação dada pela Lei nº 12.033.  de 2009)
 
@@ -1768,7 +1768,7 @@ DOS CRIMES CONTRA A LIBERDADE PESSOAL
 -----
         Constrangimento ilegal
 
-Art. 146 C onstranger alguém, mediante violência ou grave ameaça, ou depois de lhe haver reduzido, por qualquer outro meio, a capacidade de resistência, a não fazer o que a lei permite, ou a fazer o que ela não manda:
+Art. 146 Constranger alguém, mediante violência ou grave ameaça, ou depois de lhe haver reduzido, por qualquer outro meio, a capacidade de resistência, a não fazer o que a lei permite, ou a fazer o que ela não manda:
 
         Pena - detenção, de três meses a um ano, ou multa.
 
@@ -1839,7 +1839,7 @@ Parágrafo único. A pena é aumentada de metade se o crime é cometido mediante
 -----
         Seqüestro e cárcere privado
 
-Art. 148 P rivar alguém de sua liberdade, mediante seqüestro ou cárcere privado:         (Vide Lei nº 10.446, de 2002)
+Art. 148 Privar alguém de sua liberdade, mediante seqüestro ou cárcere privado:         (Vide Lei nº 10.446, de 2002)
 
         Pena - reclusão, de um a três anos.
 
@@ -5079,4 +5079,5 @@ Art. 360 R essalvada a legislação especial sobre os crimes contra a existênci
 
 -----
 Art. 361 E ste Código entrará em vigor no dia 1º de janeiro de 1942.
+
 
