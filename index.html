@@ -523,9 +523,12 @@ const state = {
 
   // global
   globalOn: false,
+  globalGroups: [],          // grupos da última busca global (para re-render e destaque)
+  searchTicket: 0,           // controle de concorrência da busca global
   cache: new Map(),          // url -> texto limpo
   urlToLabel: new Map(),     // url -> label
 };
+
 
 /* =============== Utilidades UI =============== */
 function showToast(msg='✅ Pronto!'){
