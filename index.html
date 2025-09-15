@@ -1,3 +1,387 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>direito.love — Leitor jurídico</title>
+
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#142B6F">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="icons/favicon-192.png" sizes="192x192" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+
+  <style>
+    :root{
+      /* Cores */
+      --white:#FFFFFF; --lilac:#E1DEE6; --navy:#142B6F; --yellow:#FFD601;
+      --bg:var(--white); --fg:#101418; --muted:#5f6470;
+
+      /* Barras base */
+      --bar-bg:#f5f7fa;    /* busca */
+      --bar-bg-2:#eceff4;  /* estudar */
+      --bar-info-bg:#f9fafc;
+
+      /* Dimensões */
+      --topbar-h: 64px;
+      --progress-h: 6px;
+      --bottom-info-h: 56px;
+      --bottom-search-h: 56px;
+      --bottom-study-h: 64px;
+
+      /* UI */
+      --focus:#9bb6ff; --radius:12px; --shadow:0 2px 10px rgba(0,0,0,.06);
+      --accent: rgba(255,214,1,.2);
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%}
+    body{
+      background:var(--bg); color:var(--fg);
+      font:15px/1.58 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      max-width:100%; overflow-x:hidden;
+    }
+    button,input,select{font:inherit}
+
+    /* Topo — logo centralizada */
+    .topbar{
+      position:fixed; inset:0 0 auto 0; height:var(--topbar-h);
+      display:flex; align-items:center; justify-content:center;
+      background:var(--navy); color:#fff; z-index:100; box-shadow:var(--shadow);
+    }
+    .topbar-inner{
+      width:clamp(320px, 92vw, 960px);
+      padding:0 12px; display:flex; align-items:center; justify-content:center;
+    }
+    .brand{
+      height:42px; width:auto; object-fit:contain; display:block; cursor:pointer;
+    }
+    .brand:focus{outline:2px solid #fff; outline-offset:2px}
+
+    /* Barra de progresso (busca) */
+    .progress{
+      position:fixed; top:var(--topbar-h); left:0; right:0; height:var(--progress-h); z-index:95;
+      background:transparent;
+    }
+    .progress .bar{
+      height:100%; width:0%; background:linear-gradient(90deg, #FFD601, #E1DEE6);
+      transition:width .2s ease;
+    }
+    .progress[hidden]{display:none}
+
+    /* Conteúdo */
+    .content{
+      position:relative;
+      padding: calc(var(--topbar-h) + var(--progress-h) + 14px) 0 calc(var(--bottom-info-h) + var(--bottom-search-h) + var(--bottom-study-h) + 24px);
+      min-height:100dvh;
+    }
+    .container{ width:clamp(320px, 92vw, 960px); margin:0 auto; padding:0 12px }
+    .placeholder{
+      padding:24px; border:1px dashed #dcdfea; border-radius:var(--radius);
+      color:var(--muted); background:#fafbff; text-align:center;
+    }
+    .placeholder p{ font-size:1.08rem; line-height:1.65; margin:0 }
+
+    /* Artigos / Blocos (mantidos para quando carregar o texto) */
+    article{
+      white-space:pre-wrap; border-bottom:1px solid #eef0f6;
+      padding:18px 10px; scroll-margin: 92px; border-radius:10px;
+      overflow-wrap:anywhere; word-break:break-word; hyphens:auto; max-width:100%;
+    }
+    .supra{ color:#6c7282; font-weight:600; font-size:12px; margin-bottom:6px; }
+    .supra div{ line-height:1.35 }
+    .art-title{ display:block; font-weight:800; color:#0e1638; margin:0 0 6px; font-size:13px }
+    .art-body { font-size: 14px; line-height: 1.6; }
+    article.current-outline{ outline:3px solid #7aa8ff; outline-offset:2px; }
+    article.highlight-study{ background:var(--accent) }
+    mark{padding:0 2px; border-radius:3px; background:#ffef99}
+
+    /* ===== Base — Barra INFO (seletor + toggle global) ===== */
+    .bottom-info{
+      position:fixed; left:0; right:0; bottom:calc(var(--bottom-search-h) + var(--bottom-study-h));
+      height:var(--bottom-info-h);
+      background:var(--bar-info-bg);
+      border-top:1px solid #e6e9f2;
+      z-index:72; display:flex; align-items:center; justify-content:center;
+    }
+    .bottom-info-inner{
+      width:clamp(320px, 92vw, 960px);
+      display:flex; align-items:center; gap:8px; padding:6px 12px;
+    }
+    .file-indicator{
+      flex:1 1 auto; min-width:0; max-width:75%;
+      font-size:13px; color:#6c7282; background:#fff; border:1px solid #e2e5f2;
+      padding:8px 12px; border-radius:10px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; cursor:pointer;
+    }
+    .global-toggle{
+      flex:0 0 auto; padding:10px 14px; border-radius:10px; border:1px solid #dfe3ef;
+      background:#fff; cursor:pointer; font-weight:800;
+    }
+    .global-toggle[aria-pressed="true"]{ background:#eaf3ff; border-color:#b9cffb; }
+
+    /* ===== Base — Barra 1 (BUSCA) ===== */
+    .bottom-search{
+      position:fixed; left:0; right:0; bottom:var(--bottom-study-h);
+      height:var(--bottom-search-h);
+      background:var(--bar-bg);
+      border-top:1px solid #e0e4ec;
+      z-index:70; display:flex; align-items:center; justify-content:center;
+    }
+    .bottom-search-inner{
+      width:clamp(320px, 92vw, 960px);
+      display:flex; align-items:center; gap:8px; padding:8px 12px;
+    }
+    .iconbtn{
+      width:34px; height:34px; border:1px solid #e2e5f2; background:#fff; border-radius:8px;
+      display:grid; place-items:center; cursor:pointer; user-select:none; flex:0 0 34px;
+      font-size:16px; line-height:1;
+    }
+    .iconbtn.danger{ border-color:#f2d6d6; }
+    .iconbtn:focus,input:focus{outline:2px solid var(--focus); outline-offset:2px}
+    .search{flex:1; display:flex; align-items:center; gap:8px; min-width:0}
+    .search input{
+      width:100%; height:36px; border:1px solid #e2e5f2; border-radius:10px; padding:0 12px; background:#fff;
+      flex:1 1 auto; min-width:0;
+    }
+    .spinner{width:18px; height:18px; border:2px solid #e2e5f2; border-top-color:#142B6F; border-radius:50%;
+      animation:spin 1s linear infinite; flex:0 0 18px}
+    .spinner[hidden]{display:none}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .result-count{
+      min-width:68px; font-size:12px; color:#6c7282; border:1px solid #e2e5f2;
+      background:#f7f8fc; padding:6px 10px; border-radius:8px; text-align:center;
+    }
+
+    /* ===== Base — Barra 2 (ESTUDAR / BUSCAR) ===== */
+    .bottom-study{
+      position:fixed; left:0; right:0; bottom:0; height:var(--bottom-study-h);
+      background:var(--bar-bg-2);
+      border-top:1px solid #d9dde6;
+      z-index:75; display:flex; align-items:center; justify-content:center; padding:8px 0;
+    }
+    .bottom-study-inner{
+      width:clamp(320px, 92vw, 960px); padding:0 12px; display:flex; align-items:center; gap:12px;
+    }
+    .study,.do-search{
+      flex:1 1 0; padding:12px 16px; border-radius:12px; font-weight:800; cursor:pointer;
+    }
+    .study{ border:1px solid #0e2a7a; background:#142B6F; color:#fff; }
+    .do-search{ border:1px solid #f0e08b; background:var(--yellow); color:#0a0a0a; }
+
+    /* Modal IA */
+    .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.28); display:none; align-items:center; justify-content:center; z-index:100}
+    .modal{
+      background:#fff; border-radius:16px; width:min(640px, 92vw); padding:18px; border:1px solid #eceef7; box-shadow: var(--shadow)
+    }
+    .modal h3{margin:0 0 8px; color:#0f173a}
+    .modal .subtitle{margin:0 0 14px; font-size:13px; color:#3a7f48}
+    .ia-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+    .ia-btn{
+      display:flex; align-items:center; gap:10px; padding:12px; border:1px solid #e6e8f2; background:#f6f7fb;
+      border-radius:12px; cursor:pointer; text-decoration:none; color:#111; font-weight:700; justify-content:center;
+    }
+    .ia-btn:focus{outline:2px solid var(--focus); outline-offset:2px}
+    .modal .foot{margin-top:12px; display:flex; justify-content:flex-end}
+    .modal .close-btn{padding:8px 12px; border:1px solid #e2e5f2; background:#fff; border-radius:10px; cursor:pointer}
+
+    /* Toast */
+    .toast{
+      position:fixed; left:50%; transform:translateX(-50%);
+      bottom:calc(var(--bottom-study-h) + var(--bottom-search-h) + 14px);
+      background:#111; color:#fff; padding:8px 12px; border-radius:10px; opacity:0; pointer-events:none; transition:opacity .2s; z-index:200
+    }
+    .toast.show{opacity:1}
+
+    /* Sheet (seletor mobile) */
+    .sheet{ position:fixed; inset:0; z-index:120; }
+    .sheet[hidden]{ display:none; }
+    .sheet-backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.32); }
+    .sheet-panel{
+      position:absolute; left:0; right:0; bottom:0;
+      background:#fff; border-radius:16px 16px 0 0;
+      max-height:80vh; display:flex; flex-direction:column;
+      padding-bottom:max(8px, env(safe-area-inset-bottom));
+      box-shadow:0 -8px 24px rgba(0,0,0,.12);
+    }
+    .sheet-head{ display:flex; align-items:center; justify-content:space-between;
+      padding:12px 16px; border-bottom:1px solid #eceef2; }
+    .sheet-title{ color:#0e1638; font-weight:800; }
+    .sheet-close{
+      width:32px; height:32px; border:1px solid #e2e5f2; background:#fff;
+      border-radius:10px; display:grid; place-items:center; cursor:pointer;
+    }
+    .sheet-search{ padding:10px 16px; }
+    .sheet-search input{
+      width:100%; height:38px; border:1px solid #e2e5f2; border-radius:10px; padding:0 12px;
+    }
+    .sheet-body{ overflow:auto; padding:8px 12px 12px; }
+    .list-section{ padding:6px 0; }
+    .list-section h4{
+      font-size:12px; letter-spacing:.4px; font-weight:800; color:#6c7282;
+      margin:6px 2px 4px; text-transform:uppercase;
+    }
+    .item{
+      width:100%; text-align:left; cursor:pointer;
+      display:flex; align-items:center; gap:10px;
+      padding:10px 12px; border-radius:10px; margin:6px 0;
+      border:1px solid #eceff4; background:#f9fafc;
+    }
+    .item b{ font-weight:800; color:#0e1638; }
+    .item small{ color:#6c7282; }
+    .item:hover, .item:focus{ outline:2px solid var(--focus); outline-offset:2px; }
+    .highlight{ background:#ffef99; border-radius:3px; }
+
+    /* Responsivo (sem seletor no topo) */
+    .select-wrap, #codeSelect{ display:none !important; }
+    @media (max-width: 768px){
+      .brand{ height:38px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOPO COM LOGO CENTRALIZADA -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <img src="icons/logo.png" alt="direito.love" class="brand" id="brandBtn" title="Clique para reiniciar">
+    </div>
+  </header>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress" id="progress" hidden>
+    <div class="bar" id="progressBar"></div>
+  </div>
+
+  <!-- CONTEÚDO -->
+  <main class="content">
+    <div class="container">
+      <div class="articles" id="articles">
+        <div class="placeholder">
+          <p>
+            💚<br> Bem-vindo ao <strong>Direito.Love</strong><br>
+            O <em>Mini Vade Mecum Digital</em> que também te auxilia nos estudos com <strong>I.A.</strong>
+            <br><br>😎 <br><strong>Use o menu na parte inferior</strong> para começar. <br>Bons estudos!
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <!-- CATÁLOGO OCULTO (fonte dos arquivos para o seletor da base) -->
+  <select id="codeSelect" title="Escolher arquivo" style="display:none">
+    <option value="">— selecione —</option>
+
+    <optgroup label="CF88">
+      <option value="data/CF88/CF88.txt">Constituição Federal 1988</option>
+    </optgroup>
+
+    <optgroup label="Códigos">
+      <option value="data/codigos/codigo_civil.txt">Código Civil</option>
+      <option value="data/codigos/codigo_processo_civil.txt">Código de Processo Civil</option>
+      <option value="data/codigos/codigo_penal.txt">Código Penal</option>
+      <option value="data/codigos/codigo_processo_penal.txt">Código de Processo Penal</option>
+      <option value="data/codigos/codigo_consumidor.txt">Código de Defesa do Consumidor</option>
+      <option value="data/codigos/codigo_clt.txt">CLT - Consolidação das Leis do Trabalho</option>
+      <option value="data/codigos/codigo_tributario_nacional.txt">Código Tributário Nacional</option>
+    </optgroup>
+
+    <optgroup label="Leis">
+      <option value="data/leis/lei_maria_da_penha.txt">Lei Maria da Penha</option>
+      <option value="data/leis/lei_de_execucao_penal.txt">Lei de Execução Penal</option>
+      <option value="data/leis/lei_de_drogas.txt">Lei de Drogas</option>
+      <option value="data/leis/lei_lgpd.txt">Lei LGPD</option>
+      <option value="data/leis/marco_civil_da_internet.txt">Marco Civil da Internet</option>
+      <option value="data/leis/crimes_hediondos.txt">Lei dos Crimes Hediondos</option>
+    </optgroup>
+
+    <optgroup label="Estatutos">
+      <option value="data/estatutos/eca.txt">ECA - Estatuto da Criança e Adolescente</option>
+      <option value="data/estatutos/estatuto_do_desarmamento.txt">Estatuto do Desarmamento</option>
+      <option value="data/estatutos/estatuto_do_idoso.txt">Estatuto do Idoso</option>
+      <option value="data/estatutos/estatuto_da_juventude.txt">Estatuto da Juventude</option>
+      <option value="data/estatutos/estatuto_da_pessoa_com_deficiencia.txt">Estatuto da Pessoa com Deficiência</option>
+    </optgroup>
+
+    <optgroup label="Súmulas">
+      <option value="data/sumulas/sumulas_stj.txt">Súmulas do STJ</option>
+      <option value="data/sumulas/sumulas_stf.txt">Súmulas do STF</option>
+    </optgroup>
+
+    <optgroup label="Princípios">
+      <option value="data/principios/principios_do_direito.txt">Princípios (Rol Exemplificativo)</option>
+    </optgroup>
+  </select>
+
+  <!-- BARRA INFORMATIVA (seletor + toggle da busca global) -->
+  <div class="bottom-info" id="bottomInfo">
+    <div class="bottom-info-inner">
+      <!-- Abre o mesmo modal (sheet) do seletor -->
+      <button class="file-indicator" id="openPicker" type="button" aria-haspopup="dialog" aria-controls="pickerSheet" title="Escolher código">
+        <span id="fileIndicator">Escolher código</span>
+      </button>
+      <!-- Alterna Busca Global -->
+      <button class="global-toggle" id="globalToggle" type="button" aria-pressed="false" title="Ativar/Desativar busca em todos os códigos">
+        Buscar Global: OFF
+      </button>
+    </div>
+  </div>
+
+  <!-- BARRA 1: BUSCA -->
+  <div class="bottom-search" id="bottomSearch">
+    <div class="bottom-search-inner" aria-live="polite">
+      <button class="iconbtn" id="prevBtn" title="Anterior" aria-label="Anterior">◀</button>
+      <button class="iconbtn" id="nextBtn" title="Próximo" aria-label="Próximo">▶</button>
+      <div class="search">
+        <input id="searchInput" type="search" placeholder="Buscar no texto…" autocomplete="off" />
+        <div class="spinner" id="spinner" hidden></div>
+      </div>
+      <div class="result-count" title="Ocorrência atual / Total"><span id="count">0/0</span></div>
+      <button class="iconbtn danger" id="resetBtn" title="Reiniciar" aria-label="Reiniciar">✕</button>
+    </div>
+  </div>
+
+  <!-- BARRA 2: ESTUDAR -->
+  <div class="bottom-study" id="bottomStudy">
+    <div class="bottom-study-inner">
+      <button class="study" id="studyBtn">Estude com I.A.</button>
+      <button class="do-search" id="doSearchBtn">Buscar</button>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">✅ Prompt copiado!</div>
+
+  <!-- MODAL DE I.A. -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Prompt copiado!</h3>
+      <p class="subtitle">✅ Prompt pronto! Escolha uma IA e cole para estudar:</p>
+      <div class="ia-grid">
+        <button class="ia-btn" data-url="https://chat.openai.com/">💬 ChatGPT</button>
+        <button class="ia-btn" data-url="https://gemini.google.com/app">🧠 Gemini</button>
+        <button class="ia-btn" data-url="https://copilot.microsoft.com/">✨ Copilot</button>
+        <button class="ia-btn" data-url="https://www.perplexity.ai/">🔎 Perplexity</button>
+      </div>
+      <div class="foot">
+        <button class="close-btn" id="closeModal">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL SELECTOR (SHEET) -->
+  <div id="pickerSheet" class="sheet" hidden aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="sheet-backdrop" data-close></div>
+    <div class="sheet-panel" role="document">
+      <div class="sheet-head">
+        <strong class="sheet-title">Escolher código</strong>
+        <button class="sheet-close" type="button" data-close aria-label="Fechar">✕</button>
+      </div>
+      <div class="sheet-search">
+        <input id="pickerSearch" type="search" placeholder="Buscar…" autocomplete="off" />
+      </div>
+      <div class="sheet-body" id="pickerList" aria-live="polite"></div>
+    </div>
+  </div>
 <script>
 /* =============== Refs =============== */
 const els = {
