@@ -994,63 +994,64 @@ function renderGlobalGroups(groups){
   const frag = document.createDocumentFragment();
   let runningIdx = 0;
 
-  groups.forEach(g=>{
-    // Cabeçalho do grupo (arquivo)
-    const sec = document.createElement('section');
-    const header = document.createElement('div');
-    header.className = 'group-header';
-    header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:8px 10px;margin:10px 0 2px;border:1px solid #eceff4;background:#fafbff;border-radius:10px;';
-    header.innerHTML = `
-      <div style="font-weight:800;color:#0e1638;">
-        ${g.fileLabel} <small style="font-weight:600;color:#6c7282">(${g.items.length})</small>
-      </div>
-      <button type="button" class="iconbtn open-doc" data-url="${g.fileUrl}" title="Abrir documento">⤴</button>
-    `;
-    sec.appendChild(header);
+  if (!groups || !groups.length){
+    els.articles.innerHTML = '<div class="placeholder"><p>🤔 Nenhum resultado com todos os termos. Tente variar as palavras.</p></div>';
+  } else {
+    groups.forEach(g=>{
+      // Cabeçalho do arquivo (sempre isolando por fileUrl)
+      const sec = document.createElement('section');
 
-    // Lista de cards (somente os que bateram)
-    g.items.forEach((a, i)=>{
-      const el = document.createElement('article');
-      el.dataset.idx = runningIdx++;               // idx global para navegação/outline
-      el.id = a.htmlId || `g-${el.dataset.idx}`;
+      const header = document.createElement('div');
+      header.className = 'group-header';
+      header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:8px 10px;margin:10px 0 2px;border:1px solid #eceff4;background:#fafbff;border-radius:10px;';
+      header.innerHTML = `
+        <div style="font-weight:800;color:#0e1638;">
+          ${g.fileLabel} <small style="font-weight:600;color:#6c7282">(${g.items.length})</small>
+        </div>
+        <button type="button" class="iconbtn open-doc" data-url="${g.fileUrl}" title="Abrir documento">⤴</button>
+      `;
+      sec.appendChild(header);
 
-      const split = a._split || splitBlockSupraTitleBody(a.text);
+      // Cards do arquivo
+      g.items.forEach(a=>{
+        const el = document.createElement('article');
+        el.dataset.idx = runningIdx++;          // índice global para navegação
+        el.id = a.htmlId || `g-${el.dataset.idx}`;
 
-      // supra (se houver)
-      if (split.supra && split.supra.length){
-        const supra = document.createElement('div');
-        supra.className = 'supra';
-        split.supra.forEach(line=>{
-          const d = document.createElement('div');
-          d.textContent = line;
-          supra.appendChild(d);
-        });
-        el.appendChild(supra);
-      }
+        const split = a._split || splitBlockSupraTitleBody(a.text);
 
-      // título
-      const titleSpan = document.createElement('span');
-      titleSpan.className = 'art-title';
-      titleSpan.textContent = split.titleText || a.title || 'Artigo';
-      el.appendChild(titleSpan);
+        // supra
+        if (split.supra && split.supra.length){
+          const supra = document.createElement('div');
+          supra.className = 'supra';
+          split.supra.forEach(line=>{
+            const d = document.createElement('div');
+            d.textContent = line;
+            supra.appendChild(d);
+          });
+          el.appendChild(supra);
+        }
 
-      // corpo
-      const content = document.createElement('div');
-      content.className = 'art-body';
-      content.textContent = split.body || '';
-      el.appendChild(content);
+        // título
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'art-title';
+        titleSpan.textContent = split.titleText || a.title || 'Artigo';
+        el.appendChild(titleSpan);
 
-      sec.appendChild(el);
+        // corpo
+        const content = document.createElement('div');
+        content.className = 'art-body';
+        content.textContent = split.body || '';
+        el.appendChild(content);
+
+        sec.appendChild(el);
+      });
+
+      frag.appendChild(sec);
     });
 
-    frag.appendChild(sec);
-  });
-
-  els.articles.innerHTML = '';
-  if (groups.length){
+    els.articles.innerHTML = '';
     els.articles.appendChild(frag);
-  } else {
-    els.articles.innerHTML = '<div class="placeholder"><p>🤔 Nenhum resultado com todos os termos. Tente variar as palavras.</p></div>';
   }
 
   // barras sempre visíveis
@@ -1058,27 +1059,28 @@ function renderGlobalGroups(groups){
   els.bottomSearch.hidden = false;
   els.bottomStudy.hidden = false;
 
-  // atualiza estado de render
-  state.currentList = flattenGroups(groups); // versão achatada para destaque/contagem
+  // Atualiza estado (versão achatada para highlight/contador)
+  state.currentList = (groups || []).flatMap(g => g.items || []);
   updateCurrentOutline();
 
-  // listeners "Abrir documento" (troca para o arquivo correspondente)
+  // Ação "Abrir documento"
   els.articles.querySelectorAll('.open-doc').forEach(btn=>{
     btn.addEventListener('click', async ()=>{
       const url = btn.getAttribute('data-url');
       await loadFile(url);
-      // ao abrir o arquivo, sai do modo global
+      // ao abrir o arquivo, sai do global
       state.globalOn = false;
       els.globalToggle.setAttribute('aria-pressed','false');
       els.globalToggle.textContent = 'Buscar Global: OFF';
     });
   });
 
-  // zera contagem de marcações
+  // Zera contador de <mark>
   state.matchNodes = [];
   state.matchIdx = -1;
   updateCount();
 }
+
 
 // Helper: achata os grupos em uma lista linear (mantém ordem visual)
 function flattenGroups(groups){
