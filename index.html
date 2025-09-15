@@ -309,6 +309,38 @@
 .sheet-body .item:hover {
   background: #f0f0f0;
 }
+    /* ========================
+   ESTADOS DA BARRA DE BUSCA
+   ======================== */
+
+/* Estado inicial (pré-busca) */
+body.pre-search #prevBtn,
+body.pre-search #nextBtn,
+body.pre-search .result-count,
+body.pre-search #backToResultsBtn {
+  display: none !important;
+}
+
+/* Pós-busca local: setas e contador */
+body.post-local #prevBtn,
+body.post-local #nextBtn,
+body.post-local .result-count {
+  display: inline-grid !important;
+}
+body.post-local #backToResultsBtn {
+  display: none !important;
+}
+
+/* Pós-busca global: só botão voltar */
+body.post-global #backToResultsBtn {
+  display: inline-grid !important;
+}
+body.post-global #prevBtn,
+body.post-global #nextBtn,
+body.post-global .result-count {
+  display: none !important;
+}
+
 
   </style>
 </head>
