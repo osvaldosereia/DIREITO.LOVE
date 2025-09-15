@@ -2,8 +2,8 @@
 <html lang="pt-BR">
 <head>
   <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
-<link rel="icon" href="icons/favicon-192.png" sizes="192x192" type="image/png">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" href="icons/favicon-192.png" sizes="192x192" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -54,12 +54,12 @@
       overflow:hidden;
     }
     .brand {
-  cursor: pointer;              /* continua clicável */
-  height: 40px;                 /* altura fixa da logo */
-  width: auto;                  /* largura proporcional */
-  object-fit: contain;          /* não distorce a imagem */
-  flex: 0 0 auto;               /* não deixa a logo esticar */
-  display: block;               /* garante que se comporte como imagem */
+      cursor: pointer;              
+      height: 40px;                 
+      width: auto;                  
+      object-fit: contain;          
+      flex: 0 0 auto;               
+      display: block;               
     }
     .brand:focus{outline:2px solid #fff; outline-offset:2px}
     .spacer{flex:1 1 auto; min-width:0}
@@ -115,19 +115,16 @@
     article.highlight-study{ background:var(--accent) }
 
     mark{padding:0 2px; border-radius:3px; background:#ffef99}
-.art-body {
-  font-size: 14px;   /* corpo do artigo menor */
-  line-height: 1.6;  /* mantém legibilidade */
-}
-
-.art-title {
-  font-size: 13px;   /* título do artigo ligeiramente maior */
-}
-
-.supra {
-  font-size: 11px;   /* epígrafes/capítulos discretos */
-}
-
+    .art-body {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .art-title {
+      font-size: 13px;
+    }
+    .supra {
+      font-size: 11px;
+    }
 
     /* ===== Base — Barra 1 (SETAS / INPUT / CONTADOR / X) ===== */
     .bottom-search{
@@ -163,53 +160,45 @@
     }
 
     /* ===== Base — Barra 2 (ESTUDAR azul / BUSCAR amarelo, tamanhos iguais) ===== */
-.bottom-study{
-  position:fixed; 
-  left:0; 
-  right:0; 
-  bottom:0; 
-  height:var(--bottom-study-h);
-  background: var(--bar-bg-2);
-  border-top:1px solid #d9dde6;
-  z-index:75; 
-  display:flex; 
-  align-items:center; 
-  justify-content:center; 
-  padding:8px 0;
-}
-
-.bottom-study-inner{
-  width:clamp(320px, 92vw, 960px); 
-  padding:0 12px;
-  display:flex; 
-  align-items:center; 
-  gap:12px;
-}
-
-/* Botões iguais */
-.study,
-.do-search {
-  flex: 1 1 0;                 /* divide igualmente o espaço (50% cada) */
-  padding: 12px 16px; 
-  border-radius: 12px;
-  font-weight: 800; 
-  cursor: pointer;
-}
-
-/* Estudar (azul) */
-.study {
-  border:1px solid #0e2a7a; 
-  background:#142B6F; 
-  color:#fff;
-}
-
-/* Buscar (amarelo) */
-.do-search {
-  border:1px solid #f0e08b; 
-  background:var(--yellow); 
-  color:#0a0a0a;
-}
-
+    .bottom-study{
+      position:fixed; 
+      left:0; 
+      right:0; 
+      bottom:0; 
+      height:var(--bottom-study-h);
+      background: var(--bar-bg-2);
+      border-top:1px solid #d9dde6;
+      z-index:75; 
+      display:flex; 
+      align-items:center; 
+      justify-content:center; 
+      padding:8px 0;
+    }
+    .bottom-study-inner{
+      width:clamp(320px, 92vw, 960px); 
+      padding:0 12px;
+      display:flex; 
+      align-items:center; 
+      gap:12px;
+    }
+    .study,
+    .do-search {
+      flex: 1 1 0;
+      padding: 12px 16px; 
+      border-radius: 12px;
+      font-weight: 800; 
+      cursor: pointer;
+    }
+    .study {
+      border:1px solid #0e2a7a; 
+      background:#142B6F; 
+      color:#fff;
+    }
+    .do-search {
+      border:1px solid #f0e08b; 
+      background:var(--yellow); 
+      color:#0a0a0a;
+    }
 
     /* Modal IA */
     .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.28); display:none; align-items:center; justify-content:center; z-index:100}
@@ -237,10 +226,10 @@
 
     .bottom-search[hidden], .bottom-study[hidden]{display:none}
 
-    /* Mobile-only: fonte menor do seletor (opções podem ignorar em alguns SOs) e uso do botão */
+    /* Mobile-only */
     @media (max-width: 768px){
       .brand{ font-size:18px; }
-      .select-wrap select{ display:none; }   /* esconde nativo só no mobile */
+      .select-wrap select{ display:none; }
       .picker-btn{ display:inline-flex; align-items:center; gap:8px; }
       .select-wrap select,
       select option, select optgroup{ font-size:14px; }
@@ -291,14 +280,14 @@
   <!-- TOPBAR -->
   <header class="topbar">
     <div class="topbar-inner">
-    <img src="icons/logo.png" alt="direito.love" class="brand" id="brandBtn" title="Clique para reiniciar">
+      <img src="icons/logo.png" alt="direito.love" class="brand" id="brandBtn" title="Clique para reiniciar">
       <div class="spacer"></div>
       <div class="select-wrap">
         <!-- CATEGORIAS COM OPTGROUP (fonte da verdade + fallback desktop) -->
         <select id="codeSelect" title="Escolher arquivo">
           <option value="">— selecione —</option>
 
-           <optgroup label="CF88">
+          <optgroup label="CF88">
             <option value="data/CF88/CF88.txt">Constituição Federal 1988</option>
           </optgroup>
 
@@ -312,20 +301,26 @@
             <option value="data/codigos/codigo_tributario_nacional.txt">Código Tributário Nacional</option>
           </optgroup>
 
-           <optgroup label="Leis">
+          <optgroup label="Leis">
             <option value="data/leis/lei_maria_da_penha.txt">Lei Maria da Penha</option>
             <option value="data/leis/lei_de_execucao_penal.txt">Lei de Execução Penal</option>
             <option value="data/leis/lei_de_drogas.txt">Lei de Drogas</option>
             <option value="data/leis/lei_LGPD.txt">Lei LGPD</option>
-             <option value="data/leis/marco_civil_da_internet.txt">Marco Civil da Internet</option>
+            <option value="data/leis/marco_civil_da_internet.txt">Marco Civil da Internet</option>
           </optgroup>
 
-           <optgroup label="Estatutos">
+          <optgroup label="Estatutos">
             <option value="data/estatutos/eca.txt">ECA - Estatuto da Criança e Adolescente</option>
             <option value="data/estatutos/estatuto_do_desarmamento.txt">Estatuto do Desarmamento</option>
             <option value="data/estatutos/estatudo_do_idoso.txt">Estatuto do Idoso</option>
             <option value="data/estatutos/estatuto_da_juventude.txt">Estatuto da Juventude</option>
           </optgroup>
+
+          <!-- Se quiser, adicione o grupo de Súmulas no select:
+          <optgroup label="Súmulas">
+            <option value="data/sumulas/sumulas_stf.txt">Súmulas STF</option>
+          </optgroup>
+          -->
         </select>
 
         <!-- Botão que abre o seletor custom (aparece só no mobile) -->
@@ -342,20 +337,19 @@
   </div>
 
   <!-- CONTEÚDO -->
- <main class="content">
-  <div class="container">
-    <div class="articles" id="articles">
-      <div class="placeholder">
-        <p style="text-align:center; font-size:1.1rem; font-weight:normal; line-height:1.6;">
-          💚<br> Bem-vindo ao <strong>Direito.Love</strong><br>  
-          O <em>Mini Vade Mecum Digital</em> que também te auxilia nos estudos com <strong>I.A.</strong>  
-          <br><br>😎 <br><strong>Escolha um código no topo e comece agora.</strong> <br>Bons estudos!
-        </p>
+  <main class="content">
+    <div class="container">
+      <div class="articles" id="articles">
+        <div class="placeholder">
+          <p style="text-align:center; font-size:1.1rem; font-weight:normal; line-height:1.6;">
+            💚<br> Bem-vindo ao <strong>Direito.Love</strong><br>  
+            O <em>Mini Vade Mecum Digital</em> que também te auxilia nos estudos com <strong>I.A.</strong>  
+            <br><br>😎 <br><strong>Escolha um código no topo e comece agora.</strong> <br>Bons estudos!
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-</main>
-
+  </main>
 
   <!-- BARRA 1 (SETAS / INPUT / CONTADOR / X) -->
   <div class="bottom-search" id="bottomSearch" hidden>
@@ -371,7 +365,7 @@
     </div>
   </div>
 
-  <!-- BARRA 2 (ESTUDAR azul menor / BUSCAR amarelo maior) -->
+  <!-- BARRA 2 (ESTUDAR / BUSCAR) -->
   <div class="bottom-study" id="bottomStudy" hidden>
     <div class="bottom-study-inner">
       <button class="study" id="studyBtn">Estude com I.A.</button>
@@ -518,9 +512,9 @@
     /* ================= Parser + Sanitização ================= */
     function sanitizeForLayout(s){
       return s
-        .replace(/\u00A0/g, ' ')  // NBSP → espaço normal
-        .replace(/\t/g, ' ')      // tabs → espaço
-        .replace(/\s+\n/g, '\n'); // tira espaços no fim da linha
+        .replace(/\u00A0/g, ' ')   // NBSP → espaço normal
+        .replace(/\t/g, ' ')       // tabs → espaço
+        .replace(/\s+\n/g, '\n');  // tira espaços no fim da linha
     }
 
     function parseArticlesFromText(txt){
@@ -556,72 +550,90 @@
     }
 
     // Fallback por "Art."
-function parseByArt(txt){
-  const re = /(^|\n)\s*((?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?)/g;
-  const starts = [];
-  let m;
-  while ((m = re.exec(txt)) !== null) {
-    const idxArt = re.lastIndex - m[2].length;
-    starts.push(idxArt);
-  }
-  if (!starts.length) return [{
-    title:'Texto',
-    text: txt.trim(),
-    htmlId:'art-0',
-    _split: splitBlockSupraTitleBody(txt.trim())
-  }];
+    function parseByArt(txt){
+      const re = /(^|\n)\s*((?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?)/g;
+      const starts = [];
+      let m;
+      while ((m = re.exec(txt)) !== null) {
+        const idxArt = re.lastIndex - m[2].length;
+        starts.push(idxArt);
+      }
+      if (!starts.length) return [{
+        title:'Texto',
+        text: txt.trim(),
+        htmlId:'art-0',
+        _split: splitBlockSupraTitleBody(txt.trim())
+      }];
 
-  const arts = [];
-  for (let i = 0; i < starts.length; i++) {
-    const from = starts[i];
-    const to   = (i + 1 < starts.length) ? starts[i + 1] : txt.length;
+      const arts = [];
+      for (let i = 0; i < starts.length; i++) {
+        const from = starts[i];
+        const to   = (i + 1 < starts.length) ? starts[i + 1] : txt.length;
 
-    let chunk = txt.slice(from, to).trimEnd();
+        let chunk = txt.slice(from, to).trimEnd();
 
-    // Garante que só pega até o último "." ou ")" antes do próximo artigo
-    const endDot = chunk.lastIndexOf('.');
-    const endPar = chunk.lastIndexOf(')');
-    const end    = Math.max(endDot, endPar);
-    if (end !== -1) chunk = chunk.slice(0, end + 1).trimEnd();
+        // Garante que só pega até o último "." ou ")" antes do próximo artigo
+        const endDot = chunk.lastIndexOf('.');
+        const endPar = chunk.lastIndexOf(')');
+        const end    = Math.max(endDot, endPar);
+        if (end !== -1) chunk = chunk.slice(0, end + 1).trimEnd();
 
-    const split = splitBlockSupraTitleBody(chunk);
-    const title = split.titleText || chunk.split('\n')[0].slice(0,40);
+        const split = splitBlockSupraTitleBody(chunk);
+        const title = split.titleText || chunk.split('\n')[0].slice(0,40);
 
-    arts.push({ title, text: chunk, htmlId: `art-${i}`, _split: split });
-  }
-  return arts;
-}
-
+        arts.push({ title, text: chunk, htmlId: `art-${i}`, _split: split });
+      }
+      return arts;
+    }
 
     function splitBlockSupraTitleBody(raw){
-  const lines = raw.replace(/^\s+|\s+$/g,'').split(/\r?\n/);
-  const artIdx = lines.findIndex(line =>
-    /^\s*(?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?/.test(line)
-  );
+      const lines = raw.replace(/^\s+|\s+$/g,'').split(/\r?\n/);
+      const artIdx = lines.findIndex(line =>
+        /^\s*(?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?/.test(line)
+      );
 
-  if (artIdx >= 0){
-    const supra = lines.slice(0, artIdx).map(s=>s.trim()).filter(Boolean);
-    const titleLine = lines[artIdx];
+      if (artIdx >= 0){
+        const supra = lines.slice(0, artIdx).map(s=>s.trim()).filter(Boolean);
+        const titleLine = lines[artIdx];
 
-    // Regex captura artigo com ou sem hífen
-    const mt = titleLine.match(/^\s*((?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?)/);
-    let titleText = mt ? mt[1].trim() : titleLine.trim();
+        // Regex captura artigo com ou sem hífen
+        const mt = titleLine.match(/^\s*((?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?)/);
+        let titleText = mt ? mt[1].trim() : titleLine.trim();
 
-    // Normaliza: "10-A" → "10A"
-    titleText = titleText.replace(/(\d+)-?([A-Z])/, "$1$2");
+        // Normaliza: "10-A" → "10A"
+        titleText = titleText.replace(/(\d+)-?([A-Z])/, "$1$2");
 
-    const afterTitle = titleLine.slice(mt ? mt[1].length : 0).trimStart();
-    const rest = lines.slice(artIdx+1).join('\n').trimStart();
-    const body = afterTitle ? (rest ? afterTitle + '\n' + rest : afterTitle) : rest;
+        const afterTitle = titleLine.slice(mt ? mt[1].length : 0).trimStart();
+        const rest = lines.slice(artIdx+1).join('\n').trimStart();
+        const body = afterTitle ? (rest ? afterTitle + '\n' + rest : afterTitle) : rest;
 
-    return { supra, titleText, body };
-  } else {
-    const titleText = (lines[0]||'').trim();
-    const body = lines.slice(1).join('\n').trimStart();
-    return { supra:[], titleText, body };
-  }
-}
+        return { supra, titleText, body };
+      } else {
+        const titleText = (lines[0]||'').trim();
+        const body = lines.slice(1).join('\n').trimStart();
+        return { supra:[], titleText, body };
+      }
+    }
 
+    /* ===== Parser exclusivo: Súmulas (Súmula X - ORG ... até -----) ===== */
+    function parseSumulas(txt){
+      const cleaned = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
+      // Divide por linhas com 5+ hifens
+      const parts = cleaned.split(/^\s*-{5,}\s*$/m).map(s => s.trim()).filter(Boolean);
+      const out = [];
+      parts.forEach((block, i)=>{
+        const lines = block.split('\n').map(l=>l.trim());
+        const header = (lines.shift() || 'Súmula').trim(); // ex.: "Súmula 736 - STF"
+        const body = lines.join('\n').trim();
+        out.push({
+          title: header,
+          text: header + (body ? '\n' + body : ''),
+          htmlId: `sumula-${i}`,
+          _split: { supra: [], titleText: header, body }
+        });
+      });
+      return out;
+    }
 
     /* ================= Render ================= */
     function renderArticles(){
@@ -840,7 +852,7 @@ function parseByArt(txt){
     }
 
     function openModal(title){
-      els.modalTitle.textContent = `O Prompt sobre ${title} foi criado.`;
+      els.modalTitle.textContent = `Estude o ${title} com as I.As. abaixo.`;
       els.modalBackdrop.style.display = 'flex';
       els.modalBackdrop.setAttribute('aria-hidden','false');
       const first = els.modalBackdrop.querySelector('.ia-btn');
@@ -919,7 +931,10 @@ function parseByArt(txt){
         const txt = sanitizeForLayout(await res.text());
         state.rawText = txt;
 
-        state.articles = parseArticlesFromText(txt);
+        // 👇 usa parser de Súmulas somente para arquivos da pasta data/sumulas/
+        const isSumulas = /(^|\/)data\/sumulas\/?/i.test(url);
+        state.articles = isSumulas ? parseSumulas(txt) : parseArticlesFromText(txt);
+
         renderArticles();
         clearMarks();
         window.scrollTo({top:0,behavior:'instant'});
@@ -941,30 +956,29 @@ function parseByArt(txt){
       if (!sel || !openBtn || !sheet || !listEl || !searchEl) return; // segurança
 
       // Lê <optgroup>/<option> do select (sem fallback "Outros")
-function getGroups(){
-  const groups = [];
-  let current = null;
+      function getGroups(){
+        const groups = [];
+        let current = null;
 
-  sel.querySelectorAll('optgroup, option').forEach(node=>{
-    if (node.tagName.toLowerCase()==='optgroup'){
-      current = { label: node.label || '', items: [] };
-      groups.push(current);
-    } 
-    else if (node.tagName.toLowerCase()==='option'){
-      const label = node.textContent.trim();
-      const value = node.value;
-      if (!label) return;
-      if (!current){
-        // 👇 se não estiver dentro de optgroup, ignora
-        return;
+        sel.querySelectorAll('optgroup, option').forEach(node=>{
+          if (node.tagName.toLowerCase()==='optgroup'){
+            current = { label: node.label || '', items: [] };
+            groups.push(current);
+          } 
+          else if (node.tagName.toLowerCase()==='option'){
+            const label = node.textContent.trim();
+            const value = node.value;
+            if (!label) return;
+            if (!current){
+              // se não estiver dentro de optgroup, ignora
+              return;
+            }
+            current.items.push({ label, value });
+          }
+        });
+
+        return groups;
       }
-      current.items.push({ label, value });
-    }
-  });
-
-  return groups;
-}
-
 
       const norm = s => (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
       const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
