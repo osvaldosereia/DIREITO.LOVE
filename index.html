@@ -245,9 +245,16 @@
       /* esconder setas até resultados (fica mais espaço p/ digitar) */
       #prevBtn, #nextBtn{ visibility:hidden; }
 
-      /* “Todos” vira ícone 🌐 no mobile (economiza espaço) */
-      .all-toggle span{ display:none; }
-      .all-toggle:before{ content:"🌐"; font-size:16px; line-height:1; }
+      /* “Todos” vira ícone 🌐 no mobile (compacto) */
+.all-toggle {
+  padding: 6px; /* reduzido */
+  width: 32px; 
+  height: 32px;
+  justify-content: center;
+}
+.all-toggle span{ display:none; }
+.all-toggle:before{ content:"🌐"; font-size:15px; line-height:1; }
+
 
       /* remover X externo da barra — economiza espaço */
       /* (não existe no HTML, mas se aparecer, some no mobile) */
@@ -1121,16 +1128,30 @@ async function openResultItem(url, term){
   showToast('Abrindo resultado…');
   els.codeSelect.value = url;
   els.codeSelect.dispatchEvent(new Event('change'));
-  setTimeout(()=>{ els.bottomStudy.hidden=false; highlightTermChunked(term); }, 80);
+
+  // espera carregar artigos
+  setTimeout(()=>{
+    els.bottomStudy.hidden=false;
+    highlightTermChunked(term);
+
+    // rolar suave até o primeiro highlight
+    if (state.matchNodes.length){
+      state.matchNodes[0].scrollIntoView({behavior:'smooth', block:'center'});
+    }
+  }, 200);
+
   els.backToResultsBtn.style.display = 'inline-grid';
   els.globalResultsWrap.style.display = 'none';
 }
 
+
 els.backToResultsBtn.addEventListener('click', ()=>{
   if (state.lastGlobalResults){
     renderGlobalResults(state.lastGlobalResults, state.lastGlobalTerm);
+    setSearchState('post-global');   // ✅ garante que a barra volte ao modo global
   }
 });
+
 
 /* Buscar */
 els.doSearchBtn.addEventListener('click', ()=>{
