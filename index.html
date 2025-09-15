@@ -1,1210 +1,784 @@
-<!doctype html>
-<html lang="pt-BR">
-<head>
-  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
-  <link rel="icon" href="icons/favicon-192.png" sizes="192x192" type="image/png">
-  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<script>
+/* =============== Refs =============== */
+const els = {
+  // topo / status
+  brandBtn: document.getElementById('brandBtn'),
+  progress: document.getElementById('progress'),
+  progressBar: document.getElementById('progressBar'),
 
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>direito.love — Leitor jurídico</title>
+  // containers
+  articles: document.getElementById('articles'),
 
-  <link rel="manifest" href="manifest.webmanifest">
-  <meta name="theme-color" content="#142B6F">
+  // barras base
+  bottomInfo: document.getElementById('bottomInfo'),
+  bottomSearch: document.getElementById('bottomSearch'),
+  bottomStudy: document.getElementById('bottomStudy'),
 
-  <style>
-    :root{
-      /* Paleta */
-      --white:#FFFFFF; --lilac:#E1DEE6; --navy:#142B6F; --yellow:#FFD601;
-      --bg:var(--white); --fg:#101418; --muted:#5f6470;
+  // barra info (seletor + toggle)
+  openPicker: document.getElementById('openPicker'),
+  fileIndicator: document.getElementById('fileIndicator'),
+  globalToggle: document.getElementById('globalToggle'),
 
-      /* Barras de baixo */
-      --bar-bg:#f5f7fa;   /* busca (mais clara) */
-      --bar-bg-2:#eceff4; /* estudar/buscar (um pouco mais escura) */
+  // barra busca
+  searchInput: document.getElementById('searchInput'),
+  prevBtn: document.getElementById('prevBtn'),
+  nextBtn: document.getElementById('nextBtn'),
+  spinner: document.getElementById('spinner'),
+  count: document.getElementById('count'),
+  doSearchBtn: document.getElementById('doSearchBtn'),
+  resetBtn: document.getElementById('resetBtn'),
 
-      /* Dimensões */
-      --topbar-h: 68px;
-      --progress-h: 6px;
-      --bottom-search-h: 56px;
-      --bottom-study-h: 64px;
-      --bottom-info-h: 44px;
+  // barra estudo
+  studyBtn: document.getElementById('studyBtn'),
 
-      --focus:#9bb6ff; --radius:12px; --shadow:0 2px 10px rgba(0,0,0,.06);
-      --accent: rgba(255,214,1,.2);
+  // modal prompt
+  modalBackdrop: document.getElementById('modalBackdrop'),
+  modalTitle: document.getElementById('modalTitle'),
+  closeModal: document.getElementById('closeModal'),
+  toast: document.getElementById('toast'),
+
+  // sheet seletor
+  codeSelect: document.getElementById('codeSelect'),
+  pickerSheet: document.getElementById('pickerSheet'),
+  pickerSearch: document.getElementById('pickerSearch'),
+  pickerList: document.getElementById('pickerList'),
+};
+
+/* =============== Estado =============== */
+const state = {
+  // arquivo atual (modo leitura do arquivo)
+  currentFileUrl: null,
+  currentFileLabel: 'Escolher código',
+  rawText: '',
+  articles: [],              // lista renderizada do arquivo atual (para modo normal)
+  currentArticleIdx: -1,
+
+  // render atual
+  currentMode: 'idle',       // 'idle' | 'file' | 'global'
+  currentList: [],           // lista atualmente renderizada (arquivo completo OU resultados globais)
+  currentTokens: [],         // termos usados na última marcação
+
+  // busca / navegação
+  matchNodes: [],
+  matchIdx: -1,
+
+  // progresso
+  progressTimer: null,
+
+  // global
+  globalOn: false,
+  cache: new Map(),          // url -> texto limpo
+  urlToLabel: new Map(),     // url -> label
+};
+
+/* =============== Utilidades UI =============== */
+function showToast(msg='✅ Pronto!'){
+  els.toast.textContent = msg;
+  els.toast.classList.add('show');
+  setTimeout(()=> els.toast.classList.remove('show'), 1000);
+}
+function setProgressActive(active){
+  if (active){
+    els.progress.hidden = false;
+    els.progressBar.style.width = '0%';
+    let p = 0;
+    clearInterval(state.progressTimer);
+    state.progressTimer = setInterval(()=>{
+      p = Math.min(85, p + 8 + Math.random()*7);
+      els.progressBar.style.width = p + '%';
+    }, 180);
+  } else {
+    clearInterval(state.progressTimer);
+    els.progressBar.style.width = '100%';
+    setTimeout(()=>{ els.progress.hidden = true; els.progressBar.style.width = '0%'; }, 240);
+  }
+}
+function setBusy(isBusy){
+  els.bottomSearch.setAttribute('aria-busy', String(isBusy));
+  els.doSearchBtn.disabled = isBusy;
+  els.prevBtn.disabled = isBusy;
+  els.nextBtn.disabled = isBusy;
+  els.spinner.hidden = !isBusy;
+  setProgressActive(isBusy);
+}
+function updateCount(){
+  if (!state.matchNodes.length){ els.count.textContent = '0/0'; return; }
+  els.count.textContent = `${state.matchIdx+1}/${state.matchNodes.length}`;
+}
+function setFileIndicator(label){
+  const full = (label || 'Escolher código').trim();
+  els.fileIndicator.textContent = full;
+  els.openPicker.title = full;
+}
+
+/* =============== Normalização / Parser =============== */
+const sanitizeForLayout = (s)=> s
+  .replace(/\u00A0/g, ' ')
+  .replace(/\t/g, ' ')
+  .replace(/\s+\n/g, '\n');
+
+function normalizeWithMap(s){
+  let norm = '';
+  const map = [];
+  for (let i=0;i<s.length;i++){
+    const de = s[i].normalize('NFD');
+    for (let k=0;k<de.length;k++){
+      const c = de[k];
+      const code = c.codePointAt(0);
+      if (code>=0x0300 && code<=0x036F) continue;
+      norm += c.toLowerCase();
+      map.push(i);
     }
+  }
+  return {norm, map};
+}
+const normalizeTerm = (s)=> (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 
-    *{box-sizing:border-box}
-    html,body{margin:0;height:100%}
-    body{
-      background:var(--bg); color:var(--fg);
-      font:15px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-      max-width:100%; overflow-x:hidden;
+function findRanges(raw, term){
+  if (!term) return [];
+  const {norm, map} = normalizeWithMap(raw);
+  const needle = normalizeTerm(term);
+  if (!needle) return [];
+  const out = [];
+  let from = 0;
+  while(true){
+    const pos = norm.indexOf(needle, from);
+    if (pos === -1) break;
+    const s = map[pos];
+    const e = map[pos + needle.length - 1] + 1;
+    out.push([s,e]);
+    from = pos + needle.length;
+  }
+  return out;
+}
+function mergeRanges(ranges){
+  if (!ranges.length) return [];
+  ranges.sort((a,b)=> a[0]-b[0]);
+  const out = [ranges[0].slice()];
+  for (let i=1;i<ranges.length;i++){
+    const [s,e] = ranges[i];
+    const last = out[out.length-1];
+    if (s <= last[1]) last[1] = Math.max(last[1], e);
+    else out.push([s,e]);
+  }
+  return out;
+}
+function findRangesMulti(raw, tokens){
+  let all = [];
+  for (const t of tokens){
+    const r = findRanges(raw, t);
+    if (r.length) all = all.concat(r);
+  }
+  return mergeRanges(all);
+}
+function highlightElementByRanges(el, ranges){
+  if (!ranges.length) return;
+  const raw = el.textContent;
+  let out = '', last = 0;
+  for (const [s,e] of ranges){
+    out += escapeHtml(raw.slice(last, s));
+    out += '<mark>' + escapeHtml(raw.slice(s, e)) + '</mark>';
+    last = e;
+  }
+  out += escapeHtml(raw.slice(last));
+  el.innerHTML = out;
+}
+const escapeHtml = (s)=> s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+
+/* ======= Parse de blocos ======= */
+function splitBlockSupraTitleBody(raw){
+  const lines = raw.replace(/^\s+|\s+$/g,'').split(/\r?\n/);
+  const artIdx = lines.findIndex(line =>
+    /^\s*(?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?/.test(line)
+  );
+
+  if (artIdx >= 0){
+    const supra = lines.slice(0, artIdx).map(s=>s.trim()).filter(Boolean);
+    const titleLine = lines[artIdx];
+
+    const mt = titleLine.match(/^\s*((?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?)/);
+    let titleText = mt ? mt[1].trim() : titleLine.trim();
+
+    // Normaliza 10-A → 10A
+    titleText = titleText.replace(/(\d+)-?([A-Z])/, "$1$2");
+
+    const afterTitle = titleLine.slice(mt ? mt[1].length : 0).trimStart();
+    const rest = lines.slice(artIdx+1).join('\n').trimStart();
+    const body = afterTitle ? (rest ? afterTitle + '\n' + rest : afterTitle) : rest;
+
+    return { supra, titleText, body };
+  } else {
+    const titleText = (lines[0]||'').trim();
+    const body = lines.slice(1).join('\n').trimStart();
+    return { supra:[], titleText, body };
+  }
+}
+function parseByDelimiters(txt){
+  const sepRe = /(^|\n)[^\S\r\n]*-{5,}[^\S\r\n]*(?=\n|$)/g;
+  const seps = [];
+  let m;
+  while ((m = sepRe.exec(txt)) !== null) {
+    const idx = m.index + (m[0].startsWith('\n') ? 1 : 0);
+    seps.push(idx);
+  }
+  if (seps.length < 2) return [];
+  const arts = [];
+  for (let i = 0; i + 1 < seps.length; i += 1) {
+    const startLineEnd = txt.indexOf('\n', seps[i]);
+    const from = (startLineEnd === -1) ? txt.length : startLineEnd + 1;
+    const to = seps[i + 1];
+    if (from >= to) continue;
+    const raw = txt.slice(from, to).trim();
+    if (!raw) continue;
+    const split = splitBlockSupraTitleBody(raw);
+    const title = split.titleText || `Bloco ${arts.length + 1}`;
+    arts.push({ title, text: raw, htmlId: `art-${arts.length}`, _split: split });
+  }
+  return arts;
+}
+function parseByArt(txt){
+  const re = /(^|\n)\s*((?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?)/g;
+  const starts = [];
+  let m;
+  while ((m = re.exec(txt)) !== null) {
+    const idxArt = re.lastIndex - m[2].length;
+    starts.push(idxArt);
+  }
+  if (!starts.length) return [{
+    title:'Texto',
+    text: txt.trim(),
+    htmlId:'art-0',
+    _split: splitBlockSupraTitleBody(txt.trim())
+  }];
+
+  const arts = [];
+  for (let i = 0; i < starts.length; i++) {
+    const from = starts[i];
+    const to   = (i + 1 < starts.length) ? starts[i + 1] : txt.length;
+    let chunk = txt.slice(from, to).trimEnd();
+
+    // corta em ponto final/fecha parêntese
+    const endDot = chunk.lastIndexOf('.');
+    const endPar = chunk.lastIndexOf(')');
+    const end    = Math.max(endDot, endPar);
+    if (end !== -1) chunk = chunk.slice(0, end + 1).trimEnd();
+
+    const split = splitBlockSupraTitleBody(chunk);
+    const title = split.titleText || chunk.split('\n')[0].slice(0,40);
+    arts.push({ title, text: chunk, htmlId: `art-${i}`, _split: split });
+  }
+  return arts;
+}
+function parseSumulas(txt){
+  const cleaned = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
+  const parts = cleaned.split(/^\s*-{5,}\s*$/m).map(s => s.trim()).filter(Boolean);
+  const out = [];
+  parts.forEach((block, i)=>{
+    const lines = block.split('\n').map(l=>l.trim());
+    const header = (lines.shift() || 'Súmula').trim(); // "Súmula 736 - STF"
+    const body = lines.join('\n').trim();
+    out.push({
+      title: header,
+      text: header + (body ? '\n' + body : ''),
+      htmlId: `sumula-${i}`,
+      _split: { supra: [], titleText: header, body }
+    });
+  });
+  return out;
+}
+function parsePrincipios(txt){
+  const cleaned = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
+  const parts = cleaned.split(/^\s*-{5,}\s*$/m).map(s => s.trim()).filter(Boolean);
+  const out = [];
+  parts.forEach((block, i)=>{
+    const lines = block.split('\n').map(l=>l.trim());
+    let header = (lines.shift() || 'Princípio').trim();
+    const reHeader = /^\s*Princ[ií]pio\b/i;
+    if (!reHeader.test(header)){
+      if (lines.length && reHeader.test(lines[0])) header = lines.shift();
+      else header = 'Princípio';
     }
-    button,input,select{font:inherit}
+    const body = lines.join('\n').trim();
+    out.push({
+      title: header,
+      text: header + (body ? '\n' + body : ''),
+      htmlId: `principio-${i}`,
+      _split: { supra: [], titleText: header, body }
+    });
+  });
+  return out;
+}
+function parseByUrl(url, txt){
+  const isSumulas = /(^|\/)data\/sumulas\/?/i.test(url);
+  const isPrincipios = /(^|\/)data\/principios\/?/i.test(url);
+  return isSumulas ? parseSumulas(txt)
+       : isPrincipios ? parsePrincipios(txt)
+       : (parseByDelimiters(txt).length ? parseByDelimiters(txt) : parseByArt(txt));
+}
 
-    /* Topbar (logo à esq., seletor à dir.) */
-    .topbar{
-      position:fixed; inset:0 0 auto 0; height:var(--topbar-h);
-      display:flex; align-items:center; justify-content:center;
-      background:var(--navy); color:#fff; z-index:80; box-shadow:var(--shadow);
+/* =============== Renderização =============== */
+function renderArticles(list, {globalMode=false}={}){
+  const frag = document.createDocumentFragment();
+  list.forEach((a, i)=>{
+    const el = document.createElement('article');
+    el.dataset.idx = i;
+    el.id = a.htmlId || `art-${i}`;
+
+    const split = a._split || splitBlockSupraTitleBody(a.text);
+
+    // Supra + badge de arquivo (somente no modo global)
+    const supraWrap = document.createElement('div');
+    supraWrap.className = 'supra';
+
+    if (globalMode && a._fileLabel){
+      const badge = document.createElement('div');
+      badge.textContent = `[${a._fileLabel}]`;
+      supraWrap.appendChild(badge);
     }
-    .topbar-inner{
-      width:clamp(320px, 92vw, 960px);
-      padding:0 12px; display:flex; align-items:center; gap:12px;
-      overflow:hidden;
-    }
-    .brand {
-      cursor: pointer;
-      height: 40px;
-      width: auto;
-      object-fit: contain;
-      flex: 0 0 auto;
-      display: block;
-    }
-    .brand:focus{outline:2px solid #fff; outline-offset:2px}
-    .spacer{flex:1 1 auto; min-width:0}
-    .select-wrap{flex:1 1 50%; min-width:0; max-width:60vw}
-    select{
-      width:100%; height:38px; border:1px solid rgba(255,255,255,.35);
-      background:#fff; color:#161b33; border-radius:10px; padding:0 10px;
-    }
-    select:focus{outline:2px solid var(--focus); outline-offset:2px}
-
-    /* Botão mobile que substitui o select (apenas no mobile) */
-    .picker-btn{
-      display:none;
-      height:38px; padding:0 12px; border-radius:10px;
-      background:#fff; color:#161b33; border:1px solid rgba(255,255,255,.35);
-      cursor:pointer;
-    }
-
-    /* Barra de progresso (busca) */
-    .progress{
-      position:fixed; top:var(--topbar-h); left:0; right:0; height:var(--progress-h); z-index:85;
-      background:transparent;
-    }
-    .progress .bar{
-      height:100%; width:0%; background:linear-gradient(90deg, #FFD601, #E1DEE6);
-      transition:width .2s ease;
-    }
-    .progress[hidden]{display:none}
-
-    /* Conteúdo */
-    .content{
-      position:relative;
-      padding: calc(var(--topbar-h) + var(--progress-h) + 14px) 0 calc(var(--bottom-info-h) + var(--bottom-search-h) + var(--bottom-study-h) + 24px);
-      min-height:100dvh;
-    }
-    .container{ width:clamp(320px, 92vw, 960px); margin:0 auto; padding:0 12px }
-    .placeholder{
-      padding:24px; border:1px dashed #dcdfea; border-radius:var(--radius);
-      color:var(--muted); background:#fafbff
-    }
-
-    /* Artigos/Blocos */
-    article{
-      white-space:pre-wrap;
-      border-bottom:1px solid #eef0f6;
-      padding:18px 10px; scroll-margin: 92px; border-radius:10px;
-      overflow-wrap:anywhere; word-break:break-word; hyphens:auto; max-width:100%;
-    }
-    .supra{ color:#6c7282; font-weight:600; font-size:13px; margin-bottom:6px; }
-    .supra div{ line-height:1.35 }
-    .art-title{ display:block; font-weight:700; color:#0e1638; margin:0 0 6px }
-    article.current-outline{ outline:3px solid #7aa8ff; outline-offset:2px; }
-    article.highlight-study{ background:var(--accent) }
-
-    mark{padding:0 2px; border-radius:3px; background:#ffef99}
-    .art-body { font-size: 14px; line-height: 1.6; }
-    .art-title { font-size: 13px; }
-    .supra { font-size: 11px; }
-
-    /* ===== Base — Barra 1 (SETAS / INPUT / CONTADOR / X) ===== */
-    .bottom-search{
-      position:fixed; left:0; right:0; bottom:var(--bottom-study-h);
-      height:var(--bottom-search-h);
-      background: var(--bar-bg);
-      border-top:1px solid #e0e4ec;
-      z-index:70; display:flex; align-items:center; justify-content:center;
-    }
-    .bottom-search-inner{
-      width:clamp(320px, 92vw, 960px);
-      display:flex; align-items:center; gap:8px; padding:8px 12px;
-    }
-    .iconbtn{
-      width:32px; height:32px; border:1px solid #e2e5f2; background:#fff; border-radius:8px;
-      display:grid; place-items:center; cursor:pointer; user-select:none; flex:0 0 32px;
-      font-size:16px; line-height:1;
-    }
-    .iconbtn.danger{ border-color:#f2d6d6; }
-    .iconbtn:focus,input:focus{outline:2px solid var(--focus); outline-offset:2px}
-    .search{flex:1; display:flex; align-items:center; gap:8px; min-width:0}
-    .search input{
-      width:100%; height:36px; border:1px solid #e2e5f2; border-radius:10px; padding:0 12px; background:#fff;
-      flex:1 1 auto; min-width:0;
-    }
-    .spinner{width:18px; height:18px; border:2px solid #e2e5f2; border-top-color:#142B6F; border-radius:50%;
-      animation:spin 1s linear infinite; flex:0 0 18px}
-    .spinner[hidden]{display:none}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .result-count{
-      min-width:64px; font-size:12px; color:#6c7282; border:1px solid #e2e5f2;
-      background:#f7f8fc; padding:6px 10px; border-radius:8px; text-align:center;
-    }
-
-    /* ===== Base — Barra 2 (ESTUDAR / BUSCAR) ===== */
-    .bottom-study{
-      position:fixed; left:0; right:0; bottom:0; height:var(--bottom-study-h);
-      background: var(--bar-bg-2);
-      border-top:1px solid #d9dde6;
-      z-index:75; display:flex; align-items:center; justify-content:center; padding:8px 0;
-    }
-    .bottom-study-inner{
-      width:clamp(320px, 92vw, 960px); padding:0 12px; display:flex; align-items:center; gap:12px;
-    }
-    .study,.do-search{
-      flex:1 1 0; padding:12px 16px; border-radius:12px; font-weight:800; cursor:pointer;
-    }
-    .study{ border:1px solid #0e2a7a; background:#142B6F; color:#fff; }
-    .do-search{ border:1px solid #f0e08b; background:var(--yellow); color:#0a0a0a; }
-
-    /* Nova barra informativa (fica acima da barra de busca) */
-    .bottom-info{
-      position:fixed; left:0; right:0; bottom:calc(var(--bottom-study-h) + var(--bottom-search-h));
-      height:var(--bottom-info-h);
-      background:#f9fafc; border-top:1px solid #e6e9f2;
-      z-index:72; display:flex; align-items:center; justify-content:center;
-    }
-    .bottom-info-inner{
-      width:clamp(320px, 92vw, 960px);
-      display:flex; align-items:center; gap:8px; padding:6px 12px;
-    }
-    .file-indicator{
-      flex:1 1 auto; min-width:0; max-width:70%;
-      font-size:12px; color:#6c7282; background:#fff; border:1px solid #e2e5f2;
-      padding:6px 10px; border-radius:8px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;
-    }
-    .global-toggle{
-      flex:0 0 auto; padding:8px 12px; border-radius:10px; border:1px solid #dfe3ef;
-      background:#fff; cursor:pointer; font-weight:700;
-    }
-    .global-toggle[aria-pressed="true"]{ background:#eaf3ff; border-color:#b9cffb; }
-
-    /* Modal IA */
-    .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.28); display:none; align-items:center; justify-content:center; z-index:100}
-    .modal{
-      background:#fff; border-radius:16px; width:min(640px, 92vw); padding:18px; border:1px solid #eceef7; box-shadow: var(--shadow)
-    }
-    .modal h3{margin:0 0 8px; color:#0f173a}
-    .modal .subtitle{margin:0 0 14px; font-size:13px; color:#3a7f48}
-    .ia-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px}
-    .ia-btn{
-      display:flex; align-items:center; gap:10px; padding:12px; border:1px solid #e6e8f2; background:#f6f7fb;
-      border-radius:12px; cursor:pointer; text-decoration:none; color:#111; font-weight:700; justify-content:center;
-    }
-    .ia-btn:focus{outline:2px solid var(--focus); outline-offset:2px}
-    .modal .foot{margin-top:12px; display:flex; justify-content:flex-end}
-    .modal .close-btn{padding:8px 12px; border:1px solid #e2e5f2; background:#fff; border-radius:10px; cursor:pointer}
-
-    /* Toast */
-    .toast{
-      position:fixed; left:50%; transform:translateX(-50%);
-      bottom:calc(var(--bottom-study-h) + var(--bottom-search-h) + 14px);
-      background:#111; color:#fff; padding:8px 12px; border-radius:10px; opacity:0; pointer-events:none; transition:opacity .2s; z-index:200
-    }
-    .toast.show{opacity:1}
-
-    .bottom-search[hidden], .bottom-study[hidden], .bottom-info[hidden]{display:none}
-
-    /* Mobile-only */
-    @media (max-width: 768px){
-      .brand{ font-size:18px; }
-      .select-wrap select{ display:none; }
-      .picker-btn{ display:inline-flex; align-items:center; gap:8px; }
-      .select-wrap select,
-      select option, select optgroup{ font-size:14px; }
-    }
-
-    /* ====== Bottom-sheet do seletor custom (mobile) ====== */
-    .sheet{ position:fixed; inset:0; z-index:120; }
-    .sheet[hidden]{ display:none; }
-    .sheet-backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.32); }
-    .sheet-panel{
-      position:absolute; left:0; right:0; bottom:0;
-      background:#fff; border-radius:16px 16px 0 0;
-      max-height:80vh; display:flex; flex-direction:column;
-      padding-bottom:max(8px, env(safe-area-inset-bottom));
-      box-shadow:0 -8px 24px rgba(0,0,0,.12);
-    }
-    .sheet-head{ display:flex; align-items:center; justify-content:space-between;
-      padding:12px 16px; border-bottom:1px solid #eceef2; }
-    .sheet-title{ color:#0e1638; font-weight:800; }
-    .sheet-close{
-      width:32px; height:32px; border:1px solid #e2e5f2; background:#fff;
-      border-radius:10px; display:grid; place-items:center; cursor:pointer;
-    }
-    .sheet-search{ padding:10px 16px; }
-    .sheet-search input{
-      width:100%; height:38px; border:1px solid #e2e5f2; border-radius:10px; padding:0 12px;
-    }
-    .sheet-body{ overflow:auto; padding:8px 12px 12px; }
-    .list-section{ padding:6px 0; }
-    .list-section h4{
-      font-size:12px; letter-spacing:.4px; font-weight:800; color:#6c7282;
-      margin:6px 2px 4px; text-transform:uppercase;
-    }
-    .item{
-      width:100%; text-align:left; cursor:pointer;
-      display:flex; align-items:center; gap:10px;
-      padding:10px 12px; border-radius:10px; margin:6px 0;
-      border:1px solid #eceff4; background:#f9fafc;
-    }
-    .item b{ font-weight:800; color:#0e1638; }
-    .item small{ color:#6c7282; }
-    .item:hover, .item:focus{ outline:2px solid var(--focus); outline-offset:2px; }
-    .highlight{ background:#ffef99; border-radius:3px; }
-  </style>
-</head>
-<body>
-
-  <!-- TOPBAR -->
-  <header class="topbar">
-    <div class="topbar-inner">
-      <img src="icons/logo.png" alt="direito.love" class="brand" id="brandBtn" title="Clique para reiniciar">
-      <div class="spacer"></div>
-      <div class="select-wrap">
-        <select id="codeSelect" title="Escolher arquivo">
-          <option value="">— selecione —</option>
-
-          <optgroup label="CF88">
-            <option value="data/CF88/CF88.txt">Constituição Federal 1988</option>
-          </optgroup>
-
-          <optgroup label="Códigos">
-            <option value="data/codigos/codigo_civil.txt">Código Civil</option>
-            <option value="data/codigos/codigo_processo_civil.txt">Código de Processo Civil</option>
-            <option value="data/codigos/codigo_penal.txt">Código Penal</option>
-            <option value="data/codigos/codigo_processo_penal.txt">Código de Processo Penal</option>
-            <option value="data/codigos/codigo_consumidor.txt">Código de Defesa do Consumidor</option>
-            <option value="data/codigos/codigo_clt.txt">CLT - Consolidação das Leis do Trabalho</option>
-            <option value="data/codigos/codigo_tributario_nacional.txt">Código Tributário Nacional</option>
-          </optgroup>
-
-          <optgroup label="Leis">
-            <option value="data/leis/lei_maria_da_penha.txt">Lei Maria da Penha</option>
-            <option value="data/leis/lei_de_execucao_penal.txt">Lei de Execução Penal</option>
-            <option value="data/leis/lei_de_drogas.txt">Lei de Drogas</option>
-            <option value="data/leis/lei_lgpd.txt">Lei LGPD</option>
-            <option value="data/leis/marco_civil_da_internet.txt">Marco Civil da Internet</option>
-            <option value="data/leis/crimes_hediondos.txt">Lei dos Crimes Hediondos</option>
-          </optgroup>
-
-          <optgroup label="Estatutos">
-            <option value="data/estatutos/eca.txt">ECA - Estatuto da Criança e Adolescente</option>
-            <option value="data/estatutos/estatuto_do_desarmamento.txt">Estatuto do Desarmamento</option>
-            <option value="data/estatutos/estatuto_do_idoso.txt">Estatuto do Idoso</option>
-            <option value="data/estatutos/estatuto_da_juventude.txt">Estatuto da Juventude</option>
-            <option value="data/estatutos/estatuto_da_pessoa_com_deficiencia.txt">Estatuto da Pessoa com Deficiência</option>
-          </optgroup>
-
-          <optgroup label="Súmulas">
-            <option value="data/sumulas/sumulas_stj.txt">Súmulas do STJ</option>
-            <option value="data/sumulas/sumulas_stf.txt">Súmulas do STF</option>
-          </optgroup>
-
-          <optgroup label="Princípios">
-            <option value="data/principios/principios_do_direito.txt">Princípios (Rol Exemplificativo)</option>
-          </optgroup>
-        </select>
-
-        <button id="openPicker" class="picker-btn" type="button" aria-haspopup="dialog" aria-controls="pickerSheet">
-          Escolher código
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- PROGRESS BAR -->
-  <div class="progress" id="progress" hidden>
-    <div class="bar" id="progressBar"></div>
-  </div>
-
-  <!-- CONTEÚDO -->
-  <main class="content">
-    <div class="container">
-      <div class="articles" id="articles">
-        <div class="placeholder">
-          <p style="text-align:center; font-size:1.1rem; font-weight:normal; line-height:1.6;">
-            💚<br> Bem-vindo ao <strong>Direito.Love</strong><br>
-            O <em>Mini Vade Mecum Digital</em> que também te auxilia nos estudos com <strong>I.A.</strong>
-            <br><br>😎 <br><strong>Escolha um código no topo e comece agora.</strong> <br>Bons estudos!
-          </p>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- NOVA BARRA (fica acima da BARRA 1) -->
-  <div class="bottom-info" id="bottomInfo" hidden>
-    <div class="bottom-info-inner">
-      <div class="file-indicator" id="fileIndicator" title="Arquivo atual">—</div>
-      <button class="global-toggle" id="globalToggle" type="button" aria-pressed="false" title="Ativar/Desativar busca em todos os códigos">Buscar Global: OFF</button>
-    </div>
-  </div>
-
-  <!-- BARRA 1 -->
-  <div class="bottom-search" id="bottomSearch" hidden>
-    <div class="bottom-search-inner" aria-live="polite">
-      <button class="iconbtn" id="prevBtn" title="Anterior" aria-label="Anterior">◀</button>
-      <button class="iconbtn" id="nextBtn" title="Próximo" aria-label="Próximo">▶</button>
-      <div class="search">
-        <input id="searchInput" type="search" placeholder="Buscar no texto…" autocomplete="off" />
-        <div class="spinner" id="spinner" hidden></div>
-      </div>
-      <div class="result-count" title="Ocorrência atual / Total"><span id="count">0/0</span></div>
-      <button class="iconbtn danger" id="resetBtn" title="Reiniciar" aria-label="Reiniciar">✕</button>
-    </div>
-  </div>
-
-  <!-- BARRA 2 -->
-  <div class="bottom-study" id="bottomStudy" hidden>
-    <div class="bottom-study-inner">
-      <button class="study" id="studyBtn">Estude com I.A.</button>
-      <button class="do-search" id="doSearchBtn">Buscar</button>
-    </div>
-  </div>
-
-  <!-- MODAL IA -->
-  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal" role="document" aria-labelledby="modalTitle">
-      <h3 id="modalTitle">Prompt do X copiado.</h3>
-      <p class="subtitle">✅ PROMPT PRONTO! Escolha uma IA e cole o prompt para estudar.</p>
-      <div class="ia-grid">
-        <button class="ia-btn" data-url="https://chatgpt.com/">💬 ChatGPT</button>
-        <button class="ia-btn" data-url="https://gemini.google.com/app">🧠 Gemini</button>
-        <button class="ia-btn" data-url="https://copilot.microsoft.com/">✨ Copilot</button>
-        <button class="ia-btn" data-url="https://www.perplexity.ai/">🔎 Perplexity</button>
-      </div>
-      <div class="foot">
-        <button class="close-btn" id="closeModal">Fechar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- SHEET: seletor custom (mobile) -->
-  <div id="pickerSheet" class="sheet" hidden aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="sheet-backdrop" data-close></div>
-    <div class="sheet-panel" role="document">
-      <div class="sheet-head">
-        <strong class="sheet-title">Escolher código</strong>
-        <button class="sheet-close" type="button" data-close aria-label="Fechar">✕</button>
-      </div>
-      <div class="sheet-search">
-        <input id="pickerSearch" type="search" placeholder="Buscar…" autocomplete="off" />
-      </div>
-      <div class="sheet-body" id="pickerList" aria-live="polite"></div>
-    </div>
-  </div>
-
-  <div class="toast" id="toast">✅ Prompt copiado!</div>
-  <script>
-    /* ================= Estado ================= */
-    const els = {
-      brandBtn: document.getElementById('brandBtn'),
-      codeSelect: document.getElementById('codeSelect'),
-      openPicker: document.getElementById('openPicker'),
-      pickerSheet: document.getElementById('pickerSheet'),
-      pickerSearch: document.getElementById('pickerSearch'),
-      pickerList: document.getElementById('pickerList'),
-
-      articles: document.getElementById('articles'),
-      bottomSearch: document.getElementById('bottomSearch'),
-      bottomStudy: document.getElementById('bottomStudy'),
-      bottomInfo: document.getElementById('bottomInfo'),
-      fileIndicator: document.getElementById('fileIndicator'),
-      globalToggle: document.getElementById('globalToggle'),
-
-      searchInput: document.getElementById('searchInput'),
-      prevBtn: document.getElementById('prevBtn'),
-      nextBtn: document.getElementById('nextBtn'),
-      count: document.getElementById('count'),
-      spinner: document.getElementById('spinner'),
-      progress: document.getElementById('progress'),
-      progressBar: document.getElementById('progressBar'),
-      studyBtn: document.getElementById('studyBtn'),
-      doSearchBtn: document.getElementById('doSearchBtn'),
-      resetBtn: document.getElementById('resetBtn'),
-      modalBackdrop: document.getElementById('modalBackdrop'),
-      modalTitle: document.getElementById('modalTitle'),
-      closeModal: document.getElementById('closeModal'),
-      toast: document.getElementById('toast')
-    };
-
-    const state = {
-      rawText: '',
-      articles: [],           // {title, text, htmlId, _split}
-      currentArticleIdx: -1,
-      matchNodes: [],
-      matchIdx: -1,
-      progressTimer: null,
-
-      // Busca global
-      globalOn: false,
-      globalQueue: [],
-      globalScanning: false,
-      globalCache: new Map()
-    };
-
-    const escapeHtml = (s)=> s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
-    const showToast = (msg='✅ Prompt copiado!')=>{
-      els.toast.textContent = msg; els.toast.classList.add('show');
-      setTimeout(()=>els.toast.classList.remove('show'), 1000);
-    };
-
-    /* ================= Helpers UI ================= */
-    function setBusy(isBusy){
-      els.bottomSearch.setAttribute('aria-busy', String(isBusy));
-      els.doSearchBtn.disabled = isBusy;
-      els.prevBtn.disabled = isBusy;
-      els.nextBtn.disabled = isBusy;
-      els.spinner.hidden = !isBusy;
-      setProgressActive(isBusy);
-    }
-    function setProgressActive(active){
-      if (active){
-        els.progress.hidden = false;
-        els.progressBar.style.width = '0%';
-        let p = 0;
-        clearInterval(state.progressTimer);
-        state.progressTimer = setInterval(()=>{
-          p = Math.min(85, p + 8 + Math.random()*7);
-          els.progressBar.style.width = p + '%';
-        }, 180);
-      }else{
-        clearInterval(state.progressTimer);
-        els.progressBar.style.width = '100%';
-        setTimeout(()=>{ els.progress.hidden = true; els.progressBar.style.width = '0%'; }, 250);
-      }
-    }
-
-    // Atualiza indicador do arquivo atual (nova barra)
-    function updateFileIndicator(){
-      const sel = els.codeSelect;
-      const label = sel.options[sel.selectedIndex]?.text?.trim() || '—';
-      const short = label.length > 36 ? label.slice(0,36)+'…' : label;
-      els.fileIndicator.textContent = short;
-      els.fileIndicator.title = label;
-    }
-
-    /* ================= Artigo em evidência ================= */
-    const getArticleInView = ()=>{
-      const nodes = document.querySelectorAll('article[data-idx]');
-      const cy = window.innerHeight/2;
-      let hitIdx = -1;
-      for (const el of nodes){
-        const r = el.getBoundingClientRect();
-        if (r.top <= cy && r.bottom >= cy){ hitIdx = Number(el.dataset.idx); break; }
-      }
-      if (hitIdx === -1 && nodes.length){
-        for (const el of nodes){
-          const r = el.getBoundingClientRect();
-          if (r.bottom > 0 && r.top < window.innerHeight){ hitIdx = Number(el.dataset.idx); break; }
-        }
-      }
-      return hitIdx;
-    };
-
-    const updateCurrentOutline = ()=>{
-      const idx = getArticleInView();
-      if (idx === state.currentArticleIdx) return;
-      state.currentArticleIdx = idx;
-      document.querySelectorAll('article.current-outline').forEach(n=>n.classList.remove('current-outline'));
-      if (idx >= 0){
-        document.querySelector(`article[data-idx="${idx}"]`)?.classList.add('current-outline');
-      }
-    };
-    window.addEventListener('scroll', ()=>{
-      if (!state.articles.length) return;
-      updateCurrentOutline();
-    }, {passive:true});
-
-    /* ================= Parser + Sanitização ================= */
-    function sanitizeForLayout(s){
-      return s
-        .replace(/\u00A0/g, ' ')
-        .replace(/\t/g, ' ')
-        .replace(/\s+\n/g, '\n');
-    }
-
-    function parseArticlesFromText(txt){
-      txt = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
-      const items = parseByDelimiters(txt);
-      if (items.length) return items;
-      return parseByArt(txt); // fallback padrão (Art. X / 10A etc.)
-    }
-
-    // Blocos entre "-----"
-    function parseByDelimiters(txt){
-      const sepRe = /(^|\n)[^\S\r\n]*-{5,}[^\S\r\n]*(?=\n|$)/g;
-      const seps = [];
-      let m;
-      while ((m = sepRe.exec(txt)) !== null) {
-        const idx = m.index + (m[0].startsWith('\n') ? 1 : 0);
-        seps.push(idx);
-      }
-      if (seps.length < 2) return [];
-      const arts = [];
-      for (let i = 0; i + 1 < seps.length; i += 1) {
-        const startLineEnd = txt.indexOf('\n', seps[i]);
-        const from = (startLineEnd === -1) ? txt.length : startLineEnd + 1;
-        const to = seps[i + 1];
-        if (from >= to) continue;
-        const raw = txt.slice(from, to).trim();
-        if (!raw) continue;
-        const split = splitBlockSupraTitleBody(raw);
-        const title = split.titleText || `Bloco ${arts.length + 1}`;
-        arts.push({ title, text: raw, htmlId: `art-${arts.length}`, _split: split });
-      }
-      return arts;
-    }
-
-    // Fallback por "Art."
-    function parseByArt(txt){
-      const re = /(^|\n)\s*((?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?)/g;
-      const starts = [];
-      let m;
-      while ((m = re.exec(txt)) !== null) {
-        const idxArt = re.lastIndex - m[2].length;
-        starts.push(idxArt);
-      }
-      if (!starts.length) return [{
-        title:'Texto',
-        text: txt.trim(),
-        htmlId:'art-0',
-        _split: splitBlockSupraTitleBody(txt.trim())
-      }];
-
-      const arts = [];
-      for (let i = 0; i < starts.length; i++) {
-        const from = starts[i];
-        const to   = (i + 1 < starts.length) ? starts[i + 1] : txt.length;
-
-        let chunk = txt.slice(from, to).trimEnd();
-
-        // Garante que só pega até o último "." ou ")" antes do próximo artigo
-        const endDot = chunk.lastIndexOf('.');
-        const endPar = chunk.lastIndexOf(')');
-        const end    = Math.max(endDot, endPar);
-        if (end !== -1) chunk = chunk.slice(0, end + 1).trimEnd();
-
-        const split = splitBlockSupraTitleBody(chunk);
-        const title = split.titleText || chunk.split('\n')[0].slice(0,40);
-
-        arts.push({ title, text: chunk, htmlId: `art-${i}`, _split: split });
-      }
-      return arts;
-    }
-
-    function splitBlockSupraTitleBody(raw){
-      const lines = raw.replace(/^\s+|\s+$/g,'').split(/\r?\n/);
-      const artIdx = lines.findIndex(line =>
-        /^\s*(?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?/.test(line)
-      );
-
-      if (artIdx >= 0){
-        const supra = lines.slice(0, artIdx).map(s=>s.trim()).filter(Boolean);
-        const titleLine = lines[artIdx];
-
-        const mt = titleLine.match(/^\s*((?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?)/);
-        let titleText = mt ? mt[1].trim() : titleLine.trim();
-
-        // Normaliza 10-A → 10A
-        titleText = titleText.replace(/(\d+)-?([A-Z])/, "$1$2");
-
-        const afterTitle = titleLine.slice(mt ? mt[1].length : 0).trimStart();
-        const rest = lines.slice(artIdx+1).join('\n').trimStart();
-        const body = afterTitle ? (rest ? afterTitle + '\n' + rest : afterTitle) : rest;
-
-        return { supra, titleText, body };
-      } else {
-        const titleText = (lines[0]||'').trim();
-        const body = lines.slice(1).join('\n').trimStart();
-        return { supra:[], titleText, body };
-      }
-    }
-
-    /* ===== Parser exclusivo: Súmulas (Súmula X - ORG ... até -----) ===== */
-    function parseSumulas(txt){
-      const cleaned = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
-      const parts = cleaned.split(/^\s*-{5,}\s*$/m).map(s => s.trim()).filter(Boolean);
-      const out = [];
-      parts.forEach((block, i)=>{
-        const lines = block.split('\n').map(l=>l.trim());
-        const header = (lines.shift() || 'Súmula').trim(); // "Súmula 736 - STF"
-        const body = lines.join('\n').trim();
-        out.push({
-          title: header,
-          text: header + (body ? '\n' + body : ''),
-          htmlId: `sumula-${i}`,
-          _split: { supra: [], titleText: header, body }
-        });
+    if (split.supra && split.supra.length){
+      split.supra.forEach(line=>{
+        const d = document.createElement('div');
+        d.textContent = line;
+        supraWrap.appendChild(d);
       });
-      return out;
     }
+    if (supraWrap.childNodes.length){ el.appendChild(supraWrap); }
 
-    /* ===== Parser exclusivo: Princípios (Princípio ... até -----) ===== */
-    function parsePrincipios(txt){
-      const cleaned = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
-      const parts = cleaned.split(/^\s*-{5,}\s*$/m).map(s => s.trim()).filter(Boolean);
-      const out = [];
-      parts.forEach((block, i)=>{
-        const lines = block.split('\n').map(l=>l.trim());
-        let header = (lines.shift() || 'Princípio').trim();
-        // Garante que começa com "Princípio" (com ou sem acento)
-        const reHeader = /^\s*Princ[ií]pio\b/i;
-        if (!reHeader.test(header)){
-          // Se a 2ª linha for o título, tenta puxar
-          if (lines.length && reHeader.test(lines[0])){
-            header = lines.shift();
-          } else {
-            header = 'Princípio';
-          }
-        }
-        const body = lines.join('\n').trim();
-        out.push({
-          title: header,
-          text: header + (body ? '\n' + body : ''),
-          htmlId: `principio-${i}`,
-          _split: { supra: [], titleText: header, body }
-        });
-      });
-      return out;
+    const titleSpan = document.createElement('span');
+    titleSpan.className = 'art-title';
+    titleSpan.textContent = split.titleText || a.title || 'Artigo';
+    el.appendChild(titleSpan);
+
+    const content = document.createElement('div');
+    content.className = 'art-body';
+    content.textContent = split.body || '';
+    el.appendChild(content);
+
+    frag.appendChild(el);
+  });
+
+  els.articles.innerHTML = '';
+  if (list.length){
+    els.articles.appendChild(frag);
+  } else {
+    els.articles.innerHTML = '<div class="placeholder"><p>🤔 Nenhum resultado com todos os termos. Tente variar as palavras.</p></div>';
+  }
+
+  // manter barras visíveis
+  els.bottomInfo.hidden = false;
+  els.bottomSearch.hidden = false;
+  els.bottomStudy.hidden = false;
+
+  state.currentList = list;
+  updateCurrentOutline();
+  // limpa contagem
+  state.matchNodes = [];
+  state.matchIdx = -1;
+  updateCount();
+}
+
+/* =============== Destaque / Busca no DOM =============== */
+function clearMarksAndRerender(){
+  // Re-renderiza a lista atual SEM marcações
+  renderArticles(state.currentList, {globalMode: state.currentMode === 'global'});
+}
+async function highlightTokensChunked(tokens){
+  clearMarksAndRerender();
+  if (!tokens.length) return;
+
+  setBusy(true);
+  els.count.textContent = '...';
+
+  const nodes = [
+    ...document.querySelectorAll('article .art-body'),
+    ...document.querySelectorAll('article .art-title'),
+    ...document.querySelectorAll('article .supra > div')
+  ];
+
+  const BATCH = 14;
+  for (let i = 0; i < nodes.length; i += BATCH){
+    for (let j = i; j < Math.min(i+BATCH, nodes.length); j++){
+      const n = nodes[j];
+      const raw = n.textContent;
+      const ranges = findRangesMulti(raw, tokens);
+      if (ranges.length) highlightElementByRanges(n, ranges);
     }
+    await new Promise(r=>setTimeout(r,0));
+  }
 
-    /* ================= Render ================= */
-    function renderArticles(){
-      const frag = document.createDocumentFragment();
-      state.articles.forEach((a, i)=>{
-        const el = document.createElement('article');
-        el.dataset.idx = i;
-        el.id = a.htmlId;
+  state.matchNodes = Array.from(document.querySelectorAll('mark'));
+  if (state.matchNodes.length){
+    state.matchIdx = 0;
+    state.matchNodes[0].scrollIntoView({behavior:'smooth', block:'center'});
+  } else {
+    state.matchIdx = -1;
+  }
+  updateCount();
+  setBusy(false);
+}
 
-        const split = a._split || splitBlockSupraTitleBody(a.text);
+/* =============== Scroll / Outline =============== */
+function getArticleInView(){
+  const nodes = document.querySelectorAll('article[data-idx]');
+  const cy = window.innerHeight / 2;
+  let hitIdx = -1;
+  for (const el of nodes){
+    const r = el.getBoundingClientRect();
+    if (r.top <= cy && r.bottom >= cy){ hitIdx = Number(el.dataset.idx); break; }
+  }
+  if (hitIdx === -1 && nodes.length){
+    for (const el of nodes){
+      const r = el.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < window.innerHeight){ hitIdx = Number(el.dataset.idx); break; }
+    }
+  }
+  return hitIdx;
+}
+function updateCurrentOutline(){
+  const idx = getArticleInView();
+  if (idx === state.currentArticleIdx) return;
+  state.currentArticleIdx = idx;
+  document.querySelectorAll('article.current-outline').forEach(n=>n.classList.remove('current-outline'));
+  if (idx >= 0){
+    document.querySelector(`article[data-idx="${idx}"]`)?.classList.add('current-outline');
+  }
+}
+window.addEventListener('scroll', ()=>{ if (state.currentList.length) updateCurrentOutline(); }, {passive:true});
 
-        if (split.supra && split.supra.length){
-          const supra = document.createElement('div');
-          supra.className = 'supra';
-          split.supra.forEach(line=>{
-            const d = document.createElement('div');
-            d.textContent = line;
-            supra.appendChild(d);
+/* =============== Catálogo (select oculto) =============== */
+function buildCatalogMaps(){
+  const sel = els.codeSelect;
+  state.urlToLabel.clear();
+  sel.querySelectorAll('option').forEach(opt=>{
+    const url = opt.value?.trim();
+    const label = opt.textContent?.trim();
+    if (url) state.urlToLabel.set(url, label);
+  });
+}
+function getGroupsFromSelect(){
+  const sel = els.codeSelect;
+  const groups = [];
+  let current = null;
+  sel.querySelectorAll('optgroup, option').forEach(node=>{
+    if (node.tagName.toLowerCase()==='optgroup'){
+      current = { label: node.label || '', items: [] };
+      groups.push(current);
+    } else if (node.tagName.toLowerCase()==='option'){
+      const label = node.textContent.trim();
+      const value = node.value;
+      if (!label || !current) return;
+      current.items.push({ label, value });
+    }
+  });
+  return groups;
+}
+
+/* =============== Loader de arquivo =============== */
+async function fetchTextCached(url){
+  if (state.cache.has(url)) return state.cache.get(url);
+  const res = await fetch(url, {cache: 'force-cache'});
+  if (!res.ok) throw new Error(`HTTP ${res.status} — ${res.statusText}`);
+  const txt = sanitizeForLayout(await res.text());
+  state.cache.set(url, txt);
+  return txt;
+}
+async function loadFile(url){
+  if (!url) return;
+  setBusy(true);
+  try{
+    const txt = await fetchTextCached(url);
+    state.rawText = txt;
+    const list = parseByUrl(url, txt);
+    state.currentFileUrl = url;
+    state.currentFileLabel = state.urlToLabel.get(url) || 'Documento';
+    state.articles = list;
+    state.currentMode = 'file';
+    renderArticles(list, {globalMode:false});
+    setFileIndicator(state.currentFileLabel);
+    window.scrollTo({top:0,behavior:'instant'});
+  }catch(err){
+    console.error(err);
+    els.articles.innerHTML = `<div class="placeholder"><p>Falha ao carregar:<br><code>${(err && err.message) || 'Erro desconhecido'}</code></p></div>`;
+  }
+  setBusy(false);
+}
+
+/* =============== Busca Local (arquivo atual) =============== */
+async function runLocalSearch(){
+  const q = els.searchInput.value.trim();
+  if (!q) { clearMarksAndRerender(); return; }
+  const tokens = q.split(/\s+/).filter(Boolean);
+  state.currentTokens = tokens;
+  await highlightTokensChunked(tokens);
+}
+
+/* =============== Busca Global (AND) =============== */
+function blockFullText(a){
+  const s = a._split || splitBlockSupraTitleBody(a.text);
+  const supra = s.supra?.length ? s.supra.join('\n')+'\n' : '';
+  const title = s.titleText || a.title || '';
+  const body  = s.body || '';
+  return (title+'\n'+supra+body).trim();
+}
+async function runGlobalSearch(){
+  const q = els.searchInput.value.trim();
+  const tokens = q.split(/\s+/).map(normalizeTerm).filter(Boolean);
+  state.currentTokens = tokens;
+
+  if (!tokens.length){
+    // sem termos → volta para o arquivo aberto, se houver
+    if (state.currentFileUrl){
+      state.currentMode = 'file';
+      renderArticles(state.articles, {globalMode:false});
+      updateCount();
+    } else {
+      els.articles.innerHTML = '<div class="placeholder"><p>Digite algo para buscar em todos os códigos.</p></div>';
+    }
+    return;
+  }
+
+  setBusy(true);
+  const results = [];
+  const sel = els.codeSelect;
+  // percorre todos os arquivos do catálogo
+  for (const opt of sel.querySelectorAll('option')){
+    const url = opt.value?.trim();
+    const label = opt.textContent?.trim();
+    if (!url) continue;
+    try{
+      const txt = await fetchTextCached(url);
+      const items = parseByUrl(url, txt);
+      for (const it of items){
+        const full = blockFullText(it);
+        const norm = normalizeTerm(full);
+        const allHit = tokens.every(t => norm.indexOf(t) !== -1);
+        if (allHit){
+          results.push({
+            ...it,
+            htmlId: `g-${results.length}`,
+            _fileUrl: url,
+            _fileLabel: label
           });
-          el.appendChild(supra);
         }
+      }
+    } catch(e){ /* ignora erros individuais */ }
+    await new Promise(r=>setTimeout(r,0)); // ceder o thread p/ UI
+  }
 
-        const titleSpan = document.createElement('span');
-        titleSpan.className = 'art-title';
-        titleSpan.textContent = split.titleText || a.title;
-        el.appendChild(titleSpan);
+  state.currentMode = 'global';
+  renderArticles(results, {globalMode:true});
+  if (results.length){
+    await highlightTokensChunked(tokens);
+  } else {
+    // sem matches → contador 0/0
+    state.matchNodes = [];
+    state.matchIdx = -1;
+    updateCount();
+  }
+  setBusy(false);
+}
 
-        const content = document.createElement('div');
-        content.className = 'art-body';
-        content.textContent = split.body || '';
-        el.appendChild(content);
+/* =============== Sheet (seletor na base) =============== */
+function norm(s){ return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); }
+function escRe(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
 
-        frag.appendChild(el);
+function renderPicker(filter=''){
+  const groups = getGroupsFromSelect();
+  const f = norm(filter);
+  els.pickerList.innerHTML = '';
+  let total = 0;
+
+  groups.forEach(g=>{
+    const items = g.items.filter(it => !f || norm(it.label).includes(f));
+    if (!items.length) return;
+
+    const sec = document.createElement('div'); sec.className = 'list-section';
+    const h = document.createElement('h4'); h.textContent = g.label; sec.appendChild(h);
+
+    items.forEach(it=>{
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'item';
+      let labelHTML = it.label;
+      if (f) labelHTML = it.label.replace(new RegExp(escRe(filter), 'ig'), m => `<span class="highlight">${m}</span>`);
+      btn.innerHTML = `<b>${labelHTML}</b>`;
+      btn.addEventListener('click', async ()=>{
+        await loadFile(it.value);
+        closePicker();
       });
-      els.articles.innerHTML = '';
-      els.articles.appendChild(frag);
-      els.bottomSearch.hidden = false;
-      els.bottomStudy.hidden = false;
-      els.bottomInfo.hidden = false;   // <— nova barra
-      updateCurrentOutline();
-    }
-
-    /* ================= Busca ================= */
-    function normalizeWithMap(s){
-      let norm = '';
-      const map = [];
-      for (let i=0;i<s.length;i++){
-        const ch = s[i];
-        const decomp = ch.normalize('NFD');
-        for (let k=0;k<decomp.length;k++){
-          const c = decomp[k];
-          const code = c.codePointAt(0);
-          if (code>=0x0300 && code<=0x036F) continue;
-          norm += c.toLowerCase();
-          map.push(i);
-        }
-      }
-      return {norm, map};
-    }
-    const normalizeTerm = (s)=> s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-
-    function findRanges(raw, term){
-      if (!term) return [];
-      const {norm, map} = normalizeWithMap(raw);
-      const needle = normalizeTerm(term);
-      if (!needle) return [];
-      const ranges = [];
-      let from = 0;
-      while (true){
-        const pos = norm.indexOf(needle, from);
-        if (pos === -1) break;
-        const start = map[pos];
-        const end   = map[pos + needle.length - 1] + 1;
-        ranges.push([start, end]);
-        from = pos + needle.length;
-      }
-      return ranges;
-    }
-
-    function highlightElementByRanges(el, ranges){
-      if (!ranges.length){ return; }
-      const raw = el.textContent;
-      let out = '', last = 0;
-      for (const [s,e] of ranges){
-        out += escapeHtml(raw.slice(last, s));
-        out += '<mark>' + escapeHtml(raw.slice(s, e)) + '</mark>';
-        last = e;
-      }
-      out += escapeHtml(raw.slice(last));
-      el.innerHTML = out;
-    }
-
-    function clearMarks(){
-      const nodes = document.querySelectorAll('article[data-idx]');
-      nodes.forEach(node=>{
-        const i = Number(node.dataset.idx);
-        const a = state.articles[i];
-        node.innerHTML = '';
-
-        const split = a._split || splitBlockSupraTitleBody(a.text);
-
-        if (split.supra && split.supra.length){
-          const supra = document.createElement('div');
-          supra.className = 'supra';
-          split.supra.forEach(line=>{
-            const d = document.createElement('div');
-            d.textContent = line;
-            supra.appendChild(d);
-          });
-          node.appendChild(supra);
-        }
-
-        const titleSpan = document.createElement('span');
-        titleSpan.className = 'art-title';
-        titleSpan.textContent = split.titleText || a.title;
-        node.appendChild(titleSpan);
-
-        const content = document.createElement('div');
-        content.className = 'art-body';
-        content.textContent = split.body || '';
-        node.appendChild(content);
-      });
-      state.matchNodes = [];
-      state.matchIdx = -1;
-      els.count.textContent = '0/0';
-    }
-
-    async function highlightTermChunked(term){
-      clearMarks();
-      if (!term){ return; }
-
-      setBusy(true);
-      els.count.textContent = '...';
-
-      const nodes = [
-        ...document.querySelectorAll('article .art-body'),
-        ...document.querySelectorAll('article .art-title'),
-        ...document.querySelectorAll('article .supra > div')
-      ];
-
-      const BATCH = 12;
-      for (let i = 0; i < nodes.length; i += BATCH){
-        for (let j = i; j < Math.min(i+BATCH, nodes.length); j++){
-          const n = nodes[j];
-          const raw = n.textContent;
-          const ranges = findRanges(raw, term);
-          if (ranges.length) highlightElementByRanges(n, ranges);
-        }
-        await new Promise(r=>setTimeout(r,0));
-      }
-
-      state.matchNodes = Array.from(document.querySelectorAll('mark'));
-      if (state.matchNodes.length){
-        state.matchIdx = 0;
-        state.matchNodes[0].scrollIntoView({behavior:'smooth', block:'center'});
-        els.count.textContent = `1/${state.matchNodes.length}`;
-      }else{
-        els.count.textContent = '0/0';
-      }
-
-      setBusy(false);
-    }
-
-    // Navegação das ocorrências
-    els.nextBtn.addEventListener('click', async ()=>{
-      if (!state.matchNodes.length) return;
-      const wasLast = (state.matchIdx === state.matchNodes.length - 1);
-      if (wasLast && state.globalOn) {
-        const term = els.searchInput.value.trim();
-        const jumped = await GlobalSearchManager.jumpToNextFile(term);
-        if (jumped) return; // já abriu o próximo arquivo com match e posicionou
-      }
-      state.matchIdx = (state.matchIdx + 1) % state.matchNodes.length;
-      const m = state.matchNodes[state.matchIdx];
-      m.scrollIntoView({behavior:'smooth',block:'center'});
-      els.count.textContent = `${state.matchIdx+1}/${state.matchNodes.length}`;
+      sec.appendChild(btn);
+      total++;
     });
 
-    els.prevBtn.addEventListener('click', ()=>{
-      if (!state.matchNodes.length) return;
-      state.matchIdx = (state.matchIdx - 1 + state.matchNodes.length) % state.matchNodes.length;
-      const m = state.matchNodes[state.matchIdx];
-      m.scrollIntoView({behavior:'smooth',block:'center'});
-      els.count.textContent = `${state.matchIdx+1}/${state.matchNodes.length}`;
-    });
+    els.pickerList.appendChild(sec);
+  });
 
-    // Executar busca (Barra 2)
-    els.doSearchBtn.addEventListener('click', async ()=>{
-      const term = els.searchInput.value.trim();
-      if (!term) { clearMarks(); return; }
-      if (state.globalOn) {
-        GlobalSearchManager.start(term);
-      } else {
-        highlightTermChunked(term);
-      }
-    });
+  if (!total){
+    els.pickerList.innerHTML = '<div class="placeholder" style="margin:8px">Nada encontrado.</div>';
+  }
+}
+function openPicker(){
+  els.pickerSheet.hidden = false;
+  els.pickerSheet.setAttribute('aria-hidden', 'false');
+  els.pickerSearch.value = '';
+  renderPicker('');
+  document.addEventListener('keydown', onPickerKey);
+}
+function closePicker(){
+  els.pickerSheet.hidden = true;
+  els.pickerSheet.setAttribute('aria-hidden', 'true');
+  document.removeEventListener('keydown', onPickerKey);
+}
+function onPickerKey(e){
+  if (e.key === 'Escape') closePicker();
+}
+els.openPicker.addEventListener('click', openPicker);
+els.pickerSheet.addEventListener('click', e=>{
+  if (e.target.closest('[data-close]')) closePicker();
+});
+els.pickerSearch.addEventListener('input', e=> renderPicker(e.target.value));
 
-    // Toggle “Buscar Global”
-    els.globalToggle.addEventListener('click', ()=>{
-      state.globalOn = !state.globalOn;
-      els.globalToggle.setAttribute('aria-pressed', String(state.globalOn));
-      els.globalToggle.textContent = 'Buscar Global: ' + (state.globalOn ? 'ON' : 'OFF');
-      if (!state.globalOn){
-        state.globalQueue = [];
-        state.globalScanning = false;
-      }
-    });
+/* =============== IA: construir prompt do artigo em foco =============== */
+function buildPrompt(a){
+  const split = a._split || splitBlockSupraTitleBody(a.text);
+  const supraText = split.supra && split.supra.length ? split.supra.join('\n') + '\n' : '';
+  const artigo = (split.titleText ? split.titleText + ' ' : '') + (split.body || '');
+  const tema = split.titleText || (a.title || 'Artigo');
+  return [
+    'Assuma a persona de um professor de Direito experiente convidado pelo direito.love e gere um material de estudo. ',
+    'Explique detalhadamente todo o artigo abaixo (caput, parágrafos, incisos e alíneas), cobrindo: ',
+    '(1) conceito com padrão acadêmico (doutrina e jurisprudência majoritária); ',
+    '(2) mini exemplo prático; (3) checklist; (4) princípios relacionados; ',
+    '(5) pontos de atenção na prática; (6) erros comuns/pegadinhas; (7) notas comparativas. ',
+    'Responda em português claro, objetivo e didático.\n\n',
+    `Tema: "${tema}"\n\n`,
+    supraText + artigo,
+    '\n\n💚 direito.love'
+  ].join('');
+}
+function isStandalone(){ return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; }
+function openIA(url){
+  showToast('Abrindo…');
+  if (isStandalone()) location.href = url;
+  else window.open(url, '_blank', 'noopener,noreferrer');
+}
+document.querySelectorAll('.ia-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=> openIA(btn.dataset.url));
+});
+function openModal(title){
+  els.modalTitle.textContent = `Estude o ${title} com I.A.`;
+  els.modalBackdrop.style.display = 'flex';
+  els.modalBackdrop.setAttribute('aria-hidden','false');
+  els.modalBackdrop.querySelector('.ia-btn')?.focus();
+}
+function closeModal(){ els.modalBackdrop.style.display = 'none'; els.modalBackdrop.setAttribute('aria-hidden','true'); }
+els.closeModal.addEventListener('click', closeModal);
+els.modalBackdrop.addEventListener('click', (e)=>{ if (e.target === els.modalBackdrop) closeModal(); });
+document.addEventListener('keydown', (e)=>{ if (els.modalBackdrop.style.display === 'flex' && e.key === 'Escape') closeModal(); });
 
-    // Enter envia; Esc reinicia
-    els.searchInput.addEventListener('keydown', (e)=>{
-      if (e.key === 'Enter'){ e.preventDefault(); els.doSearchBtn.click(); }
-      else if (e.key === 'Escape'){ e.preventDefault(); resetAll(); }
-    });
+els.studyBtn.addEventListener('click', async ()=>{
+  if (state.currentMode !== 'file' || !state.articles.length){
+    showToast('Abra um código para estudar.');
+    return;
+  }
+  const idx = state.currentArticleIdx >= 0 ? state.currentArticleIdx : 0;
+  const a = state.articles[idx] || state.articles[0];
+  document.querySelectorAll('article.highlight-study').forEach(n=>n.classList.remove('highlight-study'));
+  document.querySelector(`article[data-idx="${idx}"]`)?.classList.add('highlight-study');
 
-    /* ================= ESTUDAR (gera prompt + modal) ================= */
-    function extractArticleTitleText(a){
-      const split = a._split || splitBlockSupraTitleBody(a.text);
-      return split.titleText || a.title || 'Artigo';
+  const prompt = buildPrompt(a);
+  try{ await navigator.clipboard.writeText(prompt); showToast('✅ Prompt copiado!'); }
+  catch{ showToast('Copie manualmente no próximo passo.'); }
+
+  const title = (a._split?.titleText) || a.title || 'Artigo';
+  openModal(title);
+});
+
+/* =============== Controles da busca e navegação =============== */
+els.doSearchBtn.addEventListener('click', async ()=>{
+  if (state.globalOn) await runGlobalSearch();
+  else await runLocalSearch();
+});
+els.searchInput.addEventListener('keydown', (e)=>{
+  if (e.key === 'Enter'){ e.preventDefault(); els.doSearchBtn.click(); }
+  else if (e.key === 'Escape'){ e.preventDefault(); resetAll(); }
+});
+els.nextBtn.addEventListener('click', ()=>{
+  if (!state.matchNodes.length) return;
+  state.matchIdx = (state.matchIdx + 1) % state.matchNodes.length;
+  const m = state.matchNodes[state.matchIdx];
+  m.scrollIntoView({behavior:'smooth',block:'center'});
+  updateCount();
+});
+els.prevBtn.addEventListener('click', ()=>{
+  if (!state.matchNodes.length) return;
+  state.matchIdx = (state.matchIdx - 1 + state.matchNodes.length) % state.matchNodes.length;
+  const m = state.matchNodes[state.matchIdx];
+  m.scrollIntoView({behavior:'smooth',block:'center'});
+  updateCount();
+});
+els.globalToggle.addEventListener('click', ()=>{
+  state.globalOn = !state.globalOn;
+  els.globalToggle.setAttribute('aria-pressed', String(state.globalOn));
+  els.globalToggle.textContent = 'Buscar Global: ' + (state.globalOn ? 'ON' : 'OFF');
+  if (!state.globalOn && state.currentMode === 'global'){
+    // saiu do global → volta a mostrar arquivo aberto (se houver)
+    if (state.currentFileUrl){
+      state.currentMode = 'file';
+      renderArticles(state.articles, {globalMode:false});
+    } else {
+      resetAll();
     }
-    function buildPrompt(a){
-      const split = a._split || splitBlockSupraTitleBody(a.text);
-      const supraText = split.supra && split.supra.length ? split.supra.join('\n') + '\n' : '';
-      const artigo = (split.titleText ? split.titleText + ' ' : '') + (split.body || '');
-      const tema = split.titleText || (a.title || 'Artigo');
-      return [
-        'Assuma a persona de um professor de Direito experiente convidado pelo direito.love e gere um material de estudo. ',
-        'Explique detalhadamente todo o artigo abaixo (caput, paragrafos, incisos e alineas), cobrindo: ',
-        '(1) conceito com padrão acadêmico. Inclua parágrafos falando sobre conceitos doutrinários e jurisprudência majoritária; ',
-        '(2) mini exemplo prático; ',
-        '(3) checklist essencial; ',
-        '(4) Princípios Relacionados ao tema; ',
-        '(5) Pontos de atenção na prática jurídica; ',
-        '(6) erros comuns e pegadinhas de prova; ', 
-        '(7) nota comparativa se houver artigos correlatos. ',
-        'Responda em português claro, sem enrolação, objetivo e didático.\n\n',
-        `Tema: "${tema}"\n\n`,
-        supraText + artigo,
-        '\n\n💚 direito.love'
-      ].join('');
-    }
+  }
+});
+els.resetBtn.addEventListener('click', resetAll);
+els.brandBtn.addEventListener('click', resetAll);
 
-    function openModal(title){
-      els.modalTitle.textContent = `Estude o ${title} com as I.As. abaixo.`;
-      els.modalBackdrop.style.display = 'flex';
-      els.modalBackdrop.setAttribute('aria-hidden','false');
-      const first = els.modalBackdrop.querySelector('.ia-btn');
-      first?.focus();
-    }
-    function closeModal(){
-      els.modalBackdrop.style.display = 'none';
-      els.modalBackdrop.setAttribute('aria-hidden','true');
-    }
+/* =============== Reset inicial =============== */
+function resetAll(){
+  // estado
+  state.currentFileUrl = null;
+  state.currentFileLabel = 'Escolher código';
+  state.rawText = '';
+  state.articles = [];
+  state.currentArticleIdx = -1;
+  state.currentList = [];
+  state.currentMode = 'idle';
+  state.currentTokens = [];
 
-    function isStandalone(){
-      return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-    }
-    function openIA(url){
-      showToast('Abrindo…');
-      if (isStandalone()){ location.href = url; }
-      else{ window.open(url, '_blank', 'noopener,noreferrer'); }
-    }
-    document.querySelectorAll('.ia-btn').forEach(btn=>{
-      btn.addEventListener('click', ()=> openIA(btn.dataset.url));
-    });
+  // busca
+  state.matchNodes = [];
+  state.matchIdx = -1;
+  els.searchInput.value = '';
+  updateCount();
 
-    els.studyBtn.addEventListener('click', async ()=>{
-      if (!state.articles.length) return;
-      updateCurrentOutline();
-      const idx = state.currentArticleIdx ?? 0;
-      const a = state.articles[idx] || state.articles[0];
+  // UI
+  setFileIndicator('Escolher código');
+  els.globalToggle.setAttribute('aria-pressed','false');
+  els.globalToggle.textContent = 'Buscar Global: OFF';
+  state.globalOn = false;
 
-      document.querySelectorAll('article.highlight-study').forEach(n=>n.classList.remove('highlight-study'));
-      document.querySelector(`article[data-idx="${idx}"]`)?.classList.add('highlight-study');
+  els.articles.innerHTML = `
+    <div class="placeholder">
+      <p>
+        💚<br> Bem-vindo ao <strong>Direito.Love</strong><br>
+        O <em>Mini Vade Mecum Digital</em> que também te auxilia nos estudos com <strong>I.A.</strong>
+        <br><br>😎 <br><strong>Use o menu na parte inferior</strong> para começar. <br>Bons estudos!
+      </p>
+    </div>`;
 
-      const prompt = buildPrompt(a);
-      try{ await navigator.clipboard.writeText(prompt); showToast('✅ Prompt copiado!'); }
-      catch{ showToast('Copie manualmente no próximo passo.'); }
+  // barras sempre visíveis
+  els.bottomInfo.hidden = false;
+  els.bottomSearch.hidden = false;
+  els.bottomStudy.hidden = false;
 
-      openModal(extractArticleTitleText(a));
-    });
+  window.scrollTo({top:0,behavior:'instant'});
+}
 
-    els.closeModal.addEventListener('click', closeModal);
-    els.modalBackdrop.addEventListener('click', (e)=>{
-      if (e.target === els.modalBackdrop) closeModal();
-    });
-    document.addEventListener('keydown', (e)=>{
-      if (els.modalBackdrop.style.display === 'flex' && e.key === 'Escape') closeModal();
-    });
-
-    /* ================= Reset ================= */
-    function resetAll(){
-      state.rawText = '';
-      state.articles = [];
-      state.currentArticleIdx = -1;
-      state.matchNodes = [];
-      state.matchIdx = -1;
-
-      els.searchInput.value = '';
-      els.count.textContent = '0/0';
-      els.bottomSearch.hidden = true;
-      els.bottomStudy.hidden = true;
-      els.bottomInfo.hidden = true;
-
-      // reset global search
-      state.globalOn = false;
-      state.globalQueue = [];
-      state.globalScanning = false;
-      els.globalToggle.setAttribute('aria-pressed','false');
-      els.globalToggle.textContent = 'Buscar Global: OFF';
-      els.fileIndicator.textContent = '—';
-      els.fileIndicator.title = 'Arquivo atual';
-
-      els.articles.innerHTML = '<div class="placeholder"><p style="text-align:center">😎 Escolha um arquivo no topo para começar. Bons estudos!</p></div>';
-      els.codeSelect.value = '';
-      document.querySelectorAll('.highlight-study,.current-outline').forEach(n=>n.classList.remove('highlight-study','current-outline'));
-      closeModal();
-      window.scrollTo({top:0,behavior:'instant'});
-    }
-    els.brandBtn.addEventListener('click', resetAll);
-    els.resetBtn.addEventListener('click', resetAll);
-
-    /* ================= Carregar TXT ================= */
-    els.codeSelect.addEventListener('change', async (e)=>{
-      const url = e.target.value;
-      if (!url){ resetAll(); return; }
-      els.articles.innerHTML = '<div class="placeholder">Carregando…</div>';
-      try{
-        const res = await fetch(url, {cache:'reload'});
-        if (!res.ok) throw new Error(`HTTP ${res.status} — ${res.statusText} (${url})`);
-        const txt = sanitizeForLayout(await res.text());
-        state.rawText = txt;
-
-        // Usa parser de Súmulas e Princípios conforme a pasta
-        const isSumulas = /(^|\/)data\/sumulas\/?/i.test(url);
-        const isPrincipios = /(^|\/)data\/principios\/?/i.test(url);
-        state.articles = isSumulas ? parseSumulas(txt)
-                         : isPrincipios ? parsePrincipios(txt)
-                         : parseArticlesFromText(txt);
-
-        renderArticles();
-        updateFileIndicator();   // <— atualiza nome do arquivo na barra
-        clearMarks();
-        window.scrollTo({top:0,behavior:'instant'});
-      }catch(err){
-        console.error(err);
-        els.articles.innerHTML = `<div class="placeholder">Falha ao carregar o arquivo:<br><code>${(err && err.message) || 'Erro desconhecido'}</code></div>`;
-        els.bottomSearch.hidden = true; els.bottomStudy.hidden = true;
-      }
-    });
-
-    /* ================= Seletor custom (MOBILE) ================= */
-    (function(){
-      const sel = els.codeSelect;
-      const openBtn = els.openPicker;
-      const sheet = els.pickerSheet;
-      const listEl = els.pickerList;
-      const searchEl = els.pickerSearch;
-
-      if (!sel || !openBtn || !sheet || !listEl || !searchEl) return;
-
-      function getGroups(){
-        const groups = [];
-        let current = null;
-
-        sel.querySelectorAll('optgroup, option').forEach(node=>{
-          if (node.tagName.toLowerCase()==='optgroup'){
-            current = { label: node.label || '', items: [] };
-            groups.push(current);
-          }
-          else if (node.tagName.toLowerCase()==='option'){
-            const label = node.textContent.trim();
-            const value = node.value;
-            if (!label) return;
-            if (!current){ return; }
-            current.items.push({ label, value });
-          }
-        });
-
-        return groups;
-      }
-
-      const norm = s => (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-      const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-      function render(filter=''){
-        const groups = getGroups();
-        const f = norm(filter);
-        listEl.innerHTML = '';
-        let total = 0;
-
-        groups.forEach(g=>{
-          const items = g.items.filter(it => !f || norm(it.label).includes(f));
-          if (!items.length) return;
-
-          const sec = document.createElement('div'); sec.className = 'list-section';
-          const h = document.createElement('h4'); h.textContent = g.label; sec.appendChild(h);
-
-          items.forEach(it=>{
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'item';
-            let labelHTML = it.label;
-            if (f) labelHTML = it.label.replace(new RegExp(escRe(filter), 'ig'), m => `<span class="highlight">${m}</span>`);
-            btn.innerHTML = `<b>${labelHTML}</b>`;
-            btn.addEventListener('click', ()=>{
-              sel.value = it.value;
-              sel.dispatchEvent(new Event('change', {bubbles:true}));
-              close();
-            });
-            sec.appendChild(btn);
-            total++;
-          });
-
-          listEl.appendChild(sec);
-        });
-
-        if (!total){
-          listEl.innerHTML = '<div class="placeholder" style="margin:8px">Nada encontrado.</div>';
-        }
-      }
-
-      function open(){
-        sheet.hidden = false;
-        sheet.setAttribute('aria-hidden', 'false');
-        render('');
-        document.addEventListener('keydown', onKey);
-      }
-      function close(){
-        sheet.hidden = true;
-        sheet.setAttribute('aria-hidden', 'true');
-        document.removeEventListener('keydown', onKey);
-      }
-      function onKey(e){
-        if (e.key === 'Escape') close();
-      }
-
-      openBtn.addEventListener('click', open);
-      sheet.addEventListener('click', e=>{
-        if (e.target.closest('[data-close]')) close();
-      });
-      searchEl.addEventListener('input', e=> render(e.target.value));
-
-      sel.addEventListener('change', ()=>{
-        const t = sel.options[sel.selectedIndex]?.text || 'Escolher código';
-        openBtn.textContent = t.length > 28 ? t.slice(0,28)+'…' : t;
-      });
-      openBtn.textContent = 'Escolher código';
-    })();
-    // ======== Busca Global Manager ========
-    const GlobalSearchManager = (()=>{
-      function getCatalog(){
-        const sel = els.codeSelect;
-        const items = [];
-        sel.querySelectorAll('option').forEach(opt=>{
-          const url = opt.value?.trim();
-          const label = opt.textContent?.trim();
-          if (url) items.push({url, label});
-        });
-        return items;
-      }
-      function normText(s){
-        return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-      }
-      async function fetchTextCached(url){
-        if (state.globalCache.has(url)) return state.globalCache.get(url);
-        const res = await fetch(url, {cache:'force-cache'});
-        const txt = await res.text();
-        const clean = sanitizeForLayout(txt);
-        state.globalCache.set(url, clean);
-        return clean;
-      }
-      async function scanOthers(term){
-        if (state.globalScanning) return;
-        state.globalScanning = true;
-        const currentUrl = els.codeSelect.value;
-        const needle = normText(term);
-        for (const it of getCatalog()){
-          if (it.url === currentUrl) continue;
-          try{
-            const txt = await fetchTextCached(it.url);
-            if (normText(txt).includes(needle)){
-              state.globalQueue.push(it.url);
-            }
-          }catch{}
-          await new Promise(r=>setTimeout(r,0)); // cede a thread
-        }
-        state.globalScanning = false;
-      }
-      async function waitForArticlesLoaded(maxMs=8000){
-        const t0 = performance.now();
-        while (performance.now() - t0 < maxMs){
-          if (state.articles?.length && document.querySelector('article')) return true;
-          await new Promise(r=>setTimeout(r,60));
-        }
-        return false;
-      }
-      async function jumpToNextFile(term){
-        if (!state.globalQueue.length) return false;
-        const nextUrl = state.globalQueue.shift();
-        if (!nextUrl) return false;
-        setBusy(true);
-        els.codeSelect.value = nextUrl;
-        els.codeSelect.dispatchEvent(new Event('change', {bubbles:true}));
-        const ok = await waitForArticlesLoaded();
-        if (ok){
-          updateFileIndicator?.();
-          await highlightTermChunked(term);
-          setBusy(false);
-          return true;
-        }else{
-          setBusy(false);
-          return false;
-        }
-      }
-      return {
-        start(term){
-          highlightTermChunked(term); // arquivo atual primeiro
-          scanOthers(term);           // escaneia os demais em background leve
-        },
-        jumpToNextFile
-      };
-    })();
-
-    document.addEventListener('DOMContentLoaded', ()=>updateCurrentOutline());
-  </script>
-</body>
-</html>
+/* =============== Boot =============== */
+document.addEventListener('DOMContentLoaded', ()=>{
+  buildCatalogMaps();
+  setFileIndicator('Escolher código');
+  resetAll(); // inicia já com as barras visíveis + mensagem central
+});
+</script>
