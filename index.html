@@ -838,17 +838,17 @@
       const artigo = (split.titleText ? split.titleText + ' ' : '') + (split.body || '');
       const tema = split.titleText || (a.title || 'Artigo');
       return [
-        'Assuma a persona de um professor de Direito experiente convidado pelo direito.love e gere um material de estudo rápido. ',
-        'Analise detalhadamente todo o artigo abaixo (caput, paragrafos, incisos e alineas), cobrindo: ',
-        '(1) conceito com visão doutrinária, jurisprudência majoritária e prática; ',
+        'Assuma a persona de um professor de Direito experiente convidado pelo direito.love e gere um material de estudo. ',
+        'Explique detalhadamente todo o artigo abaixo (caput, paragrafos, incisos e alineas), cobrindo: ',
+        '(1) conceito com padrão acadêmico. Inclua parágrafos falando sobre conceitos doutrinários e jurisprudência majoritária; ',
         '(2) mini exemplo prático; ',
         '(3) checklist essencial; ',
-        '(4) erros comuns e pegadinhas de prova; ',
+        '(4) Princípios Relacionados ao tema; ',
         '(5) Pontos de atenção na prática jurídica; ',
-        '(6) Princípios Relacionados ao tema; ',
+        '(6) erros comuns e pegadinhas de prova; ', 
         '(7) nota comparativa se houver artigos correlatos. ',
         'Responda em português claro, sem enrolação, objetivo e didático.\n\n',
-        `Tema: "${tema}"\n\n`,
+        `Tema: 
         supraText + artigo,
         '\n\n💚 direito.love'
       ].join('');
