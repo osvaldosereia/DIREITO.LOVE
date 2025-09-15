@@ -13,26 +13,35 @@
 
   <style>
     :root{
-      /* Cores */
-      --white:#FFFFFF; --lilac:#E1DEE6; --navy:#142B6F; --yellow:#FFD601;
-      --bg:var(--white); --fg:#101418; --muted:#5f6470;
+  /* Cores */
+  --white:#FFFFFF;
+  --navy:#142B6F;
+  --yellow:#FFD601;
+  --muted:#5f6470;
 
-      /* Barras base */
-      --bar-bg:#f5f7fa;    /* busca */
-      --bar-bg-2:#eceff4;  /* estudar */
-      --bar-info-bg:#f9fafc;
+  /* Fundo do site */
+  --bg:#f4f6f8;     /* cinza muito claro para diferenciar do branco */
+  --fg:#101418;
 
-      /* Dimensões */
-      --topbar-h: 64px;
-      --progress-h: 6px;
-      --bottom-info-h: 56px;
-      --bottom-search-h: 56px;
-      --bottom-study-h: 64px;
+  /* Barras base */
+  --bar-info-bg:#e0e3e9; /* barra info mais marcada */
+  --bar-bg:#ffffff;      /* barra busca neutra branca */
+  --bar-bg-2:#142B6F;    /* barra estudo azul navy forte */
 
-      /* UI */
-      --focus:#9bb6ff; --radius:12px; --shadow:0 2px 10px rgba(0,0,0,.06);
-      --accent: rgba(255,214,1,.2);
-    }
+  /* Dimensões */
+  --topbar-h: 64px;
+  --progress-h: 6px;
+  --bottom-info-h: 56px;
+  --bottom-search-h: 56px;
+  --bottom-study-h: 64px;
+
+  /* UI */
+  --focus:#9bb6ff;
+  --radius:12px;
+  --shadow:0 2px 10px rgba(0,0,0,.06);
+  --accent: rgba(255,214,1,.2);
+}
+
 
     *{box-sizing:border-box}
     html,body{margin:0;height:100%}
@@ -98,13 +107,13 @@
     mark{padding:0 2px; border-radius:3px; background:#ffef99}
 
     /* ===== Base — Barra INFO (seletor + toggle global) ===== */
-    .bottom-info{
-      position:fixed; left:0; right:0; bottom:calc(var(--bottom-search-h) + var(--bottom-study-h));
-      height:var(--bottom-info-h);
-      background:var(--bar-info-bg);
-      border-top:1px solid #e6e9f2;
-      z-index:72; display:flex; align-items:center; justify-content:center;
-    }
+.bottom-info{
+  position:fixed; left:0; right:0; bottom:calc(var(--bottom-search-h) + var(--bottom-study-h));
+  height:var(--bottom-info-h);
+  background:var(--bar-info-bg);   /* cinza médio */
+  border-top:2px solid #c9cdd6;    /* borda mais visível */
+  z-index:72; display:flex; align-items:center; justify-content:center;
+}
     .bottom-info-inner{
       width:clamp(320px, 92vw, 960px);
       display:flex; align-items:center; gap:8px; padding:6px 12px;
@@ -121,13 +130,13 @@
     .global-toggle[aria-pressed="true"]{ background:#eaf3ff; border-color:#b9cffb; }
 
     /* ===== Base — Barra 1 (BUSCA) ===== */
-    .bottom-search{
-      position:fixed; left:0; right:0; bottom:var(--bottom-study-h);
-      height:var(--bottom-search-h);
-      background:var(--bar-bg);
-      border-top:1px solid #e0e4ec;
-      z-index:70; display:flex; align-items:center; justify-content:center;
-    }
+.bottom-search{
+  position:fixed; left:0; right:0; bottom:var(--bottom-study-h);
+  height:var(--bottom-search-h);
+  background:var(--bar-bg);        /* branco puro */
+  border-top:2px solid #d9dde6;    /* separador */
+  z-index:70; display:flex; align-items:center; justify-content:center;
+}
     .bottom-search-inner{
       width:clamp(320px, 92vw, 960px);
       display:flex; align-items:center; gap:8px; padding:8px 12px;
@@ -153,13 +162,13 @@
       background:#f7f8fc; padding:6px 10px; border-radius:8px; text-align:center;
     }
 
-    /* ===== Base — Barra 2 (ESTUDAR / BUSCAR) ===== */
-    .bottom-study{
-      position:fixed; left:0; right:0; bottom:0; height:var(--bottom-study-h);
-      background:var(--bar-bg-2);
-      border-top:1px solid #d9dde6;
-      z-index:75; display:flex; align-items:center; justify-content:center; padding:8px 0;
-    }
+   /* ===== Base — Barra 2 (ESTUDAR / BUSCAR) ===== */
+.bottom-study{
+  position:fixed; left:0; right:0; bottom:0; height:var(--bottom-study-h);
+  background:var(--bar-bg-2);      /* azul navy forte */
+  border-top:2px solid #0a1c4a;    /* borda no mesmo tom */
+  z-index:75; display:flex; align-items:center; justify-content:center; padding:8px 0;
+}
     .bottom-study-inner{
       width:clamp(320px, 92vw, 960px); padding:0 12px; display:flex; align-items:center; gap:12px;
     }
