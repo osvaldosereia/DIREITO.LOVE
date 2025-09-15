@@ -832,12 +832,88 @@ function renderArticles(list, {globalMode=false}={}){
   state.matchIdx = -1;
   updateCount();
 }
+  <script>
+// ...código anterior...
+
+/* =============== Renderização (grupos por arquivo) =============== */
+function renderGlobalGroups(groups){
+  // groups: [{ label, url, items: [article, ...] }, ...]
+  const frag = document.createDocumentFragment();
+  let idx = 0;
+
+  if (!groups || !groups.length){
+    els.articles.innerHTML = '<div class="placeholder"><p>🤔 Nenhum resultado com todos os termos. Tente variar as palavras.</p></div>';
+  } else {
+    groups.forEach(g=>{
+      // Cabeçalho do grupo (arquivo)
+      const header = document.createElement('div');
+      header.className = 'group-header';
+      header.textContent = g.label || 'Documento';
+      frag.appendChild(header);
+
+      // Cards (artigos/blocos) do arquivo
+      g.items.forEach(a=>{
+        const el = document.createElement('article');
+        el.dataset.idx = idx;
+        el.id = a.htmlId || `g-${idx}`;
+
+        const split = a._split || splitBlockSupraTitleBody(a.text);
+
+        if (split.supra && split.supra.length){
+          const supra = document.createElement('div');
+          supra.className = 'supra';
+          split.supra.forEach(line=>{
+            const d = document.createElement('div');
+            d.textContent = line;
+            supra.appendChild(d);
+          });
+          el.appendChild(supra);
+        }
+
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'art-title';
+        titleSpan.textContent = split.titleText || a.title || 'Artigo';
+        el.appendChild(titleSpan);
+
+        const content = document.createElement('div');
+        content.className = 'art-body';
+        content.textContent = split.body || '';
+        el.appendChild(content);
+
+        frag.appendChild(el);
+        idx++;
+      });
+    });
+
+    els.articles.innerHTML = '';
+    els.articles.appendChild(frag);
+  }
+
+  // manter barras visíveis
+  els.bottomInfo.hidden = false;
+  els.bottomSearch.hidden = false;
+  els.bottomStudy.hidden = false;
+
+  // Atualiza referências de estado usadas pela navegação/realce
+  state.currentList = (groups || []).flatMap(g => g.items || []);
+  updateCurrentOutline();
+  state.matchNodes = [];
+  state.matchIdx = -1;
+  updateCount();
+}
 
 /* =============== Destaque / Busca no DOM =============== */
 function clearMarksAndRerender(){
-  // Re-renderiza a lista atual SEM marcações
-  renderArticles(state.currentList, {globalMode: state.currentMode === 'global'});
+  // Se estamos em busca global e já temos grupos montados,
+  // re-renderiza preservando os agrupamentos por arquivo.
+  if (state.currentMode === 'global' && Array.isArray(state.globalGroups) && state.globalGroups.length){
+    renderGlobalGroups(state.globalGroups);
+    return;
+  }
+  // Caso contrário, re-renderiza a lista atual (modo arquivo)
+  renderArticles(state.currentList || [], { globalMode: false });
 }
+
 async function highlightTokensChunked(tokens){
   clearMarksAndRerender();
   if (!tokens.length) return;
@@ -968,71 +1044,188 @@ async function runLocalSearch(){
   await highlightTokensChunked(tokens);
 }
 
-/* =============== Busca Global (AND) =============== */
-function blockFullText(a){
-  const s = a._split || splitBlockSupraTitleBody(a.text);
-  const supra = s.supra?.length ? s.supra.join('\n')+'\n' : '';
-  const title = s.titleText || a.title || '';
-  const body  = s.body || '';
-  return (title+'\n'+supra+body).trim();
+/* =============== Busca Global (AND) — AGRUPADA POR ARQUIVO =============== */
+
+// Renderer dos grupos (um bloco por arquivo)
+function renderGlobalGroups(groups){
+  const frag = document.createDocumentFragment();
+  let runningIdx = 0;
+
+  groups.forEach(g=>{
+    // Cabeçalho do grupo (arquivo)
+    const sec = document.createElement('section');
+    const header = document.createElement('div');
+    header.className = 'group-header';
+    header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:8px 10px;margin:10px 0 2px;border:1px solid #eceff4;background:#fafbff;border-radius:10px;';
+    header.innerHTML = `
+      <div style="font-weight:800;color:#0e1638;">
+        ${g.fileLabel} <small style="font-weight:600;color:#6c7282">(${g.items.length})</small>
+      </div>
+      <button type="button" class="iconbtn open-doc" data-url="${g.fileUrl}" title="Abrir documento">⤴</button>
+    `;
+    sec.appendChild(header);
+
+    // Lista de cards (somente os que bateram)
+    g.items.forEach((a, i)=>{
+      const el = document.createElement('article');
+      el.dataset.idx = runningIdx++;               // idx global para navegação/outline
+      el.id = a.htmlId || `g-${el.dataset.idx}`;
+
+      const split = a._split || splitBlockSupraTitleBody(a.text);
+
+      // supra (se houver)
+      if (split.supra && split.supra.length){
+        const supra = document.createElement('div');
+        supra.className = 'supra';
+        split.supra.forEach(line=>{
+          const d = document.createElement('div');
+          d.textContent = line;
+          supra.appendChild(d);
+        });
+        el.appendChild(supra);
+      }
+
+      // título
+      const titleSpan = document.createElement('span');
+      titleSpan.className = 'art-title';
+      titleSpan.textContent = split.titleText || a.title || 'Artigo';
+      el.appendChild(titleSpan);
+
+      // corpo
+      const content = document.createElement('div');
+      content.className = 'art-body';
+      content.textContent = split.body || '';
+      el.appendChild(content);
+
+      sec.appendChild(el);
+    });
+
+    frag.appendChild(sec);
+  });
+
+  els.articles.innerHTML = '';
+  if (groups.length){
+    els.articles.appendChild(frag);
+  } else {
+    els.articles.innerHTML = '<div class="placeholder"><p>🤔 Nenhum resultado com todos os termos. Tente variar as palavras.</p></div>';
+  }
+
+  // barras sempre visíveis
+  els.bottomInfo.hidden = false;
+  els.bottomSearch.hidden = false;
+  els.bottomStudy.hidden = false;
+
+  // atualiza estado de render
+  state.currentList = flattenGroups(groups); // versão achatada para destaque/contagem
+  updateCurrentOutline();
+
+  // listeners "Abrir documento" (troca para o arquivo correspondente)
+  els.articles.querySelectorAll('.open-doc').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      const url = btn.getAttribute('data-url');
+      await loadFile(url);
+      // ao abrir o arquivo, sai do modo global
+      state.globalOn = false;
+      els.globalToggle.setAttribute('aria-pressed','false');
+      els.globalToggle.textContent = 'Buscar Global: OFF';
+    });
+  });
+
+  // zera contagem de marcações
+  state.matchNodes = [];
+  state.matchIdx = -1;
+  updateCount();
 }
+
+// Helper: achata os grupos em uma lista linear (mantém ordem visual)
+function flattenGroups(groups){
+  const flat = [];
+  groups.forEach(g => g.items.forEach(it => flat.push(it)));
+  return flat;
+}
+
+// Nova busca global (AND entre palavras, agrupada por arquivo)
 async function runGlobalSearch(){
   const q = els.searchInput.value.trim();
   const tokens = q.split(/\s+/).map(normalizeTerm).filter(Boolean);
   state.currentTokens = tokens;
 
+  // sem termos → volta para o arquivo atual (se houver) ou placeholder
   if (!tokens.length){
-    // sem termos → volta para o arquivo aberto, se houver
+    state.globalGroups = [];
     if (state.currentFileUrl){
       state.currentMode = 'file';
       renderArticles(state.articles, {globalMode:false});
       updateCount();
     } else {
       els.articles.innerHTML = '<div class="placeholder"><p>Digite algo para buscar em todos os códigos.</p></div>';
+      state.currentList = [];
+      state.matchNodes = [];
+      state.matchIdx = -1;
+      updateCount();
     }
     return;
   }
 
   setBusy(true);
-  const results = [];
-  const sel = els.codeSelect;
-  // percorre todos os arquivos do catálogo
-  for (const opt of sel.querySelectorAll('option')){
-    const url = opt.value?.trim();
-    const label = opt.textContent?.trim();
-    if (!url) continue;
-    try{
-      const txt = await fetchTextCached(url);
-      const items = parseByUrl(url, txt);
-      for (const it of items){
-        const full = blockFullText(it);
-        const norm = normalizeTerm(full);
-        const allHit = tokens.every(t => norm.indexOf(t) !== -1);
-        if (allHit){
-          results.push({
-            ...it,
-            htmlId: `g-${results.length}`,
-            _fileUrl: url,
-            _fileLabel: label
+
+  // varrer catálogo na mesma ordem do <select>
+  const groups = [];
+  const selectGroups = getGroupsFromSelect(); // preserva ordem de grupos/itens do catálogo
+
+  for (const g of selectGroups){
+    for (const it of g.items){
+      const url = it.value;
+      const label = it.label;
+      try{
+        const txt = await fetchTextCached(url);
+        const blocks = parseByUrl(url, txt);
+
+        // filtra: mantém somente cards que contém TODAS as palavras (AND)
+        const hits = [];
+        for (const b of blocks){
+          const full = blockFullText(b);
+          const norm = normalizeTerm(full);
+          const allHit = tokens.every(t => norm.indexOf(t) !== -1);
+          if (allHit){
+            hits.push({
+              ...b,
+              _fileUrl: url,
+              _fileLabel: label
+            });
+          }
+        }
+
+        if (hits.length){
+          groups.push({
+            fileUrl: url,
+            fileLabel: label,
+            items: hits
           });
         }
-      }
-    } catch(e){ /* ignora erros individuais */ }
-    await new Promise(r=>setTimeout(r,0)); // ceder o thread p/ UI
+      }catch(e){ /* ignora erros individuais */ }
+      // cede o thread p/ manter UI responsiva
+      await new Promise(r=>setTimeout(r,0));
+    }
   }
 
+  // salva e renderiza agrupado
   state.currentMode = 'global';
-  renderArticles(results, {globalMode:true});
-  if (results.length){
+  state.globalGroups = groups;
+  renderGlobalGroups(groups);
+
+  // destaca tokens (continua funcionando)
+  if (groups.length){
     await highlightTokensChunked(tokens);
-  } else {
-    // sem matches → contador 0/0
+  }else{
     state.matchNodes = [];
     state.matchIdx = -1;
     updateCount();
   }
+
   setBusy(false);
 }
+
 
 /* =============== Sheet (seletor na base) =============== */
 function norm(s){ return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); }
