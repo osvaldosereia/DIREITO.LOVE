@@ -12,7 +12,7 @@ DA APLICAÇÃO DA LEI PENAL
 -----
         Anterioridade da Lei
 
-Art. 1 N ão há crime sem lei anterior que o defina. Não há pena sem prévia cominação legal. (Redação dada pela Lei nº 7.209, de 11.7.1984)
+Art. 1 Não há crime sem lei anterior que o defina. Não há pena sem prévia cominação legal. (Redação dada pela Lei nº 7.209, de 11.7.1984)
 
 -----
         Lei penal no tempo
@@ -5079,5 +5079,6 @@ Art. 360 R essalvada a legislação especial sobre os crimes contra a existênci
 
 -----
 Art. 361 E ste Código entrará em vigor no dia 1º de janeiro de 1942.
+
 
 
