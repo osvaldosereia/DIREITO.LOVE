@@ -935,7 +935,10 @@ function clearMarks(){
 
 async function highlightTermChunked(term){
   clearMarks();
-  if(!term) return;
+  if(!term) {
+    setSearchState('pre-search');
+    return;
+  }
 
   setBusy(true);
   els.count.textContent='...';
@@ -963,13 +966,16 @@ async function highlightTermChunked(term){
     state.matchNodes[0].scrollIntoView({behavior:'smooth', block:'center'});
     els.count.textContent=`1/${state.matchNodes.length}`;
     root?.classList.add('has-results');
+    setSearchState('post-local');   // ✅ novo
   } else {
     els.count.textContent='0/0';
     root?.classList.remove('has-results');
+    setSearchState('pre-search');   // ✅ novo
   }
 
   setBusy(false);
 }
+
 
 els.nextBtn.addEventListener('click', ()=>{
   if (!state.matchNodes.length) return;
