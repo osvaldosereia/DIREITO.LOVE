@@ -1,0 +1,1326 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>direito.love — Leitor jurídico</title>
+
+  <!-- Ícones / PWA -->
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="icons/favicon-192.png" sizes="192x192" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#142B6F">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <style>
+    :root{
+      /* Paleta */
+      --white:#FFFFFF; --lilac:#E1DEE6; --navy:#142B6F; --yellow:#FFD601;
+      --bg:var(--white); --fg:#101418; --muted:#5f6470;
+
+      /* Barras de baixo */
+      --bar-bg:#f5f7fa;   /* busca (mais clara) */
+      --bar-bg-2:#eceff4; /* estudar/buscar (um pouco mais escura) */
+
+      /* Dimensões */
+      --topbar-h: 68px;
+      --progress-h: 6px;
+      --bottom-search-h: 56px;
+      --bottom-study-h: 64px;
+
+      --focus:#9bb6ff; --radius:12px; --shadow:0 2px 10px rgba(0,0,0,.06);
+      --accent: rgba(255,214,1,.2);
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%}
+    body{
+      background:var(--bg); color:var(--fg);
+      font:15px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      max-width:100%; overflow-x:hidden;
+    }
+    button,input,select{font:inherit}
+
+    /* Topbar */
+    .topbar{
+      position:fixed; inset:0 0 auto 0; height:var(--topbar-h);
+      display:flex; align-items:center; justify-content:center;
+      background:var(--navy); color:#fff; z-index:80; box-shadow:var(--shadow);
+    }
+    .topbar-inner{
+      width:clamp(320px, 92vw, 960px);
+      padding:0 12px; display:flex; align-items:center; gap:12px;
+      overflow:hidden;
+    }
+    .brand {
+      cursor: pointer;
+      height: 40px;
+      width: auto;
+      object-fit: contain;
+      flex: 0 0 auto;
+      display: block;
+    }
+    .brand:focus{outline:2px solid #fff; outline-offset:2px}
+    .spacer{flex:1 1 auto; min-width:0}
+    .select-wrap{flex:1 1 50%; min-width:0; max-width:60vw}
+    select{
+      width:100%; height:38px; border:1px solid rgba(255,255,255,.35);
+      background:#fff; color:#161b33; border-radius:10px; padding:0 10px;
+    }
+    select:focus{outline:2px solid var(--focus); outline-offset:2px}
+
+    /* Botão mobile que substitui o select (apenas no mobile) */
+    .picker-btn{
+      display:none;
+      height:38px; padding:0 12px; border-radius:10px;
+      background:#fff; color:#161b33; border:1px solid rgba(255,255,255,.35);
+      cursor:pointer;
+    }
+
+    /* Barra de progresso (busca/carregamento) */
+    .progress{
+      position:fixed; top:var(--topbar-h); left:0; right:0; height:var(--progress-h); z-index:85;
+      background:transparent;
+    }
+    .progress .bar{
+      height:100%; width:0%; background:linear-gradient(90deg, #FFD601, #E1DEE6);
+      transition:width .2s ease;
+    }
+    .progress[hidden]{display:none}
+
+    /* Conteúdo */
+    .content{
+      position:relative;
+      padding: calc(var(--topbar-h) + var(--progress-h) + 14px) 0 calc(var(--bottom-search-h) + var(--bottom-study-h) + 24px);
+      min-height:100dvh;
+    }
+    .container{ width:clamp(320px, 92vw, 960px); margin:0 auto; padding:0 12px }
+    .placeholder{
+      padding:24px; border:1px dashed #dcdfea; border-radius:var(--radius);
+      color:var(--muted); background:#fafbff
+    }
+
+    /* Artigos/Blocos */
+    article{
+      white-space:pre-wrap;
+      border-bottom:1px solid #eef0f6;
+      padding:18px 10px; scroll-margin: 92px; border-radius:10px;
+      overflow-wrap:anywhere; word-break:break-word; hyphens:auto; max-width:100%;
+    }
+    .supra{ color:#6c7282; font-weight:600; font-size:13px; margin-bottom:6px; }
+    .supra div{ line-height:1.35 }
+    .art-title{ display:block; font-weight:700; color:#0e1638; margin:0 0 6px }
+    article.current-outline{ outline:3px solid #7aa8ff; outline-offset:2px; }
+    article.highlight-study{ background:var(--accent) }
+
+    mark{padding:0 2px; border-radius:3px; background:#ffef99}
+    .art-body { font-size: 14px; line-height: 1.6; }
+    .art-title { font-size: 13px; }
+    .supra { font-size: 11px; }
+
+    /* ===== Barra 1 (SETAS / INPUT / TOGGLE GLOBAL / CONTADOR) ===== */
+    .bottom-search{
+      position:fixed; left:0; right:0; bottom:var(--bottom-study-h);
+      height:var(--bottom-search-h);
+      background: var(--bar-bg);
+      border-top:1px solid #e0e4ec;
+      z-index:70; display:flex; align-items:center; justify-content:center;
+      padding-bottom:max(0px, env(safe-area-inset-bottom));
+    }
+    .bottom-search-inner{
+      width:clamp(320px, 92vw, 960px);
+      display:flex; align-items:center; gap:8px; padding:8px 12px;
+    }
+    .iconbtn{
+      width:32px; height:32px; border:1px solid #e2e5f2; background:#fff; border-radius:8px;
+      display:grid; place-items:center; cursor:pointer; user-select:none; flex:0 0 32px;
+      font-size:16px; line-height:1;
+    }
+    .iconbtn:focus,input:focus{outline:2px solid var(--focus); outline-offset:2px}
+    .search{flex:1; display:flex; align-items:center; gap:8px; min-width:0; position:relative;}
+    .search input{
+      width:100%; height:36px; border:1px solid #e2e5f2; border-radius:10px; padding:0 12px; background:#fff;
+      flex:1 1 auto; min-width:0;
+    }
+    /* spinner posicionado dentro do campo */
+    .spinner{
+      position:absolute; right:42px; top:50%; transform:translateY(-50%);
+      width:18px; height:18px; border:2px solid #e2e5f2; border-top-color:#142B6F; border-radius:50%;
+      animation:spin 1s linear infinite; flex:0 0 18px
+    }
+    .spinner[hidden]{display:none}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .result-count{
+      min-width:64px; font-size:12px; color:#6c7282; border:1px solid #e2e5f2;
+      background:#f7f8fc; padding:6px 10px; border-radius:8px; text-align:center;
+    }
+
+    /* Toggle "todos" — largo no desktop, ícone no mobile */
+    .all-toggle{
+      display:inline-flex; align-items:center; gap:6px;
+      font-size:12px; color:#6c7282; user-select:none; cursor:pointer;
+      border:1px solid #e2e5f2; background:#fff; padding:6px 10px; border-radius:8px;
+      white-space:nowrap;
+    }
+    .all-toggle input{ width:16px; height:16px; }
+    .all-toggle span{ display:inline-block; }
+
+    /* Limpar dentro do input (mobile-first) */
+    .clear-btn{
+      position:absolute; right:10px; top:50%; transform:translateY(-50%);
+      width:28px; height:28px; border:1px solid #e2e5f2; background:#fff; border-radius:8px;
+      display:grid; place-items:center; cursor:pointer; font-size:14px; line-height:1;
+    }
+    .clear-btn:focus{ outline:2px solid var(--focus); outline-offset:2px; }
+
+    /* ===== Barra 2 (ESTUDAR / BUSCAR) ===== */
+    .bottom-study{
+      position:fixed; left:0; right:0; bottom:0; height:var(--bottom-study-h);
+      background: var(--bar-bg-2);
+      border-top:1px solid #d9dde6;
+      z-index:75; display:flex; align-items:center; justify-content:center; padding:8px 0;
+      padding-bottom:max(8px, env(safe-area-inset-bottom));
+    }
+    .bottom-study-inner{
+      width:clamp(320px, 92vw, 960px); padding:0 12px; display:flex; align-items:center; gap:12px;
+    }
+    .study,.do-search{
+      flex:1 1 0; padding:12px 16px; border-radius:12px; font-weight:800; cursor:pointer;
+    }
+    .study{ border:1px solid #0e2a7a; background:#142B6F; color:#fff; }
+    .do-search{ border:1px solid #f0e08b; background:var(--yellow); color:#0a0a0a; }
+
+    /* Resultados globais (somente hits por arquivo) */
+    .results-group{ margin:14px 0; padding:12px; border:1px solid #eceff4; border-radius:12px; background:#fafbff; }
+    .results-group h4{ margin:0 0 8px; font-size:14px; color:#0e1638 }
+    .result-item{
+      display:block; text-align:left; width:100%; border:1px solid #e2e5f2; background:#fff;
+      padding:10px 12px; border-radius:10px; margin:8px 0; cursor:pointer;
+    }
+    .result-item b{ color:#0e1638 }
+    .result-item small{ color:#6c7282; display:block; margin-top:4px }
+    .result-item:hover, .result-item:focus{ outline:2px solid var(--focus); outline-offset:2px }
+    .result-empty{ padding:24px; border:1px dashed #dcdfea; border-radius:12px; color:#6c7282; background:#f9fbff }
+
+    /* Modal IA */
+    .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.28); display:none; align-items:center; justify-content:center; z-index:100}
+    .modal{
+      background:#fff; border-radius:16px; width:min(640px, 92vw); padding:18px; border:1px solid #eceef7; box-shadow: var(--shadow)
+    }
+    .modal h3{margin:0 0 8px; color:#0f173a}
+    .modal .subtitle{margin:0 0 14px; font-size:13px; color:#3a7f48}
+    .modal-body{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
+    .ia-btn{
+      display:flex; align-items:center; gap:10px; padding:12px; border:1px solid #e6e8f2; background:#f6f7fb;
+      border-radius:12px; cursor:pointer; text-decoration:none; color:#111; font-weight:700; justify-content:center;
+    }
+    .ia-btn:focus{outline:2px solid var(--focus); outline-offset:2px}
+    .modal .foot{margin-top:12px; display:flex; justify-content:flex-end}
+    .modal .close-btn{padding:8px 12px; border:1px solid #e2e5f2; background:#fff; border-radius:10px; cursor:pointer}
+
+    /* Toast */
+    .toast{
+      position:fixed; left:50%; transform:translateX(-50%);
+      bottom:calc(var(--bottom-study-h) + var(--bottom-search-h) + 14px);
+      background:#111; color:#fff; padding:8px 12px; border-radius:10px; opacity:0; pointer-events:none; transition:opacity .2s; z-index:200
+    }
+    .toast.show{opacity:1}
+
+    .bottom-search[hidden], .bottom-study[hidden]{display:none}
+
+    /* Mobile-only */
+    @media (max-width: 768px){
+      .brand{ font-size:18px; }
+      .select-wrap select{ display:none; }
+      .picker-btn{ display:inline-flex; align-items:center; gap:8px; }
+      .select-wrap select,
+      select option, select optgroup{ font-size:14px; }
+
+      /* dar espaço p/ spinner + limpar dentro do input */
+      .search input{ padding-right: 84px; }
+
+      /* esconder setas até resultados (fica mais espaço p/ digitar) */
+      #prevBtn, #nextBtn{ visibility:hidden; }
+
+      /* “Todos” vira ícone 🌐 no mobile (economiza espaço) */
+      .all-toggle span{ display:none; }
+      .all-toggle:before{ content:"🌐"; font-size:16px; line-height:1; }
+
+      /* remover X externo da barra — economiza espaço */
+      /* (não existe no HTML, mas se aparecer, some no mobile) */
+      #resetBtn{ display:none !important; }
+    }
+    /* Ao ter resultados (controlado via JS) */
+    .has-results #prevBtn, .has-results #nextBtn{ visibility:visible; }
+    .highlight{ background:#ffef99; border-radius:3px; }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <img src="icons/logo.png" alt="direito.love" class="brand" id="brandBtn" title="Clique para reiniciar">
+      <div class="spacer"></div>
+      <div class="select-wrap">
+        <select id="codeSelect" title="Escolher arquivo">
+          <option value="">— selecione —</option>
+
+          <optgroup label="CF88">
+            <option value="data/CF88/CF88.txt">Constituição Federal 1988</option>
+          </optgroup>
+
+          <optgroup label="Códigos">
+            <option value="data/codigos/codigo_civil.txt">Código Civil</option>
+            <option value="data/codigos/codigo_Processo_Civil.txt">Código de Processo Civil</option>
+            <option value="data/codigos/codigo_penal.txt">Código Penal</option>
+            <option value="data/codigos/codigo_Processo_Penal.txt">Código de Processo Penal</option>
+            <option value="data/codigos/codigo_consumidor.txt">Código de Defesa do Consumidor</option>
+            <option value="data/codigos/codigo_CLT.txt">CLT - Consolidação das Leis do Trabalho</option>
+            <option value="data/codigos/codigo_tributario_nacional.txt">Código Tributário Nacional</option>
+          </optgroup>
+
+          <optgroup label="Leis">
+            <option value="data/leis/lei_maria_da_penha.txt">Lei Maria da Penha</option>
+            <option value="data/leis/lei_de_execucao_penal.txt">Lei de Execução Penal</option>
+            <option value="data/leis/lei_de_drogas.txt">Lei de Drogas</option>
+            <option value="data/leis/lei_LGPD.txt">Lei LGPD</option>
+            <option value="data/leis/marco_civil_da_internet.txt">Marco Civil da Internet</option>
+            <option value="data/leis/crimes_hediondos.txt">Lei dos Crimes Hediondos</option>
+          </optgroup>
+
+          <optgroup label="Estatutos">
+            <option value="data/estatutos/eca.txt">ECA - Estatuto da Criança e Adolescente</option>
+            <option value="data/estatutos/estatuto_do_desarmamento.txt">Estatuto do Desarmamento</option>
+            <option value="data/estatutos/estatuto_do_idoso.txt">Estatuto do Idoso</option>
+            <option value="data/estatutos/estatuto_da_juventude.txt">Estatuto da Juventude</option>
+            <option value="data/estatutos/estatuto_da_pessoa_com_deficiencia.txt">Estatuto da Pessoa com Deficiência</option>
+          </optgroup>
+
+          <optgroup label="Princípios">
+            <option value="data/principios/principios_do_direito.txt">Princípios (Rol Exemplificativo)</option>
+          </optgroup>
+        </select>
+
+        <button id="openPicker" class="picker-btn" type="button" aria-haspopup="dialog" aria-controls="pickerSheet" aria-expanded="false">
+          Escolher código
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress" id="progress" hidden>
+    <div class="bar" id="progressBar"></div>
+  </div>
+
+  <!-- CONTEÚDO -->
+  <main class="content">
+    <div class="container">
+      <!-- Resultados globais (aparece só na busca "todos") -->
+      <div id="globalResultsWrap" style="display:none">
+        <div id="globalResults"></div>
+      </div>
+
+      <div class="articles" id="articles">
+        <div class="placeholder">
+          <p style="text-align:center; font-size:1.1rem; font-weight:normal; line-height:1.6;">
+            💚<br> Bem-vindo ao <strong>Direito.Love</strong><br>
+            O <em>Mini Vade Mecum Digital</em> que também te auxilia nos estudos com <strong>I.A.</strong>
+            <br><br>😎 <br><strong>Escolha um código no topo e comece agora.</strong> <br>Bons estudos!
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- BARRA 1 -->
+  <div class="bottom-search" id="bottomSearch" hidden>
+    <div class="bottom-search-inner" aria-live="polite">
+      <button class="iconbtn" id="prevBtn" title="Anterior" aria-label="Anterior">◀</button>
+      <button class="iconbtn" id="nextBtn" title="Próximo" aria-label="Próximo">▶</button>
+
+      <div class="search">
+        <input id="searchInput" type="search" placeholder="Buscar no texto…" autocomplete="off" aria-label="Buscar no texto" />
+        <!-- limpar dentro do input -->
+        <button id="clearSearch" class="clear-btn" type="button" aria-label="Limpar busca" hidden>✕</button>
+
+        <!-- toggle Global (desktop mostra texto; mobile = ícone 🌐) -->
+        <label class="all-toggle" title="Buscar em todos os arquivos">
+          <input id="searchAll" type="checkbox" />
+          <span>todos</span>
+        </label>
+
+        <div class="spinner" id="spinner" hidden></div>
+      </div>
+
+      <div class="result-count" title="Ocorrência atual / Total"><span id="count">0/0</span></div>
+
+      <!-- Voltar aos resultados globais -->
+      <button class="iconbtn" id="backToResultsBtn" title="Voltar aos resultados" aria-label="Voltar aos resultados" style="display:none">⟲</button>
+    </div>
+  </div>
+
+  <!-- BARRA 2 -->
+  <div class="bottom-study" id="bottomStudy" hidden>
+    <div class="bottom-study-inner">
+      <button class="study" id="studyBtn">Estude com I.A.</button>
+      <button class="do-search" id="doSearchBtn">Buscar</button>
+    </div>
+  </div>
+
+  <!-- MODAL IA -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Estude com I.A.</h3>
+      <p class="subtitle">✅ Prompt pronto! Escolha uma IA e cole o prompt para estudar.</p>
+      <div class="modal-body"><!-- JS insere os botões aqui --></div>
+      <div class="foot">
+        <button class="close-btn" id="closeModal">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHEET: seletor custom (mobile) -->
+  <div id="pickerSheet" class="sheet" hidden aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="sheet-backdrop" data-close></div>
+    <div class="sheet-panel" role="document">
+      <div class="sheet-head">
+        <strong class="sheet-title">Escolher código</strong>
+        <button class="sheet-close" type="button" data-close aria-label="Fechar">✕</button>
+      </div>
+      <div class="sheet-search">
+        <input id="pickerSearch" type="search" placeholder="Buscar…" autocomplete="off" />
+      </div>
+      <div class="sheet-body" id="pickerList" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">✅ Pronto!</div>
+
+  <!-- ========= A PARTIR DAQUI ENTRA O JS (PARTE 2/2) ========= -->
+  <script>
+    /* =========================
+   PARTE 1/8 — Estado & Elementos
+   - Mapeia IDs do HTML
+   - Define o estado global da aplicação
+   ========================= */
+
+const els = {
+  // Topbar / Catálogo
+  brandBtn: document.getElementById('brandBtn'),
+  codeSelect: document.getElementById('codeSelect'),
+  openPicker: document.getElementById('openPicker'),
+  pickerSheet: document.getElementById('pickerSheet'),
+  pickerSearch: document.getElementById('pickerSearch'),
+  pickerList: document.getElementById('pickerList'),
+
+  // Conteúdo
+  articles: document.getElementById('articles'),
+
+  // Barras inferiores
+  bottomSearch: document.getElementById('bottomSearch'),
+  bottomStudy: document.getElementById('bottomStudy'),
+
+  // Busca (Barra 1)
+  searchInput: document.getElementById('searchInput'),
+  searchAll: document.getElementById('searchAll'),      // toggle "Global" (desktop texto; mobile ícone 🌐)
+  clearSearch: document.getElementById('clearSearch'),  // X interno do input
+  prevBtn: document.getElementById('prevBtn'),
+  nextBtn: document.getElementById('nextBtn'),
+  count: document.getElementById('count'),
+  spinner: document.getElementById('spinner'),
+
+  // Progresso (top)
+  progress: document.getElementById('progress'),
+  progressBar: document.getElementById('progressBar'),
+
+  // Barra 2
+  studyBtn: document.getElementById('studyBtn'),
+  doSearchBtn: document.getElementById('doSearchBtn'),
+
+  // Ações extras
+  backToResultsBtn: document.getElementById('backToResultsBtn'),
+
+  // Modal IA
+  modalBackdrop: document.getElementById('modalBackdrop'),
+  modalTitle: document.getElementById('modalTitle'),
+  closeModal: document.getElementById('closeModal'),
+
+  // Toast
+  toast: document.getElementById('toast'),
+
+  // Resultados globais
+  globalResultsWrap: document.getElementById('globalResultsWrap'),
+  globalResults: document.getElementById('globalResults'),
+};
+
+// Estado global
+const state = {
+  rawText: '',
+  articles: [],                 // [{ title, text, htmlId, _split }]
+  currentArticleIdx: -1,
+
+  // Busca local
+  matchNodes: [],
+  matchIdx: -1,
+
+  // Progresso
+  progressTimer: null,
+
+  // Cache de arquivos (busca global)
+  fileCache: new Map(),         // url -> { txt }
+
+  // Última busca global
+  lastGlobalResults: null,      // [{ file:{label,url}, items:[{title,snippet,url}] }]
+  lastGlobalTerm: '',
+
+  // Fluxo/UI
+  isGlobalSearch: false,
+  openedFromGlobal: false,
+  uiState: 'PRE',
+};
+
+/* =========================
+   PARTE 2/8 — Helpers gerais
+   - Toasts
+   - Busy/spinner
+   - Barra de progresso
+   ========================= */
+
+const escapeHtml = (s) =>
+  s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+
+function showToast(msg='✅ Pronto!'){
+  els.toast.textContent = msg;
+  els.toast.classList.add('show');
+  setTimeout(()=>els.toast.classList.remove('show'), 1200);
+}
+
+function setBusy(isBusy){
+  els.bottomSearch.setAttribute('aria-busy', String(isBusy));
+  els.doSearchBtn.disabled = isBusy;
+  els.prevBtn.disabled = isBusy;
+  els.nextBtn.disabled = isBusy;
+  els.spinner.hidden = !isBusy;
+  setProgressActive(isBusy);
+}
+
+function setProgressActive(active){
+  if (active){
+    els.progress.hidden = false;
+    els.progressBar.style.width = '0%';
+    let p = 0;
+    clearInterval(state.progressTimer);
+    state.progressTimer = setInterval(()=>{
+      p = Math.min(85, p + 8 + Math.random()*7);
+      els.progressBar.style.width = p + '%';
+    }, 180);
+  }else{
+    clearInterval(state.progressTimer);
+    els.progressBar.style.width = '100%';
+    setTimeout(()=>{ els.progress.hidden = true; els.progressBar.style.width = '0%'; }, 250);
+  }
+}
+
+/* =========================
+   PARTE 3/8 — Parser + Sanitização
+   ========================= */
+
+function sanitizeForLayout(s){
+  return s.replace(/\u00A0/g,' ')
+          .replace(/\t/g,' ')
+          .replace(/\s+\n/g,'\n');
+}
+
+function parseArticlesFromText(txt){
+  txt = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
+  const items = parseByDelimiters(txt);
+  if (items.length) return items;
+  return parseByArt(txt);
+}
+
+function parseByDelimiters(txt){
+  const sepRe = /(^|\n)[^\S\r\n]*-{5,}[^\S\r\n]*(?=\n|$)/g;
+  const seps = []; let m;
+  while ((m = sepRe.exec(txt)) !== null) {
+    const idx = m.index + (m[0].startsWith('\n') ? 1 : 0);
+    seps.push(idx);
+  }
+  if (seps.length < 2) return [];
+  const arts = [];
+  for (let i = 0; i + 1 < seps.length; i++){
+    const startLineEnd = txt.indexOf('\n', seps[i]);
+    const from = (startLineEnd === -1) ? txt.length : startLineEnd + 1;
+    const to = seps[i+1];
+    if (from >= to) continue;
+    const raw = txt.slice(from, to).trim();
+    if (!raw) continue;
+    const split = splitBlockSupraTitleBody(raw);
+    const title = split.titleText || `Bloco ${arts.length + 1}`;
+    arts.push({ title, text: raw, htmlId: `art-${arts.length}`, _split: split });
+  }
+  return arts;
+}
+
+function parseByArt(txt){
+  const re = /(^|\n)\s*((?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?)/g;
+  const starts = []; let m;
+  while ((m = re.exec(txt)) !== null) {
+    const idxArt = re.lastIndex - m[2].length;
+    starts.push(idxArt);
+  }
+  if (!starts.length) {
+    return [{
+      title: 'Texto',
+      text: txt.trim(),
+      htmlId: 'art-0',
+      _split: splitBlockSupraTitleBody(txt.trim())
+    }];
+  }
+
+  const arts = [];
+  for (let i=0;i<starts.length;i++){
+    const from = starts[i];
+    const to = (i+1<starts.length) ? starts[i+1] : txt.length;
+    let chunk = txt.slice(from, to).trimEnd();
+
+    const endDot = chunk.lastIndexOf('.');
+    const endPar = chunk.lastIndexOf(')');
+    const end = Math.max(endDot, endPar);
+    if (end !== -1 && end >= Math.floor(chunk.length * 0.6)) {
+      chunk = chunk.slice(0, end+1).trimEnd();
+    }
+
+    const split = splitBlockSupraTitleBody(chunk);
+    const title = split.titleText || chunk.split('\n')[0].slice(0,40);
+    arts.push({ title, text: chunk, htmlId: `art-${i}`, _split: split });
+  }
+  return arts;
+}
+
+function splitBlockSupraTitleBody(raw){
+  const lines = raw.replace(/^\s+|\s+$/g,'').split(/\r?\n/);
+  const artIdx = lines.findIndex(line =>
+    /^\s*(?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?/.test(line)
+  );
+
+  if (artIdx >= 0){
+    const supra = lines.slice(0, artIdx).map(s=>s.trim()).filter(Boolean);
+    const titleLine = lines[artIdx];
+
+    const mt = titleLine.match(/^\s*((?:Art|ART)\.?\s*\d{1,4}(?:-?[A-Z])?(?:º|o)?\.?)/);
+    let titleText = mt ? mt[1].trim() : titleLine.trim();
+    titleText = titleText.replace(/(\d+)-?([A-Z])/, "$1$2"); // 10-A → 10A
+
+    const afterTitle = titleLine.slice(mt ? mt[1].length : 0).trimStart();
+    const rest = lines.slice(artIdx+1).join('\n').trimStart();
+    const body = afterTitle ? (rest ? afterTitle + '\n' + rest : afterTitle) : rest;
+
+    return { supra, titleText, body };
+  } else {
+    const titleText = (lines[0]||'').trim();
+    const body = lines.slice(1).join('\n').trimStart();
+    return { supra:[], titleText, body };
+  }
+}
+
+function parseSumulas(txt){
+  const cleaned = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
+  const parts = cleaned.split(/^\s*-{5,}\s*$/m).map(s => s.trim()).filter(Boolean);
+  return parts.map((block, i)=>{
+    const lines = block.split('\n').map(l=>l.trim());
+    const header = (lines.shift() || 'Súmula').trim();
+    const body = lines.join('\n').trim();
+    return {
+      title: header,
+      text: header + (body ? '\n' + body : ''),
+      htmlId: `sumula-${i}`,
+      _split: { supra: [], titleText: header, body }
+    };
+  });
+}
+
+function parsePrincipios(txt){
+  const cleaned = sanitizeForLayout(txt.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'));
+  const parts = cleaned.split(/^\s*-{5,}\s*$/m).map(s => s.trim()).filter(Boolean);
+  return parts.map((block, i)=>{
+    const lines = block.split('\n').map(l=>l.trim());
+    let header = (lines.shift() || 'Princípio').trim();
+    const reHeader = /^\s*Princ[ií]pio\b/i;
+    if (!reHeader.test(header)){
+      if (lines.length && reHeader.test(lines[0])) header = lines.shift();
+      else header = 'Princípio';
+    }
+    const body = lines.join('\n').trim();
+    return {
+      title: header,
+      text: header + (body ? '\n' + body : ''),
+      htmlId: `principio-${i}`,
+      _split: { supra: [], titleText: header, body }
+    };
+  });
+}
+
+/* =========================
+   PARTE 4/8 — Renderização
+   ========================= */
+
+function renderArticles(){
+  const frag = document.createDocumentFragment();
+  state.articles.forEach((a,i)=>{
+    const el = document.createElement('article');
+    el.dataset.idx = i;
+    el.id = a.htmlId;
+
+    const split = a._split || splitBlockSupraTitleBody(a.text);
+
+    if (split.supra?.length){
+      const supra = document.createElement('div');
+      supra.className = 'supra';
+      split.supra.forEach(line=>{
+        const d = document.createElement('div'); d.textContent = line; supra.appendChild(d);
+      });
+      el.appendChild(supra);
+    }
+
+    const titleSpan = document.createElement('span');
+    titleSpan.className = 'art-title';
+    titleSpan.textContent = split.titleText || a.title;
+    el.appendChild(titleSpan);
+
+    const content = document.createElement('div');
+    content.className = 'art-body';
+    content.textContent = split.body || '';
+    el.appendChild(content);
+
+    frag.appendChild(el);
+  });
+
+  els.articles.innerHTML = '';
+  els.articles.appendChild(frag);
+
+  els.bottomSearch.hidden = false;
+  els.bottomStudy.hidden = false;
+
+  updateCurrentOutline();
+  watchInView();
+}
+
+function getArticleInView(){
+  const nodes = document.querySelectorAll('article[data-idx]');
+  const cy = window.innerHeight/2;
+  let hitIdx = -1;
+  for (const el of nodes){
+    const r = el.getBoundingClientRect();
+    if (r.top <= cy && r.bottom >= cy){ hitIdx = Number(el.dataset.idx); break; }
+  }
+  if (hitIdx === -1 && nodes.length){
+    for (const el of nodes){
+      const r = el.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < window.innerHeight){ hitIdx = Number(el.dataset.idx); break; }
+    }
+  }
+  return hitIdx;
+}
+
+function updateHash(){
+  const el = document.querySelector(`article[data-idx="${state.currentArticleIdx}"]`);
+  if (el) history.replaceState(null, '', '#'+el.id);
+}
+
+function updateCurrentOutline(){
+  const idx = getArticleInView();
+  if (idx === state.currentArticleIdx) return;
+  state.currentArticleIdx = idx;
+  document.querySelectorAll('article.current-outline').forEach(n=>n.classList.remove('current-outline'));
+  if (idx >= 0){
+    const el = document.querySelector(`article[data-idx="${idx}"]`);
+    el?.classList.add('current-outline');
+    updateHash();
+  }
+}
+
+function watchInView(){
+  const obs = new IntersectionObserver((ents)=>{
+    const mid = window.innerHeight/2;
+    let best=null, bestDelta=1e9;
+    for(const e of ents){
+      if (!e.isIntersecting) continue;
+      const r = e.target.getBoundingClientRect();
+      const d = Math.abs((r.top+r.bottom)/2 - mid);
+      if (d<bestDelta){ best=e.target; bestDelta=d; }
+    }
+    if (best){
+      state.currentArticleIdx = +best.dataset.idx;
+      document.querySelectorAll('article.current-outline').forEach(n=>n.classList.remove('current-outline'));
+      best.classList.add('current-outline');
+      updateHash();
+    }
+  }, {root:null, threshold:[0,.5,1]});
+  document.querySelectorAll('article[data-idx]').forEach(el=>obs.observe(el));
+}
+
+window.addEventListener('scroll', ()=>{
+  if (!state.articles.length) return;
+  updateCurrentOutline();
+}, {passive:true});
+
+/* =========================
+   PARTE 5/8 — Busca (local e global)
+   ========================= */
+
+function normalizeWithMap(s){
+  let norm='', map=[];
+  for(let i=0;i<s.length;i++){
+    const decomp = s[i].normalize('NFD');
+    for(let k=0;k<decomp.length;k++){
+      const c = decomp[k], code = c.codePointAt(0);
+      if(code>=0x0300 && code<=0x036F) continue;
+      norm += c.toLowerCase(); map.push(i);
+    }
+  }
+  return {norm,map};
+}
+const normalizeTerm = (s)=> s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+
+function findRanges(raw,term){
+  if(!term) return [];
+  const {norm,map}=normalizeWithMap(raw);
+  const needle=normalizeTerm(term);
+  if(!needle) return [];
+  const ranges=[]; let from=0;
+  while(true){
+    const pos = norm.indexOf(needle,from);
+    if(pos===-1) break;
+    ranges.push([map[pos], map[pos+needle.length-1]+1]);
+    from = pos + needle.length;
+  }
+  return ranges;
+}
+
+function highlightElementByRanges(el,ranges){
+  if(!ranges.length) return;
+  const raw=el.textContent; let out='', last=0;
+  for(const [s,e] of ranges){
+    out+=escapeHtml(raw.slice(last,s));
+    out+='<mark>'+escapeHtml(raw.slice(s,e))+'</mark>';
+    last=e;
+  }
+  out+=escapeHtml(raw.slice(last));
+  el.innerHTML=out;
+}
+
+function clearMarks(){
+  document.querySelectorAll('article[data-idx]').forEach((node)=>{
+    const i=+node.dataset.idx;
+    const a=state.articles[i];
+    node.innerHTML='';
+
+    const split=a._split||splitBlockSupraTitleBody(a.text);
+    if (split.supra?.length){
+      const supra=document.createElement('div');
+      supra.className='supra';
+      split.supra.forEach(line=>{
+        const d=document.createElement('div'); d.textContent=line; supra.appendChild(d);
+      });
+      node.appendChild(supra);
+    }
+    const t=document.createElement('span'); t.className='art-title';
+    t.textContent=split.titleText||a.title; node.appendChild(t);
+    const b=document.createElement('div'); b.className='art-body';
+    b.textContent=split.body||''; node.appendChild(b);
+  });
+  state.matchNodes=[]; state.matchIdx=-1; els.count.textContent='0/0';
+  document.querySelector('.bottom-search-inner')?.classList.remove('has-results');
+}
+
+async function highlightTermChunked(term){
+  clearMarks();
+  if(!term) return;
+
+  setBusy(true);
+  els.count.textContent='...';
+
+  const nodes = [
+    ...document.querySelectorAll('article .art-body'),
+    ...document.querySelectorAll('article .art-title'),
+    ...document.querySelectorAll('article .supra > div')
+  ];
+
+  const BATCH=12;
+  for(let i=0;i<nodes.length;i+=BATCH){
+    for(let j=i;j<Math.min(i+BATCH,nodes.length);j++){
+      const n=nodes[j];
+      const ranges=findRanges(n.textContent,term);
+      if(ranges.length) highlightElementByRanges(n,ranges);
+    }
+    await new Promise(r=>setTimeout(r,0));
+  }
+
+  state.matchNodes = Array.from(document.querySelectorAll('mark'));
+  const root=document.querySelector('.bottom-search-inner');
+  if (state.matchNodes.length){
+    state.matchIdx=0;
+    state.matchNodes[0].scrollIntoView({behavior:'smooth', block:'center'});
+    els.count.textContent=`1/${state.matchNodes.length}`;
+    root?.classList.add('has-results');
+  } else {
+    els.count.textContent='0/0';
+    root?.classList.remove('has-results');
+  }
+
+  setBusy(false);
+}
+
+els.nextBtn.addEventListener('click', ()=>{
+  if (!state.matchNodes.length) return;
+  state.matchIdx = (state.matchIdx+1)%state.matchNodes.length;
+  const m = state.matchNodes[state.matchIdx];
+  m.scrollIntoView({behavior:'smooth',block:'center'});
+  els.count.textContent = `${state.matchIdx+1}/${state.matchNodes.length}`;
+});
+els.prevBtn.addEventListener('click', ()=>{
+  if (!state.matchNodes.length) return;
+  state.matchIdx = (state.matchIdx-1+state.matchNodes.length)%state.matchNodes.length;
+  const m = state.matchNodes[state.matchIdx];
+  m.scrollIntoView({behavior:'smooth',block:'center'});
+  els.count.textContent = `${state.matchIdx+1}/${state.matchNodes.length}`;
+});
+
+/* ===== Busca GLOBAL (todos) ===== */
+function collectAllSources(){
+  const sel=els.codeSelect; const out=[]; let group='';
+  sel.querySelectorAll('optgroup, option').forEach(n=>{
+    if (n.tagName.toLowerCase()==='optgroup'){ group = n.label || ''; }
+    else if (n.value?.trim()){
+      out.push({ url:n.value.trim(), label:(group?group+' — ':'') + n.textContent.trim() });
+    }
+  });
+  return out;
+}
+
+async function fetchTextCached(url){
+  if (state.fileCache.has(url)) return state.fileCache.get(url).txt;
+  const res = await fetch(url, {cache:'no-store'});
+  if (!res.ok) throw new Error(`HTTP ${res.status} — ${res.statusText}`);
+  const txt = sanitizeForLayout(await res.text());
+  state.fileCache.set(url, {txt});
+  return txt;
+}
+
+function findAllPositions(raw, term, limit=50){
+  const {norm,map}=normalizeWithMap(raw);
+  const needle=normalizeTerm(term);
+  const positions=[];
+  let from=0;
+  while (positions.length < limit){
+    const pos=norm.indexOf(needle, from);
+    if (pos===-1) break;
+    positions.push(map[pos]);
+    from = pos + needle.length;
+  }
+  return positions;
+}
+
+function nearestHeader(raw,start){
+  const headRe = /(^|\n)\s*(?:Art\.?\s*\d{1,4}(?:-?[A-Z])?|S[úu]mula\s+\d+|Princ[ií]pio[^\n]*)/g;
+  let last=null, m;
+  while ((m=headRe.exec(raw)) !== null){
+    if (m.index <= start) last = m[0].trim();
+    else break;
+  }
+  return last || '';
+}
+
+function makeSnippet(raw,start,size=90){
+  const from=Math.max(0,start-size);
+  const to=Math.min(raw.length,start+size);
+  const chunk = raw.slice(from,to).replace(/\s+/g,' ').trim();
+  return (from>0?'…':'') + chunk + (to<raw.length?'…':'');
+}
+
+async function searchAcrossAll(term){
+  const sources = collectAllSources();
+  if (!sources.length) return;
+  setBusy(true);
+  els.count.textContent = '...';
+
+  const groups=[]; const capPerFile=12; let total=0;
+  for (const s of sources){
+    try{
+      const txt = await fetchTextCached(s.url);
+      const positions = findAllPositions(txt, term, capPerFile);
+      if (!positions.length) continue;
+
+      const items = positions.map(p=>({
+        title: nearestHeader(txt, p) || s.label,
+        snippet: makeSnippet(txt, p),
+        url: s.url
+      }));
+      groups.push({ file:s, items });
+      total += items.length;
+      if (total >= 200) break;
+    }catch(e){
+      console.warn('Falha em', s.url, e);
+    }
+  }
+
+  state.lastGlobalResults = groups;
+  state.lastGlobalTerm = term;
+  renderGlobalResults(groups, term);
+  setBusy(false);
+}
+
+function renderGlobalResults(groups, term){
+  els.globalResultsWrap.style.display = 'block';
+  els.articles.innerHTML = '';
+  els.bottomStudy.hidden = true;
+  els.backToResultsBtn.style.display = 'none';
+
+  if (!groups.length){
+    els.globalResults.innerHTML = '<div class="result-empty">Nenhum resultado encontrado em todos os arquivos.</div>';
+    els.count.textContent = '0/0';
+    return;
+  }
+
+  const root = document.createDocumentFragment();
+  groups.forEach(g=>{
+    const box = document.createElement('div');
+    box.className = 'results-group';
+    const h = document.createElement('h4'); h.textContent = g.file.label; box.appendChild(h);
+
+    g.items.forEach(it=>{
+      const btn = document.createElement('button');
+      btn.type='button';
+      btn.className='result-item';
+      btn.dataset.url = it.url;
+      btn.innerHTML = `<b>${escapeHtml(it.title)}</b><small>${escapeHtml(it.snippet)}</small>`;
+      btn.addEventListener('click', ()=> openResultItem(it.url, state.lastGlobalTerm));
+      box.appendChild(btn);
+    });
+
+    root.appendChild(box);
+  });
+  els.globalResults.innerHTML = '';
+  els.globalResults.appendChild(root);
+
+  const total = groups.reduce((a,g)=>a+g.items.length,0);
+  els.count.textContent = `${total} resultados`;
+}
+
+async function openResultItem(url, term){
+  showToast('Abrindo resultado…');
+  els.codeSelect.value = url;
+  els.codeSelect.dispatchEvent(new Event('change'));
+  setTimeout(()=>{ els.bottomStudy.hidden=false; highlightTermChunked(term); }, 80);
+  els.backToResultsBtn.style.display = 'inline-grid';
+  els.globalResultsWrap.style.display = 'none';
+}
+
+els.backToResultsBtn.addEventListener('click', ()=>{
+  if (state.lastGlobalResults){
+    renderGlobalResults(state.lastGlobalResults, state.lastGlobalTerm);
+  }
+});
+
+/* Buscar */
+els.doSearchBtn.addEventListener('click', ()=>{
+  const term = els.searchInput.value.trim();
+  if (!term) return;
+  if (els.searchAll.checked){
+    searchAcrossAll(term);
+  } else {
+    els.globalResultsWrap.style.display = 'none';
+    els.backToResultsBtn.style.display = state.lastGlobalResults ? 'inline-grid' : 'none';
+    highlightTermChunked(term);
+  }
+});
+
+/* Enter = buscar / Esc = reset */
+els.searchInput.addEventListener('keydown', (e)=>{
+  if (e.key==='Enter'){ e.preventDefault(); els.doSearchBtn.click(); }
+  else if (e.key==='Escape'){ e.preventDefault(); resetAll(); }
+});
+
+/* Limpar campo */
+els.searchInput.addEventListener('input', ()=>{
+  els.clearSearch.hidden = !els.searchInput.value.trim();
+});
+els.clearSearch.addEventListener('click', ()=>{
+  els.searchInput.value = '';
+  els.clearSearch.hidden = true;
+  clearMarks();
+  els.count.textContent = '0/0';
+});
+
+/* =========================
+   PARTE 6/8 — Estudar com IA + Modal
+   ========================= */
+
+function buildPromptFromCurrent(){
+  if (state.currentArticleIdx < 0 || state.currentArticleIdx >= state.articles.length){
+    showToast('Selecione um artigo primeiro');
+    return null;
+  }
+  const a = state.articles[state.currentArticleIdx];
+  const s = a._split || splitBlockSupraTitleBody(a.text);
+  const title = s.titleText || a.title || 'Artigo';
+  const body = s.body || '';
+
+  return `Assuma a persona de um professor de Direito experiente convidado pelo direito.love e gere um material de estudo rápido. Analise detalhadamente todo o artigo abaixo (caput, parágrafos, incisos e alíneas), cobrindo:
+
+1. Conceito com visão doutrinária, jurisprudência majoritária e prática.
+2. Mini exemplo prático.
+3. Checklist essencial.
+4. Erros comuns e pegadinhas de prova.
+5. Pontos de atenção na prática jurídica.
+6. Princípios relacionados ao tema.
+7. Nota comparativa se houver artigos correlatos.
+
+Tema: "${title}"
+
+${body}
+
+💚 direito.love`;
+}
+
+els.studyBtn.addEventListener('click', ()=>{
+  const prompt = buildPromptFromCurrent();
+  if (!prompt) return;
+
+  els.modalTitle.textContent = 'Estude com I.A.';
+  const body = els.modalBackdrop.querySelector('.modal-body');
+  body.innerHTML = '';
+
+  const IAs = [
+    { label:'💬 ChatGPT', url:'https://chat.openai.com/' },
+    { label:'🧠 Gemini', url:'https://gemini.google.com/' },
+    { label:'🔎 Perplexity', url:'https://www.perplexity.ai/' },
+    { label:'✨ Copilot', url:'https://copilot.microsoft.com/' },
+  ];
+  IAs.forEach(ia=>{
+    const b = document.createElement('button');
+    b.className = 'ia-btn';
+    b.textContent = ia.label;
+    b.addEventListener('click', async ()=>{
+      try{
+        await navigator.clipboard.writeText(prompt);
+        showToast('✅ Prompt copiado!');
+      }catch{
+        showToast('Copie o prompt manualmente.');
+      }
+      window.open(ia.url, '_blank', 'noopener,noreferrer');
+      els.modalBackdrop.style.display = 'none';
+    });
+    body.appendChild(b);
+  });
+
+  els.modalBackdrop.style.display = 'flex';
+});
+
+els.closeModal.addEventListener('click', ()=> els.modalBackdrop.style.display='none');
+els.modalBackdrop.addEventListener('click', (e)=>{ if (e.target===els.modalBackdrop) els.modalBackdrop.style.display='none'; });
+
+/* =========================
+   PARTE 7/8 — Reset, persistência e carregamento
+   ========================= */
+
+function resetAll(){
+  els.articles.innerHTML = `
+    <div class="placeholder">
+      <p style="text-align:center; font-size:1.1rem; line-height:1.6;">
+        😎 Escolha um arquivo no topo para começar. Bons estudos!
+      </p>
+    </div>`;
+  els.globalResults.innerHTML = '';
+  els.globalResultsWrap.style.display = 'none';
+  els.bottomSearch.hidden = true;
+  els.bottomStudy.hidden = true;
+  els.backToResultsBtn.style.display = 'none';
+  els.count.textContent = '0/0';
+  els.searchInput.value = '';
+  els.clearSearch.hidden = true;
+
+  state.articles = [];
+  state.currentArticleIdx = -1;
+  state.matchNodes = [];
+  state.matchIdx = -1;
+  state.isGlobalSearch = false;
+  state.openedFromGlobal = false;
+  state.lastGlobalResults = null;
+  state.lastGlobalTerm = '';
+}
+
+function detectAndParse(txt, url){
+  if (/sumulas?/i.test(url)) return parseSumulas(txt);
+  if (/principios?/i.test(url)) return parsePrincipios(txt);
+  return parseArticlesFromText(txt);
+}
+
+async function loadSelectedFile(url){
+  if (!url){ resetAll(); return; }
+  setBusy(true);
+  try{
+    const txt = await fetchTextCached(url);
+    state.rawText = txt;
+    state.articles = detectAndParse(txt, url);
+    renderArticles();
+    localStorage.setItem('lastFile', url);
+    window.scrollTo({top:0,behavior:'auto'});
+  }catch(e){
+    console.error('Erro ao carregar arquivo:', e);
+    els.articles.innerHTML = `<div class="placeholder">Falha ao carregar o arquivo:<br><code>${(e && e.message) || 'Erro desconhecido'}</code></div>`;
+    els.bottomSearch.hidden = true;
+    els.bottomStudy.hidden = true;
+  }
+  setBusy(false);
+}
+
+els.codeSelect.addEventListener('change', (e)=>{
+  const url = e.target.value;
+  loadSelectedFile(url);
+});
+
+els.brandBtn.addEventListener('click', ()=>{
+  resetAll();
+  els.codeSelect.value = '';
+  localStorage.removeItem('lastFile');
+});
+
+window.addEventListener('DOMContentLoaded', ()=>{
+  const last = localStorage.getItem('lastFile');
+  if (last){
+    els.codeSelect.value = last;
+    loadSelectedFile(last);
+  }
+});
+
+/* =========================
+   PARTE 8/8 — Catálogo mobile, Atalhos, Service Worker
+   ========================= */
+
+/* Catálogo custom (mobile) */
+(function(){
+  const sel = els.codeSelect;
+  const openBtn = els.openPicker;
+  const sheet = els.pickerSheet;
+  const listEl = els.pickerList;
+  const searchEl = els.pickerSearch;
+
+  if (!sel || !openBtn || !sheet || !listEl || !searchEl) return;
+
+  function getGroups(){
+    const groups=[]; let current=null;
+    sel.querySelectorAll('optgroup, option').forEach(node=>{
+      if (node.tagName.toLowerCase()==='optgroup'){
+        current = { label: node.label || '', items: [] };
+        groups.push(current);
+      }else if(node.tagName.toLowerCase()==='option'){
+        const label = node.textContent.trim();
+        const value = node.value;
+        if (!label || !current) return;
+        current.items.push({ label, value });
+      }
+    });
+    return groups;
+  }
+
+  const norm = s => (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+  function render(filter=''){
+    const groups = getGroups();
+    const f = norm(filter);
+    listEl.innerHTML = '';
+    let total = 0;
+
+    groups.forEach(g=>{
+      const items = g.items.filter(it => !f || norm(it.label).includes(f));
+      if (!items.length) return;
+
+      const sec = document.createElement('div');
+      sec.className = 'list-section';
+
+      const h = document.createElement('h4');
+      h.textContent = g.label;
+      sec.appendChild(h);
+
+      items.forEach(it=>{
+        const btn = document.createElement('button');
+        btn.type='button';
+        btn.className='item';
+        let labelHTML = it.label;
+        if (f) labelHTML = it.label.replace(new RegExp(escRe(filter), 'ig'), m => `<span class="highlight">${m}</span>`);
+        btn.innerHTML = `<b>${labelHTML}</b>`;
+        btn.addEventListener('click', ()=>{
+          sel.value = it.value;
+          sel.dispatchEvent(new Event('change', {bubbles:true}));
+          close();
+        });
+        sec.appendChild(btn);
+        total++;
+      });
+
+      listEl.appendChild(sec);
+    });
+
+    if (!total){
+      listEl.innerHTML = '<div class="placeholder" style="margin:8px">Nada encontrado.</div>';
+    }
+  }
+
+  function open(){
+    sheet.hidden = false;
+    sheet.setAttribute('aria-hidden','false');
+    openBtn.setAttribute('aria-expanded','true');
+    render('');
+    document.addEventListener('keydown', onKey);
+  }
+  function close(){
+    sheet.hidden = true;
+    sheet.setAttribute('aria-hidden','true');
+    openBtn.setAttribute('aria-expanded','false');
+    document.removeEventListener('keydown', onKey);
+  }
+  function onKey(e){ if (e.key==='Escape') close(); }
+
+  openBtn.addEventListener('click', open);
+  sheet.addEventListener('click', e=>{ if (e.target.closest('[data-close]')) close(); });
+  searchEl.addEventListener('input', e=> render(e.target.value));
+
+  sel.addEventListener('change', ()=>{
+    const t = sel.options[sel.selectedIndex]?.text || 'Escolher código';
+    openBtn.textContent = t.length > 28 ? t.slice(0,28)+'…' : t;
+  });
+  openBtn.textContent = 'Escolher código';
+})();
+
+/* Atalhos */
+document.addEventListener('keydown',(e)=>{
+  const tag = (e.target.tagName||'').toLowerCase();
+  if (tag==='input' || tag==='textarea') return;
+  if (e.key === '/') { e.preventDefault(); els.searchInput.focus(); return; }
+  if (e.key === 'n') { e.preventDefault(); els.nextBtn.click(); }
+  if (e.key === 'p') { e.preventDefault(); els.prevBtn.click(); }
+  if (e.key.toLowerCase() === 's' && !e.shiftKey) { e.preventDefault(); els.studyBtn.click(); }
+  if (e.key === ']') { e.preventDefault(); scrollBy({top: window.innerHeight*0.8, behavior:'smooth'}); }
+  if (e.key === '[') { e.preventDefault(); scrollBy({top:-window.innerHeight*0.8, behavior:'smooth'}); }
+  if (e.key === 'Escape'){ e.preventDefault(); resetAll(); }
+});
+
+/* Service Worker */
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js')
+      .then(reg => console.log('Service Worker registrado:', reg.scope))
+      .catch(err => console.warn('Erro no Service Worker:', err));
+  });
+}
+  </script>
+</body>
+</html>
+
