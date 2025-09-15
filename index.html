@@ -389,7 +389,6 @@ const els = {
   // Busca (Barra 1)
   searchInput: document.getElementById('searchInput'),
   searchAll: document.getElementById('searchAll'),      // toggle "Global" (desktop texto; mobile ícone 🌐)
-  clearSearch: document.getElementById('clearSearch'),  // X interno do input
   prevBtn: document.getElementById('prevBtn'),
   nextBtn: document.getElementById('nextBtn'),
   count: document.getElementById('count'),
@@ -1140,7 +1139,6 @@ function resetAll(){
   els.backToResultsBtn.style.display = 'none';
   els.count.textContent = '0/0';
   els.searchInput.value = '';
-  els.clearSearch.hidden = true;
 
   state.articles = [];
   state.currentArticleIdx = -1;
