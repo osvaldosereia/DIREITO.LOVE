@@ -611,6 +611,15 @@ function setProgressActive(active){
     setTimeout(()=>{ els.progress.hidden = true; els.progressBar.style.width = '0%'; }, 250);
   }
 }
+    /* =========================
+   Controle de estados da busca
+   ========================= */
+function setSearchState(stateName){
+  document.body.classList.remove('pre-search','post-local','post-global');
+  document.body.classList.add(stateName);
+  state.uiState = stateName; // guarda no estado global
+}
+
 
 /* =========================
    PARTE 3/8 — Parser + Sanitização
@@ -1239,6 +1248,8 @@ function resetAll(){
   state.openedFromGlobal = false;
   state.lastGlobalResults = null;
   state.lastGlobalTerm = '';
+  setSearchState('pre-search');
+
 }
 
 function detectAndParse(txt, url){
