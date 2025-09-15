@@ -391,10 +391,7 @@
       <button class="file-indicator" id="openPicker" type="button" aria-haspopup="dialog" aria-controls="pickerSheet" title="Escolher código">
         <span id="fileIndicator">Escolher código</span>
       </button>
-      <!-- Alterna Busca Global -->
-      <button class="global-toggle" id="globalToggle" type="button" aria-pressed="false" title="Ativar/Desativar busca em todos os códigos">
-        Buscar Global: OFF
-      </button>
+      
     </div>
   </div>
 
@@ -473,7 +470,6 @@ const els = {
   // barra info (seletor + toggle)
   openPicker: document.getElementById('openPicker'),
   fileIndicator: document.getElementById('fileIndicator'),
-  globalToggle: document.getElementById('globalToggle'),
 
   // barra busca
   searchInput: document.getElementById('searchInput'),
@@ -521,10 +517,7 @@ const state = {
   // progresso
   progressTimer: null,
 
-  // global
-  globalOn: false,
-  globalGroups: [],          // grupos da última busca global (para re-render e destaque)
-  searchTicket: 0,           // controle de concorrência da busca global
+  
   cache: new Map(),          // url -> texto limpo
   urlToLabel: new Map(),     // url -> label
 };
@@ -836,14 +829,7 @@ function renderArticles(list, {globalMode=false}={}){
   updateCount();
 }
 /* =============== Destaque / Busca no DOM =============== */
-// Reconstrói o texto completo do card para pesquisar (título + supra + corpo)
-function blockFullText(a){
-  const s = a._split || splitBlockSupraTitleBody(a.text);
-  const supra = s.supra?.length ? s.supra.join('\n')+'\n' : '';
-  const title = s.titleText || a.title || '';
-  const body  = s.body || '';
-  return (title+'\n'+supra+body).trim();
-}
+
 
 // Re-render sem marcas <mark>, respeitando o modo atual (arquivo ou global)
 function clearMarksAndRerender(){
@@ -989,109 +975,12 @@ async function runLocalSearch(){
 
 /* =============== Busca Global (AND) — AGRUPADA POR ARQUIVO =============== */
 
-// Renderer dos grupos (um bloco por arquivo)
-function renderGlobalGroups(groups){
-  const frag = document.createDocumentFragment();
-  let runningIdx = 0;
-
-  if (!groups || !groups.length){
-    els.articles.innerHTML = '<div class="placeholder"><p>🤔 Nenhum resultado com todos os termos. Tente variar as palavras.</p></div>';
-  } else {
-    groups.forEach(g=>{
-      // Cabeçalho do arquivo (sempre isolando por fileUrl)
-      const sec = document.createElement('section');
-
-      const header = document.createElement('div');
-      header.className = 'group-header';
-      header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:8px 10px;margin:10px 0 2px;border:1px solid #eceff4;background:#fafbff;border-radius:10px;';
-      header.innerHTML = `
-        <div style="font-weight:800;color:#0e1638;">
-          ${g.fileLabel} <small style="font-weight:600;color:#6c7282">(${g.items.length})</small>
-        </div>
-        <button type="button" class="iconbtn open-doc" data-url="${g.fileUrl}" title="Abrir documento">⤴</button>
-      `;
-      sec.appendChild(header);
-
-      // Cards do arquivo
-      g.items.forEach(a=>{
-        const el = document.createElement('article');
-        el.dataset.idx = runningIdx++;          // índice global para navegação
-        el.id = a.htmlId || `g-${el.dataset.idx}`;
-
-        const split = a._split || splitBlockSupraTitleBody(a.text);
-
-        // supra
-        if (split.supra && split.supra.length){
-          const supra = document.createElement('div');
-          supra.className = 'supra';
-          split.supra.forEach(line=>{
-            const d = document.createElement('div');
-            d.textContent = line;
-            supra.appendChild(d);
-          });
-          el.appendChild(supra);
-        }
-
-        // título
-        const titleSpan = document.createElement('span');
-        titleSpan.className = 'art-title';
-        titleSpan.textContent = split.titleText || a.title || 'Artigo';
-        el.appendChild(titleSpan);
-
-        // corpo
-        const content = document.createElement('div');
-        content.className = 'art-body';
-        content.textContent = split.body || '';
-        el.appendChild(content);
-
-        sec.appendChild(el);
-      });
-
-      frag.appendChild(sec);
-    });
-
-    els.articles.innerHTML = '';
-    els.articles.appendChild(frag);
-  }
-
-  // barras sempre visíveis
-  els.bottomInfo.hidden = false;
-  els.bottomSearch.hidden = false;
-  els.bottomStudy.hidden = false;
-
-  // Atualiza estado (versão achatada para highlight/contador)
-  state.currentList = (groups || []).flatMap(g => g.items || []);
-  updateCurrentOutline();
-
-  // Ação "Abrir documento"
-  els.articles.querySelectorAll('.open-doc').forEach(btn=>{
-    btn.addEventListener('click', async ()=>{
-      const url = btn.getAttribute('data-url');
-      await loadFile(url);
-      // ao abrir o arquivo, sai do global
-      state.globalOn = false;
-      els.globalToggle.setAttribute('aria-pressed','false');
-      els.globalToggle.textContent = 'Buscar Global: OFF';
-    });
-  });
-
-  // Zera contador de <mark>
-  state.matchNodes = [];
-  state.matchIdx = -1;
-  updateCount();
-}
 
 
-// Helper: achata os grupos em uma lista linear (mantém ordem visual)
-function flattenGroups(groups){
-  const flat = [];
-  groups.forEach(g => g.items.forEach(it => flat.push(it)));
-  return flat;
-}
+
 
 // Nova busca global (AND entre palavras, agrupada por arquivo)
-// Busca Global (AND) — concorrência protegida e sem mistura entre arquivos
-async function runGlobalSearch(){
+
   const q = els.searchInput.value.trim();
   const tokens = q.split(/\s+/).map(normalizeTerm).filter(Boolean);
   state.currentTokens = tokens;
@@ -1316,9 +1205,9 @@ els.studyBtn.addEventListener('click', async ()=>{
 
 /* =============== Controles da busca e navegação =============== */
 els.doSearchBtn.addEventListener('click', async ()=>{
-  if (state.globalOn) await runGlobalSearch();
-  else await runLocalSearch();
+  await runLocalSearch();
 });
+
 els.searchInput.addEventListener('keydown', (e)=>{
   if (e.key === 'Enter'){ e.preventDefault(); els.doSearchBtn.click(); }
   else if (e.key === 'Escape'){ e.preventDefault(); resetAll(); }
@@ -1337,20 +1226,7 @@ els.prevBtn.addEventListener('click', ()=>{
   m.scrollIntoView({behavior:'smooth',block:'center'});
   updateCount();
 });
-els.globalToggle.addEventListener('click', ()=>{
-  state.globalOn = !state.globalOn;
-  els.globalToggle.setAttribute('aria-pressed', String(state.globalOn));
-  els.globalToggle.textContent = 'Buscar Global: ' + (state.globalOn ? 'ON' : 'OFF');
-  if (!state.globalOn && state.currentMode === 'global'){
-    // saiu do global → volta a mostrar arquivo aberto (se houver)
-    if (state.currentFileUrl){
-      state.currentMode = 'file';
-      renderArticles(state.articles, {globalMode:false});
-    } else {
-      resetAll();
-    }
-  }
-});
+
 els.resetBtn.addEventListener('click', resetAll);
 els.brandBtn.addEventListener('click', resetAll);
 
@@ -1374,9 +1250,6 @@ function resetAll(){
 
   // UI
   setFileIndicator('Escolher código');
-  els.globalToggle.setAttribute('aria-pressed','false');
-  els.globalToggle.textContent = 'Buscar Global: OFF';
-  state.globalOn = false;
 
   els.articles.innerHTML = `
     <div class="placeholder">
@@ -1394,6 +1267,7 @@ function resetAll(){
 
   window.scrollTo({top:0,behavior:'instant'});
 }
+
 
 /* =============== Boot =============== */
 document.addEventListener('DOMContentLoaded', ()=>{
