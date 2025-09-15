@@ -173,10 +173,23 @@
       width:clamp(320px, 92vw, 960px); padding:0 12px; display:flex; align-items:center; gap:12px;
     }
     .study,.do-search{
-      flex:1 1 0; padding:12px 16px; border-radius:12px; font-weight:800; cursor:pointer;
-    }
-    .study{ border:1px solid #0e2a7a; background:#142B6F; color:#fff; }
-    .do-search{ border:1px solid #f0e08b; background:var(--yellow); color:#0a0a0a; }
+  flex:1 1 0; padding:12px 16px; border-radius:12px; font-weight:800; cursor:pointer;
+  transition: background .2s, color .2s, transform .1s;
+}
+.study{
+  border:1px solid #FFD601;
+  background:#FFD601;
+  color:#0a0a0a; /* texto escuro sobre amarelo */
+}
+.study:hover{ background:#ffe84a; transform:translateY(-1px); }
+
+.do-search{
+  border:1px solid #fff;
+  background:#fff;
+  color:#142B6F; /* texto azul sobre fundo branco */
+}
+.do-search:hover{ background:#f7f8fc; transform:translateY(-1px); }
+
 
     /* Modal IA */
     .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.28); display:none; align-items:center; justify-content:center; z-index:100}
