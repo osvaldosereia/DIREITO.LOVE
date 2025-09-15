@@ -461,7 +461,7 @@ function showToast(msg='✅ Pronto!'){
 }
 
 function setBusy(isBusy){
-  els.bottomBarr.setAttribute('aria-busy', String(isBusy));
+  els.bottomBar.setAttribute('aria-busy', String(isBusy));
   els.doSearchBtn.disabled = isBusy;
   els.prevBtn.disabled = isBusy;
   els.nextBtn.disabled = isBusy;
@@ -672,7 +672,7 @@ function renderArticles(){
   els.articles.innerHTML = '';
   els.articles.appendChild(frag);
 
-  els.bottomBarr.hidden = false;
+  els.bottomBar.hidden = false;
   els.bottomBar.hidden = false;
 
   updateCurrentOutline();
@@ -1134,7 +1134,7 @@ function resetAll(){
     </div>`;
   els.globalResults.innerHTML = '';
   els.globalResultsWrap.style.display = 'none';
-  els.bottomBarr.hidden = true;
+  els.bottomBar.hidden = true;
   els.bottomBar.hidden = true;
   els.backToResultsBtn.style.display = 'none';
   els.count.textContent = '0/0';
@@ -1171,7 +1171,7 @@ async function loadSelectedFile(url){
   }catch(e){
     console.error('Erro ao carregar arquivo:', e);
     els.articles.innerHTML = `<div class="placeholder">Falha ao carregar o arquivo:<br><code>${(e && e.message) || 'Erro desconhecido'}</code></div>`;
-    els.bottomBarr.hidden = true;
+    els.bottomBar.hidden = true;
     els.bottomBar.hidden = true;
   }
   setBusy(false);
