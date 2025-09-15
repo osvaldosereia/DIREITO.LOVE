@@ -1,8 +1,11 @@
 {
-  "name": "Direito.Love",
+  "name": "Direito.Love — Mini Vade Mecum Digital",
   "short_name": "Direito.Love",
+  "description": "O Mini Vade Mecum Digital que também te auxilia nos estudos com I.A.",
   "start_url": "/index.html",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#0d47a1",
   "icons": [
