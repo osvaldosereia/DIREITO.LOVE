@@ -1273,19 +1273,23 @@ window.addEventListener('DOMContentLoaded', ()=>{
     }
   }
 
-  function open(){
+   function open(){
     sheet.hidden = false;
+    sheet.style.display = 'flex'; // garante que aparece no mobile
     sheet.setAttribute('aria-hidden','false');
     openBtn.setAttribute('aria-expanded','true');
     render('');
+    // ⚠️ removi o foco automático no campo de busca para não travar em celulares
     document.addEventListener('keydown', onKey);
   }
   function close(){
     sheet.hidden = true;
+    sheet.style.display = 'none'; // garante que some corretamente
     sheet.setAttribute('aria-hidden','true');
     openBtn.setAttribute('aria-expanded','false');
     document.removeEventListener('keydown', onKey);
   }
+
   function onKey(e){ if (e.key==='Escape') close(); }
 
   openBtn.addEventListener('click', open);
