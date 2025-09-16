@@ -364,11 +364,21 @@
   outline-offset: 2px;
 }
 
-/* Efeito active (clique) */
-.ia-btn:active {
-  transform: scale(0.97); /* encolhe levemente */
+  .ia-btn:active{
+    transform:scale(0.98);
+  }
 }
 
+/* Limite de largura no desktop */
+@media (min-width: 1024px){
+  .file-indicator,
+  .study,
+  .do-search,
+  .bottom-search-inner input {
+    max-width: 220px;
+    flex:0 1 auto;
+  }
+}
 
     .ia-btn:focus{outline:2px solid var(--focus); outline-offset:2px}
     .modal .foot{margin-top:12px; display:flex; justify-content:flex-end}
