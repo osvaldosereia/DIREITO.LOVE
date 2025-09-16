@@ -598,7 +598,9 @@ function splitBlockSupraTitleBody(raw){
 
     const afterTitle = titleLine.slice(mt ? mt[1].length : 0).trimStart();
     const rest = lines.slice(artIdx+1).join('\n').trimStart();
-    const body = afterTitle ? (rest ? afterTitle + '\n' + rest : afterTitle) : rest;
+const body = formatBodyWithBlankLines(
+  afterTitle ? (rest ? afterTitle + '\n' + rest : afterTitle) : rest
+);
 
     return { supra, titleText, body };
   } else {
