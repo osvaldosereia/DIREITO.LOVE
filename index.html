@@ -853,7 +853,7 @@
 
         if (tokens.every(t => textNorm.includes(t))){
           state.matchArticles.push(art);
-          tokens.forEach(t => highlightToken(art, t)); // destaca
+          highlightTokens(art, tokens); // destaca todas de uma vez
         }
       }
 
