@@ -759,14 +759,11 @@ function renderArticles(list, {globalMode=false}={}){
     const content = document.createElement('div');
     content.className = 'art-body';
 content.innerHTML = (split.body || '')
-  // adiciona linha em branco antes de incisos (I, II, III...)
-  .replace(/(\n)([IVXLCDM]+ - )/g, '<br><br>$2')
-  // adiciona linha em branco antes de alíneas (a), b), c) …)
-  .replace(/(\n)([a-z]\))/g, '<br><br>$2')
-  // adiciona linha em branco antes de parágrafos (§ ou Parágrafo único)
-  .replace(/(\n)(§|Parágrafo único)/g, '<br><br>$2')
-  // converte as demais quebras normalmente
+  // transforma \n\n em <br><br> (salto de linha visível)
+  .replace(/\n\n/g, '<br><br>')
+  // o restante das quebras em <br>
   .replace(/\n/g, '<br>');
+
 
     el.appendChild(content);
 
