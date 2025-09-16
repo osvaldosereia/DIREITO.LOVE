@@ -860,9 +860,13 @@ function setBusy(isBusy){
   setProgressActive(isBusy);
 }
 function updateCount(){
-  if (!state.matchNodes.length){ els.count.textContent = '0/0'; return; }
-  els.count.textContent = `${state.matchIdx+1}/${state.matchNodes.length}`;
+  if (!state.matchArticles || state.matchArticles.length === 0){
+    els.count.textContent = '0/0';
+    return;
+  }
+  els.count.textContent = `${state.matchIdx+1}/${state.matchArticles.length}`;
 }
+
 function setFileIndicator(label){
   const full = (label || 'Escolher código').trim();
   els.fileIndicator.textContent = full;
@@ -1146,9 +1150,7 @@ function clearMarksAndRerender(){
 async function highlightTokensChunked(tokens){
   clearMarksAndRerender();
   if (!tokens.length) return;
-
   state.matchArticles = []; // 🔥 reinicia a lista de artigos achados
-
   setBusy(true);
   els.count.textContent = '...';
 
