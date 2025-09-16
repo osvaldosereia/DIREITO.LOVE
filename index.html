@@ -726,18 +726,20 @@
     }
 
     /* =================== Destaque =================== */
-    function highlightToken(art, token){
-      const parts = ['.art-title', '.art-body', '.supra > div'];
-      parts.forEach(sel=>{
-        art.querySelectorAll(sel).forEach(el=>{
-          const raw = el.textContent;
-          // Usa propriedades Unicode para letras e números
-          el.innerHTML = raw.replace(/([\p{L}\p{N}]+)/gu, m=>{
-            return norm(m).includes(token) ? `<mark>${m}</mark>` : m;
-          });
-        });
+    function highlightTokens(art, tokens){
+  const parts = ['.art-title', '.art-body', '.supra > div'];
+  parts.forEach(sel=>{
+    art.querySelectorAll(sel).forEach(el=>{
+      const raw = el.textContent;
+      el.innerHTML = raw.replace(/([\p{L}\p{N}]+)/gu, m=>{
+        return tokens.some(t => norm(m).includes(t))
+          ? `<mark>${m}</mark>` 
+          : m;
       });
-    }
+    });
+  });
+}
+
 
     /* =================== Scroll / Outline =================== */
     function getArticleInView(){
