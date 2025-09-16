@@ -760,12 +760,12 @@ function renderArticles(list, {globalMode=false}={}){
     content.className = 'art-body';
 content.innerHTML = (split.body || '')
   // adiciona linha em branco antes de incisos (I, II, III...)
-  .replace(/(\n)([IVXLCDM]+ - )/g, '\n<br>$2')
+  .replace(/(\n)([IVXLCDM]+ - )/g, '<br><br>$2')
   // adiciona linha em branco antes de alíneas (a), b), c) …)
-  .replace(/(\n)([a-z]\))/g, '\n<br>$2')
+  .replace(/(\n)([a-z]\))/g, '<br><br>$2')
   // adiciona linha em branco antes de parágrafos (§ ou Parágrafo único)
-  .replace(/(\n)(§|Parágrafo único)/g, '\n<br>$2')
-  // converte as quebras restantes normalmente
+  .replace(/(\n)(§|Parágrafo único)/g, '<br><br>$2')
+  // converte as demais quebras normalmente
   .replace(/\n/g, '<br>');
 
     el.appendChild(content);
