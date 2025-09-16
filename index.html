@@ -695,9 +695,22 @@
         el.appendChild(titleSpan);
 
         const content = document.createElement('div');
-        content.className = 'art-body';
-        content.textContent = split.body || '';
-        el.appendChild(content);
+content.className = 'art-body';
+
+// garante quebra de linha extra antes de §, Parágrafo único, incisos e alíneas
+let body = split.body || '';
+body = body
+  .replace(/(^|\n)(\s*(?:§|Parágrafo único))/g, "\n\n$2")   // parágrafos
+  .replace(/(^|\n)(\s*[IVXLCDM]+ ?-)/g, "\n\n$2")           // incisos
+  .replace(/(^|\n)(\s*[a-z]\))/g, "\n\n$2");                // alíneas
+
+// converte \n\n em salto real, e o restante em quebra simples
+content.innerHTML = body
+  .replace(/\n\n/g, '<br><br>')
+  .replace(/\n/g, '<br>');
+
+el.appendChild(content);
+
 
         frag.appendChild(el);
       });
