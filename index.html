@@ -225,8 +225,20 @@
     /* Responsivo */
     .select-wrap, #codeSelect{ display:none !important; }
     @media (max-width: 768px){ .brand{ height:38px; } }
-    @media (min-width: 1024px){
-      .file-indicator,.study,.do-search,.bottom-search-inner input { max-width: 140px; flex:0 1 auto; }
+   @media (min-width: 1024px){
+  .file-indicator,.study,.do-search { 
+    max-width: 140px; 
+    flex:0 1 auto; 
+  }
+  .bottom-search-inner .search{ 
+    flex:1; 
+  }
+  .bottom-search-inner .search input{
+    flex:1;
+    max-width:none;   /* 🔥 campo ocupa todo o espaço disponível */
+  }
+}
+
       .bottom-info-inner,.bottom-study-inner,.bottom-search-inner { justify-content:center; gap:10px; }
       .sheet-panel{ width:min(720px,96vw); left:50%; right:auto; transform:translateX(-50%); border-radius:16px; }
       .sheet-head,.sheet-search,.sheet-body{ padding-left:20px; padding-right:20px; }
