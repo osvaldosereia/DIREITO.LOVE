@@ -1274,22 +1274,18 @@ async function runLocalSearch(){
   // Renderiza todos os artigos SEM filtrar
   renderArticles(state.articles, { globalMode: false });
 
-  // Aplica highlight apenas nos que batem TODAS as palavras
-  const marks = [];
-  state.articles.forEach(a => {
+  // Procura os artigos que contêm TODAS as palavras
+  const matches = state.articles.filter(a => {
     const text = (a.text || '').toLowerCase();
-    const isMatch = tokens.every(t => text.includes(t));
-    if (isMatch) {
-      marks.push(a.id); // marca esse artigo como achado válido
-    }
+    return tokens.every(t => text.includes(t.toLowerCase()));
   });
 
-  // Faz highlight em todos os tokens
+  // Destaca todos os tokens (inclusive nos artigos que não são match total)
   await highlightTokensChunked(tokens);
 
-  // Rola até o primeiro achado válido
-  if (marks.length > 0) {
-    const first = document.querySelector(`#art-${marks[0]} mark`);
+  // Rola até o primeiro artigo que realmente contenha todas as palavras
+  if (matches.length > 0) {
+    const first = document.querySelector(`#art-${matches[0].id} mark`);
     if (first) first.scrollIntoView({ behavior:"smooth", block:"center" });
   }
 }
