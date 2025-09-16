@@ -29,12 +29,13 @@
   --bar-bg-2:#142B6F;      /* barra de estudo azul navy forte */
 
 
-  /* Dimensões ajustadas */
+  /* Dimensões ajustadas (mais compactas) */
   --topbar-h: 54px;
-  --progress-h: 10px;      /* barra de carregamento mais fina */
-  --bottom-info-h: 52px;   /* seletor um pouco mais enxuto */
-  --bottom-search-h: 60px; /* busca mais espaçosa */
-  --bottom-study-h: 68px;  /* estudo mais destacado */
+  --progress-h: 8px;       /* um pouco mais fina */
+  --bottom-info-h: 44px;   /* seletor reduzido */
+  --bottom-search-h: 52px; /* busca mais contida */
+  --bottom-study-h: 56px;  /* estudo menos exagerado */
+
 
 
   /* UI */
@@ -178,9 +179,13 @@
   z-index:70; display:flex; align-items:center; justify-content:center;
 }
     .bottom-search-inner{
-      width:clamp(320px, 92vw, 960px);
-      display:flex; align-items:center; gap:8px; padding:8px 12px;
-    }
+  width:clamp(320px, 92vw, 960px);
+  display:flex;
+  align-items:center;
+  gap:6px;          /* menos espaço entre itens */
+  padding:6px 10px; /* barra mais compacta */
+}
+
    .iconbtn{
   width:32px;
   height:32px;
@@ -224,16 +229,17 @@
     .search{flex:1; display:flex; align-items:center; gap:8px; min-width:0}
     .search input{
   width:100%;
-  height:36px;
+  height:38px;
   border:1px solid #cfd4e2;
-  border-radius:10px;
-  padding:0 12px;
+  border-radius:8px;
+  padding:0 14px;
   background:#fff;
-  flex:1 1 auto;
+  flex:2 1 auto;   /* ocupa mais espaço proporcional */
   min-width:0;
   box-shadow:0 1px 2px rgba(0,0,0,.05);
   transition:border .2s, box-shadow .2s;
 }
+
 .search input:focus{
   border-color:#9bb6ff;
   box-shadow:0 0 0 3px rgba(155,182,255,.35);
