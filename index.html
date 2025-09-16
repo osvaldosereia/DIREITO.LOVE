@@ -410,15 +410,17 @@
       padding-bottom:max(8px, env(safe-area-inset-bottom));
       box-shadow:0 -8px 24px rgba(0,0,0,.12);
     }
-    /* Desktop: sheet centralizado e com folga lateral */
+    /* Só no desktop */
 @media (min-width: 1024px){
-  .sheet-panel{
-    width: min(650px, 96vw);   /* limita a largura */
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%); /* centraliza */
-    border-radius: 16px;         /* mantém cantos arredondados */
+  .sheet-panel {
+    width:clamp(320px, 60vw, 440px); /* mais estreito no desktop */
+    left:50%;
+    right:auto;
+    transform:translateX(-50%); /* mantém centralizado */
+    border-radius:16px;
   }
+}
+
   /* Aumenta o respiro interno no desktop */
   .sheet-head,
   .sheet-search,
