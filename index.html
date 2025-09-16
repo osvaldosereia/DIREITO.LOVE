@@ -1177,9 +1177,10 @@ async function highlightTokensChunked(tokens){
       if (!el) return;
       let raw = el.textContent;
       tokens.forEach(t => {
-        const regex = new RegExp(`\\b(${t})\\b`, "gi");
-        raw = raw.replace(regex, `<mark>$1</mark>`);
-      });
+  const regex = new RegExp(`\\b(${t})\\b`, "gi"); // garante palavra isolada
+  raw = raw.replace(regex, `<mark>$1</mark>`);
+});
+
       el.innerHTML = raw;
     });
 
