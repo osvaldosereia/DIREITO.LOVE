@@ -1271,14 +1271,27 @@ async function runLocalSearch(){
   const tokens = q.split(/\s+/).filter(Boolean);
   state.currentTokens = tokens;
 
-  // Filtra lista: só mantém artigos que contenham TODAS as palavras
-  const filtered = state.articles.filter(a => {
+  // Renderiza todos os artigos SEM filtrar
+  renderArticles(state.articles, { globalMode: false });
+
+  // Aplica highlight apenas nos que batem TODAS as palavras
+  const marks = [];
+  state.articles.forEach(a => {
     const text = (a.text || '').toLowerCase();
-    return tokens.every(t => text.includes(t.toLowerCase()));
+    const isMatch = tokens.every(t => text.includes(t));
+    if (isMatch) {
+      marks.push(a.id); // marca esse artigo como achado válido
+    }
   });
 
-  renderArticles(filtered, { globalMode: false });
+  // Faz highlight em todos os tokens
   await highlightTokensChunked(tokens);
+
+  // Rola até o primeiro achado válido
+  if (marks.length > 0) {
+    const first = document.querySelector(`#art-${marks[0]} mark`);
+    if (first) first.scrollIntoView({ behavior:"smooth", block:"center" });
+  }
 }
 
 
