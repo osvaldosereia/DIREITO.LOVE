@@ -273,6 +273,24 @@
       padding-bottom:max(8px, env(safe-area-inset-bottom));
       box-shadow:0 -8px 24px rgba(0,0,0,.12);
     }
+    /* Desktop: sheet centralizado e com folga lateral */
+@media (min-width: 1024px){
+  .sheet-panel{
+    width: min(920px, 96vw);   /* limita a largura */
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%); /* centraliza */
+    border-radius: 16px;         /* mantém cantos arredondados */
+  }
+  /* Aumenta o respiro interno no desktop */
+  .sheet-head,
+  .sheet-search,
+  .sheet-body{
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
     .sheet-head{ display:flex; align-items:center; justify-content:space-between;
       padding:12px 16px; border-bottom:1px solid #eceef2; }
     .sheet-title{ color:#0e1638; font-weight:800; }
