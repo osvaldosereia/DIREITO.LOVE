@@ -1141,8 +1141,8 @@ function clearMarksAndRerender(){
   renderArticles(state.currentList || [], { globalMode: false });
 }
 
-// Realça os termos em lotes para manter a UI fluida
-// Destaque com a regra de "todas as palavras no mesmo card"
+
+// Destaque com a regra de "todas as palavras no mesmo card" e palavras isoladas
 async function highlightTokensChunked(tokens){
   clearMarksAndRerender();
   if (!tokens.length) return;
@@ -1165,16 +1165,19 @@ async function highlightTokensChunked(tokens){
       ...Array.from(supraEls).map(e => e.textContent || '')
     ].join(' ').toLowerCase();
 
-    // Verifica se TODAS as palavras estão presentes no card
-    const isMatch = tokens.every(t => fullText.includes(t.toLowerCase()));
+    // Verifica se TODAS as palavras estão presentes no card (palavras isoladas)
+    const isMatch = tokens.every(t => {
+      const regex = new RegExp(`\\b${t}\\b`, "i");
+      return regex.test(fullText);
+    });
     if (!isMatch) continue;
 
-    // Marca cada palavra dentro dos elementos
+    // Se o card tem todas as palavras, marca cada uma delas (palavras isoladas)
     [bodyEl, titleEl, ...supraEls].forEach(el => {
       if (!el) return;
       let raw = el.textContent;
       tokens.forEach(t => {
-        const regex = new RegExp(`(${t})`, "gi");
+        const regex = new RegExp(`\\b(${t})\\b`, "gi");
         raw = raw.replace(regex, `<mark>$1</mark>`);
       });
       el.innerHTML = raw;
@@ -1195,6 +1198,7 @@ async function highlightTokensChunked(tokens){
   updateCount();
   setBusy(false);
 }
+
 
 
 /* =============== Scroll / Outline =============== */
