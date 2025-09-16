@@ -238,18 +238,35 @@
 .do-search:hover{ background:#f7f8fc; transform:translateY(-1px); }
 
 
-    /* Modal IA */
-    .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,.28); display:none; align-items:center; justify-content:center; z-index:100}
-    .modal{
-      background:#fff; border-radius:16px; width:min(640px, 92vw); padding:18px; border:1px solid #eceef7; box-shadow: var(--shadow)
-    }
-    .modal h3{margin:0 0 8px; color:#0f173a}
-    .modal .subtitle{margin:0 0 14px; font-size:13px; color:#3a7f48}
-    .ia-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px}
-    .ia-btn{
-      display:flex; align-items:center; gap:10px; padding:12px; border:1px solid #e6e8f2; background:#f6f7fb;
-      border-radius:12px; cursor:pointer; text-decoration:none; color:#111; font-weight:700; justify-content:center;
-    }
+    .modal h3 {
+  margin: 0 0 8px;
+  color: #0f173a;
+  font-size: 1.1rem;   /* levemente menor */
+  font-weight: 600;    /* menos pesado */
+}
+
+.modal .subtitle {
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+  color: #666;         /* cinza mais neutro */
+  font-weight: 400;    /* peso normal */
+}
+
+.ia-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #e6e8f2;
+  background: #f6f7fb;
+  border-radius: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #111;
+  font-weight: 500;    /* antes era 700 */
+  justify-content: center;
+}
+
     .ia-btn:focus{outline:2px solid var(--focus); outline-offset:2px}
     .modal .foot{margin-top:12px; display:flex; justify-content:flex-end}
     .modal .close-btn{padding:8px 12px; border:1px solid #e2e5f2; background:#fff; border-radius:10px; cursor:pointer}
