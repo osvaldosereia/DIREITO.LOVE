@@ -122,27 +122,21 @@
 }
 
 .file-indicator{
-  flex:0 0 auto;
-  min-width:280px;
-  max-width:100%;
-  margin:0 auto;
-
-  /* aparência de botão */
+  flex:1 1 0;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  gap:8px;
-
   font-size:14px;
   font-weight:700;
   color:#142B6F;
   background:linear-gradient(#ffffff, #f3f6ff);
   border:2px solid #b9cffb;
-  padding:10px 18px;
+  padding:12px 16px;
   border-radius:12px;
   box-shadow:0 1px 2px rgba(0,0,0,.06);
   cursor:pointer;
   text-align:center;
+  transition: background .2s, border .2s, transform .1s, box-shadow .2s;
 
   /* mantém truncamento se o texto for grande */
   overflow:hidden; white-space:nowrap; text-overflow:ellipsis;
@@ -164,6 +158,7 @@
   outline:2px solid var(--focus);
   outline-offset:2px;
 }
+
 
 
     .global-toggle{
