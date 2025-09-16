@@ -181,26 +181,26 @@
       width:clamp(320px, 92vw, 960px);
       display:flex; align-items:center; gap:8px; padding:8px 12px;
     }
-    .iconbtn{
-  width:38px;
-  height:38px;
-  flex:0 0 38px;
+   .iconbtn{
+  width:32px;
+  height:32px;
+  flex:0 0 32px;
   display:grid;
   place-items:center;
   cursor:pointer;
   user-select:none;
 
-  font-size:16px;
+  font-size:14px;
   line-height:1;
-  border-radius:10px;
+  border-radius:8px;
 
-  /* aparência consistente com os outros botões */
   background:linear-gradient(#ffffff, #f3f6ff);
   border:2px solid #b9cffb;
   box-shadow:0 1px 2px rgba(0,0,0,.06);
 
   transition: background .2s, border .2s, transform .1s, box-shadow .2s;
 }
+
 .iconbtn:hover{
   background:#eef3ff;
   border-color:#9bb6ff;
@@ -245,9 +245,16 @@
     .spinner[hidden]{display:none}
     @keyframes spin{to{transform:rotate(360deg)}}
     .result-count{
-      min-width:68px; font-size:12px; color:#6c7282; border:1px solid #e2e5f2;
-      background:#f7f8fc; padding:6px 10px; border-radius:8px; text-align:center;
-    }
+  min-width:52px;
+  font-size:11px;
+  color:#6c7282;
+  border:1px solid #e2e5f2;
+  background:#f7f8fc;
+  padding:4px 8px;
+  border-radius:6px;
+  text-align:center;
+}
+
 
    /* ===== Base — Barra 2 (ESTUDAR / BUSCAR) ===== */
 .bottom-study{
