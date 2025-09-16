@@ -1151,47 +1151,40 @@ function clearMarksAndRerender(){
 async function highlightTokensChunked(tokens){
   clearMarksAndRerender();
   if (!tokens.length) return;
-  state.matchArticles = []; // 🔥 reinicia a lista de artigos achados
+
+  state.matchArticles = [];
   setBusy(true);
   els.count.textContent = '...';
 
   const articles = document.querySelectorAll('article');
-  state.matchArticles = []; // 👈 inicializa a lista de matches sempre
 
   for (const art of articles){
     const bodyEl = art.querySelector('.art-body');
     const titleEl = art.querySelector('.art-title');
     const supraEls = art.querySelectorAll('.supra > div');
 
-    const fullText = [
-      bodyEl?.textContent || '',
-      titleEl?.textContent || '',
-      ...Array.from(supraEls).map(e => e.textContent || '')
-    ].join(' ').toLowerCase();
+    const elements = [bodyEl, titleEl, ...supraEls];
+    const fullNorm = normSearch(elements.map(e=>e?.textContent||'').join(' '));
 
-    // verifica se todas as palavras existem no card
-    const isMatch = tokens.every(t => {
-      const regex = new RegExp(`\\b${t}\\b`, "i");
-      return regex.test(fullText);
-    });
+    // confere se todos tokens existem
+    const isMatch = tokens.every(t => fullNorm.includes(t));
     if (!isMatch) continue;
 
-    // aplica destaque em cada parte do card
-    [bodyEl, titleEl, ...supraEls].forEach(el => {
+    // aplica destaque mantendo o texto original
+    elements.forEach(el=>{
       if (!el) return;
       let raw = el.textContent;
-      tokens.forEach(t => {
-        const regex = new RegExp(`\\b(${t})\\b`, "gi");
-        raw = raw.replace(regex, `<mark>$1</mark>`);
+      tokens.forEach(t=>{
+        raw = raw.replace(/([A-Za-zÀ-ÿ]+)/g, m=>{
+          return normSearch(m).includes(t) ? `<mark>${m}</mark>` : m;
+        });
       });
       el.innerHTML = raw;
     });
 
-    // salva o artigo válido
     state.matchArticles.push(art);
   }
 
-  // navegação pelas setas
   if (state.matchArticles.length){
     state.matchIdx = 0;
     state.matchArticles[0].scrollIntoView({behavior:'smooth', block:'center'});
@@ -1199,12 +1192,9 @@ async function highlightTokensChunked(tokens){
     state.matchIdx = -1;
   }
 
-   updateCount();   // 🔥 contador atualizado com a lista real
+  updateCount();
   setBusy(false);
 }
-
-
-
 
 
 /* =============== Scroll / Outline =============== */
@@ -1299,19 +1289,16 @@ async function runLocalSearch(){
   const q = els.searchInput.value.trim();
   if (!q) { clearMarksAndRerender(); return; }
 
-  const tokens = q.split(/\s+/).filter(Boolean);
+  const tokens = q.split(/\s+/).filter(Boolean).map(normSearch);
   state.currentTokens = tokens;
 
   // Renderiza todos os artigos SEM filtrar
   renderArticles(state.articles, { globalMode: false });
 
-  // Verifica quais artigos têm TODAS as palavras isoladas
+  // Verifica quais artigos têm TODAS as palavras normalizadas
   const matches = state.articles.filter(a => {
-    const text = (a.text || '').toLowerCase();
-    return tokens.every(t => {
-      const regex = new RegExp(`\\b${t}\\b`, "i");
-      return regex.test(text);
-    });
+    const textNorm = normSearch(a.text || '');
+    return tokens.every(t => textNorm.includes(t));
   });
 
   // Destaca os tokens válidos
@@ -1319,14 +1306,10 @@ async function runLocalSearch(){
 
   // Rola até o primeiro achado válido
   if (matches.length > 0) {
-    const first = document.querySelector(`#art-${matches[0].id} mark`);
+    const first = document.querySelector(`#${matches[0].htmlId} mark`);
     if (first) first.scrollIntoView({ behavior:"smooth", block:"center" });
   }
 }
-
-
-
-
 
 /* =============== Sheet (seletor na base) =============== */
 function norm(s){ return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); }
