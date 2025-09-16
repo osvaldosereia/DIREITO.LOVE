@@ -249,13 +249,13 @@
 .art-body {
   white-space: pre-line;   /* respeita \n e \n\n */
   line-height: 1.6;
+  margin-bottom: 12px;     /* espaço entre artigos */
 }
 
-.art-body br,
-.art-body {
-  display: block;
-  margin-bottom: 12px;  /* cria espaço visível entre blocos */
+.art-body p {
+  margin: 0 0 12px;        /* se no futuro você renderizar <p>, terá espaçamento */
 }
+
 
   </style>
 </head>
