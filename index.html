@@ -251,10 +251,25 @@
     .bottom-study-inner{
       width:clamp(320px, 92vw, 960px); padding:0 12px; display:flex; align-items:center; gap:12px;
     }
-    .study,.do-search{
-  flex:1 1 0; padding:12px 16px; border-radius:12px; font-weight:800; cursor:pointer;
-  transition: background .2s, color .2s, transform .1s;
+    .study,
+.do-search{
+  flex:1 1 0;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  font-weight:700;
+  color:#142B6F;
+  background:linear-gradient(#ffffff, #f3f6ff);
+  border:2px solid #b9cffb;
+  padding:12px 16px;
+  border-radius:12px;
+  box-shadow:0 1px 2px rgba(0,0,0,.06);
+  cursor:pointer;
+  text-align:center;
+  transition: background .2s, border .2s, transform .1s, box-shadow .2s;
 }
+
 .study,
 .do-search{
   flex:1 1 0;
