@@ -1317,7 +1317,7 @@ function escRe(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
 
 function renderPicker(filter=''){
   const groups = getGroupsFromSelect();
-  const f = norm(filter);
+  const f = norm(filter); // 🔥 normaliza o termo buscado
   els.pickerList.innerHTML = '';
   let total = 0;
 
@@ -1332,8 +1332,25 @@ function renderPicker(filter=''){
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'item';
+
       let labelHTML = it.label;
-      if (f) labelHTML = it.label.replace(new RegExp(escRe(filter), 'ig'), m => `<span class="highlight">${m}</span>`);
+      if (f){
+        const normLabel = norm(it.label);
+        const normFilter = escRe(f);
+        const regex = new RegExp(normFilter, 'gi');
+        let highlighted = '';
+        let lastIndex = 0;
+
+        // recria string preservando acentos mas destacando o match
+        normLabel.replace(regex, (_, offset)=>{
+          highlighted += escapeHtml(it.label.slice(lastIndex, offset));
+          highlighted += `<span class="highlight">${escapeHtml(it.label.slice(offset, offset + filter.length))}</span>`;
+          lastIndex = offset + filter.length;
+        });
+        highlighted += escapeHtml(it.label.slice(lastIndex));
+        labelHTML = highlighted;
+      }
+
       btn.innerHTML = `<b>${labelHTML}</b>`;
       btn.addEventListener('click', async ()=>{
         await loadFile(it.value);
@@ -1350,6 +1367,7 @@ function renderPicker(filter=''){
     els.pickerList.innerHTML = '<div class="placeholder" style="margin:8px">Nada encontrado.</div>';
   }
 }
+
 function openPicker(){
   els.pickerSheet.hidden = false;
   els.pickerSheet.setAttribute('aria-hidden', 'false');
