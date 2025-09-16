@@ -390,10 +390,14 @@
   background:#fff;
   border-radius:16px;
   width:min(640px, 92vw);
+  max-width:96vw;                 /* não encosta nas laterais */
   padding:18px;
   border:1px solid #eceef7;
   box-shadow: var(--shadow);
+  max-height:calc(100vh - 48px);  /* evita estourar a tela */
+  overflow:auto;                  /* rolagem se o conteúdo passar */
 }
+
 
 .modal h3{
   margin:0 0 8px;
