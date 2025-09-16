@@ -1447,21 +1447,24 @@ els.searchInput.addEventListener('keydown', (e)=>{
   if (e.key === 'Enter'){ e.preventDefault(); els.doSearchBtn.click(); }
   else if (e.key === 'Escape'){ e.preventDefault(); resetAll(); }
 });
+// Próximo card achado
 els.nextBtn.addEventListener('click', ()=>{
-  if (!state.matchArticles || !state.matchArticles.length) return;
+  if (!state.matchArticles || state.matchArticles.length === 0) return;
   state.matchIdx = (state.matchIdx + 1) % state.matchArticles.length;
   const art = state.matchArticles[state.matchIdx];
-  art.scrollIntoView({behavior:'smooth',block:'center'});
+  art.scrollIntoView({behavior:'smooth', block:'center'});
   updateCount();
 });
 
+// Card anterior achado
 els.prevBtn.addEventListener('click', ()=>{
-  if (!state.matchArticles || !state.matchArticles.length) return;
+  if (!state.matchArticles || state.matchArticles.length === 0) return;
   state.matchIdx = (state.matchIdx - 1 + state.matchArticles.length) % state.matchArticles.length;
   const art = state.matchArticles[state.matchIdx];
-  art.scrollIntoView({behavior:'smooth',block:'center'});
+  art.scrollIntoView({behavior:'smooth', block:'center'});
   updateCount();
 });
+
 
 
 els.resetBtn.addEventListener('click', resetAll);
