@@ -1251,10 +1251,20 @@ async function loadFile(url){
 async function runLocalSearch(){
   const q = els.searchInput.value.trim();
   if (!q) { clearMarksAndRerender(); return; }
+
   const tokens = q.split(/\s+/).filter(Boolean);
   state.currentTokens = tokens;
+
+  // Filtra lista: só mantém artigos que contenham TODAS as palavras
+  const filtered = state.articles.filter(a => {
+    const text = (a.text || '').toLowerCase();
+    return tokens.every(t => text.includes(t.toLowerCase()));
+  });
+
+  renderArticles(filtered, { globalMode: false });
   await highlightTokensChunked(tokens);
 }
+
 
 /* =============== Sheet (seletor na base) =============== */
 function norm(s){ return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); }
