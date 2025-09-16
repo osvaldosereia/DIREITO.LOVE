@@ -1288,7 +1288,7 @@ async function loadFile(url){
 }
 
 /* =============== Busca Local (arquivo atual) =============== */
-// Busca local (só considera achado se TODAS as palavras estiverem no mesmo card)
+// Busca local (só considera achado se TODAS as palavras estiverem no mesmo card e forem isoladas)
 async function runLocalSearch(){
   const q = els.searchInput.value.trim();
   if (!q) { clearMarksAndRerender(); return; }
@@ -1299,9 +1299,25 @@ async function runLocalSearch(){
   // Renderiza todos os artigos SEM filtrar
   renderArticles(state.articles, { globalMode: false });
 
-  // Realça apenas onde TODAS as palavras existem no mesmo card
+  // Verifica quais artigos têm TODAS as palavras isoladas
+  const matches = state.articles.filter(a => {
+    const text = (a.text || '').toLowerCase();
+    return tokens.every(t => {
+      const regex = new RegExp(`\\b${t}\\b`, "i");
+      return regex.test(text);
+    });
+  });
+
+  // Destaca os tokens válidos
   await highlightTokensChunked(tokens);
+
+  // Rola até o primeiro achado válido
+  if (matches.length > 0) {
+    const first = document.querySelector(`#art-${matches[0].id} mark`);
+    if (first) first.scrollIntoView({ behavior:"smooth", block:"center" });
+  }
 }
+
 
 
 
