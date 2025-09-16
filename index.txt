@@ -758,7 +758,8 @@ function renderArticles(list, {globalMode=false}={}){
 
     const content = document.createElement('div');
     content.className = 'art-body';
-    content.textContent = split.body || '';
+content.innerHTML = (split.body || '')
+  .replace(/\n/g, '<br>');   // cada quebra de linha vira <br>
     el.appendChild(content);
 
     frag.appendChild(el);
