@@ -1274,21 +1274,30 @@ async function runLocalSearch(){
   // Renderiza todos os artigos SEM filtrar
   renderArticles(state.articles, { globalMode: false });
 
-  // Procura os artigos que contêm TODAS as palavras
+  // Verifica quais artigos têm TODAS as palavras
   const matches = state.articles.filter(a => {
     const text = (a.text || '').toLowerCase();
-    return tokens.every(t => text.includes(t.toLowerCase()));
+    return tokens.every(t => text.includes(t));
   });
 
-  // Destaca todos os tokens (inclusive nos artigos que não são match total)
-  await highlightTokensChunked(tokens);
+  // Aplica highlight só nos matches válidos
+  matches.forEach(a => {
+    const el = document.querySelector(`#art-${a.id}`);
+    if (!el) return;
 
-  // Rola até o primeiro artigo que realmente contenha todas as palavras
+    tokens.forEach(t => {
+      const regex = new RegExp(`(${t})`, "gi");
+      el.innerHTML = el.innerHTML.replace(regex, `<mark>$1</mark>`);
+    });
+  });
+
+  // Rola até o primeiro match válido
   if (matches.length > 0) {
     const first = document.querySelector(`#art-${matches[0].id} mark`);
     if (first) first.scrollIntoView({ behavior:"smooth", block:"center" });
   }
 }
+
 
 
 /* =============== Sheet (seletor na base) =============== */
