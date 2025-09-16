@@ -111,9 +111,10 @@
   position:fixed; left:0; right:0; bottom:calc(var(--bottom-search-h) + var(--bottom-study-h));
   height:var(--bottom-info-h);
   background:var(--bar-info-bg);   /* cinza médio */
-  border-top:0px solid #c9cdd6;    /* borda mais visível */
+  box-shadow:0 -2px 6px rgba(0,0,0,.08);  /* sombra suave no lugar da borda */
   z-index:72; display:flex; align-items:center; justify-content:center;
 }
+
     .bottom-info-inner{
   width:clamp(320px, 92vw, 960px);
   display:flex; align-items:center; justify-content:center; /* centraliza o conteúdo */
