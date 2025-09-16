@@ -120,8 +120,10 @@
 
     .bottom-info-inner{
   width:clamp(320px, 92vw, 960px);
-  display:flex; align-items:center; justify-content:center; /* centraliza o conteúdo */
-  padding:6px 12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px 12px; /* mais respiro vertical */
 }
 
 .file-indicator{
@@ -129,20 +131,20 @@
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  font-size:14px;
+  font-size:13px;
   font-weight:600;
   color:#142B6F;
   background:linear-gradient(#ffffff, #f3f6ff);
   border:2px solid #b9cffb;
-  padding:8px 14px; /* altura menor */
-  border-radius:10px; /* menos arredondado = mais leve */
-  box-shadow:0 1px 2px rgba(0,0,0,.06);
+  padding:6px 12px; /* altura reduzida */
+  border-radius:10px;
+  box-shadow:0 1px 2px rgba(0,0,0,.05);
   cursor:pointer;
   text-align:center;
   transition: background .2s, border .2s, transform .1s, box-shadow .2s;
-
-  overflow:hidden; white-space:nowrap; text-overflow:ellipsis;
 }
+
+
 
 
 .file-indicator:hover{
@@ -182,29 +184,30 @@
   width:clamp(320px, 92vw, 960px);
   display:flex;
   align-items:center;
-  gap:6px;          /* menos espaço entre itens */
-  padding:6px 10px; /* barra mais compacta */
+  gap:6px;
+  padding:6px 10px; /* mais compacto */
 }
 
-   .iconbtn{
-  width:32px;
-  height:32px;
-  flex:0 0 32px;
+.iconbtn{
+  width:28px;
+  height:28px;
+  flex:0 0 28px;
   display:grid;
   place-items:center;
   cursor:pointer;
   user-select:none;
 
-  font-size:14px;
+  font-size:13px;
   line-height:1;
   border-radius:8px;
 
   background:linear-gradient(#ffffff, #f3f6ff);
   border:2px solid #b9cffb;
-  box-shadow:0 1px 2px rgba(0,0,0,.06);
+  box-shadow:0 1px 2px rgba(0,0,0,.05);
 
   transition: background .2s, border .2s, transform .1s, box-shadow .2s;
 }
+
 
 .iconbtn:hover{
   background:#eef3ff;
@@ -277,7 +280,7 @@
   gap:10px;
 }
 
-    .study,
+  .study,
 .do-search{
   flex:1 1 0;
   display:inline-flex;
@@ -288,14 +291,13 @@
   color:#142B6F;
   background:linear-gradient(#ffffff, #f3f6ff);
   border:2px solid #b9cffb;
-  padding:6px 12px;   /* altura menor = mais discreto */
-  border-radius:10px; /* cantos mais suaves */
-  box-shadow:0 1px 2px rgba(0,0,0,.04);
+  padding:6px 12px; /* altura menor */
+  border-radius:10px;
+  box-shadow:0 1px 2px rgba(0,0,0,.05);
   cursor:pointer;
   text-align:center;
   transition: background .2s, border .2s, transform .1s, box-shadow .2s;
 }
-
 
 .study:hover,
 .do-search:hover{
