@@ -1147,6 +1147,8 @@ async function highlightTokensChunked(tokens){
   clearMarksAndRerender();
   if (!tokens.length) return;
 
+  state.matchArticles = []; // 🔥 reinicia a lista de artigos achados
+
   setBusy(true);
   els.count.textContent = '...';
 
