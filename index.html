@@ -252,7 +252,7 @@
   font-weight: 400;    /* peso normal */
 }
 
-.ia-btn {
+..ia-btn {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -263,9 +263,31 @@
   cursor: pointer;
   text-decoration: none;
   color: #111;
-  font-weight: 500;    /* antes era 700 */
+  font-weight: 500;      /* mais leve que 700 */
   justify-content: center;
+
+  /* transições suaves */
+  transition: background .2s ease, border .2s ease, transform .15s ease;
 }
+
+/* Efeito hover */
+.ia-btn:hover {
+  background: #eef1fb;   /* azul bem clarinho */
+  border-color: #c3cff5;
+  transform: translateY(-2px); /* pequeno destaque */
+}
+
+/* Efeito focus */
+.ia-btn:focus {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Efeito active (clique) */
+.ia-btn:active {
+  transform: scale(0.97); /* encolhe levemente */
+}
+
 
     .ia-btn:focus{outline:2px solid var(--focus); outline-offset:2px}
     .modal .foot{margin-top:12px; display:flex; justify-content:flex-end}
