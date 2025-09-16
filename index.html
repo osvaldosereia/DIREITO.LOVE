@@ -1151,56 +1151,53 @@ async function highlightTokensChunked(tokens){
   els.count.textContent = '...';
 
   const articles = document.querySelectorAll('article');
-  const foundMarks = [];
+  state.matchArticles = []; // 👈 inicializa a lista de matches sempre
 
   for (const art of articles){
     const bodyEl = art.querySelector('.art-body');
     const titleEl = art.querySelector('.art-title');
     const supraEls = art.querySelectorAll('.supra > div');
 
-    // Texto bruto completo do card
     const fullText = [
       bodyEl?.textContent || '',
       titleEl?.textContent || '',
       ...Array.from(supraEls).map(e => e.textContent || '')
     ].join(' ').toLowerCase();
 
-    // Verifica se TODAS as palavras estão presentes no card (palavras isoladas)
+    // verifica se todas as palavras existem no card
     const isMatch = tokens.every(t => {
       const regex = new RegExp(`\\b${t}\\b`, "i");
       return regex.test(fullText);
     });
     if (!isMatch) continue;
 
-    // Se o card tem todas as palavras, marca cada uma delas (palavras isoladas)
+    // aplica destaque em cada parte do card
     [bodyEl, titleEl, ...supraEls].forEach(el => {
       if (!el) return;
       let raw = el.textContent;
       tokens.forEach(t => {
-  // Regex com \b garante que o termo é palavra inteira (não parte de outra)
-  const regex = new RegExp(`\\b(${t})\\b`, "gi");
-  raw = raw.replace(regex, `<mark>$1</mark>`);
-});
-
-
+        const regex = new RegExp(`\\b(${t})\\b`, "gi");
+        raw = raw.replace(regex, `<mark>$1</mark>`);
+      });
       el.innerHTML = raw;
     });
 
-    // Se esse artigo for válido, adiciona na lista de matches
-  if (isMatch) {
+    // salva o artigo válido
     state.matchArticles.push(art);
   }
+
+  // navegação pelas setas
+  if (state.matchArticles.length){
+    state.matchIdx = 0;
+    state.matchArticles[0].scrollIntoView({behavior:'smooth', block:'center'});
+  } else {
+    state.matchIdx = -1;
+  }
+
+  updateCount();
+  setBusy(false);
 }
 
-// Atualiza navegação
-if (state.matchArticles.length){
-  state.matchIdx = 0;
-  state.matchArticles[0].scrollIntoView({behavior:'smooth', block:'center'});
-} else {
-  state.matchIdx = -1;
-}
-updateCount();
-setBusy(false);
 
 
 
