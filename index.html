@@ -376,26 +376,103 @@
     @media (max-width: 768px){
       .brand{ height:38px; }
     }
-    /* Modal IA - ajustes só para desktop */
-@media (min-width: 1024px) {
-  .modal h3 {
-    font-size: 1rem;       /* menor que no mobile */
-    font-weight: 500;      /* mais leve ainda */
-    letter-spacing: 0.2px; /* melhora a leitura */
-  }
+   /* Modal IA — reset e estilos corretos */
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  display:none;                    /* começa escondido */
+  align-items:center;
+  justify-content:center;          /* centraliza o conteúdo */
+  background:rgba(0,0,0,.28);
+  z-index:200;                     /* acima das barras */
+}
+.modal{
+  background:#fff;
+  border-radius:16px;
+  width:min(640px, 92vw);
+  padding:18px;
+  border:1px solid #eceef7;
+  box-shadow: var(--shadow);
+}
 
-  .modal .subtitle {
-    font-size: 0.85rem;    /* reduz subtítulo */
-    font-weight: 400;
-    color: #777;           /* cinza ainda mais suave */
-  }
+.modal h3{
+  margin:0 0 8px;
+  color:#0f173a;
+  font-size:1.05rem;
+  font-weight:600;
+}
+.modal .subtitle{
+  margin:0 0 14px;
+  font-size:.92rem;
+  color:#666;
+  font-weight:400;
+}
 
-  .ia-btn {
-    font-size: 0.9rem;     /* texto mais discreto */
-    font-weight: 400;      /* mais fino */
-    padding: 10px 12px;    /* um pouco mais compacto */
+.ia-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.ia-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:12px;
+  border:1px solid #e6e8f2;
+  background:#f6f7fb;
+  border-radius:12px;
+  cursor:pointer;
+  text-decoration:none;
+  color:#111;
+  font-weight:500;                 /* mais leve que 700 */
+  transition: background .2s, border .2s, transform .15s;
+}
+.ia-btn:hover{
+  background:#eef1fb;
+  border-color:#c3cff5;
+  transform:translateY(-2px);
+}
+.ia-btn:focus{
+  outline:2px solid var(--focus);
+  outline-offset:2px;
+}
+.ia-btn:active{
+  transform:scale(0.98);
+}
+
+.modal .foot{
+  margin-top:12px;
+  display:flex;
+  justify-content:flex-end;
+}
+.modal .close-btn{
+  padding:8px 12px;
+  border:1px solid #e2e5f2;
+  background:#fff;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+/* Desktop: tipografia mais leve no modal */
+@media (min-width: 1024px){
+  .modal h3{
+    font-size:1rem;
+    font-weight:500;
+    letter-spacing:.2px;
+  }
+  .modal .subtitle{
+    font-size:.85rem;
+    color:#777;
+    font-weight:400;
+  }
+  .ia-btn{
+    font-size:.92rem;
+    font-weight:400;
+    padding:10px 12px;
   }
 }
+
 
   </style>
 </head>
