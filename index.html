@@ -1133,8 +1133,9 @@ function renderArticles(list, {globalMode=false}={}){
   state.currentList = list;
   updateCurrentOutline();
 
-  // limpa contagem
+    // limpa contagem
   state.matchNodes = [];
+  state.matchArticles = [];   // 🔥 zerar aqui também
   state.matchIdx = -1;
   updateCount();
 }
@@ -1198,7 +1199,7 @@ async function highlightTokensChunked(tokens){
     state.matchIdx = -1;
   }
 
-  updateCount();
+   updateCount();   // 🔥 contador atualizado com a lista real
   setBusy(false);
 }
 
@@ -1486,11 +1487,13 @@ function resetAll(){
   state.currentMode = 'idle';
   state.currentTokens = [];
 
-  // busca
+    // busca
   state.matchNodes = [];
+  state.matchArticles = [];   // 🔥 garantir que zera
   state.matchIdx = -1;
   els.searchInput.value = '';
   updateCount();
+
 
   // UI
   setFileIndicator('Escolher código');
