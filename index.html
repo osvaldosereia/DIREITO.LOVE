@@ -369,14 +369,21 @@
   }
 }
 
-/* Limite de largura no desktop */
-@media (min-width: 700px){
+/* Limite de largura no desktop - versão compacta */
+@media (min-width: 1024px){
   .file-indicator,
   .study,
   .do-search,
   .bottom-search-inner input {
-    max-width: 220px;
+    max-width: 140px;   /* 👈 bem menor (quase metade do que estava) */
     flex:0 1 auto;
+  }
+
+  .bottom-info-inner,
+  .bottom-study-inner,
+  .bottom-search-inner {
+    justify-content:center; /* centraliza os botões/campos na barra */
+    gap:10px;               /* dá um pequeno respiro entre eles */
   }
 }
 
