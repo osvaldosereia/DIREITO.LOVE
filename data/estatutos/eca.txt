@@ -3,7 +3,6 @@
 -----
 Título I
 
------
 Das Disposições Preliminares
 -----
 
@@ -40,14 +39,10 @@ Art. 6 Na interpretação desta Lei levar-se-ão em conta os fins sociais a que 
 
 -----
 Título II
-
 Dos Direitos Fundamentais
 -----
 
------
 Capítulo I
-
------
 Do Direito à Vida e à Saúde
 -----
 
@@ -183,8 +178,6 @@ Art. 14. O Sistema Único de Saúde promoverá programas de assistência médica
 
 -----
 Capítulo II
-
------
 Do Direito à Liberdade, ao Respeito e à Dignidade
 -----
 
@@ -255,10 +248,7 @@ Capítulo III
 Do Direito à Convivência Familiar e Comunitária
 -----
 
------
 Seção I
-
------
 Disposições Gerais
 -----
 
@@ -338,7 +328,6 @@ Art. 24. A perda e a suspensão do pátrio poder poder familiar serão decretada
 -----
 Seção II
 
------
 Da Família Natural
 -----
 
@@ -362,9 +351,8 @@ Da Família Substituta
 
 Subseção I
 
------
 Disposições Gerais
-
+-----
 Art. 28. A colocação em família substituta far-se-á mediante guarda, tutela ou adoção, independentemente da situação jurídica da criança ou adolescente, nos termos desta Lei.
 
 § 1 o Sempre que possível, a criança ou o adolescente será previamente ouvido por equipe interprofissional, respeitado seu estágio de desenvolvimento e grau de compreensão sobre as implicações da medida, e terá sua opinião devidamente considerada. (Redação dada pela Lei nº 12.010, de 2009) Vigência
@@ -398,10 +386,8 @@ Art. 31. A colocação em família substituta estrangeira constitui medida excep
 Art. 32. Ao assumir a guarda ou a tutela, o responsável prestará compromisso de bem e fielmente desempenhar o encargo, mediante termo nos autos.
 
 Subseção II
-
------
 Da Guarda
-
+-----
 Art. 33. A guarda obriga a prestação de assistência material, moral e educacional à criança ou adolescente, conferindo a seu detentor o direito de opor-se a terceiros, inclusive aos pais. (Vide Lei nº 12.010, de 2009) Vigência
 
 § 1º A guarda destina-se a regularizar a posse de fato, podendo ser deferida, liminar ou incidentalmente, nos procedimentos de tutela e adoção, exceto no de adoção por estrangeiros.
@@ -425,12 +411,11 @@ Art. 34.  O poder público estimulará, por meio de assistência jurídica, ince
 
 -----
 Art. 35. A guarda poderá ser revogada a qualquer tempo, mediante ato judicial fundamentado, ouvido o Ministério Público.
-
+-----
 Subseção III
 
------
 Da Tutela
-
+-----
 Art. 36.  A tutela será deferida, nos termos da lei civil, a pessoa de até 18 (dezoito) anos incompletos. (Redação dada pela Lei nº 12.010, de 2009) Vigência
 
 Parágrafo único. O deferimento da tutela pressupõe a prévia decretação da perda ou suspensão do pátrio poder poder familiar e implica necessariamente o dever de guarda. (Expressão substituída pela Lei nº 12.010, de 2009) Vigência
@@ -442,12 +427,11 @@ Parágrafo único.  Na apreciação do pedido, serão observados os requisitos p
 
 -----
 Art. 38. Aplica-se à destituição da tutela o disposto no art. 24.
-
+-----
 Subseção IV
 
------
 Da Adoção
-
+-----
 Art. 39. A adoção de criança e de adolescente reger-se-á segundo o disposto nesta Lei.
 
 § 1 o A adoção é medida excepcional e irrevogável, à qual se deve recorrer apenas quando esgotados os recursos de manutenção da criança ou adolescente na família natural ou extensa, na forma do parágrafo único do art. 25 desta Lei. (Incluído pela Lei nº 12.010, de 2009) Vigência
@@ -692,7 +676,6 @@ Art. 52D.  Nas adoções internacionais, quando o Brasil for o país de acolhida
 -----
 Capítulo IV
 
------
 Do Direito à Educação, à Cultura, ao Esporte e ao Lazer
 -----
 
@@ -765,7 +748,6 @@ Parágrafo único. Os estabelecimentos educacionais e similares, públicos ou pr
 -----
 Capítulo V
 
------
 Do Direito à Profissionalização e à Proteção no Trabalho
 -----
 
@@ -824,12 +806,10 @@ II - capacitação profissional adequada ao mercado de trabalho.
 Título III
 
 Da Prevenção
------
 
 -----
 Capítulo I
 
------
 Disposições Gerais
 -----
 
@@ -886,10 +866,8 @@ Capítulo II
 Da Prevenção Especial
 -----
 
------
 Seção I
 
------
 Da informação, Cultura, Lazer, Esportes, Diversões e Espetáculos
 -----
 
@@ -926,7 +904,6 @@ Art. 80. Os responsáveis por estabelecimentos que explorem comercialmente bilha
 -----
 Seção II
 
------
 Dos Produtos e Serviços
 -----
 
@@ -950,7 +927,6 @@ Art. 82. É proibida a hospedagem de criança ou adolescente em hotel, motel, pe
 -----
 Seção III
 
------
 Da Autorização para Viajar
 -----
 
@@ -986,10 +962,8 @@ Título I
 Da Política de Atendimento
 -----
 
------
 Capítulo I
 
------
 Disposições Gerais
 -----
 
@@ -1046,11 +1020,10 @@ Capítulo II
 Das Entidades de Atendimento
 -----
 
-eção I
+Seção I
 
------
 Disposições Gerais
-
+-----
 Art. 90. As entidades de atendimento são responsáveis pela manutenção das próprias unidades, assim como pelo planejamento e execução de programas de proteção e sócio-educativos destinados a crianças e adolescentes, em regime de: (Vide)
 
 I - orientação e apoio sócio-familiar;
@@ -1191,7 +1164,6 @@ Art. 94A.  As entidades, públicas ou privadas, que abriguem ou recepcionem cria
 -----
 Seção II
 
------
 Da Fiscalização das Entidades
 -----
 
@@ -1233,10 +1205,8 @@ Título II
 Das Medidas de Proteção
 -----
 
------
 Capítulo I
 
------
 Disposições Gerais
 -----
 
@@ -1251,7 +1221,6 @@ III - em razão de sua conduta.
 -----
 Capítulo II
 
------
 Das Medidas Específicas de Proteção
 -----
 
@@ -1364,12 +1333,10 @@ Art. 102. As medidas de proteção de que trata este Capítulo serão acompanhad
 Título III
 
 Da Prática de Ato Infracional
------
 
 -----
 Capítulo I
 
------
 Disposições Gerais
 -----
 
@@ -1386,7 +1353,6 @@ Art. 105. Ao ato infracional praticado por criança corresponderão as medidas p
 -----
 Capítulo II
 
------
 Dos Direitos Individuais
 -----
 
@@ -1410,7 +1376,6 @@ Art. 109. O adolescente civilmente identificado não será submetido a identific
 -----
 Capítulo III
 
------
 Das Garantias Processuais
 -----
 
@@ -1437,10 +1402,8 @@ Capítulo IV
 Das Medidas Sócio-Educativas
 -----
 
------
 Seção I
 
------
 Disposições Gerais
 -----
 
@@ -1477,7 +1440,6 @@ Parágrafo único. A advertência poderá ser aplicada sempre que houver prova d
 -----
 Seção II
 
------
 Da Advertência
 -----
 
@@ -1486,7 +1448,6 @@ Art. 115. A advertência consistirá em admoestação verbal, que será reduzida
 -----
 Seção III
 
------
 Da Obrigação de Reparar o Dano
 -----
 
@@ -1497,7 +1458,6 @@ Parágrafo único. Havendo manifesta impossibilidade, a medida poderá ser subst
 -----
 Seção IV
 
------
 Da Prestação de Serviços à Comunidade
 -----
 
@@ -1508,7 +1468,6 @@ Parágrafo único. As tarefas serão atribuídas conforme as aptidões do adoles
 -----
 Seção V
 
------
 Da Liberdade Assistida
 -----
 
@@ -1532,7 +1491,6 @@ IV - apresentar relatório do caso.
 -----
 Seção VI
 
------
 Do Regime de Semi-liberdade
 -----
 
@@ -1545,7 +1503,6 @@ Art. 120. O regime de semi-liberdade pode ser determinado desde o início, ou co
 -----
 Seção VII
 
------
 Da Internação
 -----
 
@@ -1628,7 +1585,6 @@ Art. 125. É dever do Estado zelar pela integridade física e mental dos interno
 -----
 Capítulo V
 
------
 Da Remissão
 -----
 
@@ -1645,7 +1601,6 @@ Art. 128. A medida aplicada por força da remissão poderá ser revista judicial
 -----
 Título IV
 
------
 Das Medidas Pertinentes aos Pais ou Responsável
 -----
 
@@ -1684,10 +1639,8 @@ Título V
 Do Conselho Tutelar
 -----
 
------
 Capítulo I
 
------
 Disposições Gerais
 -----
 
@@ -1726,7 +1679,6 @@ Art. 135.  O exercício efetivo da função de conselheiro constituirá serviço
 -----
 Capítulo II
 
------
 Das Atribuições do Conselho
 -----
 
@@ -1784,7 +1736,6 @@ Art. 137. As decisões do Conselho Tutelar somente poderão ser revistas pela au
 -----
 Capítulo III
 
------
 Da Competência
 -----
 
@@ -1793,7 +1744,6 @@ Art. 138. Aplica-se ao Conselho Tutelar a regra de competência constante do art
 -----
 Capítulo IV
 
------
 Da Escolha dos Conselheiros
 -----
 
@@ -1808,7 +1758,6 @@ Art. 139. O processo para a escolha dos membros do Conselho Tutelar será estabe
 -----
 Capítulo V
 
------
 Dos Impedimentos
 -----
 
@@ -1822,10 +1771,8 @@ Título VI
 Do Acesso à Justiça
 -----
 
------
 Capítulo I
 
------
 Disposições Gerais
 -----
 
@@ -1854,10 +1801,8 @@ Capítulo II
 Da Justiça da Infância e da Juventude
 -----
 
------
 Seção I
 
------
 Disposições Gerais
 -----
 
@@ -1866,7 +1811,6 @@ Art. 145. Os estados e o Distrito Federal poderão criar varas especializadas e 
 -----
 Seção II
 
------
 Do Juiz
 -----
 
@@ -1960,7 +1904,6 @@ f) a natureza do espetáculo.
 -----
 Seção III
 
------
 Dos Serviços Auxiliares
 -----
 
@@ -1977,10 +1920,8 @@ Capítulo III
 Dos Procedimentos
 -----
 
------
 Seção I
 
------
 Disposições Gerais
 -----
 
@@ -2001,11 +1942,9 @@ Art. 154. Aplica-se às multas o disposto no art. 214.
 -----
 Seção II
 
------
 Da Perda e da Suspensão do Pátrio Poder Poder Familiar
------
 (Expressão substituída pela Lei nº 12.010, de 2009) Vigência
-
+-----
 Art. 155. O procedimento para a perda ou a suspensão do pátrio poder poder familiar terá início por provocação do Ministério Público ou de quem tenha legítimo interesse. (Expressão substituída pela Lei nº 12.010, de 2009) Vigência
 
 -----
@@ -2081,7 +2020,6 @@ Parágrafo único.  A sentença que decretar a perda ou a suspensão do poder fa
 -----
 Seção III
 
------
 Da Destituição da Tutela
 -----
 
@@ -2090,7 +2028,6 @@ Art. 164. Na destituição da tutela, observar-se-á o procedimento para a remo�
 -----
 Seção IV
 
------
 Da Colocação em Família Substituta
 -----
 
@@ -2150,7 +2087,6 @@ Parágrafo único.  A colocação de criança ou adolescente sob a guarda de pes
 -----
 Seção V
 
------
 Da Apuração de Ato Infracional Atribuído a Adolescente
 -----
 
@@ -2284,11 +2220,8 @@ II - quando não for encontrado o adolescente, a seus pais ou responsável, sem 
 -----
 Seção V-A
 (Incluído pela Lei nº 13.441, de 2017)
------
-
------
 Da Infiltração de Agentes de Polícia para a Investigação de Crimes contra a Dignidade Sexual de Criança e de Adolescente”
-
+-----
 Art. 190A. A infiltração de agentes de polícia na internet com o fim de investigar os crimes previstos nos arts. 240 , 241 , 241-A , 241-B , 241-C e 241-D desta Lei e nos arts. 154-A , 217-A , 218 , 218-A e 218-B do Decreto-Lei nº 2.848, de 7 de dezembro de 1940 (Código Penal) , obedecerá às seguintes regras: (Incluído pela Lei nº 13.441, de 2017)
 
 I – será precedida de autorização judicial devidamente circunstanciada e fundamentada, que estabelecerá os limites da infiltração para obtenção de prova, ouvido o Ministério Público; (Incluído pela Lei nº 13.441, de 2017)
@@ -2330,7 +2263,6 @@ Parágrafo único. Os atos eletrônicos registrados citados no caput deste artig
 -----
 Seção VI
 
------
 Da Apuração de Irregularidades em Entidade de Atendimento
 -----
 
@@ -2355,7 +2287,6 @@ Art. 193. Apresentada ou não a resposta, e sendo necessário, a autoridade judi
 -----
 Seção VII
 
------
 Da Apuração de Infração Administrativa às Normas de Proteção à Criança e ao Adolescente
 -----
 
@@ -2386,11 +2317,9 @@ Parágrafo único. Colhida a prova oral, manifestar-se-ão sucessivamente o Mini
 
 -----
 Seção VIII
------
 (Incluída pela Lei nº 12.010, de 2009) Vigência
------
 Da Habilitação de Pretendentes à Adoção
-
+-----
 Art. 197A.  Os postulantes à adoção, domiciliados no Brasil, apresentarão petição inicial na qual conste: (Incluído pela Lei nº 12.010, de 2009) Vigência
 
 I - qualificação completa; (Incluído pela Lei nº 12.010, de 2009) Vigência
@@ -2451,7 +2380,6 @@ Art. 197F.  O prazo máximo para conclusão da habilitação à adoção será d
 -----
 Capítulo IV
 
------
 Dos Recursos
 -----
 
@@ -2496,7 +2424,6 @@ Art. 199E.  O Ministério Público poderá requerer a instauração de procedime
 -----
 Capítulo V
 
------
 Do Ministério Público
 -----
 
@@ -2568,7 +2495,6 @@ Art. 205. As manifestações processuais do representante do Ministério Públic
 -----
 Capítulo VI
 
------
 Do Advogado
 -----
 
@@ -2588,7 +2514,6 @@ Art. 207. Nenhum adolescente a quem se atribua a prática de ato infracional, ai
 -----
 Capítulo VII
 
------
 Da Proteção Judicial dos Interesses Individuais, Difusos e Coletivos
 -----
 
@@ -2712,7 +2637,6 @@ Título VII
 Dos Crimes e Das Infrações Administrativas
 -----
 
------
 Capítulo I
 
 Dos Crimes
@@ -2721,7 +2645,6 @@ Dos Crimes
 -----
 Seção I
 
------
 Disposições Gerais
 -----
 
@@ -2745,7 +2668,6 @@ Parágrafo único.  A perda do cargo, do mandato ou da função, nesse caso, ind
 -----
 Seção II
 
------
 Dos Crimes em Espécie
 -----
 
@@ -2755,18 +2677,16 @@ Pena - detenção de seis meses a dois anos.
 
 Parágrafo único. Se o crime é culposo:
 
------
 Pena - detenção de dois a seis meses, ou multa.
-
+-----
 Art. 229. Deixar o médico, enfermeiro ou dirigente de estabelecimento de atenção à saúde de gestante de identificar corretamente o neonato e a parturiente, por ocasião do parto, bem como deixar de proceder aos exames referidos no art. 10 desta Lei:
 
 Pena - detenção de seis meses a dois anos.
 
 Parágrafo único. Se o crime é culposo:
 
------
 Pena - detenção de dois a seis meses, ou multa.
-
+-----
 Art. 230. Privar a criança ou o adolescente de sua liberdade, procedendo à sua apreensão sem estar em flagrante de ato infracional ou inexistindo ordem escrita da autoridade judiciária competente:
 
 Pena - detenção de seis meses a dois anos.
@@ -2778,27 +2698,23 @@ Pena - detenção de seis meses a dois anos.
 -----
 Art. 231. Deixar a autoridade policial responsável pela apreensão de criança ou adolescente de fazer imediata comunicação à autoridade judiciária competente e à família do apreendido ou à pessoa por ele indicada:
 
------
 Pena - detenção de seis meses a dois anos.
-
+-----
 Art. 232. Submeter criança ou adolescente sob sua autoridade, guarda ou vigilância a vexame ou a constrangimento:
 
------
 Pena - detenção de seis meses a dois anos.
-
+-----
 Art. 233. (Revogado pela Lei nº 9.455, de 7.4.1997 :
 
 -----
 Art. 234. Deixar a autoridade competente, sem justa causa, de ordenar a imediata liberação de criança ou adolescente, tão logo tenha conhecimento da ilegalidade da apreensão:
 
------
 Pena - detenção de seis meses a dois anos.
-
+-----
 Art. 235. Descumprir, injustificadamente, prazo fixado nesta Lei em benefício de adolescente privado de liberdade:
 
------
 Pena - detenção de seis meses a dois anos.
-
+-----
 Art. 236. Impedir ou embaraçar a ação de autoridade judiciária, membro do Conselho Tutelar ou representante do Ministério Público no exercício de função prevista nesta Lei:
 
 -----
@@ -2806,9 +2722,8 @@ Pena - detenção de seis meses a dois anos.
 
 Art. 237. Subtrair criança ou adolescente ao poder de quem o tem sob sua guarda em virtude de lei ou ordem judicial, com o fim de colocação em lar substituto:
 
------
 Pena - reclusão de dois a seis anos, e multa.
-
+-----
 Art. 238. Prometer ou efetivar a entrega de filho ou pupilo a terceiro, mediante paga ou recompensa:
 
 Pena - reclusão de um a quatro anos, e multa.
@@ -2822,9 +2737,8 @@ Pena - reclusão de quatro a seis anos, e multa.
 
 Parágrafo único. Se há emprego de violência, grave ameaça ou fraude: (Incluído pela Lei nº 10.764, de 12.11.2003)
 
------
 Pena - reclusão, de 6 (seis) a 8 (oito) anos, além da pena correspondente à violência.
-
+-----
 Art. 240.  Produzir, reproduzir, dirigir, fotografar, filmar ou registrar, por qualquer meio, cena de sexo explícito ou pornográfica, envolvendo criança ou adolescente: (Redação dada pela Lei nº 11.829, de 2008)
 
 Pena – reclusão, de 4 (quatro) a 8 (oito) anos, e multa. (Redação dada pela Lei nº 11.829, de 2008)
@@ -2846,9 +2760,8 @@ III – prevalecendo-se de relações de parentesco consangüíneo ou afim até 
 -----
 Art. 241.  Vender ou expor à venda fotografia, vídeo ou outro registro que contenha cena de sexo explícito ou pornográfica envolvendo criança ou adolescente: (Redação dada pela Lei nº 11.829, de 2008)
 
------
 Pena – reclusão, de 4 (quatro) a 8 (oito) anos, e multa. (Redação dada pela Lei nº 11.829, de 2008)
-
+-----
 Art. 241A.  Oferecer, trocar, disponibilizar, transmitir, distribuir, publicar ou divulgar por qualquer meio, inclusive por meio de sistema de informática ou telemático, fotografia, vídeo ou outro registro que contenha cena de sexo explícito ou pornográfica envolvendo criança ou adolescente: (Incluído pela Lei nº 11.829, de 2008)
 
 Pena – reclusão, de 3 (três) a 6 (seis) anos, e multa. (Incluído pela Lei nº 11.829, de 2008)
@@ -2902,19 +2815,16 @@ Art. 241E.  Para efeito dos crimes previstos nesta Lei, a expressão “cena de 
 -----
 Art. 242. Vender, fornecer ainda que gratuitamente ou entregar, de qualquer forma, a criança ou adolescente arma, munição ou explosivo:
 
------
 Pena - reclusão, de 3 (três) a 6 (seis) anos. (Redação dada pela Lei nº 10.764, de 12.11.2003)
-
+-----
 Art. 243.  Vender, fornecer, servir, ministrar ou entregar, ainda que gratuitamente, de qualquer forma, a criança ou a adolescente, bebida alcoólica ou, sem justa causa, outros produtos cujos componentes possam causar dependência física ou psíquica: (Redação dada pela Lei nº 13.106, de 2015)
 
------
 Pena - detenção de 2 (dois) a 4 (quatro) anos, e multa, se o fato não constitui crime mais grave. (Redação dada pela Lei nº 13.106, de 2015)
-
+-----
 Art. 244. Vender, fornecer ainda que gratuitamente ou entregar, de qualquer forma, a criança ou adolescente fogos de estampido ou de artifício, exceto aqueles que, pelo seu reduzido potencial, sejam incapazes de provocar qualquer dano físico em caso de utilização indevida:
 
------
 Pena - detenção de seis meses a dois anos, e multa.
-
+-----
 Art. 244A. Submeter criança ou adolescente, como tais definidos no caput do art. 2 o desta Lei, à prostituição ou à exploração sexual: (Incluído pela Lei nº 9.975, de 23.6.2000)
 
 Pena – reclusão de quatro a dez anos e multa, além da perda de bens e valores utilizados na prática criminosa em favor do Fundo dos Direitos da Criança e do Adolescente da unidade da Federação (Estado ou Distrito Federal) em que foi cometido o crime, ressalvado o direito de terceiro de boa-fé. (Redação dada pela Lei nº 13.440, de 2017)
@@ -2940,20 +2850,17 @@ Pena - reclusão, de 2 (dois) a 4 (quatro) anos, e multa.    (Incluído pela Lei
 -----
 Capítulo II
 
------
 Das Infrações Administrativas
 -----
 
 Art. 245. Deixar o médico, professor ou responsável por estabelecimento de atenção à saúde e de ensino fundamental, pré-escola ou creche, de comunicar à autoridade competente os casos de que tenha conhecimento, envolvendo suspeita ou confirmação de maus-tratos contra criança ou adolescente:
 
------
 Pena - multa de três a vinte salários de referência, aplicando-se o dobro em caso de reincidência.
-
+-----
 Art. 246. Impedir o responsável ou funcionário de entidade de atendimento o exercício dos direitos constantes nos incisos II, III, VII, VIII e XI do art. 124 desta Lei:
 
------
 Pena - multa de três a vinte salários de referência, aplicando-se o dobro em caso de reincidência.
-
+-----
 Art. 247. Divulgar, total ou parcialmente, sem autorização devida, por qualquer meio de comunicação, nome, ato ou documento de procedimento policial, administrativo ou judicial relativo a criança ou adolescente a que se atribua ato infracional:
 
 Pena - multa de três a vinte salários de referência, aplicando-se o dobro em caso de reincidência.
@@ -2968,9 +2875,8 @@ Art. 248. (Revogado pela Lei nº 13.431, de 2017) (Vigência)
 -----
 Art. 249. Descumprir, dolosa ou culposamente, os deveres inerentes ao pátrio poder poder familiar ou decorrente de tutela ou guarda, bem assim determinação da autoridade judiciária ou Conselho Tutelar: (Expressão substituída pela Lei nº 12.010, de 2009) Vigência
 
------
 Pena - multa de três a vinte salários de referência, aplicando-se o dobro em caso de reincidência.
-
+-----
 Art. 250.  Hospedar criança ou adolescente desacompanhado dos pais ou responsável, ou sem autorização escrita desses ou da autoridade judiciária, em hotel, pensão, motel ou congênere: (Redação dada pela Lei nº 12.038, de 2009).
 
 Pena – multa. (Redação dada pela Lei nº 12.038, de 2009).
@@ -2982,44 +2888,36 @@ Pena – multa. (Redação dada pela Lei nº 12.038, de 2009).
 -----
 Art. 251. Transportar criança ou adolescente, por qualquer meio, com inobservância do disposto nos arts. 83, 84 e 85 desta Lei:
 
------
 Pena - multa de três a vinte salários de referência, aplicando-se o dobro em caso de reincidência.
-
+-----
 Art. 252. Deixar o responsável por diversão ou espetáculo público de afixar, em lugar visível e de fácil acesso, à entrada do local de exibição, informação destacada sobre a natureza da diversão ou espetáculo e a faixa etária especificada no certificado de classificação:
 
------
 Pena - multa de três a vinte salários de referência, aplicando-se o dobro em caso de reincidência.
-
+-----
 Art. 253. Anunciar peças teatrais, filmes ou quaisquer representações ou espetáculos, sem indicar os limites de idade a que não se recomendem:
 
------
 Pena - multa de três a vinte salários de referência, duplicada em caso de reincidência, aplicável, separadamente, à casa de espetáculo e aos órgãos de divulgação ou publicidade.
-
+-----
 Art. 254. Transmitir, através de rádio ou televisão, espetáculo em horário diverso do autorizado ou sem aviso de sua classificação: (Expressão declarada inconstitucional pela ADI 2.404).
 
------
 Pena - multa de vinte a cem salários de referência; duplicada em caso de reincidência a autoridade judiciária poderá determinar a suspensão da programação da emissora por até dois dias.
-
+-----
 Art. 255. Exibir filme, trailer, peça, amostra ou congênere classificado pelo órgão competente como inadequado às crianças ou adolescentes admitidos ao espetáculo:
 
------
 Pena - multa de vinte a cem salários de referência; na reincidência, a autoridade poderá determinar a suspensão do espetáculo ou o fechamento do estabelecimento por até quinze dias.
-
+-----
 Art. 256. Vender ou locar a criança ou adolescente fita de programação em vídeo, em desacordo com a classificação atribuída pelo órgão competente:
 
------
 Pena - multa de três a vinte salários de referência; em caso de reincidência, a autoridade judiciária poderá determinar o fechamento do estabelecimento por até quinze dias.
-
+-----
 Art. 257. Descumprir obrigação constante dos arts. 78 e 79 desta Lei:
 
------
 Pena - multa de três a vinte salários de referência, duplicando-se a pena em caso de reincidência, sem prejuízo de apreensão da revista ou publicação.
-
+-----
 Art. 258. Deixar o responsável pelo estabelecimento ou o empresário de observar o que dispõe esta Lei sobre o acesso de criança ou adolescente aos locais de diversão, ou sobre sua participação no espetáculo:
 
------
 Pena - multa de três a vinte salários de referência; em caso de reincidência, a autoridade judiciária poderá determinar o fechamento do estabelecimento por até quinze dias.
-
+-----
 Art. 258A. Deixar a autoridade competente de providenciar a instalação e operacionalização dos cadastros previstos no art. 50 e no § 11 do art. 101 desta Lei: (Incluído pela Lei nº 12.010, de 2009) Vigência
 
 Pena - multa de R$ 1.000,00 (mil reais) a R$ 3.000,00 (três mil reais). (Incluído pela Lei nº 12.010, de 2009) Vigência
@@ -3042,7 +2940,7 @@ Medida Administrativa - interdição do estabelecimento comercial até o recolhi
 
 -----
 Disposições Finais e Transitórias
-
+-----
 Art. 259. A União, no prazo de noventa dias contados da publicação deste Estatuto, elaborará projeto de lei dispondo sobre a criação ou adaptação de seus órgãos às diretrizes da política de atendimento fixadas no art. 88 e ao que estabelece o Título V do Livro II.
 
 Parágrafo único. Compete aos estados e municípios promoverem a adaptação de seus órgãos e programas às diretrizes e princípios estabelecidos nesta Lei.
