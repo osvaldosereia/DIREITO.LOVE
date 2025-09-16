@@ -927,12 +927,17 @@
       const artigo = (split.titleText ? split.titleText + ' ' : '') + (split.body || '');
       const tema = split.titleText || (a.title || 'Artigo');
       return [
-        'Assuma a persona de um professor de Direito experiente convidado pelo direito.love e gere um material de estudo. ',
-        'Explique detalhadamente todo o artigo abaixo (caput, parágrafos, incisos e alíneas), cobrindo: ',
-        '(1) conceito com padrão acadêmico (doutrina e jurisprudência majoritária); ',
-        '(2) mini exemplo prático; (3) checklist; (4) princípios relacionados; ',
-        '(5) pontos de atenção na prática; (6) erros comuns/pegadinhas; (7) notas comparativas. ',
-        'Responda em português claro, objetivo e didático.\n\n',
+        'Assuma a persona de um professor de Direito experiente convidado pelo direito.love e prepare um material de estudo. ',
+'Explique detalhadamente o artigo, súmula ou tema abaixo (incluindo caput, parágrafos, incisos e alíneas), seguindo esta estrutura: ',
+'(1) conceito detalhado, explicando separadamente caput, parágrafos, incisos e alíneas, com apoio em doutrina e jurisprudência majoritária; ',
+'(2) checklist para provas; ',
+'(3) mini exemplo prático; ',
+'(4) princípios constitucionais ou jurídicos relacionados; ',
+'(5) pontos de atenção na prática forense; ',
+'(6) erros comuns e pegadinhas em provas ou prática; ',
+'(7) artigos correlatos e possíveis relações processuais, com notas comparativas. ',
+'Responda em português claro, objetivo e didático.\n\n',
+
         `Tema: "${tema}"\n\n`,
         supraText + artigo,
         '\n\n💚 direito.love'
