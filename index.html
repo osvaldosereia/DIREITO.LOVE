@@ -398,6 +398,17 @@
   overflow:auto;                  /* rolagem se o conteúdo passar */
 }
 
+/* Modal IA — backdrop (overlay) */
+.modal-backdrop{
+  position: fixed;
+  inset: 0;
+  display: none;              /* o JS muda para flex ao abrir */
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.28);
+  z-index: 120;               /* acima das barras e do conteúdo */
+}
+
 
 .modal h3{
   margin:0 0 8px;
