@@ -130,20 +130,20 @@
   align-items:center;
   justify-content:center;
   font-size:14px;
-  font-weight:700;
+  font-weight:600;
   color:#142B6F;
   background:linear-gradient(#ffffff, #f3f6ff);
   border:2px solid #b9cffb;
-  padding:12px 16px;
-  border-radius:12px;
+  padding:8px 14px; /* altura menor */
+  border-radius:10px; /* menos arredondado = mais leve */
   box-shadow:0 1px 2px rgba(0,0,0,.06);
   cursor:pointer;
   text-align:center;
   transition: background .2s, border .2s, transform .1s, box-shadow .2s;
 
-  /* mantém truncamento se o texto for grande */
   overflow:hidden; white-space:nowrap; text-overflow:ellipsis;
 }
+
 
 .file-indicator:hover{
   background:#eef3ff;
