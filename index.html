@@ -1142,6 +1142,7 @@ function clearMarksAndRerender(){
 }
 
 // Realça os termos em lotes para manter a UI fluida
+// Destaque com a regra de "todas as palavras no mesmo card"
 async function highlightTokensChunked(tokens){
   clearMarksAndRerender();
   if (!tokens.length) return;
@@ -1149,24 +1150,42 @@ async function highlightTokensChunked(tokens){
   setBusy(true);
   els.count.textContent = '...';
 
-  const nodes = [
-    ...document.querySelectorAll('article .art-body'),
-    ...document.querySelectorAll('article .art-title'),
-    ...document.querySelectorAll('article .supra > div')
-  ];
+  const articles = document.querySelectorAll('article');
+  const foundMarks = [];
 
-  const BATCH = 14;
-  for (let i = 0; i < nodes.length; i += BATCH){
-    for (let j = i; j < Math.min(i+BATCH, nodes.length); j++){
-      const n = nodes[j];
-      const raw = n.textContent;
-      const ranges = findRangesMulti(raw, tokens);
-      if (ranges.length) highlightElementByRanges(n, ranges);
-    }
-    await new Promise(r=>setTimeout(r,0));
+  for (const art of articles){
+    const bodyEl = art.querySelector('.art-body');
+    const titleEl = art.querySelector('.art-title');
+    const supraEls = art.querySelectorAll('.supra > div');
+
+    // Texto bruto completo do card
+    const fullText = [
+      bodyEl?.textContent || '',
+      titleEl?.textContent || '',
+      ...Array.from(supraEls).map(e => e.textContent || '')
+    ].join(' ').toLowerCase();
+
+    // Verifica se TODAS as palavras estão presentes no card
+    const isMatch = tokens.every(t => fullText.includes(t.toLowerCase()));
+    if (!isMatch) continue;
+
+    // Marca cada palavra dentro dos elementos
+    [bodyEl, titleEl, ...supraEls].forEach(el => {
+      if (!el) return;
+      let raw = el.textContent;
+      tokens.forEach(t => {
+        const regex = new RegExp(`(${t})`, "gi");
+        raw = raw.replace(regex, `<mark>$1</mark>`);
+      });
+      el.innerHTML = raw;
+    });
+
+    // Coleta os <mark> desse artigo
+    foundMarks.push(...art.querySelectorAll('mark'));
   }
 
-  state.matchNodes = Array.from(document.querySelectorAll('mark'));
+  // Atualiza navegação
+  state.matchNodes = foundMarks;
   if (state.matchNodes.length){
     state.matchIdx = 0;
     state.matchNodes[0].scrollIntoView({behavior:'smooth', block:'center'});
@@ -1176,6 +1195,7 @@ async function highlightTokensChunked(tokens){
   updateCount();
   setBusy(false);
 }
+
 
 /* =============== Scroll / Outline =============== */
 function getArticleInView(){
@@ -1264,6 +1284,7 @@ async function loadFile(url){
 }
 
 /* =============== Busca Local (arquivo atual) =============== */
+// Busca local (só considera achado se TODAS as palavras estiverem no mesmo card)
 async function runLocalSearch(){
   const q = els.searchInput.value.trim();
   if (!q) { clearMarksAndRerender(); return; }
@@ -1274,29 +1295,10 @@ async function runLocalSearch(){
   // Renderiza todos os artigos SEM filtrar
   renderArticles(state.articles, { globalMode: false });
 
-  // Verifica quais artigos têm TODAS as palavras
-  const matches = state.articles.filter(a => {
-    const text = (a.text || '').toLowerCase();
-    return tokens.every(t => text.includes(t));
-  });
-
-  // Aplica highlight só nos matches válidos
-  matches.forEach(a => {
-    const el = document.querySelector(`#art-${a.id}`);
-    if (!el) return;
-
-    tokens.forEach(t => {
-      const regex = new RegExp(`(${t})`, "gi");
-      el.innerHTML = el.innerHTML.replace(regex, `<mark>$1</mark>`);
-    });
-  });
-
-  // Rola até o primeiro match válido
-  if (matches.length > 0) {
-    const first = document.querySelector(`#art-${matches[0].id} mark`);
-    if (first) first.scrollIntoView({ behavior:"smooth", block:"center" });
-  }
+  // Realça apenas onde TODAS as palavras existem no mesmo card
+  await highlightTokensChunked(tokens);
 }
+
 
 
 
