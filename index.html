@@ -706,12 +706,11 @@ body = body
 
 // converte \n\n em salto real, e o restante em quebra simples
 content.innerHTML = body
-  .replace(/(^|\n)(\s*(?:§|Parágrafo único))/g, '<br><br>• <b>$2</b>')
-  .replace(/(^|\n)(\s*[IVXLCDM]+ ?-)/g, '<br><br>• <b>$2</b>')
-  .replace(/(^|\n)(\s*[a-z]\))/g, '<br><br>• <b>$2</b>')
+  .replace(/(^|\n)(\s*(?:§|Parágrafo único))/g, '<br><br><b>$2</b>')
+  .replace(/(^|\n)(\s*[IVXLCDM]+ ?-)/g, '<br><br><b>$2</b>')
+  .replace(/(^|\n)(\s*[a-z]\))/g, '<br><br><b>$2</b>')
   .replace(/\n\n/g, '<br><br>')
   .replace(/\n/g, '<br>');
-
 
 
 el.appendChild(content);
