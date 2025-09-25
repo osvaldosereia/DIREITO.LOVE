@@ -512,12 +512,17 @@ async function doSearch() {
     skel.remove();
     renderBlock(termRaw, results, tokens);
     toast(`${results.length} resultado(s) encontrados.`);
-  } finally {
+   } finally {
     els.stack.setAttribute("aria-busy", "false");
     els.spinner?.classList.remove("show");
-    els.q?.select();
+
+    // só foca no input se for busca manual, não por "reset"
+    if (!window._skipFocus) {
+      els.q?.select();
+    }
+    window._skipFocus = false; // reseta para próximas buscas
   }
-}
+
 
 function renderBlock(term, items, tokens) {
   const block = document.createElement("section");
@@ -1023,7 +1028,11 @@ ensureClearSelectedBtn();
 ensureBaseSpacer();
 reorderBaseControlsAndCenter();
 window.addEventListener("resize", reorderBaseControlsAndCenter);
-document.getElementById("resetBtn")?.addEventListener("click", collapseAllGroupsAndScrollTop);
+document.getElementById("resetBtn")?.addEventListener("click", () => {
+  window._skipFocus = true; // evita foco no input
+  collapseAllGroupsAndScrollTop();
+});
+
 
 
 
