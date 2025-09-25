@@ -1023,6 +1023,8 @@ ensureClearSelectedBtn();
 ensureBaseSpacer();
 reorderBaseControlsAndCenter();
 window.addEventListener("resize", reorderBaseControlsAndCenter);
+document.getElementById("resetBtn")?.addEventListener("click", collapseAllGroupsAndScrollTop);
+
 
 
 // Executa a busca automaticamente se vier com ?q=...
@@ -1035,6 +1037,18 @@ document.addEventListener("DOMContentLoaded", () => {
     doSearch(); // já executa a busca
   }
 });
+/* ---------- Reset: fecha grupos e sobe ---------- */
+function collapseAllGroupsAndScrollTop() {
+  document.querySelectorAll(".group-head[aria-expanded='true']").forEach((btn) => {
+    btn.setAttribute("aria-expanded", "false");
+    const groupBody = btn.nextElementSibling;
+    if (groupBody?.classList.contains("group-body")) {
+      groupBody.hidden = true;
+    }
+  });
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 /* === Histórico de buscas === */
 const MAX_HISTORY = 20;
 const HISTORY_KEY = "searchHistory";
