@@ -522,6 +522,7 @@ async function doSearch() {
     }
     window._skipFocus = false; // reseta para próximas buscas
   }
+}
 
 function renderBlock(term, items, tokens) {
   const block = document.createElement("section");
@@ -602,7 +603,7 @@ function truncatedHTML(fullText, tokens) {
   } else if (base.length > CARD_CHAR_LIMIT) {
     out = out.trim() + "…";
   }
-  return highlight(escHTML(out), tokens);
+return highlight(out, tokens);
 }
 
 function renderCard(item, tokens = [], ctx = { context: "results" }) {
