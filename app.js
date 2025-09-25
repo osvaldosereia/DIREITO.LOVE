@@ -545,7 +545,7 @@ function renderBlock(term, items, tokens) {
   }
 
   // Cria accordion por grupo (tudo colapsado inicialmente)
-  const groups = Array.from(groupsMap.entries()).sort((a,b)=> a[0].localeCompare(b[0]));
+const groups = Array.from(groupsMap.entries()).sort((a, b) => b[1].length - a[1].length);
   groups.forEach(([label, arr]) => {
     const sec = document.createElement("section");
     sec.className = "group";
