@@ -685,7 +685,7 @@ const INTRO_BY_DIR = {
   "data/estatutos/":  "💡 ESTUDO (Estatutos): estrutura, direitos/deveres, hipóteses típicas e pegadinhas.",
   "data/teses/":      "💡 ESTUDO (Teses): tese, lastro jurisprudencial, divergências e impactos.",
   "data/CF88/":       "💡 ESTUDO (CF/88): princípios, dispositivos aplicáveis, jurisprudência dominante e casos práticos.",
-  "data/noticias/":   "💡 ESTUDO (Notícias): Atue como um professor de direito. Encontre a notícia em questão, acesse seu conteudo e nos traga um breve resumo. Em seguida relacione o tema da notícias ao direito, comente e os qualifique.",
+  "data/noticias/":   "💡 ESTUDO (Notícias): Pesquise na internet a notícia real mais recente com base no título abaixo e resuma com linguagem clara e objetiva, como se explicasse para um estudante de Direito. Depois, atue como professor: relacione os fatos aos conceitos jurídicos aplicáveis, explicando fundamentos legais, doutrina e possíveis consequências práticas.",
   "data/youtube/":    "💡 ESTUDO (Youtube): Encontre, acesse a transcrição, resuma, faça um checklist detalhado e comentado de todos os conceitos."
 };
 
