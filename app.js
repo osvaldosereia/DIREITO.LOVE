@@ -675,16 +675,39 @@ function renderCard(item, tokens = [], ctx = { context: "results" }) {
   const hubMenu = document.createElement("div");
   hubMenu.className = "hub-menu";
 
-  // Prefixo fixo que será enviado antes do conteúdo do card
-  const PREFIX = "Ensine o tema abaixo para um estudante de Direito exigente: explique com didática de alto nível, incluindo conceito jurídico, exemplos práticos, visão doutrinária, jurisprudência majoritária, prática jurídica, aplicação em provas e erros comuns.";
+  // Prefixos por pasta (edite livremente os textos à direita)
+const INTRO_BY_DIR = {
+  "data/codigos/":    "💡 ESTUDO (Códigos): explique com base legal, doutrina majoritária, exemplos práticos e armadilhas de prova.",
+  "data/sumulas/":    "💡 ESTUDO (Súmulas): apresente contexto, ratio decidendi, alcance, exceções e aplicações frequentes.",
+  "data/enunciados/": "💡 ESTUDO (Enunciados): relacione com dispositivos legais, utilidade prática e cobrança em provas.",
+  "data/julgados/":   "💡 ESTUDO (Julgados): explique fundamentos, precedentes relevantes, efeitos práticos e controvérsias.",
+  "data/leis/":       "💡 ESTUDO (Leis): destaque conceitos‑chave, interpretação, exemplos e erros comuns.",
+  "data/estatutos/":  "💡 ESTUDO (Estatutos): estrutura, direitos/deveres, hipóteses típicas e pegadinhas.",
+  "data/teses/":      "💡 ESTUDO (Teses): tese, lastro jurisprudencial, divergências e impactos.",
+  "data/CF88/":       "💡 ESTUDO (CF/88): princípios, dispositivos aplicáveis, jurisprudência dominante e casos práticos."
+};
 
-  // Monta a query do card (prefixo + título + corpo), com compactação e limite para URL
-  const makeCardQuery = () => {
-    const raw = (item.title + " " + item.text).replace(/\s+/g, " ").trim();
-    const body = `${PREFIX}\n\n${raw}`;
-    const maxLen = 1800; // segurança para não estourar a URL
-    return encodeURIComponent(body.length > maxLen ? body.slice(0, maxLen) : body);
-  };
+// (Opcional) complemento pedagógico geral — você pode editar ou remover
+const GLOBAL_PREFIX = "Ensine para um estudante de Direito exigente, com didática de alto nível, cobrindo conceito, exemplos, visão doutrinária, jurisprudência majoritária, prática forense, cobrança em provas e erros comuns.";
+
+// Resolve o prefixo por pasta a partir do fileUrl do item
+function getIntroForPath(fileUrl = "") {
+  for (const dir in INTRO_BY_DIR) {
+    if (fileUrl.includes(dir)) return INTRO_BY_DIR[dir];
+  }
+  // fallback caso a pasta não esteja no mapa
+  return "💡 ESTUDO (Geral): explique de forma completa, prática e atualizada.";
+}
+
+// Monta a query do card: [intro por pasta] + [prefixo global] + [título+texto do card]
+const makeCardQuery = () => {
+  const raw = (item.title + " " + item.text).replace(/\s+/g, " ").trim();
+  const intro = getIntroForPath(item.fileUrl || "");
+  const body  = `${intro}\n\n${GLOBAL_PREFIX}\n\n${raw}`;
+  const maxLen = 1800; // segurança p/ não estourar URL
+  return encodeURIComponent(body.length > maxLen ? body.slice(0, maxLen) : body);
+};
+
 
   // === Perplexity
   const hubBtn1 = document.createElement("button");
