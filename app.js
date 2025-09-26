@@ -630,10 +630,26 @@ function renderCard(item, tokens = [], ctx = { context: "results" }) {
   const body = document.createElement("div");
   body.className = "body";
   if (ctx.context === "reader") {
-    body.innerHTML = highlight(item.text, tokens);
+let visualText = item.text;
+if (item.fileUrl.includes("/youtube/") || item.fileUrl.includes("/noticias/")) {
+  visualText = visualText
+    .split("\n")
+    .filter(line => !/^https?:\/\/\S+/.test(line.trim()))
+    .join("\n")
+    .trim();
+}
+body.innerHTML = highlight(visualText, tokens);
   } else {
     body.classList.add("is-collapsed");
-    body.innerHTML = truncatedHTML(item.text, tokens);
+let visualText = item.text;
+if (item.fileUrl.includes("/youtube/") || item.fileUrl.includes("/noticias/")) {
+  visualText = visualText
+    .split("\n")
+    .filter(line => !/^https?:\/\/\S+/.test(line.trim()))
+    .join("\n")
+    .trim();
+}
+body.innerHTML = truncatedHTML(visualText, tokens);
   }
   body.style.cursor = "pointer";
   body.addEventListener("click", () => openReader(item));
