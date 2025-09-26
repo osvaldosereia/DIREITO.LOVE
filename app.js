@@ -686,7 +686,7 @@ const INTRO_BY_DIR = {
   "data/teses/":      "💡 ESTUDO (Teses): tese, lastro jurisprudencial, divergências e impactos.",
   "data/CF88/":       "💡 ESTUDO (CF/88): princípios, dispositivos aplicáveis, jurisprudência dominante e casos práticos."
   "data/noticias/":   "💡 ESTUDO (Notícias): Encontre, comente, relacione ao direito e extraia um aprendizado."
-  "data/youtube/":    "💡 ESTUDO (Youtube): Encontre, acesse a transcrição, resuma, faça um checklist detalhado e comentado de todos os conceitos..
+  "data/youtube/":    "💡 ESTUDO (Youtube): Encontre, acesse a transcrição, resuma, faça um checklist detalhado e comentado de todos os conceitos."
 };
 
 // (Opcional) complemento pedagógico geral — você pode editar ou remover
