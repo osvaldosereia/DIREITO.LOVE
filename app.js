@@ -3,7 +3,7 @@
    Regras:
    1) Cada card = bloco entre linhas "-----"
    2) Texto preservado como no .txt (parênteses incluídos)
-   3) "Respiros" (linhas em branco) apenas na visualização do leitor
+   3) "Respiros" (linhas em branco) apenas na visualização do leitornotic
    ========================== */
 
 /* Service Worker (opcional) */
@@ -677,14 +677,14 @@ function renderCard(item, tokens = [], ctx = { context: "results" }) {
 
   // Prefixos por pasta (edite livremente os textos à direita)
 const INTRO_BY_DIR = {
-  "data/codigos/":    "💡 ESTUDO (Códigos): explique com base legal, doutrina majoritária, exemplos práticos e armadilhas de prova.",
-  "data/sumulas/":    "💡 ESTUDO (Súmulas): apresente contexto, ratio decidendi, alcance, exceções e aplicações frequentes.",
-  "data/enunciados/": "💡 ESTUDO (Enunciados): relacione com dispositivos legais, utilidade prática e cobrança em provas.",
-  "data/julgados/":   "💡 ESTUDO (Julgados): explique fundamentos, precedentes relevantes, efeitos práticos e controvérsias.",
-  "data/leis/":       "💡 ESTUDO (Leis): destaque conceitos‑chave, interpretação, exemplos e erros comuns.",
-  "data/estatutos/":  "💡 ESTUDO (Estatutos): estrutura, direitos/deveres, hipóteses típicas e pegadinhas.",
-  "data/teses/":      "💡 ESTUDO (Teses): tese, lastro jurisprudencial, divergências e impactos.",
-  "data/CF88/":       "💡 ESTUDO (CF/88): princípios, dispositivos aplicáveis, jurisprudência dominante e casos práticos.",
+  "data/codigos/":    "💡 ESTUDO (Códigos): Explique o tema com base no texto legal, citando fundamentos doutrinários, exemplos práticos e súmulas/julgados de apoio. Depois, aponte armadilhas de prova e como o artigo costuma ser cobrado na prática forense.",
+  "data/sumulas/":    "💡 ESTUDO (Súmulas): Apresente o contexto fático‑jurídico da súmula e a ratio decidendi, indicando seu alcance prático. Relacione exceções conhecidas, dispositivos aplicáveis e exemplos de uso em concursos e casos reais.",
+  "data/enunciados/": "💡 ESTUDO (Enunciados): Analise o enunciado relacionando‑o aos dispositivos legais correspondentes e à interpretação dominante. Explique utilidade prática, aplicações típicas e como costuma ser exigido em provas ou petições.",
+  "data/julgados/":   "💡 ESTUDO (Julgados): Resuma o julgado, explicando fundamentos centrais e precedentes determinantes da decisão. Comente efeitos práticos, divergências relevantes e a importância do caso para a jurisprudência atual.",
+  "data/leis/":       "💡 ESTUDO (Leis): Destaque conceitos‑chave da norma e a interpretação majoritária, com exemplos de aplicação. Aponte erros comuns, confusões frequentes e pontos sensíveis para concursos e prática jurídica.",
+  "data/estatutos/":  "💡 ESTUDO (Estatutos): Apresente a estrutura do estatuto, principais direitos, deveres e mecanismos previstos. Indique hipóteses típicas de aplicação, temas polêmicos e pegadinhas recorrentes em exames jurídicos.",
+  "data/teses/":      "💡 ESTUDO (Teses): Explique a tese jurídica, seu conteúdo e lastro jurisprudencial, situando o contexto de aplicação. Comente divergências entre tribunais, controvérsias e impactos na prática forense.",
+  "data/CF88/":       "💡 ESTUDO (CF/88): Relacione os princípios constitucionais e dispositivos da CF/88 diretamente aplicáveis ao tema. Apresente jurisprudência dominante e exemplos práticos que conectem teoria, lei e realidade.",
   "data/noticias/":   "💡 ESTUDO (Notícias): Me atualize sobre o tema dessa reportagem. Me diga exatamente do que se trata e comente.",
   "data/youtube/":    "💡 ESTUDO (Youtube): Encontre, acesse a transcrição, resuma, faça um checklist detalhado e comentado de todos os conceitos."
 };
