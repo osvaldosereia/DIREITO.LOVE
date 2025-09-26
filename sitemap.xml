@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Página inicial -->
   <url><loc>https://direito.love/</loc></url>
-  <url><loc>https://direito.love/codigo-penal.html</loc></url>
-  <url><loc>https://direito.love/codigo-civil.html</loc></url>
-  <url><loc>https://direito.love/codigos.html</loc></url>
+
+  <!-- Páginas principais do site -->
+  <url><loc>https://direito.love/buscador.html</loc></url>
+  <url><loc>https://direito.love/leituras.html</loc></url>
   <url><loc>https://direito.love/estudos.html</loc></url>
   <url><loc>https://direito.love/pesquisa.html</loc></url>
-  <url><loc>https://direito.love/leituras.html</loc></url>
+  <url><loc>https://direito.love/listas.html</loc></url>
+  <url><loc>https://direito.love/arquivo.html</loc></url>
+
+  <!-- Páginas individuais dos códigos -->
+  <url><loc>https://direito.love/cc.html</loc></url>
+  <url><loc>https://direito.love/cp.html</loc></url>
+  <url><loc>https://direito.love/cpc.html</loc></url>
+  <url><loc>https://direito.love/cpp.html</loc></url>
+  <url><loc>https://direito.love/clt.html</loc></url>
+  <url><loc>https://direito.love/ctn.html</loc></url>
+  <url><loc>https://direito.love/cf88.html</loc></url>
+
+  <!-- Outras possíveis páginas HTML (ex.: conteúdo por tipo) -->
+  <url><loc>https://direito.love/sumulas.html</loc></url>
+  <url><loc>https://direito.love/teses.html</loc></url>
+  <url><loc>https://direito.love/julgados.html</loc></url>
+  <url><loc>https://direito.love/leis.html</loc></url>
+  <url><loc>https://direito.love/estatutos.html</loc></url>
+  <url><loc>https://direito.love/enunciados.html</loc></url>
+  <url><loc>https://direito.love/noticias.html</loc></url>
 </urlset>
