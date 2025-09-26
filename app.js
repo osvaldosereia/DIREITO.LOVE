@@ -782,7 +782,28 @@ chk.innerHTML = `
   });
 
   /* ===== Montagem das ações (cards) ===== */
-  actions.append(geminiBtn, chk);
+  actions.append(geminiBtn);
+
+// Botão adicional para links externos em arquivos de notícia/youtube
+const isYouTube = item.fileUrl.includes("/youtube/");
+const isNoticia = item.fileUrl.includes("/noticias/");
+const isLinkCard = isYouTube || isNoticia;
+const linkMatch = item.text.match(/https?:\/\/\S+/);
+const externalLink = linkMatch ? linkMatch[0] : null;
+
+if (isLinkCard && externalLink) {
+  const linkBtn = document.createElement("button");
+  linkBtn.className = "round-btn";
+  linkBtn.setAttribute("aria-label", "Ver conteúdo externo");
+  linkBtn.innerHTML = `<img src="icons/${isYouTube ? 'youtube' : 'news'}.png" alt="">`;
+  linkBtn.addEventListener("click", () => {
+    window.open(externalLink, "_blank", "noopener");
+  });
+  actions.appendChild(linkBtn);
+}
+
+actions.append(chk);
+
 
   left.append(body, actions);
   card.append(left);
