@@ -690,7 +690,7 @@ const INTRO_BY_DIR = {
 };
 
 // (Opcional) complemento pedagógico geral — você pode editar ou remover
-const GLOBAL_PREFIX = "Ensine para um estudante de Direito exigente, com didática de alto nível, cobrindo conceito, exemplos, visão doutrinária, jurisprudência majoritária, prática forense, cobrança em provas e erros comuns.";
+const GLOBAL_PREFIX = "";
 
 // Resolve o prefixo por pasta a partir do fileUrl do item
 function getIntroForPath(fileUrl = "") {
