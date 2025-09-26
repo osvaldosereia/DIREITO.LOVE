@@ -685,12 +685,12 @@ const INTRO_BY_DIR = {
   "data/estatutos/":  "💡 ESTUDO (Estatutos): Apresente a estrutura do estatuto, principais direitos, deveres e mecanismos previstos. Indique hipóteses típicas de aplicação, temas polêmicos e pegadinhas recorrentes em exames jurídicos.",
   "data/teses/":      "💡 ESTUDO (Teses): Explique a tese jurídica, seu conteúdo e lastro jurisprudencial, situando o contexto de aplicação. Comente divergências entre tribunais, controvérsias e impactos na prática forense.",
   "data/CF88/":       "💡 ESTUDO (CF/88): Relacione os princípios constitucionais e dispositivos da CF/88 diretamente aplicáveis ao tema. Apresente jurisprudência dominante e exemplos práticos que conectem teoria, lei e realidade.",
-  "data/noticias/":   "💡 ESTUDO (Notícias): Me atualize sobre o tema dessa reportagem. Me diga exatamente do que se trata e comente.",
+  "data/noticias/":   "💡 ESTUDO (Notícias): Me atualize sobre o tema dessa reportagem. Me diga exatamente do que se trata e o andam noticiando sobre ela.",
   "data/youtube/":    "💡 ESTUDO (Youtube): Encontre, acesse a transcrição, resuma, faça um checklist detalhado e comentado de todos os conceitos."
 };
 
 // (Opcional) complemento pedagógico geral — você pode editar ou remover
-const GLOBAL_PREFIX = "";
+const GLOBAL_PREFIX = "Divida a resposta em topicos organizados.";
 
 // Resolve o prefixo por pasta a partir do fileUrl do item
 function getIntroForPath(fileUrl = "") {
