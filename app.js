@@ -678,19 +678,19 @@ function renderCard(item, tokens = [], ctx = { context: "results" }) {
   // Prefixos por pasta (edite livremente os textos à direita)
 const INTRO_BY_DIR = {
   "data/codigos/":    "💡 ESTUDO (Códigos): Explique o tema com base no texto legal, citando fundamentos doutrinários, exemplos práticos e súmulas/julgados de apoio. Depois, aponte armadilhas de prova e como o artigo costuma ser cobrado na prática forense.",
-  "data/sumulas/":    "💡 ESTUDO (Súmulas): Apresente o contexto fático‑jurídico da súmula e a ratio decidendi, indicando seu alcance prático. Relacione exceções conhecidas, dispositivos aplicáveis e exemplos de uso em concursos e casos reais.",
+  "data/sumulas/":    "💡 ESTUDO (Súmulas): Apresente o contexto fático‑jurídico da súmula, indicando seu alcance prático. Relacione exceções conhecidas, dispositivos aplicáveis e exemplos de uso em concursos e casos reais.",
   "data/enunciados/": "💡 ESTUDO (Enunciados): Analise o enunciado relacionando‑o aos dispositivos legais correspondentes e à interpretação dominante. Explique utilidade prática, aplicações típicas e como costuma ser exigido em provas ou petições.",
   "data/julgados/":   "💡 ESTUDO (Julgados): Resuma o julgado, explicando fundamentos centrais e precedentes determinantes da decisão. Comente efeitos práticos, divergências relevantes e a importância do caso para a jurisprudência atual.",
   "data/leis/":       "💡 ESTUDO (Leis): Destaque conceitos‑chave da norma e a interpretação majoritária, com exemplos de aplicação. Aponte erros comuns, confusões frequentes e pontos sensíveis para concursos e prática jurídica.",
-  "data/estatutos/":  "💡 ESTUDO (Estatutos): Apresente a estrutura do estatuto, principais direitos, deveres e mecanismos previstos. Indique hipóteses típicas de aplicação, temas polêmicos e pegadinhas recorrentes em exames jurídicos.",
+  "data/estatutos/":  "💡 ESTUDO (Estatutos): Explique o artigo abaixo dentro do contexto do estatuto a que pertence, destacando seu conteúdo, objetivo e relação com os demais dispositivos. Depois, aponte hipóteses práticas de aplicação, temas polêmicos e pegadinhas de prova.",
   "data/teses/":      "💡 ESTUDO (Teses): Explique a tese jurídica, seu conteúdo e lastro jurisprudencial, situando o contexto de aplicação. Comente divergências entre tribunais, controvérsias e impactos na prática forense.",
   "data/CF88/":       "💡 ESTUDO (CF/88): Relacione os princípios constitucionais e dispositivos da CF/88 diretamente aplicáveis ao tema. Apresente jurisprudência dominante e exemplos práticos que conectem teoria, lei e realidade.",
-  "data/noticias/":   "💡 ESTUDO (Tema para Pesquisa): Escreva sobre o tema a seeguir: .",
+  "data/noticias/":   "💡 ESTUDO (Tema para Pesquisa): Escreva um artigo para uma revista academica de direito sobre o tema a seguir: .",
   "data/youtube/":    "💡 ESTUDO (Youtube): Encontre, acesse a transcrição, resuma, faça um checklist detalhado e comentado de todos os conceitos."
 };
 
 // (Opcional) complemento pedagógico geral — você pode editar ou remover
-const GLOBAL_PREFIX = "Divida a resposta em topicos organizados.";
+const GLOBAL_PREFIX = "Seja Didático, organizado e de fácil entendimento. Entregue respostas com mais de 400 palavras.";
 
 // Resolve o prefixo por pasta a partir do fileUrl do item
 function getIntroForPath(fileUrl = "") {
