@@ -1290,27 +1290,25 @@ document.addEventListener("click", (e) => {
 function ensureBucketStyles() {
   if (document.getElementById("bucket-darkblue-styles")) return;
   const css = `
-    /* bucket herda a estrutura de group para manter o mesmo layout */
-    .bucket.group > .group-head {
-      background: #0d2847; /* azul-escuro acessível */
-      color: #ffffff;
-      border-color: #0b2140;
-    }
-    .bucket.group > .group-head:hover {
-      background: #0b2140;
-      color: #ffffff;
-    }
-    .bucket .subcat {
-      padding: 6px 10px 10px;
-    }
-    .bucket .subcat-title {
-      font-weight: 600;
-      color: #0d2847;
-      margin: 8px 0 6px;
-    }
-    /* mantém o caret visível em tema escuro */
-    .bucket .bucket-caret { filter: brightness(2); }
-  `;
+  /* Cabeçalho do bucket principal */
+  .bucket.group > .group-head{
+    background:#0d2847;color:#fff;border-color:#0b2140;
+  }
+  .bucket.group > .group-head:hover{background:#0b2140;color:#fff}
+  .bucket .bucket-caret{filter:brightness(2)}
+
+  /* Subcategoria COLAPSÁVEL (começa fechada) */
+  .bucket .subcat{margin:8px 0}
+  .bucket .bucket-subhead{
+    background:#173a6a;color:#fff;border:1px solid #102a4a;
+    border-radius:10px;padding:10px 14px;width:100%;
+    display:flex;align-items:center;justify-content:space-between;
+    cursor:pointer;
+  }
+  .bucket .bucket-subhead:hover{background:#133764}
+  .bucket .subcat-title{font-weight:600}
+  .bucket .subcat-body{padding:6px 10px 10px}
+`;
   const style = document.createElement("style");
   style.id = "bucket-darkblue-styles";
   style.textContent = css;
@@ -1337,18 +1335,38 @@ function renderBucket(mainTitle, subMapElts /* {subTitle: [HTMLElement,...]} */)
   body.hidden = true; // inicia FECHADO
 
   for (const [subTitle, nodes] of Object.entries(subMapElts)) {
-    if (!nodes.length) continue;
-    const sub = document.createElement("section");
-    sub.className = "subcat";
+  if (!nodes.length) continue;
 
-    const st = document.createElement("div");
-    st.className = "subcat-title";
-    st.textContent = subTitle;
-    sub.appendChild(st);
+  const sub = document.createElement("section");
+  sub.className = "subcat";
 
-    nodes.forEach(n => sub.appendChild(n));
-    body.appendChild(sub);
-  }
+  // Cabeçalho da subcategoria (botão)
+  const subHead = document.createElement("button");
+  subHead.className = "bucket-subhead";
+  subHead.setAttribute("aria-expanded", "false"); // inicia FECHADO
+  subHead.innerHTML = `
+    <span class="subcat-title">${subTitle}</span>
+    <span class="group-caret" aria-hidden="true">▾</span>
+  `;
+
+  // Corpo da subcategoria (conteúdo)
+  const subBody = document.createElement("div");
+  subBody.className = "subcat-body";
+  subBody.hidden = true; // inicia FECHADO
+  nodes.forEach(n => subBody.appendChild(n));
+
+  // Toggle abre/fecha
+  subHead.addEventListener("click", () => {
+    const open = subHead.getAttribute("aria-expanded") === "true";
+    subHead.setAttribute("aria-expanded", open ? "false" : "true");
+    subBody.hidden = open;
+  });
+
+  sub.appendChild(subHead);
+  sub.appendChild(subBody);
+  body.appendChild(sub);
+}
+
 
   bucket.appendChild(head);
   bucket.appendChild(body);
