@@ -705,3 +705,26 @@ mark.hl{
 .history-dropdown.open {
   display: block;
 }
+.chip-area {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 10px 12px;
+  background: #f9f9f9;
+  border-bottom: 1px solid #ddd;
+}
+.chip-btn {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  border-radius: 999px;
+  background: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.chip-btn[aria-pressed="true"] {
+  background: var(--ink, #333);
+  color: white;
+  border-color: var(--ink, #333);
+}
