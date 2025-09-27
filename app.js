@@ -481,8 +481,25 @@ async function doSearch() {
 
     // monta a lista de arquivos; se codeInfo → filtra pelo rótulo do <option>
     let allOptions = Array.from(els.codeSelect?.querySelectorAll("option") || [])
-      .map((o) => ({ url: (o.value || "").trim(), label: (o.textContent || "").trim() }))
-      .filter((o) => o.url);
+  .map((o) => ({ url: (o.value || "").trim(), label: (o.textContent || "").trim() }))
+  .filter((o) => {
+    if (!o.url) return false;
+
+    const cat = state.activeCategory;
+
+    if (cat === "codigos") {
+      return /\/(codigos|estatutos|leis|CF88)\//i.test(o.url);
+    }
+    if (cat === "juris") {
+      return /\/(sumulas|julgados|enunciados|teses)\//i.test(o.url);
+    }
+    if (cat === "noticias") {
+      return /\/(noticias|youtube)\//i.test(o.url);
+    }
+
+    return true; // fallback, não deveria acontecer
+  });
+
 
     if (codeInfo) {
       allOptions = allOptions.filter((o) => o.label === codeInfo.label);
