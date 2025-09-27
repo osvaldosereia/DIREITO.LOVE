@@ -1286,44 +1286,7 @@ document.addEventListener("click", (e) => {
   }
   window.resolveBucket = resolveBucket;
 
-  function renderBucket(mainTitle, subMapElts /* {subTitle: [HTMLElement,...]} */) {
-    const bucket = document.createElement("section");
-    bucket.className = "bucket";
-
-    const head = document.createElement("button");
-    head.className = "bucket-head";
-    head.setAttribute("aria-expanded", "true");
-    head.innerHTML = `<span class="bucket-title">${mainTitle}</span><span class="bucket-caret" aria-hidden="true">▾</span>`;
-    bucket.appendChild(head);
-
-    const body = document.createElement("div");
-    body.className = "bucket-body";
-    body.hidden = false;
-
-    for (const [subTitle, nodes] of Object.entries(subMapElts)) {
-      if (!nodes.length) continue;
-      const sub = document.createElement("section");
-      sub.className = "subcat";
-
-      const st = document.createElement("div");
-      st.className = "subcat-title";
-      st.textContent = subTitle;
-      sub.appendChild(st);
-
-      nodes.forEach(n => sub.appendChild(n));
-      body.appendChild(sub);
-    }
-
-    bucket.appendChild(body);
-
-    head.addEventListener("click", () => {
-      const open = head.getAttribute("aria-expanded") === "true";
-      head.setAttribute("aria-expanded", open ? "false" : "true");
-      body.hidden = open;
-    });
-
-    return bucket;
-  }
+  unction renderBucket(mainTitle, 
   window.renderBucket = renderBucket;
 
   // ===== Usa helpers do app.js original via window =====
