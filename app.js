@@ -856,8 +856,9 @@ if (item.fileUrl?.includes("data/videos/")) {
     ytBtn.innerHTML = '<img src="icons/ai-youtube.png" alt="YouTube">';
     ytBtn.addEventListener("click", () => {
       const raw = (item.title + " " + item.text).replace(/\s+/g, " ").trim();
-      const q = encodeURIComponent(raw);
-      window.open(`${baseUrl}${q}`, "_blank", "noopener");
+      const query = encodeURIComponent((item.title + " " + item.text).trim().replace(/\s+/g, " "));
+window.open(`${baseUrl}${query}`, "_blank", "noopener");
+
     });
     actions.append(ytBtn);
   }
