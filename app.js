@@ -384,22 +384,6 @@ function parseBlock(block, idx, fileUrl, sourceLabel) {
   };
 }
 
-  // junta título + corpo
-  const fullRaw = [first, rest].filter(Boolean).join("\n");
-
-  // remove qualquer linha que seja um link de vídeo (para esconder no card)
-  const fullClean = fullRaw.replace(/^https:\/\/www\.youtube\.com\/watch\?v=[\w\-]+$/gim, "").trim();
-
-  return {
-    id: `${fileUrl}::art-${idx}`,
-    htmlId: `art-${idx}`,
-    source: sourceLabel,
-    title: first,
-    body: rest,
-    text: fullClean, // usado na exibição do card
-    fileUrl,
-  };
-}
 
 async function parseFile(url, sourceLabel) {
   if (state.cacheParsed.has(url)) return state.cacheParsed.get(url);
