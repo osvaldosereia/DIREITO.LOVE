@@ -1286,8 +1286,87 @@ document.addEventListener("click", (e) => {
   }
   window.resolveBucket = resolveBucket;
 
-  unction renderBucket(mainTitle, 
-  window.renderBucket = renderBucket;
+ // injeta um tema azul-escuro e reaproveita o layout de "group"
+function ensureBucketStyles() {
+  if (document.getElementById("bucket-darkblue-styles")) return;
+  const css = `
+    /* bucket herda a estrutura de group para manter o mesmo layout */
+    .bucket.group > .group-head {
+      background: #0d2847; /* azul-escuro acessível */
+      color: #ffffff;
+      border-color: #0b2140;
+    }
+    .bucket.group > .group-head:hover {
+      background: #0b2140;
+      color: #ffffff;
+    }
+    .bucket .subcat {
+      padding: 6px 10px 10px;
+    }
+    .bucket .subcat-title {
+      font-weight: 600;
+      color: #0d2847;
+      margin: 8px 0 6px;
+    }
+    /* mantém o caret visível em tema escuro */
+    .bucket .bucket-caret { filter: brightness(2); }
+  `;
+  const style = document.createElement("style");
+  style.id = "bucket-darkblue-styles";
+  style.textContent = css;
+  document.head.appendChild(style);
+}
+
+function renderBucket(mainTitle, subMapElts /* {subTitle: [HTMLElement,...]} */) {
+  ensureBucketStyles();
+
+  const bucket = document.createElement("section");
+  // usa também a classe .group para pegar o mesmo padrão visual/colapsável
+  bucket.className = "bucket group";
+
+  const head = document.createElement("button");
+  // .group-head para herdar o estilo padrão dos outros colapsados
+  head.className = "group-head";
+  head.setAttribute("aria-expanded", "false"); // inicia FECHADO
+  head.innerHTML = `
+    <span class="group-title">${mainTitle}</span>
+    <span class="bucket-caret" aria-hidden="true">▾</span>
+  `;
+  bucket.appendChild(head);
+
+  const body = document.createElement("div");
+  // .group-body para herdar paddings/anim/estilo
+  body.className = "group-body bucket-body";
+  body.hidden = true; // inicia FECHADO
+
+  for (const [subTitle, nodes] of Object.entries(subMapElts)) {
+    if (!nodes.length) continue;
+
+    const sub = document.createElement("section");
+    sub.className = "subcat";
+
+    const st = document.createElement("div");
+    st.className = "subcat-title";
+    st.textContent = subTitle;
+    sub.appendChild(st);
+
+    nodes.forEach(n => sub.appendChild(n));
+    body.appendChild(sub);
+  }
+
+  bucket.appendChild(body);
+
+  head.addEventListener("click", () => {
+    const open = head.getAttribute("aria-expanded") === "true";
+    head.setAttribute("aria-expanded", open ? "false" : "true");
+    body.hidden = open;
+  });
+
+  return bucket;
+}
+
+window.renderBucket = renderBucket;
+
 
   // ===== Usa helpers do app.js original via window =====
   const { els, parseFile, norm, stripThousandDots, hasAllWordTokens, matchesNumbers, KW_RX, detectQueryMode, renderCard } = window;
