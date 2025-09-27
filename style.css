@@ -87,7 +87,7 @@ body{font:400 var(--fs)/1.6 ui-sans-serif,system-ui,-apple-system,"SF Pro Text",
   color:#111;
 }
 
-.card 
+
 /* mantemos isso para não “subir” no grid do card */
 .card .chk{ align-self:auto }
 
@@ -590,8 +590,8 @@ mark.hl{
     flex-basis: 72px !important;
   }
 }
-/* Ocultar botão chk dentro dos cards */
-.chk {
+/* Ocultar chk só nos CARDS (deixa aparecer no modal/leitor) */
+.card .chk {
   display: none !important;
   visibility: hidden;
   width: 0;
@@ -600,6 +600,7 @@ mark.hl{
   margin: 0;
   overflow: hidden;
 }
+
 /* ===== Botão flutuante do histórico ===== */
 #btnHistorico {
   position: fixed;
