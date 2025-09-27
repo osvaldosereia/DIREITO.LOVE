@@ -705,3 +705,41 @@ mark.hl{
 .history-dropdown.open {
   display: block;
 }
+/* === Grupo de chips de categoria === */
+.category-chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin: 12px 0;
+}
+
+.category-chip-group .chip {
+  flex: 1 1 auto;
+  min-width: 220px;
+  max-width: 100%;
+  text-align: center;
+  padding: 10px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  border: 1px solid #d0d4dc;
+  background: #fff;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.category-chip-group .chip:hover {
+  background: #f0f4ff;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+@media (max-width: 600px) {
+  .category-chip-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .category-chip-group .chip {
+    width: 100%;
+  }
+}
