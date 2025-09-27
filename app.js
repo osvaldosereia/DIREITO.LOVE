@@ -884,22 +884,16 @@ if (item.fileUrl?.includes("data/videos/")) {
 if (item.fileUrl?.includes("data/artigos/") || item.fileUrl?.includes("data/noticias/")) {
   const fontes = {
     "jusbrasil.txt": {
-      base: "https://www.jusbrasil.com.br/busca?q=",
+      base: "https://www.jusbrasil.com.br/artigos-noticias/busca?q=",
       icon: "jusbrasil.png"
     },
     "conjur.txt": {
       base: "https://www.conjur.com.br/busca/?q=",
       icon: "conjur.png"
     },
-    "ambito_juridico.txt": {
-      base: "https://www.ambito-juridico.com.br/search/?q=",
-      icon: "ambito.png"
-    },
-    // genéricos: você pode ir adicionando outros aqui depois
-    "default": {
-      base: "https://www.google.com/search?q=",
-      icon: "globo.png"
-    }
+    "migalhas.txt": {
+      base: "https://www.migalhas.com.br/busca?q=",
+      icon: "migalhas.png"
   };
 
   const fileName = item.fileUrl.split("/").pop().toLowerCase();
