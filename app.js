@@ -835,19 +835,34 @@ geminiBtn.addEventListener("click", () => {
   window.open(`https://www.google.com/search?q=${q}&udm=50`, "_blank", "noopener");
 });
 
-   // Só adiciona se vier da pasta de vídeos
+   // === YouTube (apenas se for da pasta /videos/)
 if (item.fileUrl?.includes("data/videos/")) {
-  const ytBtn = document.createElement("button");
-  ytBtn.className = "round-btn";
-  ytBtn.setAttribute("aria-label", "Pesquisar no YouTube");
-  ytBtn.innerHTML = '<img src="icons/ai-youtube.png" alt="YouTube">'; // ícone que você preferir
-  ytBtn.addEventListener("click", () => {
-    const raw = (item.title + " " + item.text).replace(/\s+/g, " ").trim();
-    const q = encodeURIComponent(raw);
-    window.open(`https://www.youtube.com/results?search_query=${q}`, "_blank", "noopener");
-  });
-  actions.append(ytBtn);
+  const YOUTUBE_CHANNELS = {
+    "instante_juridico.txt": "https://www.youtube.com/@instantejuridico/search?query=",
+    "diego_pureza.txt":      "https://www.youtube.com/@diegopureza/search?query=",
+    "me_julga.txt":          "https://www.youtube.com/@mejulga/search?query=",
+    "direito_desenhado.txt": "https://www.youtube.com/@direitodesenhado/search?query=",
+    "supremo.txt":           "https://www.youtube.com/@tvsupremo/search?query=",
+  };
+
+  // extrai apenas o nome do arquivo (ex: supremo.txt)
+  const fileName = item.fileUrl.split("/").pop();
+  const baseUrl = YOUTUBE_CHANNELS[fileName];
+
+  if (baseUrl) {
+    const ytBtn = document.createElement("button");
+    ytBtn.className = "round-btn";
+    ytBtn.setAttribute("aria-label", "Pesquisar no canal do YouTube");
+    ytBtn.innerHTML = '<img src="icons/ai-youtube.png" alt="YouTube">';
+    ytBtn.addEventListener("click", () => {
+      const raw = (item.title + " " + item.text).replace(/\s+/g, " ").trim();
+      const q = encodeURIComponent(raw);
+      window.open(`${baseUrl}${q}`, "_blank", "noopener");
+    });
+    actions.append(ytBtn);
+  }
 }
+
 
 
 /* ===== Check (pilha) — permanece nos cards ===== */
