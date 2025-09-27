@@ -68,6 +68,29 @@
       font-size: 12px;
     }
   }
+    .home-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: -10px;
+}
+
+.home-chips button {
+  padding: 10px 16px;
+  border: 1px solid #ccc;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.home-chips button:hover {
+  background: #eee;
+}
+
 </style>
 <title>direito.love — Estudo jurídico com inteligência artificial</title>
 <meta name="description" content="Explore temas jurídicos com IA: códigos comentados, jurisprudência, questões, resumos, estratégia para OAB e concursos. Direito prático e acessível.">
@@ -90,7 +113,11 @@
     <form class="home-form" onsubmit="redirect(event)">
       <input type="search" id="homeInput" placeholder="Digite o tema ou artigo..." autofocus autocomplete="off" />
     </form>
-  </div>
+    <div class="home-chips">
+  <button onclick="goToCat('codigos')">📘 Códigos, Estatutos e Leis</button>
+  <button onclick="goToCat('juris')">⚖️ Súmulas, Enunciados e Julgados</button>
+  <button onclick="goToCat('noticias')">📰 Notícias e Vídeos</button>
+</div>
 
   <script>
     function redirect(e) {
@@ -101,6 +128,14 @@
       window.location.href = url;
     }
   </script>
+<script>
+  function goToCat(cat) {
+    const input = document.getElementById("homeInput");
+    const term = input.value.trim();
+    const q = encodeURIComponent(term);
+    window.location.href = `buscador.html?q=${q}&cat=${cat}`;
+  }
+</script>
 
 </body>
 </html>
