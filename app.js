@@ -1318,30 +1318,26 @@ function ensureBucketStyles() {
 }
 
 function renderBucket(mainTitle, subMapElts /* {subTitle: [HTMLElement,...]} */) {
-  ensureBucketStyles();
+  ensureBucketStyles(); // injeta o CSS azul-escuro e padrão dos colapsados
 
   const bucket = document.createElement("section");
-  // usa também a classe .group para pegar o mesmo padrão visual/colapsável
+  // herda o layout dos grupos
   bucket.className = "bucket group";
 
   const head = document.createElement("button");
-  // .group-head para herdar o estilo padrão dos outros colapsados
   head.className = "group-head";
   head.setAttribute("aria-expanded", "false"); // inicia FECHADO
   head.innerHTML = `
     <span class="group-title">${mainTitle}</span>
     <span class="bucket-caret" aria-hidden="true">▾</span>
   `;
-  bucket.appendChild(head);
 
   const body = document.createElement("div");
-  // .group-body para herdar paddings/anim/estilo
   body.className = "group-body bucket-body";
   body.hidden = true; // inicia FECHADO
 
   for (const [subTitle, nodes] of Object.entries(subMapElts)) {
     if (!nodes.length) continue;
-
     const sub = document.createElement("section");
     sub.className = "subcat";
 
@@ -1354,6 +1350,7 @@ function renderBucket(mainTitle, subMapElts /* {subTitle: [HTMLElement,...]} */)
     body.appendChild(sub);
   }
 
+  bucket.appendChild(head);
   bucket.appendChild(body);
 
   head.addEventListener("click", () => {
@@ -1364,6 +1361,8 @@ function renderBucket(mainTitle, subMapElts /* {subTitle: [HTMLElement,...]} */)
 
   return bucket;
 }
+
+
 
 window.renderBucket = renderBucket;
 
