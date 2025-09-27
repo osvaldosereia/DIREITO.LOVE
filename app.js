@@ -386,7 +386,7 @@ function parseBlock(block, idx, fileUrl, sourceLabel) {
     title: first,
     body,
     text: full,         // texto sem o link
-    _bag
+    _bag,
     fileUrl,
     videoUrl: videoLink || null
   };
