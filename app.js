@@ -3,7 +3,7 @@
    Regras:
    1) Cada card = bloco entre linhas "-----"
    2) Texto preservado como no .txt (parênteses incluídos)
-   3) "Respiros" (linhas em branco) apenas na visualização do leitornotic
+   3) "Respiros" (linhas em branco) apenas na visualização do leitor
    ========================== */
 
 /* Service Worker (opcional) */
