@@ -357,13 +357,13 @@ function parseBlock(block, idx, fileUrl, sourceLabel) {
   const first = firstIdx >= 0 ? lines[firstIdx].trim() : `Bloco ${idx + 1}`;
   const bodyLines = lines.slice(firstIdx + 1);
 
-  // Captura o link (se existir)
+  // Captura o link (se existir) e remove do texto exibido
   let videoUrl = null;
   const filteredBody = bodyLines.filter((line) => {
     const trimmed = line.trim();
     if (/^https:\/\/www\.youtube\.com\/watch\?v=/.test(trimmed)) {
       videoUrl = trimmed;
-      return false; // remove do texto
+      return false;
     }
     return true;
   });
@@ -377,11 +377,12 @@ function parseBlock(block, idx, fileUrl, sourceLabel) {
     source: sourceLabel,
     title: first,
     body,
-    text: full,       // usado no card
+    text: full,        // texto do card (sem a linha do link)
     fileUrl,
-    videoUrl: videoUrl || null, // usado pelo botão YouTube
+    videoUrl: videoUrl // link do vídeo (se tiver)
   };
 }
+
 
 
 
