@@ -835,6 +835,21 @@ geminiBtn.addEventListener("click", () => {
   window.open(`https://www.google.com/search?q=${q}&udm=50`, "_blank", "noopener");
 });
 
+   // Só adiciona se vier da pasta de vídeos
+if (item.fileUrl?.includes("data/videos/")) {
+  const ytBtn = document.createElement("button");
+  ytBtn.className = "round-btn";
+  ytBtn.setAttribute("aria-label", "Pesquisar no YouTube");
+  ytBtn.innerHTML = '<img src="icons/ai-youtube.png" alt="YouTube">'; // ícone que você preferir
+  ytBtn.addEventListener("click", () => {
+    const raw = (item.title + " " + item.text).replace(/\s+/g, " ").trim();
+    const q = encodeURIComponent(raw);
+    window.open(`https://www.youtube.com/results?search_query=${q}`, "_blank", "noopener");
+  });
+  actions.append(ytBtn);
+}
+
+
 /* ===== Check (pilha) — permanece nos cards ===== */
   const chk = document.createElement("button");
 chk.className = "chk";
