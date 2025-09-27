@@ -852,31 +852,23 @@ geminiBtn.addEventListener("click", () => {
   window.open(`https://www.google.com/search?q=${q}&udm=50`, "_blank", "noopener");
 });
 
-   // === YouTube (apenas se for da pasta /videos/)
+ // === YouTube (se for da pasta /videos/)
 if (item.fileUrl?.includes("data/videos/")) {
   const ytChannels = {
-    "supremo.txt":           "@tvsupremo",
-    "instante_juridico.txt": "@instantejuridico",
-    "me_julga.txt":          "@mejulga",
-    "direito_desenhado.txt": "@direitodesenhado",
-    "diego_pureza.txt":      "@diegopureza",
+    "supremo.txt":           "TVSupremo",
+    "instante_juridico.txt": "InstanteJuridico",
+    "me_julga.txt":          "MeJulga",
+    "direito_desenhado.txt": "DireitoDesenhado",
+    "diego_pureza.txt":      "DiegoPureza"
   };
 
   const fileName = item.fileUrl.split("/").pop().toLowerCase();
-  const handle   = ytChannels[fileName];
+  const canal = ytChannels[fileName];
 
-  let urlFinal = null;
-
-  if (item.videoUrl) {
-    // se o link do vídeo foi encontrado no parseBlock
-    urlFinal = item.videoUrl;
-  } else if (handle) {
-    // fallback para busca no canal
+  if (canal) {
     const query = encodeURIComponent(item.title.trim());
-    urlFinal = `https://www.youtube.com/${handle}/search?query=${query}`;
-  }
+    const urlFinal = `https://www.youtube.com/@${canal}/search?query=${query}`;
 
-  if (urlFinal) {
     const ytBtn = document.createElement("button");
     ytBtn.className = "round-btn";
     ytBtn.setAttribute("aria-label", "Ver no YouTube");
@@ -887,6 +879,8 @@ if (item.fileUrl?.includes("data/videos/")) {
     actions.append(ytBtn);
   }
 }
+
+
 
 /* ===== Check (pilha) — permanece nos cards ===== */
   const chk = document.createElement("button");
