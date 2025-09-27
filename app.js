@@ -757,12 +757,12 @@ const INTRO_BY_DIR = {
   "data/estatutos/":  "💡 ESTUDO (Estatutos): Explique o artigo abaixo dentro do contexto do estatuto a que pertence, destacando seu conteúdo, objetivo e relação com os demais dispositivos. Depois, aponte hipóteses práticas de aplicação, temas polêmicos e pegadinhas de prova. Responda sempre em português do Brasil.",
   "data/teses/":      "💡 ESTUDO (Teses): Explique a tese jurídica, seu conteúdo e lastro jurisprudencial, situando o contexto de aplicação. Comente divergências entre tribunais, controvérsias e impactos na prática forense. Responda sempre em português do Brasil.",
   "data/CF88/":       "💡 ESTUDO (CF/88): Relacione os princípios constitucionais e dispositivos da CF/88 diretamente aplicáveis ao tema. Apresente jurisprudência dominante e exemplos práticos que conectem teoria, lei e realidade. Responda sempre em português do Brasil.",
-  "data/noticias/":   "💡 ESTUDO (Encontrar Notícia): Encontre a notícia a seguir, me de de 1 a 3 links e me traga um resumo.",
+  "data/noticias/":   "💡 ESTUDO (Remuso): Escreva um resumo claro, com linguagem jurídica acessível. Destaque o entendimento do STJ, o impacto prático da decisão e a base legal aplicada.",
   "data/videos/":     "💡 ESTUDO (Explique e indique o vìdeo do youtube): Explique o tema, citando fundamentos doutrinários, exemplos práticos e súmulas/julgados de apoio. No final me de o link do vídeo em questão. Responda sempre em português do Brasil.  "
 };
 
 // (Opcional) complemento pedagógico geral — você pode editar ou remover
-const GLOBAL_PREFIX = "Seja Didático, organizado e de fácil entendimento. Entregue respostas com mais de 400 palavras.";
+const GLOBAL_PREFIX = "Seja Didático, organizado e de fácil entendimento. Entregue respostas com mais de 400 palavras. Tema:";
 
 // Resolve o prefixo por pasta a partir do fileUrl do item
 function getIntroForPath(fileUrl = "") {
@@ -777,7 +777,7 @@ function getIntroForPath(fileUrl = "") {
 const makeCardQuery = () => {
   const raw = (item.title + " " + item.text).replace(/\s+/g, " ").trim();
   const intro = getIntroForPath(item.fileUrl || "");
-  const body  = `${intro}\n\n${GLOBAL_PREFIX}\n\n${raw}`;
+  const body  = `${intro}\n\n${raw}`;
   const maxLen = 1800; // segurança p/ não estourar URL
   return encodeURIComponent(body.length > maxLen ? body.slice(0, maxLen) : body);
 };
