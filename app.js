@@ -496,21 +496,51 @@ return;
 
 
   // trata 1.000 → 1000 na query
-  const term = stripThousandDots(termRaw);
+  saveToHistory(termRaw); // salva no histórico
 
-  els.stack.innerHTML = "";
-  els.stack.setAttribute("aria-busy", "true");
-  const skel = document.createElement("section");
-  skel.className = "block";
-  const t = document.createElement("div");
-  t.className = "block-title";
-  t.textContent = `Busca: ‘${termRaw}’ (…)`;
-  skel.appendChild(t);
-  for (let i = 0; i < 2; i++) {
-    const s = document.createElement("div"); s.className = "skel block"; skel.appendChild(s);
-  }
-  els.stack.append(skel);
-  els.spinner?.classList.add("show");
+els.stack.innerHTML = "";
+
+const chipsBlock = document.createElement("div");
+chipsBlock.className = "block";
+chipsBlock.id = "categoryChips";
+
+chipsBlock.innerHTML = `
+  <div class="block-title">🔍 Onde você quer buscar primeiro?</div>
+  <div class="category-chip-group">
+    <button class="chip category-chip" data-etapa="1">🔵 Códigos, Leis e Estatutos</button>
+    <button class="chip category-chip" data-etapa="2">🟢 Julgados e Enunciados</button>
+    <button class="chip category-chip" data-etapa="3">🟡 Notícias e Vídeos</button>
+  </div>
+`;
+
+els.stack.appendChild(chipsBlock);
+
+// Escuta os cliques dos chips
+chipsBlock.querySelectorAll(".category-chip").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const etapa = btn.dataset.etapa;
+
+    // remove botão clicado
+    btn.remove();
+
+    // move os chips restantes para o final
+    const others = chipsBlock.querySelector(".category-chip-group");
+    if (others && others.children.length > 0) {
+      const moved = document.createElement("div");
+      moved.className = "block";
+      moved.innerHTML = `<div class="block-title">🔁 Ver também em:</div>`;
+      moved.appendChild(others);
+      els.stack.appendChild(moved);
+    }
+
+    // executa a busca apenas naquela etapa
+    const options = getOptionsByEtapa(Number(etapa));
+    doEtapaSearch(termRaw, options);
+  });
+});
+
+return; // pausa aqui. Espera o clique no chip para buscar.
+
 
   try {
     const normQuery = norm(term);
@@ -1194,6 +1224,65 @@ document.addEventListener("DOMContentLoaded", () => {
     doSearch(); // já executa a busca
   }
 });
+   async function doEtapaSearch(termRaw, options) {
+  const term = stripThousandDots(termRaw);
+  els.spinner?.classList.add("show");
+  els.stack.setAttribute("aria-busy", "true");
+
+  const skel = document.createElement("section");
+  skel.className = "block";
+  skel.innerHTML = `
+    <div class="block-title">🔎 Buscando: ‘${termRaw}’ (…)</div>
+    <div class="skel block"></div>
+    <div class="skel block"></div>
+  `;
+  els.stack.appendChild(skel);
+
+  try {
+    const normQuery = norm(term);
+    const queryMode = detectQueryMode(normQuery);
+    const codeInfo = detectCodeFromQuery(normQuery);
+
+    let tokens = tokenize(normQuery);
+    if (!tokens.length) {
+      skel.remove();
+      renderBlock(termRaw, [], []);
+      toast("Use palavras com 3+ letras ou números (1–4 dígitos).");
+      return;
+    }
+
+    if (codeInfo) tokens = tokens.filter((tk) => !codeInfo.keyWords.has(tk));
+
+    const queryHasLegalKeyword = KW_RX.test(normQuery);
+    const { wordTokens, numTokens } = splitTokens(tokens);
+
+    const results = [];
+    for (const { url, label } of options) {
+      try {
+        const items = await parseFile(url, label);
+        for (const it of items) {
+          const bag = norm(stripThousandDots(it.text));
+
+          const okWords = hasAllWordTokens(bag, wordTokens);
+          const okNums  = matchesNumbers(it, numTokens, queryHasLegalKeyword, queryMode);
+
+          if (okWords && okNums) results.push(it);
+        }
+      } catch (e) {
+        toast(`⚠️ Não carreguei: ${label}`);
+        console.warn("Erro em", label, e);
+      }
+    }
+
+    skel.remove();
+    renderBlock(termRaw, results, tokens);
+    toast(`${results.length} resultado(s) encontrados.`);
+  } finally {
+    els.spinner?.classList.remove("show");
+    els.stack.setAttribute("aria-busy", "false");
+  }
+}
+
 /* ---------- Reset: fecha grupos e sobe ---------- */
 function collapseAllGroupsAndScrollTop() {
   document.querySelectorAll(".group-head[aria-expanded='true']").forEach((btn) => {
