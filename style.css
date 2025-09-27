@@ -705,3 +705,13 @@ mark.hl{
 .history-dropdown.open {
   display: block;
 }
+/* ===== ACCORDION GUARD: fecha de verdade mesmo com resets ===== */
+.group > .group-head[aria-expanded="false"] + .group-body{
+  display: none !important;
+}
+.bucket .bucket-subhead[aria-expanded="false"] + .subcat-body{
+  display: none !important;
+}
+
+/* (mantém quando aberto — não precisa forçar display:block) */
+/* .group-body[hidden]{ display:none } já está ok e pode ficar */
