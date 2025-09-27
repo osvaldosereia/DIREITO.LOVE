@@ -1297,7 +1297,17 @@ function ensureBucketStyles() {
   .bucket.group > .group-head:hover{background:#0b2140;color:#fff}
   .bucket .bucket-caret{filter:brightness(2)}
 
-  /* Subcategoria COLAPSÁVEL (começa fechada) */
+  /* --- Regras ROBUSTAS de colapso (fechado por padrão) --- */
+  /* Qualquer group: se o head está aria-expanded="false", o body some */
+  .group > .group-head[aria-expanded="false"] + .group-body{
+    display:none !important;
+  }
+  /* Subcategoria do bucket: idem para o subhead */
+  .bucket .bucket-subhead[aria-expanded="false"] + .subcat-body{
+    display:none !important;
+  }
+
+  /* Subcategoria (visual) */
   .bucket .subcat{margin:8px 0}
   .bucket .bucket-subhead{
     background:#173a6a;color:#fff;border:1px solid #102a4a;
@@ -1309,6 +1319,7 @@ function ensureBucketStyles() {
   .bucket .subcat-title{font-weight:600}
   .bucket .subcat-body{padding:6px 10px 10px}
 `;
+
   const style = document.createElement("style");
   style.id = "bucket-darkblue-styles";
   style.textContent = css;
