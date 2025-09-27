@@ -1224,10 +1224,7 @@ document.addEventListener("DOMContentLoaded", () => {
     doSearch(); // já executa a busca
   }
 });
-   async function doEtapaSearch(termRaw, options) {
-  const term = stripThousandDots(termRaw);
-  els.spinner?.classList.add("show");
-  els.stack.setAttribute("aria-busy", "true");
+  
 
   const skel = document.createElement("section");
   skel.className = "block";
