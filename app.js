@@ -880,6 +880,44 @@ if (item.fileUrl?.includes("data/videos/")) {
   }
 }
 
+// === Link extra (para "artigos" e "notícias")
+if (item.fileUrl?.includes("data/artigos/") || item.fileUrl?.includes("data/noticias/")) {
+  const fontes = {
+    "jusbrasil.txt": {
+      base: "https://www.jusbrasil.com.br/busca?q=",
+      icon: "jusbrasil.png"
+    },
+    "conjur.txt": {
+      base: "https://www.conjur.com.br/busca/?q=",
+      icon: "conjur.png"
+    },
+    "ambito_juridico.txt": {
+      base: "https://www.ambito-juridico.com.br/search/?q=",
+      icon: "ambito.png"
+    },
+    // genéricos: você pode ir adicionando outros aqui depois
+    "default": {
+      base: "https://www.google.com/search?q=",
+      icon: "globo.png"
+    }
+  };
+
+  const fileName = item.fileUrl.split("/").pop().toLowerCase();
+  const fonte = fontes[fileName] || fontes["default"];
+
+  if (fonte?.base) {
+    const query = encodeURIComponent(item.title.trim());
+    const urlFinal = `${fonte.base}${query}`;
+    const btn = document.createElement("button");
+    btn.className = "round-btn";
+    btn.setAttribute("aria-label", "Ver fonte original");
+    btn.innerHTML = `<img src="icons/${fonte.icon}" alt="Fonte">`;
+    btn.addEventListener("click", () => {
+      window.open(urlFinal, "_blank", "noopener");
+    });
+    actions.append(btn);
+  }
+}
 
 
 /* ===== Check (pilha) — permanece nos cards ===== */
