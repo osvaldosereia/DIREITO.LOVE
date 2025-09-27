@@ -491,27 +491,76 @@ async function doSearch() {
       }
     }
 
-    const results = [];
-    for (const { url, label } of allOptions) {
-      try {
-        const items = await parseFile(url, label);
-        for (const it of items) {
-          const bag = norm(stripThousandDots(it.text));
+    const groupedResults = new Map();
 
-          const okWords = hasAllWordTokens(bag, wordTokens);
-          const okNums  = matchesNumbers(it, numTokens, queryHasLegalKeyword, queryMode);
+for (const { url, label } of allOptions) {
+  try {
+    const items = await parseFile(url, label);
+    const matched = [];
 
-          if (okWords && okNums) results.push(it);
-        }
-      } catch (e) {
-        toast(`⚠️ Não carreguei: ${label}`);
-        console.warn("Falha ao buscar:", e);
-      }
+    for (const it of items) {
+      const bag = norm(stripThousandDots(it.text));
+
+      const okWords = hasAllWordTokens(bag, wordTokens);
+      const okNums  = matchesNumbers(it, numTokens, queryHasLegalKeyword, queryMode);
+
+      if (okWords && okNums) matched.push(it);
     }
 
-    skel.remove();
-    renderBlock(termRaw, results, tokens);
-    toast(`${results.length} resultado(s) encontrados.`);
+    if (matched.length) {
+      groupedResults.set(label, matched);
+      renderPartialResults(termRaw, groupedResults, tokens);
+    }
+
+  } catch (e) {
+    toast(`⚠️ Não carreguei: ${label}`);
+    console.warn("Falha ao buscar:", e);
+  }
+}
+
+skel.remove();
+toast(`${[...groupedResults.values()].flat().length} resultado(s) encontrados.`);
+function renderPartialResults(term, groupsMap, tokens) {
+  els.stack.innerHTML = ""; // limpa antes de re-renderizar tudo
+
+  const block = document.createElement("section");
+  block.className = "block";
+
+  const title = document.createElement("div");
+  title.className = "block-title";
+  const total = [...groupsMap.values()].flat().length;
+  title.textContent = `Busca: ‘${term}’ (${total} resultados)`;
+  block.appendChild(title);
+
+  const groups = Array.from(groupsMap.entries()).sort((a, b) => b[1].length - a[1].length);
+  groups.forEach(([label, arr]) => {
+    const sec = document.createElement("section");
+    sec.className = "group";
+
+    const head = document.createElement("button");
+    head.className = "group-head";
+    head.setAttribute("aria-expanded","true");
+    head.innerHTML = `<span class="group-title">${label}</span><span class="group-count">${arr.length}</span><span class="group-caret" aria-hidden="true">▾</span>`;
+    sec.appendChild(head);
+
+    const body = document.createElement("div");
+    body.className = "group-body";
+    body.hidden = false;
+    arr.forEach((it)=> body.appendChild(renderCard(it, tokens)));
+    sec.appendChild(body);
+
+    head.addEventListener("click", ()=>{
+      const open = head.getAttribute("aria-expanded")==="true";
+      head.setAttribute("aria-expanded", open ? "false" : "true");
+      body.hidden = open;
+    });
+
+    block.appendChild(sec);
+  });
+
+  els.stack.appendChild(block);
+}
+
    } finally {
     els.stack.setAttribute("aria-busy", "false");
     els.spinner?.classList.remove("show");
