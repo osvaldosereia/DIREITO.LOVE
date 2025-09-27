@@ -617,13 +617,7 @@ function renderLazyResults(term, groups, tokens) {
     body.appendChild(renderCard(items[0], tokens));
     sec.appendChild(body);
 
-    const foot = document.createElement("div");
-    foot.className = "group-foot";
-    foot.hidden = true;
-    const info = document.createElement("small");
-    info.textContent = partial ? "Prévia: 1 resultado" : `Exibindo ${items.length}`;
-    foot.appendChild(info);
-    sec.appendChild(foot);
+
 
     let loadedAll = !partial;
     head.addEventListener("click", async () => {
