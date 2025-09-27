@@ -1161,3 +1161,24 @@ document.addEventListener("click", (e) => {
     menu.classList.remove("open");
   }
 });
+// Ativar chip de categoria vindo da URL (?cat=...)
+const urlParams = new URLSearchParams(location.search);
+const catParam = urlParams.get("cat");
+if (catParam) {
+  const chipBtns = document.querySelectorAll("#categoryChips .chip-btn");
+  chipBtns.forEach((btn) => {
+    const cat = btn.getAttribute("data-cat");
+    const isActive = cat === catParam;
+    btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+    if (isActive) state.activeCategory = cat;
+  });
+
+  // Força nova busca após selecionar categoria
+  setTimeout(() => {
+    const input = document.getElementById("searchInput");
+    if (input?.value?.length >= 2) {
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      document.getElementById("searchForm").dispatchEvent(new Event("submit", { bubbles: true }));
+    }
+  }, 100);
+}
