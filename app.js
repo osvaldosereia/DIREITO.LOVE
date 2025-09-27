@@ -883,18 +883,20 @@ if (item.fileUrl?.includes("data/videos/")) {
 // === Link extra (para "artigos" e "notícias")
 if (item.fileUrl?.includes("data/artigos/") || item.fileUrl?.includes("data/noticias/")) {
   const fontes = {
-    "jusbrasil.txt": {
-      base: "https://www.jusbrasil.com.br/artigos-noticias/busca?q=",
-      icon: "jusbrasil.png"
-    },
-    "conjur.txt": {
-      base: "https://www.conjur.com.br/busca/?q=",
-      icon: "conjur.png"
-    },
-    "migalhas.txt": {
-      base: "https://www.migalhas.com.br/busca?q=",
-      icon: "migalhas.png"
-  };
+  "jusbrasil.txt": {
+    base: "https://www.jusbrasil.com.br/artigos-noticias/busca?q=",
+    icon: "jusbrasil.png"
+  },
+  "conjur.txt": {
+    base: "https://www.conjur.com.br/busca/?q=",
+    icon: "conjur.png"
+  },
+  "migalhas.txt": {
+    base: "https://www.migalhas.com.br/busca?q=",
+    icon: "migalhas.png"
+  }
+};
+
 
   const fileName = item.fileUrl.split("/").pop().toLowerCase();
   const fonte = fontes[fileName] || fontes["default"];
