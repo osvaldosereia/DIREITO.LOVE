@@ -596,7 +596,7 @@ function renderLazyResults(term, groups, tokens) {
   title.textContent = `Busca: ‘${term}’`;
   block.appendChild(title);
 
-  const ordered = [...groups].sort((a,b)=> a.label.localeCompare(b.label));
+  const ordered = [...groups].sort((a, b) => a.label.localeCompare(b.label));
 
   ordered.forEach(({ label, url, items, partial }) => {
     const sec = document.createElement("section");
@@ -614,56 +614,70 @@ function renderLazyResults(term, groups, tokens) {
     const body = document.createElement("div");
     body.className = "group-body";
     body.hidden = true;
+    // prévia: só o 1º match
     body.appendChild(renderCard(items[0], tokens));
     sec.appendChild(body);
 
-
+    // ⚠️ crie o rodapé (foot/info) ANTES do listener
+    let foot = document.createElement("div");
+    foot.className = "group-foot";
+    foot.hidden = true;
+    const info = document.createElement("small");
+    info.textContent = partial ? "Prévia: 1 resultado" : `Exibindo ${items.length}`;
+    foot.appendChild(info);
+    sec.appendChild(foot);
 
     let loadedAll = !partial;
+
     head.addEventListener("click", async () => {
       const open = head.getAttribute("aria-expanded") === "true";
       head.setAttribute("aria-expanded", open ? "false" : "true");
       body.hidden = open;
-      foot.hidden = open;
+      if (foot) foot.hidden = open; // <- guard
 
-      if (!open && !loadedAll) {
-        const sk = document.createElement("div");
-        sk.className = "skel block";
-        sk.style.margin = "10px 12px";
-        body.appendChild(sk);
+      // já carregou tudo alguma vez? então só abre/fecha
+      if (open || loadedAll) return;
 
-        try {
-          const fullItems = await parseFile(url, label);
-          const matches = [];
-          for (const it of fullItems) {
-            const bag = it._bag || norm(stripThousandDots(it.text));
-            const okWords = hasAllWordTokens(bag, tokens.filter(t=>!/^\d{1,4}$/.test(t)));
-            const okNums  = matchesNumbers(it, tokens.filter(t=>/^\d{1,4}$/.test(t)), KW_RX.test(norm(term)), detectQueryMode(norm(term)));
-            if (okWords && okNums) matches.push(it);
-          }
+      // skeleton enquanto carrega
+      const sk = document.createElement("div");
+      sk.className = "skel block";
+      sk.style.margin = "10px 12px";
+      body.appendChild(sk);
 
-          loadedAll = true;
-          body.innerHTML = "";
-          matches.forEach((it) => body.appendChild(renderCard(it, tokens)));
-           
-          const foot = document.createElement("div");
-          foot.className = "group-foot";
-          foot.hidden = true;
-          const info = document.createElement("small");
-          info.textContent = partial ? "Prévia: 1 resultado" : `Exibindo ${items.length}`;
-          foot.appendChild(info);
-          sec.appendChild(foot);
-           
-          info.textContent = `Exibindo ${matches.length}`;
-          const count = document.createElement("span");
-          count.className = "group-count";
-          count.textContent = matches.length;
-          head.insertBefore(count, head.querySelector(".group-caret"));
+      try {
+        const fullItems = await parseFile(url, label);
 
-        } catch (e) {
-          console.warn(e);
-          toast("Falha ao carregar o grupo.");
+        // reusa a mesma lógica de filtragem da busca
+        const wordTks = tokens.filter((t) => !/^\d{1,4}$/.test(t));
+        const numTks  = tokens.filter((t) =>  /^\d{1,4}$/.test(t));
+        const queryHasKW = KW_RX.test(norm(term));
+        const qMode = detectQueryMode(norm(term));
+
+        const matches = [];
+        for (const it of fullItems) {
+          const bag = it._bag || norm(stripThousandDots(it.text));
+          const okWords = hasAllWordTokens(bag, wordTks);
+          const okNums  = matchesNumbers(it, numTks, queryHasKW, qMode);
+          if (okWords && okNums) matches.push(it);
         }
+
+        loadedAll = true;
+        body.innerHTML = "";
+        matches.forEach((it) => body.appendChild(renderCard(it, tokens)));
+
+        // atualiza rodapé e contador do cabeçalho
+        info.textContent = `Exibindo ${matches.length}`;
+        let count = head.querySelector(".group-count");
+        if (!count) {
+          count = document.createElement("span");
+          count.className = "group-count";
+          head.insertBefore(count, head.querySelector(".group-caret"));
+        }
+        count.textContent = matches.length;
+
+      } catch (e) {
+        console.warn(e);
+        toast("Falha ao carregar o grupo.");
       }
     });
 
@@ -672,6 +686,7 @@ function renderLazyResults(term, groups, tokens) {
 
   els.stack.append(block);
 }
+
 function renderPartialResults(term, groupsMap, tokens) {
   els.stack.innerHTML = "";
   const block = document.createElement("section");
