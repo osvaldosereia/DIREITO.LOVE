@@ -1,3 +1,5 @@
+veja se o codigo esta correto
+
 /* ==========================
    direito.love — app.js (2025-09 • estável + patches)
    Regras:
@@ -648,7 +650,20 @@ function highlight(text, tokens) {
   const markedNFD = srcNFD.replace(rx, "<mark>$1</mark>");
   return markedNFD.normalize("NFC");
 }
+// ----------------------
+function extractUrlsAndTokenize(text) {
+  const urls = [];
+  const replaced = String(text || "").replace(/https?:\/\/[^\s<>()\[\]'"{}]+/gi, (m) => {
+    const id = `__URL_TOKEN_${urls.length}__`;
+    urls.push(m);
+    return id;
+  });
+  return { replaced, urls };
+}
 
+function escapeAttr(s) {
+  return (s || "").replace(/["']/g, (m) => (m === '"' ? "&quot;" : "&#39;"));
+}
 function truncatedHTML(fullText, tokens) {
   const base = fullText || "";
   let out = base.slice(0, CARD_CHAR_LIMIT);
@@ -685,11 +700,12 @@ function renderCard(item, tokens = [], ctx = { context: "results" }) {
   const body = document.createElement("div");
   body.className = "body";
   if (ctx.context === "reader") {
-    body.innerHTML = highlight(item.text, tokens);
-  } else {
-    body.classList.add("is-collapsed");
-    body.innerHTML = truncatedHTML(item.text, tokens);
-  }
+  body.innerHTML = renderWithLinks(item.text, tokens);
+} else {
+  body.classList.add("is-collapsed");
+  body.innerHTML = renderWithLinks(truncatedHTML(item.text, tokens), tokens);
+}
+
   body.style.cursor = "pointer";
   body.addEventListener("click", () => openReader(item));
 
