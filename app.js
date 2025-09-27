@@ -1,5 +1,3 @@
-veja se o codigo esta correto
-
 /* ==========================
    direito.love — app.js (2025-09 • estável + patches)
    Regras:
