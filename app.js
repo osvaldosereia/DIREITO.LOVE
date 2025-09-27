@@ -899,7 +899,8 @@ if (item.fileUrl?.includes("data/artigos/") || item.fileUrl?.includes("data/noti
 
 
   const fileName = item.fileUrl.split("/").pop().toLowerCase();
-  const fonte = fontes[fileName] || fontes["default"];
+  const fonte = fontes[fileName];
+
 
   if (fonte?.base) {
     const query = encodeURIComponent(item.title.trim());
