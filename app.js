@@ -741,7 +741,7 @@ const INTRO_BY_DIR = {
   "data/teses/":      "💡 ESTUDO (Teses): Explique a tese jurídica, seu conteúdo e lastro jurisprudencial, situando o contexto de aplicação. Comente divergências entre tribunais, controvérsias e impactos na prática forense.",
   "data/CF88/":       "💡 ESTUDO (CF/88): Relacione os princípios constitucionais e dispositivos da CF/88 diretamente aplicáveis ao tema. Apresente jurisprudência dominante e exemplos práticos que conectem teoria, lei e realidade.",
   "data/noticias/":   "💡 ESTUDO (Encontrar Notícia): Encontre a notícia a seguir, me de de 1 a 3 links e me traga um resumo:",
-  "data/youtube/":    "💡 ESTUDO (Encontrar vídeo no Youtube): Encontre, acesse a transcrição, resuma, faça um checklist detalhado e comentado de todos os conceitos. @youtube"
+  "data/videos/":     "💡 ESTUDO (Encontrar vídeo no Youtube): Encontre, acesse a transcrição, resuma, faça um checklist detalhado e comentado de todos os conceitos. @youtube"
 };
 
 // (Opcional) complemento pedagógico geral — você pode editar ou remover
