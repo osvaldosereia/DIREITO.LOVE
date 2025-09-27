@@ -521,8 +521,7 @@ for (const { url, label } of allOptions) {
 skel.remove();
 toast(`${[...groupedResults.values()].flat().length} resultado(s) encontrados.`);
 function renderPartialResults(term, groupsMap, tokens) {
-  els.stack.innerHTML = ""; // limpa antes de re-renderizar tudo
-
+  els.stack.innerHTML = "";
   const block = document.createElement("section");
   block.className = "block";
 
@@ -539,18 +538,24 @@ function renderPartialResults(term, groupsMap, tokens) {
 
     const head = document.createElement("button");
     head.className = "group-head";
-    head.setAttribute("aria-expanded","true");
-    head.innerHTML = `<span class="group-title">${label}</span><span class="group-count">${arr.length}</span><span class="group-caret" aria-hidden="true">▾</span>`;
+    head.setAttribute("aria-expanded", "false"); // fechado por padrão
+
+    head.innerHTML = `
+      <span class="group-title">${label}</span>
+      <span class="group-count">${arr.length}</span>
+      <span class="group-caret" aria-hidden="true">▾</span>
+    `;
     sec.appendChild(head);
 
     const body = document.createElement("div");
     body.className = "group-body";
-    body.hidden = false;
-    arr.forEach((it)=> body.appendChild(renderCard(it, tokens)));
+    body.hidden = true; // também escondido inicialmente
+
+    arr.forEach((it) => body.appendChild(renderCard(it, tokens)));
     sec.appendChild(body);
 
-    head.addEventListener("click", ()=>{
-      const open = head.getAttribute("aria-expanded")==="true";
+    head.addEventListener("click", () => {
+      const open = head.getAttribute("aria-expanded") === "true";
       head.setAttribute("aria-expanded", open ? "false" : "true");
       body.hidden = open;
     });
@@ -558,8 +563,9 @@ function renderPartialResults(term, groupsMap, tokens) {
     block.appendChild(sec);
   });
 
-  els.stack.appendChild(block);
+  els.stack.append(block);
 }
+
 
    } finally {
     els.stack.setAttribute("aria-busy", "false");
