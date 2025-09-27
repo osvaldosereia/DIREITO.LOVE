@@ -356,7 +356,12 @@ function parseBlock(block, idx, fileUrl, sourceLabel) {
   const firstIdx = lines.findIndex((l) => l.trim().length > 0);
   const first = firstIdx >= 0 ? lines[firstIdx].trim() : `Bloco ${idx + 1}`;
   const rest  = lines.slice(firstIdx + 1).join("\n").trim();
-  const full  = [first, rest].filter(Boolean).join("\n");
+
+  // junta título + corpo
+  const fullRaw = [first, rest].filter(Boolean).join("\n");
+
+  // remove qualquer linha que seja um link de vídeo (para esconder no card)
+  const fullClean = fullRaw.replace(/^https:\/\/www\.youtube\.com\/watch\?v=[\w\-]+$/gim, "").trim();
 
   return {
     id: `${fileUrl}::art-${idx}`,
@@ -364,10 +369,11 @@ function parseBlock(block, idx, fileUrl, sourceLabel) {
     source: sourceLabel,
     title: first,
     body: rest,
-    text: full, // título + corpo
+    text: fullClean, // usado na exibição do card
     fileUrl,
   };
 }
+
 async function parseFile(url, sourceLabel) {
   if (state.cacheParsed.has(url)) return state.cacheParsed.get(url);
   const txt = await fetchText(url);
@@ -835,37 +841,42 @@ geminiBtn.addEventListener("click", () => {
   window.open(`https://www.google.com/search?q=${q}&udm=50`, "_blank", "noopener");
 });
 
-   // === YouTube (apenas se for da pasta /videos/) — com link por canal + query funcional
+   // === YouTube (apenas se for da pasta /videos/)
 if (item.fileUrl?.includes("data/videos/")) {
-  const YOUTUBE_CHANNELS = {
-    "instante_juridico.txt": "https://www.youtube.com/@instantejuridico/search?query=",
-    "diego_pureza.txt":      "https://www.youtube.com/@diegopureza/search?query=",
-    "me_julga.txt":          "https://www.youtube.com/@mejulga/search?query=",
-    "direito_desenhado.txt": "https://www.youtube.com/@direitodesenhado/search?query=",
-    "supremo.txt":           "https://www.youtube.com/@tvsupremo/search?query=",
+  const ytChannels = {
+    "supremo.txt":           "@tvsupremo",
+    "instante_juridico.txt": "@instantejuridico",
+    "me_julga.txt":          "@mejulga",
+    "direito_desenhado.txt": "@direitodesenhado",
+    "diego_pureza.txt":      "@diegopureza",
   };
 
   const fileName = item.fileUrl.split("/").pop().toLowerCase();
-const ytChannels = {
-  "supremo.txt":           "@tvsupremo",
-  "instante_juridico.txt": "@instantejuridico",
-  "me_julga.txt":          "@mejulga",
-  "direito_desenhado.txt": "@direitodesenhado",
-  "diego_pureza.txt":      "@diegopureza",
-};
+  const handle   = ytChannels[fileName];
 
-const handle = ytChannels[fileName];
-if (handle) {
-  const query = encodeURIComponent(item.title.trim());
-  const ytBtn = document.createElement("button");
-  ytBtn.className = "round-btn";
-  ytBtn.setAttribute("aria-label", `Ver no canal ${handle}`);
-  ytBtn.innerHTML = '<img src="icons/ai-youtube.png" alt="YouTube">';
-  ytBtn.addEventListener("click", () => {
-    window.open(`https://www.youtube.com/${handle}/search?query=${query}`, "_blank");
-  });
-  actions.append(ytBtn);
+  // tenta extrair um link direto do vídeo do texto (mesmo que esteja oculto)
+  const match = item.text.match(/https:\/\/www\.youtube\.com\/watch\?v=[\w\-]+/i);
+  let urlFinal = null;
+
+  if (match) {
+    urlFinal = match[0]; // usa o link real do vídeo
+  } else if (handle) {
+    const query = encodeURIComponent(item.title.trim());
+    urlFinal = `https://www.youtube.com/${handle}/search?query=${query}`;
+  }
+
+  if (urlFinal) {
+    const ytBtn = document.createElement("button");
+    ytBtn.className = "round-btn";
+    ytBtn.setAttribute("aria-label", "Ver vídeo no YouTube");
+    ytBtn.innerHTML = '<img src="icons/ai-youtube.png" alt="YouTube">';
+    ytBtn.addEventListener("click", () => {
+      window.open(urlFinal, "_blank", "noopener");
+    });
+    actions.append(ytBtn);
+  }
 }
+
 
 
 
