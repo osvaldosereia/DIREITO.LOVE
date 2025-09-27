@@ -291,7 +291,7 @@ function pluralVariants(t) {
 function withinOneSubstitutionStrict(a, b) {
   if (a.length !== b.length) return false;
   if (a.length < 4) return a === b;
-  if (a[0] !== b[0] || a[a.length - 1] !== b[b.length - 1]) return false;
+  if (a[0] !== b[0] || a[a.length - 1] !== b[a.length - 1]) return false;
   let diff = 0;
   for (let i = 0; i < a.length; i++) {
     if (a[i] !== b[i] && ++diff > 1) return false;
@@ -374,7 +374,7 @@ function sanitize(s) {
     .replace(/[ \t]+\n/g, "\n");
 }
 async function fetchText(url) {
-if (state.cacheTxt.has(url)) return state.cacheTxt.get(url);
+  if (state.cacheTxt.has(url)) return state.cacheTxt.get(url);
   let r;
   try {
     r = await fetch(url, { cache: "force-cache" });
@@ -426,7 +426,6 @@ function parseBlock(block, idx, fileUrl, sourceLabel) {
     videoUrl: videoLink || null
   };
 }
-
 
 async function parseFile(url, sourceLabel) {
   if (state.cacheParsed.has(url)) return state.cacheParsed.get(url);
@@ -498,11 +497,10 @@ async function doSearch() {
   if (__searchAbort) { try { __searchAbort.abort(); } catch(_){} }
   __searchAbort = new AbortController();
   const { signal } = __searchAbort;
-const termRaw = (els.q.value || "").trim();
+  const termRaw = (els.q.value || "").trim();
   if (!termRaw) return;
 
-     saveToHistory(termRaw); // 👈 Aqui está a mágica
-
+  saveToHistory(termRaw); // histórico
 
   // trata 1.000 → 1000 na query
   const term = stripThousandDots(termRaw);
@@ -532,7 +530,7 @@ const termRaw = (els.q.value || "").trim();
     let tokens = tokenize(normQuery);
     if (!tokens.length) {
       skel.remove();
-      renderBlock(termRaw, [], []);
+      window.renderBlock(termRaw, [], []); // usa override bucketizado
       toast("Use palavras com 3+ letras ou números (1–4 dígitos).");
       return;
     }
@@ -545,7 +543,7 @@ const termRaw = (els.q.value || "").trim();
     const queryHasLegalKeyword = KW_RX.test(normQuery);
     const { wordTokens, numTokens } = splitTokens(tokens);
 
-    // monta a lista de arquivos; se codeInfo → filtra pelo rótulo do <option>
+    // monta a lista de arquivos; se codeInfo → filtra pelo rótulo do <select>
     let allOptions = Array.from(els.codeSelect?.querySelectorAll("option") || [])
       .map((o) => ({ url: (o.value || "").trim(), label: (o.textContent || "").trim() }))
       .filter((o) => o.url);
@@ -558,198 +556,33 @@ const termRaw = (els.q.value || "").trim();
     }
 
     // estrutura "lazy": guardamos só o primeiro match e um loader para o resto
-const lazyGroups = []; // [{ label, url, items:[first], partial:true }]
+    const lazyGroups = []; // [{ label, url, items:[first], partial:true }]
 
-for (const { url, label } of allOptions) {
-  try {
-    const predicate = (it) => {
-      const bag = it._bag || norm(stripThousandDots(it.text));
-      const okWords = hasAllWordTokens(bag, wordTokens);
-      const okNums  = matchesNumbers(it, numTokens, queryHasLegalKeyword, queryMode);
-      return okWords && okNums;
-    };
-
-    const first = await firstMatchInFile(url, label, predicate);
-    if (first) {
-      lazyGroups.push({ label, url, items: [first], partial: true });
-      renderLazyResults(termRaw, lazyGroups, tokens);
-    }
-  } catch (e) {
-    toast(`⚠️ Não carreguei: ${label}`);
-    console.warn("Falha ao buscar:", e);
-  }
-}
-
-// fim da busca inicial (só previews)
-skel.remove();
-toast(`${lazyGroups.length} fonte(s) com resultado.`);
-
-// ===== Renderização LAZY: mostra 1º match por grupo e carrega o resto ao abrir =====
-function renderLazyResults(term, groups, tokens) {
-  els.stack.innerHTML = "";
-
-  const block = document.createElement("section");
-  block.className = "block";
-
-  const title = document.createElement("div");
-  title.className = "block-title";
-  title.textContent = `Busca: ‘${term}’`;
-  block.appendChild(title);
-
-  const ordered = [...groups].sort((a, b) => a.label.localeCompare(b.label));
-
-  ordered.forEach(({ label, url, items, partial }) => {
-    const sec = document.createElement("section");
-    sec.className = "group";
-
-    const head = document.createElement("button");
-    head.className = "group-head";
-    head.setAttribute("aria-expanded", "false");
-    head.innerHTML = `
-      <span class="group-title">${label}</span>
-      <span class="group-caret" aria-hidden="true">▾</span>
-    `;
-    sec.appendChild(head);
-
-    const body = document.createElement("div");
-    body.className = "group-body";
-    body.hidden = true;
-    // prévia: só o 1º match
-    body.appendChild(renderCard(items[0], tokens));
-    sec.appendChild(body);
-
-    // ⚠️ crie o rodapé (foot/info) ANTES do listener
-    let foot = document.createElement("div");
-    foot.className = "group-foot";
-    foot.hidden = true;
-    const info = document.createElement("small");
-    info.textContent = partial ? "Prévia: 1 resultado" : `Exibindo ${items.length}`;
-    foot.appendChild(info);
-    sec.appendChild(foot);
-
-    let loadedAll = !partial;
-
-    head.addEventListener("click", async () => {
-      const open = head.getAttribute("aria-expanded") === "true";
-      head.setAttribute("aria-expanded", open ? "false" : "true");
-      body.hidden = open;
-      if (foot) foot.hidden = open; // <- guard
-
-      // já carregou tudo alguma vez? então só abre/fecha
-      if (open || loadedAll) return;
-
-      // skeleton enquanto carrega
-      const sk = document.createElement("div");
-      sk.className = "skel block";
-      sk.style.margin = "10px 12px";
-      body.appendChild(sk);
-
+    for (const { url, label } of allOptions) {
       try {
-        const fullItems = await parseFile(url, label);
-
-        // reusa a mesma lógica de filtragem da busca
-        const wordTks = tokens.filter((t) => !/^\d{1,4}$/.test(t));
-        const numTks  = tokens.filter((t) =>  /^\d{1,4}$/.test(t));
-        const queryHasKW = KW_RX.test(norm(term));
-        const qMode = detectQueryMode(norm(term));
-
-        const matches = [];
-        for (const it of fullItems) {
+        const predicate = (it) => {
           const bag = it._bag || norm(stripThousandDots(it.text));
-          const okWords = hasAllWordTokens(bag, wordTks);
-          const okNums  = matchesNumbers(it, numTks, queryHasKW, qMode);
-          if (okWords && okNums) matches.push(it);
+          const okWords = hasAllWordTokens(bag, wordTokens);
+          const okNums  = matchesNumbers(it, numTokens, queryHasLegalKeyword, queryMode);
+          return okWords && okNums;
+        };
+
+        const first = await firstMatchInFile(url, label, predicate);
+        if (first) {
+          lazyGroups.push({ label, url, items: [first], partial: true });
+          window.renderLazyResults(termRaw, lazyGroups, tokens);
         }
-
-        loadedAll = true;
-        body.innerHTML = "";
-        matches.forEach((it) => body.appendChild(renderCard(it, tokens)));
-
-        // atualiza rodapé e contador do cabeçalho
-        info.textContent = `Exibindo ${matches.length}`;
-        let count = head.querySelector(".group-count");
-        if (!count) {
-          count = document.createElement("span");
-          count.className = "group-count";
-          head.insertBefore(count, head.querySelector(".group-caret"));
-        }
-        count.textContent = matches.length;
-
       } catch (e) {
-        console.warn(e);
-        toast("Falha ao carregar o grupo.");
+        toast(`⚠️ Não carreguei: ${label}`);
+        console.warn("Falha ao buscar:", e);
       }
-    });
-
-    block.appendChild(sec);
-  });
-
-  els.stack.append(block);
-}
-
-function renderPartialResults(term, groupsMap, tokens) {
-  els.stack.innerHTML = "";
-  const block = document.createElement("section");
-  block.className = "block";
-
-  const title = document.createElement("div");
-  title.className = "block-title";
-  const total = [...groupsMap.values()].flat().length;
-  title.textContent = `Busca: ‘${term}’ (${total} resultados)`;
-  block.appendChild(title);
-
-  const groups = Array.from(groupsMap.entries()).sort((a, b) => b[1].length - a[1].length);
-  groups.forEach(([label, arr]) => {
-    const sec = document.createElement("section");
-    sec.className = "group";
-
-    const head = document.createElement("button");
-    head.className = "group-head";
-    head.setAttribute("aria-expanded", "false"); // fechado por padrão
-
-    head.innerHTML = `
-      <span class="group-title">${label}</span>
-      <span class="group-count">${arr.length}</span>
-      <span class="group-caret" aria-hidden="true">▾</span>
-    `;
-    sec.appendChild(head);
-
-    const body = document.createElement("div");
-    body.className = "group-body";
-    body.hidden = true; // também escondido inicialmente
-
-    const PAGE = 10;
-    let shown = 0;
-    function appendChunk(){
-      if (signal && signal.aborted) return;
-      const next = arr.slice(shown, shown + PAGE);
-      next.forEach((it)=> body.appendChild(renderCard(it, tokens)));
-      shown += next.length;
-      moreBtn.hidden = (shown >= arr.length);
     }
-    const moreBtn = document.createElement("button");
-    moreBtn.className = "btn more";
-    moreBtn.textContent = "Mostrar mais";
-    moreBtn.hidden = true;
-    moreBtn.addEventListener("click", appendChunk);
-    sec.appendChild(moreBtn);
-    appendChunk();
-    sec.appendChild(body);
 
-    head.addEventListener("click", () => {
-      const open = head.getAttribute("aria-expanded") === "true";
-      head.setAttribute("aria-expanded", open ? "false" : "true");
-      body.hidden = open;
-    });
+    // fim da busca inicial (só previews)
+    skel.remove();
+    toast(`${lazyGroups.length} fonte(s) com resultado.`);
 
-    block.appendChild(sec);
-  });
-
-  els.stack.append(block);
-}
-
-
-   } finally {
+  } finally {
     els.stack.setAttribute("aria-busy", "false");
     els.spinner?.classList.remove("show");
 
@@ -759,61 +592,6 @@ function renderPartialResults(term, groupsMap, tokens) {
     }
     window._skipFocus = false; // reseta para próximas buscas
   }
-}
-
-function renderBlock(term, items, tokens) {
-  const block = document.createElement("section");
-  block.className = "block";
-  const title = document.createElement("div");
-  title.className = "block-title";
-  title.textContent = `Busca: ‘${term}’ (${items.length} resultados)`;
-  block.appendChild(title);
-
-  if (!items.length) {
-    const empty = document.createElement("div");
-    empty.className = "block-empty";
-    empty.textContent = `Nada por aqui com ‘${term}’. Tente outra palavra.`;
-    block.appendChild(empty);
-    els.stack.append(block);
-    return;
-  }
-
-  // Agrupar por arquivo (source)
-  const groupsMap = new Map();
-  for (const it of items) {
-    const label = it.source || "Outros";
-    if (!groupsMap.has(label)) groupsMap.set(label, []);
-    groupsMap.get(label).push(it);
-  }
-
-  // Cria accordion por grupo (tudo colapsado inicialmente)
-const groups = Array.from(groupsMap.entries()).sort((a, b) => b[1].length - a[1].length);
-  groups.forEach(([label, arr]) => {
-    const sec = document.createElement("section");
-    sec.className = "group";
-
-    const head = document.createElement("button");
-    head.className = "group-head";
-    head.setAttribute("aria-expanded","false");
-    head.innerHTML = `<span class="group-title">${label}</span><span class="group-count">${arr.length}</span><span class="group-caret" aria-hidden="true">▾</span>`;
-    sec.appendChild(head);
-
-    const body = document.createElement("div");
-    body.className = "group-body";
-    body.hidden = true;
-    arr.forEach((it)=> body.appendChild(renderCard(it, tokens)));
-    sec.appendChild(body);
-
-    head.addEventListener("click", ()=>{
-      const open = head.getAttribute("aria-expanded")==="true";
-      head.setAttribute("aria-expanded", open ? "false" : "true");
-      body.hidden = open;
-    });
-
-    block.appendChild(sec);
-  });
-
-  els.stack.append(block);
 }
 
 /* ---------- cards ---------- */
@@ -840,7 +618,7 @@ function truncatedHTML(fullText, tokens) {
   } else if (base.length > CARD_CHAR_LIMIT) {
     out = out.trim() + "…";
   }
-return highlight(out, tokens);
+  return highlight(out, tokens);
 }
 
 function renderCard(item, tokens = [], ctx = { context: "results" }) {
@@ -889,35 +667,34 @@ function renderCard(item, tokens = [], ctx = { context: "results" }) {
 
   /* ===== TOGGLE (seta) ALINHADO À ESQUERDA ===== */
   if (item.text.length > CARD_CHAR_LIMIT) {
-  const toggle = document.createElement("button");
-  toggle.className = "toggle toggle-left";
-  toggle.textContent = "▼";
-  toggle.setAttribute("aria-expanded", "false");
-  toggle.addEventListener("click", () => {
-    const expanded = toggle.getAttribute("aria-expanded") === "true";
-    toggle.setAttribute("aria-expanded", expanded ? "false" : "true");
-    toggle.textContent = expanded ? "▼" : "▲";
-    // when collapsed, show fast plain snippet; when expanded, full with highlight
-    if (expanded) {
-      body.classList.add("is-collapsed");
-      const base = item.text || "";
-      let out = base.slice(0, CARD_CHAR_LIMIT);
-      const cut = out.lastIndexOf(" ");
-      if (base.length > CARD_CHAR_LIMIT && cut > CARD_CHAR_LIMIT * 0.7) {
-        out = out.slice(0, cut) + "…";
-      } else if (base.length > CARD_CHAR_LIMIT) {
-        out = out.trim() + "…";
+    const toggle = document.createElement("button");
+    toggle.className = "toggle toggle-left";
+    toggle.textContent = "▼";
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.addEventListener("click", () => {
+      const expanded = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", expanded ? "false" : "true");
+      toggle.textContent = expanded ? "▼" : "▲";
+      // when collapsed, show fast plain snippet; when expanded, full with highlight
+      if (expanded) {
+        body.classList.add("is-collapsed");
+        const base = item.text || "";
+        let out = base.slice(0, CARD_CHAR_LIMIT);
+        const cut = out.lastIndexOf(" ");
+        if (base.length > CARD_CHAR_LIMIT && cut > CARD_CHAR_LIMIT * 0.7) {
+          out = out.slice(0, cut) + "…";
+        } else if (base.length > CARD_CHAR_LIMIT) {
+          out = out.trim() + "…";
+        }
+        body.textContent = out;
+      } else {
+        body.classList.remove("is-collapsed");
+        body.innerHTML = highlight(item.text, tokens);
       }
-      body.textContent = out;
-    } else {
-      body.classList.remove("is-collapsed");
-      body.innerHTML = highlight(item.text, tokens);
-    }
-  });
+    });
 
-  actions.append(toggle);
-}
-
+    actions.append(toggle);
+  }
 
   /* ===== IA: função de query (reuso) ===== */
   const makeQuery = () => {
@@ -926,7 +703,6 @@ function renderCard(item, tokens = [], ctx = { context: "results" }) {
     return encodeURIComponent(raw.length > maxLen ? raw.slice(0, maxLen) : raw);
   };
 
-  /* ===== HUB DENTRO DO CARD (inalterado) ===== */
   /* ===== HUB DENTRO DO CARD (com prefixo fixo e bugfix) ===== */
   const hubWrap = document.createElement("div");
   hubWrap.className = "hub-wrap";
@@ -935,40 +711,38 @@ function renderCard(item, tokens = [], ctx = { context: "results" }) {
   hubMenu.className = "hub-menu";
 
   // Prefixos por pasta (edite livremente os textos à direita)
-const INTRO_BY_DIR = {
-  "data/codigos/":    "💡 ESTUDO (Códigos): Explique o tema com base no texto legal, citando fundamentos doutrinários, exemplos práticos e súmulas/julgados de apoio. Depois, aponte armadilhas de prova e como o artigo costuma ser cobrado na prática forense. Responda sempre em português do Brasil.",
-  "data/sumulas/":    "💡 ESTUDO (Súmulas): Apresente o contexto fático‑jurídico da súmula, indicando seu alcance prático. Relacione exceções conhecidas, dispositivos aplicáveis e exemplos de uso em concursos e casos reais. Responda sempre em português do Brasil.",
-  "data/enunciados/": "💡 ESTUDO (Enunciados): Analise o enunciado relacionando‑o aos dispositivos legais correspondentes e à interpretação dominante. Explique utilidade prática, aplicações típicas e como costuma ser exigido em provas ou petições. Responda sempre em português do Brasil.",
-  "data/julgados/":   "💡 ESTUDO (Julgados): Resuma o julgado, explicando fundamentos centrais e precedentes determinantes da decisão. Comente efeitos práticos, divergências relevantes e a importância do caso para a jurisprudência atual. Responda sempre em português do Brasil.",
-  "data/leis/":       "💡 ESTUDO (Leis): Destaque conceitos‑chave da norma e a interpretação majoritária, com exemplos de aplicação. Aponte erros comuns, confusões frequentes e pontos sensíveis para concursos e prática jurídica. Responda sempre em português do Brasil.",
-  "data/estatutos/":  "💡 ESTUDO (Estatutos): Explique o artigo abaixo dentro do contexto do estatuto a que pertence, destacando seu conteúdo, objetivo e relação com os demais dispositivos. Depois, aponte hipóteses práticas de aplicação, temas polêmicos e pegadinhas de prova. Responda sempre em português do Brasil.",
-  "data/teses/":      "💡 ESTUDO (Teses): Explique a tese jurídica, seu conteúdo e lastro jurisprudencial, situando o contexto de aplicação. Comente divergências entre tribunais, controvérsias e impactos na prática forense. Responda sempre em português do Brasil.",
-  "data/CF88/":       "💡 ESTUDO (CF/88): Relacione os princípios constitucionais e dispositivos da CF/88 diretamente aplicáveis ao tema. Apresente jurisprudência dominante e exemplos práticos que conectem teoria, lei e realidade. Responda sempre em português do Brasil.",
-  "data/noticias/":   "💡 ESTUDO (Remuso): Escreva um resumo claro, com linguagem jurídica acessível. Destaque o entendimento do STJ, o impacto prático da decisão e a base legal aplicada.",
-  "data/videos/":     "💡 ESTUDO (Explique e indique o vìdeo do youtube): Explique o tema, citando fundamentos doutrinários, exemplos práticos e súmulas/julgados de apoio. No final me de o link do vídeo em questão. Responda sempre em português do Brasil.  "
-};
+  const INTRO_BY_DIR = {
+    "data/codigos/":    "💡 ESTUDO (Códigos): Explique o tema com base no texto legal, citando fundamentos doutrinários, exemplos práticos e súmulas/julgados de apoio. Depois, aponte armadilhas de prova e como o artigo costuma ser cobrado na prática forense. Responda sempre em português do Brasil.",
+    "data/sumulas/":    "💡 ESTUDO (Súmulas): Apresente o contexto fático-jurídico da súmula, indicando seu alcance prático. Relacione exceções conhecidas, dispositivos aplicáveis e exemplos de uso em concursos e casos reais. Responda sempre em português do Brasil.",
+    "data/enunciados/": "💡 ESTUDO (Enunciados): Analise o enunciado relacionando-o aos dispositivos legais correspondentes e à interpretação dominante. Explique utilidade prática, aplicações típicas e como costuma ser exigido em provas ou petições. Responda sempre em português do Brasil.",
+    "data/julgados/":   "💡 ESTUDO (Julgados): Resuma o julgado, explicando fundamentos centrais e precedentes determinantes da decisão. Comente efeitos práticos, divergências relevantes e a importância do caso para a jurisprudência atual. Responda sempre em português do Brasil.",
+    "data/leis/":       "💡 ESTUDO (Leis): Destaque conceitos-chave da norma e a interpretação majoritária, com exemplos de aplicação. Aponte erros comuns, confusões frequentes e pontos sensíveis para concursos e prática jurídica. Responda sempre em português do Brasil.",
+    "data/estatutos/":  "💡 ESTUDO (Estatutos): Explique o artigo abaixo dentro do contexto do estatuto a que pertence, destacando seu conteúdo, objetivo e relação com os demais dispositivos. Depois, aponte hipóteses práticas de aplicação, temas polêmicos e pegadinhas de prova. Responda sempre em português do Brasil.",
+    "data/teses/":      "💡 ESTUDO (Teses): Explique a tese jurídica, seu conteúdo e lastro jurisprudencial, situando o contexto de aplicação. Comente divergências entre tribunais, controvérsias e impactos na prática forense. Responda sempre em português do Brasil.",
+    "data/CF88/":       "💡 ESTUDO (CF/88): Relacione os princípios constitucionais e dispositivos da CF/88 diretamente aplicáveis ao tema. Apresente jurisprudência dominante e exemplos práticos que conectem teoria, lei e realidade. Responda sempre em português do Brasil.",
+    "data/noticias/":   "💡 ESTUDO (Remuso): Escreva um resumo claro, com linguagem jurídica acessível. Destaque o entendimento do STJ, o impacto prático da decisão e a base legal aplicada.",
+    "data/videos/":     "💡 ESTUDO (Explique e indique o vìdeo do youtube): Explique o tema, citando fundamentos doutrinários, exemplos práticos e súmulas/julgados de apoio. No final me de o link do vídeo em questão. Responda sempre em português do Brasil.  "
+  };
 
-// (Opcional) complemento pedagógico geral — você pode editar ou remover
-const GLOBAL_PREFIX = "Seja Didático, organizado e de fácil entendimento. Entregue respostas com mais de 400 palavras. Tema:";
+  // (Opcional) complemento pedagógico geral
+  const GLOBAL_PREFIX = "Seja Didático, organizado e de fácil entendimento. Entregue respostas com mais de 400 palavras. Tema:";
 
-// Resolve o prefixo por pasta a partir do fileUrl do item
-function getIntroForPath(fileUrl = "") {
-  for (const dir in INTRO_BY_DIR) {
-    if (fileUrl.includes(dir)) return INTRO_BY_DIR[dir];
+  // Resolve o prefixo por pasta a partir do fileUrl do item
+  function getIntroForPath(fileUrl = "") {
+    for (const dir in INTRO_BY_DIR) {
+      if (fileUrl.includes(dir)) return INTRO_BY_DIR[dir];
+    }
+    return "💡 ESTUDO (Geral): explique de forma completa, prática e atualizada.";
   }
-  // fallback caso a pasta não esteja no mapa
-  return "💡 ESTUDO (Geral): explique de forma completa, prática e atualizada.";
-}
 
-// Monta a query do card: [intro por pasta] + [prefixo global] + [título+texto do card]
-const makeCardQuery = () => {
-  const raw = (item.title + " " + item.text).replace(/\s+/g, " ").trim();
-  const intro = getIntroForPath(item.fileUrl || "");
-  const body  = `${intro}\n\n${raw}`;
-  const maxLen = 1800; // segurança p/ não estourar URL
-  return encodeURIComponent(body.length > maxLen ? body.slice(0, maxLen) : body);
-};
-
+  // Monta a query do card
+  const makeCardQuery = () => {
+    const raw = (item.title + " " + item.text).replace(/\s+/g, " ").trim();
+    const intro = getIntroForPath(item.fileUrl || "");
+    const body  = `${intro}\n\n${raw}`;
+    const maxLen = 1800; // segurança p/ não estourar URL
+    return encodeURIComponent(body.length > maxLen ? body.slice(0, maxLen) : body);
+  };
 
   // === Perplexity
   const hubBtn1 = document.createElement("button");
@@ -980,17 +754,16 @@ const makeCardQuery = () => {
     window.open(`https://www.perplexity.ai/search?q=${q}`, "_blank", "noopener");
   });
 
-  // === Copilot (ajustado)
-const hubBtn2 = document.createElement("button");
-hubBtn2.className = "round-btn";
-hubBtn2.setAttribute("aria-label", "copilot");
-hubBtn2.innerHTML = '<img src="icons/ai-copilot.png" alt="">';
-hubBtn2.addEventListener("click", () => {
-  const q = makeCardQuery();
-  const encoded = encodeURIComponent(q);
-  window.open(`https://copilot.microsoft.com/?q=${encoded}`, "_blank", "noopener");
-});
-
+  // === Copilot
+  const hubBtn2 = document.createElement("button");
+  hubBtn2.className = "round-btn";
+  hubBtn2.setAttribute("aria-label", "copilot");
+  hubBtn2.innerHTML = '<img src="icons/ai-copilot.png" alt="">';
+  hubBtn2.addEventListener("click", () => {
+    const q = makeCardQuery();
+    const encoded = encodeURIComponent(q);
+    window.open(`https://copilot.microsoft.com/?q=${encoded}`, "_blank", "noopener");
+  });
 
   // === Google (AI mode / udm=50)
   const hubBtn3 = document.createElement("button");
@@ -1028,92 +801,87 @@ hubBtn2.addEventListener("click", () => {
 
   hubWrap.append(hubMenu, hubMain);
 
-
   // Botão único do Gemini (sem hub)
-const geminiBtn = document.createElement("button");
-geminiBtn.className = "round-btn";
-geminiBtn.setAttribute("aria-label", "Estudar com Gemini");
-geminiBtn.innerHTML = '<img src="icons/ai-gemini.png" alt="Gemini">';
-geminiBtn.addEventListener("click", () => {
-  const q = makeCardQuery();
-  window.open(`https://www.google.com/search?q=${q}&udm=50`, "_blank", "noopener");
-});
+  const geminiBtn = document.createElement("button");
+  geminiBtn.className = "round-btn";
+  geminiBtn.setAttribute("aria-label", "Estudar com Gemini");
+  geminiBtn.innerHTML = '<img src="icons/ai-gemini.png" alt="Gemini">';
+  geminiBtn.addEventListener("click", () => {
+    const q = makeCardQuery();
+    window.open(`https://www.google.com/search?q=${q}&udm=50`, "_blank", "noopener");
+  });
 
- // === YouTube (se for da pasta /videos/)
-if (item.fileUrl?.includes("data/videos/")) {
-  const ytChannels = {
-    "supremo.txt":           "TVSupremo",
-    "instante_juridico.txt": "InstanteJuridico",
-    "me_julga.txt":          "MeJulga",
-    "direito_desenhado.txt": "DireitoDesenhado",
-    "diego_pureza.txt":      "DiegoPureza"
-  };
+  // === YouTube (se for da pasta /videos/)
+  if (item.fileUrl?.includes("data/videos/")) {
+    const ytChannels = {
+      "supremo.txt":           "TVSupremo",
+      "instante_juridico.txt": "InstanteJuridico",
+      "me_julga.txt":          "MeJulga",
+      "direito_desenhado.txt": "DireitoDesenhado",
+      "diego_pureza.txt":      "DiegoPureza"
+    };
 
-  const fileName = item.fileUrl.split("/").pop().toLowerCase();
-  const canal = ytChannels[fileName];
+    const fileName = item.fileUrl.split("/").pop().toLowerCase();
+    const canal = ytChannels[fileName];
 
-  if (canal) {
-    const query = encodeURIComponent(item.title.trim());
-    const urlFinal = `https://www.youtube.com/@${canal}/search?query=${query}`;
+    if (canal) {
+      const query = encodeURIComponent(item.title.trim());
+      const urlFinal = `https://www.youtube.com/@${canal}/search?query=${query}`;
 
-    const ytBtn = document.createElement("button");
-    ytBtn.className = "round-btn";
-    ytBtn.setAttribute("aria-label", "Ver no YouTube");
-    ytBtn.innerHTML = '<img src="icons/ai-youtube.png" alt="YouTube">';
-    ytBtn.addEventListener("click", () => {
-      window.open(urlFinal, "_blank", "noopener");
-    });
-    actions.append(ytBtn);
+      const ytBtn = document.createElement("button");
+      ytBtn.className = "round-btn";
+      ytBtn.setAttribute("aria-label", "Ver no YouTube");
+      ytBtn.innerHTML = '<img src="icons/ai-youtube.png" alt="YouTube">';
+      ytBtn.addEventListener("click", () => {
+        window.open(urlFinal, "_blank", "noopener");
+      });
+      actions.append(ytBtn);
+    }
   }
-}
 
-// === Link extra (para "artigos" e "notícias")
-if (item.fileUrl?.includes("data/artigos/") || item.fileUrl?.includes("data/noticias/")) {
-  const fontes = {
-  "jusbrasil.txt": {
-    base: "https://www.jusbrasil.com.br/artigos-noticias/busca?q=",
-    icon: "jusbrasil.png"
-  },
-  "conjur.txt": {
-    base: "https://www.conjur.com.br/busca/?q=",
-    icon: "conjur.png"
-  },
-  "migalhas.txt": {
-    base: "https://www.migalhas.com.br/busca?q=",
-    icon: "migalhas.png"
+  // === Link extra (para "artigos" e "notícias")
+  if (item.fileUrl?.includes("data/artigos/") || item.fileUrl?.includes("data/noticias/")) {
+    const fontes = {
+      "jusbrasil.txt": {
+        base: "https://www.jusbrasil.com.br/artigos-noticias/busca?q=",
+        icon: "jusbrasil.png"
+      },
+      "conjur.txt": {
+        base: "https://www.conjur.com.br/busca/?q=",
+        icon: "conjur.png"
+      },
+      "migalhas.txt": {
+        base: "https://www.migalhas.com.br/busca?q=",
+        icon: "migalhas.png"
+      }
+    };
+
+    const fileName = item.fileUrl.split("/").pop().toLowerCase();
+    const fonte = fontes[fileName];
+
+    if (fonte?.base) {
+      const query = encodeURIComponent(item.title.trim());
+      const urlFinal = `${fonte.base}${query}`;
+      const btn = document.createElement("button");
+      btn.className = "round-btn";
+      btn.setAttribute("aria-label", "Ver fonte original");
+      btn.innerHTML = `<img src="icons/${fonte.icon}" alt="Fonte">`;
+      btn.addEventListener("click", () => {
+        window.open(urlFinal, "_blank", "noopener");
+      });
+      actions.append(btn);
+    }
   }
-};
 
-
-  const fileName = item.fileUrl.split("/").pop().toLowerCase();
-  const fonte = fontes[fileName];
-
-
-  if (fonte?.base) {
-    const query = encodeURIComponent(item.title.trim());
-    const urlFinal = `${fonte.base}${query}`;
-    const btn = document.createElement("button");
-    btn.className = "round-btn";
-    btn.setAttribute("aria-label", "Ver fonte original");
-    btn.innerHTML = `<img src="icons/${fonte.icon}" alt="Fonte">`;
-    btn.addEventListener("click", () => {
-      window.open(urlFinal, "_blank", "noopener");
-    });
-    actions.append(btn);
-  }
-}
-
-
-/* ===== Check (pilha) — permanece nos cards ===== */
+  /* ===== Check (pilha) — permanece nos cards ===== */
   const chk = document.createElement("button");
-chk.className = "chk";
-chk.setAttribute("aria-label", "Selecionar bloco");
-chk.innerHTML = `
+  chk.className = "chk";
+  chk.setAttribute("aria-label", "Selecionar bloco");
+  chk.innerHTML = `
   <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
     <path d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
   </svg>
 `;
-
   const sync = () => { chk.dataset.checked = state.selected.has(item.id) ? "true" : "false"; };
   sync();
   chk.addEventListener("click", () => {
@@ -1137,6 +905,20 @@ chk.innerHTML = `
   card.append(left);
   return card;
 }
+
+/* === Publica helpers no window (fora de funções) === */
+Object.assign(window, {
+  els,
+  parseFile,
+  norm,
+  stripThousandDots,
+  hasAllWordTokens,
+  matchesNumbers,
+  KW_RX,
+  detectQueryMode,
+  renderCard,
+  toast,
+});
 
 /* ---------- Leitor (modal) ---------- */
 async function openReader(item, tokens = []) {
@@ -1224,7 +1006,6 @@ function ensureClearSelectedBtn() {
   }
 }
 
-// cria/garante o HUB da base
 // cria/garante o espaçador (reserva área para o menu abrir à esquerda do HUB)
 function ensureBaseSpacer() {
   const parent = els.viewBtn?.parentElement;
@@ -1316,7 +1097,6 @@ function ensureBaseHub() {
   }
 }
 
-
 // reordena mantendo o grupo centralizado e PERMITINDO quebra no mobile
 function reorderBaseControlsAndCenter() {
   const parent = els.viewBtn?.parentElement;
@@ -1341,7 +1121,6 @@ function reorderBaseControlsAndCenter() {
   parent.style.margin = "";
 
   // --- ajuste do espaçador (largura reservada pro HUB) ---
-   // --- ajuste do espaçador (largura reservada pro HUB) ---
   if (spacer) {
     let basis = 140;                    // desktop confortável
     if (window.innerWidth <= 480) basis = 56;  // <= mobile: bem menor
@@ -1362,9 +1141,6 @@ function reorderBaseControlsAndCenter() {
   if (hubWrap) parent.appendChild(hubWrap);
 }
 
-
-
-
 /* ---------- init ---------- */
 updateBottom();
 
@@ -1377,13 +1153,11 @@ ensureClearSelectedBtn();
 ensureBaseSpacer();
 reorderBaseControlsAndCenter();
 window.addEventListener("resize", reorderBaseControlsAndCenter);
+
 document.getElementById("resetBtn")?.addEventListener("click", () => {
   window._skipFocus = true; // evita foco no input
   collapseAllGroupsAndScrollTop();
 });
-
-
-
 
 // Executa a busca automaticamente se vier com ?q=...
 document.addEventListener("DOMContentLoaded", () => {
@@ -1395,6 +1169,7 @@ document.addEventListener("DOMContentLoaded", () => {
     doSearch(); // já executa a busca
   }
 });
+
 /* ---------- Reset: fecha grupos e sobe ---------- */
 function collapseAllGroupsAndScrollTop() {
   document.querySelectorAll(".group-head[aria-expanded='true']").forEach((btn) => {
@@ -1416,8 +1191,9 @@ function saveToHistory(query) {
   const trimmed = query.trim();
   if (!trimmed) return;
   let history = JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
-  history = history.filter(q => q !== trimmed); // remove duplicata
-  history.unshift(trimmed); // adiciona no topo
+  // remove duplicata e adiciona no topo
+  history = history.filter(q => q !== trimmed);
+  history.unshift(trimmed);
   if (history.length > MAX_HISTORY) history.length = MAX_HISTORY;
   localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
 }
@@ -1444,7 +1220,7 @@ function loadHistoryDropdown() {
     li.textContent = q;
     li.addEventListener("click", () => {
       els.q.value = q;
-   menu.classList.remove("open");
+      menu.classList.remove("open");
       doSearch(); // refaz busca
     });
     menu.appendChild(li);
@@ -1468,3 +1244,271 @@ document.addEventListener("click", (e) => {
     menu.classList.remove("open");
   }
 });
+
+/* ==========================
+   direito.love — ui_buckets_patch.js
+   Adiciona categorias na UI e sobrescreve renderLazyResults/renderBlock
+   (Inclua ESTE arquivo após o app.js original)
+   ========================== */
+
+(function(){
+  if (typeof window === "undefined") return;
+
+  // ===== Categorização só de UI (por caminho da URL) =====
+  const UI_BUCKETS = {
+    "Códigos e Leis": {
+      "Códigos":    ["data/codigos/", "data/CF88/"],
+      "Leis":       ["data/leis/"],
+      "Estatutos":  ["data/estatutos/"]
+    },
+    "Jurisprudencial": {
+      "Súmulas":    ["data/sumulas/"],
+      "Enunciados": ["data/enunciados/"],
+      "Teses":      ["data/teses/"],
+      "Julgados":   ["data/julgados/"]
+    },
+    "Temas": {
+      "Notícias":   ["data/noticias/"],
+      "Artigos":    ["data/artigos/"],
+      "Vídeos":     ["data/videos/"]
+    }
+  };
+  window.UI_BUCKETS = UI_BUCKETS;
+
+  function resolveBucket(url = "", label = "") {
+    const u = String(url).toLowerCase();
+    for (const [main, subs] of Object.entries(UI_BUCKETS)) {
+      for (const [sub, paths] of Object.entries(subs)) {
+        if (paths.some(p => u.includes(p))) return { main, sub };
+      }
+    }
+    return { main: "Outros", sub: "Diversos" };
+  }
+  window.resolveBucket = resolveBucket;
+
+  function renderBucket(mainTitle, subMapElts /* {subTitle: [HTMLElement,...]} */) {
+    const bucket = document.createElement("section");
+    bucket.className = "bucket";
+
+    const head = document.createElement("button");
+    head.className = "bucket-head";
+    head.setAttribute("aria-expanded", "true");
+    head.innerHTML = `<span class="bucket-title">${mainTitle}</span><span class="bucket-caret" aria-hidden="true">▾</span>`;
+    bucket.appendChild(head);
+
+    const body = document.createElement("div");
+    body.className = "bucket-body";
+    body.hidden = false;
+
+    for (const [subTitle, nodes] of Object.entries(subMapElts)) {
+      if (!nodes.length) continue;
+      const sub = document.createElement("section");
+      sub.className = "subcat";
+
+      const st = document.createElement("div");
+      st.className = "subcat-title";
+      st.textContent = subTitle;
+      sub.appendChild(st);
+
+      nodes.forEach(n => sub.appendChild(n));
+      body.appendChild(sub);
+    }
+
+    bucket.appendChild(body);
+
+    head.addEventListener("click", () => {
+      const open = head.getAttribute("aria-expanded") === "true";
+      head.setAttribute("aria-expanded", open ? "false" : "true");
+      body.hidden = open;
+    });
+
+    return bucket;
+  }
+  window.renderBucket = renderBucket;
+
+  // ===== Usa helpers do app.js original via window =====
+  const { els, parseFile, norm, stripThousandDots, hasAllWordTokens, matchesNumbers, KW_RX, detectQueryMode, renderCard } = window;
+
+  // ---- LAZY group section (preview 1 card; carrega o resto ao abrir)
+  function renderLazyGroupSection(entry, tokens, term) {
+    const { label, url, items, partial } = entry;
+
+    const sec = document.createElement("section");
+    sec.className = "group";
+
+    const head = document.createElement("button");
+    head.className = "group-head";
+    head.setAttribute("aria-expanded", "false");
+    head.innerHTML = `
+      <span class="group-title">${label}</span>
+      <span class="group-caret" aria-hidden="true">▾</span>
+    `;
+    sec.appendChild(head);
+
+    const body = document.createElement("div");
+    body.className = "group-body";
+    body.hidden = true;
+    body.appendChild(renderCard(items[0], tokens));
+    sec.appendChild(body);
+
+    const foot = document.createElement("div");
+    foot.className = "group-foot";
+    foot.hidden = true;
+    const info = document.createElement("small");
+    info.textContent = partial ? "Prévia: 1 resultado" : `Exibindo ${items.length}`;
+    foot.appendChild(info);
+    sec.appendChild(foot);
+
+    let loadedAll = !partial;
+    head.addEventListener("click", async () => {
+      const open = head.getAttribute("aria-expanded") === "true";
+      head.setAttribute("aria-expanded", open ? "false" : "true");
+      body.hidden = open;
+      foot.hidden = open;
+
+      if (!open && !loadedAll) {
+        const sk = document.createElement("div");
+        sk.className = "skel block";
+        sk.style.margin = "10px 12px";
+        body.appendChild(sk);
+
+        try {
+          const fullItems = await parseFile(url, label);
+          const words = tokens.filter(t => !/^\d{1,4}$/.test(t));
+          const nums  = tokens.filter(t =>  /^\d{1,4}$/.test(t));
+          const matches = [];
+          for (const it of fullItems) {
+            const bag = it._bag || norm(stripThousandDots(it.text));
+            const okWords = hasAllWordTokens(bag, words);
+            const okNums  = matchesNumbers(it, nums, KW_RX.test(norm(term)), detectQueryMode(norm(term)));
+            if (okWords && okNums) matches.push(it);
+          }
+          loadedAll = true;
+          body.innerHTML = "";
+          matches.forEach((it) => body.appendChild(renderCard(it, tokens)));
+
+          info.textContent = `Exibindo ${matches.length}`;
+          const count = document.createElement("span");
+          count.className = "group-count";
+          count.textContent = matches.length;
+          head.insertBefore(count, head.querySelector(".group-caret"));
+        } catch (e) {
+          console.warn(e);
+          if (window.toast) toast("Falha ao carregar o grupo.");
+        }
+      }
+    });
+
+    return sec;
+  }
+  window.renderLazyGroupSection = renderLazyGroupSection;
+
+  // ===== Override: renderLazyResults com buckets =====
+  window.renderLazyResults = function renderLazyResults(term, groups, tokens) {
+    els.stack.innerHTML = "";
+
+    const block = document.createElement("section");
+    block.className = "block";
+
+    const title = document.createElement("div");
+    title.className = "block-title";
+    title.textContent = `Busca: ‘${term}’`;
+    block.appendChild(title);
+
+    const buckets = new Map(); // main => Map(sub => entries[])
+    const ordered = [...groups].sort((a,b)=> a.label.localeCompare(b.label));
+
+    ordered.forEach((entry) => {
+      const { main, sub } = resolveBucket(entry.url, entry.label);
+      if (!buckets.has(main)) buckets.set(main, new Map());
+      const subMap = buckets.get(main);
+      if (!subMap.has(sub)) subMap.set(sub, []);
+      subMap.get(sub).push(entry);
+    });
+
+    for (const [main, subMap] of buckets.entries()) {
+      const subMapElts = {};
+      for (const [sub, entries] of subMap.entries()) {
+        const nodes = entries.map(e => renderLazyGroupSection(e, tokens, term));
+        subMapElts[sub] = nodes;
+      }
+      block.appendChild(renderBucket(main, subMapElts));
+    }
+
+    els.stack.append(block);
+  };
+
+  // ===== Override: renderBlock com buckets (fluxos não-lazy) =====
+  window.renderBlock = function renderBlock(term, items, tokens) {
+    const block = document.createElement("section");
+    block.className = "block";
+
+    const title = document.createElement("div");
+    title.className = "block-title";
+    title.textContent = `Busca: ‘${term}’ (${items.length} resultados)`;
+    block.appendChild(title);
+
+    if (!items.length) {
+      const empty = document.createElement("div");
+      empty.className = "block-empty";
+      empty.textContent = `Nada por aqui com ‘${term}’. Tente outra palavra.`;
+      block.appendChild(empty);
+      els.stack.append(block);
+      return;
+    }
+
+    const groupsMap = new Map(); // key -> {label,url,items}
+    for (const it of items) {
+      const key = `${it.source}::${it.fileUrl}`;
+      if (!groupsMap.has(key)) groupsMap.set(key, { label: it.source || "Outros", url: it.fileUrl, items: [] });
+      groupsMap.get(key).items.push(it);
+    }
+
+    const buckets = new Map(); // main => Map(sub => [groupObjs])
+    for (const g of groupsMap.values()) {
+      const { main, sub } = resolveBucket(g.url, g.label);
+      if (!buckets.has(main)) buckets.set(main, new Map());
+      const subMap = buckets.get(main);
+      if (!subMap.has(sub)) subMap.set(sub, []);
+      subMap.get(sub).push(g);
+    }
+
+    for (const [main, subMap] of buckets.entries()) {
+      const subMapElts = {};
+      for (const [sub, arr] of subMap.entries()) {
+        const nodes = arr
+          .sort((a,b)=> a.label.localeCompare(b.label))
+          .map(({label, items}) => {
+            const sec = document.createElement("section");
+            sec.className = "group";
+
+            const head = document.createElement("button");
+            head.className = "group-head";
+            head.setAttribute("aria-expanded","false");
+            head.innerHTML = `<span class="group-title">${label}</span><span class="group-count">${items.length}</span><span class="group-caret" aria-hidden="true">▾</span>`;
+            sec.appendChild(head);
+
+            const body = document.createElement("div");
+            body.className = "group-body";
+            body.hidden = true;
+            items.forEach((it)=> body.appendChild(renderCard(it, tokens)));
+            sec.appendChild(body);
+
+            head.addEventListener("click", ()=>{
+              const open = head.getAttribute("aria-expanded")==="true";
+              head.setAttribute("aria-expanded", open ? "false" : "true");
+              body.hidden = open;
+            });
+
+            return sec;
+          });
+
+        subMapElts[sub] = nodes;
+      }
+      block.appendChild(renderBucket(main, subMapElts));
+    }
+
+    els.stack.append(block);
+  };
+
+})();
