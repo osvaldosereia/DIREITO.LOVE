@@ -355,7 +355,34 @@ function parseBlock(block, idx, fileUrl, sourceLabel) {
   const lines = block.split("\n");
   const firstIdx = lines.findIndex((l) => l.trim().length > 0);
   const first = firstIdx >= 0 ? lines[firstIdx].trim() : `Bloco ${idx + 1}`;
-  const rest  = lines.slice(firstIdx + 1).join("\n").trim();
+  const bodyLines = lines.slice(firstIdx + 1);
+
+  // Captura o link (se existir)
+  let videoLink = null;
+  const filteredBody = bodyLines.filter((line) => {
+    const trimmed = line.trim();
+    if (/^https:\/\/www\.youtube\.com\/watch\?v=/.test(trimmed)) {
+      videoLink = trimmed;
+      return false; // remove do texto
+    }
+    return true;
+  });
+
+  const body = filteredBody.join("\n").trim();
+  const full = [first, body].filter(Boolean).join("\n");
+
+  return {
+    id: `${fileUrl}::art-${idx}`,
+    htmlId: `art-${idx}`,
+    source: sourceLabel,
+    title: first,
+    body,
+    text: full,
+    fileUrl,
+    videoUrl: videoLink || null, // ⬅️ novo campo com o link (se existir)
+  };
+}
+
 
   // junta título + corpo
   const fullRaw = [first, rest].filter(Boolean).join("\n");
@@ -854,13 +881,13 @@ if (item.fileUrl?.includes("data/videos/")) {
   const fileName = item.fileUrl.split("/").pop().toLowerCase();
   const handle   = ytChannels[fileName];
 
-  // tenta extrair um link direto do vídeo do texto (mesmo que esteja oculto)
-  const match = item.text.match(/https:\/\/www\.youtube\.com\/watch\?v=[\w\-]+/i);
   let urlFinal = null;
 
-  if (match) {
-    urlFinal = match[0]; // usa o link real do vídeo
+  if (item.videoUrl) {
+    // se o link do vídeo foi encontrado no parseBlock
+    urlFinal = item.videoUrl;
   } else if (handle) {
+    // fallback para busca no canal
     const query = encodeURIComponent(item.title.trim());
     urlFinal = `https://www.youtube.com/${handle}/search?query=${query}`;
   }
@@ -868,7 +895,7 @@ if (item.fileUrl?.includes("data/videos/")) {
   if (urlFinal) {
     const ytBtn = document.createElement("button");
     ytBtn.className = "round-btn";
-    ytBtn.setAttribute("aria-label", "Ver vídeo no YouTube");
+    ytBtn.setAttribute("aria-label", "Ver no YouTube");
     ytBtn.innerHTML = '<img src="icons/ai-youtube.png" alt="YouTube">';
     ytBtn.addEventListener("click", () => {
       window.open(urlFinal, "_blank", "noopener");
@@ -876,11 +903,6 @@ if (item.fileUrl?.includes("data/videos/")) {
     actions.append(ytBtn);
   }
 }
-
-
-
-
-
 
 /* ===== Check (pilha) — permanece nos cards ===== */
   const chk = document.createElement("button");
