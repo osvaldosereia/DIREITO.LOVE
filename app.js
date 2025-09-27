@@ -835,7 +835,7 @@ geminiBtn.addEventListener("click", () => {
   window.open(`https://www.google.com/search?q=${q}&udm=50`, "_blank", "noopener");
 });
 
-   // === YouTube (apenas se for da pasta /videos/)
+   // === YouTube (apenas se for da pasta /videos/) — com link por canal + query funcional
 if (item.fileUrl?.includes("data/videos/")) {
   const YOUTUBE_CHANNELS = {
     "instante_juridico.txt": "https://www.youtube.com/@instantejuridico/search?query=",
@@ -845,24 +845,29 @@ if (item.fileUrl?.includes("data/videos/")) {
     "supremo.txt":           "https://www.youtube.com/@tvsupremo/search?query=",
   };
 
-  // extrai apenas o nome do arquivo (ex: supremo.txt)
-  const fileName = item.fileUrl.split("/").pop();
-  const baseUrl = YOUTUBE_CHANNELS[fileName];
+  const fileName = item.fileUrl.split("/").pop().toLowerCase();
+const ytChannels = {
+  "supremo.txt":           "@tvsupremo",
+  "instante_juridico.txt": "@instantejuridico",
+  "me_julga.txt":          "@mejulga",
+  "direito_desenhado.txt": "@direitodesenhado",
+  "diego_pureza.txt":      "@diegopureza",
+};
 
-  if (baseUrl) {
-    const ytBtn = document.createElement("button");
-    ytBtn.className = "round-btn";
-    ytBtn.setAttribute("aria-label", "Pesquisar no canal do YouTube");
-    ytBtn.innerHTML = '<img src="icons/ai-youtube.png" alt="YouTube">';
-    ytBtn.addEventListener("click", () => {
-      const raw = (item.title + " " + item.text).replace(/\s+/g, " ").trim();
-      const query = encodeURIComponent((item.title + " " + item.text).trim().replace(/\s+/g, " "));
-window.open(`${baseUrl}${query}`, "_blank", "noopener");
-
-    });
-    actions.append(ytBtn);
-  }
+const handle = ytChannels[fileName];
+if (handle) {
+  const query = encodeURIComponent(item.title.trim());
+  const ytBtn = document.createElement("button");
+  ytBtn.className = "round-btn";
+  ytBtn.setAttribute("aria-label", `Ver no canal ${handle}`);
+  ytBtn.innerHTML = '<img src="icons/ai-youtube.png" alt="YouTube">';
+  ytBtn.addEventListener("click", () => {
+    window.open(`https://www.youtube.com/${handle}/search?query=${query}`, "_blank");
+  });
+  actions.append(ytBtn);
 }
+
+
 
 
 
