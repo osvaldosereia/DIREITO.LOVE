@@ -359,6 +359,11 @@
   <div id="toasts" class="toasts" aria-live="polite" aria-atomic="true"></div>
 
   <script src="app.js"></script>
+<script>
+  window.addEventListener("DOMContentLoaded", async () => {
+    await loadIndexedFile("data/codigos/codigo_penal_indexado.json");
+  });
+</script>
 
 <!-- BOTÃO FLUTUANTE: REINICIAR BUSCA -->
 <button id="redoBtn" class="floating-btn" aria-label="Fechar todos os blocos" title="Fechar todos os blocos">
