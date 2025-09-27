@@ -358,11 +358,11 @@ function parseBlock(block, idx, fileUrl, sourceLabel) {
   const bodyLines = lines.slice(firstIdx + 1);
 
   // Captura o link (se existir)
-  let videoLink = null;
+  let videoUrl = null;
   const filteredBody = bodyLines.filter((line) => {
     const trimmed = line.trim();
     if (/^https:\/\/www\.youtube\.com\/watch\?v=/.test(trimmed)) {
-      videoLink = trimmed;
+      videoUrl = trimmed;
       return false; // remove do texto
     }
     return true;
@@ -377,11 +377,12 @@ function parseBlock(block, idx, fileUrl, sourceLabel) {
     source: sourceLabel,
     title: first,
     body,
-    text: full,
+    text: full,       // usado no card
     fileUrl,
-    videoUrl: videoLink || null, // ⬅️ novo campo com o link (se existir)
+    videoUrl: videoUrl || null, // usado pelo botão YouTube
   };
 }
+
 
 
   // junta título + corpo
