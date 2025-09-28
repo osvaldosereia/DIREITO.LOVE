@@ -370,8 +370,8 @@ mark.hl{
   justify-content:center;
 }
 .card .toggle.btn--icon img{
-  width:28px;
-  height:28px;
+  width:32px;
+  height:32px;
   display:block;
   object-fit:contain;
 }
