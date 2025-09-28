@@ -116,41 +116,41 @@ function stripThousandDots(s) {
 
 /* ---------- CÓDIGOS: abreviações/sinônimos → rótulo do <select> ---------- */
 const CODE_ABBREVS = new Map(Object.entries({
-  // CF88
-  "cf": "CF88",
-  "cf88": "CF88",
-  "cf/88": "CF88",
-  "crfb": "CF88",
-  "cr/88": "CF88",
-  "constituicao federal": "CF88",
-  "constituicao de 1988": "CF88",
+  // CF/88
+  "cf": "Constituição Federal de 1988",
+  "cf88": "Constituição Federal de 1988",
+  "cf/88": "Constituição Federal de 1988",
+  "crfb": "Constituição Federal de 1988",
+  "cr/88": "Constituição Federal de 1988",
+  "constituicao federal": "Constituição Federal de 1988",
+  "constituicao de 1988": "Constituição Federal de 1988",
 
   // Código Civil
   "cc": "Código Civil",
   "codigo civil": "Código Civil",
   "cod civil": "Código Civil",
 
-  // Processo Civil
-  "cpc": "Processo Civil",
-  "codigo de processo civil": "Processo Civil",
-  "cod proc civil": "Processo Civil",
-  "proc civil": "Processo Civil",
+  // CPC
+  "cpc": "Código de Processo Civil",
+  "codigo de processo civil": "Código de Processo Civil",
+  "cod proc civil": "Código de Processo Civil",
+  "proc civil": "Código de Processo Civil",
 
-  // Código Penal
+  // CP
   "cp": "Código Penal",
   "codigo penal": "Código Penal",
   "cod penal": "Código Penal",
 
-  // Processo Penal
-  "cpp": "Processo Penal",
-  "codigo de processo penal": "Processo Penal",
-  "cod proc penal": "Processo Penal",
-  "proc penal": "Processo Penal",
+  // CPP
+  "cpp": "Código de Processo Penal",
+  "codigo de processo penal": "Código de Processo Penal",
+  "cod proc penal": "Código de Processo Penal",
+  "proc penal": "Código de Processo Penal",
 
   // CDC
-  "cdc": "CDC",
-  "codigo de defesa do consumidor": "CDC",
-  "defesa do consumidor": "CDC",
+  "cdc": "Código de Defesa do Consumidor (CDC)",
+  "codigo de defesa do consumidor": "Código de Defesa do Consumidor (CDC)",
+  "defesa do consumidor": "Código de Defesa do Consumidor (CDC)",
 
   // Código Eleitoral
   "ce": "Código Eleitoral",
@@ -162,51 +162,41 @@ const CODE_ABBREVS = new Map(Object.entries({
   "consolidacao das leis do trabalho": "CLT",
 
   // CTN
-  "ctn": "Cód. Tributário Nacional",
-  "codigo tributario nacional": "Cód. Tributário Nacional",
-  "cod trib nacional": "Cód. Tributário Nacional",
+  "ctn": "Código Tributário Nacional (CTN)",
+  "codigo tributario nacional": "Código Tributário Nacional (CTN)",
 
   // CTB
-  "ctb": "Cód. Trânsito Brasileiro",
-  "codigo de transito brasileiro": "Cód. Trânsito Brasileiro",
-  "cod transito brasileiro": "Cód. Trânsito Brasileiro",
+  "ctb": "Código de Trânsito Brasileiro (CTB)",
+  "codigo de transito brasileiro": "Código de Trânsito Brasileiro (CTB)",
 
   // Código Florestal
   "codigo florestal": "Código Florestal",
   "cod florestal": "Código Florestal",
 
   // Militares
-  "cpm": "Cód. Penal Militar",
-  "codigo penal militar": "Cód. Penal Militar",
-  "cod penal militar": "Cód. Penal Militar",
-
-  "cppm": "Cód. Proc. Penal Militar",
-  "codigo de processo penal militar": "Cód. Proc. Penal Militar",
-  "cod proc penal militar": "Cód. Proc. Penal Militar",
+  "cpm": "Código Penal Militar",
+  "codigo penal militar": "Código Penal Militar",
+  "cppm": "Código de Processo Penal Militar",
+  "codigo de processo penal militar": "Código de Processo Penal Militar",
 
   // ECA / OAB
   "eca": "ECA",
   "estatuto da crianca e do adolescente": "ECA",
-
   "estatuto da oab": "Estatuto da OAB",
   "oab": "Estatuto da OAB",
 
-  // Leis (rótulo = option)
+  // Leis (principais)
   "lei maria da penha": "Lei Maria da Penha",
   "lmp": "Lei Maria da Penha",
-
   "lei da improbidade administrativa": "Lei da Improbidade Administrativa",
   "lia": "Lei da Improbidade Administrativa",
-  "lei de improbidade": "Lei da Improbidade Administrativa",
-
   "lei de execucao penal": "Lei de Execução Penal",
   "lep": "Lei de Execução Penal",
-
   "lei de drogas": "Lei de Drogas",
-
   "mandado de seguranca": "Mandado de Segurança",
   "lei do mandado de seguranca": "Mandado de Segurança",
 }));
+
 
 /* Detecta se a query contém uma dica de código (abreviação/sinônimo) */
 function detectCodeFromQuery(rawQuery) {
