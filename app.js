@@ -827,34 +827,39 @@ function renderCard(item, tokens = [], ctx = { context: "results" }) {
     window.open(`https://www.google.com/search?q=${q}&udm=50`, "_blank", "noopener");
   });
 
- // === be (se for da pasta /videos/) — FIX mobile popup
+ // === YouTube (puxar nome do canal pelo .txt e emendar o título do card)
 if (item.fileUrl?.includes("data/videos/")) {
-  const ytChannels = {
-    "supremo.txt":           "TVSupremo",
-    "instante_juridico.txt": "InstanteJuridico",
-    "me_julga.txt":          "MeJulga",
-    "direito_desenhado.txt": "DireitoDesenhado",
-    "diego_pureza.txt":      "DiegoPureza"
+  // mapa: arquivo -> nome do canal (como você quer ver na busca)
+  const CHANNEL_NAMES = {
+    "supremo.txt":             "tv supremo",
+    "instante_juridico.txt":   "instante juridico",
+    "me_julga.txt":            "me julga",
+    "direito_desenhado.txt":   "direito desenhado",
+    "diego_pureza.txt":        "prof diego pureza"
   };
 
   const fileName = item.fileUrl.split("/").pop().toLowerCase();
-  const canal = ytChannels[fileName];
+  const canalNome = CHANNEL_NAMES[fileName];
 
-  if (canal) {
-    const query = encodeURIComponent(item.title.trim());
-    const urlFinal = `https://www.be.com/@${canal}/search?query=${query}`;
+  if (canalNome) {
+    const title = (item.title || "").trim();
+
+    // monta exatamente no formato do seu modelo:
+    // https://www.youtube.com/results?search_query=prof+diego+pureza+como+organizar...
+    const rawQuery = `${canalNome} ${title}`;
+    const q = encodeURIComponent(rawQuery).replace(/%20/g, "+");
+    const urlFinal = `https://www.youtube.com/results?search_query=${q}`;
 
     const ytBtn = document.createElement("button");
     ytBtn.className = "round-btn";
-    ytBtn.setAttribute("aria-label", "Ver no be");
-    ytBtn.innerHTML = '<img src="icons/ai-be.png" alt="be">';
+    ytBtn.setAttribute("aria-label", "Ver no YouTube");
+    ytBtn.innerHTML = '<img src="icons/ai-be.png" alt="YouTube">';
     ytBtn.addEventListener("click", () => {
-      openExternal(urlFinal); // <-- usa helper compatível com mobile
+      openExternal(urlFinal);
     });
     actions.append(ytBtn);
   }
 }
-
 
   // === Link extra (para "artigos" e "notícias")
   if (item.fileUrl?.includes("data/artigos_e_noticias/")) {
