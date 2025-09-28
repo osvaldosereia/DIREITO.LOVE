@@ -377,8 +377,8 @@ mark.hl{
   justify-content:center;
 }
 .card .toggle.btn--icon img{
-  width:18px;
-  height:18px;
+  width:28px;
+  height:28px;
   display:block;
   object-fit:contain;
 }
