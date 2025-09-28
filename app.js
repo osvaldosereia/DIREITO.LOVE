@@ -840,7 +840,7 @@ function renderCard(item, tokens = [], ctx = { context: "results" }) {
   }
 
   // === Link extra (para "artigos" e "notícias")
-  if (item.fileUrl?.includes("data/artigos/") || item.fileUrl?.includes("data/noticias/")) {
+  if (item.fileUrl?.includes("data/artigos_e_noticias/")) {
     const fontes = {
       "jusbrasil.txt": {
         base: "https://www.jusbrasil.com.br/artigos-noticias/busca?q=",
