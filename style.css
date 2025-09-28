@@ -384,3 +384,21 @@ mark.hl {
   border-radius: 4px;
   box-shadow: 0 0 0 1px rgba(0,0,0,.06) inset;
 }
+/* Tamanho do logo no MOBILE (já tem mini) */
+@media (max-width: 480px){
+  .brand.logo-mobile{
+    height: 32px !important;   /* garante que vence a .brand {height:40px} */
+    width: 32px;                /* opcional, se quiser quadradinho */
+  }
+}
+
+/* Tamanho do logo no DESKTOP */
+@media (min-width: 768px){
+  .brand.logo-desktop{
+    height: 64px !important;    /* ajuste aqui o tamanho desejado */
+  }
+  /* Se aumentar o logo, aumente também a topbar p/ não “cortar” */
+  :root{
+    --topbar-h: 72px;           /* ex.: de 60px → 72px */
+  }
+}
