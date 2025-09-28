@@ -314,7 +314,13 @@ body{
 
 @keyframes hilite{ 0%{ background:#fff9c2 } 100%{ background:#fff } }
 
-mark.hl{ background:#cfe8ff; padding:0 .15em; border-radius:.2em; }
+mark.hl,
+.hl{
+  background:#fff59a;
+  border-radius:4px;
+  padding:0 .1em;
+  box-shadow:0 0 0 1px rgba(0,0,0,.06) inset;
+}
 
 /* Guards para accordions fechados */
 .group > .group-head[aria-expanded="false"] + .group-body{ display:none !important; }
@@ -364,7 +370,8 @@ mark.hl{ background:#cfe8ff; padding:0 .15em; border-radius:.2em; }
   box-shadow: 0 0 0 1px rgba(0,0,0,.06) inset;
 }
 .card mark{
-  background: #fff59d; /* amarelinho */
-  padding: 0 2px;
-  border-radius: 3px;
+  background:#fff59a;
+  padding:0 2px;
+  border-radius:3px;
 }
+
