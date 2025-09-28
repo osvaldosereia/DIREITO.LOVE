@@ -836,7 +836,9 @@ if (item.fileUrl?.includes("data/videos/")) {
      "monicarieger.txt":        "monica rieger",
      "rodrigo_castello.txt":        "rodrigo castello",
       "prof_alan_gestao.txt":        "prof alan gestao",
-     "simplificando_direito_penal.txt":        "simplificando direito penal"
+     "simplificando_direito_penal.txt":        "simplificando direito penal",
+        "marcello_benevides_advogados.txt":        "marcello benevides advogados"
+
   };
 
   const fileName = item.fileUrl.split("/").pop().toLowerCase();
