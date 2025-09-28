@@ -679,9 +679,11 @@ function highlight(text, tokens) {
   const parts = tokens.filter(Boolean).map(toDiacriticRx);
   if (!parts.length) return srcEsc;
   const rx = new RegExp(`\\b(${parts.join("|")})\\b`, "giu");
-  const markedNFD = srcNFD.replace(rx, "<mark>$1</mark>");
+  // AQUI: adiciona a classe .hl
+  const markedNFD = srcNFD.replace(rx, `<mark class="hl">$1</mark>`);
   return markedNFD.normalize("NFC");
 }
+
 
 function truncatedHTML(fullText, tokens) {
   const base = fullText || "";
