@@ -351,6 +351,60 @@ mark.hl{
   color: #28386b;        /* cor do número */
   border: 1px solid rgba(0,0,0,.15);
 }
+
+/* ======= BUCKETS (categorias) – tema CINZA com contraste ajustado ======= */
+:root{
+  /* Cinza médio para as barras das categorias */
+  --bucket-head-bg:       #c9cfd9;   /* barra */
+  --bucket-head-bg-hover: #bcc3ce;   /* hover/aberta */
+  --bucket-head-border:   #b3bac6;   /* borda sutil */
+  --bucket-head-text:     #0f172a;   /* título/caret (bem escuro) */
+
+  /* Contador (pill) “nº de achados” */
+  --bucket-count-bg:      #ffffff;
+  --bucket-count-text:    #0f172a;
+  --bucket-count-border:  rgba(0,0,0,.18);
+
+  /* Subcategorias (se houver) */
+  --bucket-sub-bg:        #d3d8e1;
+  --bucket-sub-bg-hover:  #c7cdd7;
+  --bucket-sub-border:    #b8bfca;
+}
+/* Cabeçalho do bucket */
+.bucket.group > .group-head{
+  background: var(--bucket-head-bg) !important;
+  color: var(--bucket-head-text) !important;
+  border-color: var(--bucket-head-border) !important;
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,.08) !important;
+}
+/* Hover/aberta */
+.bucket.group > .group-head:hover,
+.bucket.group > .group-head[aria-expanded="true"]{
+  background: var(--bucket-head-bg-hover) !important;
+}
+/* Caret e título seguem o texto escuro */
+.bucket .group-caret{
+  color: var(--bucket-head-text) !important;
+  opacity: .95;
+  filter: none !important;
+}
+/* Contador com pill branca e texto escuro */
+.bucket .group-count{
+  background: var(--bucket-count-bg) !important;
+  color: var(--bucket-count-text) !important;
+  border: 1px solid var(--bucket-count-border) !important;
+}
+/* Subcategoria (se usada) no mesmo tom */
+.bucket .bucket-subhead{
+  background: var(--bucket-sub-bg) !important;
+  color: var(--bucket-head-text) !important;
+  border: 1px solid var(--bucket-sub-border) !important;
+}
+.bucket .bucket-subhead:hover{
+  background: var(--bucket-sub-bg-hover) !important;
+}
+/* ======= /BUCKETS ======= */
+
 /* centralizar os botões da barra inferior */
 .bar-inner{
   display:flex;
