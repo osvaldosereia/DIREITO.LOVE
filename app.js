@@ -834,9 +834,10 @@ if (item.fileUrl?.includes("data/videos/")) {
     "supremo.txt":             "tv supremo",
     "instante_juridico.txt":   "instante juridico",
     "me_julga.txt":            "me julga",
+    "seus_direitos.txt":       "seus direitos",
     "direito_desenhado.txt":   "direito desenhado",
     "diego_pureza.txt":        "prof diego pureza"
-    "estrategia_carreiras_juridicas.txt":        "estrategia carreitas juridicas"
+    "estrategia_carreiras_juridicas.txt":        "estrategia carreiras juridicas"
   };
 
   const fileName = item.fileUrl.split("/").pop().toLowerCase();
