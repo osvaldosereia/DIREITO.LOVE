@@ -389,8 +389,8 @@ mark.hl {
 /* Tamanho do logo no MOBILE */
 @media (max-width: 480px){
   .brand.logo-mobile{
-    height: 32px !important;   /* garante que vence a .brand {height:40px} */
-    width: 32px;                /* opcional */
+    height: 52px !important;   /* garante que vence a .brand {height:40px} */
+    width: 52px;                /* opcional */
   }
 }
 
