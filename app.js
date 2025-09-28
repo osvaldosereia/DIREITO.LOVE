@@ -827,7 +827,15 @@ if (item.fileUrl?.includes("data/videos/")) {
     "seus_direitos.txt":       "seus direitos",
     "direito_desenhado.txt":   "direito desenhado",
     "diego_pureza.txt":        "prof diego pureza",
-    "estrategia_carreiras_juridicas.txt":        "estrategia carreiras juridicas"
+    "estrategia_carreiras_juridicas.txt":        "estrategia carreiras juridicas",
+     "ana_carolina_aidar.txt":        "ana carolina aidar",
+     "cebrian.txt":        "cebrian",
+     "fonte_juridica_oficial.txt":        "fonte juridica oficial",
+     "paulo_henrique_helene.txt":        "paulo henrique helene",
+     "profnidal.txt":        "professor nidal",
+     "monicarieger.txt":        "monica rieger",
+     "rodrigo_castello.txt":        "rodrigo castello",
+     "simplificando_direito_penal.txt":        "simplificando direito penal"
   };
 
   const fileName = item.fileUrl.split("/").pop().toLowerCase();
