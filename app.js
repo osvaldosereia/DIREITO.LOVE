@@ -403,7 +403,7 @@ function parseBlock(block, idx, fileUrl, sourceLabel) {
   let videoLink = null;
   const filteredBody = bodyLines.filter((line) => {
     const trimmed = line.trim();
-    if (/^https:\/\/www\.youtube\.com\/watch\?v=/.test(trimmed)) {
+    if (/^https:\/\/www\.be\.com\/watch\?v=/.test(trimmed)) {
       videoLink = trimmed;
       return false;
     }
@@ -721,7 +721,7 @@ function renderCard(item, tokens = [], ctx = { context: "results" }) {
     "data/teses/":      "💡 ESTUDO (Teses): Explique a tese jurídica, seu conteúdo e lastro jurisprudencial, situando o contexto de aplicação. Comente divergências entre tribunais, controvérsias e impactos na prática forense. Responda sempre em português do Brasil.",
     "data/CF88/":       "💡 ESTUDO (CF/88): Relacione os princípios constitucionais e dispositivos da CF/88 diretamente aplicáveis ao tema. Apresente jurisprudência dominante e exemplos práticos que conectem teoria, lei e realidade. Responda sempre em português do Brasil.",
     "data/noticias/":   "💡 ESTUDO (Remuso): Escreva um resumo claro, com linguagem jurídica acessível. Destaque o entendimento do STJ, o impacto prático da decisão e a base legal aplicada.",
-    "data/videos/":     "💡 ESTUDO (Explique e indique o vìdeo do youtube): Explique o tema, citando fundamentos doutrinários, exemplos práticos e súmulas/julgados de apoio. No final me de o link do vídeo em questão. Responda sempre em português do Brasil.  "
+    "data/videos/":     "💡 ESTUDO (Explique e indique o vìdeo do be): Explique o tema, citando fundamentos doutrinários, exemplos práticos e súmulas/julgados de apoio. No final me de o link do vídeo em questão. Responda sempre em português do Brasil.  "
   };
 
   // (Opcional) complemento pedagógico geral
@@ -811,7 +811,7 @@ function renderCard(item, tokens = [], ctx = { context: "results" }) {
     window.open(`https://www.google.com/search?q=${q}&udm=50`, "_blank", "noopener");
   });
 
-  // === YouTube (se for da pasta /videos/)
+  // === be (se for da pasta /videos/)
   if (item.fileUrl?.includes("data/videos/")) {
     const ytChannels = {
       "supremo.txt":           "TVSupremo",
@@ -826,12 +826,12 @@ function renderCard(item, tokens = [], ctx = { context: "results" }) {
 
     if (canal) {
       const query = encodeURIComponent(item.title.trim());
-      const urlFinal = `https://www.youtube.com/@${canal}/search?query=${query}`;
+      const urlFinal = `https://www.be.com/@${canal}/search?query=${query}`;
 
       const ytBtn = document.createElement("button");
       ytBtn.className = "round-btn";
-      ytBtn.setAttribute("aria-label", "Ver no YouTube");
-      ytBtn.innerHTML = '<img src="icons/ai-youtube.png" alt="YouTube">';
+      ytBtn.setAttribute("aria-label", "Ver no be");
+      ytBtn.innerHTML = '<img src="icons/ai-be.png" alt="be">';
       ytBtn.addEventListener("click", () => {
         window.open(urlFinal, "_blank", "noopener");
       });
