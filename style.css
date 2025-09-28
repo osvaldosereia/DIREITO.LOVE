@@ -46,20 +46,20 @@ html, body { margin: 0; height: 100%; }
   --line:var(--g-150);
   --line-strong:var(--g-200);
 
-  /* realces */
-  --blue:var(--g-600);      /* substitui o azul anterior */
-  --blue-soft:#EFF2F5;      /* hover/realce suave */
+  /* realces (AZUL DO TEMA) */
+  --blue:#1800ad;           /* azul principal do projeto */
+  --blue-soft:#eef0ff;      /* hover/realce suave */
 
-  /* buckets/categorias */
-  --bucket-head-bg:var(--g-600);
-  --bucket-head-bg-hover:#5A6269;
+  /* buckets/categorias (amarrados ao azul do tema) */
+  --bucket-head-bg:var(--blue);
+  --bucket-head-bg-hover:#14008e;   /* ~15% mais escuro */
   --bucket-head-text:#FFFFFF;
   --bucket-count-bg:#FFFFFF;
   --bucket-count-text:#2B3240;
   --bucket-count-border:var(--g-200);
-  --bucket-sub-bg:#8B939C;
-  --bucket-sub-bg-hover:#7B838C;
-  --bucket-sub-border:#7B838C;
+  --bucket-sub-bg:#2a1fd6;          /* tom relacionado */
+  --bucket-sub-bg-hover:#1f16b1;    /* hover sub */
+  --bucket-sub-border:#1b1293;
 }
 @media (min-width:768px){ :root{ --fs:16px } }
 
@@ -89,7 +89,7 @@ body{
 }
 .search input:focus{
   border-color:var(--line-strong);
-  box-shadow:0 0 0 3px rgba(108,117,125,.22);
+  box-shadow:0 0 0 3px rgba(24,0,173,.22); /* halo coerente com o azul */
 }
 .spinner{
   position:absolute; right:12px; top:50%; transform:translateY(-50%);
@@ -145,7 +145,7 @@ body{
   display:inline-flex; align-items:center; gap:6px;
   padding:4px 10px; border-radius:999px; background:#fff;
   color:var(--blue); font-weight:500; font-size:.8rem; text-decoration:none;
-  opacity:.95; cursor:pointer; border:1px solid rgba(108,117,125,.25);
+  opacity:.95; cursor:pointer; border:1px solid rgba(24,0,173,.25);
   transition:background .2s ease, opacity .2s ease, border-color .2s ease;
 }
 .pill:hover{ background:var(--blue-soft); opacity:1; }
@@ -174,7 +174,7 @@ body{
 .btn[disabled]{ opacity:.55; cursor:not-allowed; }
 .btn.icon-only{ padding:0 10px; width:auto; height:36px; font-size:18px; border-radius:10px; line-height:1; }
 .btn-primary{ background:var(--blue); color:#fff; border-color:var(--blue); }
-.btn-primary:hover{ background:#5A6269; border-color:#5A6269; }
+.btn-primary:hover{ background:#14008e; border-color:#14008e; } /* hover coerente com o tema */
 .btn.soft{ background:#f6f7fb; }
 .btn-ghost{ background:#fff; }
 
@@ -200,7 +200,7 @@ body{
 .group-body{ padding:10px 12px; }
 .group-body[hidden]{ display:none; }
 
-/* Buckets/Categorias (barra cinza contrastante) */
+/* Buckets/Categorias (barra azul contrastante) */
 .bucket.group > .group-head{
   background:var(--bucket-head-bg);
   color:var(--bucket-head-text);
@@ -362,6 +362,7 @@ mark.hl,
   .hub-menu{ gap:4px; }
   #baseHubSpacer{ flex-basis:72px !important; }
 }
+
 /* === destaque de termos === */
 .hl {
   background: #fff59a;         /* amarelo claro legível */
@@ -384,11 +385,12 @@ mark.hl {
   border-radius: 4px;
   box-shadow: 0 0 0 1px rgba(0,0,0,.06) inset;
 }
-/* Tamanho do logo no MOBILE (já tem mini) */
+
+/* Tamanho do logo no MOBILE */
 @media (max-width: 480px){
   .brand.logo-mobile{
     height: 32px !important;   /* garante que vence a .brand {height:40px} */
-    width: 32px;                /* opcional, se quiser quadradinho */
+    width: 32px;                /* opcional */
   }
 }
 
