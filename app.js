@@ -1259,8 +1259,23 @@ document.addEventListener("click", (e) => {
     "Códigos, Leis e Estatutos": [
       "data/codigos/", "data/CF88/", "data/leis/", "data/estatutos/"
     ],
-    "Súmulas, Enunciados, Temas e Teses": [
-      "data/sumulas/", "data/enunciados/", "data/teses/"
+     "Códigos": [
+      "data/codigos/"
+         ],
+     "Leis": [
+      "data/leis/"       
+         ],
+     "Estatutos": [
+      "data/estatutos/"
+    ],
+    "Súmulas": [
+      "data/sumulas/"
+         ],
+    "Enunciados": [
+      "data/enunciados/"
+        ],
+    "Temas Repetitivos e Teses": [
+      "data/temas_repetitivos/", "data/teses/"
       ],
     "Julgados": [
       "data/julgados/"
