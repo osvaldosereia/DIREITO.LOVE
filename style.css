@@ -409,8 +409,8 @@ mark.hl{
 .round-btn:active { transform: translateY(1px); }
 .round-btn:hover{ border-color:var(--brand-amber); box-shadow:0 4px 14px rgba(255,175,32,.22) }
 .round-btn img {
-  width: 18px;
-  height: 18px;
+  width: 28px;
+  height: 28px;
   display: block;
   object-fit: contain;
 }
