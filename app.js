@@ -707,7 +707,7 @@ function renderCard(item, tokens = [], ctx = { context: "results" }) {
   if (ctx.context === "reader") {
 body.innerHTML = highlight(item.text, (window.searchTokens && window.searchTokens.length) ? window.searchTokens : tokens);
   } else {
-    bbody.classList.add("is-collapsed");
+    body.classList.add("is-collapsed");
 // agora já renderiza com highlight, usando truncatedHTML()
 const tokensForHL = (window.searchTokens && window.searchTokens.length)
   ? window.searchTokens
