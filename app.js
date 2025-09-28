@@ -836,6 +836,7 @@ if (item.fileUrl?.includes("data/videos/")) {
     "me_julga.txt":            "me julga",
     "direito_desenhado.txt":   "direito desenhado",
     "diego_pureza.txt":        "prof diego pureza"
+    "estrategia_carreiras_juridicas.txt":        "estrategia carreitas juridicas"
   };
 
   const fileName = item.fileUrl.split("/").pop().toLowerCase();
