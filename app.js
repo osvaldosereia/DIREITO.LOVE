@@ -1255,50 +1255,29 @@ document.addEventListener("click", (e) => {
   if (typeof window === "undefined") return;
 
   // ===== Categorização só de UI (1 nível) =====
-// ===== Categorização só de UI (1 nível) =====
-const UI_BUCKETS = {
-  "Códigos e Leis": [
-    "data/codigos/", "data/CF88/", "data/leis/", "data/estatutos/"
-  ],
-  "Jurisprudencial": [
-    "data/sumulas/", "data/enunciados/", "data/teses/", "data/julgados/"
-  ],
-  "Temas": [
-    "data/noticias/", "data/artigos/", "data/videos/"
-  ]
-};
-window.UI_BUCKETS = UI_BUCKETS;
+  const UI_BUCKETS = {
+    "Códigos e Leis": [
+      "data/codigos/", "data/CF88/", "data/leis/", "data/estatutos/"
+    ],
+    "Jurisprudencial": [
+      "data/sumulas/", "data/enunciados/", "data/teses/", "data/julgados/"
+    ],
+    "Temas": [
+      "data/noticias/", "data/artigos/", "data/videos/"
+    ]
+  };
+  window.UI_BUCKETS = UI_BUCKETS;
 
-function resolveBucket(url = "") {
-  const u = String(url).toLowerCase();
-  for (const [main, paths] of Object.entries(UI_BUCKETS)) {
-    if (paths.some(p => u.includes(p))) return { main };
-  }
-  return { main: "Outros" };
-}
-window.resolveBucket = resolveBucket;
-
-
-function resolveBucket(url = "") {
-  const u = String(url).toLowerCase();
-  for (const [main, paths] of Object.entries(UI_BUCKETS)) {
-    if (paths.some(p => u.includes(p))) return { main };
-  }
-  return { main: "Outros" };
-}
-window.resolveBucket = resolveBucket;
-
-
-  function resolveBucket(url = "", label = "") {
+  // ÚNICA função de resolução de bucket (nível único)
+  function resolveBucket(url = "") {
     const u = String(url).toLowerCase();
-    for (const [main, subs] of Object.entries(UI_BUCKETS)) {
-      for (const [sub, paths] of Object.entries(subs)) {
-        if (paths.some(p => u.includes(p))) return { main, sub };
-      }
+    for (const [main, paths] of Object.entries(UI_BUCKETS)) {
+      if (paths.some(p => u.includes(p))) return { main };
     }
-    return { main: "Outros", sub: "Diversos" };
+    return { main: "Outros" };
   }
   window.resolveBucket = resolveBucket;
+
 
  // injeta um tema azul-escuro e reaproveita o layout de "group"
 function ensureBucketStyles() {
