@@ -88,6 +88,22 @@ function escHTML(s) {
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
   }[m]));
 }
+function openExternal(url) {
+  try {
+    const a = document.createElement("a");
+    a.href = url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    // precisa estar no DOM em alguns webviews móveis
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  } catch (_) {
+    // fallback: abre na mesma aba
+    location.href = url;
+  }
+}
+
 
 /* ============================================================
    BUSCA — abreviações & regras
@@ -811,33 +827,34 @@ function renderCard(item, tokens = [], ctx = { context: "results" }) {
     window.open(`https://www.google.com/search?q=${q}&udm=50`, "_blank", "noopener");
   });
 
-  // === be (se for da pasta /videos/)
-  if (item.fileUrl?.includes("data/videos/")) {
-    const ytChannels = {
-      "supremo.txt":           "TVSupremo",
-      "instante_juridico.txt": "InstanteJuridico",
-      "me_julga.txt":          "MeJulga",
-      "direito_desenhado.txt": "DireitoDesenhado",
-      "diego_pureza.txt":      "DiegoPureza"
-    };
+ // === be (se for da pasta /videos/) — FIX mobile popup
+if (item.fileUrl?.includes("data/videos/")) {
+  const ytChannels = {
+    "supremo.txt":           "TVSupremo",
+    "instante_juridico.txt": "InstanteJuridico",
+    "me_julga.txt":          "MeJulga",
+    "direito_desenhado.txt": "DireitoDesenhado",
+    "diego_pureza.txt":      "DiegoPureza"
+  };
 
-    const fileName = item.fileUrl.split("/").pop().toLowerCase();
-    const canal = ytChannels[fileName];
+  const fileName = item.fileUrl.split("/").pop().toLowerCase();
+  const canal = ytChannels[fileName];
 
-    if (canal) {
-      const query = encodeURIComponent(item.title.trim());
-      const urlFinal = `https://www.be.com/@${canal}/search?query=${query}`;
+  if (canal) {
+    const query = encodeURIComponent(item.title.trim());
+    const urlFinal = `https://www.be.com/@${canal}/search?query=${query}`;
 
-      const ytBtn = document.createElement("button");
-      ytBtn.className = "round-btn";
-      ytBtn.setAttribute("aria-label", "Ver no be");
-      ytBtn.innerHTML = '<img src="icons/ai-be.png" alt="be">';
-      ytBtn.addEventListener("click", () => {
-        window.open(urlFinal, "_blank", "noopener");
-      });
-      actions.append(ytBtn);
-    }
+    const ytBtn = document.createElement("button");
+    ytBtn.className = "round-btn";
+    ytBtn.setAttribute("aria-label", "Ver no be");
+    ytBtn.innerHTML = '<img src="icons/ai-be.png" alt="be">';
+    ytBtn.addEventListener("click", () => {
+      openExternal(urlFinal); // <-- usa helper compatível com mobile
+    });
+    actions.append(ytBtn);
   }
+}
+
 
   // === Link extra (para "artigos" e "notícias")
   if (item.fileUrl?.includes("data/artigos_e_noticias/")) {
