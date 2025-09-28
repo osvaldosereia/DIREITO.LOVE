@@ -892,7 +892,9 @@ if (item.fileUrl?.includes("data/videos/")) {
       "prof_alan_gestao.txt":        "prof alan gestao",
      "simplificando_direito_penal.txt":        "simplificando direito penal",
      "geofre_saraiva.txt":        "geofre saraiva",
-      "geofre_saraiva.txt":        "geofre saraiva",
+      "ricardo_torques.txt":        "ricardo torques",
+      "prof_eduardo_tanaka.txt":        "prof eduardo tanaka",
+      "trilhante.txt":        "trilhante",
         "paulo_rodrigues_direito_para_a_vida.txt":        "paulo rodrigues direito para a vida"
 
 
