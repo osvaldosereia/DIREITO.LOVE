@@ -1255,6 +1255,7 @@ document.addEventListener("click", (e) => {
   if (typeof window === "undefined") return;
 
   // ===== Categorização só de UI (1 nível) =====
+// ===== Categorização só de UI (1 nível) =====
 const UI_BUCKETS = {
   "Códigos e Leis": [
     "data/codigos/", "data/CF88/", "data/leis/", "data/estatutos/"
@@ -1267,6 +1268,16 @@ const UI_BUCKETS = {
   ]
 };
 window.UI_BUCKETS = UI_BUCKETS;
+
+function resolveBucket(url = "") {
+  const u = String(url).toLowerCase();
+  for (const [main, paths] of Object.entries(UI_BUCKETS)) {
+    if (paths.some(p => u.includes(p))) return { main };
+  }
+  return { main: "Outros" };
+}
+window.resolveBucket = resolveBucket;
+
 
 function resolveBucket(url = "") {
   const u = String(url).toLowerCase();
@@ -1330,15 +1341,14 @@ function ensureBucketStyles() {
 }
 
 function renderBucket(mainTitle, nodes /* Array<HTMLElement> */) {
-  // (mantém seu tema azul escuro se quiser)
-  ensureBucketStyles(); 
+  ensureBucketStyles();
 
   const bucket = document.createElement("section");
   bucket.className = "bucket group";
 
   const head = document.createElement("button");
   head.className = "group-head";
-  head.setAttribute("aria-expanded", "false"); // FECHADO
+  head.setAttribute("aria-expanded", "false");
   head.innerHTML = `
     <span class="group-title">${mainTitle}</span>
     <span class="bucket-caret" aria-hidden="true">▾</span>
@@ -1346,7 +1356,7 @@ function renderBucket(mainTitle, nodes /* Array<HTMLElement> */) {
 
   const body = document.createElement("div");
   body.className = "group-body bucket-body";
-  body.hidden = true; // FECHADO
+  body.hidden = true;
 
   nodes.forEach(n => body.appendChild(n));
 
@@ -1361,6 +1371,7 @@ function renderBucket(mainTitle, nodes /* Array<HTMLElement> */) {
   return bucket;
 }
 window.renderBucket = renderBucket;
+
 
 
 
@@ -1453,8 +1464,7 @@ window.renderBucket = renderBucket;
   title.textContent = `Busca: ‘${term}’`;
   block.appendChild(title);
 
-  // main => [HTMLElement nodes...]
-  const byMain = new Map();
+  const byMain = new Map(); // main => [nodes]
 
   [...groups].sort((a,b)=> a.label.localeCompare(b.label)).forEach((entry) => {
     const { main } = resolveBucket(entry.url);
@@ -1469,6 +1479,7 @@ window.renderBucket = renderBucket;
 
   els.stack.append(block);
 };
+
 
 
   // ===== Override: renderBlock com buckets (fluxos não-lazy) =====
