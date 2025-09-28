@@ -49,29 +49,38 @@ const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 // Gera tokens a partir do termo digitado (remove curtos e duplicados)
 function buildTokens(q) {
-  return (q||"")
+  return (q || "")
     .toLowerCase()
-    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
     .split(/[^\p{L}\p{N}_]+/u)
     .filter(t => t && t.length >= 2)
     .filter((t, i, a) => a.indexOf(t) === i);
 }
 
-// Aplica highlight em NÓS DE TEXTO (não mexe em tags/links)
+// Aplica highlight em NÓS DE TEXTO (acento-insensível; não mexe em tags/links)
 function applyHighlights(rootEl, tokens) {
   if (!rootEl || !tokens?.length) return;
 
-  const parts = tokens.map(t => escapeRegExp(t));
-  const re = new RegExp(`(${parts.join("|")})`, "ig");
+  // transforma cada token em um padrão que aceita acentos: letra -> letra + \p{M}*
+  const toDiacriticRx = (t) =>
+    String(t)
+      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+      .replace(/\p{L}/gu, (ch) => ch + "\\p{M}*");
+
+  const parts = tokens.filter(Boolean).map(toDiacriticRx);
+  if (!parts.length) return;
+
+  // usa \b para borda de palavra; flags g i u
+  const re = new RegExp(`\\b(${parts.join("|")})\\b`, "giu");
 
   const walker = document.createTreeWalker(rootEl, NodeFilter.SHOW_TEXT, {
     acceptNode(node) {
       const txt = node.nodeValue;
       if (!txt || !txt.trim()) return NodeFilter.FILTER_REJECT;
       if (node.parentElement && node.parentElement.closest(".hl")) {
-        return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_REJECT; // evita remarcar
       }
-      return re.test(txt) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      return re.test(txt.normalize("NFD")) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
     }
   });
 
@@ -79,18 +88,22 @@ function applyHighlights(rootEl, tokens) {
   while (walker.nextNode()) textNodes.push(walker.currentNode);
 
   textNodes.forEach(node => {
+    const nfd = node.nodeValue.normalize("NFD");
+    const pieces = nfd.split(re);
     const frag = document.createDocumentFragment();
-    const pieces = node.nodeValue.split(re);
+
     for (let i = 0; i < pieces.length; i++) {
       const chunk = pieces[i];
       if (!chunk) continue;
+      const out = chunk.normalize("NFC"); // volta cada pedaço pra NFC
+
       if (i % 2 === 1) {
         const mark = document.createElement("mark");
         mark.className = "hl";
-        mark.textContent = chunk;
+        mark.textContent = out;
         frag.appendChild(mark);
       } else {
-        frag.appendChild(document.createTextNode(chunk));
+        frag.appendChild(document.createTextNode(out));
       }
     }
     node.parentNode.replaceChild(frag, node);
@@ -109,6 +122,7 @@ const state = {
   urlToLabel: new Map(),
   // Removidos: promptTpl, promptQTpl, pendingObs, studyIncluded, questionsIncluded
 };
+
 
 /* ---------- util ---------- */
 function toast(msg) {
@@ -741,6 +755,8 @@ body.innerHTML = truncatedHTML(item.text || "", tokensForHL);
 } else {
   body.classList.remove("is-collapsed");
   body.innerHTML = highlight(item.text, (window.searchTokens && window.searchTokens.length) ? window.searchTokens : tokens);
+         applyHighlights(body, (window.searchTokens && window.searchTokens.length) ? window.searchTokens : tokens);
+
 }
 
     });
@@ -1021,6 +1037,9 @@ async function openReader(item, tokens = []) {
       card.id = a.htmlId;
       els.readerBody.appendChild(card);
     });
+         // aplica grifo no DOM inteiro do leitor
+    applyHighlights(els.readerBody, (window.searchTokens && window.searchTokens.length) ? window.searchTokens : tokens);
+
 
     const anchor = els.readerBody.querySelector(`#${CSS.escape(item.htmlId)}`);
     if (anchor) {
