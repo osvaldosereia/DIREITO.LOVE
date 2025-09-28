@@ -1254,26 +1254,29 @@ document.addEventListener("click", (e) => {
 (function(){
   if (typeof window === "undefined") return;
 
-  // ===== Categorização só de UI (por caminho da URL) =====
-  const UI_BUCKETS = {
-    "Códigos e Leis": {
-      "Códigos":    ["data/codigos/", "data/CF88/"],
-      "Leis":       ["data/leis/"],
-      "Estatutos":  ["data/estatutos/"]
-    },
-    "Jurisprudencial": {
-      "Súmulas":    ["data/sumulas/"],
-      "Enunciados": ["data/enunciados/"],
-      "Teses":      ["data/teses/"],
-      "Julgados":   ["data/julgados/"]
-    },
-    "Temas": {
-      "Notícias":   ["data/noticias/"],
-      "Artigos":    ["data/artigos/"],
-      "Vídeos":     ["data/videos/"]
-    }
-  };
-  window.UI_BUCKETS = UI_BUCKETS;
+  // ===== Categorização só de UI (1 nível) =====
+const UI_BUCKETS = {
+  "Códigos e Leis": [
+    "data/codigos/", "data/CF88/", "data/leis/", "data/estatutos/"
+  ],
+  "Jurisprudencial": [
+    "data/sumulas/", "data/enunciados/", "data/teses/", "data/julgados/"
+  ],
+  "Temas": [
+    "data/noticias/", "data/artigos/", "data/videos/"
+  ]
+};
+window.UI_BUCKETS = UI_BUCKETS;
+
+function resolveBucket(url = "") {
+  const u = String(url).toLowerCase();
+  for (const [main, paths] of Object.entries(UI_BUCKETS)) {
+    if (paths.some(p => u.includes(p))) return { main };
+  }
+  return { main: "Outros" };
+}
+window.resolveBucket = resolveBucket;
+
 
   function resolveBucket(url = "", label = "") {
     const u = String(url).toLowerCase();
@@ -1326,16 +1329,16 @@ function ensureBucketStyles() {
   document.head.appendChild(style);
 }
 
-function renderBucket(mainTitle, subMapElts /* {subTitle: [HTMLElement,...]} */) {
-  ensureBucketStyles(); // injeta o CSS azul-escuro e padrão dos colapsados
+function renderBucket(mainTitle, nodes /* Array<HTMLElement> */) {
+  // (mantém seu tema azul escuro se quiser)
+  ensureBucketStyles(); 
 
   const bucket = document.createElement("section");
-  // herda o layout dos grupos
   bucket.className = "bucket group";
 
   const head = document.createElement("button");
   head.className = "group-head";
-  head.setAttribute("aria-expanded", "false"); // inicia FECHADO
+  head.setAttribute("aria-expanded", "false"); // FECHADO
   head.innerHTML = `
     <span class="group-title">${mainTitle}</span>
     <span class="bucket-caret" aria-hidden="true">▾</span>
@@ -1343,44 +1346,9 @@ function renderBucket(mainTitle, subMapElts /* {subTitle: [HTMLElement,...]} */)
 
   const body = document.createElement("div");
   body.className = "group-body bucket-body";
-  body.hidden = true; // inicia FECHADO
+  body.hidden = true; // FECHADO
 
-  for (const [subTitle, nodes] of Object.entries(subMapElts)) {
-  if (!nodes.length) continue;
-
-  const sub = document.createElement("section");
-  sub.className = "subcat";
-
-  // Cabeçalho da subcategoria (botão)
-  const subHead = document.createElement("button");
-  subHead.className = "bucket-subhead";
-  subHead.setAttribute("aria-expanded", "false"); // inicia FECHADO
-  subHead.innerHTML = `
-    <span class="subcat-title">${subTitle}</span>
-    <span class="group-caret" aria-hidden="true">▾</span>
-  `;
-
-  // Corpo da subcategoria (conteúdo)
-  const subBody = document.createElement("div");
-  subBody.className = "subcat-body";
-  subBody.hidden = true; // inicia FECHADO
-  nodes.forEach(n => subBody.appendChild(n));
-
-  // Toggle abre/fecha
-  subHead.addEventListener("click", () => {
-    const open = subHead.getAttribute("aria-expanded") === "true";
-    subHead.setAttribute("aria-expanded", open ? "false" : "true");
-    subBody.hidden = open;
-  });
-
-  sub.appendChild(subHead);
-  sub.appendChild(subBody);
-  body.appendChild(sub);
-}
-
-
-  bucket.appendChild(head);
-  bucket.appendChild(body);
+  nodes.forEach(n => body.appendChild(n));
 
   head.addEventListener("click", () => {
     const open = head.getAttribute("aria-expanded") === "true";
@@ -1388,12 +1356,12 @@ function renderBucket(mainTitle, subMapElts /* {subTitle: [HTMLElement,...]} */)
     body.hidden = open;
   });
 
+  bucket.appendChild(head);
+  bucket.appendChild(body);
   return bucket;
 }
-
-
-
 window.renderBucket = renderBucket;
+
 
 
   // ===== Usa helpers do app.js original via window =====
@@ -1475,110 +1443,107 @@ window.renderBucket = renderBucket;
 
   // ===== Override: renderLazyResults com buckets =====
   window.renderLazyResults = function renderLazyResults(term, groups, tokens) {
-    els.stack.innerHTML = "";
+  els.stack.innerHTML = "";
 
-    const block = document.createElement("section");
-    block.className = "block";
+  const block = document.createElement("section");
+  block.className = "block";
 
-    const title = document.createElement("div");
-    title.className = "block-title";
-    title.textContent = `Busca: ‘${term}’`;
-    block.appendChild(title);
+  const title = document.createElement("div");
+  title.className = "block-title";
+  title.textContent = `Busca: ‘${term}’`;
+  block.appendChild(title);
 
-    const buckets = new Map(); // main => Map(sub => entries[])
-    const ordered = [...groups].sort((a,b)=> a.label.localeCompare(b.label));
+  // main => [HTMLElement nodes...]
+  const byMain = new Map();
 
-    ordered.forEach((entry) => {
-      const { main, sub } = resolveBucket(entry.url, entry.label);
-      if (!buckets.has(main)) buckets.set(main, new Map());
-      const subMap = buckets.get(main);
-      if (!subMap.has(sub)) subMap.set(sub, []);
-      subMap.get(sub).push(entry);
-    });
+  [...groups].sort((a,b)=> a.label.localeCompare(b.label)).forEach((entry) => {
+    const { main } = resolveBucket(entry.url);
+    const node = renderLazyGroupSection(entry, tokens, term);
+    if (!byMain.has(main)) byMain.set(main, []);
+    byMain.get(main).push(node);
+  });
 
-    for (const [main, subMap] of buckets.entries()) {
-      const subMapElts = {};
-      for (const [sub, entries] of subMap.entries()) {
-        const nodes = entries.map(e => renderLazyGroupSection(e, tokens, term));
-        subMapElts[sub] = nodes;
-      }
-      block.appendChild(renderBucket(main, subMapElts));
-    }
+  for (const [main, nodes] of byMain.entries()) {
+    block.appendChild(renderBucket(main, nodes));
+  }
 
-    els.stack.append(block);
-  };
+  els.stack.append(block);
+};
+
 
   // ===== Override: renderBlock com buckets (fluxos não-lazy) =====
   window.renderBlock = function renderBlock(term, items, tokens) {
-    const block = document.createElement("section");
-    block.className = "block";
+  const block = document.createElement("section");
+  block.className = "block";
 
-    const title = document.createElement("div");
-    title.className = "block-title";
-    title.textContent = `Busca: ‘${term}’ (${items.length} resultados)`;
-    block.appendChild(title);
+  const title = document.createElement("div");
+  title.className = "block-title";
+  title.textContent = `Busca: ‘${term}’ (${items.length} resultados)`;
+  block.appendChild(title);
 
-    if (!items.length) {
-      const empty = document.createElement("div");
-      empty.className = "block-empty";
-      empty.textContent = `Nada por aqui com ‘${term}’. Tente outra palavra.`;
-      block.appendChild(empty);
-      els.stack.append(block);
-      return;
-    }
-
-    const groupsMap = new Map(); // key -> {label,url,items}
-    for (const it of items) {
-      const key = `${it.source}::${it.fileUrl}`;
-      if (!groupsMap.has(key)) groupsMap.set(key, { label: it.source || "Outros", url: it.fileUrl, items: [] });
-      groupsMap.get(key).items.push(it);
-    }
-
-    const buckets = new Map(); // main => Map(sub => [groupObjs])
-    for (const g of groupsMap.values()) {
-      const { main, sub } = resolveBucket(g.url, g.label);
-      if (!buckets.has(main)) buckets.set(main, new Map());
-      const subMap = buckets.get(main);
-      if (!subMap.has(sub)) subMap.set(sub, []);
-      subMap.get(sub).push(g);
-    }
-
-    for (const [main, subMap] of buckets.entries()) {
-      const subMapElts = {};
-      for (const [sub, arr] of subMap.entries()) {
-        const nodes = arr
-          .sort((a,b)=> a.label.localeCompare(b.label))
-          .map(({label, items}) => {
-            const sec = document.createElement("section");
-            sec.className = "group";
-
-            const head = document.createElement("button");
-            head.className = "group-head";
-            head.setAttribute("aria-expanded","false");
-            head.innerHTML = `<span class="group-title">${label}</span><span class="group-count">${items.length}</span><span class="group-caret" aria-hidden="true">▾</span>`;
-            sec.appendChild(head);
-
-            const body = document.createElement("div");
-            body.className = "group-body";
-            body.hidden = true;
-            items.forEach((it)=> body.appendChild(renderCard(it, tokens)));
-            sec.appendChild(body);
-
-            head.addEventListener("click", ()=>{
-              const open = head.getAttribute("aria-expanded")==="true";
-              head.setAttribute("aria-expanded", open ? "false" : "true");
-              body.hidden = open;
-            });
-
-            return sec;
-          });
-
-        subMapElts[sub] = nodes;
-      }
-      block.appendChild(renderBucket(main, subMapElts));
-    }
-
+  if (!items.length) {
+    const empty = document.createElement("div");
+    empty.className = "block-empty";
+    empty.textContent = `Nada por aqui com ‘${term}’. Tente outra palavra.`;
+    block.appendChild(empty);
     els.stack.append(block);
-  };
+    return;
+  }
+
+  // agrupa por arquivo (label+url)
+  const groupsMap = new Map(); // key -> {label,url,items[]}
+  for (const it of items) {
+    const key = `${it.source}::${it.fileUrl}`;
+    if (!groupsMap.has(key)) groupsMap.set(key, { label: it.source || "Outros", url: it.fileUrl, items: [] });
+    groupsMap.get(key).items.push(it);
+  }
+
+  // monta sections (accordions de arquivo)
+  const sections = [];
+  for (const g of groupsMap.values()) {
+    const sec = document.createElement("section");
+    sec.className = "group";
+
+    const head = document.createElement("button");
+    head.className = "group-head";
+    head.setAttribute("aria-expanded","false");
+    head.innerHTML = `
+      <span class="group-title">${g.label}</span>
+      <span class="group-count">${g.items.length}</span>
+      <span class="group-caret" aria-hidden="true">▾</span>
+    `;
+    sec.appendChild(head);
+
+    const body = document.createElement("div");
+    body.className = "group-body";
+    body.hidden = true;
+    g.items.forEach((it)=> body.appendChild(renderCard(it, tokens)));
+    sec.appendChild(body);
+
+    head.addEventListener("click", ()=>{
+      const open = head.getAttribute("aria-expanded")==="true";
+      head.setAttribute("aria-expanded", open ? "false" : "true");
+      body.hidden = open;
+    });
+
+    // guarda com seu bucket
+    const { main } = resolveBucket(g.url);
+    sections.push({ main, node: sec });
+  }
+
+  // agrupa por bucket principal
+  const byMain = new Map();
+  sections.forEach(({main, node}) => {
+    if (!byMain.has(main)) byMain.set(main, []);
+    byMain.get(main).push(node);
+  });
+
+  for (const [main, nodes] of byMain.entries()) {
+    block.appendChild(renderBucket(main, nodes));
+  }
+
+  els.stack.append(block);
+};
+
 
 })();
