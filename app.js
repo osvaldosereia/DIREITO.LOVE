@@ -853,7 +853,7 @@ if (item.fileUrl?.includes("data/videos/")) {
     const ytBtn = document.createElement("button");
     ytBtn.className = "round-btn";
     ytBtn.setAttribute("aria-label", "Ver no YouTube");
-    ytBtn.innerHTML = '<img src="icons/ai-be.png" alt="YouTube">';
+    ytBtn.innerHTML = '<img src="icons/youtube.png" alt="YouTube">';
     ytBtn.addEventListener("click", () => {
       openExternal(urlFinal);
     });
