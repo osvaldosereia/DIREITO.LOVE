@@ -356,3 +356,10 @@ mark.hl{ background:#cfe8ff; padding:0 .15em; border-radius:.2em; }
   .hub-menu{ gap:4px; }
   #baseHubSpacer{ flex-basis:72px !important; }
 }
+/* === destaque de termos === */
+.hl {
+  background: #fff59a;         /* amarelo claro legível */
+  border-radius: 4px;
+  padding: 0 .1em;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.06) inset;
+}
