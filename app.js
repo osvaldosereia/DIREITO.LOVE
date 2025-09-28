@@ -1256,10 +1256,7 @@ document.addEventListener("click", (e) => {
 
   // ===== Categorização só de UI (1 nível) =====
   const UI_BUCKETS = {
-    "Códigos, Leis e Estatutos": [
-      "data/codigos/", "data/CF88/", "data/leis/", "data/estatutos/"
-    ],
-     "Códigos": [
+      "Códigos": [
       "data/codigos/"
          ],
      "Leis": [
