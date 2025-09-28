@@ -1176,11 +1176,15 @@ updateBottom();
 document.getElementById("studyBtn")?.remove();
 document.getElementById("questionsBtn")?.remove();
 
-ensureBaseHub();
-ensureClearSelectedBtn();
-ensureBaseSpacer();
-reorderBaseControlsAndCenter();
-window.addEventListener("resize", reorderBaseControlsAndCenter);
+// Só configura o hub/lixeira/reflow se existir a barra-base (#viewBtn)
+if (els.viewBtn && els.viewBtn.parentElement) {
+  ensureBaseHub();
+  ensureClearSelectedBtn();
+  ensureBaseSpacer();
+  reorderBaseControlsAndCenter();
+  window.addEventListener("resize", reorderBaseControlsAndCenter);
+}
+
 
 document.getElementById("resetBtn")?.addEventListener("click", () => {
   window._skipFocus = true; // evita foco no input
