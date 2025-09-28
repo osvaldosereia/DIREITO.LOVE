@@ -419,7 +419,7 @@ function parseBlock(block, idx, fileUrl, sourceLabel) {
   let videoLink = null;
   const filteredBody = bodyLines.filter((line) => {
     const trimmed = line.trim();
-    if (/^https:\/\/www\.be\.com\/watch\?v=/.test(trimmed)) {
+if (/^(?:https:\/\/www\.youtube\.com\/watch\?v=|https:\/\/youtu\.be\/)/.test(trimmed)) {
       videoLink = trimmed;
       return false;
     }
@@ -836,7 +836,7 @@ if (item.fileUrl?.includes("data/videos/")) {
     "me_julga.txt":            "me julga",
     "seus_direitos.txt":       "seus direitos",
     "direito_desenhado.txt":   "direito desenhado",
-    "diego_pureza.txt":        "prof diego pureza"
+    "diego_pureza.txt":        "prof diego pureza",
     "estrategia_carreiras_juridicas.txt":        "estrategia carreiras juridicas"
   };
 
