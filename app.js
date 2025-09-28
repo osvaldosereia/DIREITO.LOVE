@@ -707,17 +707,13 @@ function renderCard(item, tokens = [], ctx = { context: "results" }) {
   if (ctx.context === "reader") {
 body.innerHTML = highlight(item.text, (window.searchTokens && window.searchTokens.length) ? window.searchTokens : tokens);
   } else {
-    body.classList.add("is-collapsed");
-    // render plain truncated text without highlight for performance
-    const base = item.text || "";
-    let out = base.slice(0, CARD_CHAR_LIMIT);
-    const cut = out.lastIndexOf(" ");
-    if (base.length > CARD_CHAR_LIMIT && cut > CARD_CHAR_LIMIT * 0.7) {
-      out = out.slice(0, cut) + "…";
-    } else if (base.length > CARD_CHAR_LIMIT) {
-      out = out.trim() + "…";
-    }
-    body.textContent = out;
+    bbody.classList.add("is-collapsed");
+// agora já renderiza com highlight, usando truncatedHTML()
+const tokensForHL = (window.searchTokens && window.searchTokens.length)
+  ? window.searchTokens
+  : (Array.isArray(tokens) ? tokens : []);
+body.innerHTML = truncatedHTML(item.text || "", tokensForHL);
+
   }
   body.style.cursor = "pointer";
   body.addEventListener("click", () => openReader(item));
@@ -737,20 +733,16 @@ body.innerHTML = highlight(item.text, (window.searchTokens && window.searchToken
       toggle.textContent = expanded ? "▼" : "▲";
       // when collapsed, show fast plain snippet; when expanded, full with highlight
       if (expanded) {
-        body.classList.add("is-collapsed");
-        const base = item.text || "";
-        let out = base.slice(0, CARD_CHAR_LIMIT);
-        const cut = out.lastIndexOf(" ");
-        if (base.length > CARD_CHAR_LIMIT && cut > CARD_CHAR_LIMIT * 0.7) {
-          out = out.slice(0, cut) + "…";
-        } else if (base.length > CARD_CHAR_LIMIT) {
-          out = out.trim() + "…";
-        }
-        body.textContent = out;
-      } else {
-        body.classList.remove("is-collapsed");
-body.innerHTML = highlight(item.text, (window.searchTokens && window.searchTokens.length) ? window.searchTokens : tokens);
-      }
+  body.classList.add("is-collapsed");
+  const tokensForHL = (window.searchTokens && window.searchTokens.length)
+    ? window.searchTokens
+    : (Array.isArray(tokens) ? tokens : []);
+  body.innerHTML = truncatedHTML(item.text || "", tokensForHL);
+} else {
+  body.classList.remove("is-collapsed");
+  body.innerHTML = highlight(item.text, (window.searchTokens && window.searchTokens.length) ? window.searchTokens : tokens);
+}
+
     });
 
     actions.append(toggle);
