@@ -835,6 +835,7 @@ if (item.fileUrl?.includes("data/videos/")) {
      "profnidal.txt":        "professor nidal",
      "monicarieger.txt":        "monica rieger",
      "rodrigo_castello.txt":        "rodrigo castello",
+      "prof_alan_gestao.txt":        "prof alan gestao",
      "simplificando_direito_penal.txt":        "simplificando direito penal"
   };
 
