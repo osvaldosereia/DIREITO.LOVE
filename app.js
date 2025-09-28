@@ -1269,7 +1269,7 @@ document.addEventListener("click", (e) => {
       "data/videos/"
     ],
     "Artigos e Notícias": [
-      "data/noticias/", "data/artigos/"
+      "data/artigos_e_noticias/"
     ]
   };
   window.UI_BUCKETS = UI_BUCKETS;
