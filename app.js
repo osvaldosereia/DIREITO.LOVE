@@ -895,6 +895,7 @@ if (item.fileUrl?.includes("data/videos/")) {
       "ricardo_torques.txt":        "ricardo torques",
       "prof_eduardo_tanaka.txt":        "prof eduardo tanaka",
       "trilhante.txt":        "trilhante",
+     "qconcurso.txt":        "qconcurso",
         "paulo_rodrigues_direito_para_a_vida.txt":        "paulo rodrigues direito para a vida"
 
 
