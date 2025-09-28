@@ -837,7 +837,10 @@ if (item.fileUrl?.includes("data/videos/")) {
      "rodrigo_castello.txt":        "rodrigo castello",
       "prof_alan_gestao.txt":        "prof alan gestao",
      "simplificando_direito_penal.txt":        "simplificando direito penal",
-        "marcello_benevides_advogados.txt":        "marcello benevides advogados"
+     "geofre_saraiva.txt":        "geofre saraiva",
+      "geofre_saraiva.txt":        "geofre saraiva",
+        "paulo_rodrigues_direito_para_a_vida.txt":        "paulo rodrigues direito para a vida"
+
 
   };
 
