@@ -1256,14 +1256,20 @@ document.addEventListener("click", (e) => {
 
   // ===== Categorização só de UI (1 nível) =====
   const UI_BUCKETS = {
-    "Códigos e Leis": [
+    "Códigos, Leis e Estatutos": [
       "data/codigos/", "data/CF88/", "data/leis/", "data/estatutos/"
     ],
-    "Jurisprudencial": [
-      "data/sumulas/", "data/enunciados/", "data/teses/", "data/julgados/"
+    "Súmulas, Enunciados, Temas e Teses": [
+      "data/sumulas/", "data/enunciados/", "data/teses/"
+      ],
+    "Julgados": [
+      "data/julgados/"
+       ],
+    "Vídeos": [
+      "data/videos/"
     ],
-    "Temas": [
-      "data/noticias/", "data/artigos/", "data/videos/"
+    "Artigos e Notícias": [
+      "data/noticias/", "data/artigos/"
     ]
   };
   window.UI_BUCKETS = UI_BUCKETS;
