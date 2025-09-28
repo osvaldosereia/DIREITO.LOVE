@@ -44,6 +44,58 @@ const els = {
   /* toasts */
   toasts: $("#toasts"),
 };
+// ===== HIGHLIGHT HELPERS =====
+const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+// Gera tokens a partir do termo digitado (remove curtos e duplicados)
+function buildTokens(q) {
+  return (q||"")
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .split(/[^\p{L}\p{N}_]+/u)
+    .filter(t => t && t.length >= 2)
+    .filter((t, i, a) => a.indexOf(t) === i);
+}
+
+// Aplica highlight em NÓS DE TEXTO (não mexe em tags/links)
+function applyHighlights(rootEl, tokens) {
+  if (!rootEl || !tokens?.length) return;
+
+  const parts = tokens.map(t => escapeRegExp(t));
+  const re = new RegExp(`(${parts.join("|")})`, "ig");
+
+  const walker = document.createTreeWalker(rootEl, NodeFilter.SHOW_TEXT, {
+    acceptNode(node) {
+      const txt = node.nodeValue;
+      if (!txt || !txt.trim()) return NodeFilter.FILTER_REJECT;
+      if (node.parentElement && node.parentElement.closest(".hl")) {
+        return NodeFilter.FILTER_REJECT;
+      }
+      return re.test(txt) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+    }
+  });
+
+  const textNodes = [];
+  while (walker.nextNode()) textNodes.push(walker.currentNode);
+
+  textNodes.forEach(node => {
+    const frag = document.createDocumentFragment();
+    const pieces = node.nodeValue.split(re);
+    for (let i = 0; i < pieces.length; i++) {
+      const chunk = pieces[i];
+      if (!chunk) continue;
+      if (i % 2 === 1) {
+        const mark = document.createElement("mark");
+        mark.className = "hl";
+        mark.textContent = chunk;
+        frag.appendChild(mark);
+      } else {
+        frag.appendChild(document.createTextNode(chunk));
+      }
+    }
+    node.parentNode.replaceChild(frag, node);
+  });
+}
 
 /* ---------- estado ---------- */
 const MAX_SEL = 3;
@@ -487,16 +539,14 @@ function matchesNumbers(item, numTokens, queryHasLegalKeyword, queryMode) {
   if (!numTokens.length) return true;
 
   const bag = item._bag || norm(stripThousandDots(item.text));
-
   if (!queryHasLegalKeyword) {
     return numTokens.every((n) => hasExactNumber(bag, n));
   }
-
-  // com keyword jurídica na query: precisa (a) proximidade ≤12 e (b) (se houver) regra ≤15 no início da linha
   return numTokens.every((n) => numberRespectsWindows(item.text, n, queryMode));
 }
 
 let __searchAbort;
+
 
 async function doSearch() {
   // cancel previous search if any
@@ -541,13 +591,17 @@ async function doSearch() {
       return;
     }
 
-    // se houve codeInfo, remove do conjunto de palavras os termos que só serviram p/ identificar o código
+        // se houve codeInfo, remove do conjunto de palavras os termos que só serviram p/ identificar o código
     if (codeInfo) {
       tokens = tokens.filter((tk) => !codeInfo.keyWords.has(tk));
     }
 
+    // salva tokens globais para highlight on-demand (abrir card)
+    window.searchTokens = (Array.isArray(tokens) && tokens.length ? tokens : buildTokens(els.q?.value));
+
     const queryHasLegalKeyword = KW_RX.test(normQuery);
     const { wordTokens, numTokens } = splitTokens(tokens);
+
 
     // monta a lista de arquivos; se codeInfo → filtra pelo rótulo do <select>
     let allOptions = Array.from(els.codeSelect?.querySelectorAll("option") || [])
@@ -651,7 +705,7 @@ function renderCard(item, tokens = [], ctx = { context: "results" }) {
   const body = document.createElement("div");
   body.className = "body";
   if (ctx.context === "reader") {
-    body.innerHTML = highlight(item.text, tokens);
+body.innerHTML = highlight(item.text, (window.searchTokens && window.searchTokens.length) ? window.searchTokens : tokens);
   } else {
     body.classList.add("is-collapsed");
     // render plain truncated text without highlight for performance
@@ -695,7 +749,7 @@ function renderCard(item, tokens = [], ctx = { context: "results" }) {
         body.textContent = out;
       } else {
         body.classList.remove("is-collapsed");
-        body.innerHTML = highlight(item.text, tokens);
+body.innerHTML = highlight(item.text, (window.searchTokens && window.searchTokens.length) ? window.searchTokens : tokens);
       }
     });
 
