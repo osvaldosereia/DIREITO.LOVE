@@ -942,7 +942,7 @@ if (item.fileUrl?.includes("data/artigos_e_noticias/")) {
       icon: "jusbrasil.png"
     },
     "conjur.txt": {
-      base: "https://www.conjur.com.br/busca/?q=",
+      base: "https://www.conjur.com.br/pesquisa/?q=",
       icon: "conjur.png"
     },
     "migalhas.txt": {
