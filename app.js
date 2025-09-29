@@ -934,50 +934,39 @@ if (item.fileUrl?.includes("data/videos/")) {
   }
 }
 
-  // === Link extra (para "artigos" e "notícias")
-if (item.fileUrl?.includes("data/artigos_e_noticias/")) {
-  const fontes = {
-    "jusbrasil.txt": {
-      base: "https://www.jusbrasil.com.br/artigos-noticias/busca?q=",
-      icon: "jusbrasil.png"
-    },
-    "conjur.txt": {
-      base: "https://www.conjur.com.br/pesquisa/?q=",
-      icon: "conjur.png"
-    },
-    "migalhas.txt": {
-      base: "https://www.migalhas.com.br/busca?q=",
-      icon: "migalhas.png"
+ // === Link extra (para "artigos" e "notícias")
+  if (item.fileUrl?.includes("data/artigos_e_noticias/")) {
+    const fontes = {
+      "jusbrasil.txt": {
+        base: "https://www.jusbrasil.com.br/artigos-noticias/busca?q=",
+        icon: "jusbrasil.png"
+      },
+      "conjur.txt": {
+        base: "https://www.conjur.com.br/pesquisa/?q=",
+        icon: "conjur.png"
+      },
+      "migalhas.txt": {
+        base: "https://www.migalhas.com.br/busca?q=",
+        icon: "migalhas.png"
+      }
+    };
+
+    const fileName = item.fileUrl.split("/").pop().toLowerCase();
+    const fonte = fontes[fileName];
+
+    if (fonte?.base) {
+      const query = encodeURIComponent(item.title.trim());
+      const urlFinal = `${fonte.base}${query}`;
+      const btn = document.createElement("button");
+      btn.className = "round-btn";
+      btn.setAttribute("aria-label", "Ver fonte original");
+      btn.innerHTML = `<img src="icons/${fonte.icon}" alt="Fonte">`;
+      btn.addEventListener("click", () => {
+        window.open(urlFinal, "_blank", "noopener");
+      });
+      actions.append(btn);
     }
-  };
-
-  const fileName = item.fileUrl.split("/").pop().toLowerCase();
-  const fonte = fontes[fileName];
-
-  if (fonte) {
-    const title = (item.title || "").trim();
-    let urlFinal;
-
-    if (fileName === "conjur.txt") {
-      // ConJur: força sempre a rota /busca/?q=... para evitar cair em slugs antigos
-      const u = new URL("/busca/", "https://www.conjur.com.br");
-      u.searchParams.set("q", title); // deixa o próprio URL fazer o encode
-      urlFinal = u.toString();
-    } else {
-      // Demais fontes mantêm o padrão base + encodeURIComponent
-      urlFinal = `${fonte.base}${encodeURIComponent(title)}`;
-    }
-
-    const btn = document.createElement("button");
-    btn.className = "round-btn";
-    btn.setAttribute("aria-label", "Ver fonte original");
-    btn.innerHTML = `<img src="icons/${fonte.icon}" alt="Fonte">`;
-    btn.addEventListener("click", () => {
-      window.open(urlFinal, "_blank", "noopener");
-    });
-    actions.append(btn);
   }
-}
 
 
   /* ===== Check (pilha) — permanece nos cards ===== */
