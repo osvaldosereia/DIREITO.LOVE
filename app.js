@@ -1379,6 +1379,37 @@ function loadHistoryDropdown() {
     menu.appendChild(li);
     return;
   }
+/* Carrega os favoritos no dropdown */
+function loadFavsDropdown() {
+  const menu = document.getElementById("favsDropdown");
+  if (!menu) return;
+  const favs = getFavoritos();
+  menu.innerHTML = "";
+
+  const ids = Object.keys(favs);
+  if (ids.length === 0) {
+    const li = document.createElement("li");
+    li.textContent = "Nenhum favorito ainda.";
+    li.style.color = "#888";
+    li.style.fontStyle = "italic";
+    li.style.cursor = "default";
+    menu.appendChild(li);
+    return;
+  }
+
+  ids.slice(0, 30).forEach((id) => {
+    const fav = favs[id];
+    const li = document.createElement("li");
+    li.textContent = fav.title?.slice(0, 60) || "(Sem título)";
+    li.addEventListener("click", () => {
+      const tokens = buildTokens(fav.text);
+      const item = { ...fav, id };
+      openReader(item, tokens);
+      menu.classList.remove("open");
+    });
+    menu.appendChild(li);
+  });
+}
 
   history.forEach((q) => {
     const li = document.createElement("li");
@@ -1401,14 +1432,29 @@ document.getElementById("historyBtn")?.addEventListener("click", (e) => {
   menu.classList.toggle("open");
 });
 
-/* Fecha se clicar fora */
-document.addEventListener("click", (e) => {
-  const menu = document.getElementById("historyDropdown");
+/* Toggle do botão de favoritos */
+document.getElementById("favsBtn")?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  const menu = document.getElementById("favsDropdown");
   if (!menu) return;
-  if (!document.getElementById("historyBtn")?.contains(e.target)) {
-    menu.classList.remove("open");
+  loadFavsDropdown();
+  menu.classList.toggle("open");
+});
+
+/* Fecha se clicar fora */
+/* Fecha dropdowns ao clicar fora */
+document.addEventListener("click", (e) => {
+  const menuHist = document.getElementById("historyDropdown");
+  const menuFavs = document.getElementById("favsDropdown");
+
+  if (menuHist && !document.getElementById("historyBtn")?.contains(e.target)) {
+    menuHist.classList.remove("open");
+  }
+  if (menuFavs && !document.getElementById("favsBtn")?.contains(e.target)) {
+    menuFavs.classList.remove("open");
   }
 });
+
 
 /* ==========================
    direito.love — ui_buckets_patch.js
