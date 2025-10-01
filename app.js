@@ -999,6 +999,7 @@ if (item.fileUrl?.includes("data/videos/")) {
 
   left.append(body, actions);
   card.append(left);
+   insertStarBtn(card, item);  // ⬅️ ADICIONE ESTA LINHA ANTES DO RETURN
   return card;
 }
 
@@ -1015,6 +1016,67 @@ Object.assign(window, {
   renderCard,
   toast,
 });
+//#region [BLK12] FAVORITOS • salvar/remover/mostrar favoritos
+
+const FAVORITOS_KEY = "meujus_favoritos";
+
+function getFavoritos() {
+  return JSON.parse(localStorage.getItem(FAVORITOS_KEY) || "{}");
+}
+
+function setFavoritos(obj) {
+  localStorage.setItem(FAVORITOS_KEY, JSON.stringify(obj));
+}
+
+function isFavorito(id) {
+  const favs = getFavoritos();
+  return !!favs[id];
+}
+
+function toggleFavorito(id, item = null) {
+  const favs = getFavoritos();
+  if (favs[id]) {
+    delete favs[id];
+  } else {
+    favs[id] = {
+      title: item?.title || "",
+      source: item?.source || "",
+      text: item?.text || ""
+    };
+  }
+  setFavoritos(favs);
+  updateAllStars();
+}
+
+function updateAllStars() {
+  const favs = getFavoritos();
+  document.querySelectorAll("[data-id]").forEach(el => {
+    const id = el.dataset.id;
+    const btn = el.querySelector(".fav-btn");
+    if (btn) {
+      btn.textContent = favs[id] ? "★" : "☆";
+      btn.classList.toggle("active", !!favs[id]);
+    }
+  });
+}
+
+function insertStarBtn(containerEl, item) {
+  const btn = document.createElement("button");
+  btn.className = "fav-btn";
+  btn.textContent = isFavorito(item.id) ? "★" : "☆";
+  if (isFavorito(item.id)) btn.classList.add("active");
+
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleFavorito(item.id, item);
+  });
+
+  containerEl.style.position = "relative";
+  containerEl.appendChild(btn);
+}
+
+//#endregion
 
 /* ---------- Leitor (modal) ---------- */
 async function openReader(item, tokens = []) {
